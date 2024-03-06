@@ -1,0 +1,29 @@
+    .projects-main{
+      display: flex;
+      margin-bottom: 40px;
+      }
+      .gallery {
+      margin: 5px;
+      border: 0.5px solid #ccc;
+      width: 200px;
+      box-shadow: 2px 2px;
+      }
+      .gallery:hover {
+      border: 1px solid #777;
+      background-color: #ddd;
+      cursor: pointer;
+      }
+      .gallery img {
+      width: 100%;
+      height: auto;
+      }
+
+      .projects-title {
+        margin-top: 5px;
+        text-align: center;
+      }
+
+      .projects-text {
+      padding: 15px;
+      text-align: center;
+      }
