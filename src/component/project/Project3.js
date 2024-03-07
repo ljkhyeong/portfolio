@@ -28,10 +28,6 @@ const Project3 = () => {
     navigate("/project2");
   };
 
-  const handleNext = () => {
-    navigate("/project1");
-  };
-
   const handleMain = () => {
     navigate("../");
   };
@@ -169,9 +165,6 @@ const Project3 = () => {
           </div>
         )}
       </div>
-      <button className="nav-button next" onClick={handleNext}>
-        &gt;
-      </button>
       <div className="navigation-buttons">
         <button className="main-button" onClick={handleMain}>
           메인으로

@@ -45,10 +45,6 @@ const Project1 = () => {
     setModalImage(null);
   };
 
-  const handlePrevious = () => {
-    navigate("/project3");
-  };
-
   const handleNext = () => {
     navigate("/project2");
   };
@@ -59,9 +55,6 @@ const Project1 = () => {
 
   return (
     <>
-      <button className="nav-button prev" onClick={handlePrevious}>
-        &lt;
-      </button>
       <div className="container">
         <div className="header">
           <div className="project-title">WebRTC/HLS 현장강의 보조 서비스</div>
