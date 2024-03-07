@@ -54,10 +54,12 @@
     padding: 0px 0px; 
     font-size: 40px; 
     color: #5381b6;
+    background-color:transparent;
   }
   
   .nav-button.prev {
     left: 200px; 
+    background-color:transparent;
   }
 
   .nav-button.prev:hover {
@@ -66,6 +68,7 @@
   
   .nav-button.next {
     right: 200px; 
+    background-color:transparent;
   }
 
   .nav-button.next:hover {
