@@ -115,7 +115,7 @@ const Project3 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">📖 로컬테스트 GIF</div>
+            <div className="section__title">📚 로컬테스트 GIF</div>
             <div className="projects-main">
               {cardData.map((card, index) => (
                 <div

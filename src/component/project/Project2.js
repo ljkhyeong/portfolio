@@ -111,7 +111,7 @@ const Project2 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">📖 개발과정 자료</div>
+            <div className="section__title">📚 개발과정 자료</div>
             <div className="projects-main">
               {cardData.map((card, index) => (
                 <div
