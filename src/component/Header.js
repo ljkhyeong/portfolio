@@ -14,7 +14,7 @@ const Header = () => {
         <span className="separator"></span>
         <span className="phone">GITHUB: </span>
         <span className="phone-val">
-          <a href="https://github.com/ljkhyeong">github.com/ljkhyeong/205st</a>
+          <a href="https://github.com/ljkhyeong">github.com/ljkhyeong</a>
         </span>
       </div>
       <div className="about">
