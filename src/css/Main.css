@@ -168,7 +168,7 @@
   
   .tab {
       flex-grow: 1; 
-    background-color: #5381b6;
+    background-color: #ccc;
     color: white;
     border: none;
     outline: none;
@@ -181,13 +181,13 @@
   }
   
   .tab:hover {
-    background-color: #ddd;
+    background-color: #5381b6;
+  }
+
+  .tab-active {
+    background-color: #5381b6;;
   }
   
-  
-  .tab.active, .tab:hover {
-    background-color: #ccc;
-  }
   
   .addr-line {
     text-decoration-line:underline;
