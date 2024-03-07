@@ -76,7 +76,7 @@ const Project3 = () => {
                 href="https://github.com/ljkhyeong/Soccer-Fan-Board"
                 className="addr"
               >
-                https://github.com/orgs/TeamyRoom/repositories{" "}
+                https://github.com/ljkhyeong/Soccer-Fan-Board{" "}
               </a>
             </div>
             <div className="section__list">
