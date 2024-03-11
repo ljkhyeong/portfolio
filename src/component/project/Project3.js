@@ -110,6 +110,10 @@ const Project3 = () => {
                     <span className="addr-line">SCM</span>
                     <span className="addr"> - Git</span>
                   </div>
+                  <div>
+                    <span className="addr-line">CI/CD</span>
+                    <span className="addr"> - Github Actions</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -150,9 +154,7 @@ const Project3 = () => {
                     · (위키) 위키엔진 도입, 기존 문서는 수정 못하도록, 비회원
                     위키 작성{" "}
                   </div>
-                  <div className="project-text">
-                    · (운영) CI/CD 도입, 도메인/TLS 구매{" "}
-                  </div>
+                  <div className="project-text">· (운영) 도메인/TLS 구매 </div>
                 </div>
               </div>
             </div>
