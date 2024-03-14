@@ -35,10 +35,7 @@ const Main = () => {
         </button>
       </div>
       {renderTab()}
-      <a
-        href="포트폴리오_임정규_최신.pdf"
-        download="포트폴리오_임정규_최신.pdf"
-      >
+      <a href="포트폴리오최신.pdf" download="포트폴리오최신.pdf">
         <button className="pdf-download-btn">Download PDF</button>
       </a>
     </div>
