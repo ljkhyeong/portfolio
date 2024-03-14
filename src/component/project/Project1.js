@@ -179,7 +179,7 @@ const Project1 = () => {
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
-                    · (메인) 강의 제작/강의코드 입장
+                    · (메인) 강의실 생성/강의코드 입장
                   </div>
                   <div className="project-text">
                     · (회원) 회원가입, 로그인, 내 강의목록
