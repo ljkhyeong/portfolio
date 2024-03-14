@@ -12,6 +12,18 @@ const cardData = [
       "https://github.com/gayeonP/spring-OneZo/assets/62829894/c9e44589-0f91-40e2-b252-72f40ba89c0d",
   },
   { name: "참고문서", title: "참고문서 공유", image: "참고문서 공유.png" },
+  { name: "205st_메인", title: "메인화면", image: "205st_메인.gif" },
+  {
+    name: "205st_회원가입",
+    title: "회원가입 및 로그인",
+    image: "205st_회원가입.gif",
+  },
+  { name: "205st_상품조회", title: "상품 조회", image: "205st_상품 조회.gif" },
+  {
+    name: "205st_장바구니",
+    title: "장바구니 담기",
+    image: "205st_장바구니.gif",
+  },
 ];
 
 const Project2 = () => {
@@ -56,19 +68,15 @@ const Project2 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 스프링 공부를 목적으로 한 소형 쇼핑몰 프로젝트입니다..
+                  · 스프링 공부를 목적으로 한 소형 쇼핑몰 프로젝트입니다.
                 </div>
                 <div className="project-text">
                   · 6인 팀으로 2023.8.14 - 2023.8.25 약 2주 간 진행한
                   프로젝트입니다.
                 </div>
                 <div className="project-text">
-                  · 회원 등록/인증, 상품 데이터 크롤링, 상품 조회/장바구니
-                  담기/주문, 상품 문의까지 구현되었습니다.
-                </div>
-                <div className="project-text">
-                  · 결제 등 필수 기능이 미개발 상태라 추후 개인적으로 유지보수
-                  후 배포 예정입니다.{" "}
+                  · 짧은 개발기간 때문에 결제 등 필수 기능이 미개발 상태라
+                  개인적으로 유지보수 후 배포 예정입니다.{" "}
                 </div>
               </div>
             </div>
@@ -111,7 +119,9 @@ const Project2 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">📚 개발과정 자료</div>
+            <div className="section__title">
+              📚 개발과정 자료 & 로컬테스트 GIF
+            </div>
             <div className="projects-main">
               {cardData.map((card, index) => (
                 <div
@@ -126,6 +136,22 @@ const Project2 = () => {
               ))}
             </div>
             <div className="section">
+              <div className="section__title">🖥️ 구현된 기능</div>
+              <div className="section__list">
+                <div className="section__list-item">
+                  <div className="project-text">
+                    · (회원) 회원가입, 세션 로그인
+                  </div>
+                  <div className="project-text">
+                    · (상품) 조회, 장바구니 담기{" "}
+                  </div>
+                  <div className="project-text">
+                    · (장바구니) 수량 추가, 삭제, 결제금액 산정{" "}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="section">
               <div className="section__title">🙋‍♂️ 역할</div>
               <div className="section__list">
                 <div className="section__list-item">
@@ -133,8 +159,8 @@ const Project2 = () => {
                     · html/css 모든 페이지 틀을 작성했습니다.
                   </div>
                   <div className="project-text">
-                    · 회원 등록 및 검증, Spring Interceptor를 활용한 세션 로그인
-                    기능을 개발했습니다.{" "}
+                    · 회원가입, Spring Interceptor를 활용한 세션 로그인 기능을
+                    개발했습니다.{" "}
                   </div>
                 </div>
               </div>
@@ -143,9 +169,15 @@ const Project2 = () => {
               <div className="section__title">🧑‍💻 추가할 기능</div>
               <div className="section__list">
                 <div className="section__list-item">
-                  <div className="project-text">· 결제 API 도입 </div>
-                  <div className="project-text">· OAuth 소셜 로그인 기능 </div>
-                  <div className="project-text">· 상품 커스텀 정렬 기능</div>
+                  <div className="project-text">
+                    · (회원) OAuth 소셜 로그인{" "}
+                  </div>
+                  <div className="project-text">
+                    · (상품) 상품 커스텀 정렬, 검색
+                  </div>
+                  <div className="project-text">
+                    · (주문) 주문, 주문 조회, 결제 API 도입{" "}
+                  </div>
                 </div>
               </div>
             </div>

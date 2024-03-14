@@ -134,6 +134,27 @@ const Project3 = () => {
               ))}
             </div>
             <div className="section">
+              <div className="section__title">🖥️ 구현된 기능</div>
+              <div className="section__list">
+                <div className="section__list-item">
+                  <div className="project-text">
+                    · (회원) 회원가입, jwt 로그인, 패스워드 변경
+                  </div>
+                  <div className="project-text">
+                    · (위키) 문서 작성(markdown 편집기), 수정, 역사 조회 -
+                    회원만 가능
+                  </div>
+                  <div className="project-text">
+                    · (선수단 정보) 선수단 리스트 조회
+                  </div>
+                  <div className="project-text">
+                    · (게시판) 게시글/댓글/대댓글 작성 및 수정 및 삭제 -
+                    비회원도 가능, 게시글 검색 및 좋아요, 추천 글 분류
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="section">
               <div className="section__title">🧑‍💻 추가할 기능</div>
               <div className="section__list">
                 <div className="section__list-item">
@@ -141,11 +162,11 @@ const Project3 = () => {
                     · (메인) 팀 검색 기능, 각 리그/팀 추가{" "}
                   </div>
                   <div className="project-text">
-                    · (회원) OAuth 소셜계정 가입, 비밀번호 찾기, 회원정보 확인{" "}
+                    · (회원) OAuth 소셜계정 가입, 패스워드 찾기, 회원정보 확인{" "}
                   </div>
                   <div className="project-text">
                     · (데이터 크롤링) 경기일정 데이터 업데이트, 선수단 정보
-                    업데이트 스케줄링{" "}
+                    업데이트 스케줄링 , 실시간 경기 정보
                   </div>
                   <div className="project-text">
                     · (게시판) 머리말/태그 작성 및 조회{" "}

@@ -76,15 +76,14 @@ const Project1 = () => {
                   프로젝트입니다.
                 </div>
                 <div className="project-text">
-                  · 강의코드 입력 및 관리자에 의해 등록되어있는 강의실로 입장
-                  가능합니다.
-                </div>
-                <div className="project-text">
                   · WebRTC, HLS 플레이어를 실시간 전환하여 놓친 부분을 다시
                   듣다가 돌아올 수 있습니다.{" "}
                 </div>
                 <div className="project-text">
-                  · 강의실 별 실시간 채팅, 질의응답(선생님에게만 보이도록 혹은
+                  · 강의실은 관리자, 강사, 학생 롤로 구분됩니다.
+                </div>
+                <div className="project-text">
+                  · 강의실 별 실시간 채팅, 질의응답(강사님에게만 보이도록 혹은
                   공개), 파일 업로드/다운로드가 가능합니다.
                 </div>
                 <div className="project-text">
@@ -175,20 +174,39 @@ const Project1 = () => {
                 </div>
               ))}
             </div>
-            <div className="section__title">🙋‍♂️ 역할</div>
-            <div className="section__list">
-              <div className="section__list-item">
-                <div className="project-text">
-                  · WebRTC 스트림을 HLS로 트랜스코딩 후 AWS S3에 저장하도록 하는
-                  미디어 서버(Node.js)를 개발했습니다.
+            <div className="section">
+              <div className="section__title">🖥️ 구현된 기능</div>
+              <div className="section__list">
+                <div className="section__list-item">
+                  <div className="project-text">
+                    · (메인) 강의 제작/강의코드 입장
+                  </div>
+                  <div className="project-text">
+                    · (회원) 회원가입, 로그인, 내 강의목록
+                  </div>
+                  <div className="project-text">
+                    · (강의실) 실시간 강의 플레이어(WebRTC/HLS), Q&A 게시판,
+                    자료함, 관리자 페이지, 실시간 채팅
+                  </div>
                 </div>
-                <div className="project-text">
-                  · 비디오 플레이어(HLS), Q&A 게시판/자료 게시판/관리자
-                  페이지/강의화면(React) 프론트엔드를 개발했습니다.{" "}
-                </div>
-                <div className="project-text">
-                  · Q&A 게시판/자료 게시판/관리자 페이지(Spring), WebRTC
-                  SFU서버(Node.js) 백엔드에 기여했습니다.
+              </div>
+            </div>
+            <div className="section">
+              <div className="section__title">🙋‍♂️ 역할</div>
+              <div className="section__list">
+                <div className="section__list-item">
+                  <div className="project-text">
+                    · WebRTC 스트림을 HLS로 트랜스코딩 후 AWS S3에 저장하도록
+                    하는 미디어 서버(Node.js)를 개발했습니다.
+                  </div>
+                  <div className="project-text">
+                    · 비디오 플레이어(HLS), Q&A 게시판/자료 게시판/관리자
+                    페이지/강의화면(React) 프론트엔드를 개발했습니다.{" "}
+                  </div>
+                  <div className="project-text">
+                    · Q&A 게시판/자료 게시판/관리자 페이지(Spring), WebRTC
+                    SFU서버(Node.js) 백엔드에 기여했습니다.
+                  </div>
                 </div>
               </div>
             </div>
