@@ -82,10 +82,10 @@ const Project3 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">⛏️ 기술스택</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="left">
+                  <div className="section__title">⛏️ 기술스택</div>
                   <div>
                     <span className="addr-line">Language</span>
                     <span className="addr"> - Java, JavaScript</span>
@@ -115,6 +115,29 @@ const Project3 = () => {
                     <span className="addr"> - Github Actions</span>
                   </div>
                 </div>
+                <div className="right">
+                  <div className="section__title">🖥️ 구현된 기능</div>
+                  <div className="project-text">
+                    · <span className="addr-line">회원</span> - 회원가입, jwt
+                    로그인, <br />
+                    패스워드 변경
+                  </div>
+                  <div className="project-text">
+                    · <span className="addr-line">위키</span> - 문서 작성(md
+                    편집기), 수정,
+                    <br /> 역사 조회 [회원만 가능]
+                  </div>
+                  <div className="project-text">
+                    · <span className="addr-line">선수단 정보</span> - 선수단
+                    조회
+                  </div>
+                  <div className="project-text">
+                    · <span className="addr-line">게시판</span> -
+                    게시글/댓글/대댓글 작성 및 수정 및 삭제 [비회원도 가능],{" "}
+                    <br />
+                    게시글 검색 및 좋아요, 추천 글 분류
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -132,27 +155,6 @@ const Project3 = () => {
                   <h5 className="projects-title">{card.title}</h5>
                 </div>
               ))}
-            </div>
-            <div className="section">
-              <div className="section__title">🖥️ 구현된 기능</div>
-              <div className="section__list">
-                <div className="section__list-item">
-                  <div className="project-text">
-                    · (회원) 회원가입, jwt 로그인, 패스워드 변경
-                  </div>
-                  <div className="project-text">
-                    · (위키) 문서 작성(markdown 편집기), 수정, 역사 조회 -
-                    회원만 가능
-                  </div>
-                  <div className="project-text">
-                    · (선수단 정보) 선수단 리스트 조회
-                  </div>
-                  <div className="project-text">
-                    · (게시판) 게시글/댓글/대댓글 작성 및 수정 및 삭제 -
-                    비회원도 가능, 게시글 검색 및 좋아요, 추천 글 분류
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="section">
               <div className="section__title">🧑‍💻 추가할 기능</div>

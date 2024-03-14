@@ -119,10 +119,10 @@ const Project1 = () => {
             />
           </div>
           <div className="section">
-            <div className="section__title">⛏️ 기술스택</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="left">
+                  <div className="section__title">⛏️ 기술스택</div>
                   <div>
                     <span className="addr-line">Language</span>
                     <span className="addr"> - Java, JavaScript</span>
@@ -156,6 +156,23 @@ const Project1 = () => {
                     <span className="addr"> - GitHub Actions, Argo CD</span>
                   </div>
                 </div>
+                <div className="right">
+                  <div className="section__title">🖥️ 구현된 기능</div>
+                  <div className="project-text">
+                    · <span className="addr-line">메인</span> - 강의실
+                    생성/강의코드 입장
+                  </div>
+                  <div className="project-text">
+                    · <span className="addr-line">회원</span> - 회원가입,
+                    로그인, 내 강의목록
+                  </div>
+                  <div className="project-text">
+                    · <span className="addr-line">강의실</span> -
+                    플레이어(WebRTC/HLS), <br />
+                    Q&A 게시판, 자료함, 관리자 페이지, <br />
+                    실시간 채팅
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -173,23 +190,6 @@ const Project1 = () => {
                   <h5 className="projects-title">{card.title}</h5>
                 </div>
               ))}
-            </div>
-            <div className="section">
-              <div className="section__title">🖥️ 구현된 기능</div>
-              <div className="section__list">
-                <div className="section__list-item">
-                  <div className="project-text">
-                    · (메인) 강의실 생성/강의코드 입장
-                  </div>
-                  <div className="project-text">
-                    · (회원) 회원가입, 로그인, 내 강의목록
-                  </div>
-                  <div className="project-text">
-                    · (강의실) 실시간 강의 플레이어(WebRTC/HLS), Q&A 게시판,
-                    자료함, 관리자 페이지, 실시간 채팅
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="section">
               <div className="section__title">🙋‍♂️ 역할</div>

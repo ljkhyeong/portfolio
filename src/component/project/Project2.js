@@ -91,10 +91,10 @@ const Project2 = () => {
           </div>
 
           <div className="section">
-            <div className="section__title">⛏️ 기술스택</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="left">
+                  <div className="section__title">⛏️ 기술스택</div>
                   <div>
                     <span className="addr-line">Language</span>
                     <span className="addr"> - Java</span>
@@ -113,6 +113,22 @@ const Project2 = () => {
                   <div>
                     <span className="addr-line">SCM</span>
                     <span className="addr"> - Git, Notion</span>
+                  </div>
+                </div>
+                <div className="right">
+                  <div className="section__title">🖥️ 구현된 기능</div>
+                  <div className="project-text">
+                    · <span className="addr-line">회원</span> - 회원가입, 세션
+                    로그인
+                  </div>
+                  <div className="project-text">
+                    · <span className="addr-line">상품</span> - 조회, 장바구니
+                    담기
+                  </div>
+                  <div className="project-text">
+                    · <span className="addr-line">장바구니</span> - 수량 추가,
+                    삭제 <br />
+                    결제금액 산정
                   </div>
                 </div>
               </div>
@@ -134,22 +150,6 @@ const Project2 = () => {
                   <h5 className="projects-title">{card.title}</h5>
                 </div>
               ))}
-            </div>
-            <div className="section">
-              <div className="section__title">🖥️ 구현된 기능</div>
-              <div className="section__list">
-                <div className="section__list-item">
-                  <div className="project-text">
-                    · (회원) 회원가입, 세션 로그인
-                  </div>
-                  <div className="project-text">
-                    · (상품) 조회, 장바구니 담기{" "}
-                  </div>
-                  <div className="project-text">
-                    · (장바구니) 수량 추가, 삭제, 결제금액 산정{" "}
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="section">
               <div className="section__title">🙋‍♂️ 역할</div>
