@@ -123,6 +123,15 @@
       margin-top: 1px;
       margin-bottom: 2px;
     }
+
+    .pr {
+      transition: 0.3s;
+    }
+
+    .pr:hover {
+      cursor: pointer;
+      color:#ccc;
+    }
     
     a {
       text-decoration: none;
@@ -172,7 +181,7 @@
   }
   
   .tab {
-      flex-grow: 1; 
+    flex-grow: 1; 
     background-color: #ccc;
     color: white;
     border: none;
@@ -215,3 +224,10 @@
     background-color: #5381b6;
     color: white; 
   }
+
+  @keyframes blink-effect {
+    50% {
+      background-color: #5381b6;
+    }
+  }
+  
