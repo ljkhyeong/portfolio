@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 const cardData = [
   {
     name: "project1",
-    title: "WebRTC/HLS 현장강의 보조 서비스",
-    text: "저지연, 되감기가 특징인 현장강의 보조 서비스",
-    image: "webRTC.png",
-  },
-  {
-    name: "project2",
     title: "205번가",
     text: "소형 쇼핑몰",
     image: "205st.png",
+  },
+  {
+    name: "project2",
+    title: "WebRTC/HLS 현장강의 보조 서비스",
+    text: "저지연, 되감기가 특징인 현장강의 보조 서비스",
+    image: "webRTC.png",
   },
   {
     name: "project3",
@@ -131,19 +131,8 @@ const About = () => {
               ))}
             </div>
             <div className="section__list-item">
-              <div className="name pr" onClick={() => navigate(`./project1`)}>
-                👉 WebRTC/HLS 현장강의 보조 서비스 (Team)
-              </div>
-              <div className="text">
-                현장강의를 위해 WebRTC로 지연을 줄이고 HLS로 되감기를 추가한다는
-                아이디어에서 진행된 프로젝트입니다. WebRTC, HLS 플레이어를
-                실시간 전환하여 놓친 부분을 다시 듣다가 돌아올 수 있으며 강의실
-                별 실시간 채팅, 질의응답, 파일 송수신이 가능합니다.
-              </div>
-            </div>
-            <div className="section__list-item">
               <div className="name pr" onClick={() => navigate(`./project2`)}>
-                👉 205번가 (Team)
+                👉 205번가 (Team) (2023.8.14 - 2023.8.25)
               </div>
               <div className="text">
                 스프링/thymeleaf로 구현한 간단한 쇼핑몰입니다. 팀원들의 스프링
@@ -152,13 +141,26 @@ const About = () => {
               </div>
             </div>
             <div className="section__list-item">
-              <div className="name pr" onClick={() => navigate(`./project3`)}>
-                👉 Soccer-Fan-Board (Personal)
+              <div className="name pr" onClick={() => navigate(`./project1`)}>
+                👉 WebRTC/HLS 현장강의 보조 서비스 (Team) (2023.9.1 -
+                2023.11.10)
               </div>
               <div className="text">
-                해외축구 입문자들을 위해 관심있는 팀의 문서, 선수단 정보, 경기
-                일정 정보, 커뮤니티 게시판을 제공하는 프로젝트입니다. 개발
-                현재진행/배포 중인 프로젝트입니다.
+                현장강의를 위해 WebRTC로 지연을 줄이고 HLS로 되감기를 추가한다는
+                아이디어에서 진행된 프로젝트입니다. WebRTC, HLS 플레이어를
+                실시간 전환하여 놓친 부분을 다시 듣다가 돌아올 수 있으며 강의실
+                별 실시간 채팅, 질의응답, 파일 송수신이 가능합니다.
+              </div>
+            </div>
+
+            <div className="section__list-item">
+              <div className="name pr" onClick={() => navigate(`./project3`)}>
+                👉 Soccer-Fan-Board (Personal) (2023.12.5 - 2023.2.4)
+              </div>
+              <div className="text">
+                배운기능을 개인적으로 구현해보자는 취지로 개발한 프로젝트입니다.
+                해외축구 입문자들을 위해 관심있는 팀의 문서, 선수단 정보,
+                커뮤니티 게시판을 제공합니다. 배포 중인 프로젝트입니다.
               </div>
             </div>
           </div>

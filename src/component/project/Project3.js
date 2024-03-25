@@ -118,8 +118,8 @@ const Project3 = () => {
                 <div className="right">
                   <div className="section__title">🖥️ 구현된 기능</div>
                   <div className="project-text">
-                    · <span className="addr-line">회원</span> - 회원가입, jwt
-                    로그인, <br />
+                    · <span className="addr-line">회원</span> - Validator
+                    회원가입, JWT 쿠키인증, <br />
                     패스워드 변경
                   </div>
                   <div className="project-text">
@@ -129,13 +129,14 @@ const Project3 = () => {
                   </div>
                   <div className="project-text">
                     · <span className="addr-line">선수단 정보</span> - 선수단
-                    조회
+                    조회 <br /> (Selenium을 이용한 주기적 스크래핑 후 DB저장)
                   </div>
                   <div className="project-text">
                     · <span className="addr-line">게시판</span> -
-                    게시글/댓글/대댓글 작성 및 수정 및 삭제 [비회원도 가능],{" "}
+                    게시글/댓글/대댓글 작성 및 수정 및 삭제 ,검색 및 추천 글
+                    분류 [비회원도 가능]
                     <br />
-                    게시글 검색 및 좋아요, 추천 글 분류
+                    좋아요 [회원만 가능]
                   </div>
                 </div>
               </div>
