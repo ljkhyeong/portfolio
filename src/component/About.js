@@ -42,17 +42,10 @@ const About = () => {
           </div>
         </div>
         <div className="section">
-          <div className="section__title">Educated & Activities</div>
+          <div className="section__title">career & Activities</div>
           <div className="section__list">
             <div className="section__list-item">
-              <div className="left">
-                <div className="name">충주중산고등학교 졸업</div>
-                <div className="duration">2012.03 - 2015.02</div>
-                <div className="name">경상국립대학교 정보통신공학과 중퇴</div>
-                <div className="duration">2015.03 - 2019.12</div>
-                <div className="name">인천대학교 정보통신공학과 학사</div>
-                <div className="duration">2020.03 - 2022.08</div>
-              </div>
+              <div className="left"></div>
               <div className="right">
                 <div className="name">카카오 클라우드 스쿨 개발자 과정 3기</div>
                 <div className="desc">2023.05 - 2023.11</div>
