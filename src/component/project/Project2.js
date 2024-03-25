@@ -203,8 +203,9 @@ const Project1 = () => {
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
-                    · WebRTC 스트림을 HLS로 트랜스코딩 후 AWS S3에 저장하도록
-                    하는 미디어 서버(Node.js)를 개발했습니다.
+                    · WebRTC 스트림을 HLS로 트랜스코딩 후 AWS S3에 저장하며,
+                    관련 옵션을 SFU서버, 클라이언트와 공유하는 미디어
+                    서버(Node.js)를 개발했습니다.
                   </div>
                   <div className="project-text">
                     · 비디오 플레이어(HLS), Q&A 게시판/자료 게시판/관리자
