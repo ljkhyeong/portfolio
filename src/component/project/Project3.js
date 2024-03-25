@@ -178,7 +178,9 @@ const Project3 = () => {
                     · (위키) 위키엔진 도입, 기존 문서는 수정 못하도록, 비회원
                     위키 작성{" "}
                   </div>
-                  <div className="project-text">· (운영) 도메인/TLS 구매 </div>
+                  <div className="project-text">
+                    · (운영) 도메인/TLS 인증서 구매{" "}
+                  </div>
                 </div>
               </div>
             </div>
