@@ -4,15 +4,15 @@ import "../css/Projects.css";
 const cardData = [
   {
     name: "project1",
-    title: "WebRTC/HLS 현장강의 보조 서비스",
-    text: "저지연, 되감기가 특징인 현장강의 보조 서비스",
-    image: "webRTC.png",
-  },
-  {
-    name: "project2",
     title: "205번가",
     text: "소형 쇼핑몰",
     image: "205st.png",
+  },
+  {
+    name: "project2",
+    title: "WebRTC/HLS 현장강의 보조 서비스",
+    text: "저지연, 되감기가 특징인 현장강의 보조 서비스",
+    image: "webRTC.png",
   },
   {
     name: "project3",
