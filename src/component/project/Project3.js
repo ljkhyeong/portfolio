@@ -160,15 +160,22 @@ const Project3 = () => {
               ))}
             </div>
             <div className="section">
-              <div className="section__title">🧑‍💻 추가할 기능</div>
+              <div className="section__title">✨ 개선한 기능</div>
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
-                    · 게시글 조회 성능 개선 (현재 게시글 조회 시 쓰기(조회수+1)
-                    연산하므로 락 경쟁 때문에 성능 문제 발생 가능)
+                    · 게시글 조회 시 조회수 +1 (락 경쟁 때문에 성능 문제 발생
+                    가능)
                     <br /> -> Redis에서 카운팅하다가 배치로 한꺼번에 DB
-                    업데이트하도록 수정 예정
+                    업데이트하도록 수정, 비동기화
                   </div>
+                </div>
+              </div>
+            </div>
+            <div className="section">
+              <div className="section__title">🧑‍💻 추가할 기능</div>
+              <div className="section__list">
+                <div className="section__list-item">
                   <div className="project-text">
                     · 모던 자바 인 액션에서 학습한 스트림, 람다를 활용하여
                     병렬성, 가독성 향상토록 리팩토링
