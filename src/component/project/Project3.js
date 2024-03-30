@@ -50,17 +50,19 @@ const Project3 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 해외축구 입문자를 위한 커뮤니티 서비스입니다.
+                  · 배운 기능들을 개인적으로 구현해보자는 취지로 개발한 해외축구
+                  커뮤니티입니다.
                 </div>
                 <div className="project-text">
-                  · 2023.12.5 - 2023.2.4 약 2개월 간 진행한 개인 프로젝트입니다.
+                  · 2023.12.5 - 2024.2.4 2개월 간 진행했었습니다.
                 </div>
                 <div className="project-text">
-                  · 팀 위키 문서, 선수단 정보, 커뮤니티 게시판을 제공합니다.
-                  게시판은 비회원도 이용 가능합니다.{" "}
+                  · 2024.4.1~ 게시판 대용량 트래픽 고려, 성능 개선을 목표로
+                  재개발 중입니다.
                 </div>
                 <div className="project-text">
-                  · 개발 및 유지보수 진행 & 배포 중인 프로젝트입니다.{" "}
+                  · 팀 MD 문서, 선수단 정보, 게시판을 제공했었으며 목표에
+                  집중하기 위해 게시판 제외 기능 개발 보류 예정입니다.
                 </div>
               </div>
             </div>
@@ -123,7 +125,7 @@ const Project3 = () => {
                     패스워드 변경
                   </div>
                   <div className="project-text">
-                    · <span className="addr-line">위키</span> - 문서 작성(md
+                    · <span className="addr-line">문서</span> - 문서 작성(md
                     편집기), 수정,
                     <br /> 역사 조회 [회원만 가능]
                   </div>
@@ -162,22 +164,16 @@ const Project3 = () => {
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
-                    · (메인) 팀 검색 기능, 각 리그/팀 추가{" "}
+                    · 게시글 조회 성능 개선 (현재 게시글 조회 시 쓰기(조회수+1)
+                    연산하므로 락 경쟁 때문에 성능 문제 발생 가능)
+                    <br /> -> Redis에서 카운팅하다가 배치로 한꺼번에 DB
+                    업데이트하도록 수정 예정
                   </div>
                   <div className="project-text">
-                    · (회원) OAuth 소셜계정 가입, 패스워드 찾기, 회원정보 확인{" "}
+                    · 모던 자바 인 액션에서 학습한 스트림, 람다를 활용하여
+                    병렬성, 가독성 향상토록 리팩토링
                   </div>
-                  <div className="project-text">
-                    · (데이터 크롤링) 경기일정 데이터 업데이트, 선수단 정보
-                    업데이트 스케줄링 , 실시간 경기 정보
-                  </div>
-                  <div className="project-text">
-                    · (게시판) 머리말/태그 작성 및 조회{" "}
-                  </div>
-                  <div className="project-text">
-                    · (위키) 위키엔진 도입, 기존 문서는 수정 못하도록, 비회원
-                    위키 작성{" "}
-                  </div>
+
                   <div className="project-text">
                     · (운영) 도메인/TLS 인증서 구매{" "}
                   </div>
