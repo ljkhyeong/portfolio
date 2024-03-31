@@ -177,13 +177,16 @@ const Project3 = () => {
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
-                    · 모던 자바 인 액션에서 학습한 스트림, 람다를 활용하여
-                    병렬성, 가독성 향상토록 리팩토링
+                    · 게시글 조회 배치작업 베스트글 혹은 인기팀에만 하도록 수정
+                    <br />
+                    (보통 게시글은 조회수 업데이트 경합으로 인한 성능부하 가능성
+                    낮음)
+                  </div>
+                  <div className="project-text">
+                    · 병렬성, 가독성 향상토록 리팩토링
                   </div>
 
-                  <div className="project-text">
-                    · (운영) 도메인/TLS 인증서 구매{" "}
-                  </div>
+                  <div className="project-text">· 도메인/TLS 인증서 구매 </div>
                 </div>
               </div>
             </div>
