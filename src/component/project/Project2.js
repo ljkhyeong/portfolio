@@ -223,8 +223,8 @@ const Project1 = () => {
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
-                    · AWS를 통한 CDN 설치를 통해 지연과 서버 부하 감소 (EC2
-                    T3.large 기준, 현재 강의실 3개 트랜스코딩이 한계)
+                    · AWS CloudFront를 이용한 CDN 설치를 통해 HLS 지연 감소
+                    (현재 지연 약 9초)
                   </div>
                   <div className="project-text">
                     · 다양한 화질 저장을 통해 클라이언트 맞춤형 HLS 다시보기
