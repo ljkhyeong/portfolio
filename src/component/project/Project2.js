@@ -184,7 +184,7 @@ const Project1 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">📚 개발과정 자료</div>
+            <div className="section__title">📚 개발과정</div>
             <div className="projects-main">
               {cardData.map((card, index) => (
                 <div
@@ -219,12 +219,35 @@ const Project1 = () => {
               </div>
             </div>
             <div className="section">
+              <div className="section__title">✨ 개선한 기능</div>
+              <div className="section__list">
+                <div className="section__list-item">
+                  <div className="project-text">
+                    · 정지화면 트랜스코딩 불가 (빠른 인코딩 및 타임스탬프
+                    처리혼동 때문에 muxing queue 오버플로우 발생)
+                    <br /> -> -r 옵션을 이용해 출력 프레임, 입력 프레임 조정하여
+                    큐에 쌓이는 데이터 조정, 타임 스탬프 고정처리
+                  </div>
+                  <div className="project-text">
+                    · WebRTC와 HLS의 지연 30초
+                    <br /> -> ts 세그먼트 길이를 6초에서 2초로 축소하여 지연
+                    15초로 감소 / S3 업로드 등 네트워크 관련 오버헤드 증가
+                  </div>
+                  <div className="project-text">
+                    · WebRTC와 HLS의 지연 15초
+                    <br /> -> -g 옵션을 이용해 GOP 간격을 증가시켜 압축률 증가,
+                    그에 따른 지연 11초로 감소, 부하 감소 / 화질 저하
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="section">
               <div className="section__title">🧑‍💻 추가할 기능</div>
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
                     · AWS CloudFront를 이용한 CDN 설치를 통해 HLS 지연 감소
-                    (현재 지연 약 9초)
+                    (현재 지연 약 11초)
                   </div>
                   <div className="project-text">
                     · 다양한 화질 저장을 통해 클라이언트 맞춤형 HLS 다시보기

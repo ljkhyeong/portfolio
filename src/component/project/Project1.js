@@ -61,14 +61,14 @@ const Project2 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 스프링 공부를 목적으로 한 소형 쇼핑몰 프로젝트입니다.
+                  · 스프링 학습을 목적으로 한 소형 쇼핑몰 프로젝트입니다.
                 </div>
                 <div className="project-text">
                   · 6인 팀으로 2023.8.14 - 2023.8.25 약 2주 간 진행한
                   프로젝트입니다.
                 </div>
                 <div className="project-text">
-                  · 짧은 개발기간 때문에 결제 등 필수 기능이 미개발 상태라
+                  · 짧은 개발기간 때문에 결제, 주문내역 등 기능이 미개발 상태라
                   개인적으로 유지보수 후 배포 예정입니다.{" "}
                 </div>
               </div>
@@ -128,9 +128,7 @@ const Project2 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">
-              📚 개발과정 자료 & 로컬테스트 GIF
-            </div>
+            <div className="section__title">📚 개발과정 & 로컬테스트 GIF</div>
             <div className="projects-main">
               {cardData.map((card, index) => (
                 <div
@@ -169,7 +167,7 @@ const Project2 = () => {
                     · (상품) 상품 커스텀 정렬, 검색
                   </div>
                   <div className="project-text">
-                    · (주문) 주문, 주문 조회, 결제 API 도입{" "}
+                    · (주문) 주문, 주문 조회, 결제{" "}
                   </div>
                 </div>
               </div>
