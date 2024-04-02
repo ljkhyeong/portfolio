@@ -34,8 +34,10 @@ const Project1 = () => {
 
   const openModal = (image) => {
     if (image === "종합.png") {
-      window.location.href =
-        "https://docs.google.com/presentation/d/1nc8vpIapH1YTMuJ2fM0nzeoFOHuBBmovss31_c82PEA/edit#slide=id.p1";
+      window.open(
+        "https://docs.google.com/presentation/d/1nc8vpIapH1YTMuJ2fM0nzeoFOHuBBmovss31_c82PEA/edit#slide=id.p1",
+        "_blank",
+      );
     } else {
       setModalImage(image);
     }
