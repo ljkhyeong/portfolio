@@ -238,7 +238,7 @@ const Project1 = () => {
                   <div className="project-text">
                     · WebRTC와 HLS의 지연 15초
                     <br /> -> -g 옵션을 이용해 GOP 간격을 증가시켜 압축률 증가,
-                    그에 따른 지연 11초로 감소, 부하 감소 / 화질 저하
+                    그에 따른 부하 감소, 지연 11초로 감소 / 화질 저하
                   </div>
                 </div>
               </div>
