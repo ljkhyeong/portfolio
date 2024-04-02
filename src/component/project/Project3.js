@@ -160,7 +160,7 @@ const Project3 = () => {
               ))}
             </div>
             <div className="section">
-              <div className="section__title">✨ 개선한 기능</div>
+              <div className="section__title">✨ 개선한 기능 (2024.4.1~)</div>
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
@@ -169,6 +169,12 @@ const Project3 = () => {
                     <br /> -> Redis에서 카운팅하다가 배치로 한꺼번에 DB
                     업데이트하도록 수정, 비동기화
                   </div>
+                  <div className="project-text">
+                    · 모든 게시글 Redis 카운팅 후 배치작업 (일반글은 조회수
+                    업데이트 경합으로 인한 성능부하 가능성 낮음)
+                    <br /> -> 게시글 조회 배치작업 베스트글(임시로 좋아요 1이
+                    기준)에만 하도록 개선
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,12 +182,6 @@ const Project3 = () => {
               <div className="section__title">🧑‍💻 추가할 기능</div>
               <div className="section__list">
                 <div className="section__list-item">
-                  <div className="project-text">
-                    · 게시글 조회 배치작업 베스트글 혹은 인기팀에만 하도록 수정
-                    <br />
-                    (보통 게시글은 조회수 업데이트 경합으로 인한 성능부하 가능성
-                    낮음)
-                  </div>
                   <div className="project-text">
                     · 병렬성, 가독성 향상토록 리팩토링
                   </div>
