@@ -134,7 +134,7 @@ const About = () => {
               ↑ 클릭하시면 해당 프로젝트 페이지로 이동합니다 ↑
             </div>
             <div className="section__list-item">
-              <div className="name pr" onClick={() => navigate(`./project2`)}>
+              <div className="name pr" onClick={() => navigate(`./project1`)}>
                 👉 205번가 (Team) (2023.8.14 - 2023.8.25)
               </div>
               <div className="text">
@@ -144,7 +144,7 @@ const About = () => {
               </div>
             </div>
             <div className="section__list-item">
-              <div className="name pr" onClick={() => navigate(`./project1`)}>
+              <div className="name pr" onClick={() => navigate(`./project2`)}>
                 👉 WebRTC/HLS 현장강의 보조 서비스 (Team) (2023.9.1 -
                 2023.11.10)
               </div>
