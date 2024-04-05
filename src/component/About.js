@@ -80,7 +80,7 @@ const About = () => {
                   <span className="addr"> - Docker</span>
                 </div>
                 <div>
-                  <span className="addr-line">SCM</span>
+                  <span className="addr-line">협업도구</span>
                   <span className="addr"> - Git</span>
                 </div>
               </div>
@@ -99,7 +99,7 @@ const About = () => {
                   <span className="addr"> - Kubernetes, AWS</span>
                 </div>
                 <div>
-                  <span className="addr-line">SCM</span>
+                  <span className="addr-line">협업도구</span>
                   <span className="addr"> - Jira, Notion</span>
                 </div>
               </div>
@@ -123,6 +123,16 @@ const About = () => {
                 </div>
               ))}
             </div>
+            <div
+              style={{
+                marginTop: "-30px",
+                marginBottom: "20px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              ↑ 클릭하시면 해당 프로젝트 페이지로 이동합니다 ↑
+            </div>
             <div className="section__list-item">
               <div className="name pr" onClick={() => navigate(`./project2`)}>
                 👉 205번가 (Team) (2023.8.14 - 2023.8.25)
@@ -145,7 +155,6 @@ const About = () => {
                 별 실시간 채팅, 질의응답, 파일 송수신이 가능합니다.
               </div>
             </div>
-
             <div className="section__list-item">
               <div className="name pr" onClick={() => navigate(`./project3`)}>
                 👉 Soccer-Fan-Board (Personal) (2023.12.5 - 2023.2.4)

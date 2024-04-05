@@ -157,7 +157,7 @@ const Project1 = () => {
                     </span>
                   </div>
                   <div>
-                    <span className="addr-line">SCM</span>
+                    <span className="addr-line">협업도구</span>
                     <span className="addr"> - Git, Jira, Notion</span>
                   </div>
                   <div>

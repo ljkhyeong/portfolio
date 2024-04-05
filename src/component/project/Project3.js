@@ -109,7 +109,7 @@ const Project3 = () => {
                     <span className="addr"> - Docker, AWS (EC2/RDS)</span>
                   </div>
                   <div>
-                    <span className="addr-line">SCM</span>
+                    <span className="addr-line">협업도구</span>
                     <span className="addr"> - Git</span>
                   </div>
                   <div>

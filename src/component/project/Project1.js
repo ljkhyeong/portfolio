@@ -104,7 +104,7 @@ const Project2 = () => {
                     <span className="addr"> - MariaDB</span>
                   </div>
                   <div>
-                    <span className="addr-line">SCM</span>
+                    <span className="addr-line">협업도구</span>
                     <span className="addr"> - Git, Notion</span>
                   </div>
                 </div>
