@@ -57,12 +57,8 @@ const Project3 = () => {
                   · 2023.12.5 - 2024.2.4 2개월 간 진행했었습니다.
                 </div>
                 <div className="project-text">
-                  · 2024.4.1~ 게시판 대용량 트래픽 고려, 성능 개선을 목표로
-                  재개발 중입니다.
-                </div>
-                <div className="project-text">
-                  · 팀 MD 문서, 선수단 정보, 게시판을 제공했었으며 목표에
-                  집중하기 위해 게시판 제외 기능 개발 보류 예정입니다.
+                  · 게시판 대용량 트래픽 고려, 성능 개선을 목표로 유지보수
+                  중입니다.
                 </div>
               </div>
             </div>
@@ -160,7 +156,7 @@ const Project3 = () => {
               ))}
             </div>
             <div className="section">
-              <div className="section__title">✨ 개선한 기능 (2024.4.1~)</div>
+              <div className="section__title">✨ 개선한 기능</div>
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
@@ -185,7 +181,6 @@ const Project3 = () => {
                   <div className="project-text">
                     · 병렬성, 가독성 향상토록 리팩토링
                   </div>
-
                   <div className="project-text">· 도메인/TLS 인증서 구매 </div>
                 </div>
               </div>
