@@ -50,14 +50,14 @@ const Project3 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 배운 기능들을 개인적으로 구현해보자는 취지로 개발한 해외축구
-                  커뮤니티입니다.
+                  · 배운 내용, 기능들을 실제 만들어보며 학습하는 취지로 개발한
+                  해외축구 커뮤니티입니다.
                 </div>
                 <div className="project-text">
-                  · 2023.12.5 - 2024.2.4 2개월 간 진행했었습니다.
+                  · 2023.12.5 - 2024.2.4 2개월 간 기본기능 개발 및 배포했습니다.
                 </div>
                 <div className="project-text">
-                  · 게시판 대용량 트래픽 고려, 성능 개선을 목표로 유지보수
+                  · 현재 게시판 대용량 트래픽 고려, 성능 개선을 목표로 유지보수
                   중입니다.
                 </div>
               </div>

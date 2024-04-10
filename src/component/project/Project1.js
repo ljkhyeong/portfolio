@@ -26,7 +26,7 @@ const cardData = [
   },
 ];
 
-const Project2 = () => {
+const Project1 = () => {
   const [modalImage, setModalImage] = useState(null);
   const navigate = useNavigate();
 
@@ -193,4 +193,4 @@ const Project2 = () => {
   );
 };
 
-export default Project2;
+export default Project1;

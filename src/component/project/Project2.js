@@ -28,7 +28,7 @@ const cardData = [
   { name: "종합", title: "종합 발표자료", image: "종합.png" },
 ];
 
-const Project1 = () => {
+const Project2 = () => {
   const [modalImage, setModalImage] = useState(null);
   const navigate = useNavigate();
 
@@ -61,9 +61,6 @@ const Project1 = () => {
 
   return (
     <>
-      <button className="nav-button prev" onClick={handlePrevious}>
-        &lt;
-      </button>
       <div className="container">
         <div className="header">
           <div className="project-title">WebRTC/HLS 현장강의 보조 서비스</div>
@@ -279,4 +276,4 @@ const Project1 = () => {
   );
 };
 
-export default Project1;
+export default Project2;
