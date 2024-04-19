@@ -127,16 +127,7 @@ const About = () => {
             >
               ↑ 클릭하시면 해당 프로젝트 페이지로 이동합니다 ↑
             </div>
-            <div className="section__list-item">
-              <div className="name pr" onClick={() => navigate(`./project1`)}>
-                👉 205번가 (Team) (2023.8.14 - 2023.8.25)
-              </div>
-              <div className="text">
-                스프링/thymeleaf로 구현한 간단한 쇼핑몰입니다. 팀원들의 스프링
-                공부용도로 짧은 시간 진행된 프로젝트라 필요기능 구현도가
-                낮습니다. 개인 프로젝트 마무리 후 유지보수 예정입니다.
-              </div>
-            </div>
+
             <div className="section__list-item">
               <div className="name pr" onClick={() => navigate(`./project2`)}>
                 👉 WebRTC/HLS 현장강의 보조 서비스 (Team) (2023.9.1 -
