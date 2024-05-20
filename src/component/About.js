@@ -55,12 +55,9 @@ const About = () => {
                 <div className="name">능숙한</div>
                 <div>
                   <span className="addr-line">Language</span>
-                  <span className="addr"> - Java,JavaScript</span>
+                  <span className="addr"> - Java</span>
                 </div>
-                <div>
-                  <span className="addr-line">Frontend</span>
-                  <span className="addr"> - React</span>
-                </div>
+
                 <div>
                   <span className="addr-line">Backend</span>
                   <span className="addr"> - Spring, Hibernate</span>
@@ -82,7 +79,11 @@ const About = () => {
                 <div className="name">알고 있는</div>
                 <div>
                   <span className="addr-line">Language</span>
-                  <span className="addr"> - C, Go, Python</span>
+                  <span className="addr"> - C, Go, Python, JavaScript</span>
+                </div>
+                <div>
+                  <span className="addr-line">Frontend</span>
+                  <span className="addr"> - React</span>
                 </div>
                 <div>
                   <span className="addr-line">Backend</span>
