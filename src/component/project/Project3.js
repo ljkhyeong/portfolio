@@ -75,7 +75,7 @@ const Project3 = () => {
             </div>
             <div className="section__list">
               <a href="http://13.125.252.116" className="addr">
-                http://13.125.252.116{" "}
+                http://13.125.252.116 (비용문제로 배포중단, 취업 후 재배포 예정)
               </a>
             </div>
           </div>
