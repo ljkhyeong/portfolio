@@ -93,7 +93,9 @@ const Project2 = () => {
                   공개), 파일 업로드/다운로드가 가능합니다.
                 </div>
                 <div className="project-text">
-                  · AWS 비용문제로 배포 중단 상태입니다.{" "}
+                  · AWS 비용문제로 배포 중단 상태이며, 문서화를 Git
+                  organization, Jira에서 했기에 접속권한이 필요하므로 문서확인을
+                  하단 JPG로 대체했습니다.{" "}
                 </div>
               </div>
             </div>

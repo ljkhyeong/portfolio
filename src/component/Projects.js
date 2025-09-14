@@ -10,9 +10,9 @@ const cardData = [
   },
   {
     name: "project3",
-    title: "Soccer-Fan-Board",
-    text: "해외축구 입문자 커뮤니티 서비스",
-    image: "soccerFor.png",
+    title: "Feature-Flag-Service",
+    text: "안정적인 배포를 위한 점진적 롤아웃 서비스",
+    image: "feature-flag.png",
   },
 ];
 

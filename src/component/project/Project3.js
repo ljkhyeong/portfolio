@@ -39,45 +39,39 @@ const Project3 = () => {
       </button>
       <div className="container">
         <div className="header">
-          <div className="project-title">Soccer Fan Board</div>
+          <div className="project-title">Feature Flag Service</div>
         </div>
         <div className="details">
-          <div className="section">
-            <img className="rep-image" src="soccerFor.png" />
-          </div>
+          <div className="section"></div>
           <div className="section">
             <div className="section__title">📖 내용</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 배운 내용, 기능들을 실제 만들어보며 학습하는 취지로 개발한
-                  해외축구 커뮤니티입니다.
+                  · Spring Boot 기반의 Feature Flag Management Service입니다.
                 </div>
                 <div className="project-text">
-                  · 2023.12.5 - 2024.2.4 2개월 간 기본기능 개발 및 배포했습니다.
+                  · 사용자 그룹별 세분화, 점진적 롤아웃, 실시간 설정값 제공을
+                  지원.
                 </div>
                 <div className="project-text">
-                  · 현재 게시판 대용량 트래픽 고려, 성능 개선을 목표로 유지보수
-                  중입니다.
+                  · 프로젝트 상세 내용, 정책, API 명세 등은 해당 프로젝트 깃허브
+                  페이지에 readme.md에 요약정보로 게시했습니다.
                 </div>
               </div>
             </div>
           </div>
           <div className="section">
-            <div className="section__title">🐱 Github & Service Link</div>
+            <div className="section__title">🐱 Github Link</div>
             <div className="section__list">
               <a
-                href="https://github.com/ljkhyeong/Soccer-Fan-Board"
+                href="https://github.com/ljkhyeong/feature-flag-service"
                 className="addr"
               >
-                https://github.com/ljkhyeong/Soccer-Fan-Board{" "}
+                https://github.com/ljkhyeong/feature-flag-service{" "}
               </a>
             </div>
-            <div className="section__list">
-              <a href="http://13.125.252.116" className="addr">
-                http://13.125.252.116 (비용문제로 배포중단, 취업 후 재배포 예정)
-              </a>
-            </div>
+            <div className="section__list"></div>
           </div>
           <div className="section">
             <div className="section__list">
@@ -90,11 +84,14 @@ const Project3 = () => {
                   </div>
                   <div>
                     <span className="addr-line">Frontend</span>
-                    <span className="addr"> - React</span>
+                    <span className="addr"> - React (Admin 콘솔 예정)</span>
                   </div>
                   <div>
                     <span className="addr-line">Backend</span>
-                    <span className="addr"> - Spring, Hibernate</span>
+                    <span className="addr">
+                      {" "}
+                      - Spring Boot, JPA(Hibernate), MyBatis 일부
+                    </span>
                   </div>
                   <div>
                     <span className="addr-line">RDBMS</span>
@@ -102,7 +99,10 @@ const Project3 = () => {
                   </div>
                   <div>
                     <span className="addr-line">Infra</span>
-                    <span className="addr"> - Docker, AWS (EC2/RDS)</span>
+                    <span className="addr">
+                      {" "}
+                      - Redis, Docker, Testcontainers
+                    </span>
                   </div>
                   <div>
                     <span className="addr-line">협업도구</span>
@@ -110,37 +110,65 @@ const Project3 = () => {
                   </div>
                   <div>
                     <span className="addr-line">CI/CD</span>
-                    <span className="addr"> - Github Actions</span>
+                    <span className="addr">
+                      {" "}
+                      - GitHub Actions (빌드/테스트/REST Docs)
+                    </span>
                   </div>
                 </div>
                 <div className="right">
                   <div className="section__title">🖥️ 구현된 기능</div>
                   <div className="project-text">
-                    · <span className="addr-line">회원</span> - Validator
-                    회원가입, JWT 쿠키인증, <br />
-                    패스워드 변경
+                    <span className="addr-line">
+                      ** readme 문서가 가독성이 훨씬 좋으므로 인터넷 접속이
+                      되신다면 Github Link로 확인 부탁드립니다 **
+                    </span>
                   </div>
                   <div className="project-text">
-                    · <span className="addr-line">문서</span> - 문서 작성(md
-                    편집기), 수정,
-                    <br /> 역사 조회 [회원만 가능]
+                    <span className="addr-line">Feature Flag 관리</span> <br />·
+                    플래그 CRUD (생성/조회/수정/삭제) <br />· 환경별 플래그 키
+                    제약 (Unique Constraint) <br />· 플래그 토글(toggle API)
                   </div>
                   <div className="project-text">
-                    · <span className="addr-line">선수단 정보</span> - 선수단
-                    조회 <br /> (Selenium을 이용한 주기적 스크래핑 후 DB저장)
+                    <span className="addr-line">배포 전략</span> <br />·
+                    퍼센티지 배포 (사용자 ID 해싱 기반 분포, ±1% 오차 검증 완료){" "}
+                    <br />· 배포 조건 확장 가능 (rulesJson 기반 include/exclude
+                    사용자 그룹)
                   </div>
                   <div className="project-text">
-                    · <span className="addr-line">게시판</span> -
-                    게시글/댓글/대댓글 작성 및 수정 및 삭제 ,검색 및 추천 글
-                    분류 [비회원도 가능]
+                    <span className="addr-line">SDK 제공용 API</span> <br />·
+                    /sdk/v1/config – 환경별 번들 JSON 반환
+                    <br /> · ETag + If-None-Match 지원 (304 캐시 최적화)
+                    <br /> · gzip 압축 가능
+                  </div>
+                  <div className="project-text">
+                    <span className="addr-line">운영/품질 보증</span> <br />·
+                    Redis 캐시 (GenericJackson2JsonRedisSerializer)
+                    <br />· 캐시 무효화 정책 (@CacheEvict)
+                    <br />· REST Docs (MockMvc 기반 문서화, Asciidoctor HTML
+                    생성)
+                    <br />· E2E 테스트 (캐시 미스/히트/404/304 시나리오)
+                    <br />· 성능 테스트 (k6) – 캐싱 적용 후 평균 응답 &lt; 20ms,
+                    성공률 100%
+                    <br />· Testcontainers (MariaDB, Redis 통합 테스트 환경)
+                  </div>
+                  <div className="project-text">
+                    <span className="addr-line">에러 처리/표준화</span> <br />·
+                    ApplicationException + ErrorCode enum
                     <br />
-                    좋아요 [회원만 가능]
+                    ·GlobalExceptionHandler 통해 표준 에러 스키마 반환 <br />
+                  </div>
+                  <div className="project-text">
+                    <span className="addr-line">문서/아키텍처 관리</span> <br />
+                    · README.md – 실행/품질/트러블슈팅 정리 <br />· ADR 문서 –
+                    캐시 직렬화 정책, ETag 헤더 케이스 정책 등 <br />·
+                    Retrospectives – 날짜별 회고 기록
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="section">
+          {/* <div className="section">
             <div className="section__title">📚 로컬테스트 GIF</div>
             <div className="projects-main">
               {cardData.map((card, index) => (
@@ -184,8 +212,8 @@ const Project3 = () => {
                   <div className="project-text">· 도메인/TLS 인증서 구매 </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
         {modalImage && (
           <div className="modal" onClick={closeModal}>

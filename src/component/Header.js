@@ -10,7 +10,7 @@ const Header = () => {
         <span className="email-val">jolri24@naver.com</span>
         <span className="separator"></span>
         <span className="phone">Phone: </span>
-        <span className="phone-val">010-9045-6284</span>
+        <span className="phone-val">010-3972-6284</span>
         <span className="separator"></span>
         <span className="phone">GITHUB: </span>
         <span className="phone-val">
