@@ -24,12 +24,13 @@
   
   .container {
     position: relative;
-    max-width: 700px;   
+    width: min(960px, calc(100vw - 32px));
+    max-width: 960px;
     background: #fff;
     margin: 0px auto 0px; 
     box-shadow: 1px 1px 2px #DAD7D7;
     border-radius: 3px;  
-    padding: 40px;
+    padding: 40px 48px;
     margin-top: 50px;
   }
   
@@ -207,6 +208,34 @@
     text-decoration-line:underline;
   }
 
+  .skill-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+
+  .skill-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .skill-header {
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+
+  .skill-cell {
+    min-width: 0;
+  }
+
+  .skill-cell-legacy {
+    margin-top: auto;
+    padding-top: 18px;
+  }
+
   .pdf-download-btn {
     position: absolute;
     top: 10px; 
@@ -228,6 +257,19 @@
   @keyframes blink-effect {
     50% {
       background-color: #5381b6;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      width: min(100%, calc(100vw - 20px));
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .skill-columns {
+      grid-template-columns: 1fr;
+      row-gap: 18px;
     }
   }
   

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../../css/Project.css";
-import YouTube from "react-youtube";
 import { useNavigate } from "react-router-dom";
 
 const cardData = [
@@ -54,7 +53,7 @@ const Project1 = () => {
         </div>
         <div className="details">
           <div className="section">
-            <img className="rep-image" src="205st.png" />
+            <img className="rep-image" src="205st.png" alt="205번가 대표 이미지" />
           </div>
           <div className="section">
             <div className="section__title">📖 내용</div>
@@ -182,7 +181,7 @@ const Project1 = () => {
         )}
       </div>
       <button className="nav-button next" onClick={handleNext}>
-        &gt;
+        ›
       </button>
       <div className="navigation-buttons">
         <button className="main-button" onClick={handleMain}>

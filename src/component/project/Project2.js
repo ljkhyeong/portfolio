@@ -47,12 +47,8 @@ const Project2 = () => {
     setModalImage(null);
   };
 
-  const handlePrevious = () => {
-    navigate("/project1");
-  };
-
   const handleNext = () => {
-    navigate("/project3");
+    navigate("/project4");
   };
 
   const handleMain = () => {
@@ -67,35 +63,40 @@ const Project2 = () => {
         </div>
         <div className="details">
           <div className="section">
-            <img className="rep-image" src="webRTC.png" />
+            <img
+              className="rep-image"
+              src="webRTC.png"
+              alt="WebRTC HLS 현장강의 보조 서비스 대표 이미지"
+            />
           </div>
           <div className="section">
             <div className="section__title">📖 내용</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 현장강의를 위해 WebRTC로 지연을 줄이고 HLS로 되감기를
-                  추가한다는 아이디어에서 진행된 프로젝트입니다.
-                </div>
-                <div className="project-text">
-                  · 6인 팀으로 2023.9.1 - 2023.11.10 약 2개월 간 진행한
+                  · 현장강의에서 중요한 저지연 시청은 WebRTC로, 놓친 구간을
+                  다시 보는 기능은 HLS로 제공하자는 문제의식에서 출발한
                   프로젝트입니다.
                 </div>
                 <div className="project-text">
-                  · WebRTC, HLS 플레이어를 실시간 전환하여 놓친 부분을 다시
-                  듣다가 돌아올 수 있습니다.{" "}
+                  · 6인 팀으로 2023.09.01부터 2023.11.10까지 약 2개월간
+                  진행했고, 프론트엔드 / Spring 백엔드 / SFU / HLS / 채팅 /
+                  배포 설정을 역할별 저장소로 분리해 개발했습니다.
                 </div>
                 <div className="project-text">
-                  · 강의실은 관리자, 강사, 학생 롤로 구분됩니다.
+                  · 단순한 스트리밍 페이지가 아니라 강의실 생성/입장,
+                  회원관리, 강의 화면, Q&A, 자료함, 관리자 기능까지 포함한
+                  서비스 단위로 설계했습니다.
                 </div>
                 <div className="project-text">
-                  · 강의실 별 실시간 채팅, 질의응답(강사님에게만 보이도록 혹은
-                  공개), 파일 업로드/다운로드가 가능합니다.
+                  · 저는 이 구조 안에서 HLS 서버와 React frontend를 맡아,
+                  실시간 강의와 다시보기 흐름이 실제 사용자 경험으로 이어지도록
+                  구현했습니다.
                 </div>
                 <div className="project-text">
-                  · AWS 비용문제로 배포 중단 상태이며, 문서화를 Git
-                  organization, Jira에서 했기에 접속권한이 필요하므로 문서확인을
-                  하단 JPG로 대체했습니다.{" "}
+                  · 현재는 AWS 비용 문제로 배포를 중단했지만, 공개된 Git
+                  organization과 이미지 문서로 당시 구조와 구현 과정을 확인할
+                  수 있습니다.
                 </div>
               </div>
             </div>
@@ -109,6 +110,40 @@ const Project2 = () => {
               >
                 https://github.com/orgs/TeamyRoom/repositories{" "}
               </a>
+            </div>
+          </div>
+          <div className="section">
+            <div className="section__title">🏗️ 프로젝트 구조</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  · <span className="addr-line">Frontend</span> - React 기반
+                  강의실, 플레이어, 게시판, 관리자 화면 UI
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">Spring Server</span> - 회원,
+                  강의, 질문, 파일, 관리자 기능을 담당하는 백엔드
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">SFU Server</span> - WebRTC
+                  실시간 송출 및 연결 처리
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">HLS Server</span> - HLS 변환,
+                  되감기 재생, 세그먼트 생성, 미디어 저장 처리
+                  <br />- WebSocket은 녹화 시작/중지와 transport 생성 같은
+                  제어 메시지에 사용하고, 실제 미디어는 RTP 기반으로 전달받아
+                  FFmpeg / GStreamer에서 HLS로 변환
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">Chatting Server</span> -
+                  강의실 별 실시간 채팅
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">k8s manifest</span> - backend,
+                  frontend, sfu, hls, chat 배포 설정 관리
+                </div>
+              </div>
             </div>
           </div>
           <div className="section">
@@ -137,49 +172,77 @@ const Project2 = () => {
                   </div>
                   <div>
                     <span className="addr-line">Frontend</span>
-                    <span className="addr"> - React</span>
-                  </div>
-                  <div>
-                    <span className="addr-line">Backend</span>
-                    <span className="addr"> - Spring, Node.js, Hibernate</span>
-                  </div>
-                  <div>
-                    <span className="addr-line">RDBMS</span>
-                    <span className="addr"> - MariaDB</span>
-                  </div>
-                  <div>
-                    <span className="addr-line">Infra</span>
                     <span className="addr">
                       {" "}
-                      - Docker, Kubernetes, AWS
-                      (EKS/Route53/ElasticCache/ALB/EC2/S3)
+                      - React, mediasoup-client, video.js
                     </span>
                   </div>
                   <div>
-                    <span className="addr-line">협업도구</span>
-                    <span className="addr"> - Git, Jira, Notion</span>
+                    <span className="addr-line">Backend</span>
+                    <span className="addr">
+                      {" "}
+                      - Spring Boot, Node.js, Hibernate, MariaDB
+                    </span>
                   </div>
                   <div>
-                    <span className="addr-line">CI/CD</span>
-                    <span className="addr"> - GitHub Actions, Argo CD</span>
+                    <span className="addr-line">Media / Realtime</span>
+                    <span className="addr">
+                      {" "}
+                      - WebRTC, HLS, FFmpeg, GStreamer
+                    </span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Infra / Quality</span>
+                    <span className="addr">
+                      {" "}
+                      - Docker, Kubernetes, AWS
+                      (Route53/ElasticCache/ALB/EC2/S3), GitHub Actions, Argo CD
+                    </span>
                   </div>
                 </div>
                 <div className="right">
                   <div className="section__title">🖥️ 구현된 기능</div>
                   <div className="project-text">
-                    · <span className="addr-line">메인</span> - 강의실
-                    생성/강의코드 입장
+                    · <span className="addr-line">강의실 / 회원</span> -
+                    강의실 생성, 강의 코드 입장, 회원가입/로그인, 내 강의 목록
                   </div>
                   <div className="project-text">
-                    · <span className="addr-line">회원</span> - 회원가입,
-                    로그인, 내 강의목록
+                    · <span className="addr-line">실시간 시청</span> - 교사 /
+                    학생 역할 기반 WebRTC 강의 송출 및 시청
                   </div>
                   <div className="project-text">
-                    · <span className="addr-line">강의실</span> -
-                    플레이어(WebRTC/HLS), <br />
-                    Q&A 게시판, 자료함, 관리자 페이지, <br />
-                    실시간 채팅
+                    · <span className="addr-line">다시보기 / 플레이어</span> -
+                    HLS 플레이어, WebRTC / HLS 전환
                   </div>
+                  <div className="project-text">
+                    · <span className="addr-line">강의 보조 기능</span> - Q&A
+                    게시판, 자료함, 관리자 페이지, 실시간 채팅
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="section">
+            <div className="section__title">🤝 운영 / 협업</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  · <span className="addr-line">Git organization</span> -
+                  Frontend, Spring, SFU, HLS, Chatting, k8s manifest를
+                  저장소별로 분리해 관리
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">협업 문서</span> - Jira,
+                  Notion, 이미지 문서로 요구사항, 회의록, API 명세, 아키텍처를
+                  정리
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">개발 방식</span> - 짧은 주기로
+                  요구사항을 나누고 점검하는 애자일 방식으로 진행
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">배포 흐름</span> - GitHub
+                  Actions, Argo CD 기반 배포 구성
                 </div>
               </div>
             </div>
@@ -200,27 +263,32 @@ const Project2 = () => {
               ))}
             </div>
             <div className="section">
-              <div className="section__title">🙋‍♂️ 역할</div>
+              <div className="section__title">🙋‍♂️ 내 역할</div>
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
-                    · WebRTC 스트림을 HLS로 트랜스코딩 후 AWS S3에 저장하며,
-                    관련 옵션을 SFU서버, 클라이언트와 공유하는 미디어
-                    서버(Node.js)를 개발했습니다.
+                    · HLS 서버에서 WebSocket 기반 제어 채널을 구현해 transport
+                    생성, 녹화 시작/중지, 파일명 전달 같은 세션 흐름을
+                    처리했습니다.
                   </div>
                   <div className="project-text">
-                    · 비디오 플레이어(HLS), Q&A 게시판/자료 게시판/관리자
-                    페이지/강의화면(React) 프론트엔드를 개발했습니다.{" "}
+                    · mediasoup plain transport로 전달된 RTP 스트림을 FFmpeg /
+                    GStreamer 파이프라인에 연결해 HLS 세그먼트로 변환하고,
+                    생성된 파일을 저장/업로드하는 흐름을 개발했습니다.
                   </div>
                   <div className="project-text">
-                    · Q&A 게시판/자료 게시판/관리자 페이지(Spring), WebRTC
-                    SFU서버(Node.js) 백엔드에 기여했습니다.
+                    · HLS 플레이어, 강의화면, Q&A 게시판, 자료 게시판, 관리자
+                    페이지 등 React 프론트엔드를 개발했습니다.
+                  </div>
+                  <div className="project-text">
+                    · HLS 서버, SFU 서버, 프론트엔드 사이에서 필요한 옵션과
+                    재생 흐름이 맞물리도록 연동을 조정했습니다.
                   </div>
                 </div>
               </div>
             </div>
             <div className="section">
-              <div className="section__title">✨ 개선한 기능</div>
+              <div className="section__title">✨ 트러블슈팅 / 개선</div>
               <div className="section__list">
                 <div className="section__list-item">
                   <div className="project-text">
@@ -242,21 +310,6 @@ const Project2 = () => {
                 </div>
               </div>
             </div>
-            <div className="section">
-              <div className="section__title">🧑‍💻 추가할 기능</div>
-              <div className="section__list">
-                <div className="section__list-item">
-                  <div className="project-text">
-                    · AWS CloudFront를 이용한 CDN 설치를 통해 HLS 지연 감소
-                    (현재 지연 약 11초)
-                  </div>
-                  <div className="project-text">
-                    · 다양한 화질 저장을 통해 클라이언트 맞춤형 HLS 다시보기
-                    제공 (현재 WebRTC의 화질조정을 기준으로 레코딩)
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         {modalImage && (
@@ -267,7 +320,7 @@ const Project2 = () => {
         )}
       </div>
       <button className="nav-button next" onClick={handleNext}>
-        &gt;
+        ›
       </button>
       <div className="navigation-buttons">
         <button className="main-button" onClick={handleMain}>

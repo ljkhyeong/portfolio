@@ -10,11 +10,11 @@ const Main = () => {
   const renderTab = () => {
     switch (activeTab) {
       case "About":
-        return <About />;
+        return <About onShowProjects={() => setActiveTab("Projects")} />;
       case "Projects":
         return <Projects />;
       default:
-        return <About />;
+        return <About onShowProjects={() => setActiveTab("Projects")} />;
     }
   };
   return (
@@ -35,9 +35,6 @@ const Main = () => {
         </button>
       </div>
       {renderTab()}
-      <a href="포트폴리오최신.pdf" download="포트폴리오최신.pdf">
-        <button className="pdf-download-btn">Download PDF</button>
-      </a>
     </div>
   );
 };

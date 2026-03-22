@@ -1,30 +1,123 @@
-    .projects-main{
-      display: flex;
-      margin-bottom: 40px;
-      }
-      .gallery {
-      margin: 5px;
-      border: 0.5px solid #ccc;
-      width: 200px;
-      box-shadow: 2px 2px;
-      transition: 0.3s;
-      }
-      .gallery:hover {
-      border: 1px solid #777;
-      background-color: #ddd;
-      cursor: pointer;
-      }
-      .gallery img {
-      width: 100%;
-      height: auto;
-      }
+.projects-main {
+  display: flex;
+  margin-bottom: 40px;
+}
 
-      .projects-title {
-        margin-top: 5px;
-        text-align: center;
-      }
+.projects-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-width: 100%;
+}
 
-      .projects-text {
-      padding: 15px;
-      text-align: center;
-      }
+.project-section {
+  padding-top: 28px;
+  border-top: 1px solid #d9dde3;
+}
+
+.project-section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.project-section__header {
+  margin-bottom: 18px;
+}
+
+.project-section__title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  color: #2f5f90;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.project-section__subtitle {
+  margin: 0;
+  color: #6a7580;
+}
+
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+}
+
+.gallery {
+  margin: 0;
+  border: 0.5px solid #ccc;
+  width: min(260px, 100%);
+  box-shadow: 2px 2px;
+  transition: 0.3s;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gallery:hover {
+  border: 1px solid #777;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.gallery img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.gallery-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 12px 14px 14px;
+}
+
+.projects-title {
+  margin: 0 0 8px;
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-text {
+  text-align: center;
+  padding: 0;
+  color: #4f5b66;
+  line-height: 1.5;
+}
+
+.projects-period {
+  margin-top: auto;
+  padding-top: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #7a8591;
+}
+
+.projects-empty {
+  padding: 20px;
+  border: 1px dashed #bfc8d2;
+  background: #f7f9fb;
+  color: #55606c;
+}
+
+@media (max-width: 768px) {
+  .projects-layout {
+    gap: 24px;
+  }
+
+  .projects-grid {
+    flex-direction: column;
+  }
+
+  .gallery {
+    width: 100%;
+  }
+}
