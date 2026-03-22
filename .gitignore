@@ -3,3 +3,4 @@ build/*
 myProfile.txt
 self-intro/
 AGENTS.md
+.DS_Store

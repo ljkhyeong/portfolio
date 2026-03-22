@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../css/Projects.css";
+import { assetPath } from "../utils/assetPath";
 
 const projectSections = [
   {
@@ -10,7 +11,7 @@ const projectSections = [
         name: "project3",
         title: "happyGallery",
         text: "온라인 쇼핑몰과 체험 예약을 통합한 공방 서비스",
-        image: "happyGallery 프로젝트.png",
+        image: "happygallery-project.png",
       },
     ],
   },
@@ -34,7 +35,7 @@ const projectSections = [
         name: "project4",
         title: "차세대 군사법 정보 시스템",
         text: "군교정 부문을 맡아 운영·배치·보안 기능을 개발한 공공 업무 시스템",
-        image: "국방부.webp",
+        image: "mnd.webp",
       },
     ],
   },
@@ -60,7 +61,7 @@ const Projects = () => {
                   data-name={card.name}
                   onClick={() => navigate(`./${card.name}`)}
                 >
-                  <img src={card.image} alt={card.title} />
+                  <img src={assetPath(card.image)} alt={card.title} />
                   <div className="gallery-body">
                     <h5 className="projects-title">{card.title}</h5>
                     <div className="projects-text">{card.text}</div>

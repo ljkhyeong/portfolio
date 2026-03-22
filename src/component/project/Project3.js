@@ -1,5 +1,6 @@
 import "../../css/Project.css";
 import { useNavigate } from "react-router-dom";
+import { assetPath } from "../../utils/assetPath";
 
 const documentHighlights = [
   {
@@ -124,7 +125,7 @@ const Project3 = () => {
           <div className="section">
             <img
               className="rep-image"
-              src="happyGallery 프로젝트.png"
+              src={assetPath("happygallery-project.png")}
               alt="happyGallery 프로젝트"
             />
           </div>
@@ -170,10 +171,6 @@ const Project3 = () => {
                 <div className="left">
                   <div className="section__title">⛏️ 기술스택</div>
                   <div>
-                    <span className="addr-line">Language</span>
-                    <span className="addr"> - Java, TypeScript</span>
-                  </div>
-                  <div>
                     <span className="addr-line">Frontend</span>
                     <span className="addr">
                       {" "}
@@ -184,8 +181,12 @@ const Project3 = () => {
                     <span className="addr-line">Backend</span>
                     <span className="addr">
                       {" "}
-                      - Spring Boot, JPA, MySQL, Redis, Flyway
+                      - Java, Spring Boot, JPA, Flyway, Embedded Tomcat
                     </span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Database</span>
+                    <span className="addr"> - MySQL, Redis</span>
                   </div>
                   <div>
                     <span className="addr-line">Observability</span>
@@ -195,11 +196,12 @@ const Project3 = () => {
                     </span>
                   </div>
                   <div>
-                    <span className="addr-line">Infra / Quality</span>
-                    <span className="addr">
-                      {" "}
-                      - Docker, Testcontainers, Playwright
-                    </span>
+                    <span className="addr-line">Infra</span>
+                    <span className="addr"> - Docker</span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Quality</span>
+                    <span className="addr"> - Testcontainers, Playwright</span>
                   </div>
                 </div>
                 <div className="right">

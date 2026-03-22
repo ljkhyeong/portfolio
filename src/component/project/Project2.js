@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../../css/Project.css";
 import YouTube from "react-youtube";
 import { useNavigate } from "react-router-dom";
+import { assetPath } from "../../utils/assetPath";
 
 const cardData = [
   {
@@ -39,7 +40,7 @@ const Project2 = () => {
         "_blank",
       );
     } else {
-      setModalImage(image);
+      setModalImage(assetPath(image));
     }
   };
 
@@ -65,7 +66,7 @@ const Project2 = () => {
           <div className="section">
             <img
               className="rep-image"
-              src="webRTC.png"
+              src={assetPath("webRTC.png")}
               alt="WebRTC HLS 현장강의 보조 서비스 대표 이미지"
             />
           </div>
@@ -167,21 +168,28 @@ const Project2 = () => {
                 <div className="left">
                   <div className="section__title">⛏️ 기술스택</div>
                   <div>
-                    <span className="addr-line">Language</span>
-                    <span className="addr"> - Java, JavaScript</span>
-                  </div>
-                  <div>
                     <span className="addr-line">Frontend</span>
                     <span className="addr">
                       {" "}
-                      - React, mediasoup-client, video.js
+                      - JavaScript, React, mediasoup-client, video.js
                     </span>
                   </div>
                   <div>
                     <span className="addr-line">Backend</span>
                     <span className="addr">
                       {" "}
-                      - Spring Boot, Node.js, Hibernate, MariaDB
+                      - Java, Spring Boot, Node.js, Hibernate
+                    </span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Database</span>
+                    <span className="addr"> - MariaDB</span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Observability</span>
+                    <span className="addr">
+                      {" "}
+                      - 서버 로그, HLS 변환 로그, 배포 상태 확인 중심 운영
                     </span>
                   </div>
                   <div>
@@ -192,12 +200,16 @@ const Project2 = () => {
                     </span>
                   </div>
                   <div>
-                    <span className="addr-line">Infra / Quality</span>
+                    <span className="addr-line">Infra</span>
                     <span className="addr">
                       {" "}
                       - Docker, Kubernetes, AWS
-                      (Route53/ElasticCache/ALB/EC2/S3), GitHub Actions, Argo CD
+                      (Route53/ElasticCache/ALB/EC2/S3), Argo CD
                     </span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Quality</span>
+                    <span className="addr"> - GitHub Actions</span>
                   </div>
                 </div>
                 <div className="right">
@@ -257,7 +269,7 @@ const Project2 = () => {
                   data-name={card.name}
                   onClick={() => openModal(card.image)}
                 >
-                  <img src={card.image} alt="img" />
+                  <img src={assetPath(card.image)} alt="img" />
                   <h5 className="projects-title">{card.title}</h5>
                 </div>
               ))}

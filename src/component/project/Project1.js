@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../../css/Project.css";
 import { useNavigate } from "react-router-dom";
+import { assetPath } from "../../utils/assetPath";
 
 const cardData = [
   { name: "명명규칙", title: "명명규칙", image: "명명규칙.png" },
@@ -30,7 +31,7 @@ const Project1 = () => {
   const navigate = useNavigate();
 
   const openModal = (image) => {
-    setModalImage(image);
+    setModalImage(assetPath(image));
   };
 
   const closeModal = () => {
@@ -53,7 +54,11 @@ const Project1 = () => {
         </div>
         <div className="details">
           <div className="section">
-            <img className="rep-image" src="205st.png" alt="205번가 대표 이미지" />
+            <img
+              className="rep-image"
+              src={assetPath("205st.png")}
+              alt="205번가 대표 이미지"
+            />
           </div>
           <div className="section">
             <div className="section__title">📖 내용</div>
@@ -136,7 +141,7 @@ const Project1 = () => {
                   data-name={card.name}
                   onClick={() => openModal(card.image)}
                 >
-                  <img src={card.image} alt="img" />
+                  <img src={assetPath(card.image)} alt="img" />
                   <h5 className="projects-title">{card.title}</h5>
                 </div>
               ))}

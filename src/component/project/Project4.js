@@ -120,10 +120,6 @@ const Project4 = () => {
                 <div className="left">
                   <div className="section__title">⛏️ 기술스택</div>
                   <div>
-                    <span className="addr-line">Language</span>
-                    <span className="addr"> - Java 8, XML</span>
-                  </div>
-                  <div>
                     <span className="addr-line">Frontend</span>
                     <span className="addr"> - WebSquare</span>
                   </div>
@@ -131,19 +127,31 @@ const Project4 = () => {
                     <span className="addr-line">Backend</span>
                     <span className="addr">
                       {" "}
-                      - eGov 4.1, MyBatis, Spring Session
+                      - Java 8, eGov 4.1, MyBatis, Spring Session, XML 설정,
+                      JEUS
                     </span>
                   </div>
                   <div>
-                    <span className="addr-line">Database / WAS</span>
-                    <span className="addr"> - Tibero, JEUS</span>
+                    <span className="addr-line">Database</span>
+                    <span className="addr"> - Tibero</span>
                   </div>
                   <div>
-                    <span className="addr-line">Infra / Quality</span>
+                    <span className="addr-line">Observability</span>
                     <span className="addr">
                       {" "}
-                      - Jenkins, Maven, Nexus, VM 이중화, Putty
+                      - SSH 로그 확인, DB 직접 조회, 배치 실행 로그 중심 운영
                     </span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Infra</span>
+                    <span className="addr">
+                      {" "}
+                      - Jenkins, Nexus, VM 이중화, Putty
+                    </span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Quality</span>
+                    <span className="addr"> - Maven</span>
                   </div>
                 </div>
                 <div className="right">
