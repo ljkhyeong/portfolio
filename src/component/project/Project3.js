@@ -134,21 +134,28 @@ const Project3 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 오프라인 공방을 위한 온라인 쇼핑몰 + 체험 예약 시스템입니다.
+                  · 오프라인 공방을 위한 온라인 쇼핑몰 + 체험 예약 플랫폼으로,
+                  단순 상품 판매가 아니라 주문, 예약, 패스, 관리자 운영까지
+                  하나의 서비스로 통합하는 것을 목표로 했습니다.
                 </div>
                 <div className="project-text">
-                  · 상품 주문, 클래스 예약, 8회권 패스, 관리자 운영을 하나의
-                  플랫폼에서 처리할 수 있도록 설계/구현했습니다.
+                  · 상품 주문, 클래스 예약, 회원 전용 8회권 패스, 비회원 조회,
+                  관리자 운영 흐름을 도메인 단위로 나눠 설계하고 구현했습니다.
                 </div>
                 <div className="project-text">
                   · 백엔드는 Spring Boot, 프론트는 React + TypeScript로
-                  구성했고, 운영 안정성과 문서화까지 함께 다듬고 있는 개인
-                  프로젝트입니다.
+                  구성했고, 기능 추가뿐 아니라 운영 안정성과 구조 개선까지
+                  함께 다듬고 있는 개인 프로젝트입니다.
                 </div>
                 <div className="project-text">
-                  · 단순히 기능을 붙이는 방식보다, 요구사항과 정책을 문서로
-                  기준화하고 설계 결정을 계속 기록하면서 프로젝트를
-                  발전시키고 있습니다.
+                  · 멀티모듈과 레이어 경계를 기준으로 책임을 분리하고,
+                  도메인 규칙과 외부 기술 의존성을 느슨하게 연결하는 방향으로
+                  구조를 계속 개선했습니다.
+                </div>
+                <div className="project-text">
+                  · 단순 CRUD 포트폴리오가 아니라, PRD로 요구사항 기준선을
+                  고정하고 ADR로 설계 결정을 남기며, Idea/POC와 회고까지
+                  연결하는 방식으로 프로젝트를 발전시키고 있습니다.
                 </div>
               </div>
             </div>
@@ -182,6 +189,14 @@ const Project3 = () => {
                     <span className="addr">
                       {" "}
                       - Java, Spring Boot, JPA, Flyway, Embedded Tomcat
+                    </span>
+                  </div>
+                  <div>
+                    <span className="addr-line">Architecture</span>
+                    <span className="addr">
+                      {" "}
+                      - Multi-module, Layered Architecture, Hexagonal
+                      Architecture
                     </span>
                   </div>
                   <div>
@@ -231,6 +246,40 @@ const Project3 = () => {
             </div>
           </div>
           <div className="section">
+            <div className="section__title">🏛️ 아키텍처 / 설계 포인트</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  · <span className="addr-line">멀티모듈 / 레이어 분리</span> -
+                  도메인, 애플리케이션, 인프라 관심사를 나누고 모듈 경계를
+                  기준으로 의존 방향을 관리해, 기능 확장 시 영향 범위를
+                  줄이는 구조를 지향했습니다.
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">헥사고날 아키텍처 전환</span> -
+                  기존 구조를 한 번에 갈아엎지 않고 port/adapter를 점진적으로
+                  도입해, 기능 개발과 구조 개선을 동시에 진행했습니다.
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">정책 중심 설계</span> -
+                  주문, 예약, 패스, 관리자 규칙을 PRD와 API 계약 문서로 먼저
+                  고정해 구현 중 기준이 흔들리지 않도록 관리했습니다.
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">운영 관점 강화</span> -
+                  requestId, metrics, dashboard, Sentry를 순차적으로 붙여
+                  기능이 커진 뒤에도 운영 가시성을 잃지 않도록 보강했습니다.
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">확장성 검토</span> - Redis
+                  기반 세션/요청 제한, 다중 인스턴스 대응, Circuit Breaker와
+                  TimeLimiter 같은 운영 안정성 주제를 POC와 문서로 검토하고
+                  실제 구조에 반영했습니다.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="section">
             <div className="section__title">🤝 운영 / 협업</div>
             <div className="section__list">
               <div className="section__list-item">
@@ -242,6 +291,11 @@ const Project3 = () => {
                   · <span className="addr-line">문서화</span> - README,
                   PRD, ADR, 회고 문서를 중심으로 설계 의도와 운영 기준을
                   지속적으로 정리
+                </div>
+                <div className="project-text">
+                  · <span className="addr-line">기준 관리</span> - 기능 추가,
+                  구조 개선, 운영 보강이 따로 놀지 않도록 문서와 구현을 함께
+                  갱신하는 흐름을 유지
                 </div>
                 <div className="project-text">
                   · <span className="addr-line">AI 작업 흐름</span> - Claude

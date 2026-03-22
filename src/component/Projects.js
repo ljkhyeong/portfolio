@@ -10,7 +10,7 @@ const projectSections = [
       {
         name: "project3",
         title: "happyGallery",
-        text: "온라인 쇼핑몰과 체험 예약을 통합한 공방 서비스",
+        text: "쇼핑몰, 예약, 패스, 관리자 운영을 통합하고 멀티모듈과 설계 기준까지 다듬은 공방 플랫폼",
         image: "happygallery-project.png",
       },
     ],

@@ -18,7 +18,7 @@ const cardData = [
   {
     name: "project3",
     title: "happyGallery",
-    text: "온라인 쇼핑몰과 체험 예약을 통합한 공방 서비스",
+    text: "주문, 예약, 패스, 관리자 운영과 아키텍처 기준을 함께 설계한 공방 플랫폼",
     image: "happygallery-project.png",
     period: "2026.02.21 ~",
   },
@@ -185,9 +185,10 @@ const About = ({ onShowProjects }) => {
             <div className="section__list-item">
               <div className="name">happyGallery (Personal)</div>
               <div className="text">
-                오프라인 공방을 위한 온라인 쇼핑몰 + 체험 예약 시스템입니다.
-                상품 주문, 클래스 예약, 8회권 패스, 관리자 운영 흐름을 하나의
-                플랫폼으로 통합했고, 문서화와 운영 기준까지 함께 설계하며
+                오프라인 공방을 위한 온라인 쇼핑몰 + 체험 예약 플랫폼입니다.
+                상품 주문, 클래스 예약, 8회권 패스, 관리자 운영을 하나의
+                서비스로 통합했고, 멀티모듈과 레이어 분리, 헥사고날 아키텍처
+                전환, 운영 관측성, PRD/ADR 기반 문서화를 함께 진행하며
                 지속적으로 고도화하고 있습니다.
               </div>
             </div>
