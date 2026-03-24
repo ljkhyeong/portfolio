@@ -178,7 +178,7 @@ const Project2 = () => {
                     <span className="addr-line">Backend</span>
                     <span className="addr">
                       {" "}
-                      - Java, Spring Boot, Node.js, Hibernate
+                      - Java, Spring Boot, Node.js, JPA
                     </span>
                   </div>
                   <div>

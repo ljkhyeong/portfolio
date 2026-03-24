@@ -56,15 +56,19 @@ const Projects = () => {
             <div className="projects-grid">
               {section.projects.map((card) => (
                 <div
-                  className="gallery"
+                  className="projects-card"
                   key={card.name}
                   data-name={card.name}
                   onClick={() => navigate(`./${card.name}`)}
                 >
-                  <img src={assetPath(card.image)} alt={card.title} />
-                  <div className="gallery-body">
-                    <h5 className="projects-title">{card.title}</h5>
-                    <div className="projects-text">{card.text}</div>
+                  <img
+                    className="projects-card__image"
+                    src={assetPath(card.image)}
+                    alt={card.title}
+                  />
+                  <div className="projects-card__body">
+                    <h5 className="projects-card__title">{card.title}</h5>
+                    <div className="projects-card__text">{card.text}</div>
                   </div>
                 </div>
               ))}

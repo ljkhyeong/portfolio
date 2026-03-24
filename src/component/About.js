@@ -1,4 +1,7 @@
 import { assetPath } from "../utils/assetPath";
+import "../css/Books.css";
+import "../css/Projects.css";
+import { books } from "../data/books";
 
 const cardData = [
   {
@@ -24,7 +27,7 @@ const cardData = [
   },
 ];
 
-const About = ({ onShowProjects }) => {
+const About = ({ onShowProjects, onShowBooks }) => {
   return (
     <>
       <div className="details">
@@ -139,23 +142,27 @@ const About = ({ onShowProjects }) => {
             <div className="projects-main">
               {cardData.map((card, index) => (
                 <div
-                  className="gallery"
+                  className="projects-card"
                   key={index}
                   data-name={card.name}
                   onClick={onShowProjects}
                 >
-                  <img src={assetPath(card.image)} alt={card.title} />
-                  <div className="gallery-body">
-                    <h5 className="projects-title">{card.title}</h5>
-                    <div className="projects-text">{card.text}</div>
-                    <div className="projects-period">{card.period}</div>
+                  <img
+                    className="projects-card__image"
+                    src={assetPath(card.image)}
+                    alt={card.title}
+                  />
+                  <div className="projects-card__body">
+                    <h5 className="projects-card__title">{card.title}</h5>
+                    <div className="projects-card__text">{card.text}</div>
+                    <div className="projects-card__period">{card.period}</div>
                   </div>
                 </div>
               ))}
             </div>
             <div
               style={{
-                marginTop: "-30px",
+                marginTop: "4px",
                 marginBottom: "20px",
                 display: "flex",
                 justifyContent: "center",
@@ -163,35 +170,31 @@ const About = ({ onShowProjects }) => {
             >
               ↑ 클릭하시면 PROJECTS 탭으로 이동합니다 ↑
             </div>
-
-            <div className="section__list-item">
-              <div className="name">WebRTC/HLS 현장강의 보조 서비스 (Team)</div>
-              <div className="text">
-                Frontend, Spring, SFU, HLS, Chatting 서버를 역할별로 분리한
-                실시간 강의 서비스입니다. 저는 HLS 서버와 React frontend를 맡아
-                저지연 시청과 되감기 흐름이 실제 사용자 경험으로 이어지도록
-                구현했습니다.
-              </div>
-            </div>
-            <div className="section__list-item">
-              <div className="name">차세대 군사법 정보 시스템 (Professional)</div>
-              <div className="text">
-                국방부 주관 차세대 군사법 정보 시스템에서 군교정 부문을 맡아,
-                레거시·폐쇄망 환경에서 업무 기능, 연계 배치, 보안 기능을
-                개발했습니다. 운영 제약이 큰 환경에서 안정적인 시스템 변경과
-                대응 방식을 익힌 프로젝트입니다.
-              </div>
-            </div>
-            <div className="section__list-item">
-              <div className="name">happyGallery (Personal)</div>
-              <div className="text">
-                오프라인 공방을 위한 온라인 쇼핑몰 + 체험 예약 플랫폼입니다.
-                상품 주문, 클래스 예약, 8회권 패스, 관리자 운영을 하나의
-                서비스로 통합했고, 멀티모듈과 레이어 분리, 헥사고날 아키텍처
-                전환, 운영 관측성, PRD/ADR 기반 문서화를 함께 진행하며
-                지속적으로 고도화하고 있습니다.
-              </div>
-            </div>
+          </div>
+        </div>
+        <div className="section">
+          <div className="section__title">Books</div>
+          <div className="books-grid">
+            {books.map((book) => (
+              <article
+                className="book-card book-card--link"
+                key={book.key}
+                onClick={onShowBooks}
+              >
+                <img
+                  className="book-card__image"
+                  src={assetPath(book.image)}
+                  alt={book.title}
+                />
+                <div className="book-card__body">
+                  <div className="book-card__title">{book.title}</div>
+                  <div className="book-card__description">{book.description}</div>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="about-books-hint">
+            ↑ 클릭하시면 BOOKS 탭으로 이동합니다 ↑
           </div>
         </div>
       </div>
