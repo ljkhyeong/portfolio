@@ -50,7 +50,7 @@ const Main = () => {
           className={`tab ${activeTab === "Books" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("Books")}
         >
-          BOOKS
+          BOOKS & STUDY
         </button>
       </div>
       {renderTab()}

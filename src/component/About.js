@@ -173,7 +173,15 @@ const About = ({ onShowProjects, onShowBooks }) => {
           </div>
         </div>
         <div className="section">
-          <div className="section__title">Books</div>
+          <div className="section__title">Books & Study</div>
+          <div className="section__list">
+            <div className="section__list-item">
+              <div className="text">
+                개발서적 독서를 꾸준히 하고 있고, 개인공부와 그룹스터디를
+                병행하면서 필요한 내용은 다시 정리해 학습하고 있습니다.
+              </div>
+            </div>
+          </div>
           <div className="books-grid">
             {books.map((book) => (
               <article
@@ -189,6 +197,17 @@ const About = ({ onShowProjects, onShowBooks }) => {
                 <div className="book-card__body">
                   <div className="book-card__title">{book.title}</div>
                   <div className="book-card__description">{book.description}</div>
+                  {book.studyLink ? (
+                    <a
+                      className="book-card__link"
+                      href={book.studyLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      GROUP STUDY
+                    </a>
+                  ) : null}
                 </div>
               </article>
             ))}

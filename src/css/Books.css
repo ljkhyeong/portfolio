@@ -51,6 +51,26 @@
   line-height: 1.6;
 }
 
+.book-card__link {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2f5f90 0%, #4f8cc8 100%);
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  box-shadow: 0 6px 14px rgba(47, 95, 144, 0.24);
+}
+
+.book-card__link:hover {
+  background: linear-gradient(135deg, #244a70 0%, #4078b0 100%);
+  color: #fff !important;
+  box-shadow: 0 8px 18px rgba(47, 95, 144, 0.32);
+  text-decoration: none;
+}
+
 .about-books-hint {
   margin-top: 16px;
   text-align: center;

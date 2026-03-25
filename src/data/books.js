@@ -27,6 +27,8 @@ export const bookSections = [
         image: "books/http-guide.jpg",
         description:
           "HTTP 메시지, 헤더, 캐시, 프록시, 인증 같은 웹 통신 기본기를 깊게 정리할 때 본 책입니다.",
+        studyLink:
+          "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
       },
     ],
   },
@@ -53,6 +55,7 @@ export const bookSections = [
         image: "books/effectivejava.jpeg",
         description:
           "객체 생성, equals/hashCode, 제네릭, 불변성, API 설계 같은 자바다운 코드를 고민할 때 자주 참고한 책입니다.",
+        studyLink: "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64",
       },
     ],
   },
