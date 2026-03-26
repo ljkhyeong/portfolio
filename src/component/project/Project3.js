@@ -194,9 +194,7 @@ const Project3 = () => {
                   <div>
                     <span className="addr-line">Architecture</span>
                     <span className="addr">
-                      {" "}
-                      - Multi-module, Layered Architecture, Hexagonal
-                      Architecture
+                      {" "}- Multi-module, Hexagonal Architecture
                     </span>
                   </div>
                   <div>
