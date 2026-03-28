@@ -36,12 +36,19 @@ const About = ({ onShowProjects, onShowBooks }) => {
           <div className="section__list">
             <div className="section__list-item">
               <div className="text">
-                비즈니스 요구사항을 기능 구현에서 끝내지 않고, 운영 안정성과
-                유지보수성까지 함께 설계하는 개발자입니다.
+                ■ 비즈니스 요구사항을 기능 구현에서 끝내지 않고, 운영
+                안정성과 유지보수성까지 함께 설계하는 개발자입니다.
               </div>
               <div className="text">
-                요구사항을 빠르게 구현하는 것보다, 예외 상황과 이후 운영까지
-                고려한 구조를 만들고 문서로 남기는 방식을 선호합니다.
+                ■ 백엔드 구현을 기반으로 배포, 관측성, 세션/캐시, 요청 제한,
+                장애 완충까지 직접 다루며 DevOps에 가까운 방향으로 역량을
+                넓혀가고 있습니다.
+              </div>
+              <div className="text">
+                ■ 개인 프로젝트에서 PRD, ADR, Idea, POC, Retrospective를
+                지속적으로 남기며 시스템 경계, API 계약, 운영 기준, 배포
+                토폴로지, 로그 마스킹 같은 주제를 먼저 정리한 뒤 개발하는
+                방식을 훈련하고 있습니다.
               </div>
             </div>
           </div>
