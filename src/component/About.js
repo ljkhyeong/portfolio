@@ -45,10 +45,11 @@ const About = ({ onShowProjects, onShowBooks }) => {
                 넓혀가고 있습니다.
               </div>
               <div className="text">
-                ■ 개인 프로젝트에서 PRD, ADR, Idea, POC, Retrospective를
-                지속적으로 남기며 시스템 경계, API 계약, 운영 기준, 배포
-                토폴로지, 로그 마스킹 같은 주제를 먼저 정리한 뒤 개발하는
-                방식을 훈련하고 있습니다.
+                ■ 개인 프로젝트에서 PRD(요구사항 기준), ADR(아키텍처 결정),
+                Idea(검토 메모), POC(실험 기록), Retrospective(회고) 등의
+                문서를 지속적으로 남기며 시스템 경계, API 계약, 운영 기준,
+                배포 토폴로지, 로그 마스킹 같은 주제를 먼저 정리한 뒤
+                개발하는 방식을 훈련하고 있습니다.
               </div>
             </div>
           </div>
