@@ -3,6 +3,7 @@ import "../../css/Project.css";
 import YouTube from "react-youtube";
 import { useNavigate } from "react-router-dom";
 import { assetPath } from "../../utils/assetPath";
+import { renderTechText } from "../../utils/renderTechText";
 
 const cardData = [
   {
@@ -56,7 +57,7 @@ const starStories = [
       "강의 화면 변화가 거의 없을 때 FFmpeg muxing queue overflow가 발생하며 HLS 변환이 중단됐습니다.",
     task: "트랜스코딩 실패 원인을 미디어 서버가 아니라 프레임 생성과 타임스탬프 흐름까지 내려가서 파악해야 했습니다.",
     action:
-      "입력 프레임과 출력 프레임 비율을 다시 맞추고 `-r` 옵션과 타임스탬프 고정 처리로 큐에 데이터가 몰리지 않게 조정했습니다. 동시에 WebSocket 제어 채널과 실제 미디어 흐름을 분리해 어느 구간에서 병목이 나는지 로그를 나눠 확인했습니다.",
+      "입력 프레임과 출력 프레임 비율을 다시 맞추고 프레임 옵션과 타임스탬프 고정 처리로 큐에 데이터가 몰리지 않게 조정했습니다. 동시에 WebSocket 제어 채널과 실제 미디어 흐름을 분리해 어느 구간에서 병목이 나는지 로그를 나눠 확인했습니다.",
     result:
       "1시간 장기 송출 테스트에서 변환 중단 재현률을 50% 수준에서 0%로 낮췄고, 디버깅 시간을 줄이기 위해 서버 로그와 변환 로그를 분리한 운영 기준도 만들었습니다.",
   },
@@ -231,7 +232,8 @@ const Project2 = () => {
                   {techChoices.map((choice) => (
                     <div className="project-text" key={choice.title}>
                       · <span className="addr-line">{choice.title}</span> -{" "}
-                      {choice.summary} {choice.tradeoff}
+                      {renderTechText(choice.summary)}{" "}
+                      {renderTechText(choice.tradeoff)}
                     </div>
                   ))}
                 </div>
@@ -248,11 +250,17 @@ const Project2 = () => {
                       · <span className="addr-line">{story.title}</span>
                     </div>
                     <div className="project-text">
-                      Situation - {story.situation}
+                      Situation - {renderTechText(story.situation)}
                     </div>
-                    <div className="project-text">Task - {story.task}</div>
-                    <div className="project-text">Action - {story.action}</div>
-                    <div className="project-text">Result - {story.result}</div>
+                    <div className="project-text">
+                      Task - {renderTechText(story.task)}
+                    </div>
+                    <div className="project-text">
+                      Action - {renderTechText(story.action)}
+                    </div>
+                    <div className="project-text">
+                      Result - {renderTechText(story.result)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -263,18 +271,19 @@ const Project2 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · HLS 서버에서 WebSocket 기반 제어 채널을 구현해 transport
-                  생성, 녹화 시작과 중지, 파일명 전달 같은 세션 흐름을
-                  처리했습니다.
+                  · <code>HLS</code> 서버에서 <code>WebSocket</code> 기반 제어
+                  채널을 구현해 transport 생성, 녹화 시작과 중지, 파일명 전달
+                  같은 세션 흐름을 처리했습니다.
                 </div>
                 <div className="project-text">
-                  · mediasoup plain transport로 받은 RTP를 FFmpeg와 GStreamer
-                  파이프라인으로 연결해 HLS 세그먼트를 생성하고 저장 흐름을
-                  만들었습니다.
+                  · mediasoup plain transport로 받은 RTP를 <code>FFmpeg</code>
+                  와 <code>GStreamer</code> 파이프라인으로 연결해 HLS
+                  세그먼트를 생성하고 저장 흐름을 만들었습니다.
                 </div>
                 <div className="project-text">
-                  · React 프론트에서 플레이어, 게시판, 자료함, 관리자 화면을
-                  구현하고 WebRTC와 HLS 전환 경험을 맞췄습니다.
+                  · <code>React</code> 프론트에서 플레이어, 게시판, 자료함,
+                  관리자 화면을 구현하고 <code>WebRTC</code>와 <code>HLS</code>{" "}
+                  전환 경험을 맞췄습니다.
                 </div>
               </div>
             </div>
@@ -294,9 +303,9 @@ const Project2 = () => {
                   했습니다.
                 </div>
                 <div className="project-text">
-                  · 배포는 GitHub Actions와 Argo CD로 구성했지만 비용 문제로
-                  운영은 종료했고, 대신 발표 자료와 문서로 구조와 시행착오를
-                  남겼습니다.
+                  · 배포는 <code>GitHub Actions</code>와 <code>Argo CD</code>로
+                  구성했지만 비용 문제로 운영은 종료했고, 대신 발표 자료와
+                  문서로 구조와 시행착오를 남겼습니다.
                 </div>
               </div>
             </div>

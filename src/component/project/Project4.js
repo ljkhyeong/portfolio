@@ -1,6 +1,7 @@
 import "../../css/Project.css";
 import { useNavigate } from "react-router-dom";
 import { assetPath } from "../../utils/assetPath";
+import { renderTechText } from "../../utils/renderTechText";
 
 const processData = [
   {
@@ -73,10 +74,10 @@ const starStories = [
   {
     title: "연계 배치 재처리와 트랜잭션 경계 정합성 확보",
     situation:
-      "연계 배치를 재실행하거나 수동 재처리할 때 같은 사건이 중복 반영되며 상태가 꼬일 위험이 있었고, 재처리 경로에서는 `@Transactional` 메서드 내부 호출 때문에 트랜잭션 경계가 기대대로 적용되지 않는 문제도 있었습니다.",
+      "연계 배치를 재실행하거나 수동 재처리할 때 같은 사건이 중복 반영되며 상태가 꼬일 위험이 있었고, 재처리 경로에서는 트랜잭션 경계가 기대대로 적용되지 않는 문제도 있었습니다.",
     task: "기존 운영 환경을 유지하면서도 배치가 같은 사건을 두 번 잡지 않게 막고, 재처리 시에도 트랜잭션이 일관되게 적용되도록 정합성을 보장해야 했습니다.",
     action:
-      "외부 분산 락 대신 DB Named Lock을 도입해 사건 번호 단위 임계 구역을 만들었습니다. 배치가 처리 직전에 락을 먼저 잡고, 이미 다른 배치가 같은 사건을 처리 중이면 건너뛰거나 재시도하도록 설계해 중복 반영을 막았습니다. 또 재처리 로직은 별도 트랜잭션 경계로 분리해 내부 호출로 `@Transactional`이 무력화되지 않게 했고, 락 획득 실패와 재처리 이력은 배치 로그로 남겨 운영자가 바로 추적할 수 있게 했습니다.",
+      "외부 분산 락 대신 DB Named Lock을 도입해 사건 번호 단위 임계 구역을 만들었습니다. 배치가 처리 직전에 락을 먼저 잡고, 이미 다른 배치가 같은 사건을 처리 중이면 건너뛰거나 재시도하도록 설계해 중복 반영을 막았습니다. 또 재처리 로직은 @Transactional 내부 호출 문제를 피하도록 별도 트랜잭션 경계로 분리했고, 락 획득 실패와 재처리 이력은 배치 로그로 남겨 운영자가 바로 추적할 수 있게 했습니다.",
     result:
       "200건 재처리 테스트에서 중복 처리 건수를 7건에서 0건으로 줄였고, 야간 연계 배치에서도 동일 사건 이중 반영 이슈를 제거했습니다. 재처리 경로의 트랜잭션 경계도 안정화돼 운영 환경을 크게 흔들지 않으면서 배치 정합성을 지킬 수 있었습니다.",
   },
@@ -86,7 +87,7 @@ const starStories = [
       "폐쇄망 시스템이라도 첨부 위변조, CSRF, 세션 탈취 같은 기본 보안은 계속 요구됐고, 특히 공문 첨부는 확장자 위장 파일이 유입될 위험이 있었습니다.",
     task: "보안 기능을 체크리스트 수준이 아니라 업무 흐름을 막지 않는 방식으로 녹여야 했습니다.",
     action:
-      "Spring Security 기반 CSRF 토큰을 WebSquare 화면 흐름에 맞게 커스터마이징해 적용하고, Apache Tika로 MIME과 확장자를 함께 검사하는 업로드 검증 계층을 추가했습니다. 예외 사유를 사용자 메시지와 운영 로그로 각각 나눠 남겨 보안과 운영성을 동시에 챙겼습니다.",
+      "Spring Security를 WebSquare 화면 흐름에 맞게 커스터마이징해 적용하고, Apache Tika로 MIME과 확장자를 함께 검사하는 업로드 검증 계층을 추가했습니다. 예외 사유를 사용자 메시지와 운영 로그로 각각 나눠 남겨 보안과 운영성을 동시에 챙겼습니다.",
     result:
       "보안 점검에서 재현되던 첨부 우회 업로드 5건을 모두 차단했고, 반려 사유를 로그에서 바로 추적할 수 있어 운영 대응 시간을 평균 30분에서 10분으로 줄였습니다.",
   },
@@ -192,7 +193,7 @@ const Project4 = () => {
                     <span className="addr-line">Security</span>
                     <span className="addr">
                       {" "}
-                      - Spring Security CSRF, Apache Tika
+                      - Spring Security, Apache Tika
                     </span>
                   </div>
                   <div>
@@ -217,7 +218,8 @@ const Project4 = () => {
                   {techChoices.map((choice) => (
                     <div className="project-text" key={choice.title}>
                       · <span className="addr-line">{choice.title}</span> -{" "}
-                      {choice.summary} {choice.tradeoff}
+                      {renderTechText(choice.summary)}{" "}
+                      {renderTechText(choice.tradeoff)}
                     </div>
                   ))}
                 </div>
@@ -234,11 +236,17 @@ const Project4 = () => {
                       · <span className="addr-line">{story.title}</span>
                     </div>
                     <div className="project-text">
-                      Situation - {story.situation}
+                      Situation - {renderTechText(story.situation)}
                     </div>
-                    <div className="project-text">Task - {story.task}</div>
-                    <div className="project-text">Action - {story.action}</div>
-                    <div className="project-text">Result - {story.result}</div>
+                    <div className="project-text">
+                      Task - {renderTechText(story.task)}
+                    </div>
+                    <div className="project-text">
+                      Action - {renderTechText(story.action)}
+                    </div>
+                    <div className="project-text">
+                      Result - {renderTechText(story.result)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -257,9 +265,10 @@ const Project4 = () => {
                   서비스 계층으로 분리해 유지보수 포인트를 줄였습니다.
                 </div>
                 <div className="project-text">
-                  · WebSquare 기반 화면 흐름에 맞춰 Spring Security CSRF 토큰
-                  처리를 커스터마이징했고, Apache Tika 기반 파일 검증을 붙여
-                  공문 첨부와 입력 흐름의 보안 수준을 높였습니다.
+                  · <code>WebSquare</code> 기반 화면 흐름에 맞춰{" "}
+                  Spring Security CSRF 토큰 처리를 커스터마이징했고,{" "}
+                  <code>Apache Tika</code> 기반 파일 검증을
+                  붙여 공문 첨부와 입력 흐름의 보안 수준을 높였습니다.
                 </div>
                 <div className="project-text">
                   · 운영 단계에서는 SSH 로그, 배치 상태, DB 데이터 정합성을 직접
@@ -278,14 +287,15 @@ const Project4 = () => {
                   포인트는 함께 맞춰야 했습니다.
                 </div>
                 <div className="project-text">
-                  · 형상관리는 SVN, 아티팩트 관리는 Nexus를 사용했고, 개발
-                  서버와 개발 DB, 운영 서버와 운영 DB가 분리된 구조에서 작업과
-                  반영 절차를 구분해 운영했습니다.
+                  · 형상관리는 <code>SVN</code>, 아티팩트 관리는{" "}
+                  <code>Nexus</code>를 사용했고, 개발 서버와 개발 DB, 운영
+                  서버와 운영 DB가 분리된 구조에서 작업과 반영 절차를 구분해
+                  운영했습니다.
                 </div>
                 <div className="project-text">
-                  · 배치와 CI/CD는 모두 Jenkins 기반으로 운영됐고, 하루 2회 정기
-                  실행되는 흐름 안에서 연계 배치 상태와 배포 결과를 함께
-                  점검했습니다.
+                  · 배치와 CI/CD는 모두 <code>Jenkins</code> 기반으로 운영됐고,
+                  하루 2회 정기 실행되는 흐름 안에서 연계 배치 상태와 배포
+                  결과를 함께 점검했습니다.
                 </div>
                 <div className="project-text">
                   · 그래서 기능 구현뿐 아니라 배치 로그, 서버 상태, DB 정합성,
@@ -310,7 +320,9 @@ const Project4 = () => {
                 <div className="process-card" key={card.title}>
                   <div className="process-card__title">{card.title}</div>
                   <div className="process-card__meta">{card.meta}</div>
-                  <div className="process-card__text">{card.summary}</div>
+                  <div className="process-card__text">
+                    {renderTechText(card.summary)}
+                  </div>
                   <div className="process-card__docs">
                     {card.docs.map((doc) => (
                       <div className="process-card__doc" key={doc.name}>
@@ -319,7 +331,7 @@ const Project4 = () => {
                         </span>
                         <span className="process-card__doc-summary">
                           {" "}
-                          : {doc.summary}
+                          : {renderTechText(doc.summary)}
                         </span>
                       </div>
                     ))}

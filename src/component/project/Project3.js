@@ -1,6 +1,7 @@
 import "../../css/Project.css";
 import { useNavigate } from "react-router-dom";
 import { assetPath } from "../../utils/assetPath";
+import { renderTechText } from "../../utils/renderTechText";
 
 const documentHighlights = [
   {
@@ -110,7 +111,7 @@ const starStories = [
     action:
       "전면 재작성 대신 결제, 알림, 세션, 예약, 주문 경계를 인터페이스 기준으로 다시 나누고 port와 adapter를 점진 도입했습니다.",
     result:
-      "기능 개발을 이어가면서도 변경 영향 범위를 줄였고, 설계 결정은 ADR 30건과 Idea 38건으로 추적 가능하게 남겼습니다. Playwright 9개 핵심 시나리오로 회귀도 함께 막았습니다.",
+      "기능 개발을 이어가면서도 변경 영향 범위를 줄였고, 설계 결정은 ADR 30건과 Idea 38건으로 추적 가능하게 남겼습니다. Playwright P8-1, P8-9를 포함한 9개 핵심 시나리오와 @UseCaseIT 검증으로 회귀도 함께 막았습니다.",
   },
   {
     title: "운영 흐름을 깨지 않은 토큰 보안 강화",
@@ -118,7 +119,7 @@ const starStories = [
       "비회원 주문과 예약 토큰이 URL 파라미터와 DB 평문에 남아 로그, 브라우저 히스토리, DB 유출 시 노출 위험이 컸습니다.",
     task: "기존 조회 흐름은 유지하면서 토큰 노출면을 줄여야 했습니다.",
     action:
-      "전달은 `X-Access-Token` 헤더로 바꾸고 DB에는 SHA-256 해시만 저장했습니다. 이후 HMAC 서명과 만료 시각을 넣고, 레거시 토큰도 함께 검증하게 했습니다.",
+      "전달은 X-Access-Token 헤더로 바꾸고 DB에는 SHA-256 해시만 저장했습니다. 이후 HMAC 서명과 만료 시각을 넣고, 레거시 토큰도 함께 검증하게 했습니다.",
     result:
       "사용자 흐름을 깨지 않고 URL 노출을 없앴고, DB에는 원본 토큰이 남지 않게 했습니다. 예약과 주문 토큰 포맷도 하나로 통일해 운영 복잡도를 줄였습니다.",
   },
@@ -128,7 +129,7 @@ const starStories = [
       "예약은 정원 경쟁이 있고, 취소는 외부 PG 환불 지연까지 얽혀 하나의 장애가 전체 흐름으로 번질 수 있었습니다.",
     task: "예약 정합성과 외부 호출 장애를 같은 방식으로 처리하지 않고 분리해 안정화해야 했습니다.",
     action:
-      "슬롯 정원은 `SELECT FOR UPDATE`로 직렬화하고, 환불은 `CircuitBreaker + TimeLimiter`와 실패 표준화로 보호했습니다.",
+      "슬롯 정원은 SELECT FOR UPDATE로 직렬화하고, 환불은 CircuitBreaker + TimeLimiter와 실패 표준화로 안정화했습니다.",
     result:
       "정원 초과와 환불 지연을 분리해 다루게 되면서 내부 트랜잭션이 외부 호출 대기로 묶이지 않게 했습니다. 환불 호출은 3초 timeout, 실패율 50%, 20건 sliding window, 30초 open 정책으로 자원 점유를 제한했습니다.",
   },
@@ -152,7 +153,7 @@ const techChoices = [
   {
     title: "Spring Session + Redis",
     summary:
-      "회원 세션 `HG_SESSION`, 관리자 세션, 요청 제한 카운터를 단일 서버 메모리 대신 Redis에 둬 다중 인스턴스 확장성을 확보했습니다.",
+      "회원 세션 HG_SESSION, 관리자 세션, 요청 제한 카운터를 단일 서버 메모리 대신 Redis에 둬 다중 인스턴스 확장성을 확보했습니다.",
     tradeoff:
       "인프라 복잡도는 늘지만 세션 일관성과 rate limit 정합성을 서버 수와 무관하게 유지할 수 있습니다.",
   },
@@ -275,7 +276,8 @@ const Project3 = () => {
                   {techChoices.map((choice) => (
                     <div className="project-text" key={choice.title}>
                       · <span className="addr-line">{choice.title}</span> -{" "}
-                      {choice.summary} {choice.tradeoff}
+                      {renderTechText(choice.summary)}{" "}
+                      {renderTechText(choice.tradeoff)}
                     </div>
                   ))}
                 </div>
@@ -292,11 +294,17 @@ const Project3 = () => {
                       · <span className="addr-line">{story.title}</span>
                     </div>
                     <div className="project-text">
-                      Situation - {story.situation}
+                      Situation - {renderTechText(story.situation)}
                     </div>
-                    <div className="project-text">Task - {story.task}</div>
-                    <div className="project-text">Action - {story.action}</div>
-                    <div className="project-text">Result - {story.result}</div>
+                    <div className="project-text">
+                      Task - {renderTechText(story.task)}
+                    </div>
+                    <div className="project-text">
+                      Action - {renderTechText(story.action)}
+                    </div>
+                    <div className="project-text">
+                      Result - {renderTechText(story.result)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -332,20 +340,23 @@ const Project3 = () => {
               <div className="section__list-item">
                 <div className="project-text">
                   · <span className="addr-line">세션과 요청 제한 운영</span> -
-                  회원 세션 `HG_SESSION`, 관리자 Bearer 세션, rate limit
-                  카운터를 모두 Redis로 옮겨 인스턴스 수와 무관한 운영 기준을
-                  맞췄습니다.
+                  회원 세션 HG_SESSION, 관리자 Bearer 세션, rate limit
+                  카운터를 모두{" "}
+                  <code>Redis</code>로 옮겨 인스턴스 수와
+                  무관한 운영 기준을 맞췄습니다.
                 </div>
                 <div className="project-text">
                   · <span className="addr-line">관측성과 로그 운영</span> -
-                  Actuator, Prometheus, Grafana, Sentry를 붙여 서버 상태와 퍼널
-                  지표를 함께 보고, 전화번호와 토큰은 로그 전에 마스킹했습니다.
+                  <code>Actuator</code>, <code>Prometheus</code>,{" "}
+                  <code>Grafana</code>, <code>Sentry</code>를 붙여 서버 상태와
+                  퍼널 지표를 함께 보고, 전화번호와 토큰은 로그 전에
+                  마스킹했습니다.
                 </div>
                 <div className="project-text">
                   · <span className="addr-line">배치와 검증</span> - 8회권 만료,
-                  픽업 만료 같은 커스텀 배치를 유지하면서, `@UseCaseIT`와
-                  Playwright `P8-1`부터 `P8-9`까지 9개 핵심 시나리오로 회귀를
-                  확인했습니다.
+                  픽업 만료 같은 커스텀 배치를 유지하면서,{" "}
+                  <code>Playwright</code> P8-1, P8-9를 포함한 핵심 시나리오
+                  9개와 @UseCaseIT 검증으로 회귀를 확인했습니다.
                 </div>
                 <div className="project-text">
                   · <span className="addr-line">문서 기준선</span> - README,
@@ -377,7 +388,9 @@ const Project3 = () => {
                 >
                   <div className="process-card__title">{item.title}</div>
                   <div className="process-card__meta">{item.meta}</div>
-                  <div className="process-card__text">{item.summary}</div>
+                  <div className="process-card__text">
+                    {renderTechText(item.summary)}
+                  </div>
                   <div className="process-card__docs">
                     {item.docs.map((doc) => (
                       <div className="process-card__doc" key={doc.name}>
@@ -386,7 +399,7 @@ const Project3 = () => {
                         </span>
                         <span className="process-card__doc-summary">
                           {" "}
-                          : {doc.summary}
+                          : {renderTechText(doc.summary)}
                         </span>
                       </div>
                     ))}
@@ -404,11 +417,12 @@ const Project3 = () => {
                   <span className="addr-line">
                     먼저 깔아두면 이후가 빨라진다
                   </span>
-                  - 프로필 분리, 기준 스펙, DB migration, CI, requestId,
-                  Testcontainers 같은 실행 기반을 먼저 세운 덕분에 이후 기능을
-                  붙일 때마다 매번 바닥부터 다시 정리하지 않아도 됐습니다. 이
-                  프로젝트를 통해 큰 기능보다 실행 기반을 먼저 만드는 편이
-                  오히려 전체 개발 속도를 높인다는 점을 분명히 알게 됐습니다.
+                  - 프로필 분리, 기준 스펙, DB migration, CI,{" "}
+                  <code>Testcontainers</code> 같은 실행 기반을 먼저 세운 덕분에
+                  이후 기능을 붙일 때마다 매번 바닥부터 다시 정리하지 않아도
+                  됐습니다. 이 프로젝트를 통해 큰 기능보다 실행 기반을 먼저
+                  만드는 편이 오히려 전체 개발 속도를 높인다는 점을 분명히 알게
+                  됐습니다.
                 </div>
                 <div className="project-text">
                   ·{" "}
@@ -426,12 +440,12 @@ const Project3 = () => {
                   <span className="addr-line">
                     운영 기준도 기능과 같이 설계해야 한다
                   </span>
-                  - requestId, metrics, dashboard, Sentry를 뒤늦게 붙여도 운영
+                  - <code>Sentry</code>를 포함한 관측성을 뒤늦게 붙여도 운영
                   시야를 회복할 수는 있었지만, 어떤 지표를 봐야 하는지와 운영
                   조회를 어디서 읽어야 하는지를 나중에 다시 정리하는 비용이
-                  컸습니다. 이 경험을 통해 관측성과 Query Service 경계는 기능
-                  완료 후 보강하는 항목이 아니라 처음부터 같이 설계해야 한다는
-                  점을 확실히 배웠습니다.
+                  컸습니다. 이 경험을 통해 관측성과 조회 경계는 기능 완료 후
+                  보강하는 항목이 아니라 처음부터 같이 설계해야 한다는 점을
+                  확실히 배웠습니다.
                 </div>
               </div>
             </div>

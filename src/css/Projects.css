@@ -58,7 +58,9 @@
   background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   box-shadow: 0 6px 18px rgba(20, 32, 46, 0.08);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease,
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
     border-color 0.2s ease;
 }
 
