@@ -45,6 +45,13 @@
     width: 100%;
 }
 
+.rep-image--narrow {
+    display: block;
+    width: min(100%, 440px);
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
 .process-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

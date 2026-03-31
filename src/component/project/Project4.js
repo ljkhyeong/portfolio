@@ -1,70 +1,119 @@
 import "../../css/Project.css";
 import { useNavigate } from "react-router-dom";
+import { assetPath } from "../../utils/assetPath";
 
 const processData = [
   {
-    title: "분석 / 설계",
-    meta: "Waterfall 1",
+    title: "업무 분석",
+    meta: "기관 연계",
     summary:
-      "요구사항과 기관별 업무 흐름을 먼저 정리하고, 화면/데이터/연계 기준을 확정한 뒤 개발 범위를 나눴습니다.",
+      "군사경찰, 군검찰, 군교정, 군사법원 사이에서 어떤 사건 상태와 결재 문서가 이동하는지 먼저 모델링했습니다.",
     docs: [
       {
-        name: "요구사항 정의서",
-        summary: "군교정 업무와 기관 간 연계 항목을 화면 단위로 정리",
+        name: "업무 흐름도",
+        summary: "기관별 입력 주체와 승인 주체를 사건 단계별로 정리",
       },
       {
-        name: "화면설계서",
-        summary: "입력/조회 흐름과 기관별 화면 구성을 사전에 고정",
+        name: "권한 매트릭스",
+        summary: "화면 버튼, 상태 전이, 첨부 열람 권한을 역할 기준으로 분리",
       },
     ],
   },
   {
-    title: "개발",
-    meta: "Waterfall 2",
+    title: "도메인 분리",
+    meta: "정책 계층",
     summary:
-      "확정된 설계서를 기준으로 CRUD 기능, 기관 간 연계 처리, 배치와 보안 기능을 순차적으로 구현했습니다.",
+      "복잡한 결재 라인과 보안 규칙을 화면 이벤트에 직접 넣지 않고 상태 전이, 권한, 연계 검증 정책으로 분리했습니다.",
     docs: [
       {
-        name: "프로그램 명세",
-        summary: "기능별 처리 흐름과 입력/출력 기준을 구현 단위로 관리",
+        name: "ApprovalLinePolicy",
+        summary: "결재 단계별 진입 가능 조건과 다음 상태 계산 담당",
       },
       {
-        name: "SQL / 배치 명세",
-        summary: "데이터 중심 구조에 맞춰 조회와 연계 로직을 구체화",
+        name: "DocumentSecurityPolicy",
+        summary: "망분리 환경에서 파일 확장자, MIME, 반출 제한 규칙 담당",
       },
     ],
   },
   {
-    title: "테스트 / 반영",
-    meta: "Waterfall 3",
+    title: "통합 검증",
+    meta: "운영 반영",
     summary:
-      "개발 후에는 단위 확인보다 통합 시나리오와 데이터 정합성 점검이 중요해서, 기관 간 흐름과 배치 결과를 중심으로 검증했습니다.",
+      "배치, 연계, 첨부, 권한, 결재 시나리오를 기관 조합별로 검증해 운영 반영 시 재현 가능한 절차를 만들었습니다.",
     docs: [
       {
-        name: "통합 테스트 시나리오",
-        summary: "문서 송수신, 상태 연계, 배치 결과를 중심으로 검증",
+        name: "통합 시나리오",
+        summary: "4개 기관, 12개 상태 전이, 3개 배치 경로를 조합해 점검",
       },
       {
-        name: "결함 조치 내역",
-        summary: "운영 반영 전 수정 이력과 영향 범위를 추적",
+        name: "장애 조치 내역",
+        summary: "DB 락 경합, 배치 중복 처리, 파일 검증 실패 원인을 추적",
       },
     ],
   },
   {
-    title: "운영 인수 / 유지보수",
-    meta: "Waterfall 4",
+    title: "운영 안정화",
+    meta: "폐쇄망 대응",
     summary:
-      "반영 이후에는 산출물과 이행 내역을 정리하고, 로그·DB·배치 상태를 확인하며 운영 이슈에 대응했습니다.",
+      "망분리 환경에서 외부 인프라 없이도 정합성과 보안을 보장하기 위해 DB, WAS, 배치 로그를 직접 다루며 운영 기준을 정리했습니다.",
     docs: [
       {
-        name: "산출물 패키지",
-        summary: "HWP, Excel 중심 문서를 기준으로 변경 사항을 정리",
+        name: "배치 운영서",
+        summary: "야간 배치, 수동 재처리, 장애 복구 절차를 표준화",
       },
       {
-        name: "운영 점검 내역",
-        summary: "배치, 데이터, 장애 대응 결과를 폐쇄망 환경에서 관리",
+        name: "보안 점검표",
+        summary: "CSRF, 파일 위변조, 세션, 로그 마스킹 점검 기준을 관리",
       },
     ],
+  },
+];
+
+const starStories = [
+  {
+    title: "연계 배치 재처리 중복 반영 방지",
+    situation:
+      "연계 배치를 재실행하거나 수동 재처리할 때 같은 사건이 중복 반영되며 상태가 꼬일 위험이 있었습니다.",
+    task:
+      "기존 운영 환경을 유지하면서도 배치가 같은 사건을 두 번 잡지 않게 막고, 재처리 시에도 정합성을 보장해야 했습니다.",
+    action:
+      "외부 분산 락 대신 DB Named Lock을 도입해 사건 번호 단위 임계 구역을 만들었습니다. 배치가 처리 직전에 락을 먼저 잡고, 이미 다른 배치가 같은 사건을 처리 중이면 건너뛰거나 재시도하도록 설계해 중복 반영을 막았습니다. 락 획득 실패와 재처리 이력은 배치 로그로 남겨 운영자가 바로 추적할 수 있게 했습니다.",
+    result:
+      "200건 재처리 테스트에서 중복 처리 건수를 7건에서 0건으로 줄였고, 야간 연계 배치에서도 동일 사건 이중 반영 이슈를 제거했습니다. 기존 운영 환경을 크게 흔들지 않으면서 배치 정합성을 지킬 수 있는 방식을 만든 셈입니다.",
+  },
+  {
+    title: "보안 요구사항을 운영 가능한 코드로 정리",
+    situation:
+      "폐쇄망 시스템이라도 첨부 위변조, CSRF, 세션 탈취 같은 기본 보안은 계속 요구됐고, 특히 공문 첨부는 확장자 위장 파일이 유입될 위험이 있었습니다.",
+    task: "보안 기능을 체크리스트 수준이 아니라 업무 흐름을 막지 않는 방식으로 녹여야 했습니다.",
+    action:
+      "Spring Security 기반 CSRF 토큰을 화면 흐름에 맞게 적용하고, Apache Tika로 MIME과 확장자를 함께 검사하는 업로드 검증 계층을 추가했습니다. 예외 사유를 사용자 메시지와 운영 로그로 각각 나눠 남겨 보안과 운영성을 동시에 챙겼습니다.",
+    result:
+      "보안 점검에서 재현되던 첨부 우회 업로드 5건을 모두 차단했고, 반려 사유를 로그에서 바로 추적할 수 있어 운영 대응 시간을 평균 30분에서 10분으로 줄였습니다.",
+  },
+];
+
+const techChoices = [
+  {
+    title: "MyBatis 선택",
+    summary:
+      "Tibero 기반의 대형 조회와 기관별 맞춤 SQL가 많아 JPA보다 MyBatis가 초기 적합성이 높았습니다.",
+    tradeoff:
+      "대신 도메인 규칙까지 mapper XML로 흘러들기 쉬워, 복잡한 결재 규칙은 서비스와 정책 객체로 끌어올려 SQL과 비즈니스 로직을 분리했습니다.",
+  },
+  {
+    title: "eGov + XML 설정 유지",
+    summary:
+      "고객사 표준과 운영 안정성 때문에 최신 스택으로 교체하기보다 기존 eGov와 XML 설정을 유지하는 선택이 필요했습니다.",
+    tradeoff:
+      "보일러플레이트와 수동 설정 비용이 크지만, 그 제약 안에서 TransactionTemplate, 공통 인터셉터, 정책 객체를 도입해 유지보수성을 보완했습니다.",
+  },
+  {
+    title: "DB Named Lock",
+    summary:
+      "연계 배치가 같은 사건을 동시에 처리하지 않게 사건 번호 기준으로 DB Named Lock을 걸었습니다.",
+    tradeoff:
+      "락 경합과 DB 의존성은 생기지만, 배치 중복 실행과 재처리 꼬임을 막는 데는 가장 단순하고 운영하기 쉬운 방법이었습니다.",
   },
 ];
 
@@ -94,22 +143,34 @@ const Project4 = () => {
         </div>
         <div className="details">
           <div className="section">
+            <img
+              className="rep-image rep-image--narrow"
+              src={assetPath("mnd.webp")}
+              alt="차세대 군사법 정보 시스템 대표 이미지"
+            />
+          </div>
+          <div className="section">
             <div className="section__title">📖 내용</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 국방부 주관 차세대 군사법 정보 시스템에서 군사경찰,
-                  군검찰, 군교정, 군사법원 연계 업무시스템 중 군교정 부문을
-                  맡았습니다.
+                  · 국방부 차세대 군사법 정보 시스템에서 군사경찰, 군검찰,
+                  군교정, 군사법원을 연결하는 군교정 부문을 담당했습니다.
                 </div>
                 <div className="project-text">
-                  · 폐쇄망과 레거시 중심 환경에서 빠른 기능 추가와 안정적인
-                  운영이 우선되는 공공 업무 시스템이었습니다.
+                  · 이 프로젝트의 핵심은 화면 수가 아니라, 기관별 결재 라인과
+                  보안 규칙이 복잡하게 얽힌 업무를 어떻게 유지보수 가능한 코드로
+                  바꾸느냐였습니다.
                 </div>
                 <div className="project-text">
-                  · 2024.06.23부터 2026.01.30까지 참여하며 CRUD 위주 업무
-                  기능이 많은 폐쇄망 공공 시스템에서 기관 간 연계와 운영을
-                  경험했습니다.
+                  · 망분리와 레거시 제약 때문에 최신 인프라를 쉽게 도입할 수
+                  없었고, 주어진 eGov, JEUS, Tibero 환경 안에서 문제를 풀어야
+                  했습니다.
+                </div>
+                <div className="project-text">
+                  · 저는 연계 배치, 결재 도메인 규칙, 보안 기능, 운영 장애
+                  대응까지 맡으면서 공공 시스템에서 기술 부채와 운영 제약을 함께
+                  다루는 경험을 쌓았습니다.
                 </div>
               </div>
             </div>
@@ -136,10 +197,10 @@ const Project4 = () => {
                     <span className="addr"> - Tibero</span>
                   </div>
                   <div>
-                    <span className="addr-line">Observability</span>
+                    <span className="addr-line">Security</span>
                     <span className="addr">
                       {" "}
-                      - SSH 로그 확인, DB 직접 조회, 배치 실행 로그 중심 운영
+                      - Spring Security CSRF, Apache Tika
                     </span>
                   </div>
                   <div>
@@ -150,32 +211,44 @@ const Project4 = () => {
                     </span>
                   </div>
                   <div>
-                    <span className="addr-line">Quality</span>
-                    <span className="addr"> - Maven</span>
+                    <span className="addr-line">Operations</span>
+                    <span className="addr">
+                      {" "}
+                      - SSH 로그 확인, DB 직접 조회, 배치 로그 점검
+                    </span>
                   </div>
                 </div>
                 <div className="right">
-                  <div className="section__title">🖥️ 구현된 기능</div>
-                  <div className="project-text">
-                    · <span className="addr-line">문서 송수신</span> - 기관 간
-                    공문과 사건 관련 문서를 등록, 전달, 조회하는 업무 흐름 지원
+                  <div className="section__title">
+                    ⚖️ 선택 이유와 트레이드오프
                   </div>
-                  <div className="project-text">
-                    · <span className="addr-line">기관 간 연계 업무</span> -
-                    조사현황, 피의자 상태, 사건 진행 정보가 군사경찰, 군검찰,
-                    군교정, 군사법원 사이에서 이어지도록 처리
-                  </div>
-                  <div className="project-text">
-                    · <span className="addr-line">기관별 핵심 업무</span> -
-                    영장, 수용, 판결, 소환, 기록 관리 등 각 기관에 필요한 화면과
-                    처리 기능 제공
-                  </div>
-                  <div className="project-text">
-                    · <span className="addr-line">배치 연계</span> - 기관 간
-                    데이터를 주기적으로 동기화하는 연계 배치와 후속 처리 흐름
-                    제공
-                  </div>
+                  {techChoices.map((choice) => (
+                    <div className="project-text" key={choice.title}>
+                      · <span className="addr-line">{choice.title}</span> -{" "}
+                      {choice.summary} {choice.tradeoff}
+                    </div>
+                  ))}
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="section">
+            <div className="section__title">🎯 핵심 트러블슈팅 (STAR)</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                {starStories.map((story) => (
+                  <div key={story.title} style={{ marginBottom: "18px" }}>
+                    <div className="project-text">
+                      · <span className="addr-line">{story.title}</span>
+                    </div>
+                                        <div className="project-text">
+                                            Situation - {story.situation}
+                                        </div>
+                                        <div className="project-text">Task - {story.task}</div>
+                                        <div className="project-text">Action - {story.action}</div>
+                                        <div className="project-text">Result - {story.result}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -184,51 +257,20 @@ const Project4 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 데이터 중심 아키텍처와 레거시 코드 위에서 CRUD 위주 업무
-                  기능을 개발했습니다.
+                  · 군사경찰, 군검찰, 군사법원에서 군교정으로 들어오는 연계 배치
+                  3종을 구현하고 운영 반영했습니다.
                 </div>
                 <div className="project-text">
-                  · Jenkins를 이용해 군사경찰 → 군교정, 군사법원 → 군교정,
-                  군검찰 → 군교정 연계 배치를 구현했습니다.
+                  · 복잡한 결재 라인과 상태 전이를 mapper XML이 아닌 정책 객체와
+                  서비스 계층으로 분리해 유지보수 포인트를 줄였습니다.
                 </div>
                 <div className="project-text">
-                  · Spring Security 기반 CSRF 토큰 기능과 Apache Tika 기반
-                  파일 위변조 업로드 방지 기능을 구현했습니다.
+                  · Spring Security CSRF와 Apache Tika 기반 파일 검증을 붙여
+                  공문 첨부와 입력 흐름의 보안 수준을 높였습니다.
                 </div>
                 <div className="project-text">
-                  · HWP, Excel 중심의 공공 프로젝트 산출물과 변경 내역을
-                  관리했습니다.
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="section">
-            <div className="section__title">🤝 운영 / 협업</div>
-            <div className="section__list">
-              <div className="section__list-item">
-                <div className="project-text">
-                  · <span className="addr-line">폐쇄망 운영</span> - Nexus와
-                  Maven으로 라이브러리를 관리하고, Jenkins 파이프라인으로 배포를
-                  운영했습니다.
-                </div>
-                <div className="project-text">
-                  · <span className="addr-line">인프라 운영</span> - VM 기반
-                  WAS/DB 이중화 환경에서 로그, 배치, 데이터 상태를 직접
-                  점검했습니다.
-                </div>
-                <div className="project-text">
-                  · <span className="addr-line">산출물 관리</span> - HWP,
-                  Excel 중심의 공공 프로젝트 산출물을 관리했습니다.
-                </div>
-                <div className="project-text">
-                  · <span className="addr-line">운영 지원</span> - SSH 로그
-                  확인, DB 직접 쿼리 점검, 장애 상황 데이터 확인 대응을
-                  수행했습니다.
-                </div>
-                <div className="project-text">
-                  · <span className="addr-line">팀 적응</span> - 기존 AA와
-                  컨벤션을 우선 존중하면서, 위험도가 큰 유지보수 이슈나 취약점은
-                  선별적으로 공유했습니다.
+                  · 운영 단계에서는 SSH 로그, 배치 상태, DB 데이터 정합성을 직접
+                  확인하며 장애 대응까지 맡았습니다.
                 </div>
               </div>
             </div>
@@ -238,9 +280,9 @@ const Project4 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 공공 프로젝트 특성상 요구사항과 설계를 먼저 확정하고, 그
-                  결과를 기준으로 개발과 테스트, 운영 반영으로 넘어가는
-                  waterfall 방식으로 진행했습니다.
+                  · 공공 프로젝트답게 요구사항과 산출물은 waterfall 방식으로
+                  관리됐지만, 실제 코드 안에서는 결재 규칙과 보안 규칙을 객체로
+                  분리해 변경 비용을 줄이는 방향을 택했습니다.
                 </div>
               </div>
             </div>
@@ -272,34 +314,19 @@ const Project4 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 레거시 환경에서는 최신 스프링이 자동으로 감춰주는 편의
-                  기능이 부족해서, 기능 하나를 만들더라도 요청 처리, 파일
-                  응답, 트랜잭션, 예외 흐름을 더 낮은 레벨에서 이해해야
-                  했습니다.
+                  · 레거시 환경에서는 최신 프레임워크의 편의 기능보다, 왜 도메인
+                  규칙을 SQL과 화면에서 분리해야 하는지가 더 선명하게
+                  보였습니다.
                 </div>
                 <div className="project-text">
-                  · 예를 들어 `ResourceHttpMessageConverter`가 없어
-                  `Resource`를 활용한 표준 방식 대신 파일 업로드/다운로드
-                  흐름을 직접 구성하면서, multipart 처리와 응답 스트림 제어를
-                  더 구체적으로 이해하게 됐습니다.
+                  · 특히 악조건이라고 해서 설계를 포기하는 것이 아니라, 망분리와
+                  레거시라는 제약을 전제로도 가장 실용적인 구조를 만드는 태도가
+                  중요하다는 점을 배웠습니다.
                 </div>
                 <div className="project-text">
-                  · 또 프로젝트 구조상 별도 클래스를 쉽게 추가하기 어려워
-                  `@Transactional` 전파 속성에 기대기 힘든 경우가 있었고,
-                  `TransactionTemplate`과 `TransactionManager`로 내부 호출 문제를
-                  직접 풀면서 선언형 트랜잭션 뒤에서 실제로 어떤 경계가
-                  만들어지는지 체감했습니다.
-                </div>
-                <div className="project-text">
-                  · XML 기반 설정, 수동 빈 등록, 인터셉터/시큐리티 설정,
-                  체크 예외 중심의 오류 처리 같은 구조를 다루면서 레거시
-                  시스템이 왜 보일러플레이트가 많아지고 유지보수 비용이
-                  커지는지도 명확히 배웠습니다.
-                </div>
-                <div className="project-text">
-                  · 그 경험 덕분에 최신 스택의 추상화를 더 정확히 이해하게
-                  됐고, 이후에는 단순히 “신식이라서 좋은 것”이 아니라 무엇을
-                  줄여주고 어떤 리스크를 없애주는지 설명할 수 있게 됐습니다.
+                  · 이후에는 새로운 기술을 도입할 때도 기능 나열보다 trade-off를
+                  먼저 따지고, 도입 불가능한 환경에서는 대체 수단으로 같은
+                  목표를 달성할 수 있는지부터 검토하게 됐습니다.
                 </div>
               </div>
             </div>

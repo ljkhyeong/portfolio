@@ -7,21 +7,21 @@ const cardData = [
   {
     name: "project2",
     title: "WebRTC/HLS 현장강의 보조 서비스",
-    text: "저지연, 되감기가 특징인 현장강의 보조 서비스",
+    text: "WebRTC 저지연과 HLS 되감기 trade-off를 튜닝한 현장강의 보조 서비스",
     image: "webRTC.png",
     period: "2023.09.01 - 2023.11.10",
   },
   {
     name: "project4",
     title: "차세대 군사법 정보 시스템",
-    text: "군교정 부문을 맡아 운영·배치·보안 기능을 개발한 공공 업무 시스템",
+    text: "망분리와 복잡한 결재 라인 제약 속에서 도메인 규칙과 보안 정책을 분리한 공공 시스템",
     image: "mnd.webp",
     period: "2024.06.23 - 2026.01.30",
   },
   {
     name: "project3",
     title: "happyGallery",
-    text: "주문, 예약, 패스, 관리자 운영과 아키텍처 기준을 함께 설계한 공방 플랫폼",
+    text: "주문, 예약, 패스 규칙을 문서와 헥사고날 구조로 수렴시킨 공방 플랫폼",
     image: "happygallery-project.png",
     period: "2026.02.21 ~",
   },
@@ -36,19 +36,22 @@ const About = ({ onShowProjects, onShowBooks }) => {
           <div className="section__list">
             <div className="section__list-item">
               <div className="text">
-                ■ 비즈니스 요구사항을 기능 구현에서 끝내지 않고, 운영
-                안정성과 유지보수성까지 함께 설계하는 개발자입니다.
+                ■ 비즈니스 요구사항을 기능 구현에서 끝내지 않고, 운영 안정성과
+                유지보수성까지 함께 설계하는 개발자입니다.
               </div>
               <div className="text">
-                ■ 백엔드 구현을 기반으로 배포, 관측성, 세션/캐시, 요청 제한,
-                장애 완충까지 직접 다루며 DevOps에 가까운 방향으로 역량을
-                넓혀가고 있습니다.
+                ■ 복잡한 결재 라인, 예약과 환불 규칙, 인증과 보안 제약처럼
+                비즈니스 난도가 높은 문제를 도메인 규칙과 기술 경계로 분리해
+                풀어내는 데 강점이 있습니다.
               </div>
               <div className="text">
-                ■ 개인 프로젝트에서 PRD(요구사항 기준), ADR(아키텍처 결정),
-                Idea(검토 메모), POC(실험 기록), Retrospective(회고) 등의
-                문서를 지속적으로 남기며 시스템 경계, API 계약, 운영 기준,
-                배포 토폴로지, 로그 마스킹 같은 주제를 먼저 정리한 뒤
+                ■ 백엔드 구현을 기반으로 배포, 관측성, 세션, 요청 제한, 장애
+                완충까지 직접 다루며, 문서화와 trade-off 설명이 가능한 개발자로
+                성장하고 있습니다.
+              </div>
+              <div className="text">
+                ■ 개인 프로젝트에서는 PRD, ADR, Idea, Retrospective를 지속적으로
+                남기며 시스템 경계, API 계약, 운영 기준을 먼저 정리한 뒤
                 개발하는 방식을 훈련하고 있습니다.
               </div>
             </div>
@@ -77,9 +80,7 @@ const About = ({ onShowProjects, onShowBooks }) => {
                 <div className="skill-header">Backend</div>
                 <div className="skill-cell">
                   <span className="addr-line">Application</span>
-                  <span className="addr">
-                    {" "}- Java, Spring, JPA, MyBatis
-                  </span>
+                  <span className="addr"> - Java, Spring, JPA, MyBatis</span>
                 </div>
                 <div className="skill-cell">
                   <span className="addr-line">Data</span>
@@ -117,7 +118,8 @@ const About = ({ onShowProjects, onShowBooks }) => {
                 <div className="skill-cell">
                   <span className="addr-line">Cloud</span>
                   <span className="addr">
-                    {" "}- EC2, ECS Fargate, ECR, S3, CloudFront, ALB, RDS,
+                    {" "}
+                    - EC2, ECS Fargate, ECR, S3, CloudFront, ALB, RDS,
                     ElastiCache, IAM OIDC
                   </span>
                 </div>
@@ -128,8 +130,8 @@ const About = ({ onShowProjects, onShowBooks }) => {
                 <div className="skill-cell">
                   <span className="addr-line">Operations</span>
                   <span className="addr">
-                    {" "}- Flyway, Actuator, Prometheus, Grafana, Sentry,
-                    Jenkins
+                    {" "}
+                    - Flyway, Actuator, Prometheus, Grafana, Sentry, Jenkins
                   </span>
                 </div>
                 <div className="skill-cell">
@@ -204,7 +206,9 @@ const About = ({ onShowProjects, onShowBooks }) => {
                 />
                 <div className="book-card__body">
                   <div className="book-card__title">{book.title}</div>
-                  <div className="book-card__description">{book.description}</div>
+                  <div className="book-card__description">
+                    {book.description}
+                  </div>
                   {book.studyLink ? (
                     <a
                       className="book-card__link"
