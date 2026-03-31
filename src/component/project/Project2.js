@@ -190,21 +190,6 @@ const Project2 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">🎥 시연영상</div>
-            <YouTube
-              videoId="KKR2vj10sNQ"
-              opts={{
-                width: "560",
-                height: "315",
-                playerVars: {
-                  autoplay: 0,
-                  rel: 0,
-                  modestbranding: 1,
-                },
-              }}
-            />
-          </div>
-          <div className="section">
             <div className="section__list">
               <div className="section__list-item">
                 <div className="left">
@@ -333,6 +318,21 @@ const Project2 = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="section">
+            <div className="section__title">🎥 시연영상</div>
+            <YouTube
+              videoId="KKR2vj10sNQ"
+              opts={{
+                width: "560",
+                height: "315",
+                playerVars: {
+                  autoplay: 0,
+                  rel: 0,
+                  modestbranding: 1,
+                },
+              }}
+            />
           </div>
         </div>
         {modalImage && (
