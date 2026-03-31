@@ -31,7 +31,7 @@ const cardData = [
 
 const starStories = [
   {
-    title: "WebRTC와 HLS를 병행한 이유",
+    title: "저지연 시청과 다시보기를 분리한 하이브리드 구조",
     situation:
       "현장 강의는 저지연이 중요하지만, 놓친 구간을 다시 보는 기능까지 WebRTC 하나로 해결하기는 어려웠습니다.",
     task: "실시간성과 다시보기 경험을 모두 만족시키는 구조를 짧은 개발 기간 안에 설계해야 했습니다.",
@@ -51,7 +51,7 @@ const starStories = [
       "재생 지연을 30초에서 15초, 다시 11초 수준까지 낮췄습니다. 대신 S3 업로드 오버헤드와 화질 저하라는 trade-off가 생겨, 팀 안에서 품질과 지연의 균형점을 수치로 설명할 수 있었습니다.",
   },
   {
-    title: "정지 화면에서 발생한 muxing queue overflow 디버깅",
+    title: "정지 화면에서 끊기던 HLS 변환 안정화",
     situation:
       "강의 화면 변화가 거의 없을 때 FFmpeg muxing queue overflow가 발생하며 HLS 변환이 중단됐습니다.",
     task: "트랜스코딩 실패 원인을 미디어 서버가 아니라 프레임 생성과 타임스탬프 흐름까지 내려가서 파악해야 했습니다.",
@@ -132,21 +132,18 @@ const Project2 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 이 프로젝트는 현장 강의에서 필요한 저지연 시청과 놓친 구간
-                  다시보기를 동시에 제공하려는 문제의식에서 출발했습니다.
+                  · 현장 강의에서 필요한 실시간 시청과 놓친 구간 다시보기를 함께
+                  제공하기 위해 만든 팀 프로젝트입니다.
                 </div>
                 <div className="project-text">
-                  · 6인 팀이 약 2개월 동안 frontend, Spring backend, SFU, HLS,
-                  chatting, k8s manifest 저장소를 나눠 개발했고, 저는 HLS 서버와
-                  React 프론트를 담당했습니다.
+                  · 6인 팀이 약 2개월 동안 프론트엔드, Spring 백엔드, SFU, HLS,
+                  채팅, 인프라를 나눠 개발했고, 저는 HLS 서버와 React 프론트를
+                  맡았습니다.
                 </div>
                 <div className="project-text">
-                  · 핵심은 기능 수보다, WebRTC와 HLS라는 성격이 다른 기술을 한
-                  서비스 경험 안에서 어떻게 연결하느냐였습니다.
-                </div>
-                <div className="project-text">
-                  · 그래서 플레이어 UX, 미디어 파이프라인, 제어 채널, 인코딩
-                  파라미터를 함께 다루며 문제를 해결했습니다.
+                  · 핵심은 WebRTC의 저지연성과 HLS의 다시보기 기능을 하나의
+                  사용자 경험으로 연결하는 것이었고, 이를 위해 플레이어 UX,
+                  미디어 파이프라인, 인코딩 튜닝을 함께 다뤘습니다.
                 </div>
               </div>
             </div>
@@ -283,6 +280,28 @@ const Project2 = () => {
             </div>
           </div>
           <div className="section">
+            <div className="section__title">🤝 운영 / 협업</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  · 저장소가 역할별로 분리돼 있어 프론트와 HLS 사이 API 계약,
+                  옵션 명세, 플레이어 동작 기준을 문서로 맞추는 작업이
+                  중요했습니다.
+                </div>
+                <div className="project-text">
+                  · 짧은 스프린트마다 요구사항, 회의록, 아키텍처, 디버깅 로그를
+                  정리해 미디어 이슈를 팀 전체가 같은 기준으로 추적할 수 있게
+                  했습니다.
+                </div>
+                <div className="project-text">
+                  · 배포는 GitHub Actions와 Argo CD로 구성했지만 비용 문제로
+                  운영은 종료했고, 대신 발표 자료와 문서로 구조와 시행착오를
+                  남겼습니다.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="section">
             <div className="section__title">📚 개발과정</div>
             <div className="projects-main">
               {cardData.map((card, index) => (
@@ -296,27 +315,6 @@ const Project2 = () => {
                   <h5 className="projects-title">{card.title}</h5>
                 </div>
               ))}
-            </div>
-            <div className="section">
-              <div className="section__title">🤝 운영 / 협업</div>
-              <div className="section__list">
-                <div className="section__list-item">
-                  <div className="project-text">
-                    · 저장소를 역할별로 나눴기 때문에, 프론트와 HLS 사이 API
-                    계약 및 옵션 명세를 문서로 계속 맞추는 작업이 중요했습니다.
-                  </div>
-                  <div className="project-text">
-                    · 짧은 스프린트마다 요구사항, 회의록, 아키텍처 이미지,
-                    디버깅 로그를 남겨 미디어 이슈를 팀 전체가 같은 기준으로 볼
-                    수 있게 했습니다.
-                  </div>
-                  <div className="project-text">
-                    · 배포는 GitHub Actions와 Argo CD를 사용했지만, 비용 문제로
-                    운영은 종료했습니다. 대신 문서와 발표 자료로 구조와
-                    시행착오를 남겨 두었습니다.
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div className="section">
@@ -333,6 +331,42 @@ const Project2 = () => {
                 },
               }}
             />
+          </div>
+          <div className="section">
+            <div className="section__title">📌 회고</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    미디어 서비스는 화면 밖이 더 중요하다
+                  </span>
+                  - 미디어 서비스는 화면만 잘 만드는 것으로 끝나지 않고, 송출
+                  경로, 인코딩 옵션, 플레이어 전환 UX, 로그 체계를 하나의
+                  흐름으로 함께 다뤄야 한다는 점을 배웠습니다.
+                </div>
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    한 기술로 다 해결하려 하면 오히려 어렵다
+                  </span>
+                  - WebRTC와 HLS처럼 성격이 다른 기술을 함께 쓸 때는 한 기술로
+                  모든 문제를 해결하려 하기보다, 사용자 요구를 지연, 저장,
+                  다시보기 같은 특성으로 나눠 각 기술의 역할을 분리하는 판단이
+                  더 중요하다는 점을 체감했습니다.
+                </div>
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    trade-off는 설명할 수 있어야 의미가 있다
+                  </span>
+                  - 지연 시간과 화질, 저장 비용, 디버깅 난이도 사이의
+                  trade-off를 수치와 로그로 설명할 수 있어야 팀 안에서 기술
+                  선택이 설득력을 갖는다는 점도 배웠습니다. 이후에는 문제를
+                  재현하고 비교할 수 있는 기준부터 먼저 만드는 편이 됐습니다.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         {modalImage && (

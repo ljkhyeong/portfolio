@@ -7,21 +7,21 @@ const cardData = [
   {
     name: "project2",
     title: "WebRTC/HLS 현장강의 보조 서비스",
-    text: "WebRTC 저지연과 HLS 되감기 trade-off를 튜닝한 현장강의 보조 서비스",
+    text: "WebRTC 실시간 시청과 HLS 다시보기를 함께 구현한 강의 서비스",
     image: "webRTC.png",
     period: "2023.09.01 - 2023.11.10",
   },
   {
     name: "project4",
     title: "차세대 군사법 정보 시스템",
-    text: "망분리와 복잡한 결재 라인 제약 속에서 도메인 규칙과 보안 정책을 분리한 공공 시스템",
+    text: "복잡한 결재 규칙과 배치 정합성을 다룬 공공 시스템",
     image: "mnd.webp",
     period: "2024.06.23 - 2026.01.30",
   },
   {
     name: "project3",
     title: "happyGallery",
-    text: "주문, 예약, 패스 규칙을 문서와 헥사고날 구조로 수렴시킨 공방 플랫폼",
+    text: "주문, 예약, 패스 규칙을 문서와 구조로 정리한 공방 서비스",
     image: "happygallery-project.png",
     period: "2026.02.21 ~",
   },
@@ -36,8 +36,8 @@ const About = ({ onShowProjects, onShowBooks }) => {
           <div className="section__list">
             <div className="section__list-item">
               <div className="text">
-                ■ 복잡한 업무 규칙을 백엔드 공통 로직으로 정리하고, 운영 단계까지
-                고려해 안정적으로 유지하는 개발자입니다.
+                ■ 복잡한 업무 규칙을 백엔드 공통 로직으로 정리하고, 운영
+                단계까지 고려해 안정적으로 유지하는 개발자입니다.
               </div>
               <div className="text">
                 ■ 공공 레거시 시스템에서는 장애 대응과 운영 안정성을, 개인
@@ -45,8 +45,8 @@ const About = ({ onShowProjects, onShowBooks }) => {
               </div>
               <div className="text">
                 ■ 백엔드 구현을 기반으로 배포, 관측성, 세션, 요청 제한까지 직접
-                다루며, 선택한 기술의 장단점을 설명할 수 있는 개발자로
-                성장하고 있습니다.
+                다루며, 선택한 기술의 장단점을 설명할 수 있는 개발자로 성장하고
+                있습니다.
               </div>
               <div className="text">
                 ■ 개인 프로젝트에서는 PRD, ADR, Idea, Retrospective를 지속적으로

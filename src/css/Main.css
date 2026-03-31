@@ -1,275 +1,270 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  html {
-    height: 100%;  
-  }
-  
-  body {
-    min-height: 100%;  
-    background: #eee;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    color: #222;
-    font-size: 14px;
-    line-height: 26px;
-    padding-bottom: 50px;
-  }
-  
-  a {
-    text-decoration: none;
-  }
-  
-  .container {
-    position: relative;
-    width: min(960px, calc(100vw - 32px));
-    max-width: 960px;
-    background: #fff;
-    margin: 0px auto 0px; 
-    box-shadow: 1px 1px 2px #DAD7D7;
-    border-radius: 3px;  
-    padding: 40px 48px;
-    margin-top: 50px;
-  }
-  
-  .header {
-    margin-bottom: 10px;
-    
-    .full-name {
-      font-size: 40px;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-    
-    .first-name {
-      font-weight: 700;
-    }
-    
-    .last-name {
-      font-weight: 300;
-    }
-    
-    .contact-info {
-      margin-bottom: 20px;
-    }
-    
-    .email ,
-    .phone {
-      color: #999;
-      font-weight: 300;
-    } 
-    
-    .separator {
-      height: 10px;
-      display: inline-block;
-      border-left: 2px solid #999;
-      margin: 0px 10px;
-    }
-    
-    .position {
-      font-weight: bold;
-      display: inline-block;
-      margin-right: 10px;
-      text-decoration: underline;
-    }
-  }
-  
-  
-  .details {
-    line-height: 20px;
-    
-    .section {
-      margin-bottom: 40px;  
-    }
-    
-    .section:last-of-type {
-      margin-bottom: 0px;  
-    }
-    
-    .section__title {
-      letter-spacing: 2px;
-      color: #54AFE4;
-      font-weight: bold;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-    
-    .section__list-item {
-      margin-bottom: 40px;
-    }
-    
-    .section__list-item:last-of-type {
-      margin-bottom: 0;
-    }
-    
-    .left ,
-    .right {
-      vertical-align: top;
-      display: inline-block;
-    }
-    
-    .left {
-      width: 60%;    
-    }
-    
-    .right {
-      tex-align: right;
-      width: 39%;    
-    }
-    
-    .name {
-      font-weight: bold;
-      margin-top: 1px;
-      margin-bottom: 2px;
-    }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
 
-    .pr {
-      transition: 0.3s;
-    }
+body {
+  min-height: 100%;
+  background: #eee;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  color: #222;
+  font-size: 14px;
+  line-height: 26px;
+  padding-bottom: 50px;
+}
 
-    .pr:hover {
-      cursor: pointer;
-      color:#ccc;
-    }
-    
-    a {
-      text-decoration: none;
-      color: #000;
-      font-style: italic;
-    }
-    
-    a:hover {
-      text-decoration: underline;
-      color: #000;
-    }
-    
-    .skills {
-      
-    }
-      
-    .skills__item {
-      margin-bottom: 10px;  
-    }
-    
-    .skills__item .right {
-      input {
-        display: none;
-      }
-      
-      label {
-        display: inline-block;  
-        width: 20px;
-        height: 20px;
-        background: #C3DEF3;
-        border-radius: 20px;
-        margin-right: 3px;
-      }
-      
-      input:checked + label {
-        background: #79A9CE;
-      }
-    }
-  }
-  
-  .tabs {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      
-  }
-  
-  .tab {
-    flex-grow: 1; 
-    background-color: #ccc;
-    color: white;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 5px 0; 
-    transition: 0.3s;
-    font-family: 'Lato', sans-serif;
-    text-align: center; 
-    margin-left: 5px;
-  }
-  
-  .tab:hover {
-    background-color: #5381b6;
+a {
+  text-decoration: none;
+}
+
+.container {
+  position: relative;
+  width: min(1080px, calc(100vw - 32px));
+  max-width: 1080px;
+  background: #fff;
+  margin: 0px auto 0px;
+  box-shadow: 1px 1px 2px #dad7d7;
+  border-radius: 3px;
+  padding: 40px 48px;
+  margin-top: 50px;
+}
+
+.header {
+  margin-bottom: 10px;
+
+  .full-name {
+    font-size: 40px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
   }
 
-  .tab-active {
-    background-color: #5381b6;
-  }
-  
-  
-  .addr-line {
-    text-decoration-line:underline;
+  .first-name {
+    font-weight: 700;
   }
 
-  .skill-columns {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: 24px;
+  .last-name {
+    font-weight: 300;
   }
 
-  .skill-column {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-    height: 100%;
+  .contact-info {
+    margin-bottom: 20px;
   }
 
-  .skill-header {
+  .email,
+  .phone {
+    color: #999;
+    font-weight: 300;
+  }
+
+  .separator {
+    height: 10px;
+    display: inline-block;
+    border-left: 2px solid #999;
+    margin: 0px 10px;
+  }
+
+  .position {
     font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: underline;
+  }
+}
+
+.details {
+  line-height: 20px;
+
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section:last-of-type {
+    margin-bottom: 0px;
+  }
+
+  .section__title {
+    letter-spacing: 2px;
+    color: #54afe4;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .section__list-item {
+    margin-bottom: 40px;
+  }
+
+  .section__list-item:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .left,
+  .right {
+    vertical-align: top;
+    display: inline-block;
+  }
+
+  .left {
+    width: 60%;
+  }
+
+  .right {
+    tex-align: right;
+    width: 39%;
+  }
+
+  .name {
+    font-weight: bold;
+    margin-top: 1px;
     margin-bottom: 2px;
   }
 
-  .skill-cell {
-    min-width: 0;
-  }
-
-  .skill-cell-legacy {
-    margin-top: auto;
-    padding-top: 18px;
-  }
-
-  .pdf-download-btn {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
-    padding: 5px 10px; 
-    background-color: transparent; 
-    color: black; 
-    border: 1px 1px 1px 1px black solid; 
-    border-radius: 5px; 
-    cursor: pointer; 
+  .pr {
     transition: 0.3s;
   }
-  
-  .pdf-download-btn:hover {
+
+  .pr:hover {
+    cursor: pointer;
+    color: #ccc;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+    font-style: italic;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    color: #000;
+  }
+
+  .skills {
+  }
+
+  .skills__item {
+    margin-bottom: 10px;
+  }
+
+  .skills__item .right {
+    input {
+      display: none;
+    }
+
+    label {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #c3def3;
+      border-radius: 20px;
+      margin-right: 3px;
+    }
+
+    input:checked + label {
+      background: #79a9ce;
+    }
+  }
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex-grow: 1;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 5px 0;
+  transition: 0.3s;
+  font-family: "Lato", sans-serif;
+  text-align: center;
+  margin-left: 5px;
+}
+
+.tab:hover {
+  background-color: #5381b6;
+}
+
+.tab-active {
+  background-color: #5381b6;
+}
+
+.addr-line {
+  text-decoration-line: underline;
+}
+
+.skill-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 24px;
+}
+
+.skill-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  height: 100%;
+}
+
+.skill-header {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.skill-cell {
+  min-width: 0;
+}
+
+.skill-cell-legacy {
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.pdf-download-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  border: 1px 1px 1px 1px black solid;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pdf-download-btn:hover {
+  background-color: #5381b6;
+  color: white;
+}
+
+@keyframes blink-effect {
+  50% {
     background-color: #5381b6;
-    color: white; 
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: min(100%, calc(100vw - 20px));
+    padding: 24px;
+    margin-top: 20px;
   }
 
-  @keyframes blink-effect {
-    50% {
-      background-color: #5381b6;
-    }
+  .skill-columns {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
   }
-
-  @media (max-width: 768px) {
-    .container {
-      width: min(100%, calc(100vw - 20px));
-      padding: 24px;
-      margin-top: 20px;
-    }
-
-    .skill-columns {
-      grid-template-columns: 1fr;
-      row-gap: 18px;
-    }
-  }
-  
+}

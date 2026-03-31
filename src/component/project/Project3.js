@@ -95,7 +95,7 @@ const documentHighlights = [
       {
         name: "0006_Query_Facade와_운영_경로_정리",
         summary:
-          "복잡한 조회와 운영 경로를 별도 Query Service로 분리해 컨트롤러가 도메인과 인프라를 동시에 알지 않게 했습니다.",
+          "복잡한 조회와 운영 경로를 별도 Query Service와 운영 경계로 분리해 각 계층과 기능 경계가 서로의 세부 구현을 직접 알지 않게 했습니다.",
       },
     ],
   },
@@ -103,7 +103,7 @@ const documentHighlights = [
 
 const starStories = [
   {
-    title: "기능 개발을 멈추지 않은 구조 개선",
+    title: "기능 개발과 병행한 점진적 구조 개선",
     situation:
       "주문, 예약, 패스, 관리자 기능이 함께 커지면서 서비스 계층이 저장소와 외부 연동 구현을 직접 아는 구간이 많아졌고, 수정 한 번이 여러 모듈로 번졌습니다.",
     task: "운영 중인 프로젝트라 기능 개발을 멈추지 않고 구조를 정리해야 했습니다.",
@@ -123,7 +123,7 @@ const starStories = [
       "사용자 흐름을 깨지 않고 URL 노출을 없앴고, DB에는 원본 토큰이 남지 않게 했습니다. 예약과 주문 토큰 포맷도 하나로 통일해 운영 복잡도를 줄였습니다.",
   },
   {
-    title: "예약 정합성과 환불 장애를 분리한 안정화",
+    title: "예약 동시성과 환불 장애를 분리해 안정화",
     situation:
       "예약은 정원 경쟁이 있고, 취소는 외부 PG 환불 지연까지 얽혀 하나의 장애가 전체 흐름으로 번질 수 있었습니다.",
     task: "예약 정합성과 외부 호출 장애를 같은 방식으로 처리하지 않고 분리해 안정화해야 했습니다.",
@@ -198,23 +198,17 @@ const Project3 = () => {
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · happyGallery는 공방의 상품 주문, 체험 예약, 회원 전용 8회권,
-                  비회원 조회, 관리자 운영을 하나의 서비스 안에서 다루는
-                  프로젝트입니다.
+                  · happyGallery는 공방의 상품 주문, 체험 예약, 회원권, 비회원
+                  조회, 관리자 운영을 하나의 서비스로 묶은 개인 프로젝트입니다.
                 </div>
                 <div className="project-text">
-                  · 단순히 기능 수를 늘리기보다, 서로 다른 비즈니스 규칙이
-                  충돌하지 않도록 도메인 경계를 먼저 정리하고 그 위에 구현을
-                  얹는 방식을 택했습니다.
+                  · 핵심은 기능 추가보다 주문, 예약, 패스, 환불 규칙이 충돌하지
+                  않도록 도메인 경계를 먼저 정리하는 데 있었습니다.
                 </div>
                 <div className="project-text">
-                  · 특히 guest, member, admin 흐름이 뒤섞이지 않도록 PRD로
-                  기준선을 고정하고, ADR로 설계 결정을 남기며 구조를 점진적으로
-                  개선했습니다.
-                </div>
-                <div className="project-text">
-                  · 결과적으로 4개 PRD, 30개 ADR, 38개 Idea, 8개 Retrospective가
-                  코드와 함께 쌓이는 문서 중심 프로젝트로 운영하고 있습니다.
+                  · PRD, ADR, Idea, Retrospective를 기준선으로 두고 구조 개선과
+                  기능 개발을 함께 진행하며 문서와 코드가 같이 쌓이도록 운영하고
+                  있습니다.
                 </div>
               </div>
             </div>
@@ -297,12 +291,12 @@ const Project3 = () => {
                     <div className="project-text">
                       · <span className="addr-line">{story.title}</span>
                     </div>
-                                        <div className="project-text">
-                                            Situation - {story.situation}
-                                        </div>
-                                        <div className="project-text">Task - {story.task}</div>
-                                        <div className="project-text">Action - {story.action}</div>
-                                        <div className="project-text">Result - {story.result}</div>
+                    <div className="project-text">
+                      Situation - {story.situation}
+                    </div>
+                    <div className="project-text">Task - {story.task}</div>
+                    <div className="project-text">Action - {story.action}</div>
+                    <div className="project-text">Result - {story.result}</div>
                   </div>
                 ))}
               </div>
@@ -321,7 +315,7 @@ const Project3 = () => {
                 <div className="project-text">
                   · <span className="addr-line">운영 경계 분리</span> - 관리자
                   조회는 Query Service, 환불은 Payment 경계, 세션은 Session
-                  경계로 끊어 controller가 여러 관심사를 동시에 알지 않게
+                  경계로 나눠 각 경계가 서로의 세부 구현을 직접 알지 않게
                   했습니다.
                 </div>
                 <div className="project-text">
@@ -344,20 +338,19 @@ const Project3 = () => {
                 </div>
                 <div className="project-text">
                   · <span className="addr-line">관측성과 로그 운영</span> -
-                  Actuator, Prometheus, Grafana, Sentry를 붙여 서버 상태와
-                  퍼널 지표를 함께 보고, 전화번호와 토큰은 로그 전에
-                  마스킹했습니다.
+                  Actuator, Prometheus, Grafana, Sentry를 붙여 서버 상태와 퍼널
+                  지표를 함께 보고, 전화번호와 토큰은 로그 전에 마스킹했습니다.
                 </div>
                 <div className="project-text">
-                  · <span className="addr-line">배치와 검증</span> - 8회권
-                  만료, 픽업 만료 같은 커스텀 배치를 유지하면서,
-                  `@UseCaseIT`와 Playwright `P8-1`부터 `P8-9`까지 9개 핵심
-                  시나리오로 회귀를 확인했습니다.
+                  · <span className="addr-line">배치와 검증</span> - 8회권 만료,
+                  픽업 만료 같은 커스텀 배치를 유지하면서, `@UseCaseIT`와
+                  Playwright `P8-1`부터 `P8-9`까지 9개 핵심 시나리오로 회귀를
+                  확인했습니다.
                 </div>
                 <div className="project-text">
                   · <span className="addr-line">문서 기준선</span> - README,
-                  PRD, ADR, Idea, Retrospective를 코드와 같이 갱신해 운영
-                  기준이 문서 뒤로 밀리지 않게 관리했습니다.
+                  PRD, ADR, Idea, Retrospective를 코드와 같이 갱신해 운영 기준이
+                  문서 뒤로 밀리지 않게 관리했습니다.
                 </div>
               </div>
             </div>
@@ -400,6 +393,47 @@ const Project3 = () => {
                   </div>
                 </a>
               ))}
+            </div>
+          </div>
+          <div className="section">
+            <div className="section__title">📌 회고</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    먼저 깔아두면 이후가 빨라진다
+                  </span>
+                  - 프로필 분리, 기준 스펙, DB migration, CI, requestId,
+                  Testcontainers 같은 실행 기반을 먼저 세운 덕분에 이후 기능을
+                  붙일 때마다 매번 바닥부터 다시 정리하지 않아도 됐습니다. 이
+                  프로젝트를 통해 큰 기능보다 실행 기반을 먼저 만드는 편이
+                  오히려 전체 개발 속도를 높인다는 점을 분명히 알게 됐습니다.
+                </div>
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    빠른 확장은 나중에 중복 비용을 남긴다
+                  </span>
+                  - guest 흐름 위에 member와 claim을 덧붙이는 방식은 초기 구현
+                  속도는 빨랐지만, 시간이 갈수록 guest, member, claimed를 따로
+                  다루는 중복이 커졌습니다. 그래서 이제는 기능을 빨리 붙이는
+                  것보다, 공통 고객 모델과 조회 구조를 먼저 잡아두는 편이
+                  장기적으로 훨씬 낫다는 점을 알게 됐습니다.
+                </div>
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    운영 기준도 기능과 같이 설계해야 한다
+                  </span>
+                  - requestId, metrics, dashboard, Sentry를 뒤늦게 붙여도 운영
+                  시야를 회복할 수는 있었지만, 어떤 지표를 봐야 하는지와 운영
+                  조회를 어디서 읽어야 하는지를 나중에 다시 정리하는 비용이
+                  컸습니다. 이 경험을 통해 관측성과 Query Service 경계는 기능
+                  완료 후 보강하는 항목이 아니라 처음부터 같이 설계해야 한다는
+                  점을 확실히 배웠습니다.
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -28,7 +28,7 @@ const cardData = [
 
 const starStories = [
   {
-    title: "짧은 일정에서 화면과 규칙의 기준선 만들기",
+    title: "2주 일정에서 화면과 규칙 기준선 정리",
     situation:
       "2주짜리 팀 프로젝트라 화면, 엔티티, 역할 분담이 동시에 움직였고 기준 문서 없이 가면 화면마다 해석이 달라질 위험이 있었습니다.",
     task: "빠르게 개발하되 최소한의 공통 기준을 만들어 팀원이 같은 모델을 보게 해야 했습니다.",
@@ -48,7 +48,7 @@ const starStories = [
       "회원가입 검증 규칙을 화면별 분기 대신 공통 검증 경로 1개로 수렴시켰고, 로그인 필요 화면도 인터셉터로 일관되게 보호할 수 있었습니다.",
   },
   {
-    title: "장바구니 금액 계산을 화면 로직에서 분리",
+    title: "장바구니 계산 로직의 서비스 계층 분리",
     situation:
       "초기에는 장바구니 수량 변경과 총액 계산이 화면 처리와 섞여 있어 추후 주문 기능 확장 시 중복 계산이 생길 여지가 컸습니다.",
     task: "현재는 소형 프로젝트여도 이후 주문과 결제로 확장 가능한 계산 구조를 만들어야 했습니다.",
@@ -256,6 +256,31 @@ const Project1 = () => {
                     · 작은 프로젝트에서도 단순한 기능 나열보다 규칙 분리와 책임
                     정리가 더 중요하다는 점을 확인한 경험이었습니다.
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="section">
+            <div className="section__title">📌 회고</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    작은 프로젝트도 기준선이 필요하다
+                  </span>
+                  - 짧은 일정의 학습 프로젝트였지만, 화면 구현과 도메인 규칙을
+                  분리해 보려 했던 경험이 이후 더 큰 프로젝트를 설계할 때
+                  기준점이 됐습니다.
+                </div>
+                <div className="project-text">
+                  ·{" "}
+                  <span className="addr-line">
+                    바로 구현하면 금방 복잡해진다
+                  </span>
+                  - 공통 기준선 없이 바로 구현에 들어가면 작은 프로젝트도 빠르게
+                  복잡해진다는 점을 확인했습니다. 이후에는 규모와 무관하게 먼저
+                  용어와 규칙을 정리하는 습관을 갖게 됐습니다.
                 </div>
               </div>
             </div>

@@ -71,18 +71,17 @@ const processData = [
 
 const starStories = [
   {
-    title: "연계 배치 재처리 중복 반영 방지",
+    title: "연계 배치 재처리와 트랜잭션 경계 정합성 확보",
     situation:
-      "연계 배치를 재실행하거나 수동 재처리할 때 같은 사건이 중복 반영되며 상태가 꼬일 위험이 있었습니다.",
-    task:
-      "기존 운영 환경을 유지하면서도 배치가 같은 사건을 두 번 잡지 않게 막고, 재처리 시에도 정합성을 보장해야 했습니다.",
+      "연계 배치를 재실행하거나 수동 재처리할 때 같은 사건이 중복 반영되며 상태가 꼬일 위험이 있었고, 재처리 경로에서는 `@Transactional` 메서드 내부 호출 때문에 트랜잭션 경계가 기대대로 적용되지 않는 문제도 있었습니다.",
+    task: "기존 운영 환경을 유지하면서도 배치가 같은 사건을 두 번 잡지 않게 막고, 재처리 시에도 트랜잭션이 일관되게 적용되도록 정합성을 보장해야 했습니다.",
     action:
-      "외부 분산 락 대신 DB Named Lock을 도입해 사건 번호 단위 임계 구역을 만들었습니다. 배치가 처리 직전에 락을 먼저 잡고, 이미 다른 배치가 같은 사건을 처리 중이면 건너뛰거나 재시도하도록 설계해 중복 반영을 막았습니다. 락 획득 실패와 재처리 이력은 배치 로그로 남겨 운영자가 바로 추적할 수 있게 했습니다.",
+      "외부 분산 락 대신 DB Named Lock을 도입해 사건 번호 단위 임계 구역을 만들었습니다. 배치가 처리 직전에 락을 먼저 잡고, 이미 다른 배치가 같은 사건을 처리 중이면 건너뛰거나 재시도하도록 설계해 중복 반영을 막았습니다. 또 재처리 로직은 별도 트랜잭션 경계로 분리해 내부 호출로 `@Transactional`이 무력화되지 않게 했고, 락 획득 실패와 재처리 이력은 배치 로그로 남겨 운영자가 바로 추적할 수 있게 했습니다.",
     result:
-      "200건 재처리 테스트에서 중복 처리 건수를 7건에서 0건으로 줄였고, 야간 연계 배치에서도 동일 사건 이중 반영 이슈를 제거했습니다. 기존 운영 환경을 크게 흔들지 않으면서 배치 정합성을 지킬 수 있는 방식을 만든 셈입니다.",
+      "200건 재처리 테스트에서 중복 처리 건수를 7건에서 0건으로 줄였고, 야간 연계 배치에서도 동일 사건 이중 반영 이슈를 제거했습니다. 재처리 경로의 트랜잭션 경계도 안정화돼 운영 환경을 크게 흔들지 않으면서 배치 정합성을 지킬 수 있었습니다.",
   },
   {
-    title: "레거시 화면 구조에 맞춘 보안 커스터마이징",
+    title: "레거시 화면 흐름에 맞춘 보안 검증 계층",
     situation:
       "폐쇄망 시스템이라도 첨부 위변조, CSRF, 세션 탈취 같은 기본 보안은 계속 요구됐고, 특히 공문 첨부는 확장자 위장 파일이 유입될 위험이 있었습니다.",
     task: "보안 기능을 체크리스트 수준이 아니라 업무 흐름을 막지 않는 방식으로 녹여야 했습니다.",
@@ -158,19 +157,12 @@ const Project4 = () => {
                   군교정, 군사법원을 연결하는 군교정 부문을 담당했습니다.
                 </div>
                 <div className="project-text">
-                  · 이 프로젝트의 핵심은 화면 수가 아니라, 기관별 결재 라인과
-                  배치 정합성, 보안 규칙이 얽힌 업무를 어떻게 운영 가능한
-                  코드로 바꾸느냐였습니다.
+                  · 핵심은 복잡한 결재 라인, 배치 정합성, 보안 규칙이 얽힌
+                  업무를 운영 가능한 코드로 바꾸는 것이었습니다.
                 </div>
                 <div className="project-text">
-                  · 망분리와 레거시 제약 때문에 최신 인프라를 쉽게 도입할 수
-                  없었고, 주어진 eGov, JEUS, Tibero 환경 안에서 운영 안정성을
-                  지키며 문제를 풀어야 했습니다.
-                </div>
-                <div className="project-text">
-                  · 저는 연계 배치, 보안 기능, 운영 장애 대응을 맡으며 공공
-                  시스템에서 기술 제약과 운영 요구를 함께 다루는 경험을
-                  쌓았습니다.
+                  · 망분리와 레거시 제약이 큰 환경에서 연계 배치, 보안 기능,
+                  운영 장애 대응을 맡으며 안정성과 유지보수성을 함께 다뤘습니다.
                 </div>
               </div>
             </div>
@@ -207,7 +199,7 @@ const Project4 = () => {
                     <span className="addr-line">Infra</span>
                     <span className="addr">
                       {" "}
-                      - Jenkins, Nexus, VM 이중화, Putty
+                      - SVN, Jenkins, Nexus, VM 이중화, Putty
                     </span>
                   </div>
                   <div>
@@ -241,12 +233,12 @@ const Project4 = () => {
                     <div className="project-text">
                       · <span className="addr-line">{story.title}</span>
                     </div>
-                                        <div className="project-text">
-                                            Situation - {story.situation}
-                                        </div>
-                                        <div className="project-text">Task - {story.task}</div>
-                                        <div className="project-text">Action - {story.action}</div>
-                                        <div className="project-text">Result - {story.result}</div>
+                    <div className="project-text">
+                      Situation - {story.situation}
+                    </div>
+                    <div className="project-text">Task - {story.task}</div>
+                    <div className="project-text">Action - {story.action}</div>
+                    <div className="project-text">Result - {story.result}</div>
                   </div>
                 ))}
               </div>
@@ -272,6 +264,32 @@ const Project4 = () => {
                 <div className="project-text">
                   · 운영 단계에서는 SSH 로그, 배치 상태, DB 데이터 정합성을 직접
                   확인하며 장애 대응까지 맡았습니다.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="section">
+            <div className="section__title">🤝 운영 / 협업</div>
+            <div className="section__list">
+              <div className="section__list-item">
+                <div className="project-text">
+                  · 군교정, 군사법원, 군검찰, 군사경찰 파트별로 WAS와 저장소가
+                  분리돼 있어 각 영역의 변경 사항을 독립적으로 관리하면서도 연계
+                  포인트는 함께 맞춰야 했습니다.
+                </div>
+                <div className="project-text">
+                  · 형상관리는 SVN, 아티팩트 관리는 Nexus를 사용했고, 개발
+                  서버와 개발 DB, 운영 서버와 운영 DB가 분리된 구조에서 작업과
+                  반영 절차를 구분해 운영했습니다.
+                </div>
+                <div className="project-text">
+                  · 배치와 CI/CD는 모두 Jenkins 기반으로 운영됐고, 하루 2회 정기
+                  실행되는 흐름 안에서 연계 배치 상태와 배포 결과를 함께
+                  점검했습니다.
+                </div>
+                <div className="project-text">
+                  · 그래서 기능 구현뿐 아니라 배치 로그, 서버 상태, DB 정합성,
+                  반영 순서를 함께 확인하는 운영 중심 협업이 중요했습니다.
                 </div>
               </div>
             </div>
@@ -311,22 +329,34 @@ const Project4 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">📌 배운 점</div>
+            <div className="section__title">📌 회고</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
-                  · 레거시 환경에서는 최신 프레임워크의 편의 기능보다, 왜 도메인
+                  ·{" "}
+                  <span className="addr-line">
+                    제약이 클수록 경계가 더 중요하다
+                  </span>
+                  - 레거시 환경에서는 최신 프레임워크의 편의 기능보다, 왜 도메인
                   규칙을 SQL과 화면에서 분리해야 하는지가 더 선명하게
                   보였습니다.
                 </div>
                 <div className="project-text">
-                  · 특히 악조건이라고 해서 설계를 포기하는 것이 아니라, 망분리와
-                  레거시라는 제약을 전제로도 가장 실용적인 구조를 만드는 태도가
-                  중요하다는 점을 배웠습니다.
+                  ·{" "}
+                  <span className="addr-line">
+                    제약은 설계를 포기하는 이유가 아니다
+                  </span>
+                  - 망분리와 레거시라는 제약이 있다고 해서 설계를 포기하는 것이
+                  아니라, 그 안에서 가장 실용적인 구조를 찾는 태도가 중요하다는
+                  점을 확인했습니다.
                 </div>
                 <div className="project-text">
-                  · 이후에는 새로운 기술을 도입할 때도 기능 나열보다 trade-off를
-                  먼저 따지고, 도입 불가능한 환경에서는 대체 수단으로 같은
+                  ·{" "}
+                  <span className="addr-line">
+                    기술보다 목표와 trade-off를 먼저 본다
+                  </span>
+                  - 이후에는 새로운 기술을 도입할 때도 기능 나열보다 trade-off를
+                  먼저 따지고, 도입이 어려운 환경에서는 대체 수단으로 같은
                   목표를 달성할 수 있는지부터 검토하게 됐습니다.
                 </div>
               </div>

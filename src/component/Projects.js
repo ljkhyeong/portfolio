@@ -10,7 +10,7 @@ const projectSections = [
       {
         name: "project3",
         title: "happyGallery",
-        text: "주문, 예약, 패스 규칙을 문서와 헥사고날 구조로 수렴시키며 유지보수성을 높인 공방 플랫폼",
+        text: "주문, 예약, 패스 규칙을 문서와 구조로 정리한 공방 서비스",
         image: "happygallery-project.png",
       },
     ],
@@ -22,7 +22,7 @@ const projectSections = [
       {
         name: "project2",
         title: "WebRTC/HLS 현장강의 보조 서비스",
-        text: "WebRTC 저지연과 HLS 되감기 사이의 기술적 trade-off를 튜닝한 강의 서비스",
+        text: "WebRTC 실시간 시청과 HLS 다시보기를 함께 구현한 강의 서비스",
         image: "webRTC.png",
       },
     ],
@@ -34,7 +34,7 @@ const projectSections = [
       {
         name: "project4",
         title: "차세대 군사법 정보 시스템",
-        text: "망분리와 복잡한 결재 라인 제약 속에서 도메인 규칙과 보안 정책을 분리한 공공 시스템",
+        text: "복잡한 결재 규칙과 배치 정합성을 다룬 공공 시스템",
         image: "mnd.webp",
       },
     ],
