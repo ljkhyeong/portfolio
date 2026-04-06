@@ -12,6 +12,8 @@ const projectSections = [
         title: "happyGallery",
         text: "주문, 예약, 패스 규칙을 문서와 구조로 정리한 공방 서비스",
         image: "happygallery-project.png",
+        period: "2026.02.21 ~",
+        tags: ["Spring Boot", "JPA", "Redis", "Hexagonal", "Playwright"],
       },
     ],
   },
@@ -24,6 +26,8 @@ const projectSections = [
         title: "WebRTC/HLS 현장강의 보조 서비스",
         text: "WebRTC 실시간 시청과 HLS 다시보기를 함께 구현한 강의 서비스",
         image: "webRTC.png",
+        period: "2023.09.01 - 2023.11.10",
+        tags: ["WebRTC", "HLS", "React", "Node.js", "Kubernetes"],
       },
     ],
   },
@@ -36,6 +40,8 @@ const projectSections = [
         title: "차세대 군사법 정보 시스템",
         text: "복잡한 결재 규칙과 배치 정합성을 다룬 공공 시스템",
         image: "mnd.webp",
+        period: "2024.06.23 - 2026.01.30",
+        tags: ["eGov", "MyBatis", "Tibero", "Spring Security", "Jenkins"],
       },
     ],
   },
@@ -52,28 +58,34 @@ const Projects = () => {
             <h3 className="project-section__title">{section.title}</h3>
             <p className="project-section__subtitle">{section.subtitle}</p>
           </div>
-          {section.projects.length > 0 ? (
-            <div className="projects-grid">
-              {section.projects.map((card) => (
-                <div
-                  className="projects-card"
-                  key={card.name}
-                  data-name={card.name}
-                  onClick={() => navigate(`./${card.name}`)}
-                >
-                  <img
-                    className="projects-card__image"
-                    src={assetPath(card.image)}
-                    alt={card.title}
-                  />
-                  <div className="projects-card__body">
-                    <h5 className="projects-card__title">{card.title}</h5>
-                    <div className="projects-card__text">{card.text}</div>
+          {section.projects.map((card) => (
+            <div
+              className="project-feature"
+              key={card.name}
+              onClick={() => navigate(`./${card.name}`)}
+            >
+              <img
+                className="project-feature__image"
+                src={assetPath(card.image)}
+                alt={card.title}
+              />
+              <div className="project-feature__body">
+                <h4 className="project-feature__title">{card.title}</h4>
+                <p className="project-feature__text">{card.text}</p>
+                {card.tags && (
+                  <div className="project-feature__tags">
+                    {card.tags.map((tag) => (
+                      <span className="project-feature__tag" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                </div>
-              ))}
+                )}
+                <span className="project-feature__period">{card.period}</span>
+                <span className="project-feature__cta">자세히 보기 →</span>
+              </div>
             </div>
-          ) : null}
+          ))}
         </section>
       ))}
     </div>

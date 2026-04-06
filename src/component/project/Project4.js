@@ -150,7 +150,7 @@ const Project4 = () => {
             />
           </div>
           <div className="section">
-            <div className="section__title">📖 내용</div>
+            <div className="section__title">내용</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
@@ -169,91 +169,95 @@ const Project4 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__list">
-              <div className="section__list-item">
-                <div className="left">
-                  <div className="section__title">⛏️ 기술스택</div>
-                  <div>
-                    <span className="addr-line">Frontend</span>
-                    <span className="addr"> - WebSquare</span>
-                  </div>
-                  <div>
-                    <span className="addr-line">Backend</span>
-                    <span className="addr">
-                      {" "}
-                      - Java 8, eGov 4.1, MyBatis, Spring Session, XML 설정,
-                      JEUS
-                    </span>
-                  </div>
-                  <div>
-                    <span className="addr-line">Database</span>
-                    <span className="addr"> - Tibero</span>
-                  </div>
-                  <div>
-                    <span className="addr-line">Security</span>
-                    <span className="addr">
-                      {" "}
-                      - Spring Security, Apache Tika
-                    </span>
-                  </div>
-                  <div>
-                    <span className="addr-line">Infra</span>
-                    <span className="addr">
-                      {" "}
-                      - SVN, Jenkins, Nexus, VM 이중화, Putty
-                    </span>
-                  </div>
-                  <div>
-                    <span className="addr-line">Operations</span>
-                    <span className="addr">
-                      {" "}
-                      - SSH 로그 확인, DB 직접 조회, 배치 로그 점검
-                    </span>
-                  </div>
+            <div className="tech-tradeoff-grid">
+              <div>
+                <div className="section__title">기술스택</div>
+                <div>
+                  <span className="addr-line">Frontend</span>
+                  <span className="addr"> - WebSquare</span>
                 </div>
-                <div className="right">
-                  <div className="section__title">
-                    ⚖️ 선택 이유와 트레이드오프
-                  </div>
-                  {techChoices.map((choice) => (
-                    <div className="project-text" key={choice.title}>
-                      · <span className="addr-line">{choice.title}</span> -{" "}
-                      {renderTechText(choice.summary)}{" "}
-                      {renderTechText(choice.tradeoff)}
-                    </div>
-                  ))}
+                <div>
+                  <span className="addr-line">Backend</span>
+                  <span className="addr">
+                    {" "}
+                    - Java 8, eGov 4.1, MyBatis, Spring Session, XML 설정,
+                    JEUS
+                  </span>
+                </div>
+                <div>
+                  <span className="addr-line">Database</span>
+                  <span className="addr"> - Tibero</span>
+                </div>
+                <div>
+                  <span className="addr-line">Security</span>
+                  <span className="addr">
+                    {" "}
+                    - Spring Security, Apache Tika
+                  </span>
+                </div>
+                <div>
+                  <span className="addr-line">Infra</span>
+                  <span className="addr">
+                    {" "}
+                    - SVN, Jenkins, Nexus, VM 이중화, Putty
+                  </span>
+                </div>
+                <div>
+                  <span className="addr-line">Operations</span>
+                  <span className="addr">
+                    {" "}
+                    - SSH 로그 확인, DB 직접 조회, 배치 로그 점검
+                  </span>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="section">
-            <div className="section__title">🎯 핵심 트러블슈팅 (STAR)</div>
-            <div className="section__list">
-              <div className="section__list-item">
-                {starStories.map((story) => (
-                  <div key={story.title} style={{ marginBottom: "18px" }}>
-                    <div className="project-text">
-                      · <span className="addr-line">{story.title}</span>
-                    </div>
-                    <div className="project-text">
-                      Situation - {renderTechText(story.situation)}
-                    </div>
-                    <div className="project-text">
-                      Task - {renderTechText(story.task)}
-                    </div>
-                    <div className="project-text">
-                      Action - {renderTechText(story.action)}
-                    </div>
-                    <div className="project-text">
-                      Result - {renderTechText(story.result)}
-                    </div>
+              <div>
+                <div className="section__title">선택 이유와 트레이드오프</div>
+                {techChoices.map((choice) => (
+                  <div className="project-text" key={choice.title}>
+                    · <span className="addr-line">{choice.title}</span> -{" "}
+                    {renderTechText(choice.summary)}{" "}
+                    {renderTechText(choice.tradeoff)}
                   </div>
                 ))}
               </div>
             </div>
           </div>
           <div className="section">
-            <div className="section__title">🙋‍♂️ 내 역할</div>
+            <div className="section__title">핵심 트러블슈팅 (STAR)</div>
+            <div className="section__list">
+              {starStories.map((story) => (
+                <div className="star-story" key={story.title}>
+                  <div className="star-story__title">{story.title}</div>
+                  <div className="star-story__row">
+                    <span className="star-story__label">Situation</span>
+                    <span className="star-story__content">
+                      {renderTechText(story.situation)}
+                    </span>
+                  </div>
+                  <div className="star-story__row">
+                    <span className="star-story__label">Task</span>
+                    <span className="star-story__content">
+                      {renderTechText(story.task)}
+                    </span>
+                  </div>
+                  <div className="star-story__row">
+                    <span className="star-story__label">Action</span>
+                    <span className="star-story__content">
+                      {renderTechText(story.action)}
+                    </span>
+                  </div>
+                  <div className="star-story__row">
+                    <span className="star-story__label">Result</span>
+                    <span className="star-story__content">
+                      {renderTechText(story.result)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="section">
+            <div className="section__title">내 역할</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
@@ -278,7 +282,7 @@ const Project4 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">🤝 운영 / 협업</div>
+            <div className="section__title">운영 / 협업</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
@@ -305,7 +309,7 @@ const Project4 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">📚 개발과정</div>
+            <div className="section__title">개발과정</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">
@@ -341,7 +345,7 @@ const Project4 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">📌 회고</div>
+            <div className="section__title">회고</div>
             <div className="section__list">
               <div className="section__list-item">
                 <div className="project-text">

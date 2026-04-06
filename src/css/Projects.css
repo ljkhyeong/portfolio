@@ -1,22 +1,22 @@
+/* ── About page project cards (3-col grid) ────── */
 .projects-main {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 8px;
 }
 
+/* ── Projects tab layout ──────────────────────── */
 .projects-layout {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 36px;
   width: 100%;
-  max-width: 100%;
 }
 
 .project-section {
   padding-top: 28px;
-  border-top: 1px solid #d9dde3;
+  border-top: 1px solid #e8e6e1;
 }
 
 .project-section:first-child {
@@ -29,45 +29,127 @@
 }
 
 .project-section__title {
-  margin: 0 0 6px;
-  font-size: 22px;
-  color: #2f5f90;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
 }
 
 .project-section__subtitle {
   margin: 0;
-  color: #6a7580;
+  font-size: 14px;
+  color: #888;
 }
 
-.projects-grid {
+/* ── Feature Card (horizontal, for PROJECTS tab) ─ */
+.project-feature {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  width: 100%;
-}
-
-.projects-card {
-  display: flex;
-  flex-direction: column;
-  width: min(260px, 100%);
+  gap: 0;
   overflow: hidden;
-  border: 1px solid #e3e7eb;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  box-shadow: 0 6px 18px rgba(20, 32, 46, 0.08);
+  border: 1px solid #e8e6e1;
+  border-radius: 14px;
+  background: #fff;
   cursor: pointer;
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.2s ease;
+}
+
+.project-feature:hover {
+  transform: translateY(-3px);
+  border-color: #ccc;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.project-feature__image {
+  width: 320px;
+  min-width: 320px;
+  min-height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.project-feature__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 24px 28px;
+  gap: 8px;
+}
+
+.project-feature__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.35;
+}
+
+.project-feature__text {
+  margin: 0;
+  font-size: 14.5px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.project-feature__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.project-feature__tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #e0ddd8;
+  background: #fafaf8;
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.project-feature__period {
+  margin-top: auto;
+  font-size: 13px;
+  color: #999;
+  font-variant-numeric: tabular-nums;
+}
+
+.project-feature__cta {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #2a5a84;
+  letter-spacing: -0.01em;
+  transition: color 0.15s;
+}
+
+.project-feature:hover .project-feature__cta {
+  color: #1a3d5c;
+}
+
+/* ── Small card (About page & detail page grids) ─ */
+.projects-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #e8e6e1;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
     border-color 0.2s ease;
 }
 
 .projects-card:hover {
-  transform: translateY(-2px);
-  border-color: #bfd3e6;
-  box-shadow: 0 10px 24px rgba(20, 32, 46, 0.12);
+  transform: translateY(-3px);
+  border-color: #ccc;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .projects-card__image {
@@ -82,52 +164,58 @@
   flex: 1;
   flex-direction: column;
   gap: 8px;
-  padding: 13px 14px 15px;
+  padding: 16px 18px 18px;
 }
 
 .projects-card__title {
   margin: 0;
-  color: #203347;
-  font-size: 16px;
+  color: #1a1a1a;
+  font-size: 15px;
+  font-weight: 700;
   line-height: 1.4;
-  min-height: 44px;
+  min-height: 42px;
   display: flex;
   align-items: center;
 }
 
 .projects-card__text {
-  color: #536273;
-  line-height: 1.55;
+  color: #666;
+  font-size: 13.5px;
+  line-height: 1.6;
 }
 
 .projects-card__period {
   margin-top: auto;
   padding-top: 8px;
-  font-size: 12px;
-  color: #7a8591;
+  font-size: 12.5px;
+  color: #999;
+  font-variant-numeric: tabular-nums;
 }
 
+/* ── Gallery cards (Project detail pages) ─────── */
 .gallery {
   margin: 0;
-  border: 0.5px solid #ccc;
-  width: min(260px, 100%);
-  box-shadow: 2px 2px;
-  transition: 0.3s;
+  border: 1px solid #e8e6e1;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   background: #fff;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  cursor: pointer;
 }
 
 .gallery:hover {
-  border: 1px solid #777;
-  background-color: #ddd;
-  cursor: pointer;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .gallery img {
   width: 100%;
-  height: 150px;
+  height: 140px;
   object-fit: cover;
   object-position: center;
 }
@@ -140,19 +228,24 @@
 }
 
 .projects-title {
-  margin: 0 0 8px;
+  margin: 0;
+  padding: 10px 12px;
   text-align: center;
-  min-height: 48px;
+  font-size: 13.5px;
+  font-weight: 600;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #333;
 }
 
 .projects-text {
   text-align: center;
   padding: 0;
-  color: #4f5b66;
-  line-height: 1.5;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .projects-period {
@@ -160,29 +253,43 @@
   padding-top: 12px;
   text-align: center;
   font-size: 12px;
-  color: #7a8591;
+  color: #aaa;
 }
 
 .projects-empty {
   padding: 20px;
-  border: 1px dashed #bfc8d2;
-  background: #f7f9fb;
-  color: #55606c;
+  border: 1px dashed #d8d8d8;
+  border-radius: 10px;
+  background: #fafaf9;
+  color: #888;
 }
 
+/* ── Responsive ───────────────────────────────── */
 @media (max-width: 768px) {
   .projects-layout {
     gap: 24px;
   }
 
-  .projects-grid {
+  .project-feature {
     flex-direction: column;
   }
 
-  .gallery {
+  .project-feature__image {
     width: 100%;
+    min-width: 0;
+    height: 180px;
+    min-height: 0;
   }
 
+  .project-feature__body {
+    padding: 20px;
+  }
+
+  .projects-main {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery,
   .projects-card {
     width: 100%;
   }
