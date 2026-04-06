@@ -36,20 +36,20 @@ const About = ({ onShowProjects, onShowBooks }) => {
           <div className="section__list">
             <div className="section__list-item">
               <div className="text">
-                ■ 복잡한 업무 규칙을 백엔드 공통 로직으로 정리하고, 운영
+                복잡한 업무 규칙을 백엔드 공통 로직으로 정리하고, 운영
                 단계까지 고려해 안정적으로 유지하는 개발자입니다.
               </div>
               <div className="text">
-                ■ 공공 레거시 시스템에서는 장애 대응과 운영 안정성을, 개인
+                공공 레거시 시스템에서는 장애 대응과 운영 안정성을, 개인
                 프로젝트에서는 구조 개선과 검증 체계 강화를 경험했습니다.
               </div>
               <div className="text">
-                ■ 백엔드 구현을 기반으로 배포, 관측성, 세션, 요청 제한까지 직접
+                백엔드 구현을 기반으로 배포, 관측성, 세션, 요청 제한까지 직접
                 다루며, 선택한 기술의 장단점을 설명할 수 있는 개발자로 성장하고
                 있습니다.
               </div>
               <div className="text">
-                ■ 개인 프로젝트에서는 PRD, ADR, Idea, Retrospective를 지속적으로
+                개인 프로젝트에서는 PRD, ADR, Idea, Retrospective를 지속적으로
                 남기며 시스템 경계, API 계약, 운영 기준을 먼저 정리한 뒤
                 개발하는 방식을 훈련하고 있습니다.
               </div>
@@ -169,15 +169,8 @@ const About = ({ onShowProjects, onShowBooks }) => {
                 </div>
               ))}
             </div>
-            <div
-              style={{
-                marginTop: "4px",
-                marginBottom: "20px",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              ↑ 클릭하시면 PROJECTS 탭으로 이동합니다 ↑
+            <div className="about-books-hint">
+              카드를 클릭하면 상세 내용을 볼 수 있습니다
             </div>
           </div>
         </div>
@@ -224,7 +217,7 @@ const About = ({ onShowProjects, onShowBooks }) => {
             ))}
           </div>
           <div className="about-books-hint">
-            ↑ 클릭하시면 BOOKS 탭으로 이동합니다 ↑
+            카드를 클릭하면 상세 내용을 볼 수 있습니다
           </div>
         </div>
       </div>
