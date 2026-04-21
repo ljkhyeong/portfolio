@@ -215,14 +215,32 @@ const Project3 = () => {
             </div>
           </div>
           <div className="section">
-            <div className="section__title">Github Link</div>
+            <div className="section__title">Project Links</div>
             <div className="section__list">
-              <a
-                href="https://github.com/ljkhyeong/happyGallery"
-                className="addr"
-              >
-                https://github.com/ljkhyeong/happyGallery
-              </a>
+              <div className="project-text">
+                <span className="addr-line">Live</span>
+                <a
+                  href="https://d36l7yi27358tl.cloudfront.net/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="addr"
+                >
+                  {" "}
+                  - https://d36l7yi27358tl.cloudfront.net/
+                </a>
+              </div>
+              <div className="project-text">
+                <span className="addr-line">GitHub</span>
+                <a
+                  href="https://github.com/ljkhyeong/happyGallery"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="addr"
+                >
+                  {" "}
+                  - https://github.com/ljkhyeong/happyGallery
+                </a>
+              </div>
             </div>
           </div>
           <div className="section">
