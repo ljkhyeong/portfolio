@@ -542,6 +542,23 @@
     border-bottom: 1px solid var(--line);
 }
 
+.timeline__group-title {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 22px 0 10px;
+    border-top: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.timeline__group-title > span:first-child {
+    color: var(--accent-on-light);
+}
+
 .timeline__item {
     display: grid;
     grid-template-columns: 180px 1fr;
@@ -567,11 +584,14 @@
     text-transform: uppercase;
 }
 
-.timeline__content h3 {
+.timeline__content h3,
+.timeline__content h4 {
     margin: 10px 0 14px;
     font-size: clamp(21px, 2vw, 28px);
     font-weight: 650;
     letter-spacing: -0.04em;
+    line-height: 1.3;
+    word-break: keep-all;
 }
 
 .timeline__content p {

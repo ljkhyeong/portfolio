@@ -73,7 +73,7 @@ const About = () => {
 
             <section className="experience-section" id="experience">
                 <div className="section-heading section-heading--compact">
-                    <span className="section-kicker">03 / 경력</span>
+                    <span className="section-kicker"># experience.md</span>
                     <h2>
                         공공 SI부터 개인 서비스까지
                         <br />
@@ -83,31 +83,43 @@ const About = () => {
 
                 <div className="experience-layout">
                     <div className="timeline" aria-label="경력 및 교육">
-                        <article className="timeline__item">
-                            <div className="timeline__period">2024.06 — 2026.01</div>
-                            <div className="timeline__content">
-                                <span>실무</span>
-                                <h3>BEINTECH · 백엔드 개발 및 운영</h3>
-                                <p>
-                                    차세대 군사법 정보 시스템의 군교정 영역에서 기관 연계 배치, 보안
-                                    기능, 장애 대응을 맡았습니다. Java 8, eGov, MyBatis, Tibero
-                                    기반의 폐쇄망 환경에서 로그와 DB, 배치 흐름을 함께 확인했습니다.
-                                </p>
-                                <Link to="/projects/defense">실무 사례 보기 →</Link>
-                            </div>
-                        </article>
-                        <article className="timeline__item">
-                            <div className="timeline__period">2023.05 — 2023.11</div>
-                            <div className="timeline__content">
-                                <span>이전 경험</span>
-                                <h3>카카오 클라우드 스쿨 개발자 과정 3기</h3>
-                                <p>
-                                    6인 팀에서 HLS 서버와 React 화면을 맡았습니다. WebSocket 제어와
-                                    WebRTC/RTP 미디어 경로를 분리하고 FFmpeg와 GStreamer로 HLS를
-                                    변환해 지연을 약 30초에서 11초로 줄였습니다.
-                                </p>
-                            </div>
-                        </article>
+                        <section className="timeline__group" aria-labelledby="education-title">
+                            <h3 className="timeline__group-title" id="education-title">
+                                <span aria-hidden="true">##</span> <span lang="en">Education</span>
+                            </h3>
+                            <article className="timeline__item">
+                                <div className="timeline__period">2023.05 — 2023.11</div>
+                                <div className="timeline__content">
+                                    <span>카카오 클라우드 스쿨 개발자 과정 3기 · 6인 팀</span>
+                                    <h4>WebRTC/HLS 현장강의 보조 서비스</h4>
+                                    <p>
+                                        HLS 서버와 React 화면을 맡았습니다. WebSocket 제어와
+                                        WebRTC/RTP 미디어 경로를 분리하고 FFmpeg와 GStreamer로 HLS를
+                                        변환해 지연을 약 30초에서 11초로 줄였습니다.
+                                    </p>
+                                    <Link to="/projects/webrtc">프로젝트 기록 보기 →</Link>
+                                </div>
+                            </article>
+                        </section>
+                        <section className="timeline__group" aria-labelledby="career-title">
+                            <h3 className="timeline__group-title" id="career-title">
+                                <span aria-hidden="true">##</span> <span lang="en">Career</span>
+                            </h3>
+                            <article className="timeline__item">
+                                <div className="timeline__period">2024.06 — 2026.01</div>
+                                <div className="timeline__content">
+                                    <span>실무</span>
+                                    <h4>BEINTECH · 백엔드 개발 및 운영</h4>
+                                    <p>
+                                        차세대 군사법 정보 시스템의 군교정 영역에서 기관 연계 배치,
+                                        보안 기능, 장애 대응을 맡았습니다. Java 8, eGov, MyBatis,
+                                        Tibero 기반의 폐쇄망 환경에서 로그와 DB, 배치 흐름을 함께
+                                        확인했습니다.
+                                    </p>
+                                    <Link to="/projects/defense">실무 사례 보기 →</Link>
+                                </div>
+                            </article>
+                        </section>
                     </div>
 
                     <aside className="profile-statement">

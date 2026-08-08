@@ -1,39 +1,9 @@
 import { Link } from "react-router-dom"
 import { navigableCaseStudies, projectsById } from "../../data/projects"
-import { assetPath } from "../../utils/assetPath"
-import GalleryScreenshot from "../GalleryScreenshot"
+import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import "../../css/Project.css"
 
-const ProductVisual = ({ project }) => {
-    const isBaton = project.visual === "baton"
-
-    return (
-        <figure className={`case-visual case-visual--product case-visual--${project.visual}-ui`}>
-            <div className="case-product__chrome" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-                <strong>{isBaton ? "BATON / ONBOARDING" : "HAPPYGALLERY / HOME"}</strong>
-            </div>
-            <div className="case-product__viewport">
-                {isBaton ? (
-                    <img
-                        src={assetPath("baton-product-ui.png")}
-                        width="1440"
-                        height="900"
-                        alt="BATON 팀 생성 온보딩 실행 화면"
-                    />
-                ) : (
-                    <GalleryScreenshot sizes="(max-width: 900px) 100vw, 1200px" />
-                )}
-            </div>
-            <figcaption>
-                <span>실제 실행 화면</span>
-                <strong>{isBaton ? "조직 생성 온보딩" : "공방 상품 및 클래스 홈"}</strong>
-            </figcaption>
-        </figure>
-    )
-}
+const ProductVisual = ({ project }) => <ProjectScreenshotGallery project={project} context="case" />
 
 const BatonServices = ({ services }) => {
     const core = services.find((service) => service.primary)
@@ -43,7 +13,9 @@ const BatonServices = ({ services }) => {
         <div className="case-service-map" aria-label="BATON 서비스 책임 경계">
             <article className="case-service-map__core">
                 <div>
-                    <span>MAIN / {core.database}</span>
+                    <span>
+                        CORE / {core.kind} / {core.database}
+                    </span>
                     <strong>{core.name}</strong>
                     <h3>{core.role}</h3>
                 </div>
@@ -51,17 +23,26 @@ const BatonServices = ({ services }) => {
                 <em>{core.evidence}</em>
             </article>
             <div className="case-service-map__divider">
-                <span>외부 실패 특성에 따라 분리한 서비스</span>
+                <span>3개의 독립 마이크로서비스</span>
             </div>
             <div className="case-service-map__children">
                 {supporting.map((service) => (
-                    <article key={service.name}>
-                        <span>{service.database}</span>
+                    <Link
+                        key={service.name}
+                        to={service.route}
+                        aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
+                    >
+                        <span>
+                            {service.kind} / {service.database}
+                        </span>
                         <strong>{service.name}</strong>
                         <h3>{service.role}</h3>
                         <p>{service.detail}</p>
                         <em>{service.evidence}</em>
-                    </article>
+                        <b>
+                            마이크로서비스 상세 보기 <span aria-hidden="true">↗</span>
+                        </b>
+                    </Link>
                 ))}
             </div>
         </div>
@@ -108,22 +89,62 @@ const ProjectVisual = ({ project }) => {
 const ArchitectureSection = ({ project }) => (
     <section className="case-architecture" aria-labelledby="architecture-title">
         <div className="case-section-heading">
-            <span>02</span>
+            <span aria-hidden="true">## 02</span>
             <h2 id="architecture-title">설계 판단</h2>
         </div>
         <div className="case-architecture__intro">
             <span>{project.architecture.label}</span>
             <h3>{project.architecture.title}</h3>
-            <p>{project.architecture.description}</p>
+            <div>
+                <p>{project.architecture.description}</p>
+                <blockquote>
+                    <strong>트레이드오프</strong>
+                    {project.architecture.tradeoff}
+                </blockquote>
+            </div>
         </div>
-        <div className="case-architecture__decisions">
-            {project.spotlights.map((spotlight) => (
-                <article key={spotlight.label}>
-                    <span>{spotlight.label}</span>
-                    <h3>{spotlight.title}</h3>
-                    <p>{spotlight.text}</p>
+    </section>
+)
+
+const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
+    <section className="case-documents" aria-labelledby="documents-title">
+        <div className="case-section-heading">
+            <span>{sectionNumber}</span>
+            <h2 id="documents-title">문서 분류와 대표 문서</h2>
+        </div>
+        <p className="case-documents__intro">
+            문서 종류별 역할을 구분하고, 기술 선택과 운영 판단을 확인할 대표 문서를 골랐습니다.
+        </p>
+        <div className="case-document-catalog" aria-label="문서 분류">
+            {documentGroups.map((group) => (
+                <article key={group.id}>
+                    <code>{group.label}</code>
+                    <strong>{group.count}</strong>
+                    <p>{group.summary}</p>
                 </article>
             ))}
+        </div>
+        <div className="case-representative-documents">
+            <h3>
+                <span aria-hidden="true">###</span> 대표 문서
+            </h3>
+            <ul>
+                {documents.map((doc) => (
+                    <li key={doc.href}>
+                        <a
+                            href={doc.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${doc.label} 대표 문서 새 창에서 보기`}
+                        >
+                            <code>[{doc.type}]</code>
+                            <strong>{doc.label}</strong>
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                        <p>{doc.note}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     </section>
 )
@@ -184,9 +205,11 @@ const ProjectCaseStudy = ({ projectId }) => {
     const projectIndex = navigableCaseStudies.findIndex((item) => item.id === projectId)
     const nextProject = navigableCaseStudies[(projectIndex + 1) % navigableCaseStudies.length]
     const hasArchitecture = Boolean(project.architecture)
+    const hasDocuments = Boolean(project.documents?.length)
     const problemSectionNumber = hasArchitecture ? "03" : "02"
     const proofSectionNumber = hasArchitecture ? "04" : "03"
-    const metaSectionNumber = hasArchitecture ? "05" : "04"
+    const documentSectionNumber = hasArchitecture ? "05" : "04"
+    const metaSectionNumber = hasArchitecture ? (hasDocuments ? "06" : "05") : "04"
 
     return (
         <main className={`case-study-page case-study-page--${project.visual}`}>
@@ -248,7 +271,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <section className="case-system" aria-labelledby="system-title">
                     <div className="case-section-heading">
                         <span>01</span>
-                        <h2 id="system-title">시스템 구성</h2>
+                        <h2 id="system-title">대표 화면 및 서비스 구성</h2>
                     </div>
                     <ProjectVisual project={project} />
                     {project.services ? <BatonServices services={project.services} /> : null}
@@ -260,7 +283,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <section className="case-problems" aria-labelledby="problems-title">
                     <div className="case-section-heading">
                         <span>{problemSectionNumber}</span>
-                        <h2 id="problems-title">고민과 해결</h2>
+                        <h2 id="problems-title">대표 문제 해결</h2>
                     </div>
                     <div className="case-problems__list">
                         {project.problems.map((problem) => (
@@ -271,11 +294,11 @@ const ProjectCaseStudy = ({ projectId }) => {
                                 </div>
                                 <dl className="case-problem__story">
                                     <div>
-                                        <dt>고민</dt>
+                                        <dt>문제 상황</dt>
                                         <dd>{problem.constraint}</dd>
                                     </div>
                                     <div>
-                                        <dt>설계</dt>
+                                        <dt>해결</dt>
                                         <dd>{problem.decision}</dd>
                                     </div>
                                     <div>
@@ -283,7 +306,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                                         <dd>{problem.validation}</dd>
                                     </div>
                                     <div>
-                                        <dt>남은 한계</dt>
+                                        <dt>트레이드오프와 한계</dt>
                                         <dd>{problem.boundary}</dd>
                                     </div>
                                 </dl>
@@ -307,6 +330,14 @@ const ProjectCaseStudy = ({ projectId }) => {
                         ))}
                     </div>
                 </section>
+
+                {hasDocuments ? (
+                    <CaseDocuments
+                        documentGroups={project.documentGroups}
+                        documents={project.documents}
+                        sectionNumber={documentSectionNumber}
+                    />
+                ) : null}
 
                 <section className="case-meta" aria-labelledby="stack-title">
                     <div className="case-meta__stack">

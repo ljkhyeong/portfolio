@@ -11,7 +11,7 @@
             <section class="page page--cover">
                 <div class="cover-grid" aria-hidden="true"></div>
                 <header class="cover-nav">
-                    <span>PORTFOLIO / 2026</span>
+                    <span># portfolio.md / 2026</span>
                     <span>BACKEND DEVELOPER</span>
                 </header>
 
@@ -54,12 +54,12 @@
 
             <section class="page page--profile">
                 <header class="page-header">
-                    <span>01 / 소개 및 경력</span>
+                    <span># profile.md</span>
                     <span>임정규 포트폴리오</span>
                 </header>
 
                 <div class="page-title">
-                    <p class="eyebrow eyebrow--paper">WORKING PRINCIPLES</p>
+                    <p class="eyebrow eyebrow--paper"># WORKING PRINCIPLES</p>
                     <h2>정합성과 복구 경로를 먼저 설계합니다.</h2>
                     <p>
                         기능이 정상 동작하는 순간뿐 아니라 중복 요청, 외부 연동 실패, 재시작 뒤의
@@ -85,15 +85,34 @@
                     </article>
                 </div>
 
+                <section class="education-panel" aria-labelledby="education-title">
+                    <h3 class="section-label" id="education-title">## Education</h3>
+                    <div class="education-primary">
+                        <div class="education-primary__meta">
+                            <time>2023.05 — 2023.11</time>
+                            <strong>카카오 클라우드 스쿨 3기</strong>
+                            <span>6인 교육 팀</span>
+                        </div>
+                        <div>
+                            <h4>WebRTC/HLS 현장강의 보조 서비스</h4>
+                            <p>
+                                HLS 서버와 React를 담당했습니다. WebSocket 제어와 WebRTC/RTP 미디어
+                                경로를 나누고 FFmpeg/GStreamer HLS를 구성해 지연을 약 30초에서
+                                11초로 줄였습니다.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="career-panel" aria-labelledby="career-title">
-                    <div class="section-label" id="career-title">CAREER</div>
+                    <h3 class="section-label" id="career-title">## Career</h3>
                     <div class="career-primary">
                         <div class="career-primary__meta">
                             <time>2024.06 — 2026.01</time>
                             <strong>BEINTECH</strong>
                         </div>
                         <div>
-                            <h3>백엔드 개발 및 운영</h3>
+                            <h4>백엔드 개발 및 운영</h4>
                             <p>
                                 차세대 군사법 정보 시스템 군교정 부문에서 기관 연계 배치, 보안 기능,
                                 로그 및 DB 기반 장애 대응을 담당했습니다.
@@ -105,14 +124,6 @@
                         </div>
                     </div>
                 </section>
-
-                <aside class="education-line" aria-label="이전 교육 프로젝트">
-                    <strong>2023 / 카카오 클라우드 스쿨 3기, 6인 교육 팀</strong>
-                    <p>
-                        HLS 서버와 React를 담당했습니다. WebSocket 제어와 WebRTC/RTP 미디어 경로를
-                        나누고 FFmpeg/GStreamer HLS를 구성해 지연을 약 30초에서 11초로 줄였습니다.
-                    </p>
-                </aside>
 
                 <div class="profile-note">
                     <span>LEGACY ↔ MODERN</span>
@@ -127,75 +138,77 @@
 
             <section class="page page--dark page--baton">
                 <header class="page-header page-header--dark">
-                    <span>02 / 개인 프로젝트</span>
-                    <span>서비스별 구현 완료 · 통합 진행 중</span>
+                    <span># projects/baton/overview.md</span>
+                    <span>Core + 3 Microservices</span>
                 </header>
 
                 <div class="page-title page-title--compact page-title--dark project-heading">
                     <div>
-                        <p class="eyebrow">POLICY-AWARE BACKEND SERVICES</p>
+                        <p class="eyebrow">## MAIN PROJECT</p>
                         <h2>BATON</h2>
                     </div>
                     <p>
-                        Core를 조직 운영의 기준으로 두고, 링크 생성, URL 점검, 메시지 전송을 각기
-                        다른 실패 모델을 가진 서비스로 분리했습니다.
+                        조직 운영의 기준 데이터는 Core에 두고 링크, URL 점검, 메시지 전송은 서로
+                        다른 실패와 복구 방식에 맞춰 독립 마이크로서비스로 분리했습니다.
                     </p>
                 </div>
 
-                <figure class="product-shot product-shot--dark">
-                    <img src="../public/baton-product-ui.png" alt="BATON 실제 제품 화면" />
-                    <figcaption>BATON product UI / 프로젝트 화면</figcaption>
-                </figure>
-
-                <div class="baton-map" aria-label="BATON 서비스 책임과 검증 사실">
-                    <article class="baton-core">
-                        <div>
-                            <small>CORE / SYSTEM OF RECORD</small>
-                            <h3>조직 운영의 기준</h3>
-                            <p>팀, 시즌, 권한, 루틴, 핸드오프의 기준 데이터를 관리합니다.</p>
-                        </div>
-                        <strong>35 <span>OpenAPI ops</span></strong>
-                    </article>
-
-                    <div class="baton-service-list">
-                        <article>
-                            <div class="service-name">
-                                <small>GO</small>
-                                <strong>링크 생성</strong>
-                            </div>
-                            <p>UUID 멱등 키와 HMAC-SHA256. 동시 요청 <b>8 → 1</b>.</p>
-                            <span class="test-count">374 tests</span>
-                        </article>
-                        <article>
-                            <div class="service-name">
-                                <small>WATCH</small>
-                                <strong>URL 점검</strong>
-                            </div>
-                            <p>
-                                DNS pinning 기반 SSRF 방어, lease/revision fencing, transactional
-                                outbox.
-                            </p>
-                            <span class="test-count">271 tests</span>
-                        </article>
-                        <article>
-                            <div class="service-name">
-                                <small>RELAY</small>
-                                <strong>메시지 전송</strong>
-                            </div>
-                            <p>
-                                inbox dedupe, SKIP LOCKED와 lease token. 결과 불명은
-                                OUTCOME_UNKNOWN으로 보존.
-                            </p>
-                            <span class="test-count">373 tests</span>
-                        </article>
-                    </div>
+                <div class="screen-gallery screen-gallery--baton" aria-label="BATON 대표 화면">
+                    <figure class="screen-gallery__primary">
+                        <img
+                            src="../public/baton-workspace.png"
+                            alt="BATON 바통 타임라인과 멈춘 역할 및 결정 기록 화면"
+                        />
+                        <figcaption><b>01 / 업무 흐름</b> 바통 타임라인과 결정 기록</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="../public/baton-batonbook.png" alt="BATON 모바일 바통북 화면" />
+                        <figcaption><b>02 / 바통북</b> 역할 목적과 반복 업무</figcaption>
+                    </figure>
+                    <figure>
+                        <img
+                            src="../public/baton-role-detail.png"
+                            alt="BATON 모바일 역할 상세 화면"
+                        />
+                        <figcaption><b>03 / 역할 상세</b> 책임과 바통 준비도</figcaption>
+                    </figure>
                 </div>
+
+                <section class="service-index service-index--dark" aria-labelledby="baton-services">
+                    <h3 class="markdown-heading" id="baton-services">### 서비스 구성</h3>
+                    <article class="service-index__core">
+                        <small>CORE / SYSTEM OF RECORD</small>
+                        <strong>조직 운영 기준 데이터</strong>
+                        <p>팀, 시즌, 역할, 루틴, 라운드, 의사결정, 자료와 핸드오프</p>
+                        <span>MySQL · PRD 5 · ADR 17 · OpenAPI 계약</span>
+                    </article>
+                    <div class="service-index__children">
+                        <a href="https://ljkportfolio.netlify.app/projects/baton/go">
+                            <small>GO / MICROSERVICE</small>
+                            <strong>정책 기반 링크</strong>
+                            <p>UUID 멱등 키, HMAC-SHA256, 허용 경로</p>
+                            <span>MySQL · 374 tests · 동시 8 → 1</span>
+                        </a>
+                        <a href="https://ljkportfolio.netlify.app/projects/baton/watch">
+                            <small>WATCH / MICROSERVICE</small>
+                            <strong>안전한 URL 점검</strong>
+                            <p>DNS pinning, SSRF 방어, lease/revision 펜싱</p>
+                            <span>PostgreSQL · 271 tests</span>
+                        </a>
+                        <a href="https://ljkportfolio.netlify.app/projects/baton/relay">
+                            <small>RELAY / MICROSERVICE</small>
+                            <strong>복구 가능한 메시지 전달</strong>
+                            <p>inbox, 작업 선점, 재시도, OUTCOME_UNKNOWN</p>
+                            <span>PostgreSQL · 373 tests</span>
+                        </a>
+                    </div>
+                </section>
 
                 <aside class="status-note status-note--dark">
                     <strong>현재 범위</strong>
                     <p>
-                        Core, GO, WATCH, RELAY의 서비스별 핵심 기능과 테스트를 구현했습니다. 서비스
-                        간 E2E 통합과 배포는 아직 진행 중입니다.
+                        4개 저장소의 핵심 기능과 테스트를 구현했습니다. 서비스 간 전체 E2E 연동과
+                        운영 환경 배포는 진행 중이며, WATCH 저장소만 공개되어 있습니다.
                     </p>
                 </aside>
 
@@ -205,91 +218,418 @@
                 </footer>
             </section>
 
+            <section class="page page--dark page--evidence page--baton-evidence">
+                <header class="page-header page-header--dark">
+                    <span># projects/baton/evidence.md</span>
+                    <span>Decision records + recovery paths</span>
+                </header>
+
+                <div class="page-title page-title--compact page-title--dark evidence-heading">
+                    <p class="eyebrow">## BATON / ENGINEERING EVIDENCE</p>
+                    <h2>대표 문제 해결</h2>
+                    <p>
+                        서비스마다 실제로 다루는 실패 단위와 복구 기준을 문서와 테스트로
+                        고정했습니다.
+                    </p>
+                </div>
+
+                <div class="problem-grid problem-grid--dark" aria-label="BATON 대표 문제 해결">
+                    <article>
+                        <span>CORE / HANDOFF</span>
+                        <h3>역할 교대의 중간 상태를 한 트랜잭션으로 묶음</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>수락과 담당자 변경이 따로 반영되면 책임자가 섞임</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>PREPARING → TRANSFERRED → ACCEPTED와 열린 바통 1건 제약</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>상태와 이력이 늘어 운영 화면과 복구 절차가 필요</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>GO / IDEMPOTENCY</span>
+                        <h3>동시 링크 생성 8건을 1건으로 수렴</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>응답 유실과 동시 요청으로 같은 링크가 중복 생성됨</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>UUID 멱등 키, 요청 해시와 결정적 HMAC 코드</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>HMAC 키와 DB를 같은 시점에 복구해야 함</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>WATCH / SAFE CHECK</span>
+                        <h3>느린 URL 점검과 DB 락을 분리</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>느린 I/O와 늦은 결과가 경합 및 최신 상태 덮어쓰기를 만듦</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>SSRF 차단, DNS pinning, lease와 revision 펜싱</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>실제 지연 분포에 맞춰 lease 시간을 계속 조정해야 함</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>RELAY / RECOVERY</span>
+                        <h3>전송 결과 불명과 broker 재전달을 분리</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>응답 유실 후 재시도와 commit-before-ack가 중복 발송을 만듦</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>immutable attempt, inbox 멱등성, OUTCOME_UNKNOWN</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>자동 재전송 대신 결과 조회 및 운영자 조정 절차가 필요</dd>
+                            </div>
+                        </dl>
+                    </article>
+                </div>
+
+                <section
+                    class="document-catalog document-catalog--dark"
+                    aria-labelledby="baton-docs"
+                >
+                    <h3 class="markdown-heading" id="baton-docs">### 문서 분류</h3>
+                    <div class="document-taxonomy">
+                        <article>
+                            <strong>PRD <b>14</b></strong>
+                            <p>서비스별 책임, 입력 계약과 완료 조건</p>
+                        </article>
+                        <article>
+                            <strong>ADR <b>42</b></strong>
+                            <p>기술 선택, 대안과 트레이드오프</p>
+                        </article>
+                        <article>
+                            <strong>Runbook <b>5</b></strong>
+                            <p>배포, 복구와 staging 검증 절차</p>
+                        </article>
+                        <article>
+                            <strong>API Contract <b>1</b></strong>
+                            <p>Core OpenAPI 서비스 계약</p>
+                        </article>
+                    </div>
+                </section>
+
+                <nav
+                    class="representative-docs representative-docs--dark"
+                    aria-label="BATON 대표 문서"
+                >
+                    <h3 class="markdown-heading">### 대표 문서</h3>
+                    <a href="https://ljkportfolio.netlify.app/docs/baton/core-hexagonal.md">
+                        <b>[ADR 요약] Core 헥사고날</b
+                        ><span>경계와 의존 방향, 현실적인 분리 범위</span>
+                    </a>
+                    <a href="https://ljkportfolio.netlify.app/docs/baton/go-idempotent-link.md">
+                        <b>[ADR 요약] GO 멱등 링크</b
+                        ><span>동시 요청과 재시도를 한 결과로 수렴</span>
+                    </a>
+                    <a
+                        href="https://github.com/ljkhyeong/baton-watch/blob/main/docs/ADR/0003_health-change-event-delivery/adr.md"
+                    >
+                        <b>[ADR] WATCH 이벤트 전달</b
+                        ><span>상태 변경과 아웃박스를 한 트랜잭션에 저장</span>
+                    </a>
+                    <a
+                        href="https://github.com/ljkhyeong/baton-watch/blob/main/docs/runbooks/public-staging-event-delivery.md"
+                    >
+                        <b>[Runbook] WATCH staging</b><span>재전송과 backlog 복구 검증 절차</span>
+                    </a>
+                    <a href="https://ljkportfolio.netlify.app/docs/baton/relay-attempt-recovery.md">
+                        <b>[ADR 요약] RELAY 시도 복구</b
+                        ><span>외부 호출 전 시도 의도와 결과 불명 보존</span>
+                    </a>
+                </nav>
+
+                <footer class="page-footer page-footer--dark">
+                    <span>PRD / ADR / RUNBOOK / API CONTRACT</span><span>04</span>
+                </footer>
+            </section>
+
             <section class="page page--gallery">
                 <header class="page-header">
-                    <span>03 / 개인 프로젝트</span>
+                    <span># projects/happyGallery/overview.md</span>
                     <span>2026.02 — 진행 중</span>
                 </header>
 
                 <div class="page-title page-title--compact project-heading">
                     <div>
-                        <p class="eyebrow eyebrow--paper">COMMERCE &amp; BOOKING</p>
+                        <p class="eyebrow eyebrow--paper">## COMMERCE + BOOKING</p>
                         <h2>happyGallery</h2>
                     </div>
                     <p>
-                        상품 판매, 클래스 예약, 이용권과 알림 흐름에서 외부 응답 누락과 동시 변경을
-                        안전하게 다시 처리하도록 설계했습니다.
+                        상품 판매, 클래스 예약과 이용권 운영에서 결제 결과 불명, 알림 유실, 동시
+                        변경을 복구 가능한 영속 상태로 모델링했습니다.
                     </p>
                 </div>
 
-                <figure class="product-shot">
-                    <img
-                        src="../public/happygallery-product-ui.png"
-                        alt="happyGallery 실제 제품 화면"
-                    />
-                    <figcaption>happyGallery product UI / 프로젝트 화면</figcaption>
-                </figure>
+                <div
+                    class="screen-gallery screen-gallery--gallery"
+                    aria-label="happyGallery 대표 화면"
+                >
+                    <figure class="screen-gallery__primary">
+                        <img
+                            src="../public/happygallery-products.jpg"
+                            alt="happyGallery 작품 선택 화면"
+                        />
+                        <figcaption><b>01 / 작품 선택</b> 검색과 필터로 상품 비교</figcaption>
+                    </figure>
+                    <figure>
+                        <img
+                            src="../public/happygallery-product-detail.jpg"
+                            alt="happyGallery 작품 주문 상세 화면"
+                        />
+                        <figcaption><b>02 / 작품 주문</b> 가격과 제작 조건 확인</figcaption>
+                    </figure>
+                    <figure>
+                        <img
+                            src="../public/happygallery-classes.jpg"
+                            alt="happyGallery 클래스 선택 화면"
+                        />
+                        <figcaption><b>03 / 클래스 선택</b> 가격과 시간 비교</figcaption>
+                    </figure>
+                </div>
 
-                <div class="metric-row" aria-label="happyGallery 구현 규모">
-                    <div><strong>6</strong><span>운영 모듈</span></div>
+                <div class="metric-row" aria-label="happyGallery 구현 및 운영 이력">
+                    <div><strong>AWS</strong><span>운영 환경 가동 후 비용 문제로 종료</span></div>
                     <div><strong>194</strong><span>OpenAPI operations</span></div>
                     <div><strong>192</strong><span>REST Docs tests</span></div>
                 </div>
 
                 <aside class="architecture-note">
-                    <span>구조 원칙</span>
+                    <span>## 구조</span>
                     <p>
-                        하나의 배포 단위 안에서 6개 운영 모듈에 포트와 어댑터 원칙을 적용했습니다.
-                        모든 계층을 형식적으로 분리한 순수 헥사고날 구조가 아니라, 외부 연동과 핵심
-                        업무 규칙의 결합을 줄이는 데 필요한 경계만 선택했습니다.
+                        모듈러 모놀리스 안에서 bootstrap, web, persistence/external adapter,
+                        application, domain으로 의존 방향을 정했습니다. 결제와 알림처럼 교체 가능한
+                        외부 경계에 포트를 두고, 일부 JPA 어노테이션은 유지했습니다.
                     </p>
                 </aside>
 
-                <div class="decision-cards">
-                    <article>
-                        <span>PAYMENT / REFUND</span>
-                        <h3>중복 처리와 결과 불명을 분리</h3>
-                        <p>
-                            <code>orderId</code>로 요청을 묶고 <code>processingToken</code>을 가진
-                            작업만 상태를 바꿉니다. 결과가 불명확하면 PG를 조회하고, 환불 재시도에는
-                            같은 UUID를 재사용합니다.
-                        </p>
-                    </article>
-                    <article>
-                        <span>NOTIFICATION</span>
-                        <h3>커밋 뒤 전송, 스케줄러로 복구</h3>
-                        <p>
-                            업무 변경과 알림 outbox를 같은 트랜잭션에 저장합니다.
-                            <code>AFTER_COMMIT</code>으로 즉시 전송하고 누락이나 실패는 스케줄러가
-                            다시 가져갑니다.
-                        </p>
-                    </article>
-                    <article>
-                        <span>CONCURRENCY</span>
-                        <h3>락 획득 순서를 고정</h3>
-                        <p>
-                            예약은 클래스 다음 슬롯 PK 순서, 재고는 productId 오름차순으로 비관적
-                            락을 획득해 초과 처리와 교착 위험을 줄입니다.
-                        </p>
-                    </article>
-                </div>
-
                 <aside class="status-note">
-                    <strong>검증 범위</strong>
+                    <strong>운영 이력</strong>
                     <p>
-                        아직 실운영 전입니다. 194 operations와 192 tests는 로컬 API 문서 스냅샷과
-                        REST Docs 결과이며 실제 사용자 또는 트래픽 지표가 아닙니다.
+                        AWS 운영 환경을 실제 가동했으나 트래픽과 무관한 상시 리소스 비용을 확인해
+                        주요 리소스를 중지 및 삭제했습니다. 현재 공개 운영은 하지 않으며 단일 노트북
+                        k3s 배포와 복구 절차를 준비했습니다.
                     </p>
                 </aside>
 
                 <footer class="page-footer">
-                    <span>SPRING BOOT / REACT / MYSQL / REDIS / REST DOCS</span><span>04</span>
+                    <span>SPRING BOOT / REACT / MYSQL / REDIS / REST DOCS</span><span>05</span>
+                </footer>
+            </section>
+
+            <section class="page page--evidence page--gallery-evidence">
+                <header class="page-header">
+                    <span># projects/happyGallery/evidence.md</span>
+                    <span>Architecture + operations</span>
+                </header>
+
+                <div class="page-title page-title--compact evidence-heading">
+                    <p class="eyebrow eyebrow--paper">## HAPPYGALLERY / ENGINEERING EVIDENCE</p>
+                    <h2>대표 문제 해결</h2>
+                    <p>정합성, 외부 I/O, 보안과 운영 비용을 각각 검증 가능한 경계로 나눴습니다.</p>
+                </div>
+
+                <div
+                    class="problem-grid problem-grid--gallery"
+                    aria-label="happyGallery 대표 문제 해결"
+                >
+                    <article>
+                        <span>ARCHITECTURE</span>
+                        <h3>계층 규칙을 빌드에서 차단</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>web과 persistence 코드가 도메인으로 섞임</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>6개 모듈, Gradle 의존성과 ArchUnit 정책 테스트</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>타입 수는 늘고 domain의 일부 JPA 의존은 유지</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>PAYMENT / REFUND</span>
+                        <h3>결과 불명을 무작정 재시도하지 않음</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>PG 응답 유실 뒤 중복 승인과 환불 위험</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>멱등 키, processingToken, 결과 조회 후 재시도</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>API 응답 시 REQUESTED 상태가 남을 수 있음</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>NOTIFICATION</span>
+                        <h3>업무 커밋과 알림 작업을 함께 보존</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>커밋 직후 종료되면 알림 요청이 사라짐</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>같은 트랜잭션 outbox, 즉시 전송과 스케줄러 복구</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>비동기 지연과 at-least-once 중복 가능성</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>BOOKING / STOCK</span>
+                        <h3>락 획득 순서를 고정</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>마지막 좌석과 재고가 동시 요청에서 초과 처리됨</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>비관적 락과 클래스→슬롯, productId 고정 순서</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>같은 행에 요청이 몰리면 대기 시간이 증가</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>PERSONAL DATA</span>
+                        <h3>복원과 검색의 키를 분리</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>평문 제거와 주문 정확 검색을 함께 지원해야 함</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>AES-GCM 암호화와 HMAC 블라인드 인덱스</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>부분 검색 미지원, 키 유실 방지 절차 필요</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    <article>
+                        <span>OPERATIONS / COST</span>
+                        <h3>AWS 고정비 확인 후 운영 구조 변경</h3>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>트래픽과 무관한 상시 리소스 비용 발생</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>비용 원인 확인, 리소스 종료, 단일 노트북 k3s 준비</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>비용은 줄지만 단일 노드는 고가용성을 제공하지 않음</dd>
+                            </div>
+                        </dl>
+                    </article>
+                </div>
+
+                <section class="document-catalog" aria-labelledby="gallery-docs">
+                    <h3 class="markdown-heading" id="gallery-docs">### 문서 분류</h3>
+                    <div class="document-taxonomy document-taxonomy--five">
+                        <article>
+                            <strong>PRD <b>4</b></strong>
+                            <p>제품과 운영 정책의 기준</p>
+                        </article>
+                        <article>
+                            <strong>ADR <b>42</b></strong>
+                            <p>구조, 동시성, 결제와 보안</p>
+                        </article>
+                        <article>
+                            <strong>Idea / POC <b>39 / 1</b></strong>
+                            <p>가설과 외부 장애 대응 검증</p>
+                        </article>
+                        <article>
+                            <strong>Retrospective <b>10</b></strong>
+                            <p>운영 비용과 실패 원인</p>
+                        </article>
+                        <article>
+                            <strong>Runbook <b>1</b></strong>
+                            <p>k3s 배포, 롤백과 복구</p>
+                        </article>
+                    </div>
+                </section>
+
+                <nav class="representative-docs" aria-label="happyGallery 대표 문서">
+                    <h3 class="markdown-heading">### 대표 문서</h3>
+                    <a
+                        href="https://github.com/ljkhyeong/happyGallery/blob/main/docs/PRD/0001_%EA%B8%B0%EC%A4%80_%EC%8A%A4%ED%8E%99/spec.md"
+                        ><b>[PRD] 제품 기준 스펙</b
+                        ><span>상품, 예약, 주문과 운영 정책의 상위 기준</span></a
+                    >
+                    <a
+                        href="https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0021_Hexagonal_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98_%EC%A0%84%ED%99%98/adr.md"
+                        ><b>[ADR] 헥사고날 전환</b
+                        ><span>6개 모듈의 의존 방향과 포트 적용 범위</span></a
+                    >
+                    <a
+                        href="https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0032_%EC%95%8C%EB%A6%BC_Outbox_%EC%A0%84%EB%8B%AC_%EB%B3%B4%EC%9E%A5/adr.md"
+                        ><b>[ADR] 알림 Outbox</b
+                        ><span>업무 상태와 알림 작업의 원자적 저장 및 복구</span></a
+                    >
+                    <a
+                        href="https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0036_%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4_%ED%8F%89%EB%AC%B8_%EC%A0%9C%EA%B1%B0%EC%99%80_%EB%B8%94%EB%9D%BC%EC%9D%B8%EB%93%9C_%EC%9D%B8%EB%8D%B1%EC%8A%A4_%EA%B8%B0%EC%A4%80/adr.md"
+                        ><b>[ADR] 개인정보 보호</b
+                        ><span>AES-GCM, 블라인드 인덱스와 키 회전 범위</span></a
+                    >
+                    <a
+                        href="https://github.com/ljkhyeong/happyGallery/blob/main/docs/Retrospective/0010_AWS_%EB%B9%84%EC%9A%A9_%EA%B3%BC%EA%B8%88_%EC%9B%90%EC%9D%B8_%EC%A0%90%EA%B2%80/retrospective.md"
+                        ><b>[Retrospective] AWS 비용</b
+                        ><span>상시 리소스 원인 확인과 운영 종료 과정</span></a
+                    >
+                </nav>
+
+                <footer class="page-footer">
+                    <span>PRD / ADR / IDEA / POC / RETROSPECTIVE / RUNBOOK</span><span>06</span>
                 </footer>
             </section>
 
             <section class="page page--defense">
                 <header class="page-header">
-                    <span>04 / 경력 사례</span>
+                    <span># career-case.md</span>
                     <span>2024.06.23 — 2026.01.30</span>
                 </header>
 
@@ -362,13 +702,13 @@
                 </div>
 
                 <footer class="page-footer">
-                    <span>JAVA 8 / EGOV 4.1 / MYBATIS / TIBERO / JENKINS</span><span>05</span>
+                    <span>JAVA 8 / EGOV 4.1 / MYBATIS / TIBERO / JENKINS</span><span>07</span>
                 </footer>
             </section>
 
             <section class="page page--dark page--closing">
                 <header class="page-header page-header--dark">
-                    <span>05 / 기술과 연락처</span>
+                    <span># contact.md</span>
                     <span>임정규 포트폴리오</span>
                 </header>
 
@@ -410,16 +750,17 @@
                     </div>
                 </div>
 
-                <nav class="repo-links" aria-label="프로젝트 저장소">
-                    <a href="https://github.com/ljkhyeong/baton">BATON Core</a>
-                    <a href="https://github.com/ljkhyeong/baton-go">BATON GO</a>
-                    <a href="https://github.com/ljkhyeong/baton-watch">BATON WATCH</a>
-                    <a href="https://github.com/ljkhyeong/baton-relay">BATON RELAY</a>
-                    <a href="https://github.com/ljkhyeong/happyGallery">happyGallery</a>
+                <nav class="repo-links" aria-label="대표 프로젝트 및 공개 저장소">
+                    <a href="https://ljkportfolio.netlify.app/projects/baton">[project] BATON</a>
+                    <a href="https://github.com/ljkhyeong/baton-watch">[repo] WATCH</a>
+                    <a href="https://ljkportfolio.netlify.app/projects/happygallery"
+                        >[project] happyGallery</a
+                    >
+                    <a href="https://github.com/ljkhyeong/happyGallery">[repo] happyGallery</a>
                 </nav>
 
                 <footer class="page-footer page-footer--dark">
-                    <span>SEOUL / 2026</span><span>06</span>
+                    <span>SEOUL / 2026</span><span>08</span>
                 </footer>
             </section>
         </main>

@@ -1,13 +1,13 @@
 :root {
-    --ink: #111612;
-    --ink-soft: #19211b;
-    --paper: #f1eee6;
-    --paper-raised: #faf8f2;
-    --accent: #ff5a36;
-    --accent-on-light: #a9341c;
-    --accent-soft: #ffd8cd;
-    --muted: #5f655d;
-    --line: rgba(17, 22, 18, 0.18);
+    --ink: #151a17;
+    --ink-soft: #1d2823;
+    --paper: #f4f6f3;
+    --paper-raised: #fbfcfa;
+    --accent: #d45b32;
+    --accent-on-light: #0b676b;
+    --accent-soft: #f3d8cd;
+    --muted: #5b6861;
+    --line: rgba(21, 26, 23, 0.18);
     --line-light: rgba(255, 255, 255, 0.17);
     --mono: "SFMono-Regular", "SF Mono", Menlo, Monaco, Consolas, monospace;
     --serif: "Newsreader", Georgia, serif;
