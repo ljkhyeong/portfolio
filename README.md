@@ -1,6 +1,33 @@
-# Portfolio
+# 임정규 Backend Portfolio
 
-<img width="711" alt="스크린샷 2024-03-11 오후 7 14 01" src="https://github.com/ljkhyeong/portfolio/assets/115821049/8da7af93-e509-4e63-aa36-35dbf22d9e23">
+Java와 Spring으로 개발한 공공 시스템, 모듈러 모놀리스, 마이크로서비스 경험을 정리한 React 포트폴리오입니다.
 
+## 대표 프로젝트
 
-배포 : https://ljkportfolio.netlify.app/
+-   **BATON**: Core를 기준 데이터의 주체로 두고 GO, WATCH, RELAY를 실패 특성에 따라 분리한 마이크로서비스 프로젝트
+-   **happyGallery**: 포트와 어댑터 원칙을 적용하고 결제, 환불, 알림과 동시성 실패를 복구 가능한 상태로 만든 모듈러 모놀리스
+
+차세대 군사법 정보 시스템은 경력 사례로, WebRTC/HLS 교육 팀 프로젝트는 이전 경험으로 간략히 정리했습니다.
+
+## 실행
+
+```bash
+npm install
+npm run dev
+```
+
+```bash
+npm test
+npm run build
+npm run preview
+```
+
+Vite 빌드 결과는 기존 배포 설정과 호환되도록 `build/`에 생성됩니다.
+
+## PDF
+
+-   최신 파일: `public/포트폴리오최신.pdf`
+-   편집 원본: `portfolio-pdf/index.html`, `portfolio-pdf/styles.css`
+-   A4, 배경 그래픽 포함 설정으로 브라우저에서 PDF로 인쇄할 수 있습니다.
+
+배포: [ljkportfolio.netlify.app](https://ljkportfolio.netlify.app/)

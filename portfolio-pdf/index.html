@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>임정규 백엔드 개발자 포트폴리오</title>
+        <link rel="stylesheet" href="./styles.css" />
+    </head>
+    <body>
+        <main class="document">
+            <section class="page page--cover">
+                <div class="cover-grid" aria-hidden="true"></div>
+                <header class="cover-nav">
+                    <span>PORTFOLIO / 2026</span>
+                    <span>BACKEND DEVELOPER</span>
+                </header>
+
+                <div class="cover-main">
+                    <p class="eyebrow">임정규 / 백엔드 개발자</p>
+                    <h1>
+                        실패 이후까지 설계하는
+                        <strong>백엔드 개발자</strong>
+                    </h1>
+                    <p class="cover-summary">
+                        공공 시스템에서 기능 개발과 운영 장애를 대응했고, 개인 프로젝트에서는
+                        멱등성, 데이터 정합성, 복구 경로를 코드와 테스트로 구체화했습니다.
+                    </p>
+                </div>
+
+                <div class="cover-proof" aria-label="주요 경험 요약">
+                    <div>
+                        <span>BATON / GO</span>
+                        <strong>8 → 1</strong>
+                        <p>동시에 들어온 같은 링크 생성 요청을 1건으로 처리</p>
+                    </div>
+                    <div>
+                        <span>happyGallery</span>
+                        <strong>194 / 192</strong>
+                        <p>OpenAPI operations / REST Docs tests</p>
+                    </div>
+                    <div>
+                        <span>공공 SI</span>
+                        <strong>3종</strong>
+                        <p>기관 연계 배치 개발 및 운영 대응</p>
+                    </div>
+                </div>
+
+                <footer class="cover-footer">
+                    <span>jolri24@naver.com</span>
+                    <span>github.com/ljkhyeong</span>
+                    <span>010 3972 6284</span>
+                </footer>
+            </section>
+
+            <section class="page page--profile">
+                <header class="page-header">
+                    <span>01 / 소개 및 경력</span>
+                    <span>임정규 포트폴리오</span>
+                </header>
+
+                <div class="page-title">
+                    <p class="eyebrow eyebrow--paper">WORKING PRINCIPLES</p>
+                    <h2>정합성과 복구 경로를 먼저 설계합니다.</h2>
+                    <p>
+                        기능이 정상 동작하는 순간뿐 아니라 중복 요청, 외부 연동 실패, 재시작 뒤의
+                        상태까지 한 흐름으로 봅니다.
+                    </p>
+                </div>
+
+                <div class="principle-list">
+                    <article>
+                        <span>01</span>
+                        <h3>경계를 먼저 정합니다</h3>
+                        <p>데이터 소유권, 트랜잭션 범위, 서비스별 책임을 먼저 나눕니다.</p>
+                    </article>
+                    <article>
+                        <span>02</span>
+                        <h3>재처리를 기능으로 만듭니다</h3>
+                        <p>멱등 키, 락, 아웃박스와 복구 작업으로 실패 뒤의 동작을 정의합니다.</p>
+                    </article>
+                    <article>
+                        <span>03</span>
+                        <h3>근거를 남깁니다</h3>
+                        <p>ADR, API 계약, 통합 테스트와 로그로 설계 이유와 결과를 확인합니다.</p>
+                    </article>
+                </div>
+
+                <section class="career-panel" aria-labelledby="career-title">
+                    <div class="section-label" id="career-title">CAREER</div>
+                    <div class="career-primary">
+                        <div class="career-primary__meta">
+                            <time>2024.06 — 2026.01</time>
+                            <strong>BEINTECH</strong>
+                        </div>
+                        <div>
+                            <h3>백엔드 개발 및 운영</h3>
+                            <p>
+                                차세대 군사법 정보 시스템 군교정 부문에서 기관 연계 배치, 보안 기능,
+                                로그 및 DB 기반 장애 대응을 담당했습니다.
+                            </p>
+                            <div class="tag-row" aria-label="실무 기술">
+                                <span>Java 8</span><span>eGov 4.1</span><span>MyBatis</span
+                                ><span>Tibero</span><span>Jenkins</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="education-line" aria-label="이전 교육 프로젝트">
+                    <strong>2023 / 카카오 클라우드 스쿨 3기, 6인 교육 팀</strong>
+                    <p>
+                        HLS 서버와 React를 담당했습니다. WebSocket 제어와 WebRTC/RTP 미디어 경로를
+                        나누고 FFmpeg/GStreamer HLS를 구성해 지연을 약 30초에서 11초로 줄였습니다.
+                    </p>
+                </aside>
+
+                <div class="profile-note">
+                    <span>LEGACY ↔ MODERN</span>
+                    <p>
+                        레거시 환경의 안정적인 변경 경험과 현대 아키텍처의 확장성 사이에서, 실제
+                        운영에 필요한 수준의 구조를 선택합니다.
+                    </p>
+                </div>
+
+                <footer class="page-footer"><span>BACKEND DEVELOPMENT</span><span>02</span></footer>
+            </section>
+
+            <section class="page page--dark page--baton">
+                <header class="page-header page-header--dark">
+                    <span>02 / 개인 프로젝트</span>
+                    <span>서비스별 구현 완료 · 통합 진행 중</span>
+                </header>
+
+                <div class="page-title page-title--compact page-title--dark project-heading">
+                    <div>
+                        <p class="eyebrow">POLICY-AWARE BACKEND SERVICES</p>
+                        <h2>BATON</h2>
+                    </div>
+                    <p>
+                        Core를 조직 운영의 기준으로 두고, 링크 생성, URL 점검, 메시지 전송을 각기
+                        다른 실패 모델을 가진 서비스로 분리했습니다.
+                    </p>
+                </div>
+
+                <figure class="product-shot product-shot--dark">
+                    <img src="../public/baton-product-ui.png" alt="BATON 실제 제품 화면" />
+                    <figcaption>BATON product UI / 프로젝트 화면</figcaption>
+                </figure>
+
+                <div class="baton-map" aria-label="BATON 서비스 책임과 검증 사실">
+                    <article class="baton-core">
+                        <div>
+                            <small>CORE / SYSTEM OF RECORD</small>
+                            <h3>조직 운영의 기준</h3>
+                            <p>팀, 시즌, 권한, 루틴, 핸드오프의 기준 데이터를 관리합니다.</p>
+                        </div>
+                        <strong>35 <span>OpenAPI ops</span></strong>
+                    </article>
+
+                    <div class="baton-service-list">
+                        <article>
+                            <div class="service-name">
+                                <small>GO</small>
+                                <strong>링크 생성</strong>
+                            </div>
+                            <p>UUID 멱등 키와 HMAC-SHA256. 동시 요청 <b>8 → 1</b>.</p>
+                            <span class="test-count">374 tests</span>
+                        </article>
+                        <article>
+                            <div class="service-name">
+                                <small>WATCH</small>
+                                <strong>URL 점검</strong>
+                            </div>
+                            <p>
+                                DNS pinning 기반 SSRF 방어, lease/revision fencing, transactional
+                                outbox.
+                            </p>
+                            <span class="test-count">271 tests</span>
+                        </article>
+                        <article>
+                            <div class="service-name">
+                                <small>RELAY</small>
+                                <strong>메시지 전송</strong>
+                            </div>
+                            <p>
+                                inbox dedupe, SKIP LOCKED와 lease token. 결과 불명은
+                                OUTCOME_UNKNOWN으로 보존.
+                            </p>
+                            <span class="test-count">373 tests</span>
+                        </article>
+                    </div>
+                </div>
+
+                <aside class="status-note status-note--dark">
+                    <strong>현재 범위</strong>
+                    <p>
+                        Core, GO, WATCH, RELAY의 서비스별 핵심 기능과 테스트를 구현했습니다. 서비스
+                        간 E2E 통합과 배포는 아직 진행 중입니다.
+                    </p>
+                </aside>
+
+                <footer class="page-footer page-footer--dark">
+                    <span>JAVA 21 / SPRING BOOT / MYSQL / POSTGRESQL / TESTCONTAINERS</span
+                    ><span>03</span>
+                </footer>
+            </section>
+
+            <section class="page page--gallery">
+                <header class="page-header">
+                    <span>03 / 개인 프로젝트</span>
+                    <span>2026.02 — 진행 중</span>
+                </header>
+
+                <div class="page-title page-title--compact project-heading">
+                    <div>
+                        <p class="eyebrow eyebrow--paper">COMMERCE &amp; BOOKING</p>
+                        <h2>happyGallery</h2>
+                    </div>
+                    <p>
+                        상품 판매, 클래스 예약, 이용권과 알림 흐름에서 외부 응답 누락과 동시 변경을
+                        안전하게 다시 처리하도록 설계했습니다.
+                    </p>
+                </div>
+
+                <figure class="product-shot">
+                    <img
+                        src="../public/happygallery-product-ui.png"
+                        alt="happyGallery 실제 제품 화면"
+                    />
+                    <figcaption>happyGallery product UI / 프로젝트 화면</figcaption>
+                </figure>
+
+                <div class="metric-row" aria-label="happyGallery 구현 규모">
+                    <div><strong>6</strong><span>운영 모듈</span></div>
+                    <div><strong>194</strong><span>OpenAPI operations</span></div>
+                    <div><strong>192</strong><span>REST Docs tests</span></div>
+                </div>
+
+                <aside class="architecture-note">
+                    <span>구조 원칙</span>
+                    <p>
+                        하나의 배포 단위 안에서 6개 운영 모듈에 포트와 어댑터 원칙을 적용했습니다.
+                        모든 계층을 형식적으로 분리한 순수 헥사고날 구조가 아니라, 외부 연동과 핵심
+                        업무 규칙의 결합을 줄이는 데 필요한 경계만 선택했습니다.
+                    </p>
+                </aside>
+
+                <div class="decision-cards">
+                    <article>
+                        <span>PAYMENT / REFUND</span>
+                        <h3>중복 처리와 결과 불명을 분리</h3>
+                        <p>
+                            <code>orderId</code>로 요청을 묶고 <code>processingToken</code>을 가진
+                            작업만 상태를 바꿉니다. 결과가 불명확하면 PG를 조회하고, 환불 재시도에는
+                            같은 UUID를 재사용합니다.
+                        </p>
+                    </article>
+                    <article>
+                        <span>NOTIFICATION</span>
+                        <h3>커밋 뒤 전송, 스케줄러로 복구</h3>
+                        <p>
+                            업무 변경과 알림 outbox를 같은 트랜잭션에 저장합니다.
+                            <code>AFTER_COMMIT</code>으로 즉시 전송하고 누락이나 실패는 스케줄러가
+                            다시 가져갑니다.
+                        </p>
+                    </article>
+                    <article>
+                        <span>CONCURRENCY</span>
+                        <h3>락 획득 순서를 고정</h3>
+                        <p>
+                            예약은 클래스 다음 슬롯 PK 순서, 재고는 productId 오름차순으로 비관적
+                            락을 획득해 초과 처리와 교착 위험을 줄입니다.
+                        </p>
+                    </article>
+                </div>
+
+                <aside class="status-note">
+                    <strong>검증 범위</strong>
+                    <p>
+                        아직 실운영 전입니다. 194 operations와 192 tests는 로컬 API 문서 스냅샷과
+                        REST Docs 결과이며 실제 사용자 또는 트래픽 지표가 아닙니다.
+                    </p>
+                </aside>
+
+                <footer class="page-footer">
+                    <span>SPRING BOOT / REACT / MYSQL / REDIS / REST DOCS</span><span>04</span>
+                </footer>
+            </section>
+
+            <section class="page page--defense">
+                <header class="page-header">
+                    <span>04 / 경력 사례</span>
+                    <span>2024.06.23 — 2026.01.30</span>
+                </header>
+
+                <div class="page-title page-title--compact">
+                    <p class="eyebrow eyebrow--paper">PUBLIC SI / CLOSED NETWORK</p>
+                    <h2>차세대 군사법 정보 시스템</h2>
+                    <p>
+                        폐쇄망과 레거시 환경에서 군교정 기능, 기관 연계 배치, 보안 기능을 개발하고
+                        로그와 DB를 기준으로 운영 장애를 분석했습니다.
+                    </p>
+                </div>
+
+                <div class="defense-flow" role="img" aria-label="비식별 기관 연계 배치 흐름">
+                    <div class="agency-stack">
+                        <span>기관 A</span><span>기관 B</span><span>기관 C</span>
+                    </div>
+                    <div class="flow-arrow" aria-hidden="true">→</div>
+                    <div class="batch-box">
+                        <small>JENKINS</small>
+                        <strong>기관 연계 배치 3종</strong>
+                        <p>실행 결과 → 서버 로그 → DB 반영 → 화면 조회</p>
+                    </div>
+                    <div class="flow-arrow" aria-hidden="true">→</div>
+                    <div class="work-box">
+                        <small>BUSINESS SYSTEM</small>
+                        <strong>군교정 업무</strong>
+                        <p>검증 · 반영 · 운영 대응</p>
+                    </div>
+                </div>
+
+                <div class="metric-row metric-row--defense" aria-label="주요 구현 항목">
+                    <div><strong>3종</strong><span>기관 연계 배치</span></div>
+                    <div><strong>CSRF</strong><span>요청 위조 방지</span></div>
+                    <div><strong>Tika</strong><span>실제 파일 형식 검사</span></div>
+                </div>
+
+                <div class="case-grid">
+                    <article>
+                        <span>개발</span>
+                        <h3>기관별 입력과 순서에 맞춘 배치</h3>
+                        <p>
+                            서로 다른 데이터 형식과 실행 조건을 반영해 배치 3종을 구현하고,
+                            Jenkins에서 실행과 재처리 흐름을 관리했습니다.
+                        </p>
+                    </article>
+                    <article>
+                        <span>보안</span>
+                        <h3>기존 업무 흐름 안에 검증 추가</h3>
+                        <p>
+                            Spring Security CSRF 토큰을 기존 화면 흐름에 연결하고, Apache Tika로
+                            확장자와 실제 파일 형식을 함께 확인했습니다.
+                        </p>
+                    </article>
+                    <article>
+                        <span>장애 대응</span>
+                        <h3>시간 순서로 원인을 좁힘</h3>
+                        <p>
+                            입력 데이터, 배치 실행 로그, DB 반영 결과, 화면 조회를 순서대로 비교해
+                            처리 중단 지점을 찾고 복구했습니다.
+                        </p>
+                    </article>
+                    <article>
+                        <span>공개 범위</span>
+                        <h3>직접 수행한 업무만 비식별화</h3>
+                        <p>
+                            보안이 필요한 프로젝트이므로 기관과 실제 데이터는 공개하지 않고, 직접
+                            개발하고 대응한 범위만 정리했습니다.
+                        </p>
+                    </article>
+                </div>
+
+                <footer class="page-footer">
+                    <span>JAVA 8 / EGOV 4.1 / MYBATIS / TIBERO / JENKINS</span><span>05</span>
+                </footer>
+            </section>
+
+            <section class="page page--dark page--closing">
+                <header class="page-header page-header--dark">
+                    <span>05 / 기술과 연락처</span>
+                    <span>임정규 포트폴리오</span>
+                </header>
+
+                <div class="page-title page-title--dark">
+                    <p class="eyebrow">APPLIED SKILLS</p>
+                    <h2>기술 이름보다 적용 맥락을 설명합니다.</h2>
+                </div>
+
+                <div class="skill-table">
+                    <article>
+                        <h3>Java 21 / 8<br />Spring Boot / eGov</h3>
+                        <p>개인 프로젝트의 현대 스택과 공공 SI의 레거시 환경에서 기능 개발</p>
+                    </article>
+                    <article>
+                        <h3>JPA / MyBatis<br />MySQL / Tibero / Flyway</h3>
+                        <p>업무 데이터 모델링, 동시성 제어, 스키마 변경과 장애 데이터 분석</p>
+                    </article>
+                    <article>
+                        <h3>멱등성 / Outbox<br />Lock / Recovery</h3>
+                        <p>중복 요청 방지, 외부 연동 결과 불명 처리, 실패 작업 재시도</p>
+                    </article>
+                    <article>
+                        <h3>JUnit / REST Docs<br />Testcontainers</h3>
+                        <p>HTTP 계약, 트랜잭션 경계, 동시 요청과 복구 경로 검증</p>
+                    </article>
+                    <article>
+                        <h3>React / TypeScript<br />Docker / Jenkins</h3>
+                        <p>제품 화면 구현, 로컬 실행 환경, 공공 시스템 연계 배치 운영</p>
+                    </article>
+                </div>
+
+                <div class="closing-contact">
+                    <p>안정적으로 바꾸고,<br />실패해도 다시 이어지는 시스템을 만듭니다.</p>
+                    <div>
+                        <a href="mailto:jolri24@naver.com">jolri24@naver.com</a>
+                        <a href="tel:+821039726284">010 3972 6284</a>
+                        <a href="https://github.com/ljkhyeong">github.com/ljkhyeong</a>
+                        <a href="https://ljkportfolio.netlify.app">ljkportfolio.netlify.app</a>
+                    </div>
+                </div>
+
+                <nav class="repo-links" aria-label="프로젝트 저장소">
+                    <a href="https://github.com/ljkhyeong/baton">BATON Core</a>
+                    <a href="https://github.com/ljkhyeong/baton-go">BATON GO</a>
+                    <a href="https://github.com/ljkhyeong/baton-watch">BATON WATCH</a>
+                    <a href="https://github.com/ljkhyeong/baton-relay">BATON RELAY</a>
+                    <a href="https://github.com/ljkhyeong/happyGallery">happyGallery</a>
+                </nav>
+
+                <footer class="page-footer page-footer--dark">
+                    <span>SEOUL / 2026</span><span>06</span>
+                </footer>
+            </section>
+        </main>
+    </body>
+</html>
