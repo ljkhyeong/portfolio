@@ -34,7 +34,10 @@ const ProblemGrid = ({ project, problemIds, compact = false }) => {
 
 const DocumentCatalog = ({ project }) => (
     <section className="print-document-catalog" aria-label={`${project.title} 문서 분류`}>
-        <h3 className="print-markdown-heading">### 문서 분류</h3>
+        <div className="print-document-catalog__heading">
+            <h3 className="print-markdown-heading">### 문서 분류</h3>
+            <span>{project.evidenceAsOf}</span>
+        </div>
         <div
             className={`print-document-taxonomy${
                 project.documentGroups.length === 5 ? " print-document-taxonomy--five" : ""
@@ -72,19 +75,27 @@ const RepresentativeDocuments = ({ project, documentIndexes, toPublishedUrl }) =
 
 const PrintProjectEvidence = ({
     project,
-    problemIds,
-    documentIndexes,
+    problemIds = [],
+    documentIndexes = [],
     compact = false,
+    showProblems = true,
+    showDocuments = true,
     toPublishedUrl,
 }) => (
     <>
-        <ProblemGrid project={project} problemIds={problemIds} compact={compact} />
-        <DocumentCatalog project={project} />
-        <RepresentativeDocuments
-            project={project}
-            documentIndexes={documentIndexes}
-            toPublishedUrl={toPublishedUrl}
-        />
+        {showProblems ? (
+            <ProblemGrid project={project} problemIds={problemIds} compact={compact} />
+        ) : null}
+        {showDocuments ? (
+            <>
+                <DocumentCatalog project={project} />
+                <RepresentativeDocuments
+                    project={project}
+                    documentIndexes={documentIndexes}
+                    toPublishedUrl={toPublishedUrl}
+                />
+            </>
+        ) : null}
     </>
 )
 

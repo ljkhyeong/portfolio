@@ -73,7 +73,26 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     <p>{service.status}</p>
                 </aside>
 
-                <section className="baton-service-boundary" aria-labelledby="boundary-title">
+                <nav className="baton-service-index" aria-label="서비스 상세 섹션 바로가기">
+                    <span aria-hidden="true">페이지 내 이동</span>
+                    <ul>
+                        <li>
+                            <a href="#service-boundary">책임</a>
+                        </li>
+                        <li>
+                            <a href="#service-problems">문제 해결</a>
+                        </li>
+                        <li>
+                            <a href="#service-documents">문서</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <section
+                    className="baton-service-boundary"
+                    id="service-boundary"
+                    aria-labelledby="boundary-title"
+                >
                     <div className="baton-service-section-heading">
                         <span>## 01</span>
                         <h2 id="boundary-title">BATON 안에서의 책임</h2>
@@ -107,6 +126,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
 
                 <section
                     className="baton-service-problems"
+                    id="service-problems"
                     aria-labelledby="service-problems-title"
                 >
                     <div className="baton-service-section-heading">
@@ -122,6 +142,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
 
                 <section
                     className="baton-service-documents"
+                    id="service-documents"
                     aria-labelledby="service-documents-title"
                 >
                     <div className="baton-service-section-heading">

@@ -23,7 +23,7 @@
     justify-content: space-between;
     border-bottom: 1px solid var(--line);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -36,10 +36,10 @@
 .baton-service-hero {
     display: grid;
     grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
-    gap: clamp(48px, 9vw, 140px);
+    gap: clamp(42px, 7vw, 108px);
     align-items: end;
-    min-height: 530px;
-    padding: clamp(82px, 10vw, 132px) 0 68px;
+    min-height: 460px;
+    padding: clamp(66px, 7.5vw, 98px) 0 54px;
 }
 
 .baton-service-kicker,
@@ -47,7 +47,7 @@
 .baton-service-status code {
     color: var(--accent-on-light);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 750;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -55,7 +55,7 @@
 
 .baton-service-hero h1 {
     margin: 18px 0 0;
-    font-size: clamp(90px, 15vw, 190px);
+    font-size: clamp(80px, 12.5vw, 160px);
     font-weight: 760;
     letter-spacing: -0.09em;
     line-height: 0.78;
@@ -70,7 +70,7 @@
 .baton-service-hero__intro > p {
     margin: 20px 0 0;
     color: var(--muted);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.75;
 }
 
@@ -87,7 +87,7 @@
     padding: 8px 10px;
     border: 1px solid var(--line);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -108,15 +108,68 @@
 .baton-service-status p {
     margin: 0;
     color: rgba(255, 255, 255, 0.72);
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.65;
 }
 
 .baton-service-boundary,
 .baton-service-problems,
 .baton-service-documents {
-    padding: clamp(72px, 9vw, 112px) 0;
+    padding: clamp(64px, 7.2vw, 92px) 0;
     border-top: 1px solid var(--line);
+    scroll-margin-top: 24px;
+}
+
+.baton-service-index {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    min-height: 64px;
+    align-items: center;
+    margin-top: 28px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 14px;
+}
+
+.baton-service-index > span {
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.baton-service-index ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.baton-service-index a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    color: var(--muted);
+    font-weight: 700;
+    transition: color 180ms ease;
+}
+
+.baton-service-index a::before {
+    margin-right: 7px;
+    color: var(--line-strong, #aaa79d);
+    content: "#";
+}
+
+.baton-service-index a:hover,
+.baton-service-index a:focus-visible {
+    color: var(--ink);
+}
+
+.baton-service-index + .baton-service-boundary {
+    border-top: 0;
 }
 
 .baton-service-section-heading {
@@ -178,7 +231,7 @@
 .service-boundary-flow p {
     margin: 14px 0 0;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.65;
 }
 
@@ -202,7 +255,7 @@
     border-top: 1px solid var(--line);
     border-left: 3px solid var(--accent);
     color: var(--muted);
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.7;
 }
 
@@ -276,7 +329,7 @@
 }
 
 .service-problem dd {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.75;
 }
 
@@ -350,7 +403,7 @@
 .service-document-links article p {
     margin: 8px 0 0 74px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 16px;
     line-height: 1.65;
 }
 
@@ -404,7 +457,7 @@
 
     .baton-service-hero {
         min-height: 0;
-        padding-top: 100px;
+        padding-top: 72px;
     }
 
     .service-boundary-flow {
@@ -433,7 +486,27 @@
     }
 
     .baton-service-hero h1 {
-        font-size: clamp(76px, 24vw, 100px);
+        font-size: clamp(68px, 21vw, 88px);
+    }
+
+    .baton-service-index {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .baton-service-index > span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .baton-service-index ul {
+        justify-content: flex-start;
+        gap: 0 20px;
     }
 
     .baton-service-status,
@@ -483,7 +556,7 @@
 .service-document-links h3 span,
 .service-repository-link,
 .baton-service-footer {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .baton-service-status p,
@@ -491,5 +564,5 @@
 .baton-service-boundary blockquote,
 .service-problem dd,
 .service-document-links article p {
-    font-size: 15px;
+    font-size: 16px;
 }

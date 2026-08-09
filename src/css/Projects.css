@@ -1,9 +1,10 @@
 .work-section {
-    padding: clamp(96px, 11vw, 156px) clamp(24px, 6vw, 96px);
+    padding: clamp(92px, 10vw, 140px) clamp(24px, 6vw, 96px);
     background: var(--paper);
 }
 
 .project-index__intro,
+.project-index__group,
 .project-index {
     width: min(100%, 1320px);
     margin-right: auto;
@@ -15,15 +16,15 @@
     grid-template-columns: minmax(140px, 0.28fr) minmax(260px, 0.72fr) minmax(300px, 0.56fr);
     gap: clamp(28px, 5vw, 80px);
     align-items: end;
-    margin-bottom: clamp(52px, 7vw, 88px);
+    margin-bottom: clamp(48px, 6vw, 72px);
 }
 
 .project-index__intro h2 {
     margin: 0;
-    font-size: clamp(54px, 7vw, 104px);
+    font-size: clamp(50px, 6.1vw, 90px);
     font-weight: 710;
-    letter-spacing: -0.075em;
-    line-height: 0.92;
+    letter-spacing: -0.071em;
+    line-height: 0.95;
 }
 
 .project-index__intro p {
@@ -31,9 +32,33 @@
     margin: 0;
     color: var(--muted);
     font-size: 16px;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.018em;
     line-height: 1.72;
     word-break: keep-all;
+}
+
+.project-index__group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.045em;
+}
+
+.project-index__group strong {
+    font-weight: 760;
+}
+
+.project-index__group > span {
+    color: var(--accent);
+    font-weight: 760;
+}
+
+.project-index__group--education {
+    margin-top: clamp(72px, 8vw, 108px);
 }
 
 .project-index {
@@ -51,12 +76,12 @@
 }
 
 .project-index__number {
-    padding-top: 48px;
-    color: var(--accent-on-light);
+    padding-top: 44px;
+    color: var(--accent);
     font-family: var(--mono);
     font-size: 14px;
     font-weight: 750;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
 }
 
 .project-index__body {
@@ -69,8 +94,8 @@
     grid-template-columns: minmax(290px, 0.94fr) minmax(280px, 1.06fr) minmax(210px, 0.54fr) 32px;
     gap: clamp(28px, 4vw, 64px);
     align-items: center;
-    min-height: 210px;
-    padding: 40px 18px 40px 0;
+    min-height: 196px;
+    padding: 36px 18px 36px 0;
     transition:
         background-color 180ms ease,
         color 180ms ease;
@@ -92,13 +117,13 @@
 
 .project-index__primary:hover::before,
 .project-index__primary:focus-visible::before {
-    background: rgba(11, 103, 107, 0.055);
+    background: rgba(200, 73, 39, 0.055);
 }
 
 .project-index__title-block > span {
     display: block;
-    margin-bottom: 13px;
-    color: var(--accent-on-light);
+    margin-bottom: 12px;
+    color: var(--accent);
     font-size: 14px;
     font-weight: 700;
     letter-spacing: -0.01em;
@@ -106,30 +131,30 @@
 
 .project-index__title-block h3 {
     margin: 0;
-    font-size: clamp(38px, 3.75vw, 56px);
+    font-size: clamp(36px, 3.45vw, 52px);
     font-weight: 710;
-    letter-spacing: -0.065em;
-    line-height: 1;
+    letter-spacing: -0.061em;
+    line-height: 1.04;
     word-break: keep-all;
     transition: color 180ms ease;
 }
 
 .project-index__primary:hover h3 {
-    color: var(--accent-on-light);
+    color: var(--accent);
 }
 
 .project-index__summary {
     margin: 0;
     color: #3f4943;
     font-size: 16px;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.02em;
     line-height: 1.72;
     word-break: keep-all;
 }
 
 .project-index__meta {
     display: grid;
-    gap: 14px;
+    gap: 13px;
     align-self: center;
     color: var(--muted);
     font-size: 14px;
@@ -139,13 +164,13 @@
 .project-index__meta time {
     color: var(--ink);
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.015em;
 }
 
 .project-index__arrow {
-    color: var(--accent-on-light);
+    color: var(--accent);
     font-size: 26px;
     transition: transform 180ms ease;
 }
@@ -165,9 +190,9 @@
 .project-index__services > span {
     color: var(--muted);
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
 }
 
@@ -192,8 +217,23 @@
 }
 
 .project-index__services a:hover {
-    border-color: var(--accent-on-light);
-    color: var(--accent-on-light);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.project-index--education .project-index__primary {
+    min-height: 162px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.project-index--education .project-index__title-block h3 {
+    font-size: clamp(30px, 2.9vw, 42px);
+}
+
+.project-index--education .project-index__number {
+    padding-top: 38px;
+    font-size: 14px;
 }
 
 @media (max-width: 1120px) {
@@ -222,8 +262,8 @@
 
 @media (max-width: 800px) {
     .work-section {
-        padding-top: 88px;
-        padding-bottom: 96px;
+        padding-top: 82px;
+        padding-bottom: 92px;
     }
 
     .project-index__intro {
@@ -239,15 +279,17 @@
         grid-template-columns: 40px minmax(0, 1fr);
     }
 
-    .project-index__number {
-        padding-top: 34px;
+    .project-index__number,
+    .project-index--education .project-index__number {
+        padding-top: 31px;
     }
 
-    .project-index__primary {
+    .project-index__primary,
+    .project-index--education .project-index__primary {
         grid-template-columns: minmax(0, 1fr) 28px;
         gap: 20px;
         min-height: auto;
-        padding: 30px 6px 30px 0;
+        padding: 28px 6px 28px 0;
     }
 
     .project-index__title-block,
@@ -279,29 +321,41 @@
 }
 
 @media (max-width: 520px) {
+    .work-section {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
     .project-index__intro h2 {
-        font-size: clamp(52px, 18vw, 72px);
+        font-size: clamp(48px, 16vw, 64px);
     }
 
     .project-index__item {
-        grid-template-columns: 30px minmax(0, 1fr);
+        grid-template-columns: 34px minmax(0, 1fr);
     }
 
-    .project-index__number {
-        font-size: 13px;
+    .project-index__number,
+    .project-index--education .project-index__number {
+        font-size: 14px;
+        letter-spacing: 0;
     }
 
-    .project-index__title-block h3 {
-        font-size: clamp(35px, 10.5vw, 48px);
+    .project-index__title-block h3,
+    .project-index--education .project-index__title-block h3 {
+        font-size: clamp(32px, 9.7vw, 44px);
         overflow-wrap: anywhere;
     }
 
     .project-index__summary {
-        font-size: 15px;
+        font-size: 16px;
         word-break: normal;
     }
 
     .project-index__services > div {
         gap: 8px 20px;
+    }
+
+    .project-index__group--education {
+        margin-top: 70px;
     }
 }

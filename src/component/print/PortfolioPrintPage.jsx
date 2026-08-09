@@ -122,8 +122,10 @@ const PortfolioPrintPage = () => {
     const gallery = projectsById.happygallery
     const defense = projectsById.defense
     const webrtc = projectsById.webrtc
-    const study = personalActivities[0]
+    const studies = personalActivities
     const go = baton.services.find((service) => service.id === "go")
+    const watch = baton.services.find((service) => service.id === "watch")
+    const relay = baton.services.find((service) => service.id === "relay")
     const goConcurrency = go.evidence.split("·").at(-1).trim().replace("동시 ", "")
 
     useEffect(() => {
@@ -187,7 +189,7 @@ const PortfolioPrintPage = () => {
         <div className="portfolio-print">
             <nav className="print-toolbar" aria-label="인쇄본 도구">
                 <Link to="/">← 웹 포트폴리오</Link>
-                <span>React 인쇄 원본 · A4 8쪽</span>
+                <span>React 인쇄 원본 · A4 10쪽</span>
                 <button type="button" onClick={() => window.print()}>
                     인쇄 또는 PDF 저장
                 </button>
@@ -277,6 +279,7 @@ const PortfolioPrintPage = () => {
                         </div>
                         <div>
                             <h4>{webrtc.title}</h4>
+                            <time className="print-profile-project-period">{webrtc.period}</time>
                             <p>{education.description}</p>
                         </div>
                     </section>
@@ -298,18 +301,25 @@ const PortfolioPrintPage = () => {
                         </div>
                     </section>
 
-                    <aside className="print-profile-note">
+                    <aside className="print-profile-note print-profile-note--studies">
                         <span>## Personal Activity</span>
-                        <div>
-                            <strong>{study.title}</strong>
-                            <p>{study.summary}</p>
-                            <div className="print-profile-note__links">
-                                {study.links.map((link) => (
-                                    <a href={link.href} key={link.href}>
-                                        {link.label} ↗
-                                    </a>
-                                ))}
-                            </div>
+                        <div className="print-study-grid">
+                            {studies.map((study) => (
+                                <article aria-label={study.title} key={study.id}>
+                                    <small>
+                                        {study.type} / {study.role}
+                                    </small>
+                                    <strong>{study.title}</strong>
+                                    <p>{study.summary}</p>
+                                    <div className="print-profile-note__links">
+                                        {study.links.map((link) => (
+                                            <a href={link.href} key={link.href}>
+                                                {link.label} ↗
+                                            </a>
+                                        ))}
+                                    </div>
+                                </article>
+                            ))}
                         </div>
                     </aside>
                 </PrintPage>
@@ -317,7 +327,7 @@ const PortfolioPrintPage = () => {
                 <PrintPage
                     number="03"
                     path="# projects/baton/overview.md"
-                    meta="Core + 3 Microservices"
+                    meta={`${baton.period} · ${baton.evidenceAsOf}`}
                     footer="JAVA 21 / SPRING BOOT / MYSQL / POSTGRESQL / TESTCONTAINERS"
                     dark
                     variant="baton"
@@ -348,15 +358,35 @@ const PortfolioPrintPage = () => {
                     <PrintProjectEvidence
                         project={baton}
                         problemIds={["02", "03", "05", "07"]}
-                        documentIndexes={[0, 1, 2, 3, 4]}
+                        showDocuments={false}
                         toPublishedUrl={toPublishedUrl}
                     />
                 </PrintPage>
 
                 <PrintPage
                     number="05"
+                    path="# projects/baton/documents.md"
+                    meta={baton.evidenceAsOf}
+                    footer="PRD / ADR / RUNBOOK / API CONTRACT"
+                    dark
+                    variant="documents"
+                >
+                    <PrintTitle eyebrow="## BATON / DOCUMENTATION" title="문서 분류와 대표 문서">
+                        기술 선택, 복구 절차와 서비스 계약을 다음 변경 때 확인할 수 있는 기록으로
+                        남겼습니다.
+                    </PrintTitle>
+                    <PrintProjectEvidence
+                        project={baton}
+                        documentIndexes={[0, 1, 2, 3, 4]}
+                        showProblems={false}
+                        toPublishedUrl={toPublishedUrl}
+                    />
+                </PrintPage>
+
+                <PrintPage
+                    number="06"
                     path="# projects/happyGallery/overview.md"
-                    meta={gallery.period}
+                    meta={`${gallery.period} · ${gallery.evidenceAsOf}`}
                     footer="SPRING BOOT / REACT / MYSQL / REDIS / REST DOCS"
                     variant="gallery"
                 >
@@ -379,10 +409,10 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="06"
+                    number="07"
                     path="# projects/happyGallery/evidence.md"
-                    meta="Architecture + operations"
-                    footer="PRD / ADR / IDEA / POC / RETROSPECTIVE / RUNBOOK"
+                    meta={gallery.evidenceAsOf}
+                    footer="ARCHITECTURE / PAYMENT / OUTBOX / CONCURRENCY / SECURITY / OPERATIONS"
                     variant="evidence"
                 >
                     <PrintTitle
@@ -394,14 +424,35 @@ const PortfolioPrintPage = () => {
                     <PrintProjectEvidence
                         project={gallery}
                         problemIds={["01", "02", "03", "04", "05", "06"]}
-                        documentIndexes={[0, 1, 3, 4, 5]}
                         compact
+                        showDocuments={false}
                         toPublishedUrl={toPublishedUrl}
                     />
                 </PrintPage>
 
                 <PrintPage
-                    number="07"
+                    number="08"
+                    path="# projects/happyGallery/documents.md"
+                    meta={gallery.evidenceAsOf}
+                    footer="PRD / ADR / IDEA / POC / RETROSPECTIVE / RUNBOOK"
+                    variant="documents"
+                >
+                    <PrintTitle
+                        eyebrow="## HAPPYGALLERY / DOCUMENTATION"
+                        title="문서 분류와 대표 문서"
+                    >
+                        요구사항, 설계 결정과 운영 회고를 구현 및 변경의 기준으로 관리했습니다.
+                    </PrintTitle>
+                    <PrintProjectEvidence
+                        project={gallery}
+                        documentIndexes={[0, 1, 3, 4, 5]}
+                        showProblems={false}
+                        toPublishedUrl={toPublishedUrl}
+                    />
+                </PrintPage>
+
+                <PrintPage
+                    number="09"
                     path="# career-case.md"
                     meta={defense.period}
                     footer="JAVA 8 / EGOV / MYBATIS / TIBERO / JENKINS"
@@ -458,7 +509,7 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="08"
+                    number="10"
                     path="# skills-and-contact.md"
                     meta="Backend developer"
                     footer={`${portfolioProfile.name.toUpperCase()} / 2026`}
@@ -494,9 +545,12 @@ const PortfolioPrintPage = () => {
                     </div>
 
                     <nav className="print-project-links" aria-label="주요 프로젝트 링크">
-                        <a href={toPublishedUrl(baton.route)}>BATON</a>
-                        <a href={toPublishedUrl(go.route)}>BATON GO</a>
+                        <a href={toPublishedUrl(baton.route)}>BATON Core</a>
+                        <a href={toPublishedUrl(go.route)}>GO</a>
+                        <a href={toPublishedUrl(watch.route)}>WATCH</a>
+                        <a href={toPublishedUrl(relay.route)}>RELAY</a>
                         <a href={toPublishedUrl(gallery.route)}>happyGallery</a>
+                        <a href={toPublishedUrl(defense.route)}>경력 사례</a>
                         <a href={toPublishedUrl(webrtc.route)}>WebRTC/HLS</a>
                     </nav>
                 </PrintPage>

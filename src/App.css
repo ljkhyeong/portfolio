@@ -13,7 +13,57 @@ code {
     background: var(--ink);
     color: var(--accent);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+}
+
+.not-found {
+    display: grid;
+    min-height: 100svh;
+    padding: 32px;
+    place-items: center;
+    background: #f5f6f2;
+    color: #18201c;
+}
+
+.not-found__inner {
+    width: min(760px, 100%);
+}
+
+.not-found__inner > span {
+    color: #a74425;
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+}
+
+.not-found h1 {
+    max-width: 680px;
+    margin: 24px 0;
+    font-family: "Newsreader", "Pretendard Variable", serif;
+    font-size: clamp(48px, 8vw, 92px);
+    font-weight: 500;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+}
+
+.not-found p {
+    margin: 0 0 32px;
+    color: #5f6762;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.not-found a {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid currentColor;
+    color: inherit;
+    font-size: 16px;
+    font-weight: 750;
+    text-decoration: none;
 }

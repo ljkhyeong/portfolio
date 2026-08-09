@@ -15,6 +15,7 @@
         "dev": "vite",
         "start": "vite",
         "build": "vite build",
+        "postbuild": "node scripts/generate-route-meta.mjs",
         "pdf:generate": "node scripts/generate-portfolio-pdf.mjs",
         "preview": "vite preview",
         "test": "vitest run",

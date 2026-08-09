@@ -123,22 +123,26 @@ test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록�
     expect(screen.getByRole("heading", { name: "개인 활동", level: 3 })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "LnS (Learn & Share) 및 개발 서적 스터디",
+            name: "LnS (Learn & Share) — HTTP 완벽 가이드",
             level: 4,
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/발표와 Q&A/)).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "HTTP 완벽 가이드 스터디 ↗" })).toHaveAttribute(
+    expect(
+        screen.getByRole("heading", { name: "Effective Java 스터디", level: 4 }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/HTTP 메시지, 캐시, 프록시와 인증/)).toBeInTheDocument()
+    expect(screen.getByText(/객체 생성, 불변성, 제네릭과 API 설계 원칙/)).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "LnS 발표 및 Q&A 기록 ↗" })).toHaveAttribute(
         "href",
         "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
     )
-    expect(screen.getByRole("link", { name: "Effective Java 스터디 ↗" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Effective Java 학습 기록 ↗" })).toHaveAttribute(
         "href",
         "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64",
     )
 })
 
-const directRouteCases = [
+const canonicalRouteCases = [
     ["/projects/baton/go", "GO", "BATON GO | 임정규 포트폴리오"],
     ["/projects/baton/watch", "WATCH", "BATON WATCH | 임정규 포트폴리오"],
     ["/projects/baton/relay", "RELAY", "BATON RELAY | 임정규 포트폴리오"],
@@ -153,27 +157,52 @@ const directRouteCases = [
         "WebRTC/HLS 현장강의 보조 서비스",
         "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
     ],
+]
+
+test.each(canonicalRouteCases)(
+    "%s 직접 진입 시 %s 상세를 열고 탐색 순서를 강제로 바꾸지 않는다",
+    async (path, heading, title) => {
+        window.history.pushState({}, "", path)
+
+        render(<App />)
+
+        const detailHeading = await screen.findByRole("heading", { name: heading, level: 1 })
+
+        expect(detailHeading).toBeInTheDocument()
+        expect(detailHeading).not.toHaveFocus()
+        expect(document.title).toBe(title)
+    },
+)
+
+const legacyRouteCases = [
     [
         "/project2",
+        "/projects/webrtc",
         "WebRTC/HLS 현장강의 보조 서비스",
         "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
     ],
-    ["/project3", "happyGallery", "happyGallery | 임정규 포트폴리오"],
-    ["/project4", "차세대 군사법 정보 시스템", "차세대 군사법 정보 시스템 | 임정규 포트폴리오"],
-    ["/project-baton", "BATON", "BATON | 임정규 포트폴리오"],
+    ["/project3", "/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
+    [
+        "/project4",
+        "/projects/defense",
+        "차세대 군사법 정보 시스템",
+        "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
+    ],
+    ["/project-baton", "/projects/baton", "BATON", "BATON | 임정규 포트폴리오"],
 ]
 
-test.each(directRouteCases)("%s 경로에서 %s 상세를 연다", async (path, heading, title) => {
-    window.history.pushState({}, "", path)
+test.each(legacyRouteCases)(
+    "%s 구주소를 %s 정식 주소로 이동한다",
+    async (path, canonicalPath, heading, title) => {
+        window.history.pushState({}, "", path)
 
-    render(<App />)
+        render(<App />)
 
-    const detailHeading = await screen.findByRole("heading", { name: heading, level: 1 })
-
-    expect(detailHeading).toBeInTheDocument()
-    expect(document.activeElement).toBe(detailHeading)
-    expect(document.title).toBe(title)
-})
+        expect(await screen.findByRole("heading", { name: heading, level: 1 })).toBeInTheDocument()
+        await waitFor(() => expect(window.location.pathname).toBe(canonicalPath))
+        expect(document.title).toBe(title)
+    },
+)
 
 test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인할 수 있다", async () => {
     window.history.pushState({}, "", "/projects/happygallery")
@@ -219,7 +248,7 @@ test("BATON 마이크로서비스 상세는 책임, 대표 문제 해결과 문�
     )
 })
 
-test("WebRTC/HLS 상세는 이전 경험용 간략 화면으로 유지한다", async () => {
+test("WebRTC/HLS 상세는 교육 프로젝트용 간략 화면으로 유지한다", async () => {
     window.history.pushState({}, "", "/projects/webrtc")
 
     render(<App />)
@@ -227,36 +256,55 @@ test("WebRTC/HLS 상세는 이전 경험용 간략 화면으로 유지한다", a
     expect(
         await screen.findByRole("heading", { name: "WebRTC/HLS 현장강의 보조 서비스" }),
     ).toBeInTheDocument()
-    expect(screen.getByText("이전 경험")).toBeInTheDocument()
+    expect(screen.getByText("교육 프로젝트")).toBeInTheDocument()
     expect(screen.getAllByText(/WebSocket 제어/).length).toBeGreaterThan(0)
     expect(screen.queryByRole("heading", { name: "대표 문제 해결" })).not.toBeInTheDocument()
 })
 
-test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 8쪽을 렌더링한다", async () => {
+test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 쉬운 10쪽을 렌더링한다", async () => {
     window.history.pushState({}, "", "/portfolio/print")
 
     render(<App />)
 
     await screen.findByRole("heading", { name: "실패 이후까지 설계하는 백엔드 개발자" })
-    expect(document.title).toBe("인쇄용 포트폴리오 | 임정규")
-    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(8)
+    await waitFor(() => expect(document.title).toBe("인쇄용 포트폴리오 | 임정규"))
+    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(10)
     expect(screen.getAllByText("BATON").length).toBeGreaterThan(0)
     expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
-    expect(screen.getByText("LnS (Learn & Share) 및 개발 서적 스터디")).toBeInTheDocument()
+    expect(screen.getByText("LnS (Learn & Share) — HTTP 완벽 가이드")).toBeInTheDocument()
+    expect(screen.getByText("Effective Java 스터디")).toBeInTheDocument()
     expect(screen.getByText(/AWS에 운영 배포했으나/)).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "BATON GO" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "GO" })).toHaveAttribute(
         "href",
         "https://ljkportfolio.netlify.app/projects/baton/go",
     )
+    expect(screen.getByRole("link", { name: "WATCH" })).toHaveAttribute(
+        "href",
+        "https://ljkportfolio.netlify.app/projects/baton/watch",
+    )
+    expect(screen.getByRole("link", { name: "RELAY" })).toHaveAttribute(
+        "href",
+        "https://ljkportfolio.netlify.app/projects/baton/relay",
+    )
 })
 
-test("알 수 없는 경로는 홈으로 복구한다", async () => {
+test("알 수 없는 경로는 주소를 숨기지 않고 404 안내를 제공한다", async () => {
     window.history.pushState({}, "", "/not-a-project")
 
     render(<App />)
 
-    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("복잡한 요구사항을")
-    await waitFor(() => expect(window.location.pathname).toBe("/"))
-    expect(document.title).toBe("임정규 | 백엔드 개발자")
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent(
+        "요청한 페이지를 찾을 수 없습니다.",
+    )
+    expect(window.location.pathname).toBe("/not-a-project")
+    expect(document.title).toBe("페이지를 찾을 수 없습니다 | 임정규 포트폴리오")
+    expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "noindex, nofollow",
+    )
+    expect(screen.getByRole("link", { name: /프로젝트 목록으로 돌아가기/ })).toHaveAttribute(
+        "href",
+        "/",
+    )
 })

@@ -13,13 +13,13 @@ export const portfolioProfile = {
         tail: "로 만듭니다.",
     },
     webSummary:
-        "공공 시스템을 개발 및 운영했고, 모놀리식 애플리케이션은 Gradle 멀티모듈로 구성했습니다. 마이크로서비스에서는 서비스별 데이터와 장애를 분리했습니다.",
+        "공공 시스템의 기관 연계 배치를 개발하고 운영 장애에 대응했습니다. 개인 프로젝트에서는 결제 및 환불 멱등성, 알림 아웃박스와 서비스별 데이터 분리를 구현했습니다.",
     printHeadline: {
         lead: "실패 이후까지 설계하는",
         emphasis: "백엔드 개발자",
     },
     printSummary:
-        "공공 시스템에서 기능 개발과 운영 장애를 대응했고, 개인 프로젝트에서는 멱등성, 데이터 정합성, 복구 경로를 코드와 테스트로 구체화했습니다.",
+        "공공 시스템에서 기능을 개발하고 운영 장애에 대응했으며, 개인 프로젝트에서는 멱등성, 데이터 정합성, 복구 경로를 코드와 테스트로 구체화했습니다.",
 }
 
 export const workPrinciples = [
@@ -77,19 +77,29 @@ export const career = {
 
 export const personalActivities = [
     {
-        id: "lns-study",
-        title: "LnS (Learn & Share) 및 개발 서적 스터디",
+        id: "lns-http-study",
+        title: "LnS (Learn & Share) — HTTP 완벽 가이드",
         type: "개발 서적 그룹 스터디",
-        role: "참여 및 학습 기록",
+        role: "발표 및 Q&A 정리",
         summary:
-            "LnS에서는 HTTP 완벽 가이드를 발표와 Q&A로 정리했습니다. Effective Java 스터디 내용도 Notion에 기록했습니다.",
+            "HTTP 메시지, 캐시, 프록시와 인증 등 실무에서 자주 확인하는 주제를 발표하고 질문과 답변을 문서로 정리했습니다.",
         links: [
             {
-                label: "HTTP 완벽 가이드 스터디",
+                label: "LnS 발표 및 Q&A 기록",
                 href: "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
             },
+        ],
+    },
+    {
+        id: "effective-java-study",
+        title: "Effective Java 스터디",
+        type: "개발 서적 그룹 스터디",
+        role: "아이템별 학습 내용 기록",
+        summary:
+            "객체 생성, 불변성, 제네릭과 API 설계 원칙을 아이템별로 학습하고 적용 기준을 Notion에 기록했습니다.",
+        links: [
             {
-                label: "Effective Java 스터디",
+                label: "Effective Java 학습 기록",
                 href: "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64",
             },
         ],

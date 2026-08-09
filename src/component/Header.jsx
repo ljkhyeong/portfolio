@@ -11,7 +11,7 @@ const Header = () => {
                 </a>
                 <div className="site-nav__links">
                     <a href="#work">프로젝트</a>
-                    <a href="#experience">경력 및 교육</a>
+                    <a href="#experience">경력 및 학습</a>
                     <a href="#capabilities">기술</a>
                 </div>
                 <a className="site-nav__contact" href={`mailto:${portfolioProfile.email}`}>

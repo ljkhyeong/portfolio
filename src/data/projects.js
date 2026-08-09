@@ -7,7 +7,8 @@ export const projectList = [
         eyebrow: "조직 운영 플랫폼",
         summary:
             "조직 운영의 기준 데이터는 Core에 두고, 링크, URL 점검, 메시지 전송을 실패 특성에 따라 별도 마이크로서비스로 분리했습니다.",
-        period: "진행 중",
+        period: "2026.07.20 — 진행 중",
+        evidenceAsOf: "2026.08.09 저장소 기준",
         route: "/projects/baton",
         tags: ["Java 21", "Spring Boot", "MySQL / PostgreSQL", "Outbox"],
         visual: "baton",
@@ -95,7 +96,7 @@ export const projectList = [
             {
                 id: "adr",
                 label: "ADR",
-                count: "42",
+                count: "43",
                 summary: "기술 선택의 이유, 대안과 트레이드오프를 기록합니다.",
             },
             {
@@ -180,7 +181,7 @@ export const projectList = [
                 status: "핵심 링크 계약과 복구 검증을 마쳤고 BATON 전체 연동은 진행 중입니다.",
                 documentation: [
                     { label: "PRD", count: "3" },
-                    { label: "ADR", count: "8" },
+                    { label: "ADR", count: "9" },
                     { label: "Runbook", count: "3" },
                 ],
             },
@@ -191,7 +192,7 @@ export const projectList = [
                 route: "/projects/baton/watch",
                 role: "URL 상태 점검",
                 detail: "DNS pinning, SSRF 방어, lease 및 revision 펜싱, 아웃박스",
-                evidence: "271 tests",
+                evidence: "354 tests",
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
                 status: "안전한 URL 점검과 이벤트 전달을 구현했으며 공개 staging 검증은 실행 전입니다.",
@@ -225,7 +226,7 @@ export const projectList = [
                 detail: "멱등 링크 생성, 정책 검증과 동시 요청을 검증",
             },
             {
-                value: "271",
+                value: "354",
                 label: "WATCH 테스트",
                 detail: "URL 보안, 작업 선점과 상태 변경 이벤트를 검증",
             },
@@ -240,7 +241,7 @@ export const projectList = [
         oneLine: "실패 특성이 다른 기능을 서비스와 저장소 단위로 분리",
         status: {
             label: "현재 상태",
-            text: "각 서비스의 핵심 기능과 테스트는 구현했습니다. 서비스 간 전체 연동과 운영 환경 배포는 진행 중입니다.",
+            text: "각 서비스의 핵심 기능과 테스트는 구현했습니다. 서비스 간 전체 연동과 운영 환경 배포는 진행 중입니다. 문서와 테스트 수치는 2026.08.09 저장소 기준입니다.",
         },
         visualCaption:
             "Core는 기준 데이터의 주체이며 GO, WATCH, RELAY를 직접 제어하는 상위 서버는 아닙니다. 각 서비스는 독립된 책임과 장애 경계를 가집니다.",
@@ -318,7 +319,7 @@ export const projectList = [
                 decision:
                     "짧은 트랜잭션에서 SKIP LOCKED로 작업만 선점하고 네트워크 I/O를 분리했습니다. DNS pinning과 SSRF 방어, lease token과 source revision 펜싱을 적용했습니다.",
                 validation:
-                    "URL 보안, 작업 인계, 오래된 결과 거절과 제한된 redirect 및 응답 크기를 포함한 271개 테스트로 확인했습니다.",
+                    "URL 보안, 작업 인계, 오래된 결과 거절과 제한된 redirect 및 응답 크기를 포함한 354개 테스트로 확인했습니다.",
                 boundary:
                     "lease 시간은 중복 실행과 복구 속도 사이의 균형이므로 실제 지연 분포를 보고 계속 조정해야 합니다.",
                 print: {
@@ -402,6 +403,7 @@ export const projectList = [
         summary:
             "결제와 환불 결과를 확인할 수 없는 상태, 알림 프로세스 중단, 예약 및 재고 경쟁을 복구 가능한 상태로 저장했습니다.",
         period: "2026.02.21 — 진행 중",
+        evidenceAsOf: "2026.08.09 저장소 기준",
         route: "/projects/happygallery",
         tags: ["Spring Boot", "React", "헥사고날 아키텍처", "MySQL / Redis"],
         visual: "gallery",
@@ -484,7 +486,7 @@ export const projectList = [
             {
                 id: "adr",
                 label: "ADR",
-                count: "42",
+                count: "44",
                 summary: "아키텍처, 동시성, 결제와 보안 결정을 기록합니다.",
             },
             {
@@ -551,14 +553,14 @@ export const projectList = [
                 detail: "AWS 운영 배포 뒤 상시 리소스 비용을 확인하고 종료",
             },
             {
-                value: "194",
+                value: "220",
                 label: "OpenAPI operations",
-                detail: "현재 API 스냅샷 기준 167 paths, 194 operations",
+                detail: "2026.08.09 API 스냅샷 기준 190 paths, 220 operations",
             },
             {
-                value: "192",
+                value: "218",
                 label: "REST Docs 테스트",
-                detail: "8개 문서 테스트 스위트, 실패와 건너뜀 없이 완료",
+                detail: "2026.08.09 기준 8개 문서 테스트 스위트, 218개 테스트 완료",
             },
         ],
         category: "개인 프로젝트",
@@ -566,7 +568,7 @@ export const projectList = [
         oneLine: "외부 I/O와 동시성 실패를 복구 가능한 상태로 설계",
         status: {
             label: "운영 상태",
-            text: "AWS에 운영 배포했으나 트래픽과 무관한 상시 리소스 비용이 발생해 운영을 종료했습니다. 현재 공개 URL은 없으며 194와 192는 로컬 문서 및 테스트 스냅샷입니다.",
+            text: "AWS에 운영 배포했으나 트래픽과 무관한 상시 리소스 비용이 발생해 운영을 종료했습니다. 현재 공개 URL은 없으며 API와 테스트 수치는 2026.08.09 로컬 저장소 기준입니다.",
         },
         visualCaption:
             "헥사고날 아키텍처의 포트와 어댑터 원칙을 적용했고, domain 모듈에는 일부 JPA 어노테이션을 유지했습니다.",
@@ -799,7 +801,7 @@ export const projectList = [
     },
     {
         id: "webrtc",
-        index: "이전 경험",
+        index: "교육 프로젝트",
         presentation: "prior-experience",
         title: "WebRTC/HLS 현장강의 보조 서비스",
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
@@ -821,7 +823,7 @@ export const projectList = [
                 detail: "세그먼트와 인코딩 설정 조정",
             },
         ],
-        category: "이전 팀 프로젝트",
+        category: "교육 프로젝트",
         role: "HLS 서버 및 React 프론트엔드",
         oneLine: "WebRTC 실시간 시청과 HLS 지난 구간 재생 구현",
         status: {

@@ -89,10 +89,17 @@ body.portfolio-print-mode {
     margin: 0 0 8mm;
     overflow: hidden;
     padding: 14mm 16mm 13mm;
-    break-after: page;
-    page-break-after: always;
+    break-inside: avoid;
+    break-after: auto;
+    page-break-inside: avoid;
+    page-break-after: auto;
     background: var(--print-paper);
     box-shadow: 0 8mm 18mm rgba(0, 0, 0, 0.24);
+}
+
+.print-page + .print-page {
+    break-before: page;
+    page-break-before: always;
 }
 
 .print-page:last-child {
@@ -115,7 +122,7 @@ body.portfolio-print-mode {
     align-items: center;
     justify-content: space-between;
     font-family: var(--mono);
-    font-size: 7.2pt;
+    font-size: 8pt;
     font-weight: 750;
     letter-spacing: 0.075em;
     text-transform: uppercase;
@@ -171,7 +178,7 @@ body.portfolio-print-mode {
     margin: 0;
     color: var(--print-accent-dark);
     font-family: var(--mono);
-    font-size: 7.3pt;
+    font-size: 8pt;
     font-weight: 850;
     letter-spacing: 0.055em;
     text-transform: uppercase;
@@ -315,7 +322,7 @@ body.portfolio-print-mode {
 .print-cover-proof span {
     color: var(--print-accent);
     font-family: var(--mono);
-    font-size: 7.3pt;
+    font-size: 8pt;
     font-weight: 850;
 }
 
@@ -329,7 +336,7 @@ body.portfolio-print-mode {
 .print-cover-proof p {
     margin: 2mm 0 0;
     color: rgba(255, 255, 255, 0.68);
-    font-size: 7.6pt;
+    font-size: 8.2pt;
     line-height: 1.45;
     word-break: keep-all;
 }
@@ -363,7 +370,7 @@ body.portfolio-print-mode {
 .print-principles article > span {
     color: var(--print-accent-dark);
     font-family: var(--mono);
-    font-size: 7.3pt;
+    font-size: 8pt;
     font-weight: 850;
 }
 
@@ -408,7 +415,7 @@ body.portfolio-print-mode {
 .print-profile-row__meta time {
     color: var(--print-muted);
     font-family: var(--mono);
-    font-size: 7.1pt;
+    font-size: 8pt;
 }
 
 .print-profile-row__meta strong {
@@ -420,7 +427,16 @@ body.portfolio-print-mode {
 .print-profile-row__meta span {
     margin-top: 1.2mm;
     color: var(--print-muted);
-    font-size: 7pt;
+    font-size: 8pt;
+}
+
+.print-profile-project-period {
+    display: block;
+    margin-top: 1mm;
+    color: var(--print-accent-dark);
+    font-family: var(--mono);
+    font-size: 8pt;
+    font-weight: 760;
 }
 
 .print-profile-row h4 {
@@ -448,7 +464,7 @@ body.portfolio-print-mode {
     border: 0.3mm solid var(--print-line);
     color: var(--print-muted);
     font-family: var(--mono);
-    font-size: 6.5pt;
+    font-size: 8pt;
 }
 
 .print-profile-note {
@@ -463,7 +479,7 @@ body.portfolio-print-mode {
 .print-profile-note span {
     color: var(--print-accent-dark);
     font-family: var(--mono);
-    font-size: 7pt;
+    font-size: 8pt;
     font-weight: 850;
 }
 
@@ -477,7 +493,26 @@ body.portfolio-print-mode {
 
 .print-profile-note strong {
     display: block;
-    font-size: 9.3pt;
+    margin-top: 1.2mm;
+    font-size: 9.5pt;
+}
+
+.print-study-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5mm;
+}
+
+.print-study-grid article + article {
+    padding-left: 5mm;
+    border-left: 0.35mm solid var(--print-line);
+}
+
+.print-study-grid small {
+    color: var(--print-muted);
+    font-family: var(--mono);
+    font-size: 8pt;
+    line-height: 1.4;
 }
 
 .print-profile-note__links {
@@ -489,7 +524,7 @@ body.portfolio-print-mode {
 
 .print-profile-note__links a {
     color: var(--print-accent-dark);
-    font-size: 7pt;
+    font-size: 8pt;
     font-weight: 750;
     text-decoration: underline;
     text-underline-offset: 1mm;
@@ -529,7 +564,7 @@ body.portfolio-print-mode {
     padding: 1.5mm 2mm;
     background: rgba(21, 26, 23, 0.9);
     color: rgba(255, 255, 255, 0.82);
-    font-size: 6.1pt;
+    font-size: 8pt;
     line-height: 1.35;
 }
 
@@ -537,7 +572,7 @@ body.portfolio-print-mode {
     display: block;
     color: #fff;
     font-family: var(--mono);
-    font-size: 6.2pt;
+    font-size: 8pt;
 }
 
 .print-screen-gallery--dark figure {
@@ -557,7 +592,7 @@ body.portfolio-print-mode {
 
 .print-markdown-heading {
     color: var(--print-service);
-    font-size: 7.1pt;
+    font-size: 8pt;
 }
 
 .print-page--dark .print-markdown-heading {
@@ -596,7 +631,7 @@ body.portfolio-print-mode {
 .print-service-index small,
 .print-service-index span {
     font-family: var(--mono);
-    font-size: 5.7pt;
+    font-size: 8pt;
     font-weight: 850;
     letter-spacing: 0.02em;
 }
@@ -610,7 +645,7 @@ body.portfolio-print-mode {
 
 .print-service-index p {
     margin: 2mm 0 0;
-    font-size: 6.6pt;
+    font-size: 8pt;
     line-height: 1.4;
     word-break: keep-all;
 }
@@ -662,7 +697,7 @@ body.portfolio-print-mode {
 .print-architecture-note > span {
     color: var(--print-accent-dark);
     font-family: var(--mono);
-    font-size: 7.2pt;
+    font-size: 8pt;
     font-weight: 850;
 }
 
@@ -672,14 +707,14 @@ body.portfolio-print-mode {
     display: block;
     margin: 0;
     color: var(--print-muted);
-    font-size: 7.2pt;
+    font-size: 8pt;
     line-height: 1.46;
     word-break: keep-all;
 }
 
 .print-architecture-note small {
     margin-top: 1.2mm;
-    font-size: 6.4pt;
+    font-size: 8pt;
 }
 
 .print-page--dark .print-status-note {
@@ -703,19 +738,19 @@ body.portfolio-print-mode {
 
 .print-page--evidence .print-title > p:last-child {
     margin-top: 2mm;
-    font-size: 8.2pt;
+    font-size: 9.2pt;
 }
 
 .print-problem-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.5mm;
+    gap: 4mm;
     margin-top: 6mm;
 }
 
 .print-problem-grid article {
-    min-height: 42mm;
-    padding: 3.5mm;
+    min-height: 66mm;
+    padding: 5mm;
     border: 0.35mm solid var(--print-line);
     background: var(--print-raised);
 }
@@ -723,13 +758,13 @@ body.portfolio-print-mode {
 .print-problem-grid article > span {
     color: var(--print-service);
     font-family: var(--mono);
-    font-size: 5.8pt;
+    font-size: 8pt;
     font-weight: 850;
 }
 
 .print-problem-grid h3 {
-    margin: 1.5mm 0 0;
-    font-size: 8.4pt;
+    margin: 2mm 0 0;
+    font-size: 11pt;
     letter-spacing: -0.02em;
     line-height: 1.28;
     word-break: keep-all;
@@ -742,28 +777,28 @@ body.portfolio-print-mode {
 }
 
 .print-problem-grid dl {
-    margin-top: 2mm;
+    margin-top: 3mm;
 }
 
 .print-problem-grid dl > div {
     display: grid;
-    grid-template-columns: 20mm 1fr;
-    gap: 1.5mm;
-    padding: 1.15mm 0;
+    grid-template-columns: 25mm 1fr;
+    gap: 2mm;
+    padding: 1.8mm 0;
     border-top: 0.3mm solid var(--print-line);
 }
 
 .print-problem-grid dt {
     color: var(--print-accent-dark);
     font-family: var(--mono);
-    font-size: 5.3pt;
+    font-size: 8pt;
     font-weight: 850;
 }
 
 .print-problem-grid dd {
     color: var(--print-muted);
-    font-size: 5.9pt;
-    line-height: 1.36;
+    font-size: 9.2pt;
+    line-height: 1.42;
     word-break: keep-all;
 }
 
@@ -793,17 +828,17 @@ body.portfolio-print-mode {
 }
 
 .print-problem-grid--compact {
-    gap: 2mm;
+    gap: 3mm;
     margin-top: 4.5mm;
 }
 
 .print-problem-grid--compact article {
-    min-height: 35.5mm;
-    padding: 2.8mm 3.2mm;
+    min-height: 52mm;
+    padding: 3.8mm 4.2mm;
 }
 
 .print-problem-grid--compact h3 {
-    font-size: 7.7pt;
+    font-size: 10pt;
 }
 
 .print-problem-grid--compact dl {
@@ -811,11 +846,27 @@ body.portfolio-print-mode {
 }
 
 .print-problem-grid--compact dl > div {
-    padding: 0.9mm 0;
+    padding: 1.3mm 0;
 }
 
 .print-document-catalog {
-    margin-top: 5mm;
+    margin-top: 10mm;
+}
+
+.print-document-catalog__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.print-document-catalog__heading > span {
+    color: var(--print-muted);
+    font-family: var(--mono);
+    font-size: 8pt;
+}
+
+.print-page--dark .print-document-catalog__heading > span {
+    color: rgba(255, 255, 255, 0.64);
 }
 
 .print-document-taxonomy {
@@ -827,12 +878,12 @@ body.portfolio-print-mode {
 }
 
 .print-document-taxonomy--five {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .print-document-taxonomy article {
-    min-height: 19mm;
-    padding: 2.5mm;
+    min-height: 31mm;
+    padding: 4mm;
     border-right: 0.35mm solid var(--print-line);
     border-bottom: 0.35mm solid var(--print-line);
 }
@@ -844,19 +895,19 @@ body.portfolio-print-mode {
     gap: 2mm;
     color: var(--print-service);
     font-family: var(--mono);
-    font-size: 6.2pt;
+    font-size: 9pt;
 }
 
 .print-document-taxonomy strong b {
     color: var(--print-accent-dark);
-    font-size: 8pt;
+    font-size: 11pt;
 }
 
 .print-document-taxonomy p {
-    margin: 1.4mm 0 0;
+    margin: 2mm 0 0;
     color: var(--print-muted);
-    font-size: 5.6pt;
-    line-height: 1.35;
+    font-size: 9pt;
+    line-height: 1.45;
     word-break: keep-all;
 }
 
@@ -879,20 +930,26 @@ body.portfolio-print-mode {
 
 .print-representative-docs {
     display: grid;
-    grid-template-columns: 29mm repeat(5, minmax(0, 1fr));
-    margin-top: 4mm;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 8mm;
     border-top: 0.35mm solid var(--print-line);
+    border-left: 0.35mm solid var(--print-line);
     border-bottom: 0.35mm solid var(--print-line);
 }
 
 .print-representative-docs > .print-markdown-heading {
-    padding: 3mm 3mm 3mm 0;
+    grid-column: 1 / -1;
+    padding: 3mm 0;
+    border-right: 0.35mm solid var(--print-line);
+    border-bottom: 0.35mm solid var(--print-line);
 }
 
 .print-representative-docs a {
     min-width: 0;
-    padding: 3mm;
-    border-left: 0.35mm solid var(--print-line);
+    min-height: 31mm;
+    padding: 4mm;
+    border-right: 0.35mm solid var(--print-line);
+    border-bottom: 0.35mm solid var(--print-line);
     color: var(--print-ink);
 }
 
@@ -902,15 +959,15 @@ body.portfolio-print-mode {
 }
 
 .print-representative-docs a b {
-    font-size: 5.6pt;
-    line-height: 1.35;
+    font-size: 9.5pt;
+    line-height: 1.4;
 }
 
 .print-representative-docs a span {
-    margin-top: 1.2mm;
+    margin-top: 2mm;
     color: var(--print-muted);
-    font-size: 5.2pt;
-    line-height: 1.34;
+    font-size: 9pt;
+    line-height: 1.45;
     word-break: keep-all;
 }
 
@@ -918,8 +975,12 @@ body.portfolio-print-mode {
     border-color: var(--print-line-dark);
 }
 
+.print-page--dark .print-representative-docs > .print-markdown-heading,
 .print-page--dark .print-representative-docs a {
     border-color: var(--print-line-dark);
+}
+
+.print-page--dark .print-representative-docs a {
     color: #fff;
 }
 
@@ -960,7 +1021,7 @@ body.portfolio-print-mode {
 .print-metric-row span {
     margin-top: 1.5mm;
     color: var(--print-muted);
-    font-size: 7.4pt;
+    font-size: 8pt;
 }
 
 .print-defense-flow {
@@ -985,7 +1046,7 @@ body.portfolio-print-mode {
     height: 17mm;
     place-items: center;
     border: 0.35mm solid var(--print-line-strong);
-    font-size: 6.8pt;
+    font-size: 8pt;
     font-weight: 760;
 }
 
@@ -1003,7 +1064,7 @@ body.portfolio-print-mode {
 .print-flow-box small {
     color: var(--print-accent-dark);
     font-family: var(--mono);
-    font-size: 6.5pt;
+    font-size: 8pt;
     font-weight: 850;
 }
 
@@ -1018,7 +1079,7 @@ body.portfolio-print-mode {
     margin: 2mm 0 0;
     color: var(--print-muted);
     font-family: var(--mono);
-    font-size: 6.2pt;
+    font-size: 8pt;
     line-height: 1.4;
 }
 
@@ -1055,7 +1116,7 @@ body.portfolio-print-mode {
 .print-career-cases p {
     margin-top: 2.5mm;
     color: var(--print-muted);
-    font-size: 7.1pt;
+    font-size: 9pt;
     line-height: 1.5;
     word-break: keep-all;
 }
@@ -1117,7 +1178,7 @@ body.portfolio-print-mode {
     border-top: 0.35mm solid var(--print-line-dark);
     color: #fff;
     font-family: var(--mono);
-    font-size: 7.5pt;
+    font-size: 8.5pt;
 }
 
 .print-project-links {
@@ -1132,7 +1193,7 @@ body.portfolio-print-mode {
     border: 0.35mm solid var(--print-line-dark);
     color: rgba(255, 255, 255, 0.72);
     font-family: var(--mono);
-    font-size: 6.2pt;
+    font-size: 8pt;
     text-align: center;
 }
 
