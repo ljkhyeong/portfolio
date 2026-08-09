@@ -1,8 +1,8 @@
-import { act, render, screen, waitFor, within } from "@testing-library/react"
+import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import App from "./App"
 
-test("대표 프로젝트를 확인하고 BATON 상세로 이동할 수 있다", async () => {
+test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다", async () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
@@ -22,28 +22,16 @@ test("대표 프로젝트를 확인하고 BATON 상세로 이동할 수 있다",
     expect(batonHeading).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "happyGallery", level: 3 })).toBeInTheDocument()
     expect(
-        screen.queryByRole("heading", { name: "차세대 군사법 정보 시스템", level: 3 }),
-    ).not.toBeInTheDocument()
+        screen.getByRole("heading", { name: "차세대 군사법 정보 시스템", level: 3 }),
+    ).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
             name: "WebRTC/HLS 현장강의 보조 서비스",
-            level: 4,
+            level: 3,
         }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "프로젝트 상세 보기 →" })).toHaveAttribute(
-        "href",
-        "/projects/defense",
-    )
-
-    const batonProject = batonHeading.closest("article")
-
-    expect(batonProject).not.toBeNull()
     await act(async () => {
-        userEvent.click(
-            within(batonProject).getByRole("link", {
-                name: /문제 해결 과정 보기/,
-            }),
-        )
+        userEvent.click(screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" }))
     })
 
     const detailHeading = await screen.findByRole("heading", { name: "BATON", level: 1 })
@@ -61,38 +49,30 @@ test("대표 프로젝트를 확인하고 BATON 상세로 이동할 수 있다",
 const projectLinkCases = [
     ["BATON", "/projects/baton"],
     ["happyGallery", "/projects/happygallery"],
+    ["차세대 군사법 정보 시스템", "/projects/defense"],
+    ["WebRTC/HLS 현장강의 보조 서비스", "/projects/webrtc"],
 ]
 
-test.each(projectLinkCases)("%s 카드가 %s 상세를 연결한다", (project, route) => {
+test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, route) => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    expect(
-        screen.getByRole("link", { name: `${project} 설계와 문제 해결 과정 보기` }),
-    ).toHaveAttribute("href", route)
+    expect(screen.getByRole("link", { name: `${project} 프로젝트 상세 보기` })).toHaveAttribute(
+        "href",
+        route,
+    )
 })
 
-test("BATON 비공개 ADR은 공개 Markdown 요약으로 연결한다", () => {
+test("홈은 상세 근거를 펼치지 않고 프로젝트 선택에 집중한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    expect(
-        screen.getByRole("link", {
-            name: "Core 헥사고날 아키텍처 대표 문서 새 창에서 보기",
-        }),
-    ).toHaveAttribute("href", "/docs/baton/core-hexagonal.md")
-    expect(
-        screen.getByRole("link", {
-            name: "GO 멱등 링크 생성 대표 문서 새 창에서 보기",
-        }),
-    ).toHaveAttribute("href", "/docs/baton/go-idempotent-link.md")
-    expect(
-        screen.getByRole("link", {
-            name: "RELAY 전송 시도 복구 대표 문서 새 창에서 보기",
-        }),
-    ).toHaveAttribute("href", "/docs/baton/relay-attempt-recovery.md")
+    expect(screen.queryByRole("heading", { name: "대표 문제 해결" })).not.toBeInTheDocument()
+    expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
+    expect(screen.queryByText("API Contract")).not.toBeInTheDocument()
+    expect(screen.queryAllByRole("img")).toHaveLength(0)
 })
 
 test("BATON의 GO, WATCH, RELAY를 독립 마이크로서비스 상세로 연결한다", () => {
@@ -109,25 +89,6 @@ test("BATON의 GO, WATCH, RELAY를 독립 마이크로서비스 상세로 연결
             }),
         ).toHaveAttribute("href", `/projects/baton/${service.toLowerCase()}`)
     })
-})
-
-test("대표 프로젝트는 여러 실제 화면과 문서 분류를 함께 보여준다", () => {
-    window.history.pushState({}, "", "/")
-
-    render(<App />)
-
-    const batonProject = screen.getByRole("heading", { name: "BATON", level: 3 }).closest("article")
-    const galleryProject = screen
-        .getByRole("heading", { name: "happyGallery", level: 3 })
-        .closest("article")
-
-    expect(batonProject).not.toBeNull()
-    expect(galleryProject).not.toBeNull()
-    expect(within(batonProject).getAllByRole("img")).toHaveLength(3)
-    expect(within(galleryProject).getAllByRole("img")).toHaveLength(3)
-    expect(within(batonProject).getByText("API Contract")).toBeInTheDocument()
-    expect(within(galleryProject).getByText("Retrospective")).toBeInTheDocument()
-    expect(within(galleryProject).getByText("Idea / POC")).toBeInTheDocument()
 })
 
 test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여준다", () => {
@@ -147,10 +108,33 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
             level: 4,
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/WebSocket 제어와/)).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "프로젝트 기록 보기 →" })).toHaveAttribute(
+    expect(screen.getAllByText(/WebSocket 제어와/).length).toBeGreaterThan(0)
+    expect(screen.getByRole("link", { name: "교육 프로젝트 상세 보기 →" })).toHaveAttribute(
         "href",
         "/projects/webrtc",
+    )
+})
+
+test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록을 연결한다", () => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    expect(screen.getByRole("heading", { name: "개인 활동", level: 3 })).toBeInTheDocument()
+    expect(
+        screen.getByRole("heading", {
+            name: "LnS (Learn & Share) 및 개발 서적 스터디",
+            level: 4,
+        }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/발표와 Q&A/)).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "HTTP 완벽 가이드 스터디 ↗" })).toHaveAttribute(
+        "href",
+        "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
+    )
+    expect(screen.getByRole("link", { name: "Effective Java 스터디 ↗" })).toHaveAttribute(
+        "href",
+        "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64",
     )
 })
 
@@ -259,6 +243,7 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 8쪽을 �
     expect(screen.getAllByText("BATON").length).toBeGreaterThan(0)
     expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
+    expect(screen.getByText("LnS (Learn & Share) 및 개발 서적 스터디")).toBeInTheDocument()
     expect(screen.getByText(/AWS에 운영 배포했으나/)).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "BATON GO" })).toHaveAttribute(
         "href",

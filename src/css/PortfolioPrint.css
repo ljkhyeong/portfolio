@@ -475,6 +475,26 @@ body.portfolio-print-mode {
     word-break: keep-all;
 }
 
+.print-profile-note strong {
+    display: block;
+    font-size: 9.3pt;
+}
+
+.print-profile-note__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5mm 4mm;
+    margin-top: 2mm;
+}
+
+.print-profile-note__links a {
+    color: var(--print-accent-dark);
+    font-size: 7pt;
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 1mm;
+}
+
 /* Project screens and BATON boundary */
 
 .print-screen-gallery {

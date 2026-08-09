@@ -390,3 +390,18 @@
         transform: none;
     }
 }
+
+/* Readability floor for gallery controls and captions. */
+.screenshot-gallery__chrome code,
+.screenshot-gallery__zoom,
+.screenshot-gallery__item figcaption span,
+.screenshot-lightbox__eyebrow,
+.screenshot-lightbox__close,
+.screenshot-lightbox__status {
+    font-size: 13px;
+}
+
+.screenshot-gallery__item figcaption strong,
+.screenshot-lightbox__footer p {
+    font-size: 14px;
+}

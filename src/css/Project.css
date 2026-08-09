@@ -1841,3 +1841,69 @@
         border-left: 0;
     }
 }
+
+/* Readability floor for detail-page labels and supporting copy. */
+.case-study-nav,
+.case-kicker,
+.case-hero__tags,
+.case-section-heading > span,
+.case-snapshot dt,
+.case-problem dt,
+.case-status > span,
+.case-visual__legend,
+.baton-node__index,
+.baton-node small,
+.case-visual--gallery figcaption span,
+.defense-map__label,
+.defense-map__sources span,
+.defense-map small,
+.defense-map span,
+.stream-map__source small,
+.stream-lane__label,
+.stream-lane small,
+.case-problem__title > span,
+.case-document-catalog code,
+.case-representative-documents h3 span,
+.case-documents a code,
+.case-meta__stack li,
+.case-next a > span:first-child,
+.case-product__chrome strong,
+.case-visual--product figcaption span,
+.case-service-map__core span,
+.case-service-map__children > a > span,
+.case-service-map__core em,
+.case-service-map__children em,
+.case-service-map__divider,
+.case-service-map__children > a > b,
+.case-architecture__intro > span,
+.case-architecture__decisions article > span,
+.case-architecture__intro blockquote strong,
+.case-architecture__decisions dt,
+.prior-case__facts dt,
+.prior-case__links a {
+    font-size: 13px;
+}
+
+.case-visual--product figcaption strong,
+.case-system__caption {
+    font-size: 14px;
+}
+
+.stream-lane__node {
+    font-size: clamp(15px, 1.5vw, 18px);
+}
+
+.case-proof__item p,
+.case-document-catalog p,
+.case-documents li p,
+.case-meta__links li p,
+.case-meta__link-note,
+.case-service-map__core h3,
+.case-service-map__children h3,
+.case-service-map__core p,
+.case-service-map__children p,
+.case-architecture__intro blockquote,
+.case-architecture__decisions dd,
+.prior-case__note {
+    font-size: 15px;
+}

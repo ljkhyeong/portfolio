@@ -75,6 +75,27 @@ export const career = {
         "차세대 군사법 정보 시스템 군교정 부문에서 기관 연계 배치, 보안 기능, 로그 및 DB 기반 장애 대응을 담당했습니다.",
 }
 
+export const personalActivities = [
+    {
+        id: "lns-study",
+        title: "LnS (Learn & Share) 및 개발 서적 스터디",
+        type: "개발 서적 그룹 스터디",
+        role: "참여 및 학습 기록",
+        summary:
+            "LnS에서는 HTTP 완벽 가이드를 발표와 Q&A로 정리했습니다. Effective Java 스터디 내용도 Notion에 기록했습니다.",
+        links: [
+            {
+                label: "HTTP 완벽 가이드 스터디",
+                href: "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
+            },
+            {
+                label: "Effective Java 스터디",
+                href: "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64",
+            },
+        ],
+    },
+]
+
 export const skillGroups = [
     {
         label: "백엔드",

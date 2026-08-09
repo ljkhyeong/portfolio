@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import {
     career,
     education,
+    personalActivities,
     portfolioProfile,
     printSkillGroups,
     workPrinciples,
@@ -121,6 +122,7 @@ const PortfolioPrintPage = () => {
     const gallery = projectsById.happygallery
     const defense = projectsById.defense
     const webrtc = projectsById.webrtc
+    const study = personalActivities[0]
     const go = baton.services.find((service) => service.id === "go")
     const goConcurrency = go.evidence.split("·").at(-1).trim().replace("동시 ", "")
 
@@ -297,11 +299,18 @@ const PortfolioPrintPage = () => {
                     </section>
 
                     <aside className="print-profile-note">
-                        <span>LEGACY ↔ MODERN</span>
-                        <p>
-                            레거시 환경의 안정적인 변경 경험과 현대 아키텍처의 확장성 사이에서, 실제
-                            운영에 필요한 수준의 구조를 선택합니다.
-                        </p>
+                        <span>## Personal Activity</span>
+                        <div>
+                            <strong>{study.title}</strong>
+                            <p>{study.summary}</p>
+                            <div className="print-profile-note__links">
+                                {study.links.map((link) => (
+                                    <a href={link.href} key={link.href}>
+                                        {link.label} ↗
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
                     </aside>
                 </PrintPage>
 

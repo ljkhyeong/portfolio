@@ -467,3 +467,29 @@
         flex-direction: column;
     }
 }
+
+/* Readability floor for service labels and supporting copy. */
+.baton-service-nav,
+.baton-service-kicker,
+.baton-service-section-heading span,
+.baton-service-status code,
+.baton-service-hero__intro li,
+.service-boundary-flow code,
+.service-document-counts code,
+.service-document-links code,
+.baton-service-boundary blockquote strong,
+.service-problem__heading code,
+.service-problem dt,
+.service-document-links h3 span,
+.service-repository-link,
+.baton-service-footer {
+    font-size: 13px;
+}
+
+.baton-service-status p,
+.service-boundary-flow p,
+.baton-service-boundary blockquote,
+.service-problem dd,
+.service-document-links article p {
+    font-size: 15px;
+}

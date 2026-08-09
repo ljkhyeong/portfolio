@@ -1,102 +1,97 @@
 import { Link } from "react-router-dom"
-import { career, education, skillGroups, workPrinciples } from "../data/profile"
+import { career, education, personalActivities, skillGroups } from "../data/profile"
 import { projectsById } from "../data/projects"
 
 const About = () => {
     return (
         <>
-            <section className="approach-section" id="about">
-                <div className="section-heading section-heading--dark">
-                    <span className="section-kicker">02 / 업무 방식</span>
-                    <h2>
-                        기술을 고르기 전에
-                        <br />
-                        <em>요구사항과 운영 환경</em>을 확인합니다.
-                    </h2>
-                    <p>업무 규칙, 장애 영향, 복구 방법을 확인한 뒤 필요한 기술을 선택합니다.</p>
-                </div>
-
-                <div className="principle-list">
-                    {workPrinciples.map((principle) => (
-                        <article className="principle" key={principle.number}>
-                            <span className="principle__number">{principle.number}</span>
-                            <h3>{principle.title}</h3>
-                            <p>{principle.description}</p>
-                            <Link to={principle.link}>{principle.linkLabel} →</Link>
-                        </article>
-                    ))}
-                </div>
-            </section>
-
-            <section className="experience-section" id="experience">
-                <div className="section-heading section-heading--compact">
+            <section
+                className="experience-section"
+                id="experience"
+                aria-labelledby="experience-title"
+            >
+                <div className="experience-section__intro">
                     <span className="section-kicker"># experience.md</span>
-                    <h2>
-                        공공 SI부터 개인 서비스까지
-                        <br />
-                        다른 운영 환경을 경험했습니다.
-                    </h2>
+                    <h2 id="experience-title">Experience &amp; Learning</h2>
+                    <p>
+                        교육, 실무 경력과 꾸준히 이어온 학습 활동을 시간과 성격에 맞게 나눴습니다.
+                    </p>
                 </div>
 
-                <div className="experience-layout">
-                    <div className="timeline" aria-label="경력 및 교육">
-                        <section className="timeline__group" aria-labelledby="education-title">
-                            <h3 className="timeline__group-title" id="education-title">
-                                <span aria-hidden="true">##</span> <span lang="en">Education</span>
-                            </h3>
-                            <article className="timeline__item">
-                                <div className="timeline__period">{education.period}</div>
+                <div className="timeline" aria-label="교육, 경력 및 개인 활동">
+                    <section className="timeline__group" aria-labelledby="education-title">
+                        <h3 className="timeline__group-title" id="education-title">
+                            Education
+                        </h3>
+                        <article className="timeline__item">
+                            <div className="timeline__period">{education.period}</div>
+                            <div className="timeline__content">
+                                <span>
+                                    {education.organization} · {education.meta}
+                                </span>
+                                <h4>{projectsById[education.projectId].title}</h4>
+                                <p>{education.description}</p>
+                                <Link to="/projects/webrtc">교육 프로젝트 상세 보기 →</Link>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section className="timeline__group" aria-labelledby="career-title">
+                        <h3 className="timeline__group-title" id="career-title">
+                            Career
+                        </h3>
+                        <article className="timeline__item">
+                            <div className="timeline__period">{career.period}</div>
+                            <div className="timeline__content">
+                                <span>{career.position}</span>
+                                <h4>{career.organization}</h4>
+                                <p>{career.description}</p>
+                                <Link to="/projects/defense">경력 프로젝트 상세 보기 →</Link>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section className="timeline__group" aria-labelledby="activities-title">
+                        <h3 className="timeline__group-title" id="activities-title">
+                            개인 활동
+                        </h3>
+                        {personalActivities.map((activity) => (
+                            <article className="timeline__item" key={activity.id}>
+                                <div className="timeline__period">Group Study</div>
                                 <div className="timeline__content">
                                     <span>
-                                        {education.organization} · {education.meta}
+                                        {activity.type} · {activity.role}
                                     </span>
-                                    <h4>{projectsById[education.projectId].title}</h4>
-                                    <p>{education.description}</p>
-                                    <Link to="/projects/webrtc">프로젝트 기록 보기 →</Link>
+                                    <h4>{activity.title}</h4>
+                                    <p>{activity.summary}</p>
+                                    <div className="timeline__links">
+                                        {activity.links.map((link) => (
+                                            <a
+                                                href={link.href}
+                                                key={link.href}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                {link.label} ↗
+                                            </a>
+                                        ))}
+                                    </div>
                                 </div>
                             </article>
-                        </section>
-                        <section className="timeline__group" aria-labelledby="career-title">
-                            <h3 className="timeline__group-title" id="career-title">
-                                <span aria-hidden="true">##</span> <span lang="en">Career</span>
-                            </h3>
-                            <article className="timeline__item">
-                                <div className="timeline__period">{career.period}</div>
-                                <div className="timeline__content">
-                                    <span>공공 SI</span>
-                                    <h4>
-                                        {career.organization} · {career.position}
-                                    </h4>
-                                    <p>{career.description}</p>
-                                    <Link to="/projects/defense">프로젝트 상세 보기 →</Link>
-                                </div>
-                            </article>
-                        </section>
-                    </div>
-
-                    <aside className="profile-statement">
-                        <span className="profile-statement__label">최근 개발</span>
-                        <blockquote>
-                            “장애가 발생해도
-                            <br />
-                            안전하게 다시 처리할 수 있게 만듭니다.”
-                        </blockquote>
-                        <p>
-                            최근에는 BATON에서 멱등 링크, 안전한 URL 점검, 메시지 재시도와 처리 결과
-                            확인이 필요한 상태를 GO, WATCH, RELAY로 나눠 구현하고 있습니다.
-                        </p>
-                    </aside>
+                        ))}
+                    </section>
                 </div>
             </section>
 
-            <section className="capability-section" aria-labelledby="capability-title">
+            <section
+                className="capability-section"
+                id="capabilities"
+                aria-labelledby="capability-title"
+            >
                 <div className="capability-section__intro">
-                    <span className="section-kicker">사용 기술과 적용 경험</span>
-                    <h2 id="capability-title">
-                        기술 이름과
-                        <br />
-                        사용한 곳을 함께 보여드립니다.
-                    </h2>
+                    <span className="section-kicker"># skills.md</span>
+                    <h2 id="capability-title">Skills</h2>
+                    <p>기술 이름과 실제로 적용한 프로젝트를 함께 적었습니다.</p>
                 </div>
                 <div className="capability-list">
                     {skillGroups.map((group) => (
