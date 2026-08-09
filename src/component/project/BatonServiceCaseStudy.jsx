@@ -42,7 +42,10 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
     const siblings = project.services.filter((candidate) => !candidate.primary)
 
     return (
-        <main className={`baton-service-page baton-service-page--${serviceId}`}>
+        <main className={`baton-service-page baton-service-page--${serviceId}`} id="main-content">
+            <a className="skip-link" href="#service-title">
+                본문으로 건너뛰기
+            </a>
             <nav className="baton-service-nav" aria-label="BATON 서비스 상세 탐색">
                 <Link to="/projects/baton">← BATON 전체 보기</Link>
                 <span>services/{serviceId}.md</span>
@@ -52,7 +55,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 <header className="baton-service-hero">
                     <div>
                         <span className="baton-service-kicker">BATON / {service.kind}</span>
-                        <h1>{service.name}</h1>
+                        <h1 id="service-title">{service.name}</h1>
                     </div>
                     <div className="baton-service-hero__intro">
                         <strong>{service.role}</strong>
@@ -91,7 +94,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         </article>
                         <span aria-hidden="true">→</span>
                         <article>
-                            <code>Durable State</code>
+                            <code>복구 상태</code>
                             <strong>실패 뒤 재시작 지점</strong>
                             <p>중복, 지연과 외부 응답 유실을 영속 상태로 남깁니다.</p>
                         </article>

@@ -111,7 +111,7 @@ const Header = () => {
                 <div className="proof-rail__item">
                     <span>02 / 장애 복구</span>
                     <strong>중복 처리 방지, 결제 보상, 알림 재시도 구현</strong>
-                    <small>happyGallery 모듈러 모놀리스</small>
+                    <small>happyGallery 모놀리식 + Gradle 멀티모듈</small>
                 </div>
                 <div className="proof-rail__item">
                     <span>03 / 운영 환경</span>

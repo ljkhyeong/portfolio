@@ -30,7 +30,7 @@ test("대표 프로젝트를 확인하고 BATON 상세로 이동할 수 있다",
             level: 4,
         }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "실무 사례 보기 →" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "프로젝트 상세 보기 →" })).toHaveAttribute(
         "href",
         "/projects/defense",
     )

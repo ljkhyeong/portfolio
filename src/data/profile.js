@@ -13,7 +13,7 @@ export const portfolioProfile = {
         tail: "로 만듭니다.",
     },
     webSummary:
-        "공공 시스템, 모듈러 모놀리스, 마이크로서비스를 개발했습니다. 데이터 정합성, 장애 복구, 유지보수를 고려해 설계하고 구현합니다.",
+        "공공 시스템을 개발 및 운영했고, 모놀리식 애플리케이션은 Gradle 멀티모듈로 구성했습니다. 마이크로서비스에서는 서비스별 데이터와 장애를 분리했습니다.",
     printHeadline: {
         lead: "실패 이후까지 설계하는",
         emphasis: "백엔드 개발자",
@@ -58,7 +58,7 @@ export const workPrinciples = [
 export const education = {
     period: "2023.05 — 2023.11",
     organization: "카카오 클라우드 스쿨 개발자 과정 3기",
-    meta: "6인 교육 팀",
+    meta: "6인 팀",
     projectId: "webrtc",
     description:
         "HLS 서버와 React 화면을 맡았습니다. WebSocket 제어와 WebRTC/RTP 미디어 경로를 분리하고 FFmpeg와 GStreamer로 HLS를 변환해 지연을 약 30초에서 11초로 줄였습니다.",
@@ -100,7 +100,7 @@ export const printSkillGroups = [
     },
     {
         label: "Architecture",
-        detail: "헥사고날 아키텍처, 모듈러 모놀리스, 마이크로서비스, 상태 전이",
+        detail: "헥사고날 아키텍처, 모놀리식 애플리케이션, Gradle 멀티모듈, 마이크로서비스",
     },
     {
         label: "Data & Recovery",

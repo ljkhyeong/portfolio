@@ -3,7 +3,7 @@
     --ink-soft: #1d2823;
     --paper: #f4f6f3;
     --paper-raised: #fbfcfa;
-    --accent: #d45b32;
+    --accent: #e66c48;
     --accent-on-light: #0b676b;
     --accent-soft: #f3d8cd;
     --muted: #5b6861;
@@ -79,6 +79,29 @@ select {
 
 h1[tabindex="-1"]:focus {
     outline: none;
+}
+
+#main-content[tabindex="-1"]:focus {
+    outline: none;
+}
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1000;
+    padding: 11px 16px;
+    border: 1px solid var(--ink);
+    background: var(--paper-raised);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 700;
+    transform: translateY(-180%);
+    transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {

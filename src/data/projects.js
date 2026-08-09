@@ -44,7 +44,7 @@ export const projectList = [
         ],
         architecture: {
             label: "서비스 경계",
-            title: "Core는 기준 데이터를, 하위 서비스는 외부 실패를 맡습니다.",
+            title: "Core는 기준 데이터를, 연계 마이크로서비스는 외부 실패를 맡습니다.",
             description:
                 "Core가 팀, 시즌, 권한, 루틴, 핸드오프의 기준 데이터를 관리합니다. GO, WATCH, RELAY는 서로 다른 보안, 지연, 재시도 요구를 독립된 저장소와 실행 환경으로 분리했습니다.",
             tradeoff:
@@ -80,7 +80,7 @@ export const projectList = [
                 problem:
                     "외부 전송은 성공했지만 응답만 잃으면 재시도가 중복 발송으로 이어질 수 있었습니다.",
                 solution:
-                    "inbox 중복 제거, SKIP LOCKED 작업 선점, lease token을 사용하고 결과 불명은 OUTCOME_UNKNOWN으로 남겼습니다.",
+                    "inbox 중복 제거, SKIP LOCKED 작업 선점, lease token을 사용하고 처리 결과 미확인은 OUTCOME_UNKNOWN으로 남겼습니다.",
                 tradeoff:
                     "중복 발송 방지를 우선해 자동 재전송을 멈추므로, 결과 조회나 수동 조정 절차가 추가로 필요합니다.",
             },
@@ -138,7 +138,7 @@ export const projectList = [
                 type: "Runbook",
                 label: "WATCH 공개 staging 전달 검증",
                 href: "https://github.com/ljkhyeong/baton-watch/blob/main/docs/runbooks/public-staging-event-delivery.md",
-                note: "최초 전달, 응답 유실 재전송과 backlog 복구를 검증하는 운영 절차",
+                note: "최초 전달, 응답 유실 재전송과 적체 이벤트 복구를 검증하는 운영 절차",
             },
             {
                 serviceId: "relay",
@@ -207,11 +207,11 @@ export const projectList = [
                 kind: "MICROSERVICE",
                 route: "/projects/baton/relay",
                 role: "메시지 전달",
-                detail: "inbox 중복 제거, 작업 선점, 재시도, 결과 불명 상태",
+                detail: "inbox 중복 제거, 작업 선점, 재시도, 처리 결과 미확인 상태",
                 evidence: "373 tests",
                 database: "PostgreSQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
-                status: "전송 복구와 broker 수신을 구현했고 실제 메시지 공급자 운영 검증은 남아 있습니다.",
+                status: "전송 복구와 메시지 브로커 수신을 구현했고 실제 메시지 공급자 운영 검증은 남아 있습니다.",
                 documentation: [
                     { label: "PRD", count: "2" },
                     { label: "ADR", count: "14" },
@@ -232,7 +232,7 @@ export const projectList = [
             {
                 value: "373",
                 label: "RELAY 테스트",
-                detail: "중복 제거, lease 복구와 결과 불명 처리를 검증",
+                detail: "중복 제거, lease 복구와 처리 결과 미확인 상태를 검증",
             },
         ],
         category: "개인 프로젝트",
@@ -335,9 +335,9 @@ export const projectList = [
                 constraint:
                     "URL 상태는 저장됐지만 Core 전달 호출이 실패하면 두 시스템이 서로 다른 상태를 볼 수 있었습니다.",
                 decision:
-                    "상태 변경과 전달할 이벤트를 같은 트랜잭션에 저장하고 HTTPS at-least-once 전달과 backlog 복구를 선택했습니다.",
+                    "상태 변경과 전달할 이벤트를 같은 트랜잭션에 저장하고 HTTPS at-least-once 전달과 적체 이벤트 복구를 선택했습니다.",
                 validation:
-                    "동일 이벤트 재전송, acknowledgement 유실과 backlog drain 절차를 자동 테스트와 공개 staging runbook에 고정했습니다.",
+                    "동일 이벤트 재전송, acknowledgement 유실과 적체 이벤트 복구 절차를 자동 테스트와 공개 staging runbook에 고정했습니다.",
                 boundary:
                     "단일 consumer 요구에 맞춰 broker를 생략했으므로 소비자가 늘면 전달 구조를 다시 검토해야 합니다.",
             },
@@ -348,7 +348,7 @@ export const projectList = [
                 constraint:
                     "외부 전송은 성공했지만 응답만 잃으면 자동 재시도가 중복 발송으로 이어질 수 있었습니다.",
                 decision:
-                    "외부 호출 전에 immutable attempt intent와 provider 멱등 키를 저장하고, 결과 불명은 OUTCOME_UNKNOWN으로 보존한 채 별도 조정 이력으로만 현재 상태를 갱신했습니다.",
+                    "외부 호출 전에 immutable attempt intent와 provider 멱등 키를 저장하고, 처리 결과 미확인 상태는 OUTCOME_UNKNOWN으로 보존한 채 별도 조정 이력으로만 현재 상태를 갱신했습니다.",
                 validation:
                     "중단 뒤 같은 전송 식별자 복구, 오래된 token 거절과 조정 요청 재실행을 포함한 테스트로 확인했습니다.",
                 boundary:
@@ -369,7 +369,7 @@ export const projectList = [
                 decision:
                     "분산 트랜잭션 대신 event ID inbox 멱등성과 commit-before-ack를 적용하고 실패 메시지는 retry와 DLQ로 분리했습니다.",
                 validation:
-                    "broker와 RELAY를 강제로 중단한 뒤 같은 이벤트가 재전달돼도 inbox가 1건인지 compose 검증으로 확인했습니다.",
+                    "메시지 브로커와 RELAY를 강제로 중단한 뒤 같은 이벤트가 재전달돼도 inbox가 1건인지 Docker Compose 통합 테스트로 확인했습니다.",
                 boundary:
                     "메시지 보존과 DLQ 운영 지점이 늘어 broker 모니터링과 재처리 runbook이 필요합니다.",
             },
@@ -400,7 +400,7 @@ export const projectList = [
         title: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "결제와 환불의 결과 불명, 알림 프로세스 중단, 예약 및 재고 경쟁을 복구 가능한 영속 상태로 모델링했습니다.",
+            "결제와 환불 결과를 확인할 수 없는 상태, 알림 프로세스 중단, 예약 및 재고 경쟁을 복구 가능한 상태로 저장했습니다.",
         period: "2026.02.21 — 진행 중",
         route: "/projects/happygallery",
         tags: ["Spring Boot", "React", "헥사고날 아키텍처", "MySQL / Redis"],
@@ -435,8 +435,8 @@ export const projectList = [
             },
         ],
         architecture: {
-            label: "모듈러 모놀리스",
-            title: "포트와 어댑터 원칙을 적용한 6개 운영 모듈",
+            label: "모놀리식 애플리케이션 + Gradle 멀티모듈",
+            title: "헥사고날 아키텍처를 적용한 6개 Gradle 모듈",
             description:
                 "bootstrap, web 입력 어댑터, persistence 및 external 출력 어댑터, application, domain으로 의존 방향을 정했습니다. 모든 클래스에 인터페이스를 만들지 않고 결제와 알림처럼 교체 가능한 외부 경계에 포트를 뒀습니다.",
             tradeoff:
@@ -569,7 +569,7 @@ export const projectList = [
             text: "AWS에 운영 배포했으나 트래픽과 무관한 상시 리소스 비용이 발생해 운영을 종료했습니다. 현재 공개 URL은 없으며 194와 192는 로컬 문서 및 테스트 스냅샷입니다.",
         },
         visualCaption:
-            "헥사고날 아키텍처의 포트와 어댑터 원칙을 적용했지만 domain에는 일부 JPA 어노테이션이 남아 있습니다. 이를 순수 헥사고날 구조로 과장하지 않았습니다.",
+            "헥사고날 아키텍처의 포트와 어댑터 원칙을 적용했고, domain 모듈에는 일부 JPA 어노테이션을 유지했습니다.",
         problems: [
             {
                 number: "01",
@@ -581,7 +581,7 @@ export const projectList = [
                 validation:
                     "LayerDependencyPolicyTest와 모듈별 컴파일로 금지한 의존이 빌드 단계에서 실패하는지 확인했습니다.",
                 boundary:
-                    "domain에 JPA 어노테이션이 일부 남아 있어 순수한 도메인 모델은 아닙니다. 현재 규모에서는 분리 비용보다 일관된 의존 방향을 우선했습니다.",
+                    "domain 모듈의 일부 JPA 의존은 유지했습니다. 현재 규모에서는 완전한 영속성 분리보다 일관된 의존 방향을 우선했습니다.",
                 print: {
                     label: "ARCHITECTURE",
                     problem: "web과 persistence 코드가 도메인으로 섞이기 쉬움",
@@ -595,9 +595,9 @@ export const projectList = [
                 constraint:
                     "PG 호출 뒤 응답만 유실되면 성공 여부를 모른 채 승인이나 환불을 다시 요청할 수 있습니다.",
                 decision:
-                    "PG 호출은 DB 트랜잭션 밖에서 실행하고, 짧은 트랜잭션으로 작업을 선점합니다. orderId와 환불 UUID를 멱등 키로 재사용하고 processingToken으로 이전 작업자의 변경을 막습니다. 결과 불명 환불은 조회 후 재시도합니다.",
+                    "PG 호출은 DB 트랜잭션 밖에서 실행하고, 짧은 트랜잭션으로 작업을 선점합니다. orderId와 환불 UUID를 멱등 키로 재사용하고 processingToken으로 이전 작업자의 변경을 막습니다. 처리 결과를 확인할 수 없는 환불은 조회 후 재시도합니다.",
                 validation:
-                    "작업 선점과 인계, 이전 토큰 거절, 늦은 성공 보상, 결과 불명 환불 조회를 통합 테스트로 확인했습니다.",
+                    "작업 선점과 인계, 이전 토큰 거절, 늦은 성공 보상, 처리 결과 미확인 환불 조회를 통합 테스트로 확인했습니다.",
                 boundary:
                     "현재는 Fake PG로 검증했으며 실제 Toss Payments의 지연과 장애를 포함한 운영 검증은 남아 있습니다.",
                 print: {
@@ -711,7 +711,7 @@ export const projectList = [
         index: "03",
         presentation: "career-case",
         title: "차세대 군사법 정보 시스템",
-        eyebrow: "공공 SI 실무",
+        eyebrow: "공공 SI / 백엔드 개발 및 운영",
         summary:
             "폐쇄망과 레거시 환경에서 기관 연계 배치와 보안 기능을 개발하고 운영 장애를 분석했습니다.",
         period: "2024.06.23 — 2026.01.30",
@@ -735,7 +735,7 @@ export const projectList = [
                 detail: "파일 확장자와 실제 형식을 함께 확인",
             },
         ],
-        category: "실무 프로젝트",
+        category: "경력 프로젝트",
         role: "군교정 기능 개발, 기관 연계 및 운영 대응",
         oneLine: "기관 연계 배치 개발 및 로그, DB 기반 장애 분석",
         status: {
@@ -802,7 +802,7 @@ export const projectList = [
         index: "이전 경험",
         presentation: "prior-experience",
         title: "WebRTC/HLS 현장강의 보조 서비스",
-        eyebrow: "교육 과정 6인 팀 프로젝트",
+        eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
         summary:
             "HLS 서버와 React 화면을 맡아 WebSocket 제어와 WebRTC/RTP 미디어 경로를 분리하고, FFmpeg와 GStreamer로 HLS를 변환했습니다.",
         period: "2023.09.01 — 2023.11.10",
@@ -812,7 +812,7 @@ export const projectList = [
         proofs: [
             {
                 value: "6인",
-                label: "교육 팀 프로젝트",
+                label: "팀 구성",
                 detail: "HLS 서버와 React 프론트엔드 담당",
             },
             {
@@ -821,12 +821,12 @@ export const projectList = [
                 detail: "세그먼트와 인코딩 설정 조정",
             },
         ],
-        category: "교육 팀 프로젝트",
+        category: "이전 팀 프로젝트",
         role: "HLS 서버 및 React 프론트엔드",
         oneLine: "WebRTC 실시간 시청과 HLS 지난 구간 재생 구현",
         status: {
             label: "프로젝트 상태",
-            text: "개발자 교육 과정에서 진행한 팀 프로젝트이며 현재 운영하지 않습니다.",
+            text: "프로젝트를 종료했으며 현재 운영하지 않습니다.",
         },
         visualCaption:
             "WebSocket은 제어와 시그널링에 사용했고 실제 미디어는 WebRTC와 RTP로 전달했습니다.",
@@ -841,7 +841,7 @@ export const projectList = [
             {
                 label: "시연 영상",
                 href: "https://www.youtube.com/watch?v=KKR2vj10sNQ",
-                note: "교육 과정 프로젝트 시연",
+                note: "프로젝트 시연",
             },
         ],
     },

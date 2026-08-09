@@ -18,12 +18,12 @@
 
 .baton-service-nav {
     display: flex;
-    min-height: 72px;
+    min-height: 68px;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--line);
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -38,8 +38,8 @@
     grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
     gap: clamp(48px, 9vw, 140px);
     align-items: end;
-    min-height: 610px;
-    padding: clamp(100px, 13vw, 170px) 0 76px;
+    min-height: 530px;
+    padding: clamp(82px, 10vw, 132px) 0 68px;
 }
 
 .baton-service-kicker,
@@ -47,7 +47,7 @@
 .baton-service-status code {
     color: var(--accent-on-light);
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 750;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -55,7 +55,7 @@
 
 .baton-service-hero h1 {
     margin: 18px 0 0;
-    font-size: clamp(96px, 18vw, 230px);
+    font-size: clamp(90px, 15vw, 190px);
     font-weight: 760;
     letter-spacing: -0.09em;
     line-height: 0.78;
@@ -87,7 +87,7 @@
     padding: 8px 10px;
     border: 1px solid var(--line);
     font-family: var(--mono);
-    font-size: 8px;
+    font-size: 11px;
     font-weight: 700;
 }
 
@@ -115,7 +115,7 @@
 .baton-service-boundary,
 .baton-service-problems,
 .baton-service-documents {
-    padding: clamp(82px, 11vw, 132px) 0;
+    padding: clamp(72px, 9vw, 112px) 0;
     border-top: 1px solid var(--line);
 }
 
@@ -164,7 +164,7 @@
 .service-document-links code {
     color: var(--accent-on-light);
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
 }
 
@@ -211,7 +211,7 @@
     margin-bottom: 7px;
     color: var(--ink);
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: 11px;
 }
 
 .baton-service-problems__list {
@@ -236,7 +236,7 @@
     padding-top: 5px;
     color: var(--accent-on-light);
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: 11px;
 }
 
 .service-problem h3 {
@@ -271,7 +271,7 @@
 .service-problem dt {
     color: var(--accent-on-light);
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
 }
 
@@ -324,7 +324,7 @@
 .service-document-links h3 span {
     color: var(--muted);
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: 11px;
 }
 
 .service-document-links article {
@@ -372,7 +372,7 @@
     padding: 48px 0 74px;
     border-top: 1px solid var(--line);
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .baton-service-footer > span {
@@ -433,7 +433,7 @@
     }
 
     .baton-service-hero h1 {
-        font-size: 92px;
+        font-size: clamp(76px, 24vw, 100px);
     }
 
     .baton-service-status,

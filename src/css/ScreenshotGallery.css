@@ -12,7 +12,7 @@
     overflow: hidden;
     border: 1px solid rgba(21, 26, 23, 0.22);
     background: #101815;
-    box-shadow: 0 24px 56px rgba(21, 26, 23, 0.15);
+    box-shadow: 0 18px 42px rgba(21, 26, 23, 0.12);
 }
 
 .screenshot-gallery__item--1 {
@@ -45,22 +45,71 @@
     margin-left: auto;
     color: rgba(255, 255, 255, 0.48);
     font-family: var(--mono);
-    font-size: 7px;
+    font-size: 9px;
     letter-spacing: 0.08em;
 }
 
 .screenshot-gallery__viewport {
+    position: relative;
+    display: block;
+    width: 100%;
     height: calc(100% - 78px);
     min-height: 0;
+    padding: 0;
     overflow: hidden;
+    border: 0;
     background: #dfe4e0;
+    color: inherit;
+    cursor: zoom-in;
+    text-align: initial;
 }
 
 .screenshot-gallery__viewport img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top;
+    transition: transform 280ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.screenshot-gallery__viewport:hover img {
+    transform: scale(1.012);
+}
+
+.screenshot-gallery__viewport:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: -3px;
+}
+
+.screenshot-gallery__zoom {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 32px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    background: rgba(16, 24, 21, 0.84);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+}
+
+.screenshot-gallery__viewport:hover .screenshot-gallery__zoom,
+.screenshot-gallery__viewport:focus-visible .screenshot-gallery__zoom {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .screenshot-gallery__viewport--contain {
@@ -84,14 +133,14 @@
 .screenshot-gallery__item figcaption span {
     color: #f48a68;
     font-family: var(--mono);
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 750;
     letter-spacing: 0.06em;
     white-space: nowrap;
 }
 
 .screenshot-gallery__item figcaption strong {
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 620;
     line-height: 1.35;
     text-align: right;
@@ -107,6 +156,157 @@
 
 .screenshot-gallery--gallery .screenshot-gallery__viewport--cover img {
     object-position: top center;
+}
+
+.screenshot-lightbox {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: clamp(16px, 3vw, 44px);
+    background: rgba(5, 8, 7, 0.92);
+    backdrop-filter: blur(12px);
+    animation: screenshot-lightbox-enter 180ms ease-out both;
+}
+
+.screenshot-lightbox__panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    width: min(100%, 1440px);
+    height: min(100%, 920px);
+    min-height: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #101815;
+    box-shadow: 0 36px 120px rgba(0, 0, 0, 0.48);
+}
+
+.screenshot-lightbox__header,
+.screenshot-lightbox__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px 18px;
+    color: #fff;
+}
+
+.screenshot-lightbox__header {
+    min-height: 68px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.screenshot-lightbox__header > div {
+    min-width: 0;
+}
+
+.screenshot-lightbox__eyebrow {
+    display: block;
+    margin-bottom: 4px;
+    color: #f48a68;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.screenshot-lightbox__header h2 {
+    margin: 0;
+    overflow: hidden;
+    font-size: clamp(15px, 1.5vw, 20px);
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.screenshot-lightbox button {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        color 160ms ease;
+}
+
+.screenshot-lightbox button:hover {
+    border-color: #fff;
+    background: #fff;
+    color: #101815;
+}
+
+.screenshot-lightbox button:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.screenshot-lightbox__close {
+    flex: 0 0 auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.screenshot-lightbox__image-stage {
+    display: grid;
+    min-height: 0;
+    place-items: center;
+    overflow: hidden;
+    background: #080d0b;
+}
+
+.screenshot-lightbox__image-stage img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.screenshot-lightbox__footer {
+    min-height: 72px;
+    border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.screenshot-lightbox__footer p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.screenshot-lightbox__navigation {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+}
+
+.screenshot-lightbox__status {
+    min-width: 58px;
+    color: rgba(255, 255, 255, 0.66);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+@keyframes screenshot-lightbox-enter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @media (max-width: 860px) {
@@ -145,5 +345,48 @@
 
     .screenshot-gallery__item--1 {
         grid-column: auto;
+    }
+
+    .screenshot-gallery__zoom {
+        min-height: 44px;
+        opacity: 1;
+        transform: none;
+    }
+
+    .screenshot-lightbox {
+        padding: 0;
+    }
+
+    .screenshot-lightbox__panel {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .screenshot-lightbox__header,
+    .screenshot-lightbox__footer {
+        padding: 12px;
+    }
+
+    .screenshot-lightbox__footer {
+        align-items: flex-start;
+    }
+
+    .screenshot-lightbox__footer p {
+        max-width: 56%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .screenshot-gallery__viewport img,
+    .screenshot-gallery__zoom,
+    .screenshot-lightbox,
+    .screenshot-lightbox button {
+        animation: none;
+        transition: none;
+    }
+
+    .screenshot-gallery__viewport:hover img {
+        transform: none;
     }
 }

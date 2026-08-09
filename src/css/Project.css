@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: space-between;
     width: min(1240px, calc(100% - 64px));
-    min-height: 74px;
+    min-height: 68px;
     margin: 0 auto;
     border-bottom: 1px solid var(--line, #cbc8be);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
@@ -51,8 +51,8 @@
     grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
     gap: clamp(48px, 8vw, 132px);
     align-items: flex-end;
-    min-height: min(690px, calc(82svh - 74px));
-    padding: clamp(88px, 12vh, 150px) 0 72px;
+    min-height: min(580px, calc(70svh - 68px));
+    padding: clamp(74px, 10vh, 118px) 0 64px;
 }
 
 .case-hero__heading,
@@ -79,7 +79,7 @@
     max-width: 950px;
     margin: 0;
     font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(64px, 8.4vw, 138px);
+    font-size: clamp(62px, 7.4vw, 116px);
     font-weight: 500;
     line-height: 0.84;
     letter-spacing: -0.065em;
@@ -87,12 +87,12 @@
 }
 
 .case-study-page--baton .case-hero h1 {
-    font-size: clamp(104px, 16vw, 236px);
+    font-size: clamp(96px, 13vw, 182px);
     letter-spacing: -0.075em;
 }
 
 .case-study-page--gallery .case-hero h1 {
-    font-size: clamp(82px, 11vw, 172px);
+    font-size: clamp(78px, 9.6vw, 148px);
 }
 
 .case-study-page--defense .case-hero h1,
@@ -116,7 +116,7 @@
     padding: 0;
     color: var(--muted, #74736d);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.06em;
     list-style: none;
     text-transform: uppercase;
@@ -134,7 +134,7 @@
 .case-proof,
 .case-documents,
 .case-meta {
-    padding: clamp(72px, 10vw, 132px) 0;
+    padding: clamp(70px, 8.5vw, 112px) 0;
     border-top: 1px solid var(--line, #cbc8be);
     animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -149,7 +149,7 @@
 .case-section-heading > span {
     color: var(--muted, #74736d);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.08em;
 }
@@ -186,7 +186,7 @@
     margin-bottom: 20px;
     color: var(--muted, #74736d);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -213,7 +213,7 @@
 .case-status > span {
     padding-top: 2px;
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -609,7 +609,7 @@
     padding-top: 6px;
     color: var(--muted, #74736d);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
 }
 
@@ -729,7 +729,7 @@
 .case-document-catalog code {
     color: var(--accent-on-light, #0b676b);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
     letter-spacing: 0.05em;
 }
@@ -743,7 +743,7 @@
 .case-document-catalog p {
     margin: 14px 0 0;
     color: var(--muted, #74736d);
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1.6;
     word-break: keep-all;
 }
@@ -764,7 +764,7 @@
 .case-representative-documents h3 span {
     color: var(--muted, #74736d);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -795,7 +795,7 @@
 .case-documents a code {
     color: var(--accent-on-light, #a9341c);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
 }
 
@@ -907,7 +907,7 @@
     flex-direction: column;
     justify-content: center;
     width: min(1240px, calc(100% - 64px));
-    min-height: clamp(360px, 48vw, 590px);
+    min-height: clamp(340px, 42vw, 520px);
     margin: 0 auto;
     padding: 70px 140px 70px 0;
 }
@@ -916,7 +916,7 @@
     margin-bottom: 22px;
     color: rgba(243, 241, 234, 0.58);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -1126,6 +1126,11 @@
         line-height: 0.98;
     }
 
+    .case-study-page--gallery .case-hero h1 {
+        font-size: clamp(52px, 16vw, 68px);
+        letter-spacing: -0.065em;
+    }
+
     .case-section-heading {
         grid-template-columns: 42px minmax(0, 1fr);
     }
@@ -1307,7 +1312,7 @@
 
 /* Featured project evidence and architecture */
 .case-architecture {
-    padding: clamp(72px, 10vw, 132px) 0;
+    padding: clamp(70px, 8.5vw, 112px) 0;
     border-top: 1px solid var(--line, #cbc8be);
     animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1404,7 +1409,7 @@
 .case-service-map__children > a > span {
     color: var(--accent, #ff5a36);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -1440,7 +1445,7 @@
 .case-service-map__children em {
     color: var(--accent, #ff5a36);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     font-style: normal;
     font-weight: 750;
     letter-spacing: 0.04em;
@@ -1454,7 +1459,7 @@
     gap: 18px;
     color: var(--muted, #74736d);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
@@ -1518,7 +1523,7 @@
     padding-top: 18px;
     border-top: 1px solid var(--line, #cbc8be);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 0.03em;
 }
 
@@ -1535,7 +1540,7 @@
 .case-architecture__decisions article > span {
     color: var(--accent-on-light, #a9341c);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -1575,7 +1580,7 @@
     margin-bottom: 6px;
     color: var(--ink, #171713);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 0.06em;
 }
 
@@ -1706,7 +1711,7 @@
 .prior-case__facts dt {
     color: var(--accent, #ff5a36);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
     letter-spacing: 0.1em;
     text-transform: uppercase;

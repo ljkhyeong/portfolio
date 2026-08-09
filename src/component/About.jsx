@@ -63,12 +63,12 @@ const About = () => {
                             <article className="timeline__item">
                                 <div className="timeline__period">{career.period}</div>
                                 <div className="timeline__content">
-                                    <span>실무</span>
+                                    <span>공공 SI</span>
                                     <h4>
                                         {career.organization} · {career.position}
                                     </h4>
                                     <p>{career.description}</p>
-                                    <Link to="/projects/defense">실무 사례 보기 →</Link>
+                                    <Link to="/projects/defense">프로젝트 상세 보기 →</Link>
                                 </div>
                             </article>
                         </section>
@@ -82,8 +82,8 @@ const About = () => {
                             안전하게 다시 처리할 수 있게 만듭니다.”
                         </blockquote>
                         <p>
-                            최근에는 BATON에서 멱등 링크, 안전한 URL 점검, 메시지 재시도와 결과 불명
-                            처리를 GO, WATCH, RELAY로 나눠 구현하고 있습니다.
+                            최근에는 BATON에서 멱등 링크, 안전한 URL 점검, 메시지 재시도와 처리 결과
+                            확인이 필요한 상태를 GO, WATCH, RELAY로 나눠 구현하고 있습니다.
                         </p>
                     </aside>
                 </div>

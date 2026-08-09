@@ -7,8 +7,11 @@ import "../css/Main.css"
 const Main = () => {
     return (
         <div className="portfolio-page">
+            <a className="skip-link" href="#main-content">
+                본문으로 건너뛰기
+            </a>
             <Header />
-            <main>
+            <main id="main-content" tabIndex="-1">
                 <Projects />
                 <About />
             </main>

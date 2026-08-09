@@ -150,7 +150,10 @@ const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
 )
 
 const PriorExperienceCase = ({ project }) => (
-    <main className="case-study-page case-study-page--prior">
+    <main className="case-study-page case-study-page--prior" id="main-content">
+        <a className="skip-link" href="#prior-project-title">
+            본문으로 건너뛰기
+        </a>
         <nav className="case-study-nav" aria-label="프로젝트 상세 탐색">
             <Link to="/" className="case-study-nav__home">
                 <span aria-hidden="true">←</span> 포트폴리오
@@ -159,7 +162,7 @@ const PriorExperienceCase = ({ project }) => (
         </nav>
         <article className="prior-case">
             <span className="case-kicker">{project.eyebrow}</span>
-            <h1>{project.title}</h1>
+            <h1 id="prior-project-title">{project.title}</h1>
             <p className="prior-case__summary">{project.summary}</p>
             <dl className="prior-case__facts">
                 <div>
@@ -212,7 +215,10 @@ const ProjectCaseStudy = ({ projectId }) => {
     const metaSectionNumber = hasArchitecture ? (hasDocuments ? "06" : "05") : "04"
 
     return (
-        <main className={`case-study-page case-study-page--${project.visual}`}>
+        <main className={`case-study-page case-study-page--${project.visual}`} id="main-content">
+            <a className="skip-link" href="#project-title">
+                본문으로 건너뛰기
+            </a>
             <nav className="case-study-nav" aria-label="프로젝트 상세 탐색">
                 <Link to="/" className="case-study-nav__home">
                     <span aria-hidden="true">←</span> 포트폴리오
@@ -227,7 +233,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <header className="case-hero">
                     <div className="case-hero__heading">
                         <span className="case-kicker">{project.eyebrow}</span>
-                        <h1>{project.title}</h1>
+                        <h1 id="project-title">{project.title}</h1>
                     </div>
                     <div className="case-hero__intro">
                         <p>{project.summary}</p>

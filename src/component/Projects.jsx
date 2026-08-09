@@ -69,12 +69,23 @@ const DecisionRecord = ({ decision }) => (
     </dl>
 )
 
-const ProjectDocuments = ({ documentGroups, documents, projectId }) => (
-    <section className="project-documents" aria-labelledby={`${projectId}-documents-title`}>
+const getSummaryDocuments = (project) => {
+    if (!project.services) {
+        return project.documents.slice(0, 4)
+    }
+
+    return project.services
+        .map((service) => project.documents.find((document) => document.serviceId === service.id))
+        .filter(Boolean)
+        .slice(0, 4)
+}
+
+const ProjectDocuments = ({ documentGroups, documents, project }) => (
+    <section className="project-documents" aria-labelledby={`${project.id}-documents-title`}>
         <div className="project-documents__heading">
-            <span aria-hidden="true">###</span>
-            <h4 id={`${projectId}-documents-title`}>문서 분류와 대표 문서</h4>
-            <p>전체 기록의 구조를 먼저 보여주고, 면접에서 이어 읽을 문서만 골랐습니다.</p>
+            <span>DOCUMENTS</span>
+            <h4 id={`${project.id}-documents-title`}>문서 분류와 대표 문서</h4>
+            <p>전체 기록의 분류를 보여주고, 핵심 결정을 확인할 문서 4개를 골랐습니다.</p>
         </div>
         <div className="project-documents__body">
             <div className="document-catalog" aria-label="문서 분류">
@@ -88,7 +99,7 @@ const ProjectDocuments = ({ documentGroups, documents, projectId }) => (
             </div>
             <div className="representative-documents">
                 <h5>
-                    <span aria-hidden="true">####</span> 대표 문서
+                    <span>SELECTED</span> 대표 문서
                 </h5>
                 <ul>
                     {documents.map((doc) => (
@@ -107,6 +118,9 @@ const ProjectDocuments = ({ documentGroups, documents, projectId }) => (
                         </li>
                     ))}
                 </ul>
+                <Link className="project-documents__more" to={project.route}>
+                    전체 문제 해결과 문서 보기 <span aria-hidden="true">→</span>
+                </Link>
             </div>
         </div>
     </section>
@@ -114,10 +128,9 @@ const ProjectDocuments = ({ documentGroups, documents, projectId }) => (
 
 const EngineeringSummary = ({ project }) => (
     <div className="project-showcase__engineering">
+        {project.services ? <ServiceHierarchy services={project.services} /> : null}
         <article className="architecture-note">
-            <span>
-                <b aria-hidden="true">##</b> {project.architecture.label}
-            </span>
+            <span>ARCHITECTURE / {project.architecture.label}</span>
             <h4>{project.architecture.title}</h4>
             <p>{project.architecture.description}</p>
             <blockquote>
@@ -127,26 +140,23 @@ const EngineeringSummary = ({ project }) => (
         </article>
         <div className="engineering-notes-block">
             <div className="engineering-notes__heading">
-                <span aria-hidden="true">###</span>
+                <span>CASE NOTES</span>
                 <h4>대표 문제 해결</h4>
             </div>
             <div className="engineering-notes">
                 {project.spotlights.map((spotlight) => (
                     <article key={spotlight.label}>
-                        <span>
-                            <b aria-hidden="true">####</b> {spotlight.label}
-                        </span>
+                        <span>{spotlight.label}</span>
                         <h4>{spotlight.title}</h4>
                         <DecisionRecord decision={spotlight} />
                     </article>
                 ))}
             </div>
         </div>
-        {project.services ? <ServiceHierarchy services={project.services} /> : null}
         <ProjectDocuments
             documentGroups={project.documentGroups}
-            documents={project.documents}
-            projectId={project.id}
+            documents={getSummaryDocuments(project)}
+            project={project}
         />
     </div>
 )
