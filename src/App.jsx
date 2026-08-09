@@ -1,5 +1,5 @@
 import "./App.css"
-import { Suspense, useEffect } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom"
 import Main from "./component/Main"
 import ProjectBaton from "./component/project/ProjectBaton"
@@ -7,6 +7,8 @@ import BatonServiceCaseStudy from "./component/project/BatonServiceCaseStudy"
 import Project2 from "./component/project/Project2"
 import Project3 from "./component/project/Project3"
 import Project4 from "./component/project/Project4"
+
+const PortfolioPrintPage = lazy(() => import("./component/print/PortfolioPrintPage"))
 
 const defaultTitle = "임정규 | 백엔드 개발자"
 
@@ -19,6 +21,7 @@ const pageTitles = {
     "/projects/happygallery": "happyGallery | 임정규 포트폴리오",
     "/projects/defense": "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
     "/projects/webrtc": "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
+    "/portfolio/print": "인쇄용 포트폴리오 | 임정규",
     "/project-baton": "BATON | 임정규 포트폴리오",
     "/project2": "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
     "/project3": "happyGallery | 임정규 포트폴리오",
@@ -67,6 +70,7 @@ const App = () => {
                     <Route path="/projects/happygallery" element={<Project3 />} />
                     <Route path="/projects/defense" element={<Project4 />} />
                     <Route path="/projects/webrtc" element={<Project2 />} />
+                    <Route path="/portfolio/print" element={<PortfolioPrintPage />} />
 
                     <Route
                         path="/project-baton"
@@ -75,6 +79,10 @@ const App = () => {
                     <Route path="/project2" element={<Project2 />} />
                     <Route path="/project3" element={<Project3 />} />
                     <Route path="/project4" element={<Project4 />} />
+                    <Route
+                        path="/portfolio-pdf/index.html"
+                        element={<Navigate to="/portfolio/print" replace />}
+                    />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </BrowserRouter>

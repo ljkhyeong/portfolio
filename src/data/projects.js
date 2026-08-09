@@ -270,6 +270,12 @@ export const projectList = [
                     "역할별 열린 바통 1건 제약과 상태 전이 테스트로 중복 교대 및 전달 후 변경을 차단했습니다.",
                 boundary:
                     "교대 모델은 명확해졌지만 상태와 이력이 늘어 운영자가 실패 지점을 이해할 화면과 복구 절차가 필요합니다.",
+                print: {
+                    label: "CORE / HANDOFF",
+                    problem: "수락과 담당자 변경이 따로 반영되면 책임자가 섞일 수 있음",
+                    solution: "PREPARING → TRANSFERRED → ACCEPTED와 열린 바통 1건 제약",
+                    tradeoff: "상태와 이력이 늘어 운영 화면과 복구 절차가 필요",
+                },
             },
             {
                 number: "03",
@@ -283,6 +289,12 @@ export const projectList = [
                     "같은 요청 8건을 동시에 보내도 링크와 예약이 각각 1건만 생성되는지 통합 테스트로 확인했습니다.",
                 boundary:
                     "HMAC 키 교체와 DB 복구 시 기존 링크가 유지되도록 키 관리와 백업 절차가 함께 필요합니다.",
+                print: {
+                    label: "GO / IDEMPOTENCY",
+                    problem: "응답 유실과 동시 요청으로 같은 링크가 중복 생성될 수 있음",
+                    solution: "UUID 멱등 키, 요청 해시와 결정적 HMAC 코드",
+                    tradeoff: "HMAC 키와 DB를 같은 시점에 복구해야 함",
+                },
             },
             {
                 number: "04",
@@ -309,6 +321,12 @@ export const projectList = [
                     "URL 보안, 작업 인계, 오래된 결과 거절과 제한된 redirect 및 응답 크기를 포함한 271개 테스트로 확인했습니다.",
                 boundary:
                     "lease 시간은 중복 실행과 복구 속도 사이의 균형이므로 실제 지연 분포를 보고 계속 조정해야 합니다.",
+                print: {
+                    label: "WATCH / SAFE CHECK",
+                    problem: "느린 I/O와 늦은 결과가 경합 및 최신 상태 덮어쓰기를 만듦",
+                    solution: "SSRF 차단, DNS pinning, lease와 revision 펜싱",
+                    tradeoff: "실제 지연 분포에 맞춰 lease 시간을 계속 조정해야 함",
+                },
             },
             {
                 number: "06",
@@ -335,6 +353,12 @@ export const projectList = [
                     "중단 뒤 같은 전송 식별자 복구, 오래된 token 거절과 조정 요청 재실행을 포함한 테스트로 확인했습니다.",
                 boundary:
                     "중복 발송 방지를 우선해 자동 재전송을 멈추므로 결과 조회나 운영자 조정 절차가 필요합니다.",
+                print: {
+                    label: "RELAY / RECOVERY",
+                    problem: "응답 유실 뒤 재시도가 중복 발송으로 이어질 수 있음",
+                    solution: "immutable attempt, provider 멱등 키와 OUTCOME_UNKNOWN",
+                    tradeoff: "자동 재전송 대신 결과 조회 및 운영자 조정 절차가 필요",
+                },
             },
             {
                 number: "08",
@@ -558,6 +582,12 @@ export const projectList = [
                     "LayerDependencyPolicyTest와 모듈별 컴파일로 금지한 의존이 빌드 단계에서 실패하는지 확인했습니다.",
                 boundary:
                     "domain에 JPA 어노테이션이 일부 남아 있어 순수한 도메인 모델은 아닙니다. 현재 규모에서는 분리 비용보다 일관된 의존 방향을 우선했습니다.",
+                print: {
+                    label: "ARCHITECTURE",
+                    problem: "web과 persistence 코드가 도메인으로 섞이기 쉬움",
+                    solution: "6개 모듈, Gradle 의존성과 ArchUnit 정책 테스트",
+                    tradeoff: "타입 수는 늘고 domain의 일부 JPA 의존은 유지",
+                },
             },
             {
                 number: "02",
@@ -570,6 +600,12 @@ export const projectList = [
                     "작업 선점과 인계, 이전 토큰 거절, 늦은 성공 보상, 결과 불명 환불 조회를 통합 테스트로 확인했습니다.",
                 boundary:
                     "현재는 Fake PG로 검증했으며 실제 Toss Payments의 지연과 장애를 포함한 운영 검증은 남아 있습니다.",
+                print: {
+                    label: "PAYMENT / REFUND",
+                    problem: "PG 응답 유실 뒤 중복 승인과 환불 위험",
+                    solution: "멱등 키, processingToken, 결과 조회 후 재시도",
+                    tradeoff: "API 응답 시 REQUESTED 상태가 남을 수 있음",
+                },
             },
             {
                 number: "03",
@@ -582,6 +618,12 @@ export const projectList = [
                     "중복 아웃박스 방지, 작업 인계, 실패 후 재시도, 발송 직전 대상 재확인을 통합 테스트로 검증했습니다.",
                 boundary:
                     "at-least-once 방식이라 외부 업체의 멱등 지원이 없으면 응답 유실 뒤 중복 알림 가능성은 남습니다.",
+                print: {
+                    label: "NOTIFICATION",
+                    problem: "업무 커밋 직후 종료되면 알림 요청이 사라짐",
+                    solution: "같은 트랜잭션 아웃박스, 즉시 전송과 스케줄러 복구",
+                    tradeoff: "비동기 지연과 at-least-once 중복 가능성",
+                },
             },
             {
                 number: "04",
@@ -594,6 +636,12 @@ export const projectList = [
                     "마지막 좌석과 재고의 동시 요청에서 한 건만 성공하고 나머지는 같은 업무 오류로 끝나는지 확인했습니다.",
                 boundary:
                     "단일 MySQL 기준 설계입니다. 같은 행에 요청이 집중되면 대기 시간이 늘 수 있어 운영 지표를 보고 경계를 다시 나눠야 합니다.",
+                print: {
+                    label: "BOOKING / STOCK",
+                    problem: "마지막 좌석과 재고가 동시 요청에서 초과 처리될 수 있음",
+                    solution: "비관적 락과 클래스→슬롯, productId 고정 순서",
+                    tradeoff: "같은 행에 요청이 몰리면 대기 시간이 증가",
+                },
             },
             {
                 number: "05",
@@ -606,6 +654,12 @@ export const projectList = [
                     "암호화 round-trip, 잘못된 키 차단, 블라인드 인덱스 검색과 마이그레이션 재실행을 테스트했습니다.",
                 boundary:
                     "부분 검색은 지원하지 않으며 키 유실 시 복구할 수 없으므로 암호화 백업과 키 보관 절차가 함께 필요합니다.",
+                print: {
+                    label: "PERSONAL DATA",
+                    problem: "평문 제거와 주문 정확 검색을 함께 지원해야 함",
+                    solution: "AES-GCM 암호화와 HMAC 블라인드 인덱스",
+                    tradeoff: "부분 검색 미지원, 키 유실 방지 절차 필요",
+                },
             },
             {
                 number: "06",
@@ -618,6 +672,12 @@ export const projectList = [
                     "AWS 리소스별 비용과 종료 상태를 회고에 남기고 k3s 배포, 롤백, 백업 및 복구 절차를 runbook으로 검증했습니다.",
                 boundary:
                     "단일 노드는 비용과 통제에는 유리하지만 고가용성을 제공하지 않습니다. 저장소 기준 준비는 완료했으나 공개 운영은 아직 시작하지 않았습니다.",
+                print: {
+                    label: "OPERATIONS / COST",
+                    problem: "트래픽과 무관한 상시 리소스 비용 발생",
+                    solution: "비용 원인 확인, 리소스 종료, 단일 노트북 k3s 준비",
+                    tradeoff: "비용은 줄지만 단일 노드는 고가용성을 제공하지 않음",
+                },
             },
         ],
         stack: [

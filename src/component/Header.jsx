@@ -1,4 +1,5 @@
 import { assetPath } from "../utils/assetPath"
+import { portfolioProfile } from "../data/profile"
 
 const SystemPortrait = () => {
     return (
@@ -65,16 +66,16 @@ const Header = () => {
 
             <section className="hero" id="top">
                 <div className="hero__copy">
-                    <p className="hero__name">임정규 · 백엔드 개발자</p>
-                    <h1>
-                        복잡한 요구사항을
-                        <br />
-                        <em>안정적인 백엔드</em>로 만듭니다.
-                    </h1>
-                    <p className="hero__summary">
-                        공공 시스템, 모듈러 모놀리스, 마이크로서비스를 개발했습니다. 데이터 정합성,
-                        장애 복구, 유지보수를 고려해 설계하고 구현합니다.
+                    <p className="hero__name">
+                        {portfolioProfile.name} · {portfolioProfile.role}
                     </p>
+                    <h1>
+                        {portfolioProfile.headline.lead}
+                        <br />
+                        <em>{portfolioProfile.headline.emphasis}</em>
+                        {portfolioProfile.headline.tail}
+                    </h1>
+                    <p className="hero__summary">{portfolioProfile.webSummary}</p>
                     <div className="hero__actions">
                         <a className="button button--primary" href="#work">
                             주요 프로젝트 보기

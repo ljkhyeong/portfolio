@@ -248,6 +248,24 @@ test("WebRTC/HLS 상세는 이전 경험용 간략 화면으로 유지한다", a
     expect(screen.queryByRole("heading", { name: "대표 문제 해결" })).not.toBeInTheDocument()
 })
 
+test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 8쪽을 렌더링한다", async () => {
+    window.history.pushState({}, "", "/portfolio/print")
+
+    render(<App />)
+
+    await screen.findByRole("heading", { name: "실패 이후까지 설계하는 백엔드 개발자" })
+    expect(document.title).toBe("인쇄용 포트폴리오 | 임정규")
+    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(8)
+    expect(screen.getAllByText("BATON").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)
+    expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
+    expect(screen.getByText(/AWS에 운영 배포했으나/)).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "BATON GO" })).toHaveAttribute(
+        "href",
+        "https://ljkportfolio.netlify.app/projects/baton/go",
+    )
+})
+
 test("알 수 없는 경로는 홈으로 복구한다", async () => {
     window.history.pushState({}, "", "/not-a-project")
 

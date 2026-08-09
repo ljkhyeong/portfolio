@@ -1,6 +1,7 @@
 import Header from "./Header"
 import Projects from "./Projects"
 import About from "./About"
+import { portfolioProfile } from "../data/profile"
 import "../css/Main.css"
 
 const Main = () => {
@@ -20,15 +21,17 @@ const Main = () => {
                     </h2>
                 </div>
                 <div className="site-footer__contact">
-                    <a href="mailto:jolri24@naver.com">jolri24@naver.com</a>
-                    <a href="tel:+821039726284">010 3972 6284</a>
-                    <a href="https://github.com/ljkhyeong" target="_blank" rel="noreferrer">
+                    <a href={`mailto:${portfolioProfile.email}`}>{portfolioProfile.email}</a>
+                    <a href={`tel:${portfolioProfile.phoneHref}`}>{portfolioProfile.phone}</a>
+                    <a href={portfolioProfile.github} target="_blank" rel="noreferrer">
                         GitHub ↗
                     </a>
                 </div>
                 <div className="site-footer__meta">
-                    <span>임정규 · 백엔드 개발자</span>
-                    <span>서울 · 2026</span>
+                    <span>
+                        {portfolioProfile.name} · {portfolioProfile.role}
+                    </span>
+                    <span>{portfolioProfile.location} · 2026</span>
                 </div>
             </footer>
         </div>

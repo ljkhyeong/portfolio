@@ -27,7 +27,20 @@ Vite 빌드 결과는 기존 배포 설정과 호환되도록 `build/`에 생성
 ## PDF
 
 -   최신 파일: `public/포트폴리오최신.pdf`
--   편집 원본: `portfolio-pdf/index.html`, `portfolio-pdf/styles.css`
--   A4, 배경 그래픽 포함 설정으로 브라우저에서 PDF로 인쇄할 수 있습니다.
+-   React 인쇄 원본: `src/component/print/PortfolioPrintPage.jsx`
+-   인쇄 스타일: `src/css/PortfolioPrint.css`
+-   로컬 미리보기: `http://localhost:5173/portfolio/print`
+
+```bash
+npm run dev
+npm run pdf:generate
+```
+
+`pdf:generate`는 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트 로딩과 A4 8쪽의
+overflow를 검사한 뒤 `public/포트폴리오최신.pdf`를 교체합니다. PDF를 갱신한 뒤
+`npm run build`를 실행하면 최신 파일이 `build/`에도 포함됩니다.
+
+인쇄본과 웹 화면은 `src/data/profile.js`, `src/data/projects.js`를 함께 사용합니다.
+기존 `/portfolio-pdf/index.html` 주소는 배포 환경에서 `/portfolio/print`로 이동합니다.
 
 배포: [ljkportfolio.netlify.app](https://ljkportfolio.netlify.app/)
