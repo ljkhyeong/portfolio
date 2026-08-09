@@ -11,6 +11,9 @@ Java와 Spring으로 개발한 공공 시스템, 모듈러 모놀리스, 마이�
 
 ## 실행
 
+Node.js 22를 사용합니다. Netlify 빌드도 저장소의 `.nvmrc`를 읽어 같은 메이저 버전을
+사용합니다.
+
 ```bash
 npm install
 npm run dev
