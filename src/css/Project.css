@@ -11,6 +11,13 @@
     text-decoration: none;
 }
 
+.case-study-page p,
+.case-study-page dd,
+.case-study-page blockquote {
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+}
+
 .case-study-nav {
     display: flex;
     align-items: center;
@@ -51,8 +58,8 @@
     grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
     gap: clamp(42px, 7vw, 108px);
     align-items: flex-end;
-    min-height: min(470px, calc(62svh - 68px));
-    padding: clamp(56px, 7.5vh, 88px) 0 48px;
+    min-height: min(420px, calc(57svh - 68px));
+    padding: clamp(48px, 6.5vh, 72px) 0 40px;
 }
 
 .case-hero__heading,
@@ -79,26 +86,26 @@
     max-width: 950px;
     margin: 0;
     font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(54px, 6.4vw, 96px);
+    font-size: clamp(48px, 5.5vw, 80px);
     font-weight: 500;
-    line-height: 0.84;
+    line-height: 0.9;
     letter-spacing: -0.065em;
     text-wrap: balance;
 }
 
 .case-study-page--baton .case-hero h1 {
-    font-size: clamp(80px, 11vw, 150px);
+    font-size: clamp(68px, 9vw, 120px);
     letter-spacing: -0.075em;
 }
 
 .case-study-page--gallery .case-hero h1 {
-    font-size: clamp(68px, 8.3vw, 122px);
+    font-size: clamp(58px, 7vw, 100px);
 }
 
 .case-study-page--defense .case-hero h1,
 .case-study-page--webrtc .case-hero h1 {
-    font-size: clamp(50px, 6.2vw, 92px);
-    line-height: 0.92;
+    font-size: clamp(46px, 5.4vw, 78px);
+    line-height: 0.96;
 }
 
 .case-hero__intro > p {
@@ -106,6 +113,7 @@
     font-size: clamp(17px, 1.4vw, 21px);
     line-height: 1.65;
     letter-spacing: -0.02em;
+    word-break: keep-all;
 }
 
 .case-hero__tags {
@@ -192,7 +200,7 @@
 .case-proof,
 .case-documents,
 .case-meta {
-    padding: clamp(64px, 7.2vw, 92px) 0;
+    padding: clamp(56px, 6.2vw, 80px) 0;
     border-top: 1px solid var(--line, #cbc8be);
     animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -201,7 +209,7 @@
     display: grid;
     grid-template-columns: 84px minmax(0, 1fr);
     align-items: baseline;
-    margin-bottom: clamp(38px, 5vw, 58px);
+    margin-bottom: clamp(30px, 4vw, 46px);
 }
 
 .case-section-heading > span {
@@ -215,7 +223,7 @@
 .case-section-heading h2 {
     margin: 0;
     font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(34px, 4vw, 58px);
+    font-size: clamp(32px, 3.5vw, 50px);
     font-weight: 500;
     line-height: 1;
     letter-spacing: -0.04em;
@@ -737,7 +745,7 @@
 .case-proof__item strong {
     margin-bottom: auto;
     font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(44px, 6.5vw, 82px);
+    font-size: clamp(38px, 5.4vw, 68px);
     font-weight: 500;
     line-height: 0.95;
     letter-spacing: -0.06em;
@@ -798,7 +806,7 @@
 
 .case-document-catalog strong {
     margin-top: 12px;
-    font-size: clamp(30px, 3.5vw, 48px);
+    font-size: clamp(28px, 3vw, 42px);
     letter-spacing: -0.05em;
 }
 
@@ -987,7 +995,7 @@
 .case-next strong {
     max-width: 950px;
     font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(52px, 8.5vw, 132px);
+    font-size: clamp(46px, 7vw, 104px);
     font-weight: 500;
     line-height: 0.94;
     letter-spacing: -0.06em;
@@ -1063,9 +1071,9 @@
 @media (max-width: 980px) {
     .case-hero {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 30px;
         min-height: auto;
-        padding: 70px 0 54px;
+        padding: 58px 0 46px;
     }
 
     .case-hero__intro {
@@ -1170,8 +1178,8 @@
     }
 
     .case-hero {
-        gap: 30px;
-        padding: 52px 0 44px;
+        gap: 26px;
+        padding: 42px 0 38px;
     }
 
     .case-hero h1,
@@ -1179,19 +1187,19 @@
     .case-study-page--gallery .case-hero h1,
     .case-study-page--defense .case-hero h1,
     .case-study-page--webrtc .case-hero h1 {
-        font-size: clamp(48px, 15.5vw, 72px);
-        line-height: 0.92;
+        font-size: clamp(42px, 13.5vw, 58px);
+        line-height: 0.96;
     }
 
     .case-study-page--defense .case-hero h1,
     .case-study-page--webrtc .case-hero h1 {
-        font-size: clamp(43px, 12.5vw, 62px);
-        line-height: 0.98;
+        font-size: clamp(38px, 12.5vw, 50px);
+        line-height: 1;
     }
 
     .case-study-page--gallery .case-hero h1 {
-        font-size: clamp(47px, 14vw, 62px);
-        letter-spacing: -0.065em;
+        font-size: clamp(38px, 12vw, 48px);
+        letter-spacing: -0.055em;
     }
 
     .case-section-nav {
@@ -1219,7 +1227,7 @@
     }
 
     .case-section-heading h2 {
-        font-size: clamp(31px, 10vw, 46px);
+        font-size: clamp(30px, 8.8vw, 40px);
     }
 
     .case-snapshot__grid {
@@ -1354,13 +1362,13 @@
     }
 
     .case-next a {
-        min-height: 390px;
+        min-height: 330px;
         padding-right: 0;
-        padding-bottom: 130px;
+        padding-bottom: 116px;
     }
 
     .case-next strong {
-        font-size: clamp(50px, 14vw, 76px);
+        font-size: clamp(40px, 12vw, 58px);
     }
 
     .case-next__arrow {
@@ -1395,7 +1403,7 @@
 
 /* Featured project evidence and architecture */
 .case-architecture {
-    padding: clamp(64px, 7.2vw, 92px) 0;
+    padding: clamp(56px, 6.2vw, 80px) 0;
     border-top: 1px solid var(--line, #cbc8be);
     animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1503,7 +1511,7 @@
     display: block;
     margin-top: 8px;
     font-family: var(--sans, "Pretendard Variable", sans-serif);
-    font-size: clamp(42px, 5vw, 72px);
+    font-size: clamp(38px, 4.3vw, 60px);
     font-weight: 500;
     letter-spacing: -0.05em;
     line-height: 0.9;
@@ -1584,7 +1592,7 @@
 
 .case-service-map__children strong {
     color: var(--ink, #171713);
-    font-size: clamp(36px, 4vw, 58px);
+    font-size: clamp(32px, 3.5vw, 48px);
 }
 
 .case-service-map__children p {
@@ -1748,7 +1756,7 @@
 .prior-case {
     width: min(980px, calc(100% - 64px));
     margin: 0 auto;
-    padding: clamp(72px, 8vw, 112px) 0;
+    padding: clamp(60px, 7vw, 92px) 0;
 }
 
 .prior-case .case-kicker {
@@ -1759,7 +1767,7 @@
     max-width: 860px;
     margin: 0;
     font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(48px, 6.8vw, 88px);
+    font-size: clamp(44px, 5.8vw, 74px);
     font-weight: 500;
     letter-spacing: -0.06em;
     line-height: 0.94;
@@ -1772,7 +1780,7 @@
 
 .prior-case__summary {
     max-width: 740px;
-    margin: 42px 0 0;
+    margin: 34px 0 0;
     color: var(--muted, #74736d);
     font-size: clamp(18px, 2vw, 24px);
     line-height: 1.7;
@@ -1782,7 +1790,7 @@
 .prior-case__facts {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 64px 0 0;
+    margin: 52px 0 0;
     border-top: 1px solid var(--ink, #171713);
 }
 
@@ -1916,11 +1924,11 @@
 
     .prior-case {
         width: min(100% - 36px, 980px);
-        padding: 56px 0 64px;
+        padding: 46px 0 58px;
     }
 
     .prior-case h1 {
-        font-size: clamp(44px, 12.5vw, 58px);
+        font-size: clamp(38px, 11.5vw, 50px);
         line-height: 1;
         letter-spacing: -0.05em;
     }

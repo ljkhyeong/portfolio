@@ -9,6 +9,13 @@
     text-decoration: none;
 }
 
+.baton-service-page p,
+.baton-service-page dd,
+.baton-service-page blockquote {
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+}
+
 .baton-service-nav,
 .baton-service-case,
 .baton-service-footer {
@@ -38,8 +45,8 @@
     grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
     gap: clamp(42px, 7vw, 108px);
     align-items: end;
-    min-height: 460px;
-    padding: clamp(66px, 7.5vw, 98px) 0 54px;
+    min-height: 400px;
+    padding: clamp(54px, 6.5vw, 82px) 0 44px;
 }
 
 .baton-service-kicker,
@@ -55,15 +62,15 @@
 
 .baton-service-hero h1 {
     margin: 18px 0 0;
-    font-size: clamp(80px, 12.5vw, 160px);
+    font-size: clamp(68px, 10vw, 124px);
     font-weight: 760;
     letter-spacing: -0.09em;
-    line-height: 0.78;
+    line-height: 0.84;
 }
 
 .baton-service-hero__intro > strong {
     display: block;
-    font-size: clamp(23px, 2.5vw, 34px);
+    font-size: clamp(21px, 2.2vw, 30px);
     letter-spacing: -0.04em;
 }
 
@@ -72,6 +79,7 @@
     color: var(--muted);
     font-size: 16px;
     line-height: 1.75;
+    word-break: keep-all;
 }
 
 .baton-service-hero__intro ul {
@@ -115,7 +123,7 @@
 .baton-service-boundary,
 .baton-service-problems,
 .baton-service-documents {
-    padding: clamp(64px, 7.2vw, 92px) 0;
+    padding: clamp(56px, 6.2vw, 80px) 0;
     border-top: 1px solid var(--line);
     scroll-margin-top: 24px;
 }
@@ -176,7 +184,7 @@
     display: grid;
     grid-template-columns: 88px 1fr;
     align-items: baseline;
-    margin-bottom: 54px;
+    margin-bottom: 42px;
 }
 
 .baton-service-section-heading span {
@@ -185,7 +193,7 @@
 
 .baton-service-section-heading h2 {
     margin: 0;
-    font-size: clamp(36px, 5vw, 64px);
+    font-size: clamp(32px, 4.2vw, 52px);
     letter-spacing: -0.055em;
 }
 
@@ -275,7 +283,7 @@
     display: grid;
     grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
     gap: clamp(42px, 8vw, 108px);
-    padding: 54px 0 62px;
+    padding: 44px 0 52px;
     border-top: 1px solid var(--ink);
 }
 
@@ -358,12 +366,12 @@
 .service-document-counts strong {
     display: block;
     margin-top: 12px;
-    font-size: 46px;
+    font-size: 40px;
     letter-spacing: -0.055em;
 }
 
 .service-document-links {
-    margin-top: 54px;
+    margin-top: 42px;
 }
 
 .service-document-links h3 {
@@ -457,7 +465,8 @@
 
     .baton-service-hero {
         min-height: 0;
-        padding-top: 72px;
+        gap: 30px;
+        padding-top: 52px;
     }
 
     .service-boundary-flow {
@@ -486,7 +495,7 @@
     }
 
     .baton-service-hero h1 {
-        font-size: clamp(68px, 21vw, 88px);
+        font-size: clamp(52px, 17vw, 68px);
     }
 
     .baton-service-index {

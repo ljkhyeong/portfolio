@@ -25,7 +25,7 @@ const Header = () => {
                     <p className="hero__name">
                         {portfolioProfile.name} · {portfolioProfile.role}
                     </p>
-                    <h1>
+                    <h1 data-route-heading="/">
                         {portfolioProfile.headline.lead}
                         <br />
                         <em>{portfolioProfile.headline.emphasis}</em>

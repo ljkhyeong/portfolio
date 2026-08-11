@@ -41,12 +41,14 @@ code {
 
 .not-found h1 {
     max-width: 680px;
-    margin: 24px 0;
+    margin: 20px 0;
     font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(48px, 8vw, 92px);
+    font-size: clamp(42px, 6.5vw, 72px);
     font-weight: 500;
     line-height: 0.98;
     letter-spacing: -0.055em;
+    text-wrap: balance;
+    word-break: keep-all;
 }
 
 .not-found p {

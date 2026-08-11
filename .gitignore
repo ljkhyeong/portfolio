@@ -4,3 +4,5 @@ myProfile.txt
 self-intro/
 AGENTS.md
 .DS_Store
+.playwright-cli/
+output/playwright/

@@ -37,7 +37,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     const detailHeading = await screen.findByRole("heading", { name: "BATON", level: 1 })
 
     expect(detailHeading).toBeInTheDocument()
-    expect(document.activeElement).toBe(detailHeading)
+    await waitFor(() => expect(document.activeElement).toBe(detailHeading))
     expect(document.title).toBe("BATON | 임정규 포트폴리오")
     expect(
         screen.getByRole("heading", {
@@ -96,8 +96,8 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
 
     render(<App />)
 
-    const educationHeading = screen.getByRole("heading", { name: "Education", level: 3 })
-    const careerHeading = screen.getByRole("heading", { name: "Career", level: 3 })
+    const educationHeading = screen.getByRole("heading", { name: "교육", level: 3 })
+    const careerHeading = screen.getByRole("heading", { name: "경력", level: 3 })
 
     expect(educationHeading.compareDocumentPosition(careerHeading)).toBe(
         Node.DOCUMENT_POSITION_FOLLOWING,

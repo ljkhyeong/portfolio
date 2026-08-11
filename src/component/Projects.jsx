@@ -87,7 +87,7 @@ const Projects = () => {
         <section className="work-section" id="work" aria-labelledby="projects-title">
             <div className="project-index__intro">
                 <span className="section-kicker"># projects.md</span>
-                <h2 id="projects-title">Projects</h2>
+                <h2 id="projects-title">프로젝트</h2>
                 <p>프로젝트를 선택하면 역할, 설계 판단, 문제 해결과 대표 문서를 볼 수 있습니다.</p>
             </div>
 

@@ -194,7 +194,11 @@ const PriorExperienceCase = ({ project }) => {
             </nav>
             <article className="prior-case">
                 <span className="case-kicker">{project.eyebrow}</span>
-                <h1 id="prior-project-title" aria-label={project.title}>
+                <h1
+                    id="prior-project-title"
+                    aria-label={project.title}
+                    data-route-heading={project.route}
+                >
                     <span>{technology}</span>
                     <span>{subject.join(" ")}</span>
                 </h1>
@@ -269,7 +273,9 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <header className="case-hero">
                     <div className="case-hero__heading">
                         <span className="case-kicker">{project.eyebrow}</span>
-                        <h1 id="project-title">{project.title}</h1>
+                        <h1 id="project-title" data-route-heading={project.route}>
+                            {project.title}
+                        </h1>
                     </div>
                     <div className="case-hero__intro">
                         <p>{project.summary}</p>

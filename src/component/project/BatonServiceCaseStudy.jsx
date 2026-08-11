@@ -55,7 +55,9 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 <header className="baton-service-hero">
                     <div>
                         <span className="baton-service-kicker">BATON / {service.kind}</span>
-                        <h1 id="service-title">{service.name}</h1>
+                        <h1 id="service-title" data-route-heading={service.route}>
+                            {service.name}
+                        </h1>
                     </div>
                     <div className="baton-service-hero__intro">
                         <strong>{service.role}</strong>

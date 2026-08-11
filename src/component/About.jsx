@@ -12,7 +12,7 @@ const About = () => {
             >
                 <div className="experience-section__intro">
                     <span className="section-kicker"># experience.md</span>
-                    <h2 id="experience-title">Experience &amp; Learning</h2>
+                    <h2 id="experience-title">경력 및 학습</h2>
                     <p>
                         교육, 실무 경력과 꾸준히 이어온 학습 활동을 시간과 성격에 맞게 나눴습니다.
                     </p>
@@ -21,7 +21,7 @@ const About = () => {
                 <div className="timeline" aria-label="교육, 경력 및 개인 활동">
                     <section className="timeline__group" aria-labelledby="education-title">
                         <h3 className="timeline__group-title" id="education-title">
-                            Education
+                            교육
                         </h3>
                         <article className="timeline__item">
                             <div className="timeline__period">{education.period}</div>
@@ -38,7 +38,7 @@ const About = () => {
 
                     <section className="timeline__group" aria-labelledby="career-title">
                         <h3 className="timeline__group-title" id="career-title">
-                            Career
+                            경력
                         </h3>
                         <article className="timeline__item">
                             <div className="timeline__period">{career.period}</div>
@@ -90,7 +90,7 @@ const About = () => {
             >
                 <div className="capability-section__intro">
                     <span className="section-kicker"># skills.md</span>
-                    <h2 id="capability-title">Skills</h2>
+                    <h2 id="capability-title">기술</h2>
                     <p>기술 이름과 실제로 적용한 프로젝트를 함께 적었습니다.</p>
                 </div>
                 <div className="capability-list">

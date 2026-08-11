@@ -64,3 +64,5 @@ for (const [pathname, meta] of Object.entries(routeMeta)) {
 await writeFile(path.join(buildDirectory, "404.html"), renderRouteHtml("/404", notFoundRouteMeta))
 
 console.log(`Generated ${Object.keys(routeMeta).length - 2} route metadata pages and 404.html`)
+
+await import("./prune-legacy-assets.mjs")

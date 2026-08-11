@@ -1,5 +1,5 @@
 .work-section {
-    padding: clamp(92px, 10vw, 140px) clamp(24px, 6vw, 96px);
+    padding: clamp(80px, 8.5vw, 120px) clamp(24px, 6vw, 96px);
     background: var(--paper);
 }
 
@@ -16,14 +16,14 @@
     grid-template-columns: minmax(140px, 0.28fr) minmax(260px, 0.72fr) minmax(300px, 0.56fr);
     gap: clamp(28px, 5vw, 80px);
     align-items: end;
-    margin-bottom: clamp(48px, 6vw, 72px);
+    margin-bottom: clamp(42px, 5vw, 62px);
 }
 
 .project-index__intro h2 {
     margin: 0;
-    font-size: clamp(50px, 6.1vw, 90px);
+    font-size: clamp(44px, 5vw, 72px);
     font-weight: 710;
-    letter-spacing: -0.071em;
+    letter-spacing: -0.05em;
     line-height: 0.95;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .project-index__number {
-    padding-top: 44px;
+    padding-top: 40px;
     color: var(--accent);
     font-family: var(--mono);
     font-size: 14px;
@@ -94,8 +94,8 @@
     grid-template-columns: minmax(290px, 0.94fr) minmax(280px, 1.06fr) minmax(210px, 0.54fr) 32px;
     gap: clamp(28px, 4vw, 64px);
     align-items: center;
-    min-height: 196px;
-    padding: 36px 18px 36px 0;
+    min-height: 178px;
+    padding: 32px 18px 32px 0;
     transition:
         background-color 180ms ease,
         color 180ms ease;
@@ -131,9 +131,9 @@
 
 .project-index__title-block h3 {
     margin: 0;
-    font-size: clamp(36px, 3.45vw, 52px);
+    font-size: clamp(32px, 3vw, 44px);
     font-weight: 710;
-    letter-spacing: -0.061em;
+    letter-spacing: -0.045em;
     line-height: 1.04;
     word-break: keep-all;
     transition: color 180ms ease;
@@ -228,11 +228,11 @@
 }
 
 .project-index--education .project-index__title-block h3 {
-    font-size: clamp(30px, 2.9vw, 42px);
+    font-size: clamp(28px, 2.55vw, 36px);
 }
 
 .project-index--education .project-index__number {
-    padding-top: 38px;
+    padding-top: 34px;
     font-size: 14px;
 }
 
@@ -262,8 +262,8 @@
 
 @media (max-width: 800px) {
     .work-section {
-        padding-top: 82px;
-        padding-bottom: 92px;
+        padding-top: 72px;
+        padding-bottom: 82px;
     }
 
     .project-index__intro {
@@ -289,7 +289,7 @@
         grid-template-columns: minmax(0, 1fr) 28px;
         gap: 20px;
         min-height: auto;
-        padding: 28px 6px 28px 0;
+        padding: 24px 6px 24px 0;
     }
 
     .project-index__title-block,
@@ -327,7 +327,7 @@
     }
 
     .project-index__intro h2 {
-        font-size: clamp(48px, 16vw, 64px);
+        font-size: clamp(40px, 13vw, 52px);
     }
 
     .project-index__item {
@@ -342,7 +342,7 @@
 
     .project-index__title-block h3,
     .project-index--education .project-index__title-block h3 {
-        font-size: clamp(32px, 9.7vw, 44px);
+        font-size: clamp(28px, 8.8vw, 36px);
         overflow-wrap: anywhere;
     }
 

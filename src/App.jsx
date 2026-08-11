@@ -3,11 +3,6 @@ import { lazy, Suspense, useEffect, useRef } from "react"
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom"
 import Main from "./component/Main"
 import NotFound from "./component/NotFound"
-import ProjectBaton from "./component/project/ProjectBaton"
-import BatonServiceCaseStudy from "./component/project/BatonServiceCaseStudy"
-import Project2 from "./component/project/Project2"
-import Project3 from "./component/project/Project3"
-import Project4 from "./component/project/Project4"
 import {
     defaultRouteMeta,
     notFoundRouteMeta,
@@ -16,6 +11,8 @@ import {
     toAbsoluteUrl,
 } from "./data/routeMeta"
 
+const ProjectCaseStudy = lazy(() => import("./component/project/ProjectCaseStudy"))
+const BatonServiceCaseStudy = lazy(() => import("./component/project/BatonServiceCaseStudy"))
 const PortfolioPrintPage = lazy(() => import("./component/print/PortfolioPrintPage"))
 
 const updateMetaContent = (attribute, key, value) => {
@@ -32,9 +29,11 @@ const updateMetaContent = (attribute, key, value) => {
 
 const RouteEffects = () => {
     const { pathname } = useLocation()
-    const isInitialRoute = useRef(true)
+    const previousPathname = useRef(pathname)
 
     useEffect(() => {
+        const shouldFocusHeading = previousPathname.current !== pathname
+        previousPathname.current = pathname
         const meta = routeMeta[pathname] ?? notFoundRouteMeta
         const canonicalUrl = new URL(pathname, siteUrl).toString()
 
@@ -61,17 +60,40 @@ const RouteEffects = () => {
 
         canonical.setAttribute("href", canonicalUrl)
 
-        if (isInitialRoute.current) {
-            isInitialRoute.current = false
+        if (!shouldFocusHeading) {
             return
         }
 
-        const pageHeading = document.querySelector("h1")
+        const focusRouteHeading = () => {
+            const pageHeading = Array.from(
+                document.querySelectorAll("h1[data-route-heading]"),
+            ).find((heading) => heading.dataset.routeHeading === pathname)
 
-        if (pageHeading) {
+            if (!pageHeading) {
+                return false
+            }
+
             pageHeading.setAttribute("tabindex", "-1")
             pageHeading.focus({ preventScroll: true })
+            return true
         }
+
+        if (focusRouteHeading()) {
+            return
+        }
+
+        const headingObserver = new MutationObserver(() => {
+            if (focusRouteHeading()) {
+                headingObserver.disconnect()
+            }
+        })
+
+        headingObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+        })
+
+        return () => headingObserver.disconnect()
     }, [pathname])
 
     return null
@@ -79,12 +101,21 @@ const RouteEffects = () => {
 
 const App = () => {
     return (
-        <Suspense fallback={<div className="route-loading">페이지 불러오는 중…</div>}>
+        <Suspense
+            fallback={
+                <div className="route-loading" role="status" aria-live="polite">
+                    페이지 불러오는 중…
+                </div>
+            }
+        >
             <BrowserRouter>
                 <RouteEffects />
                 <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route path="/projects/baton" element={<ProjectBaton />} />
+                    <Route
+                        path="/projects/baton"
+                        element={<ProjectCaseStudy projectId="baton" />}
+                    />
                     <Route
                         path="/projects/baton/go"
                         element={<BatonServiceCaseStudy serviceId="go" />}
@@ -97,9 +128,18 @@ const App = () => {
                         path="/projects/baton/relay"
                         element={<BatonServiceCaseStudy serviceId="relay" />}
                     />
-                    <Route path="/projects/happygallery" element={<Project3 />} />
-                    <Route path="/projects/defense" element={<Project4 />} />
-                    <Route path="/projects/webrtc" element={<Project2 />} />
+                    <Route
+                        path="/projects/happygallery"
+                        element={<ProjectCaseStudy projectId="happygallery" />}
+                    />
+                    <Route
+                        path="/projects/defense"
+                        element={<ProjectCaseStudy projectId="defense" />}
+                    />
+                    <Route
+                        path="/projects/webrtc"
+                        element={<ProjectCaseStudy projectId="webrtc" />}
+                    />
                     <Route path="/portfolio/print" element={<PortfolioPrintPage />} />
 
                     <Route
