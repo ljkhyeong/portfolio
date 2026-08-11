@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 import { careers, education, personalActivities, skillGroups } from "../data/profile"
-import { projectsById } from "../data/projects"
+import { projectSummariesById } from "../data/projectSummaries"
 
 const CareerItem = ({ career }) => {
-    const project = projectsById[career.projectId]
+    const project = projectSummariesById[career.projectId]
 
     return (
         <article className="timeline__item">
@@ -47,7 +47,7 @@ const About = () => {
                                 <span>
                                     {education.organization} · {education.meta}
                                 </span>
-                                <h4>{projectsById[education.projectId].title}</h4>
+                                <h4>{projectSummariesById[education.projectId].title}</h4>
                                 <p>{education.description}</p>
                                 <Link to="/projects/webrtc">교육 프로젝트 상세 보기 →</Link>
                             </div>

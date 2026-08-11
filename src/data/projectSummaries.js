@@ -1,0 +1,86 @@
+export const projectSummaries = [
+    {
+        id: "baton",
+        index: "01",
+        presentation: "featured",
+        title: "BATON",
+        eyebrow: "조직 운영 플랫폼",
+        summary:
+            "조직 운영의 기준 데이터는 Core에 두고, 링크, URL 점검, 메시지 전송을 실패 특성에 따라 별도 마이크로서비스로 분리했습니다.",
+        period: "2026.07.20 — 진행 중",
+        route: "/projects/baton",
+        tags: ["Java 21", "Spring Boot", "MySQL / PostgreSQL", "Outbox"],
+        visual: "baton",
+        stage: "개발 중",
+        visibility: "일부 공개",
+        serviceLinks: [
+            { id: "go", name: "GO", route: "/projects/baton/go" },
+            { id: "watch", name: "WATCH", route: "/projects/baton/watch" },
+            { id: "relay", name: "RELAY", route: "/projects/baton/relay" },
+        ],
+    },
+    {
+        id: "warrant",
+        index: "02",
+        presentation: "career-case",
+        title: "전송형 전자영장 시스템",
+        eyebrow: "LG CNS 컨소시엄 / 독립망 기관 연계",
+        summary:
+            "LG CNS 컨소시엄 참여 프로젝트에서 사법기관 KICS, 전자영장 집행포털, 금융기관 및 통신사처럼 독립된 망 사이의 요청과 제출 자료를 연계하는 인터페이스와 배치를 개발하고 있습니다.",
+        period: "2026.03.24 — 진행 중",
+        route: "/projects/e-warrant",
+        tags: ["Java 11", "Spring Boot 2.6", "WebSquare", "EAI"],
+        visual: "warrant",
+        stage: "진행 중",
+        visibility: "공개 가능 범위",
+    },
+    {
+        id: "happygallery",
+        index: "03",
+        presentation: "featured",
+        title: "happyGallery",
+        eyebrow: "공방 상품 판매 및 예약 서비스",
+        summary:
+            "결제와 환불 결과를 확인할 수 없는 상태, 알림 프로세스 중단, 예약 및 재고 경쟁을 복구 가능한 상태로 저장했습니다.",
+        period: "2026.02.21 — 진행 중",
+        route: "/projects/happygallery",
+        tags: ["Spring Boot", "React", "헥사고날 아키텍처", "MySQL / Redis"],
+        visual: "gallery",
+        stage: "개발 중",
+        visibility: "공개 저장소",
+    },
+    {
+        id: "defense",
+        index: "04",
+        presentation: "career-case",
+        title: "차세대 군사법 정보 시스템",
+        eyebrow: "공공 SI / 백엔드 개발 및 운영",
+        summary:
+            "폐쇄망과 레거시 환경에서 기관 연계 배치와 보안 기능을 개발하고 운영 장애를 분석했습니다.",
+        period: "2024.06.23 — 2026.01.30",
+        route: "/projects/defense",
+        tags: ["Java 8", "eGov", "MyBatis", "Tibero", "Jenkins"],
+        visual: "defense",
+        stage: "종료",
+        visibility: "공개 가능 범위",
+    },
+    {
+        id: "webrtc",
+        index: "교육 프로젝트",
+        presentation: "prior-experience",
+        title: "WebRTC/HLS 현장강의 보조 서비스",
+        eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
+        summary:
+            "HLS 서버와 React 화면을 맡아 WebSocket 제어와 WebRTC/RTP 미디어 경로를 분리하고, FFmpeg와 GStreamer로 HLS를 변환했습니다.",
+        period: "2023.09.01 — 2023.11.10",
+        route: "/projects/webrtc",
+        tags: ["WebRTC", "HLS", "React", "FFmpeg", "GStreamer"],
+        visual: "webrtc",
+        stage: "종료",
+        visibility: "공개 저장소",
+    },
+]
+
+export const projectSummariesById = Object.fromEntries(
+    projectSummaries.map((project) => [project.id, project]),
+)

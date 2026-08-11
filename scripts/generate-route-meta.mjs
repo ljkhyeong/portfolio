@@ -1,7 +1,12 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { notFoundRouteMeta, routeMeta, siteUrl, toAbsoluteUrl } from "../src/data/routeMeta.js"
+import {
+    notFoundRouteMeta,
+    routeMeta,
+    toAbsoluteUrl,
+    toCanonicalUrl,
+} from "../src/data/routeMeta.js"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const buildDirectory = path.join(repositoryRoot, "build")
@@ -32,7 +37,7 @@ const replaceCanonical = (html, value) =>
     )
 
 const renderRouteHtml = (pathname, meta) => {
-    const canonicalUrl = new URL(pathname, siteUrl).toString()
+    const canonicalUrl = toCanonicalUrl(pathname)
     const imageUrl = toAbsoluteUrl(meta.image)
     let html = replaceTitle(baseHtml, meta.title)
 
@@ -66,3 +71,4 @@ await writeFile(path.join(buildDirectory, "404.html"), renderRouteHtml("/404", n
 console.log(`Generated ${Object.keys(routeMeta).length - 2} route metadata pages and 404.html`)
 
 await import("./prune-legacy-assets.mjs")
+await import("./check-portfolio-pdf.mjs")

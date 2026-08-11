@@ -122,6 +122,79 @@ const MetricRow = ({ proofs }) => (
     </div>
 )
 
+const WarrantCareerPage = ({ warrant }) => (
+    <PrintPage
+        number="03"
+        path="# projects/e-warrant/career-case.md"
+        meta={warrant.period}
+        footer="JAVA 11 / SPRING BOOT 2.6 / WEB SQUARE / SPRING RETRY / EAI"
+        variant="warrant"
+    >
+        <PrintTitle eyebrow="LG CNS 컨소시엄 / 독립망 기관 연계" title={warrant.title}>
+            {warrant.summary}
+        </PrintTitle>
+
+        <section className="print-warrant-overview" aria-label="전자영장 연계 업무 흐름">
+            <header>
+                <small>MY ROLE</small>
+                <strong>{warrant.role}</strong>
+            </header>
+            <div className="print-warrant-flow" role="img" aria-label={warrant.visualCaption}>
+                <div>
+                    <small>REQUEST</small>
+                    <strong>사법기관 KICS 독립망</strong>
+                </div>
+                <span aria-hidden="true">→</span>
+                <div className="print-warrant-flow__core">
+                    <small>INTEGRATION</small>
+                    <strong>전자영장 집행포털 인터페이스 및 배치</strong>
+                </div>
+                <span aria-hidden="true">↔</span>
+                <div>
+                    <small>RESPONSE</small>
+                    <strong>금융기관 및 통신사 독립망</strong>
+                </div>
+            </div>
+            <p>{warrant.visualCaption}</p>
+        </section>
+
+        <MetricRow proofs={warrant.proofs} />
+
+        <section className="print-warrant-problems" aria-labelledby="warrant-problems-title">
+            <h3 id="warrant-problems-title" className="print-markdown-heading">
+                ### 대표 문제 해결
+            </h3>
+            <div>
+                {warrant.problems.map((problem) => (
+                    <article key={problem.number}>
+                        <span>CASE {problem.number}</span>
+                        <h4>{problem.title}</h4>
+                        <dl>
+                            <div>
+                                <dt>문제 상황</dt>
+                                <dd>{takeSentences(problem.constraint)}</dd>
+                            </div>
+                            <div>
+                                <dt>해결</dt>
+                                <dd>{takeSentences(problem.decision, 2)}</dd>
+                            </div>
+                            <div>
+                                <dt>트레이드오프</dt>
+                                <dd>{takeSentences(problem.boundary)}</dd>
+                            </div>
+                        </dl>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+        <aside className="print-status-note print-status-note--warrant">
+            <strong>{warrant.status.label}</strong>
+            <p>{warrant.status.text}</p>
+        </aside>
+    </PrintPage>
+)
+
 const PortfolioPrintPage = () => {
     const headingRef = useRef(null)
     const baton = projectsById.baton
@@ -340,8 +413,10 @@ const PortfolioPrintPage = () => {
                     </aside>
                 </PrintPage>
 
+                <WarrantCareerPage warrant={warrant} />
+
                 <PrintPage
-                    number="03"
+                    number="04"
                     path="# projects/baton/overview.md"
                     meta={`${baton.period} · ${baton.evidenceAsOf}`}
                     footer="JAVA 21 / SPRING BOOT / MYSQL / POSTGRESQL / TESTCONTAINERS"
@@ -360,7 +435,7 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="04"
+                    number="05"
                     path="# projects/baton/evidence.md"
                     meta="Decision records + recovery paths"
                     footer="PRD / ADR / RUNBOOK / API CONTRACT"
@@ -380,7 +455,7 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="05"
+                    number="06"
                     path="# projects/baton/documents.md"
                     meta={baton.evidenceAsOf}
                     footer="PRD / ADR / RUNBOOK / API CONTRACT"
@@ -400,7 +475,7 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="06"
+                    number="07"
                     path="# projects/happyGallery/overview.md"
                     meta={`${gallery.period} · ${gallery.evidenceAsOf}`}
                     footer="SPRING BOOT / REACT / MYSQL / REDIS / REST DOCS"
@@ -425,7 +500,7 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="07"
+                    number="08"
                     path="# projects/happyGallery/evidence.md"
                     meta={gallery.evidenceAsOf}
                     footer="ARCHITECTURE / PAYMENT / OUTBOX / CONCURRENCY / SECURITY / OPERATIONS"
@@ -447,7 +522,7 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="08"
+                    number="09"
                     path="# projects/happyGallery/documents.md"
                     meta={gallery.evidenceAsOf}
                     footer="PRD / ADR / IDEA / POC / RETROSPECTIVE / RUNBOOK"
@@ -465,87 +540,6 @@ const PortfolioPrintPage = () => {
                         showProblems={false}
                         toPublishedUrl={toPublishedUrl}
                     />
-                </PrintPage>
-
-                <PrintPage
-                    number="09"
-                    path="# projects/e-warrant/career-case.md"
-                    meta={warrant.period}
-                    footer="JAVA 11 / SPRING BOOT 2.6 / WEB SQUARE / SPRING RETRY / EAI"
-                    variant="warrant"
-                >
-                    <PrintTitle eyebrow="LG CNS 컨소시엄 / 독립망 기관 연계" title={warrant.title}>
-                        {warrant.summary}
-                    </PrintTitle>
-
-                    <section
-                        className="print-warrant-overview"
-                        aria-label="전자영장 연계 업무 흐름"
-                    >
-                        <header>
-                            <small>MY ROLE</small>
-                            <strong>{warrant.role}</strong>
-                        </header>
-                        <div
-                            className="print-warrant-flow"
-                            role="img"
-                            aria-label={warrant.visualCaption}
-                        >
-                            <div>
-                                <small>REQUEST</small>
-                                <strong>사법기관 KICS 독립망</strong>
-                            </div>
-                            <span aria-hidden="true">→</span>
-                            <div className="print-warrant-flow__core">
-                                <small>INTEGRATION</small>
-                                <strong>전자영장 집행포털 인터페이스 및 배치</strong>
-                            </div>
-                            <span aria-hidden="true">↔</span>
-                            <div>
-                                <small>RESPONSE</small>
-                                <strong>금융기관 및 통신사 독립망</strong>
-                            </div>
-                        </div>
-                        <p>{warrant.visualCaption}</p>
-                    </section>
-
-                    <MetricRow proofs={warrant.proofs} />
-
-                    <section
-                        className="print-warrant-problems"
-                        aria-labelledby="warrant-problems-title"
-                    >
-                        <h3 id="warrant-problems-title" className="print-markdown-heading">
-                            ### 대표 문제 해결
-                        </h3>
-                        <div>
-                            {warrant.problems.map((problem) => (
-                                <article key={problem.number}>
-                                    <span>CASE {problem.number}</span>
-                                    <h4>{problem.title}</h4>
-                                    <dl>
-                                        <div>
-                                            <dt>문제 상황</dt>
-                                            <dd>{takeSentences(problem.constraint)}</dd>
-                                        </div>
-                                        <div>
-                                            <dt>해결</dt>
-                                            <dd>{takeSentences(problem.decision, 2)}</dd>
-                                        </div>
-                                        <div>
-                                            <dt>트레이드오프</dt>
-                                            <dd>{takeSentences(problem.boundary)}</dd>
-                                        </div>
-                                    </dl>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-
-                    <aside className="print-status-note print-status-note--warrant">
-                        <strong>{warrant.status.label}</strong>
-                        <p>{warrant.status.text}</p>
-                    </aside>
                 </PrintPage>
 
                 <PrintPage

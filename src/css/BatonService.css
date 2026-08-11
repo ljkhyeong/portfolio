@@ -7,7 +7,7 @@
     --line-strong: #afb8c1;
     --accent: #0969da;
     --accent-on-light: #0969da;
-    --success: #1f883d;
+    --success: #1a7f37;
     min-height: 100vh;
     background: var(--paper);
     color: var(--ink);
@@ -736,8 +736,8 @@
 }
 
 .baton-service-footer a.is-current {
-    border-color: #1f883d;
-    background: #1f883d;
+    border-color: #1a7f37;
+    background: #1a7f37;
     color: #ffffff;
 }
 

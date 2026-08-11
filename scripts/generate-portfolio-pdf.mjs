@@ -1,8 +1,12 @@
 import { spawn } from "node:child_process"
-import { access, rename, rm, stat } from "node:fs/promises"
+import { access, rename, rm, stat, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { createServer } from "vite"
+import {
+    createPortfolioPdfFingerprint,
+    portfolioPdfFingerprintPath,
+} from "./portfolio-pdf-fingerprint.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const outputPath = path.join(repositoryRoot, "public", "포트폴리오최신.pdf")
@@ -127,6 +131,8 @@ try {
     }
 
     await rename(temporaryOutputPath, outputPath)
+    const fingerprint = await createPortfolioPdfFingerprint()
+    await writeFile(portfolioPdfFingerprintPath, `${fingerprint}\n`)
     process.stdout.write(`PDF 생성 완료: ${outputPath} (${generatedFile.size} bytes)\n`)
 } finally {
     await server.close()

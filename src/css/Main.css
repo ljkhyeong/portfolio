@@ -4,7 +4,7 @@
     --paper-raised: #f6f8fa;
     --accent: #0969da;
     --accent-on-light: #0969da;
-    --success: #1f883d;
+    --success: #1a7f37;
     --muted: #59636e;
     --line: #d0d7de;
     overflow: clip;
@@ -145,7 +145,7 @@
     position: relative;
     display: flex;
     width: min(100%, 1480px);
-    min-height: calc(68svh - 64px);
+    min-height: calc(60svh - 64px);
     margin: 0 auto;
     padding: clamp(58px, 7vh, 84px) clamp(24px, 5vw, 80px) clamp(74px, 8vh, 92px);
     flex-direction: column;
@@ -248,7 +248,7 @@
 
 .button--primary:hover {
     border-color: rgba(31, 35, 40, 0.15);
-    background: #1a7f37;
+    background: #116329;
 }
 
 .button--ghost:hover {
@@ -256,11 +256,14 @@
     color: var(--ink);
 }
 
-.hero__stack {
+.hero__proofs {
     position: absolute;
     right: clamp(24px, 5vw, 80px);
     bottom: 26px;
     left: clamp(24px, 5vw, 80px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
     margin: 0;
     padding-top: 18px;
     border-top: 1px solid var(--line);
@@ -268,6 +271,18 @@
     font-family: var(--mono);
     font-size: 14px;
     letter-spacing: 0.035em;
+    list-style: none;
+}
+
+.hero__proofs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.hero__proofs li:not(:last-child)::after {
+    color: var(--line-strong, #afb8c1);
+    content: "/";
 }
 
 .section-kicker {
@@ -668,7 +683,7 @@
 
     .hero {
         min-height: auto;
-        padding: 52px 20px 88px;
+        padding: 32px 20px 98px;
     }
 
     .hero__copy {
@@ -688,25 +703,39 @@
         word-break: normal;
     }
 
+    .hero__name {
+        margin-bottom: 18px;
+    }
+
     .hero__summary {
+        margin-top: 22px;
         font-size: 16px;
+        line-height: 1.65;
         word-break: normal;
     }
 
     .hero__actions {
         display: grid;
+        gap: 10px;
+        margin-top: 24px;
     }
 
     .button {
         width: 100%;
     }
 
-    .hero__stack {
+    .hero__proofs {
         right: 20px;
-        bottom: 24px;
+        bottom: 18px;
         left: 20px;
+        gap: 5px 14px;
+        padding-top: 12px;
         font-size: 14px;
         line-height: 1.55;
+    }
+
+    .hero__proofs li {
+        gap: 14px;
     }
 
     .experience-section,

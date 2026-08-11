@@ -7,7 +7,7 @@
     --line-strong: #afb8c1;
     --accent: #0969da;
     --accent-on-light: #0969da;
-    --success: #1f883d;
+    --success: #1a7f37;
     min-height: 100vh;
     min-height: 100svh;
     background: var(--paper);
@@ -67,8 +67,8 @@
     grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
     gap: clamp(42px, 7vw, 108px);
     align-items: flex-end;
-    min-height: min(420px, calc(57svh - 68px));
-    padding: clamp(48px, 6.5vh, 72px) 0 40px;
+    min-height: min(360px, calc(50svh - 68px));
+    padding: clamp(42px, 5.5vh, 62px) 0 36px;
 }
 
 .case-hero__heading,
@@ -144,6 +144,38 @@
     content: "/";
     margin-left: 16px;
     color: var(--line, #cbc8be);
+}
+
+.case-hero__evidence {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.case-hero__evidence a {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    gap: 12px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper-raised);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease;
+}
+
+.case-hero__evidence a:hover,
+.case-hero__evidence a:focus-visible {
+    border-color: var(--accent);
+    background: #ddf4ff;
 }
 
 .case-project-labels {
@@ -860,6 +892,52 @@
 
 .case-problems__list {
     border-bottom: 1px solid var(--ink, #171713);
+}
+
+.case-problems__more {
+    margin-top: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper-raised);
+}
+
+.case-problems__more > summary {
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 18px;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 750;
+    list-style: none;
+}
+
+.case-problems__more > summary::-webkit-details-marker {
+    display: none;
+}
+
+.case-problems__more > summary span::before {
+    content: "+";
+    font-family: var(--mono);
+    font-size: 20px;
+}
+
+.case-problems__more[open] > summary {
+    border-bottom: 1px solid var(--line);
+}
+
+.case-problems__more[open] > summary span::before {
+    content: "−";
+}
+
+.case-problems__list.case-problems__list--additional {
+    border: 0;
+    border-radius: 0;
+    background: var(--paper);
 }
 
 .case-problem {

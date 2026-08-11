@@ -56,7 +56,11 @@ const Header = () => {
                         </a>
                     </div>
                 </div>
-                <p className="hero__stack">Java · Spring · MySQL · Redis · React</p>
+                <ul className="hero__proofs" aria-label="대표 검증 근거">
+                    {portfolioProfile.heroProofs.map((proof) => (
+                        <li key={proof}>{proof}</li>
+                    ))}
+                </ul>
             </section>
         </header>
     )

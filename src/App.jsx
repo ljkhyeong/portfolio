@@ -5,10 +5,11 @@ import Main from "./component/Main"
 import NotFound from "./component/NotFound"
 import {
     defaultRouteMeta,
+    normalizeRoutePath,
     notFoundRouteMeta,
     routeMeta,
-    siteUrl,
     toAbsoluteUrl,
+    toCanonicalUrl,
 } from "./data/routeMeta"
 
 const ProjectCaseStudy = lazy(() => import("./component/project/ProjectCaseStudy"))
@@ -29,13 +30,14 @@ const updateMetaContent = (attribute, key, value) => {
 
 const RouteEffects = () => {
     const { pathname } = useLocation()
-    const previousPathname = useRef(pathname)
+    const normalizedPathname = normalizeRoutePath(pathname)
+    const previousPathname = useRef(normalizedPathname)
 
     useEffect(() => {
-        const shouldFocusHeading = previousPathname.current !== pathname
-        previousPathname.current = pathname
-        const meta = routeMeta[pathname] ?? notFoundRouteMeta
-        const canonicalUrl = new URL(pathname, siteUrl).toString()
+        const shouldFocusHeading = previousPathname.current !== normalizedPathname
+        previousPathname.current = normalizedPathname
+        const meta = routeMeta[normalizedPathname] ?? notFoundRouteMeta
+        const canonicalUrl = toCanonicalUrl(normalizedPathname)
 
         document.documentElement.scrollTop = 0
         document.body.scrollTop = 0
@@ -67,7 +69,7 @@ const RouteEffects = () => {
         const focusRouteHeading = () => {
             const pageHeading = Array.from(
                 document.querySelectorAll("h1[data-route-heading]"),
-            ).find((heading) => heading.dataset.routeHeading === pathname)
+            ).find((heading) => heading.dataset.routeHeading === normalizedPathname)
 
             if (!pageHeading) {
                 return false
@@ -94,7 +96,7 @@ const RouteEffects = () => {
         })
 
         return () => headingObserver.disconnect()
-    }, [pathname])
+    }, [normalizedPathname])
 
     return null
 }

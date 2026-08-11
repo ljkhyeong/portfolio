@@ -12,6 +12,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     expect(heroHeading).toHaveTextContent("복잡한 요구사항을")
     expect(heroHeading).toHaveTextContent("안정적인 백엔드")
+    expect(screen.getByRole("list", { name: "대표 검증 근거" })).toHaveTextContent(
+        "GO 동시 요청 8 → 링크 1",
+    )
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
     const batonHeading = screen.getByRole("heading", {
@@ -218,6 +221,29 @@ test.each(canonicalRouteCases)(
         await waitFor(() => expect(document.title).toBe(title))
     },
 )
+
+test("끝 슬래시가 붙은 상세 주소도 정식 메타데이터와 canonical을 유지한다", async () => {
+    window.history.pushState({}, "", "/projects/happygallery/")
+
+    render(<App />)
+
+    expect(
+        await screen.findByRole("heading", { name: "happyGallery", level: 1 }),
+    ).toBeInTheDocument()
+    await waitFor(() => expect(document.title).toBe("happyGallery | 임정규 포트폴리오"))
+    expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "index, follow",
+    )
+    expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute(
+        "href",
+        "https://ljkportfolio.netlify.app/projects/happygallery/",
+    )
+    expect(document.head.querySelector('meta[property="og:url"]')).toHaveAttribute(
+        "content",
+        "https://ljkportfolio.netlify.app/projects/happygallery/",
+    )
+})
 
 const legacyRouteCases = [
     [

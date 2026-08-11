@@ -71,4 +71,14 @@ export const notFoundRouteMeta = {
     noindex: true,
 }
 
+export const normalizeRoutePath = (pathname) =>
+    pathname === "/" ? "/" : pathname.replace(/\/+$/, "")
+
+export const toCanonicalUrl = (pathname) => {
+    const normalizedPathname = normalizeRoutePath(pathname)
+    const canonicalPathname = normalizedPathname === "/" ? "/" : `${normalizedPathname}/`
+
+    return new URL(canonicalPathname, siteUrl).toString()
+}
+
 export const toAbsoluteUrl = (value) => new URL(value, siteUrl).toString()

@@ -21,6 +21,74 @@ const ProjectLabels = ({ project }) => {
     )
 }
 
+const ProjectEvidenceLinks = ({ project }) => {
+    const candidates = [
+        project.links?.[0],
+        project.documents?.[0]
+            ? {
+                  href: project.documents[0].href,
+                  label: `대표 문서: ${project.documents[0].label}`,
+              }
+            : null,
+    ].filter(Boolean)
+    const links = candidates.filter(
+        (link, index) =>
+            candidates.findIndex((candidate) => candidate.href === link.href) === index,
+    )
+
+    if (links.length === 0) {
+        return null
+    }
+
+    return (
+        <ul className="case-hero__evidence" aria-label="프로젝트 근거 바로가기">
+            {links.map((link) => (
+                <li key={link.href}>
+                    <a href={link.href} target="_blank" rel="noreferrer">
+                        {link.label}
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
+const ProblemStory = ({ problem }) => (
+    <article className="case-problem">
+        <div className="case-problem__title">
+            <span>{problem.number}</span>
+            <h3>{problem.title}</h3>
+        </div>
+        <dl className="case-problem__story">
+            <div>
+                <dt>문제 상황</dt>
+                <dd>{problem.constraint}</dd>
+            </div>
+            <div>
+                <dt>해결</dt>
+                <dd>{problem.decision}</dd>
+            </div>
+            <div>
+                <dt>검증</dt>
+                <dd>{problem.validation}</dd>
+            </div>
+            <div>
+                <dt>트레이드오프와 한계</dt>
+                <dd>{problem.boundary}</dd>
+            </div>
+        </dl>
+    </article>
+)
+
+const ProblemList = ({ problems, additional = false }) => (
+    <div className={`case-problems__list${additional ? " case-problems__list--additional" : ""}`}>
+        {problems.map((problem) => (
+            <ProblemStory problem={problem} key={problem.number} />
+        ))}
+    </div>
+)
+
 const BatonServices = ({ services }) => {
     const core = services.find((service) => service.primary)
     const supporting = services.filter((service) => !service.primary)
@@ -312,6 +380,15 @@ const ProjectCaseStudy = ({ projectId }) => {
     const proofSectionNumber = hasArchitecture ? "04" : "03"
     const documentSectionNumber = hasArchitecture ? "05" : "04"
     const metaSectionNumber = hasArchitecture ? (hasDocuments ? "06" : "05") : "04"
+    const featuredProblemNumbers =
+        project.featuredProblemNumbers ?? project.problems.map((problem) => problem.number)
+    const featuredProblems = featuredProblemNumbers
+        .map((number) => project.problems.find((problem) => problem.number === number))
+        .filter(Boolean)
+    const featuredProblemSet = new Set(featuredProblems.map((problem) => problem.number))
+    const additionalProblems = project.problems.filter(
+        (problem) => !featuredProblemSet.has(problem.number),
+    )
 
     return (
         <main className={`case-study-page case-study-page--${project.visual}`} id="main-content">
@@ -344,6 +421,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                                 <li key={tag}>{tag}</li>
                             ))}
                         </ul>
+                        <ProjectEvidenceLinks project={project} />
                     </div>
                 </header>
 
@@ -408,34 +486,16 @@ const ProjectCaseStudy = ({ projectId }) => {
                         <span>{problemSectionNumber}</span>
                         <h2 id="problems-title">대표 문제 해결</h2>
                     </div>
-                    <div className="case-problems__list">
-                        {project.problems.map((problem) => (
-                            <article className="case-problem" key={problem.number}>
-                                <div className="case-problem__title">
-                                    <span>{problem.number}</span>
-                                    <h3>{problem.title}</h3>
-                                </div>
-                                <dl className="case-problem__story">
-                                    <div>
-                                        <dt>문제 상황</dt>
-                                        <dd>{problem.constraint}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>해결</dt>
-                                        <dd>{problem.decision}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>검증</dt>
-                                        <dd>{problem.validation}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>트레이드오프와 한계</dt>
-                                        <dd>{problem.boundary}</dd>
-                                    </div>
-                                </dl>
-                            </article>
-                        ))}
-                    </div>
+                    <ProblemList problems={featuredProblems} />
+                    {additionalProblems.length > 0 ? (
+                        <details className="case-problems__more">
+                            <summary>
+                                추가 문제 해결 {additionalProblems.length}건 보기
+                                <span aria-hidden="true" />
+                            </summary>
+                            <ProblemList problems={additionalProblems} additional />
+                        </details>
+                    ) : null}
                 </section>
 
                 <section className="case-proof" id="project-proof" aria-labelledby="proof-title">

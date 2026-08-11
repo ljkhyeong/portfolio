@@ -7,6 +7,7 @@ const repositoryRoot = path.resolve(path.dirname(scriptPath), "..")
 const buildDirectory = path.join(repositoryRoot, "build")
 
 const legacyAssetPaths = [
+    ".DS_Store",
     "205st.png",
     "205st_메인.gif",
     "205st_상품 조회.gif",
@@ -23,7 +24,10 @@ const legacyAssetPaths = [
     "books/ostep.jpg",
     "books/tobi-spring.jpg",
     "feature-flag.png",
+    "favicon.ico",
     "happygallery-product-ui.png",
+    "logo192.png",
+    "logo512.png",
     "mnd.webp",
     "soccerFor.png",
     "webRTC.png",
@@ -51,6 +55,7 @@ const sourceTargets = [
     path.join(repositoryRoot, "src"),
     path.join(repositoryRoot, "scripts"),
     path.join(repositoryRoot, "index.html"),
+    path.join(repositoryRoot, "public", "manifest.json"),
     path.join(repositoryRoot, "README.md"),
     path.join(repositoryRoot, "package.json"),
     path.join(repositoryRoot, "vite.config.js"),

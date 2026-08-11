@@ -21,7 +21,7 @@ body.portfolio-print-mode {
     --print-raised: #f6f8fa;
     --print-accent: #0969da;
     --print-accent-dark: #0969da;
-    --print-service: #1f883d;
+    --print-service: #1a7f37;
     --print-service-bright: #56d364;
     --print-muted: #59636e;
     --print-line: #d0d7de;
@@ -92,9 +92,9 @@ body.portfolio-print-mode {
     overflow: hidden;
     padding: 14mm 16mm 13mm;
     break-inside: avoid;
-    break-after: auto;
+    break-after: page;
     page-break-inside: avoid;
-    page-break-after: auto;
+    page-break-after: always;
     background: var(--print-paper);
     box-shadow: 0 8mm 18mm rgba(0, 0, 0, 0.28);
 }

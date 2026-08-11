@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { projectList } from "../data/projects"
+import { projectSummaries } from "../data/projectSummaries"
 import "../css/Projects.css"
 
 const ProjectLabels = ({ project }) => {
@@ -19,17 +19,15 @@ const ProjectLabels = ({ project }) => {
 }
 
 const ProjectServices = ({ project }) => {
-    if (!project.services) {
+    if (!project.serviceLinks) {
         return null
     }
-
-    const microservices = project.services.filter((service) => !service.primary)
 
     return (
         <div className="project-index__services" aria-label="BATON 마이크로서비스 상세">
             <span>Microservices</span>
             <div>
-                {microservices.map((service) => (
+                {project.serviceLinks.map((service) => (
                     <Link
                         key={service.id}
                         to={service.route}
@@ -93,10 +91,10 @@ const ProjectIndex = ({ projects, label, education = false }) => (
 )
 
 const Projects = () => {
-    const mainProjects = projectList.filter(
+    const mainProjects = projectSummaries.filter(
         (project) => project.presentation !== "prior-experience",
     )
-    const educationProjects = projectList.filter(
+    const educationProjects = projectSummaries.filter(
         (project) => project.presentation === "prior-experience",
     )
 

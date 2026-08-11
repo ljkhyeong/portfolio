@@ -40,6 +40,27 @@ test("주요 프로젝트 상세는 페이지 순서와 섹션 바로가기를 �
     ]
 
     sectionIds.forEach((id) => expect(document.getElementById(id)).toBeInTheDocument())
+
+    const evidenceLinks = screen.getByRole("list", { name: "프로젝트 근거 바로가기" })
+
+    expect(evidenceLinks).toHaveTextContent("BATON WATCH GitHub 저장소")
+    expect(evidenceLinks).toHaveTextContent("대표 문서: Core 헥사고날 아키텍처")
+
+    const additionalProblems = screen.getByText("추가 문제 해결 4건 보기").closest("details")
+
+    expect(additionalProblems).not.toHaveAttribute("open")
+})
+
+test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제를 접어 둔다", () => {
+    renderWithRouter(<ProjectCaseStudy projectId="happygallery" />)
+
+    const evidenceLinks = screen.getByRole("list", { name: "프로젝트 근거 바로가기" })
+
+    expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
+    expect(evidenceLinks).toHaveTextContent("대표 문서: 제품 기준 스펙")
+    expect(screen.getByText("추가 문제 해결 2건 보기").closest("details")).not.toHaveAttribute(
+        "open",
+    )
 })
 
 test("전자영장 상세는 LG CNS 컨소시엄의 독립망 연계 흐름과 기술 판단을 보여준다", () => {

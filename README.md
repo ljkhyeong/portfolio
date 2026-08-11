@@ -5,9 +5,10 @@ Java와 Spring으로 개발한 공공 시스템, 모놀리식 애플리케이션
 ## 대표 프로젝트
 
 -   **BATON**: Core를 기준 데이터의 주체로 두고 GO, WATCH, RELAY를 실패 특성에 따라 분리한 마이크로서비스 프로젝트
+-   **전송형 전자영장 시스템**: LG CNS 컨소시엄 참여 프로젝트에서 독립망 간 기관 연계 인터페이스와 배치를 개발한 경력 사례
 -   **happyGallery**: 포트와 어댑터 원칙을 적용하고 결제, 환불, 알림과 동시성 실패를 복구 가능한 상태로 만든 Spring Boot 모놀리식 애플리케이션 및 Gradle 멀티모듈 구성
 
-차세대 군사법 정보 시스템은 경력 사례로, WebRTC/HLS 팀 프로젝트는 교육 프로젝트로 간략히 정리했습니다.
+차세대 군사법 정보 시스템은 이전 경력 사례로, WebRTC/HLS 팀 프로젝트는 교육 프로젝트로 간략히 정리했습니다.
 
 ## 실행
 
@@ -40,13 +41,25 @@ Vite 빌드 결과는 `build/`에 생성됩니다. Netlify는 배포 전에 전�
 ```bash
 npm run dev
 npm run pdf:generate
+npm run pdf:check
 ```
 
 `pdf:generate`는 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트 로딩과 A4 페이지의
 overflow를 검사한 뒤 `public/포트폴리오최신.pdf`를 교체합니다. PDF를 갱신한 뒤
 `npm run build`를 실행하면 최신 파일이 `build/`에도 포함됩니다.
+`pdf:check`는 인쇄 소스와 커밋된 PDF의 지문을 비교하며 프로덕션 빌드에서도 자동으로
+실행됩니다.
 
 인쇄본과 웹 화면은 `src/data/profile.js`, `src/data/projects.js`를 함께 사용합니다.
 기존 `/portfolio-pdf/index.html` 주소는 배포 환경에서 최신 PDF로 이동합니다.
+
+## 공유 이미지
+
+메신저와 채용 플랫폼의 링크 미리보기에는 `public/og-cover.png`를 사용합니다. 화면 디자인을
+변경한 뒤 다음 명령으로 현재 홈 화면과 같은 1200×630 이미지를 다시 생성합니다.
+
+```bash
+npm run og:generate
+```
 
 배포: [ljkportfolio.netlify.app](https://ljkportfolio.netlify.app/)
