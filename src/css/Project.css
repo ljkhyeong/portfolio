@@ -1,8 +1,17 @@
 .case-study-page {
+    --paper: #ffffff;
+    --paper-raised: #f6f8fa;
+    --ink: #1f2328;
+    --muted: #59636e;
+    --line: #d0d7de;
+    --line-strong: #afb8c1;
+    --accent: #0969da;
+    --accent-on-light: #0969da;
+    --success: #1f883d;
     min-height: 100vh;
     min-height: 100svh;
-    background: var(--paper, #f3f1ea);
-    color: var(--ink, #171713);
+    background: var(--paper);
+    color: var(--ink);
     overflow-x: clip;
 }
 
@@ -2266,4 +2275,364 @@
 .case-architecture__decisions dd,
 .prior-case__note {
     font-size: 16px;
+}
+
+/* Primer-aligned detail surfaces: preserve the editorial hierarchy while
+   making grouped content, links, and technical diagrams feel repository-like. */
+.case-study-nav {
+    border-color: var(--line);
+}
+
+.case-study-nav__home:hover,
+.case-study-nav__home:focus-visible {
+    color: var(--accent);
+}
+
+.case-study-page a:focus-visible {
+    border-radius: 3px;
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.case-project-labels li {
+    border-color: var(--line);
+    background: var(--paper-raised);
+    color: var(--muted);
+}
+
+.case-section-nav {
+    border-color: var(--line);
+}
+
+.case-section-nav a:hover,
+.case-section-nav a:focus-visible {
+    color: var(--accent);
+}
+
+.case-section-nav a::after {
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: var(--accent);
+}
+
+.case-snapshot,
+.case-system,
+.case-architecture,
+.case-problems,
+.case-proof,
+.case-documents,
+.case-meta {
+    border-color: var(--line);
+}
+
+.case-snapshot__grid,
+.case-proof__grid,
+.case-document-catalog,
+.case-architecture__decisions {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+}
+
+.case-snapshot__grid > div + div,
+.case-proof__item + .case-proof__item,
+.case-document-catalog article + article,
+.case-architecture__decisions article {
+    border-color: var(--line);
+}
+
+.case-snapshot__grid > div {
+    padding-left: 24px;
+}
+
+.case-proof__item {
+    padding-left: 28px;
+}
+
+.case-document-catalog article {
+    padding-left: 22px;
+}
+
+.case-architecture__decisions article:first-child {
+    padding-left: 26px;
+}
+
+.case-status {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    background: var(--paper-raised);
+}
+
+.case-status > span {
+    color: var(--success);
+}
+
+.case-visual,
+.case-visual--product,
+.case-service-map__core,
+.case-next {
+    background: #0d1117;
+    color: #f0f6fc;
+}
+
+.case-visual,
+.case-visual--product,
+.case-service-map__core {
+    overflow: hidden;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+}
+
+.baton-node,
+.defense-map__sources span,
+.defense-map__batch,
+.defense-map__destination,
+.warrant-map__node,
+.warrant-map__responders,
+.warrant-map__responders strong,
+.stream-map__source,
+.stream-lane__node {
+    border-color: #30363d;
+    border-radius: 6px;
+}
+
+.baton-node--core,
+.defense-map__destination {
+    border-color: #1f6feb;
+    background: #1f6feb;
+    color: #ffffff;
+}
+
+.baton-map__axis,
+.defense-map__connector,
+.warrant-map__connector,
+.stream-lane__path {
+    background: #30363d;
+}
+
+.baton-map__axis::after,
+.warrant-map__return i,
+.stream-map__pulse,
+.stream-lane__path::after {
+    background: #2f81f7;
+}
+
+.warrant-map__node--portal,
+.stream-map__source {
+    border-color: #2f81f7;
+}
+
+.warrant-map__return i::before {
+    border-color: #2f81f7;
+}
+
+.warrant-map__return strong,
+.case-visual__legend {
+    color: #f0f6fc;
+}
+
+.stream-lane__label {
+    color: #3fb950;
+}
+
+.case-problems__list {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+}
+
+.case-problem {
+    padding-right: 28px;
+    padding-left: 28px;
+    border-color: var(--line);
+}
+
+.case-problem:first-child {
+    border-top: 0;
+}
+
+.case-representative-documents > ul,
+.case-meta__stack > ul,
+.case-meta__links > ul {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+}
+
+.case-representative-documents > ul {
+    gap: 0;
+}
+
+.case-representative-documents > ul li:nth-child(even) {
+    border-left: 1px solid var(--line);
+}
+
+.case-documents li,
+.case-meta__links li,
+.case-meta__stack li {
+    border-color: var(--line);
+}
+
+.case-representative-documents > ul li,
+.case-meta__links li {
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+.case-documents a,
+.case-meta__links a,
+.prior-case__links a {
+    color: var(--accent);
+}
+
+.case-documents a code,
+.case-documents a > span,
+.case-document-catalog code,
+.case-architecture__intro > span,
+.case-architecture__decisions article > span,
+.prior-case .case-kicker,
+.prior-case__facts dt {
+    color: var(--accent);
+}
+
+.case-meta__stack li {
+    padding-left: 14px;
+}
+
+.case-product__chrome {
+    background: #0d1117;
+}
+
+.case-product__chrome > span:first-child {
+    border-color: #3fb950;
+    background: #3fb950;
+}
+
+.case-visual--product {
+    box-shadow: 0 8px 24px rgba(140, 149, 159, 0.18);
+}
+
+.case-service-map__children {
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+}
+
+.case-service-map__children > a {
+    border: 0;
+    border-left: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--paper);
+    transition:
+        color 160ms ease,
+        background 160ms ease;
+}
+
+.case-service-map__children > a:first-child {
+    border-left: 0;
+}
+
+.case-service-map__children > a:hover {
+    border-color: var(--line);
+    background: var(--paper-raised);
+    box-shadow: none;
+    transform: none;
+}
+
+.case-service-map__core span,
+.case-service-map__core em {
+    color: #58a6ff;
+}
+
+.case-service-map__core p {
+    color: #8c959f;
+}
+
+.case-service-map__children > a > span,
+.case-service-map__children em {
+    color: var(--muted);
+}
+
+.case-service-map__children strong,
+.case-service-map__children > a > b {
+    color: var(--accent);
+}
+
+.case-architecture__intro,
+.prior-case__facts {
+    border-color: var(--line);
+}
+
+.case-architecture__intro blockquote,
+.case-architecture__decisions .case-architecture__tradeoff {
+    border-left-color: var(--accent);
+}
+
+.prior-case__links a {
+    border-color: var(--line);
+    border-radius: 6px;
+    background: var(--paper-raised);
+}
+
+.prior-case__links a:hover {
+    border-color: var(--accent);
+    background: #ddf4ff;
+}
+
+.case-next__arrow {
+    border-color: #30363d;
+}
+
+.case-next a:hover .case-next__arrow {
+    background: #238636;
+    color: #ffffff;
+}
+
+@media (max-width: 980px) {
+    .case-service-map__children > a:nth-child(2),
+    .case-service-map__children > a:nth-child(3) {
+        border-left: 1px solid var(--line);
+    }
+}
+
+@media (max-width: 700px) {
+    .case-problem {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .case-service-map__children > a,
+    .case-service-map__children > a:nth-child(2),
+    .case-service-map__children > a:nth-child(3) {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+    }
+
+    .case-service-map__children > a:first-child {
+        border-top: 0;
+    }
+
+    .case-representative-documents > ul li:nth-child(even) {
+        border-left: 0;
+    }
+
+    .case-snapshot__grid > div,
+    .case-snapshot__grid > div + div,
+    .case-snapshot__grid > div:nth-child(3),
+    .case-snapshot__grid > div:nth-child(4),
+    .case-proof__item,
+    .case-proof__item + .case-proof__item,
+    .case-document-catalog article,
+    .case-document-catalog article + article,
+    .case-document-catalog article:nth-child(odd),
+    .case-architecture__decisions article,
+    .case-architecture__decisions article:first-child {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
 }

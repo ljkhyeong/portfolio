@@ -5,7 +5,7 @@
 
 html.portfolio-print-mode,
 body.portfolio-print-mode {
-    background: #202420;
+    background: #0d1117;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
 }
@@ -16,17 +16,17 @@ body.portfolio-print-mode {
 }
 
 .portfolio-print {
-    --print-ink: #151a17;
-    --print-paper: #f4f6f3;
-    --print-raised: #fbfcfa;
-    --print-accent: #d45b32;
-    --print-accent-dark: #a74225;
-    --print-service: #0b676b;
-    --print-service-bright: #62d4cd;
-    --print-muted: #59635d;
-    --print-line: rgba(21, 26, 23, 0.2);
-    --print-line-strong: rgba(21, 26, 23, 0.36);
-    --print-line-dark: rgba(255, 255, 255, 0.18);
+    --print-ink: #1f2328;
+    --print-paper: #ffffff;
+    --print-raised: #f6f8fa;
+    --print-accent: #0969da;
+    --print-accent-dark: #0969da;
+    --print-service: #1f883d;
+    --print-service-bright: #56d364;
+    --print-muted: #59636e;
+    --print-line: #d0d7de;
+    --print-line-strong: #afb8c1;
+    --print-line-dark: #30363d;
     --print-sans: "Apple SD Gothic Neo", "Noto Sans KR", -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
     color: var(--print-ink);
@@ -48,8 +48,9 @@ body.portfolio-print-mode {
     width: 210mm;
     margin: 0 auto 5mm;
     padding: 10px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(21, 26, 23, 0.94);
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background: rgba(13, 17, 23, 0.94);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
     color: rgba(255, 255, 255, 0.76);
     font-family: var(--mono);
@@ -66,6 +67,7 @@ body.portfolio-print-mode {
     justify-self: end;
     padding: 8px 12px;
     border: 1px solid var(--print-accent);
+    border-radius: 6px;
     background: var(--print-accent);
     cursor: pointer;
     font-family: inherit;
@@ -94,7 +96,7 @@ body.portfolio-print-mode {
     page-break-inside: avoid;
     page-break-after: auto;
     background: var(--print-paper);
-    box-shadow: 0 8mm 18mm rgba(0, 0, 0, 0.24);
+    box-shadow: 0 8mm 18mm rgba(0, 0, 0, 0.28);
 }
 
 .print-page + .print-page {
@@ -110,8 +112,8 @@ body.portfolio-print-mode {
 
 .print-page--dark,
 .print-page--cover {
-    background: var(--print-ink);
-    color: #f8f5ed;
+    background: #0d1117;
+    color: #f0f6fc;
 }
 
 .print-page__header,
@@ -133,7 +135,11 @@ body.portfolio-print-mode {
     grid-template-columns: minmax(0, 1fr) max-content;
     column-gap: 6mm;
     height: 9mm;
-    border-bottom: 0.35mm solid var(--print-line);
+    box-sizing: border-box;
+    padding: 0 3mm;
+    border: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
+    background: var(--print-raised);
     color: var(--print-muted);
 }
 
@@ -153,6 +159,7 @@ body.portfolio-print-mode {
 
 .print-page--dark .print-page__header {
     border-color: var(--print-line-dark);
+    background: #161b22;
     color: rgba(255, 255, 255, 0.64);
 }
 
@@ -251,8 +258,8 @@ body.portfolio-print-mode {
     position: absolute;
     inset: 0;
     opacity: 0.22;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.09) 0.25mm, transparent 0.25mm),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0.25mm, transparent 0.25mm);
+    background-image: linear-gradient(rgba(88, 166, 255, 0.12) 0.25mm, transparent 0.25mm),
+        linear-gradient(90deg, rgba(88, 166, 255, 0.12) 0.25mm, transparent 0.25mm);
     background-size: 13mm 13mm;
     mask-image: radial-gradient(circle at 76% 37%, #000 4%, transparent 64%);
 }
@@ -522,6 +529,8 @@ body.portfolio-print-mode {
 .print-tag-row span {
     padding: 1.2mm 2mm;
     border: 0.3mm solid var(--print-line);
+    border-radius: 99mm;
+    background: var(--print-raised);
     color: var(--print-muted);
     font-family: var(--mono);
     font-size: 8pt;
@@ -606,7 +615,8 @@ body.portfolio-print-mode {
     margin: 0;
     overflow: hidden;
     border: 0.35mm solid var(--print-line);
-    background: #e4e9e5;
+    border-radius: 1.6mm;
+    background: var(--print-raised);
 }
 
 .print-screen-gallery img {
@@ -622,7 +632,9 @@ body.portfolio-print-mode {
     bottom: 2mm;
     left: 2mm;
     padding: 1.5mm 2mm;
-    background: rgba(21, 26, 23, 0.9);
+    border: 0.35mm solid #30363d;
+    border-radius: 1.2mm;
+    background: rgba(13, 17, 23, 0.92);
     color: rgba(255, 255, 255, 0.82);
     font-size: 8pt;
     line-height: 1.35;
@@ -637,12 +649,12 @@ body.portfolio-print-mode {
 
 .print-screen-gallery--dark figure {
     border-color: var(--print-line-dark);
-    background: #222c27;
+    background: #161b22;
 }
 
 .print-screen-gallery--baton figure:not(.print-screen-gallery__primary) img {
     object-fit: contain;
-    background: #d8ddd9;
+    background: var(--print-raised);
 }
 
 .print-screen-gallery--happygallery {
@@ -684,8 +696,10 @@ body.portfolio-print-mode {
 
 .print-service-index__core {
     padding: 5mm;
-    background: var(--print-accent);
-    color: var(--print-ink);
+    border: 0.35mm solid #58a6ff;
+    border-radius: 1.6mm;
+    background: #0969da;
+    color: #ffffff;
 }
 
 .print-service-index small,
@@ -724,8 +738,9 @@ body.portfolio-print-mode {
 .print-service-index__children a {
     min-width: 0;
     padding: 4mm;
-    border: 0.35mm solid rgba(98, 212, 205, 0.48);
-    background: rgba(11, 103, 107, 0.16);
+    border: 0.35mm solid #30363d;
+    border-radius: 1.6mm;
+    background: #161b22;
     color: inherit;
     overflow-wrap: anywhere;
 }
@@ -750,7 +765,9 @@ body.portfolio-print-mode {
     gap: 5mm;
     margin-top: 4mm;
     padding: 3.4mm 5mm;
-    background: #ded9ce;
+    border: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
+    background: var(--print-raised);
 }
 
 .print-status-note strong,
@@ -778,7 +795,8 @@ body.portfolio-print-mode {
 }
 
 .print-page--dark .print-status-note {
-    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--print-line-dark);
+    background: #161b22;
 }
 
 .print-page--dark .print-status-note strong {
@@ -812,6 +830,7 @@ body.portfolio-print-mode {
     min-height: 66mm;
     padding: 5mm;
     border: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
     background: var(--print-raised);
 }
 
@@ -935,6 +954,8 @@ body.portfolio-print-mode {
     margin-top: 2mm;
     border-top: 0.35mm solid var(--print-line);
     border-left: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
+    overflow: hidden;
 }
 
 .print-document-taxonomy--five {
@@ -995,6 +1016,8 @@ body.portfolio-print-mode {
     border-top: 0.35mm solid var(--print-line);
     border-left: 0.35mm solid var(--print-line);
     border-bottom: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
+    overflow: hidden;
 }
 
 .print-representative-docs > .print-markdown-heading {
@@ -1019,6 +1042,7 @@ body.portfolio-print-mode {
 }
 
 .print-representative-docs a b {
+    color: var(--print-accent-dark);
     font-size: 9.5pt;
     line-height: 1.4;
 }
@@ -1042,6 +1066,10 @@ body.portfolio-print-mode {
 
 .print-page--dark .print-representative-docs a {
     color: #fff;
+}
+
+.print-page--dark .print-representative-docs a b {
+    color: #58a6ff;
 }
 
 .print-page--dark .print-representative-docs a span {
@@ -1092,7 +1120,9 @@ body.portfolio-print-mode {
     min-height: 48mm;
     margin-top: 8mm;
     padding: 6mm;
-    background: #d8ddd6;
+    border: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
+    background: var(--print-raised);
 }
 
 .print-agency-stack {
@@ -1106,6 +1136,7 @@ body.portfolio-print-mode {
     height: 17mm;
     place-items: center;
     border: 0.35mm solid var(--print-line-strong);
+    border-radius: 1.2mm;
     font-size: 8pt;
     font-weight: 760;
 }
@@ -1167,7 +1198,9 @@ body.portfolio-print-mode {
 .print-warrant-overview {
     margin-top: 5mm;
     padding: 4mm 5mm;
-    background: #dfe5df;
+    border: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
+    background: var(--print-raised);
 }
 
 .print-warrant-overview > header {
@@ -1205,6 +1238,7 @@ body.portfolio-print-mode {
     justify-content: center;
     padding: 2.5mm 3mm;
     border: 0.35mm solid var(--print-line-strong);
+    border-radius: 1.2mm;
     background: rgba(255, 255, 255, 0.44);
 }
 
@@ -1215,7 +1249,7 @@ body.portfolio-print-mode {
 }
 
 .print-warrant-flow__core small {
-    color: var(--print-service-bright);
+    color: #ffffff;
 }
 
 .print-warrant-flow strong {
@@ -1265,6 +1299,7 @@ body.portfolio-print-mode {
     min-width: 0;
     padding: 2.4mm 3.5mm;
     border: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
     background: var(--print-raised);
 }
 
@@ -1327,6 +1362,8 @@ body.portfolio-print-mode {
     margin-top: 7mm;
     border-top: 0.35mm solid var(--print-line);
     border-left: 0.35mm solid var(--print-line);
+    border-radius: 1.6mm;
+    overflow: hidden;
 }
 
 .print-career-cases article {

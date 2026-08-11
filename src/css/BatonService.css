@@ -1,4 +1,13 @@
 .baton-service-page {
+    --paper: #ffffff;
+    --paper-raised: #f6f8fa;
+    --ink: #1f2328;
+    --muted: #59636e;
+    --line: #d0d7de;
+    --line-strong: #afb8c1;
+    --accent: #0969da;
+    --accent-on-light: #0969da;
+    --success: #1f883d;
     min-height: 100vh;
     background: var(--paper);
     color: var(--ink);
@@ -574,4 +583,204 @@
 .service-problem dd,
 .service-document-links article p {
     font-size: 16px;
+}
+
+/* Primer-aligned service detail: one grouped surface per information set. */
+.baton-service-page a:focus-visible {
+    border-radius: 3px;
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.baton-service-nav a:hover,
+.baton-service-nav a:focus-visible,
+.baton-service-index a:hover,
+.baton-service-index a:focus-visible {
+    color: var(--accent);
+}
+
+.baton-service-hero__intro li {
+    border-radius: 6px;
+    background: var(--paper-raised);
+}
+
+.baton-service-status {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    background: var(--paper-raised);
+    color: var(--ink);
+}
+
+.baton-service-status code {
+    color: var(--success);
+}
+
+.baton-service-status p {
+    color: var(--muted);
+}
+
+.baton-service-index {
+    border-color: var(--line);
+}
+
+.baton-service-index a {
+    position: relative;
+}
+
+.baton-service-index a::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: var(--accent);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 160ms ease;
+}
+
+.baton-service-index a:hover::after,
+.baton-service-index a:focus-visible::after {
+    transform: scaleX(1);
+}
+
+.service-boundary-flow,
+.baton-service-problems__list,
+.service-document-counts {
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+}
+
+.service-boundary-flow article {
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+.service-boundary-flow article + article {
+    border-color: var(--line);
+}
+
+.service-boundary-flow__current {
+    background: #ddf4ff;
+    color: var(--ink);
+}
+
+.service-boundary-flow__current code {
+    color: var(--accent);
+}
+
+.service-boundary-flow__current p {
+    color: var(--muted);
+}
+
+.baton-service-boundary blockquote,
+.service-problem__tradeoff {
+    border-left-color: var(--accent);
+}
+
+.service-problem {
+    padding-right: 26px;
+    padding-left: 26px;
+    border-color: var(--line);
+}
+
+.service-problem:first-child {
+    border-top: 0;
+}
+
+.service-document-counts article + article {
+    border-color: var(--line);
+}
+
+.service-document-counts article {
+    padding-left: 22px;
+}
+
+.service-document-links article a,
+.service-repository-link {
+    color: var(--accent);
+}
+
+.service-document-links article a:hover strong,
+.service-document-links article a:focus-visible strong {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.service-repository-link {
+    gap: 20px;
+    padding: 9px 13px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper-raised);
+}
+
+.service-repository-link:hover {
+    border-color: var(--accent);
+    background: #ddf4ff;
+}
+
+.baton-service-footer a {
+    border-radius: 6px;
+}
+
+.baton-service-footer a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.baton-service-footer a.is-current {
+    border-color: #1f883d;
+    background: #1f883d;
+    color: #ffffff;
+}
+
+@media (max-width: 840px) {
+    .service-boundary-flow article,
+    .service-boundary-flow article + article {
+        border-color: var(--line);
+    }
+}
+
+@media (max-width: 560px) {
+    .baton-service-index ul {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: none;
+    }
+
+    .baton-service-index ul::-webkit-scrollbar {
+        display: none;
+    }
+
+    .baton-service-index a {
+        white-space: nowrap;
+    }
+
+    .service-problem {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    .service-document-counts article,
+    .service-document-counts article + article {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .baton-service-page *,
+    .baton-service-page *::before,
+    .baton-service-page *::after {
+        scroll-behavior: auto;
+        transition-duration: 0.01ms !important;
+    }
 }

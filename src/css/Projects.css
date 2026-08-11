@@ -41,7 +41,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
+    margin-bottom: -1px;
+    padding: 11px 16px;
+    border: 1px solid var(--line);
+    border-radius: 6px 6px 0 0;
+    background: var(--paper-raised);
     color: var(--ink);
     font-family: var(--mono);
     font-size: 14px;
@@ -53,7 +57,7 @@
 }
 
 .project-index__group > span {
-    color: var(--accent);
+    color: var(--muted);
     font-weight: 760;
 }
 
@@ -65,19 +69,32 @@
     margin-top: 0;
     margin-bottom: 0;
     padding: 0;
-    border-bottom: 1px solid var(--ink);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 0 0 6px 6px;
+    background: var(--paper);
     list-style: none;
 }
 
 .project-index__item {
     display: grid;
     grid-template-columns: 58px minmax(0, 1fr);
-    border-top: 1px solid var(--ink);
+    border-top: 1px solid var(--line);
+    transition: background-color 160ms ease;
+}
+
+.project-index__item:first-child {
+    border-top: 0;
+}
+
+.project-index__item:has(.project-index__primary:hover),
+.project-index__item:has(.project-index__primary:focus-visible) {
+    background: var(--paper-raised);
 }
 
 .project-index__number {
-    padding-top: 40px;
-    color: var(--accent);
+    padding: 34px 0 0 16px;
+    color: var(--muted);
     font-family: var(--mono);
     font-size: 14px;
     font-weight: 750;
@@ -94,8 +111,8 @@
     grid-template-columns: minmax(290px, 0.94fr) minmax(280px, 1.06fr) minmax(210px, 0.54fr) 32px;
     gap: clamp(28px, 4vw, 64px);
     align-items: center;
-    min-height: 178px;
-    padding: 32px 18px 32px 0;
+    min-height: 168px;
+    padding: 28px 18px 28px 0;
     transition:
         background-color 180ms ease,
         color 180ms ease;
@@ -103,7 +120,7 @@
 
 .project-index__primary::before {
     position: absolute;
-    inset: 0 -18px;
+    inset: 0;
     z-index: 0;
     background: transparent;
     content: "";
@@ -117,13 +134,13 @@
 
 .project-index__primary:hover::before,
 .project-index__primary:focus-visible::before {
-    background: rgba(200, 73, 39, 0.055);
+    background: transparent;
 }
 
 .project-index__title-block > span {
     display: block;
     margin-bottom: 12px;
-    color: var(--accent);
+    color: var(--muted);
     font-size: 14px;
     font-weight: 700;
     letter-spacing: -0.01em;
@@ -131,7 +148,8 @@
 
 .project-index__title-block h3 {
     margin: 0;
-    font-size: clamp(32px, 3vw, 44px);
+    color: var(--accent);
+    font-size: clamp(30px, 2.75vw, 40px);
     font-weight: 710;
     letter-spacing: -0.045em;
     line-height: 1.04;
@@ -155,7 +173,7 @@
     padding: 3px 9px;
     border: 1px solid var(--line);
     border-radius: 6px;
-    background: rgba(255, 254, 250, 0.62);
+    background: var(--paper-raised);
     color: var(--muted);
     font-family: var(--mono);
     font-size: 14px;
@@ -164,12 +182,15 @@
 }
 
 .project-index__primary:hover h3 {
-    color: var(--accent);
+    color: #0550ae;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
 }
 
 .project-index__summary {
     margin: 0;
-    color: #3f4943;
+    color: var(--ink);
     font-size: 16px;
     letter-spacing: -0.02em;
     line-height: 1.72;
@@ -208,7 +229,10 @@
     grid-template-columns: minmax(250px, 0.86fr) minmax(0, 1.72fr);
     gap: clamp(28px, 4vw, 64px);
     align-items: center;
-    padding: 0 18px 30px 0;
+    margin-left: -58px;
+    padding: 14px 18px 14px 74px;
+    border-top: 1px solid var(--line);
+    background: var(--paper-raised);
 }
 
 .project-index__services > span {
@@ -231,8 +255,7 @@
     min-height: 44px;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--line);
-    color: var(--ink);
+    color: var(--accent);
     font-size: 15px;
     font-weight: 720;
     transition:
@@ -241,14 +264,15 @@
 }
 
 .project-index__services a:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    color: #0550ae;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 .project-index--education .project-index__primary {
-    min-height: 162px;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    min-height: 152px;
+    padding-top: 26px;
+    padding-bottom: 26px;
 }
 
 .project-index--education .project-index__title-block h3 {
@@ -256,7 +280,7 @@
 }
 
 .project-index--education .project-index__number {
-    padding-top: 34px;
+    padding-top: 30px;
     font-size: 14px;
 }
 
@@ -305,7 +329,7 @@
 
     .project-index__number,
     .project-index--education .project-index__number {
-        padding-top: 31px;
+        padding-top: 27px;
     }
 
     .project-index__primary,
@@ -340,7 +364,8 @@
     .project-index__services {
         grid-template-columns: 1fr;
         gap: 8px;
-        padding-bottom: 26px;
+        margin-left: -40px;
+        padding: 14px 12px 14px 52px;
     }
 }
 
@@ -355,11 +380,12 @@
     }
 
     .project-index__item {
-        grid-template-columns: 34px minmax(0, 1fr);
+        grid-template-columns: 38px minmax(0, 1fr);
     }
 
     .project-index__number,
     .project-index--education .project-index__number {
+        padding-left: 10px;
         font-size: 14px;
         letter-spacing: 0;
     }
@@ -381,6 +407,11 @@
 
     .project-index__services > div {
         gap: 8px 20px;
+    }
+
+    .project-index__services {
+        margin-left: -38px;
+        padding-left: 48px;
     }
 
     .project-index__group--education {

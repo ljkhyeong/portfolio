@@ -10,8 +10,8 @@ code {
     display: grid;
     min-height: 100vh;
     place-items: center;
-    background: var(--ink);
-    color: var(--accent);
+    background: var(--paper);
+    color: var(--muted);
     font-family: var(--mono);
     font-size: 14px;
     letter-spacing: 0.12em;
@@ -23,8 +23,8 @@ code {
     min-height: 100svh;
     padding: 32px;
     place-items: center;
-    background: #f5f6f2;
-    color: #18201c;
+    background: var(--paper);
+    color: var(--ink);
 }
 
 .not-found__inner {
@@ -32,7 +32,7 @@ code {
 }
 
 .not-found__inner > span {
-    color: #a74425;
+    color: var(--accent);
     font-family: var(--mono);
     font-size: 14px;
     font-weight: 750;
@@ -53,19 +53,30 @@ code {
 
 .not-found p {
     margin: 0 0 32px;
-    color: #5f6762;
+    color: var(--muted);
     font-size: 17px;
     line-height: 1.7;
 }
 
 .not-found a {
     display: inline-flex;
-    min-height: 48px;
+    min-height: 40px;
     align-items: center;
     gap: 12px;
-    border-bottom: 1px solid currentColor;
-    color: inherit;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper-raised);
+    color: var(--accent);
     font-size: 16px;
     font-weight: 750;
     text-decoration: none;
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease;
+}
+
+.not-found a:hover {
+    border-color: #afb8c1;
+    background: #eef1f4;
 }
