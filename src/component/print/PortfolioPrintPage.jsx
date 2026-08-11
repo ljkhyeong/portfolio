@@ -474,7 +474,7 @@ const PortfolioPrintPage = () => {
                     footer="JAVA 11 / SPRING BOOT 2.6 / WEB SQUARE / SPRING RETRY / EAI"
                     variant="warrant"
                 >
-                    <PrintTitle eyebrow="PUBLIC SI / SYSTEM INTEGRATION" title={warrant.title}>
+                    <PrintTitle eyebrow="LG CNS 컨소시엄 / 독립망 기관 연계" title={warrant.title}>
                         {warrant.summary}
                     </PrintTitle>
 
@@ -493,17 +493,17 @@ const PortfolioPrintPage = () => {
                         >
                             <div>
                                 <small>REQUEST</small>
-                                <strong>사법기관 요청</strong>
+                                <strong>사법기관 KICS 독립망</strong>
                             </div>
                             <span aria-hidden="true">→</span>
                             <div className="print-warrant-flow__core">
                                 <small>INTEGRATION</small>
-                                <strong>집행포털 인터페이스 및 배치</strong>
+                                <strong>전자영장 집행포털 인터페이스 및 배치</strong>
                             </div>
                             <span aria-hidden="true">↔</span>
                             <div>
                                 <small>RESPONSE</small>
-                                <strong>금융기관 및 통신사 제출</strong>
+                                <strong>금융기관 및 통신사 독립망</strong>
                             </div>
                         </div>
                         <p>{warrant.visualCaption}</p>

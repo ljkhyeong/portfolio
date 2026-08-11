@@ -98,13 +98,13 @@ const WarrantVisual = () => (
     <div
         className="case-visual case-visual--warrant"
         role="img"
-        aria-label="요청 기관의 전자영장 요청이 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달되고, 제출 자료가 업무 시스템으로 돌아오는 흐름"
+        aria-label="사법기관 KICS의 전자영장 요청이 독립망 간 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달되고, 제출 자료가 KICS 업무 시스템으로 돌아오는 흐름"
     >
-        <div className="warrant-map__label">기관 연계 / 비식별 흐름</div>
+        <div className="warrant-map__label">LG CNS 컨소시엄 / 독립망 간 기관 연계</div>
         <div className="warrant-map">
             <div className="warrant-map__node warrant-map__node--requester">
                 <small>Request</small>
-                <strong>요청 기관</strong>
+                <strong>사법기관 KICS 업무망</strong>
                 <span>자료 제공 요청</span>
             </div>
             <div className="warrant-map__connector" aria-hidden="true">
@@ -112,22 +112,22 @@ const WarrantVisual = () => (
             </div>
             <div className="warrant-map__node warrant-map__node--portal">
                 <small>Portal / Interface</small>
-                <strong>집행포털 및 연계 계층</strong>
+                <strong>전자영장 집행포털</strong>
                 <span>검증 / 변환 / 상태 처리</span>
             </div>
             <div className="warrant-map__connector" aria-hidden="true">
-                <span>기관 전달</span>
+                <span>독립망 전달</span>
             </div>
             <div className="warrant-map__responders">
                 <small>Response</small>
-                <strong>금융기관</strong>
-                <strong>통신사</strong>
+                <strong>금융기관 업무망</strong>
+                <strong>통신사 업무망</strong>
             </div>
         </div>
         <div className="warrant-map__return" aria-hidden="true">
-            <span>제출 자료</span>
+            <span>독립망 제출 자료</span>
             <i />
-            <strong>업무 시스템 반영</strong>
+            <strong>KICS 업무 반영</strong>
         </div>
     </div>
 )

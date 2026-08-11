@@ -154,6 +154,8 @@ test("현재 경력 프로젝트를 이전 경력보다 먼저 보여주고 상�
         "/projects/e-warrant",
         "/projects/defense",
     ])
+    expect(screen.getAllByText(/LG CNS 컨소시엄 참여 프로젝트/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/독립된 망 사이/).length).toBeGreaterThan(0)
     expect(screen.getByLabelText("프로젝트 상태: 진행 중, 공개 가능 범위")).toBeInTheDocument()
 })
 
@@ -314,6 +316,8 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
     expect(document.querySelectorAll("[data-print-page]")).toHaveLength(11)
     expect(screen.getAllByText("BATON").length).toBeGreaterThan(0)
     expect(screen.getAllByText("전송형 전자영장 시스템").length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/LG CNS 컨소시엄/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/독립망/).length).toBeGreaterThan(0)
     expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
     expect(screen.getByText("LnS (Learn & Share) — HTTP 완벽 가이드")).toBeInTheDocument()

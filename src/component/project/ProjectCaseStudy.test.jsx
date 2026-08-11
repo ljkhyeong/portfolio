@@ -42,19 +42,22 @@ test("주요 프로젝트 상세는 페이지 순서와 섹션 바로가기를 �
     sectionIds.forEach((id) => expect(document.getElementById(id)).toBeInTheDocument())
 })
 
-test("전자영장 상세는 현재 경력의 비식별 연계 흐름과 기술 판단을 보여준다", () => {
+test("전자영장 상세는 LG CNS 컨소시엄의 독립망 연계 흐름과 기술 판단을 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="warrant" />)
 
     expect(screen.getByText("주요 프로젝트 02 / 04")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", { name: "전송형 전자영장 시스템", level: 1 }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("heading", { name: "업무 흐름 및 시스템 구성" })).toBeInTheDocument()
+    expect(
+        screen.getByRole("heading", { name: "독립망 간 업무 흐름 및 시스템 구성" }),
+    ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /전자영장 요청이 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달/,
+            name: /사법기관 KICS의 전자영장 요청이 독립망 간 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달/,
         }),
     ).toBeInTheDocument()
+    expect(screen.getByText("LG CNS 컨소시엄 / 독립망 간 기관 연계")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
             name: "먼저 도착한 PDF 콜백을 재조회로 복구한다",

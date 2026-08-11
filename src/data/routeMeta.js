@@ -3,7 +3,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "공공 시스템 운영 경험과 결제 및 환불 멱등성, 알림 아웃박스, 마이크로서비스 설계를 담은 백엔드 개발자 임정규의 포트폴리오",
+        "LG CNS 컨소시엄 전송형 전자영장 프로젝트의 독립망 간 기관 연계 경험과 결제 및 환불 멱등성, 알림 아웃박스 설계를 담은 백엔드 개발자 임정규의 포트폴리오",
     image: "/og-cover.png",
 }
 
@@ -35,7 +35,7 @@ export const routeMeta = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "현재 경력 프로젝트에서 기관 연계 인터페이스와 배치, 대용량 조회, 외부 연동의 실패 경계를 다룬 전송형 전자영장 시스템 사례",
+            "LG CNS 컨소시엄 참여 프로젝트에서 독립망 간 기관 연계 인터페이스와 배치, 대용량 조회 및 외부 연동의 실패 경계를 다룬 전송형 전자영장 시스템 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
