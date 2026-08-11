@@ -133,6 +133,10 @@ const App = () => {
                         element={<ProjectCaseStudy projectId="happygallery" />}
                     />
                     <Route
+                        path="/projects/e-warrant"
+                        element={<ProjectCaseStudy projectId="warrant" />}
+                    />
+                    <Route
                         path="/projects/defense"
                         element={<ProjectCaseStudy projectId="defense" />}
                     />

@@ -32,6 +32,12 @@ export const routeMeta = {
             "전송 결과를 영속화하고 재시도와 복구 경로를 설계한 BATON RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
+    "/projects/e-warrant": {
+        title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
+        description:
+            "현재 경력 프로젝트에서 기관 연계 인터페이스와 배치, 대용량 조회, 외부 연동의 실패 경계를 다룬 전송형 전자영장 시스템 사례",
+        image: "/og-cover.png",
+    },
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:

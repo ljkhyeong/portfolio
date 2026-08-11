@@ -7,7 +7,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     render(<App />)
 
-    expect(screen.getByText("임정규")).toBeInTheDocument()
+    expect(screen.getAllByText("임정규 · 백엔드 개발자").length).toBeGreaterThan(0)
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
     expect(heroHeading).toHaveTextContent("복잡한 요구사항을")
@@ -20,6 +20,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     })
 
     expect(batonHeading).toBeInTheDocument()
+    expect(
+        screen.getByRole("heading", { name: "전송형 전자영장 시스템", level: 3 }),
+    ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "happyGallery", level: 3 })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", { name: "차세대 군사법 정보 시스템", level: 3 }),
@@ -48,10 +51,24 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
 const projectLinkCases = [
     ["BATON", "/projects/baton"],
+    ["전송형 전자영장 시스템", "/projects/e-warrant"],
     ["happyGallery", "/projects/happygallery"],
     ["차세대 군사법 정보 시스템", "/projects/defense"],
     ["WebRTC/HLS 현장강의 보조 서비스", "/projects/webrtc"],
 ]
+
+test("GitHub 프로필 이미지와 아이디를 포트폴리오 식별 정보로 사용한다", () => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    const brand = screen.getByRole("link", { name: "ljkhyeong 포트폴리오 홈" })
+    const avatar = brand.querySelector("img")
+
+    expect(brand).toHaveTextContent("ljkhyeong")
+    expect(avatar).toHaveAttribute("src", expect.stringContaining("ljkhyeong-avatar.png"))
+    expect(avatar).toHaveAttribute("alt", "")
+})
 
 test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, route) => {
     window.history.pushState({}, "", "/")
@@ -115,6 +132,31 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
     )
 })
 
+test("현재 경력 프로젝트를 이전 경력보다 먼저 보여주고 상세로 연결한다", () => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    const currentCareer = screen.getByRole("heading", {
+        name: "전송형 전자영장 시스템",
+        level: 4,
+    })
+    const previousCareer = screen.getByRole("heading", {
+        name: "차세대 군사법 정보 시스템",
+        level: 4,
+    })
+    const careerLinks = screen.getAllByRole("link", { name: "경력 프로젝트 상세 보기 →" })
+
+    expect(currentCareer.compareDocumentPosition(previousCareer)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(careerLinks.map((link) => link.getAttribute("href"))).toEqual([
+        "/projects/e-warrant",
+        "/projects/defense",
+    ])
+    expect(screen.getByLabelText("프로젝트 상태: 진행 중, 공개 가능 범위")).toBeInTheDocument()
+})
+
 test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록을 연결한다", () => {
     window.history.pushState({}, "", "/")
 
@@ -147,6 +189,7 @@ const canonicalRouteCases = [
     ["/projects/baton/watch", "WATCH", "BATON WATCH | 임정규 포트폴리오"],
     ["/projects/baton/relay", "RELAY", "BATON RELAY | 임정규 포트폴리오"],
     ["/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
+    ["/projects/e-warrant", "전송형 전자영장 시스템", "전송형 전자영장 시스템 | 임정규 포트폴리오"],
     [
         "/projects/defense",
         "차세대 군사법 정보 시스템",
@@ -170,7 +213,7 @@ test.each(canonicalRouteCases)(
 
         expect(detailHeading).toBeInTheDocument()
         expect(detailHeading).not.toHaveFocus()
-        expect(document.title).toBe(title)
+        await waitFor(() => expect(document.title).toBe(title))
     },
 )
 
@@ -261,15 +304,16 @@ test("WebRTC/HLS 상세는 교육 프로젝트용 간략 화면으로 유지한�
     expect(screen.queryByRole("heading", { name: "대표 문제 해결" })).not.toBeInTheDocument()
 })
 
-test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 쉬운 10쪽을 렌더링한다", async () => {
+test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 쉬운 11쪽을 렌더링한다", async () => {
     window.history.pushState({}, "", "/portfolio/print")
 
     render(<App />)
 
     await screen.findByRole("heading", { name: "실패 이후까지 설계하는 백엔드 개발자" })
     await waitFor(() => expect(document.title).toBe("인쇄용 포트폴리오 | 임정규"))
-    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(10)
+    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(11)
     expect(screen.getAllByText("BATON").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("전송형 전자영장 시스템").length).toBeGreaterThan(0)
     expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
     expect(screen.getByText("LnS (Learn & Share) — HTTP 완벽 가이드")).toBeInTheDocument()
@@ -286,6 +330,10 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
     expect(screen.getByRole("link", { name: "RELAY" })).toHaveAttribute(
         "href",
         "https://ljkportfolio.netlify.app/projects/baton/relay",
+    )
+    expect(screen.getByRole("link", { name: "전송형 전자영장" })).toHaveAttribute(
+        "href",
+        "https://ljkportfolio.netlify.app/projects/e-warrant",
     )
 })
 

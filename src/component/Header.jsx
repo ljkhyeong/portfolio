@@ -5,9 +5,16 @@ const Header = () => {
     return (
         <header className="site-header">
             <nav className="site-nav" aria-label="주요 메뉴">
-                <a className="site-nav__brand" href="#top" aria-label="임정규 포트폴리오 홈">
-                    <span>JK</span>
-                    <strong>임정규</strong>
+                <a className="site-nav__brand" href="#top" aria-label="ljkhyeong 포트폴리오 홈">
+                    <span className="site-nav__avatar" aria-hidden="true">
+                        <img
+                            src={assetPath("ljkhyeong-avatar.png")}
+                            alt=""
+                            width="160"
+                            height="160"
+                        />
+                    </span>
+                    <strong>ljkhyeong</strong>
                 </a>
                 <div className="site-nav__links">
                     <a href="#work">프로젝트</a>

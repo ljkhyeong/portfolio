@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import {
-    career,
+    careers,
     education,
     personalActivities,
     portfolioProfile,
@@ -20,6 +20,12 @@ const toPublishedUrl = (href) => {
     }
 
     return `${portfolioProfile.site}${href.startsWith("/") ? href : `/${href}`}`
+}
+
+const takeSentences = (text, count = 1) => {
+    const sentences = text.match(/[^.]+\.?/g) ?? [text]
+
+    return sentences.slice(0, count).join(" ").trim()
 }
 
 const PrintTitle = ({ eyebrow, title, children, project = false }) => (
@@ -120,6 +126,7 @@ const PortfolioPrintPage = () => {
     const headingRef = useRef(null)
     const baton = projectsById.baton
     const gallery = projectsById.happygallery
+    const warrant = projectsById.warrant
     const defense = projectsById.defense
     const webrtc = projectsById.webrtc
     const studies = personalActivities
@@ -189,7 +196,7 @@ const PortfolioPrintPage = () => {
         <div className="portfolio-print">
             <nav className="print-toolbar" aria-label="인쇄본 도구">
                 <Link to="/">← 웹 포트폴리오</Link>
-                <span>React 인쇄 원본 · A4 10쪽</span>
+                <span>React 인쇄 원본 · A4 11쪽</span>
                 <button type="button" onClick={() => window.print()}>
                     인쇄 또는 PDF 저장
                 </button>
@@ -232,9 +239,9 @@ const PortfolioPrintPage = () => {
                             <p>OpenAPI operations / REST Docs tests</p>
                         </div>
                         <div>
-                            <span>공공 SI</span>
-                            <strong>{defense.proofs[0].value}</strong>
-                            <p>기관 연계 배치 개발 및 운영 대응</p>
+                            <span>{warrant.title}</span>
+                            <strong>{warrant.proofs[0].value}</strong>
+                            <p>{warrant.proofs[0].detail}</p>
                         </div>
                     </div>
 
@@ -284,20 +291,29 @@ const PortfolioPrintPage = () => {
                         </div>
                     </section>
 
-                    <section className="print-profile-row" aria-labelledby="print-career-title">
+                    <section
+                        className="print-profile-row print-profile-row--careers"
+                        aria-labelledby="print-career-title"
+                    >
                         <h3 id="print-career-title">## Career</h3>
-                        <div className="print-profile-row__meta">
-                            <time>{career.period}</time>
-                            <strong>{career.organization}</strong>
-                        </div>
-                        <div>
-                            <h4>{career.position}</h4>
-                            <p>{career.printDescription}</p>
-                            <div className="print-tag-row" aria-label="실무 기술">
-                                {defense.tags.map((tag) => (
-                                    <span key={tag}>{tag}</span>
-                                ))}
-                            </div>
+                        <div className="print-career-summary-list">
+                            {careers.map((careerItem) => {
+                                const project = projectsById[careerItem.projectId]
+
+                                return (
+                                    <article key={careerItem.id}>
+                                        <div className="print-career-summary-list__meta">
+                                            <time>{careerItem.period}</time>
+                                            <strong>{careerItem.organization}</strong>
+                                        </div>
+                                        <div>
+                                            <h4>{project.title}</h4>
+                                            <span>{careerItem.position}</span>
+                                            <p>{careerItem.printDescription}</p>
+                                        </div>
+                                    </article>
+                                )
+                            })}
                         </div>
                     </section>
 
@@ -453,7 +469,88 @@ const PortfolioPrintPage = () => {
 
                 <PrintPage
                     number="09"
-                    path="# career-case.md"
+                    path="# projects/e-warrant/career-case.md"
+                    meta={warrant.period}
+                    footer="JAVA 11 / SPRING BOOT 2.6 / WEB SQUARE / SPRING RETRY / EAI"
+                    variant="warrant"
+                >
+                    <PrintTitle eyebrow="PUBLIC SI / SYSTEM INTEGRATION" title={warrant.title}>
+                        {warrant.summary}
+                    </PrintTitle>
+
+                    <section
+                        className="print-warrant-overview"
+                        aria-label="전자영장 연계 업무 흐름"
+                    >
+                        <header>
+                            <small>MY ROLE</small>
+                            <strong>{warrant.role}</strong>
+                        </header>
+                        <div
+                            className="print-warrant-flow"
+                            role="img"
+                            aria-label={warrant.visualCaption}
+                        >
+                            <div>
+                                <small>REQUEST</small>
+                                <strong>사법기관 요청</strong>
+                            </div>
+                            <span aria-hidden="true">→</span>
+                            <div className="print-warrant-flow__core">
+                                <small>INTEGRATION</small>
+                                <strong>집행포털 인터페이스 및 배치</strong>
+                            </div>
+                            <span aria-hidden="true">↔</span>
+                            <div>
+                                <small>RESPONSE</small>
+                                <strong>금융기관 및 통신사 제출</strong>
+                            </div>
+                        </div>
+                        <p>{warrant.visualCaption}</p>
+                    </section>
+
+                    <MetricRow proofs={warrant.proofs} />
+
+                    <section
+                        className="print-warrant-problems"
+                        aria-labelledby="warrant-problems-title"
+                    >
+                        <h3 id="warrant-problems-title" className="print-markdown-heading">
+                            ### 대표 문제 해결
+                        </h3>
+                        <div>
+                            {warrant.problems.map((problem) => (
+                                <article key={problem.number}>
+                                    <span>CASE {problem.number}</span>
+                                    <h4>{problem.title}</h4>
+                                    <dl>
+                                        <div>
+                                            <dt>문제 상황</dt>
+                                            <dd>{takeSentences(problem.constraint)}</dd>
+                                        </div>
+                                        <div>
+                                            <dt>해결</dt>
+                                            <dd>{takeSentences(problem.decision, 2)}</dd>
+                                        </div>
+                                        <div>
+                                            <dt>트레이드오프</dt>
+                                            <dd>{takeSentences(problem.boundary)}</dd>
+                                        </div>
+                                    </dl>
+                                </article>
+                            ))}
+                        </div>
+                    </section>
+
+                    <aside className="print-status-note print-status-note--warrant">
+                        <strong>{warrant.status.label}</strong>
+                        <p>{warrant.status.text}</p>
+                    </aside>
+                </PrintPage>
+
+                <PrintPage
+                    number="10"
+                    path="# projects/defense/career-case.md"
                     meta={defense.period}
                     footer="JAVA 8 / EGOV / MYBATIS / TIBERO / JENKINS"
                     variant="defense"
@@ -509,7 +606,7 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="10"
+                    number="11"
                     path="# skills-and-contact.md"
                     meta="Backend developer"
                     footer={`${portfolioProfile.name.toUpperCase()} / 2026`}
@@ -550,7 +647,8 @@ const PortfolioPrintPage = () => {
                         <a href={toPublishedUrl(watch.route)}>WATCH</a>
                         <a href={toPublishedUrl(relay.route)}>RELAY</a>
                         <a href={toPublishedUrl(gallery.route)}>happyGallery</a>
-                        <a href={toPublishedUrl(defense.route)}>경력 사례</a>
+                        <a href={toPublishedUrl(warrant.route)}>전송형 전자영장</a>
+                        <a href={toPublishedUrl(defense.route)}>군사법 경력 사례</a>
                         <a href={toPublishedUrl(webrtc.route)}>WebRTC/HLS</a>
                     </nav>
                 </PrintPage>

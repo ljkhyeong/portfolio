@@ -1,4 +1,4 @@
-export const projectList = [
+const projects = [
     {
         id: "baton",
         index: "01",
@@ -12,6 +12,8 @@ export const projectList = [
         route: "/projects/baton",
         tags: ["Java 21", "Spring Boot", "MySQL / PostgreSQL", "Outbox"],
         visual: "baton",
+        stage: "개발 중",
+        visibility: "일부 공개",
         screenshots: [
             {
                 id: "workspace",
@@ -396,7 +398,7 @@ export const projectList = [
     },
     {
         id: "happygallery",
-        index: "02",
+        index: "03",
         presentation: "featured",
         title: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
@@ -407,6 +409,8 @@ export const projectList = [
         route: "/projects/happygallery",
         tags: ["Spring Boot", "React", "헥사고날 아키텍처", "MySQL / Redis"],
         visual: "gallery",
+        stage: "개발 중",
+        visibility: "공개 저장소",
         screenshots: [
             {
                 id: "products",
@@ -709,8 +713,121 @@ export const projectList = [
         ],
     },
     {
+        id: "warrant",
+        index: "02",
+        presentation: "career-case",
+        title: "전송형 전자영장 시스템",
+        eyebrow: "공공 SI / 기관 연계 개발",
+        summary:
+            "사법기관의 자료 제공 요청과 금융기관 및 통신사의 제출 자료를 전자영장 집행포털과 연계하는 인터페이스와 배치를 개발하고 있습니다.",
+        period: "2026.03.24 — 진행 중",
+        route: "/projects/e-warrant",
+        tags: ["Java 11", "Spring Boot 2.6", "WebSquare", "EAI"],
+        visual: "warrant",
+        stage: "진행 중",
+        visibility: "공개 가능 범위",
+        proofs: [
+            {
+                value: "전담",
+                label: "해양경찰 KICS 연계",
+                detail: "통신사실확인자료 개선과 집행포털 연계 담당",
+            },
+            {
+                value: "Cursor",
+                label: "대용량 상태 조회",
+                detail: "신규 조회는 커서 페이지, 기존 번호 조회는 지연 조인 적용",
+            },
+            {
+                value: "Retry",
+                label: "콜백 순서 경합 복구",
+                detail: "지수 백오프와 지터로 선행 콜백 재조회",
+            },
+        ],
+        category: "경력 프로젝트",
+        role: "해양경찰 KICS 통신사실확인자료 개선 및 전자영장 집행포털 연계",
+        oneLine: "기관 간 요청과 제출 자료를 인터페이스 및 배치로 전환",
+        status: {
+            label: "공개 범위",
+            text: "현재 진행 중인 공공 프로젝트입니다. 보안 및 기밀 유지 기준에 따라 기관별 망 구성과 운영 값은 제외하고 직접 수행한 역할과 기술 판단만 정리했습니다.",
+        },
+        systemTitle: "업무 흐름 및 시스템 구성",
+        visualCaption:
+            "실제 기관명과 전용망 세부 구성은 생략하고, 요청과 제출 자료가 포털과 연계 계층을 거쳐 처리되는 흐름만 단순화했습니다.",
+        architecture: {
+            label: "기관 연계 흐름과 실패 경계",
+            title: "반복 흐름은 공통화하고 외부 호출과 DB 작업의 경계는 나눕니다.",
+            description:
+                "수신 자료와 통신사실확인자료의 공통 흐름을 제네릭, enum과 책임별 클래스로 나눴습니다. 외부 시스템 호출 전후의 DB 반영은 짧은 트랜잭션으로 분리해 연결 점유와 실패 영향을 제한했습니다.",
+            tradeoff:
+                "공통 구조를 먼저 잡아 초기 구현 속도는 느려졌지만 후속 기능의 변경 지점은 줄었습니다. 현재 프로세스 락은 단일 JVM 범위이므로 서버를 여러 대로 늘리면 분산 조정 방식이 추가로 필요합니다.",
+        },
+        problems: [
+            {
+                number: "01",
+                title: "데이터 규모와 화면 방식에 맞춰 페이지 전략을 나눈다",
+                constraint:
+                    "전송 상태와 수신 자료가 계속 쌓이면 OFFSET이 커질수록 뒤쪽 페이지 조회 비용이 증가합니다. 기존 업무 화면은 번호 이동도 유지해야 했습니다.",
+                decision:
+                    "신규 전송 상태 조회에는 커서 페이지를 적용했습니다. 번호 이동이 필요한 기존 대용량 화면은 커버링 인덱스로 키를 먼저 찾고 본문을 지연 조인했으며, 데이터가 적은 화면에는 적용하지 않았습니다.",
+                validation:
+                    "조회 쿼리와 화면 이동을 함께 확인하고 데이터 증가가 예상되는 화면에만 적용해 기존 사용 방식을 유지했습니다.",
+                boundary:
+                    "커서 페이지는 임의 페이지 이동이 어렵고 지연 조인은 SQL이 복잡해집니다. 조회량이 적은 화면은 단순한 쿼리의 유지보수성을 우선했습니다.",
+            },
+            {
+                number: "02",
+                title: "비슷한 기관 연계 기능의 변경 지점을 줄인다",
+                constraint:
+                    "수신 자료와 통신사실확인자료의 화면, 인터페이스와 배치 흐름이 비슷해 기능마다 같은 분기와 변환 코드를 만들 가능성이 컸습니다.",
+                decision:
+                    "공통 처리 흐름은 제네릭과 enum으로 묶고 조회, 변환, 전송 책임은 클래스로 나눴습니다. 기관별 차이는 공통 흐름 안의 명시적인 확장 지점으로 남겼습니다.",
+                validation:
+                    "후속 수신 자료 기능에서 공통 코드를 재사용해 새 기능의 구현 범위와 변경 지점이 줄어드는 것을 확인했습니다.",
+                boundary:
+                    "공통 구조를 설계하는 동안 첫 기능의 개발 속도는 느려졌습니다. 동작이 다른 흐름까지 억지로 합치지 않도록 기관별 규칙은 분리했습니다.",
+            },
+            {
+                number: "03",
+                title: "먼저 도착한 PDF 콜백을 재조회로 복구한다",
+                constraint:
+                    "PDF 변환 콜백이 요청 상태 저장보다 먼저 도착하면 콜백 처리 시 조회 대상이 없어 정상 결과를 반영하지 못할 수 있었습니다.",
+                decision:
+                    "Spring Retry에 지수 백오프와 지터를 적용해 짧은 간격으로 상태를 다시 조회했습니다. 동시에 몰린 콜백의 재시도 시점도 분산했습니다.",
+                validation:
+                    "콜백과 상태 저장의 선후관계가 바뀌는 경우에도 재조회 후 처리가 이어지는 것을 확인했습니다.",
+                boundary:
+                    "재시도는 정해진 횟수 안에서만 수행합니다. 계속 조회되지 않는 요청은 실패 상태와 운영 확인 절차로 넘겨야 합니다.",
+            },
+            {
+                number: "04",
+                title: "외부 호출 중에는 DB 연결과 중복 작업을 오래 잡지 않는다",
+                constraint:
+                    "주기적으로 들어오는 연계 요청이 겹치고 외부 승인 API 응답이 늦어지면 같은 작업이 중복 실행되거나 DB 연결을 오래 점유할 수 있었습니다.",
+                decision:
+                    "외부 호출 전후의 DB 반영을 REQUIRES_NEW 트랜잭션으로 분리하고, 단일 애플리케이션 안에서는 ReentrantLock으로 겹친 실행을 막았습니다.",
+                validation:
+                    "동시 호출에서 진행 중인 작업이 다시 실행되지 않고 외부 호출 전후의 DB 반영이 나뉘는 것을 확인했습니다.",
+                boundary:
+                    "ReentrantLock은 한 JVM 안에서만 유효합니다. 다중 인스턴스로 확장하면 DB 락이나 분산 락 등 별도의 조정 수단이 필요합니다.",
+            },
+        ],
+        stack: [
+            "Java 11",
+            "Spring Boot 2.6",
+            "WebSquare",
+            "Maven",
+            "Spring Retry",
+            "EAI",
+            "Batch",
+            "SQL",
+        ],
+        links: [],
+        linkNote:
+            "보안 및 기밀 유지 기준에 따라 소스 코드, 운영 화면과 내부 설계 문서는 공개하지 않습니다.",
+    },
+    {
         id: "defense",
-        index: "03",
+        index: "04",
         presentation: "career-case",
         title: "차세대 군사법 정보 시스템",
         eyebrow: "공공 SI / 백엔드 개발 및 운영",
@@ -720,6 +837,8 @@ export const projectList = [
         route: "/projects/defense",
         tags: ["Java 8", "eGov", "MyBatis", "Tibero", "Jenkins"],
         visual: "defense",
+        stage: "종료",
+        visibility: "공개 가능 범위",
         proofs: [
             {
                 value: "3종",
@@ -811,6 +930,8 @@ export const projectList = [
         route: "/projects/webrtc",
         tags: ["WebRTC", "HLS", "React", "FFmpeg", "GStreamer"],
         visual: "webrtc",
+        stage: "종료",
+        visibility: "공개 저장소",
         proofs: [
             {
                 value: "6인",
@@ -848,6 +969,10 @@ export const projectList = [
         ],
     },
 ]
+
+const projectOrder = ["baton", "warrant", "happygallery", "defense", "webrtc"]
+
+export const projectList = projectOrder.map((id) => projects.find((project) => project.id === id))
 
 export const featuredProjects = projectList.filter((project) => project.presentation === "featured")
 

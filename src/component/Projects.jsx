@@ -2,6 +2,22 @@ import { Link } from "react-router-dom"
 import { projectList } from "../data/projects"
 import "../css/Projects.css"
 
+const ProjectLabels = ({ project }) => {
+    const labels = [project.stage, project.visibility].filter(Boolean).slice(0, 2)
+
+    if (labels.length === 0) {
+        return null
+    }
+
+    return (
+        <ul className="project-index__labels" aria-label={`프로젝트 상태: ${labels.join(", ")}`}>
+            {labels.map((label) => (
+                <li key={label}>{label}</li>
+            ))}
+        </ul>
+    )
+}
+
 const ProjectServices = ({ project }) => {
     if (!project.services) {
         return null
@@ -57,6 +73,7 @@ const ProjectIndex = ({ projects, label, education = false }) => (
                             <div className="project-index__title-block">
                                 <span>{project.eyebrow}</span>
                                 <h3>{project.title}</h3>
+                                <ProjectLabels project={project} />
                             </div>
                             <p className="project-index__summary">{project.summary}</p>
                             <div className="project-index__meta">

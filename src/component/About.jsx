@@ -1,6 +1,24 @@
 import { Link } from "react-router-dom"
-import { career, education, personalActivities, skillGroups } from "../data/profile"
+import { careers, education, personalActivities, skillGroups } from "../data/profile"
 import { projectsById } from "../data/projects"
+
+const CareerItem = ({ career }) => {
+    const project = projectsById[career.projectId]
+
+    return (
+        <article className="timeline__item">
+            <div className="timeline__period">{career.period}</div>
+            <div className="timeline__content">
+                <span>
+                    {career.organization} / {career.position}
+                </span>
+                <h4>{project.title}</h4>
+                <p>{career.description}</p>
+                <Link to={project.route}>경력 프로젝트 상세 보기 →</Link>
+            </div>
+        </article>
+    )
+}
 
 const About = () => {
     return (
@@ -40,15 +58,9 @@ const About = () => {
                         <h3 className="timeline__group-title" id="career-title">
                             경력
                         </h3>
-                        <article className="timeline__item">
-                            <div className="timeline__period">{career.period}</div>
-                            <div className="timeline__content">
-                                <span>{career.position}</span>
-                                <h4>{career.organization}</h4>
-                                <p>{career.description}</p>
-                                <Link to="/projects/defense">경력 프로젝트 상세 보기 →</Link>
-                            </div>
-                        </article>
+                        {careers.map((career) => (
+                            <CareerItem career={career} key={career.id} />
+                        ))}
                     </section>
 
                     <section className="timeline__group" aria-labelledby="activities-title">

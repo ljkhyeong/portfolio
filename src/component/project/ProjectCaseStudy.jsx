@@ -5,6 +5,22 @@ import "../../css/Project.css"
 
 const ProductVisual = ({ project }) => <ProjectScreenshotGallery project={project} context="case" />
 
+const ProjectLabels = ({ project }) => {
+    const labels = [project.stage, project.visibility].filter(Boolean).slice(0, 2)
+
+    if (labels.length === 0) {
+        return null
+    }
+
+    return (
+        <ul className="case-project-labels" aria-label={`프로젝트 상태: ${labels.join(", ")}`}>
+            {labels.map((label) => (
+                <li key={label}>{label}</li>
+            ))}
+        </ul>
+    )
+}
+
 const BatonServices = ({ services }) => {
     const core = services.find((service) => service.primary)
     const supporting = services.filter((service) => !service.primary)
@@ -78,9 +94,51 @@ const DefenseVisual = () => (
     </div>
 )
 
+const WarrantVisual = () => (
+    <div
+        className="case-visual case-visual--warrant"
+        role="img"
+        aria-label="요청 기관의 전자영장 요청이 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달되고, 제출 자료가 업무 시스템으로 돌아오는 흐름"
+    >
+        <div className="warrant-map__label">기관 연계 / 비식별 흐름</div>
+        <div className="warrant-map">
+            <div className="warrant-map__node warrant-map__node--requester">
+                <small>Request</small>
+                <strong>요청 기관</strong>
+                <span>자료 제공 요청</span>
+            </div>
+            <div className="warrant-map__connector" aria-hidden="true">
+                <span>전자영장 요청</span>
+            </div>
+            <div className="warrant-map__node warrant-map__node--portal">
+                <small>Portal / Interface</small>
+                <strong>집행포털 및 연계 계층</strong>
+                <span>검증 / 변환 / 상태 처리</span>
+            </div>
+            <div className="warrant-map__connector" aria-hidden="true">
+                <span>기관 전달</span>
+            </div>
+            <div className="warrant-map__responders">
+                <small>Response</small>
+                <strong>금융기관</strong>
+                <strong>통신사</strong>
+            </div>
+        </div>
+        <div className="warrant-map__return" aria-hidden="true">
+            <span>제출 자료</span>
+            <i />
+            <strong>업무 시스템 반영</strong>
+        </div>
+    </div>
+)
+
 const ProjectVisual = ({ project }) => {
     if (project.presentation === "featured") {
         return <ProductVisual project={project} />
+    }
+
+    if (project.visual === "warrant") {
+        return <WarrantVisual />
     }
 
     return <DefenseVisual />
@@ -202,6 +260,7 @@ const PriorExperienceCase = ({ project }) => {
                     <span>{technology}</span>
                     <span>{subject.join(" ")}</span>
                 </h1>
+                <ProjectLabels project={project} />
                 <p className="prior-case__summary">{project.summary}</p>
                 <dl className="prior-case__facts">
                     <div>
@@ -278,6 +337,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                         </h1>
                     </div>
                     <div className="case-hero__intro">
+                        <ProjectLabels project={project} />
                         <p>{project.summary}</p>
                         <ul className="case-hero__tags" aria-label="주요 기술">
                             {project.tags.map((tag) => (
@@ -328,7 +388,9 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <section className="case-system" id="project-system" aria-labelledby="system-title">
                     <div className="case-section-heading">
                         <span>01</span>
-                        <h2 id="system-title">대표 화면 및 서비스 구성</h2>
+                        <h2 id="system-title">
+                            {project.systemTitle ?? "대표 화면 및 서비스 구성"}
+                        </h2>
                     </div>
                     <ProjectVisual project={project} />
                     {project.services ? <BatonServices services={project.services} /> : null}

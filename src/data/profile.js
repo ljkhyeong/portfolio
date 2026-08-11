@@ -13,13 +13,13 @@ export const portfolioProfile = {
         tail: "로 만듭니다.",
     },
     webSummary:
-        "공공 시스템의 기관 연계 배치를 개발하고 운영 장애에 대응했습니다. 개인 프로젝트에서는 결제 및 환불 멱등성, 알림 아웃박스와 서비스별 데이터 분리를 구현했습니다.",
+        "공공 시스템에서 기관 연계 인터페이스와 배치를 개발하고 운영 장애에 대응했습니다. 개인 프로젝트에서는 결제 및 환불 멱등성, 알림 아웃박스와 서비스별 데이터 분리를 구현했습니다.",
     printHeadline: {
         lead: "실패 이후까지 설계하는",
         emphasis: "백엔드 개발자",
     },
     printSummary:
-        "공공 시스템에서 기능을 개발하고 운영 장애에 대응했으며, 개인 프로젝트에서는 멱등성, 데이터 정합성, 복구 경로를 코드와 테스트로 구체화했습니다.",
+        "공공 시스템의 기관 연계 인터페이스와 배치를 개발하고 운영 장애에 대응했으며, 개인 프로젝트에서는 멱등성, 데이터 정합성, 복구 경로를 코드와 테스트로 구체화했습니다.",
 }
 
 export const workPrinciples = [
@@ -64,16 +64,30 @@ export const education = {
         "HLS 서버와 React 화면을 맡았습니다. WebSocket 제어와 WebRTC/RTP 미디어 경로를 분리하고 FFmpeg와 GStreamer로 HLS를 변환해 지연을 약 30초에서 11초로 줄였습니다.",
 }
 
-export const career = {
-    period: "2024.06 — 2026.01",
-    organization: "BEINTECH",
-    position: "백엔드 개발 및 운영",
-    projectId: "defense",
-    description:
-        "차세대 군사법 정보 시스템의 군교정 영역에서 기관 연계 배치, 보안 기능, 장애 대응을 맡았습니다. Java 8, eGov, MyBatis, Tibero 기반의 폐쇄망 환경에서 로그와 DB, 배치 흐름을 함께 확인했습니다.",
-    printDescription:
-        "차세대 군사법 정보 시스템 군교정 부문에서 기관 연계 배치, 보안 기능, 로그 및 DB 기반 장애 대응을 담당했습니다.",
-}
+export const careers = [
+    {
+        id: "e-warrant",
+        period: "2026.03 — 진행 중",
+        organization: "LG CNS 컨소시엄 프로젝트",
+        position: "해양경찰 KICS 연계 개발",
+        projectId: "warrant",
+        description:
+            "전송형 전자영장 시스템에서 통신사실확인자료 개선과 집행포털 연계를 담당하고 있습니다. 기관 간 요청 및 제출 자료를 인터페이스와 배치로 전환하고, 대용량 조회와 외부 연동의 실패 경계를 설계했습니다.",
+        printDescription:
+            "통신사실확인자료 개선과 집행포털 연계를 담당하며 기관 간 요청 및 제출 자료를 인터페이스와 배치로 전환하고 있습니다.",
+    },
+    {
+        id: "beintech",
+        period: "2024.06 — 2026.01",
+        organization: "BEINTECH",
+        position: "백엔드 개발 및 운영",
+        projectId: "defense",
+        description:
+            "차세대 군사법 정보 시스템의 군교정 영역에서 기관 연계 배치, 보안 기능, 장애 대응을 맡았습니다. Java 8, eGov, MyBatis, Tibero 기반의 폐쇄망 환경에서 로그와 DB, 배치 흐름을 함께 확인했습니다.",
+        printDescription:
+            "차세대 군사법 정보 시스템 군교정 부문에서 기관 연계 배치, 보안 기능, 로그 및 DB 기반 장애 대응을 담당했습니다.",
+    },
+]
 
 export const personalActivities = [
     {
@@ -109,7 +123,7 @@ export const personalActivities = [
 export const skillGroups = [
     {
         label: "백엔드",
-        items: ["Java 21 / 8", "Spring Boot / eGov", "JPA / MyBatis", "포트와 어댑터"],
+        items: ["Java 21 / 11 / 8", "Spring Boot / eGov", "JPA / MyBatis", "포트와 어댑터"],
         proof: "BATON, happyGallery, 공공 SI",
     },
     {
@@ -127,7 +141,7 @@ export const skillGroups = [
 export const printSkillGroups = [
     {
         label: "Backend",
-        detail: "Java 21 / 8, Spring Boot, eGov 4.1, JPA, MyBatis",
+        detail: "Java 21 / 11 / 8, Spring Boot, eGov 4.1, JPA, MyBatis",
     },
     {
         label: "Architecture",
