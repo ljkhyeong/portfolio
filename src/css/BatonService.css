@@ -52,10 +52,10 @@
 .baton-service-hero {
     display: grid;
     grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
-    gap: clamp(42px, 7vw, 108px);
+    gap: clamp(36px, 5vw, 72px);
     align-items: end;
-    min-height: 400px;
-    padding: clamp(54px, 6.5vw, 82px) 0 44px;
+    min-height: 320px;
+    padding: clamp(42px, 5vw, 60px) 0 34px;
 }
 
 .baton-service-kicker,
@@ -71,7 +71,7 @@
 
 .baton-service-hero h1 {
     margin: 18px 0 0;
-    font-size: clamp(68px, 10vw, 124px);
+    font-size: clamp(56px, 7.5vw, 92px);
     font-weight: 760;
     letter-spacing: -0.09em;
     line-height: 0.84;
@@ -79,7 +79,7 @@
 
 .baton-service-hero__intro > strong {
     display: block;
-    font-size: clamp(21px, 2.2vw, 30px);
+    font-size: clamp(20px, 1.8vw, 25px);
     letter-spacing: -0.04em;
 }
 
@@ -129,10 +129,15 @@
     line-height: 1.65;
 }
 
-.baton-service-boundary,
 .baton-service-problems,
 .baton-service-documents {
-    padding: clamp(56px, 6.2vw, 80px) 0;
+    padding: clamp(38px, 4vw, 50px) 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 24px;
+}
+
+.baton-service-boundary {
+    padding: clamp(50px, 5.5vw, 72px) 0;
     border-top: 1px solid var(--line);
     scroll-margin-top: 24px;
 }
@@ -191,9 +196,9 @@
 
 .baton-service-section-heading {
     display: grid;
-    grid-template-columns: 88px 1fr;
+    grid-template-columns: 68px 1fr;
     align-items: baseline;
-    margin-bottom: 42px;
+    margin-bottom: 24px;
 }
 
 .baton-service-section-heading span {
@@ -202,8 +207,16 @@
 
 .baton-service-section-heading h2 {
     margin: 0;
-    font-size: clamp(32px, 4.2vw, 52px);
+    font-size: clamp(27px, 2.6vw, 36px);
     letter-spacing: -0.055em;
+}
+
+.baton-service-boundary .baton-service-section-heading {
+    margin-bottom: 28px;
+}
+
+.baton-service-boundary .baton-service-section-heading h2 {
+    font-size: clamp(28px, 3vw, 40px);
 }
 
 .service-boundary-flow {
@@ -267,8 +280,8 @@
 
 .baton-service-boundary blockquote {
     max-width: 820px;
-    margin: 34px 0 0 auto;
-    padding: 20px 0 0 22px;
+    margin: 26px 0 0 auto;
+    padding: 16px 0 0 18px;
     border-top: 1px solid var(--line);
     border-left: 3px solid var(--accent);
     color: var(--muted);
@@ -290,9 +303,9 @@
 
 .service-problem {
     display: grid;
-    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
-    gap: clamp(42px, 8vw, 108px);
-    padding: 44px 0 52px;
+    grid-template-columns: minmax(220px, 0.62fr) minmax(0, 1.38fr);
+    gap: clamp(32px, 5vw, 64px);
+    padding: 28px 0 32px;
     border-top: 1px solid var(--ink);
 }
 
@@ -311,9 +324,10 @@
 
 .service-problem h3 {
     margin: 0;
-    font-size: clamp(26px, 3vw, 40px);
+    font-size: clamp(24px, 2.25vw, 31px);
     letter-spacing: -0.05em;
     line-height: 1.16;
+    word-break: keep-all;
 }
 
 .service-problem dl {
@@ -322,9 +336,9 @@
 
 .service-problem dl > div {
     display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 22px;
-    padding: 18px 0;
+    grid-template-columns: 118px 1fr;
+    gap: 18px;
+    padding: 14px 0;
     border-top: 1px solid var(--line);
 }
 
@@ -343,11 +357,13 @@
     font-family: var(--mono);
     font-size: 11px;
     font-weight: 750;
+    overflow-wrap: normal;
+    word-break: keep-all;
 }
 
 .service-problem dd {
     font-size: 16px;
-    line-height: 1.75;
+    line-height: 1.64;
 }
 
 .service-problem__tradeoff {
@@ -363,24 +379,24 @@
 }
 
 .service-document-counts article {
-    min-height: 140px;
-    padding: 24px 22px 26px 0;
+    min-height: 104px;
+    padding: 18px 18px 20px 0;
 }
 
 .service-document-counts article + article {
-    padding-left: 22px;
+    padding-left: 18px;
     border-left: 1px solid var(--line);
 }
 
 .service-document-counts strong {
     display: block;
     margin-top: 12px;
-    font-size: 40px;
+    font-size: 32px;
     letter-spacing: -0.055em;
 }
 
 .service-document-links {
-    margin-top: 42px;
+    margin-top: 30px;
 }
 
 .service-document-links h3 {
@@ -398,7 +414,7 @@
 }
 
 .service-document-links article {
-    padding: 22px 0;
+    padding: 16px 0;
     border-top: 1px solid var(--line);
 }
 
@@ -439,7 +455,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 30px;
-    padding: 48px 0 74px;
+    padding: 36px 0 50px;
     border-top: 1px solid var(--line);
     font-family: var(--mono);
     font-size: 11px;
@@ -475,7 +491,7 @@
     .baton-service-hero {
         min-height: 0;
         gap: 30px;
-        padding-top: 52px;
+        padding-top: 42px;
     }
 
     .service-boundary-flow {
@@ -504,7 +520,7 @@
     }
 
     .baton-service-hero h1 {
-        font-size: clamp(52px, 17vw, 68px);
+        font-size: clamp(44px, 14vw, 56px);
     }
 
     .baton-service-index {
@@ -534,7 +550,7 @@
     }
 
     .baton-service-section-heading {
-        gap: 12px;
+        gap: 8px;
     }
 
     .service-document-counts {
@@ -685,8 +701,8 @@
 }
 
 .service-problem {
-    padding-right: 26px;
-    padding-left: 26px;
+    padding-right: 22px;
+    padding-left: 22px;
     border-color: var(--line);
 }
 
@@ -699,7 +715,7 @@
 }
 
 .service-document-counts article {
-    padding-left: 22px;
+    padding-left: 18px;
 }
 
 .service-document-links article a,
@@ -767,6 +783,7 @@
     .service-problem {
         padding-right: 18px;
         padding-left: 18px;
+        gap: 24px;
     }
 
     .service-document-counts article,
