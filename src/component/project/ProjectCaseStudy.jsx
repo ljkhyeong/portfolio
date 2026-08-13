@@ -27,11 +27,19 @@ const ProjectLabels = ({ project }) => {
 
 const ProjectEvidenceLinks = ({ project }) => {
     const candidates = [
-        project.links?.[0],
+        project.links?.[0]
+            ? {
+                  ...project.links[0],
+                  shortLabel: project.links[0].href.includes("github.com")
+                      ? "GitHub 저장소"
+                      : project.links[0].label,
+              }
+            : null,
         project.documents?.[0]
             ? {
                   href: project.documents[0].href,
                   label: `대표 문서: ${project.documents[0].label}`,
+                  shortLabel: "대표 문서",
               }
             : null,
     ].filter(Boolean)
@@ -48,8 +56,13 @@ const ProjectEvidenceLinks = ({ project }) => {
         <ul className="case-hero__evidence" aria-label="프로젝트 근거 바로가기">
             {links.map((link) => (
                 <li key={link.href}>
-                    <a href={link.href} target="_blank" rel="noreferrer">
-                        {link.label}
+                    <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${link.label} 새 창에서 보기`}
+                    >
+                        {link.shortLabel ?? link.label}
                         <span aria-hidden="true">↗</span>
                     </a>
                 </li>
@@ -293,14 +306,18 @@ const PriorExperienceCase = ({ project }) => {
                 <Link to="/" className="case-study-nav__home">
                     <span aria-hidden="true">←</span> 포트폴리오
                 </Link>
-                <ProjectSwitcher contextLabel="교육 프로젝트" />
+                <ProjectSwitcher contextLabel="경력 및 개인 프로젝트" />
             </nav>
             <article className="prior-case">
-                <span className="case-kicker">{project.eyebrow}</span>
+                <div className="case-kicker prior-case__kicker">
+                    <span>교육 프로젝트</span>
+                    <span>{project.eyebrow}</span>
+                </div>
                 <h1
                     id="prior-project-title"
                     aria-label={project.title}
                     data-route-heading={project.route}
+                    tabIndex={-1}
                 >
                     <span>{technology}</span>
                     <span>{subject.join(" ")}</span>
@@ -328,7 +345,13 @@ const PriorExperienceCase = ({ project }) => {
                 <p className="prior-case__note">{project.status.text}</p>
                 <div className="prior-case__links">
                     {project.links.map((link) => (
-                        <a href={link.href} target="_blank" rel="noreferrer" key={link.href}>
+                        <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${link.label} 새 창에서 보기`}
+                            key={link.href}
+                        >
                             {link.label} ↗
                         </a>
                     ))}
@@ -382,27 +405,24 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <ProjectSwitcher currentProjectId={projectId} />
             </nav>
 
-            {project.services ? <BatonServiceSwitcher services={project.services} /> : null}
-
             <article className="case-study">
                 <header className="case-hero">
                     <div className="case-hero__heading">
                         <span className="case-kicker">{project.eyebrow}</span>
-                        <h1 id="project-title" data-route-heading={project.route}>
+                        <h1 id="project-title" data-route-heading={project.route} tabIndex={-1}>
                             {project.title}
                         </h1>
                     </div>
                     <div className="case-hero__intro">
-                        <ProjectLabels project={project} />
                         <p>{project.summary}</p>
-                        <ul className="case-hero__tags" aria-label="주요 기술">
-                            {project.tags.map((tag) => (
-                                <li key={tag}>{tag}</li>
-                            ))}
-                        </ul>
-                        <ProjectEvidenceLinks project={project} />
+                        <div className="case-hero__support">
+                            <ProjectLabels project={project} />
+                            <ProjectEvidenceLinks project={project} />
+                        </div>
                     </div>
                 </header>
+
+                {project.services ? <BatonServiceSwitcher services={project.services} /> : null}
 
                 <CaseSectionNavigation
                     hasArchitecture={hasArchitecture}

@@ -25,24 +25,32 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 <Link to="/projects/baton">← BATON 전체 보기</Link>
                 <span>services/{serviceId}.md</span>
             </nav>
-            <BatonServiceSwitcher services={project.services} currentServiceId={serviceId} />
 
             <article className="baton-service-case">
                 <header className="baton-service-hero">
                     <div>
                         <span className="baton-service-kicker">BATON / {service.kind}</span>
-                        <h1 id="service-title" data-route-heading={service.route}>
+                        <h1 id="service-title" data-route-heading={service.route} tabIndex={-1}>
                             {service.name}
                         </h1>
                     </div>
                     <div className="baton-service-hero__intro">
                         <strong>{service.role}</strong>
                         <p>{service.detail}</p>
-                        <ul aria-label="서비스 정보">
-                            <li>{service.database}</li>
-                            <li>{service.visibility}</li>
-                            <li>{service.evidence}</li>
-                        </ul>
+                        <dl className="baton-service-hero__facts" aria-label="서비스 정보">
+                            <div>
+                                <dt>DB</dt>
+                                <dd>{service.database}</dd>
+                            </div>
+                            <div>
+                                <dt>공개 범위</dt>
+                                <dd>{service.visibility}</dd>
+                            </div>
+                            <div>
+                                <dt>검증 근거</dt>
+                                <dd>{service.evidence}</dd>
+                            </div>
+                        </dl>
                     </div>
                 </header>
 
@@ -50,6 +58,8 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     <code>[status]</code>
                     <p>{service.status}</p>
                 </aside>
+
+                <BatonServiceSwitcher services={project.services} currentServiceId={serviceId} />
 
                 <nav className="baton-service-index" aria-label="서비스 상세 섹션 바로가기">
                     <span aria-hidden="true">페이지 내 이동</span>

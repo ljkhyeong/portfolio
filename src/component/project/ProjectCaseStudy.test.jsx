@@ -46,8 +46,13 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 근거 바로가기" })
 
-    expect(evidenceLinks).toHaveTextContent("BATON WATCH GitHub 저장소")
-    expect(evidenceLinks).toHaveTextContent("대표 문서: Core 헥사고날 아키텍처")
+    expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
+    expect(evidenceLinks).toHaveTextContent("대표 문서")
+    expect(
+        within(evidenceLinks).getByRole("link", {
+            name: "BATON WATCH GitHub 저장소 새 창에서 보기",
+        }),
+    ).toHaveAttribute("href", "https://github.com/ljkhyeong/baton-watch")
 
     const additionalProblems = screen.getByText("추가 문제 해결 8건 보기").closest("details")
     const featuredProblemList = screen.getByRole("list", { name: "대표 문제 해결 목록" })
@@ -60,9 +65,15 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     expect(additionalProblems).toHaveAttribute("open")
     expect(screen.getByRole("list", { name: "추가 문제 해결 목록" })).toBeInTheDocument()
 
-    const projectSwitcher = screen.getByRole("navigation", {
+    const projectSwitcher = screen.getByRole("group", {
         name: "경력 및 개인 프로젝트 바로가기",
     })
+    const projectMenu = within(projectSwitcher).getByText("프로젝트 이동").closest("details")
+
+    expect(projectMenu).not.toHaveAttribute("open")
+    await userEvent.click(within(projectSwitcher).getByText("프로젝트 이동"))
+    expect(projectMenu).toHaveAttribute("open")
+
     expect(
         within(projectSwitcher).getByRole("list", { name: "경력 프로젝트 바로가기" }),
     ).toBeInTheDocument()
@@ -86,6 +97,11 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
             name: "차세대 군사법 정보 시스템 프로젝트로 이동",
         }),
     ).toHaveAttribute("href", "/projects/defense")
+
+    await userEvent.click(
+        within(projectSwitcher).getByRole("link", { name: "BATON 프로젝트로 이동" }),
+    )
+    expect(projectMenu).not.toHaveAttribute("open")
 
     const serviceSwitcher = screen.getByRole("navigation", {
         name: "BATON 서비스 바로가기",
@@ -111,7 +127,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 근거 바로가기" })
 
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
-    expect(evidenceLinks).toHaveTextContent("대표 문서: 제품 기준 스펙")
+    expect(evidenceLinks).toHaveTextContent("대표 문서")
     expect(screen.getByText("추가 문제 해결 2건 보기").closest("details")).not.toHaveAttribute(
         "open",
     )
@@ -174,6 +190,10 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
         "href",
         "/projects/baton",
     )
+    const serviceFacts = screen.getByLabelText("서비스 정보")
+    expect(within(serviceFacts).getByText("DB")).toBeInTheDocument()
+    expect(within(serviceFacts).getByText("공개 범위")).toBeInTheDocument()
+    expect(within(serviceFacts).getByText("검증 근거")).toBeInTheDocument()
 })
 
 test.each([

@@ -53,13 +53,19 @@
     color: var(--muted);
 }
 
+.baton-service-nav > a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+}
+
 .baton-service-hero {
     display: grid;
     grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
     gap: clamp(36px, 5vw, 72px);
     align-items: end;
-    min-height: 320px;
-    padding: clamp(42px, 5vw, 60px) 0 34px;
+    min-height: 280px;
+    padding: clamp(36px, 4.5vw, 52px) 0 30px;
 }
 
 .baton-service-kicker,
@@ -95,21 +101,42 @@
     word-break: keep-all;
 }
 
-.baton-service-hero__intro ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 28px 0 0;
-    padding: 0;
-    list-style: none;
+.baton-service-hero__facts {
+    display: grid;
+    gap: 6px;
+    margin: 20px 0 0;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--line);
 }
 
-.baton-service-hero__intro li {
-    padding: 8px 10px;
-    border: 1px solid var(--line);
+.baton-service-hero__facts > div {
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    min-height: 28px;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.baton-service-hero__facts dt,
+.baton-service-hero__facts dd {
+    margin: 0;
     font-family: var(--mono);
     font-size: 14px;
+    line-height: 1.4;
+}
+
+.baton-service-hero__facts dt {
+    color: var(--muted);
     font-weight: 700;
+}
+
+.baton-service-hero__facts dt::after {
+    content: ":";
+}
+
+.baton-service-hero__facts dd {
+    color: var(--ink);
+    font-weight: 650;
 }
 
 .baton-service-status {
@@ -131,6 +158,10 @@
     color: rgba(255, 255, 255, 0.72);
     font-size: 16px;
     line-height: 1.65;
+}
+
+.baton-service-case > .baton-service-switcher {
+    width: 100%;
 }
 
 .baton-service-problems,
@@ -613,7 +644,8 @@
 .baton-service-kicker,
 .baton-service-section-heading span,
 .baton-service-status code,
-.baton-service-hero__intro li,
+.baton-service-hero__facts dt,
+.baton-service-hero__facts dd,
 .service-boundary-flow code,
 .service-document-counts code,
 .service-document-links code,
@@ -646,11 +678,6 @@
 .baton-service-index a:hover,
 .baton-service-index a:focus-visible {
     color: var(--accent);
-}
-
-.baton-service-hero__intro li {
-    border-radius: 6px;
-    background: var(--paper-raised);
 }
 
 .baton-service-status {
@@ -802,6 +829,8 @@
         flex-wrap: nowrap;
         overflow-x: auto;
         overscroll-behavior-inline: contain;
+        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+        mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
         scrollbar-width: none;
     }
 
