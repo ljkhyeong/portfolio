@@ -35,7 +35,7 @@ export const routeMeta = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "LG CNS 컨소시엄 참여 프로젝트에서 독립망 간 기관 연계 인터페이스와 배치, 대용량 조회 및 외부 연동의 실패 경계를 다룬 전송형 전자영장 시스템 사례",
+            "LG CNS 컨소시엄 참여 프로젝트에서 독립망 간 기관 연계 인터페이스와 Spring Batch, 대용량 조회 및 외부 연동의 실패 경계를 다룬 전송형 전자영장 시스템 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {

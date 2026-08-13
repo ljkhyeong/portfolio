@@ -42,12 +42,12 @@ const ProjectServices = ({ project }) => {
     )
 }
 
-const ProjectIndex = ({ projects, label, education = false }) => (
-    <>
+const ProjectIndex = ({ projects, label, type, education = false, separated = false }) => (
+    <section className="project-index__section" aria-labelledby={`${type}-projects-title`}>
         <div
-            className={`project-index__group${education ? " project-index__group--education" : ""}`}
+            className={`project-index__group${separated ? " project-index__group--separated" : ""}`}
         >
-            <strong>{label}</strong>
+            <h3 id={`${type}-projects-title`}>{label}</h3>
             <span>{String(projects.length).padStart(2, "0")}</span>
         </div>
         <ol
@@ -70,7 +70,7 @@ const ProjectIndex = ({ projects, label, education = false }) => (
                         >
                             <div className="project-index__title-block">
                                 <span>{project.eyebrow}</span>
-                                <h3>{project.title}</h3>
+                                <h4>{project.title}</h4>
                                 <ProjectLabels project={project} />
                             </div>
                             <p className="project-index__summary">{project.summary}</p>
@@ -87,15 +87,16 @@ const ProjectIndex = ({ projects, label, education = false }) => (
                 </li>
             ))}
         </ol>
-    </>
+    </section>
 )
 
 const Projects = () => {
-    const mainProjects = projectSummaries.filter(
-        (project) => project.presentation !== "prior-experience",
+    const careerProjects = projectSummaries.filter((project) => project.projectType === "career")
+    const personalProjects = projectSummaries.filter(
+        (project) => project.projectType === "personal",
     )
     const educationProjects = projectSummaries.filter(
-        (project) => project.presentation === "prior-experience",
+        (project) => project.projectType === "education",
     )
 
     return (
@@ -106,9 +107,21 @@ const Projects = () => {
                 <p>프로젝트를 선택하면 역할, 설계 판단, 문제 해결과 대표 문서를 볼 수 있습니다.</p>
             </div>
 
-            <ProjectIndex projects={mainProjects} label="주요 프로젝트" />
+            <ProjectIndex projects={careerProjects} label="경력 프로젝트" type="career" />
+            <ProjectIndex
+                projects={personalProjects}
+                label="개인 프로젝트"
+                type="personal"
+                separated
+            />
             {educationProjects.length > 0 && (
-                <ProjectIndex projects={educationProjects} label="교육 프로젝트" education />
+                <ProjectIndex
+                    projects={educationProjects}
+                    label="교육 프로젝트"
+                    type="education"
+                    education
+                    separated
+                />
             )}
         </section>
     )

@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest"
 import { projectSummaries, projectSummariesById } from "./projectSummaries"
-import { projectsById } from "./projects"
+import {
+    careerCaseStudies,
+    educationCaseStudies,
+    personalCaseStudies,
+    projectsById,
+} from "./projects"
 
 describe("project summary data", () => {
     it("keeps home summaries in the same order and content as detailed projects", () => {
@@ -18,5 +23,25 @@ describe("project summary data", () => {
             .map(({ id, name, route }) => ({ id, name, route }))
 
         expect(projectSummariesById.baton.serviceLinks).toEqual(detailedServiceLinks)
+    })
+
+    it("separates career, personal, and education projects in recruiter-first order", () => {
+        expect(careerCaseStudies.map((project) => project.id)).toEqual(["warrant", "defense"])
+        expect(personalCaseStudies.map((project) => project.id)).toEqual(["baton", "happygallery"])
+        expect(educationCaseStudies.map((project) => project.id)).toEqual(["webrtc"])
+    })
+
+    it("keeps architecture patterns out of technology tags and names Spring Batch exactly", () => {
+        expect(projectsById.warrant.stack).toEqual([
+            "Java 11",
+            "Spring Boot 2.6",
+            "Spring Batch",
+            "WebSquare",
+            "Maven",
+        ])
+        expect(projectsById.warrant.stack).not.toContain("Spring Retry")
+        expect(projectSummariesById.baton.tags).not.toContain("Outbox")
+        expect(projectSummariesById.happygallery.tags).not.toContain("헥사고날 아키텍처")
+        expect(projectSummariesById.warrant.tags).toContain("Spring Batch")
     })
 })

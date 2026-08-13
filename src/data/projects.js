@@ -673,7 +673,7 @@ const projects = [
         stack: [
             "Java",
             "Spring Boot",
-            "Gradle 멀티모듈",
+            "Gradle",
             "JPA",
             "MyBatis",
             "MySQL",
@@ -682,6 +682,7 @@ const projects = [
             "TypeScript",
             "Testcontainers",
             "Playwright",
+            "Spring REST Docs",
         ],
         links: [
             {
@@ -717,7 +718,7 @@ const projects = [
         ],
         category: "LG CNS 컨소시엄 공공 SI",
         role: "해양경찰 KICS 통신사실확인자료 개선 및 독립망 간 전자영장 집행포털 연계",
-        oneLine: "독립망 사이의 요청과 제출 자료를 인터페이스 및 배치로 연계",
+        oneLine: "독립망 사이의 요청과 제출 자료를 인터페이스 및 Spring Batch로 연계",
         status: {
             label: "공개 범위",
             text: "LG CNS 컨소시엄 참여 프로젝트로 현재 진행 중인 공공 SI입니다. 독립망 간 연계 구조와 직접 수행한 역할은 공개하고, 실제 접속 주소, 운영 값, 보안 설정, 소스 코드와 내부 문서만 제외했습니다.",
@@ -751,7 +752,7 @@ const projects = [
                 number: "02",
                 title: "기관 연계 기능의 공통 처리 흐름을 재사용한다",
                 constraint:
-                    "수신 자료와 통신사실확인자료의 화면, 인터페이스와 배치 흐름이 비슷해 기능마다 같은 분기와 변환 코드를 만들 가능성이 컸습니다.",
+                    "수신 자료와 통신사실확인자료의 화면, 인터페이스와 Spring Batch 흐름이 비슷해 기능마다 같은 분기와 변환 코드를 만들 가능성이 컸습니다.",
                 decision:
                     "공통 처리 흐름은 제네릭과 enum으로 묶고 조회, 변환과 전송은 책임별 클래스로 나눴습니다. 기관별 차이는 별도 구현으로 분리했습니다.",
                 validation:
@@ -784,16 +785,7 @@ const projects = [
                     "ReentrantLock은 한 JVM 안에서만 유효합니다. 다중 인스턴스로 확장하면 DB 락이나 분산 락 등 별도의 조정 수단이 필요합니다.",
             },
         ],
-        stack: [
-            "Java 11",
-            "Spring Boot 2.6",
-            "WebSquare",
-            "Maven",
-            "Spring Retry",
-            "EAI",
-            "Batch",
-            "SQL",
-        ],
+        stack: ["Java 11", "Spring Boot 2.6", "Spring Batch", "WebSquare", "Maven"],
         links: [],
         linkNote:
             "보안 및 기밀 유지 기준에 따라 소스 코드, 운영 화면과 내부 설계 문서는 공개하지 않습니다.",
@@ -925,11 +917,22 @@ export const projectList = projectSummaries.map(({ id }) =>
     projects.find((project) => project.id === id),
 )
 
-export const featuredProjects = projectList.filter((project) => project.presentation === "featured")
+export const careerCaseStudies = projectList.filter((project) => project.projectType === "career")
 
-export const navigableCaseStudies = projectList.filter(
-    (project) => project.presentation !== "prior-experience",
+export const personalCaseStudies = projectList.filter(
+    (project) => project.projectType === "personal",
 )
+
+export const educationCaseStudies = projectList.filter(
+    (project) => project.projectType === "education",
+)
+
+export const navigableCaseStudyGroups = [
+    { id: "career", label: "경력", title: "경력 프로젝트", projects: careerCaseStudies },
+    { id: "personal", label: "개인", title: "개인 프로젝트", projects: personalCaseStudies },
+]
+
+export const navigableCaseStudies = navigableCaseStudyGroups.flatMap((group) => group.projects)
 
 export const projectsById = Object.fromEntries(projectList.map((project) => [project.id, project]))
 

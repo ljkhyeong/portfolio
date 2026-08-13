@@ -560,7 +560,10 @@ const ProjectCaseStudy = ({ projectId }) => {
 
             <footer className="case-next">
                 <Link to={nextProject.route}>
-                    <span>다음 사례 / {nextProject.index}</span>
+                    <span>
+                        다음 프로젝트 / {nextProject.projectType === "career" ? "경력" : "개인"}{" "}
+                        {nextProject.index}
+                    </span>
                     <strong>{nextProject.title}</strong>
                     <span className="case-next__arrow" aria-hidden="true">
                         →

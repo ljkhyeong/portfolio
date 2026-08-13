@@ -16,7 +16,28 @@
     white-space: nowrap;
 }
 
-.project-switcher ol {
+.project-switcher__groups {
+    display: flex;
+    min-width: 0;
+    gap: 8px;
+}
+
+.project-switcher__group {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 6px;
+}
+
+.project-switcher__group > span {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.project-switcher__group ol {
     display: flex;
     min-width: 0;
     margin: 0;
@@ -27,7 +48,7 @@
     list-style: none;
 }
 
-.project-switcher li + li {
+.project-switcher__group li + li {
     border-left: 1px solid var(--line);
 }
 
@@ -83,23 +104,27 @@
         gap: 8px;
     }
 
-    .project-switcher ol {
+    .project-switcher__groups {
         width: 100%;
-        overflow-x: auto;
-        overscroll-behavior-inline: contain;
-        scrollbar-width: none;
+        justify-content: flex-end;
     }
 
-    .project-switcher ol::-webkit-scrollbar {
-        display: none;
+    .project-switcher__group {
+        flex: 1 1 0;
     }
 
-    .project-switcher li {
-        flex: 1 0 auto;
+    .project-switcher__group ol {
+        flex: 1 1 auto;
     }
 
-    .project-switcher a {
-        justify-content: center;
+    .project-switcher__group li {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .project-switcher__group a {
+        width: 100%;
+        justify-content: flex-start;
     }
 }
 
@@ -108,21 +133,29 @@
         font-size: 12px;
     }
 
-    .project-switcher ol {
+    .project-switcher__groups {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        overflow: hidden;
+        gap: 8px;
     }
 
-    .project-switcher li {
-        min-width: 0;
+    .project-switcher__group {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 5px;
     }
 
-    .project-switcher li:nth-child(3) {
+    .project-switcher__group > span {
+        padding-left: 2px;
+    }
+
+    .project-switcher__group ol {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .project-switcher__group li + li {
         border-left: 0;
-    }
-
-    .project-switcher li:nth-child(n + 3) {
         border-top: 1px solid var(--line);
     }
 

@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from "@testing-library/react"
+import { act, render, screen, waitFor, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import App from "./App"
 
@@ -17,25 +17,42 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     )
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
-    const batonHeading = screen.getByRole("heading", {
+    const careerProjects = screen.getByRole("list", { name: "경력 프로젝트" })
+    const personalProjects = screen.getByRole("list", { name: "개인 프로젝트" })
+    const educationProjects = screen.getByRole("list", { name: "교육 프로젝트" })
+    const batonHeading = within(personalProjects).getByRole("heading", {
         name: "BATON",
-        level: 3,
+        level: 4,
     })
 
     expect(batonHeading).toBeInTheDocument()
     expect(
-        screen.getByRole("heading", { name: "전송형 전자영장 시스템", level: 3 }),
-    ).toBeInTheDocument()
-    expect(screen.getByRole("heading", { name: "happyGallery", level: 3 })).toBeInTheDocument()
-    expect(
-        screen.getByRole("heading", { name: "차세대 군사법 정보 시스템", level: 3 }),
-    ).toBeInTheDocument()
-    expect(
-        screen.getByRole("heading", {
-            name: "WebRTC/HLS 현장강의 보조 서비스",
-            level: 3,
+        within(careerProjects).getByRole("heading", {
+            name: "전송형 전자영장 시스템",
+            level: 4,
         }),
     ).toBeInTheDocument()
+    expect(
+        within(personalProjects).getByRole("heading", { name: "happyGallery", level: 4 }),
+    ).toBeInTheDocument()
+    expect(
+        within(careerProjects).getByRole("heading", {
+            name: "차세대 군사법 정보 시스템",
+            level: 4,
+        }),
+    ).toBeInTheDocument()
+    expect(
+        within(educationProjects).getByRole("heading", {
+            name: "WebRTC/HLS 현장강의 보조 서비스",
+            level: 4,
+        }),
+    ).toBeInTheDocument()
+    expect(careerProjects.compareDocumentPosition(personalProjects)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(personalProjects.compareDocumentPosition(educationProjects)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    )
     await act(async () => {
         userEvent.click(screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" }))
     })
@@ -118,12 +135,13 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
 
     const educationHeading = screen.getByRole("heading", { name: "교육", level: 3 })
     const careerHeading = screen.getByRole("heading", { name: "경력", level: 3 })
+    const educationSection = educationHeading.closest("section")
 
     expect(educationHeading.compareDocumentPosition(careerHeading)).toBe(
         Node.DOCUMENT_POSITION_FOLLOWING,
     )
     expect(
-        screen.getByRole("heading", {
+        within(educationSection).getByRole("heading", {
             name: "WebRTC/HLS 현장강의 보조 서비스",
             level: 4,
         }),
@@ -140,11 +158,12 @@ test("현재 경력 프로젝트를 이전 경력보다 먼저 보여주고 상�
 
     render(<App />)
 
-    const currentCareer = screen.getByRole("heading", {
+    const careerSection = screen.getByRole("heading", { name: "경력", level: 3 }).closest("section")
+    const currentCareer = within(careerSection).getByRole("heading", {
         name: "전송형 전자영장 시스템",
         level: 4,
     })
-    const previousCareer = screen.getByRole("heading", {
+    const previousCareer = within(careerSection).getByRole("heading", {
         name: "차세대 군사법 정보 시스템",
         level: 4,
     })
@@ -344,6 +363,11 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
     expect(screen.getAllByText("전송형 전자영장 시스템").length).toBeGreaterThan(0)
     expect(screen.getAllByText(/LG CNS 컨소시엄/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/독립망/).length).toBeGreaterThan(0)
+    expect(
+        within(document.querySelector('[data-page-number="03"]')).getByText(
+            "JAVA 11 / SPRING BOOT 2.6 / SPRING BATCH / WEB SQUARE / MAVEN",
+        ),
+    ).toBeInTheDocument()
     expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
     expect(screen.getByText("LnS (Learn & Share) — HTTP 완벽 가이드")).toBeInTheDocument()

@@ -52,8 +52,10 @@
     letter-spacing: 0.045em;
 }
 
-.project-index__group strong {
+.project-index__group h3 {
+    margin: 0;
     font-weight: 760;
+    font-size: inherit;
 }
 
 .project-index__group > span {
@@ -61,8 +63,8 @@
     font-weight: 760;
 }
 
-.project-index__group--education {
-    margin-top: clamp(72px, 8vw, 108px);
+.project-index__group--separated {
+    margin-top: clamp(48px, 5vw, 64px);
 }
 
 .project-index {
@@ -146,7 +148,7 @@
     letter-spacing: -0.01em;
 }
 
-.project-index__title-block h3 {
+.project-index__title-block h4 {
     margin: 0;
     color: var(--accent);
     font-size: clamp(30px, 2.75vw, 40px);
@@ -181,7 +183,7 @@
     line-height: 1.3;
 }
 
-.project-index__primary:hover h3 {
+.project-index__primary:hover h4 {
     color: #0550ae;
     text-decoration: underline;
     text-decoration-thickness: 1px;
@@ -275,7 +277,7 @@
     padding-bottom: 26px;
 }
 
-.project-index--education .project-index__title-block h3 {
+.project-index--education .project-index__title-block h4 {
     font-size: clamp(28px, 2.55vw, 36px);
 }
 
@@ -391,8 +393,8 @@
         letter-spacing: 0;
     }
 
-    .project-index__title-block h3,
-    .project-index--education .project-index__title-block h3 {
+    .project-index__title-block h4,
+    .project-index--education .project-index__title-block h4 {
         font-size: clamp(28px, 8.8vw, 36px);
         overflow-wrap: anywhere;
     }
@@ -415,7 +417,7 @@
         padding-left: 48px;
     }
 
-    .project-index__group--education {
-        margin-top: 70px;
+    .project-index__group--separated {
+        margin-top: 48px;
     }
 }

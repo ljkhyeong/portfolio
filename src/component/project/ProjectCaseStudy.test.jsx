@@ -6,10 +6,10 @@ import ProjectCaseStudy from "./ProjectCaseStudy"
 const renderWithRouter = (component) =>
     render(<MemoryRouter initialEntries={["/"]}>{component}</MemoryRouter>)
 
-test("주요 프로젝트 상세는 페이지 순서와 섹션 바로가기를 명확히 보여준다", () => {
+test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 명확히 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="baton" />)
 
-    expect(screen.getByText("주요 프로젝트 01 / 04")).toBeInTheDocument()
+    expect(screen.getByText("개인 프로젝트 01 / 02")).toBeInTheDocument()
 
     const sectionNavigation = screen.getByRole("navigation", {
         name: "상세 섹션 바로가기",
@@ -51,8 +51,14 @@ test("주요 프로젝트 상세는 페이지 순서와 섹션 바로가기를 �
     expect(additionalProblems).not.toHaveAttribute("open")
 
     const projectSwitcher = screen.getByRole("navigation", {
-        name: "다른 주요 프로젝트 상세",
+        name: "경력 및 개인 프로젝트 바로가기",
     })
+    expect(
+        within(projectSwitcher).getByRole("list", { name: "경력 프로젝트 바로가기" }),
+    ).toBeInTheDocument()
+    expect(
+        within(projectSwitcher).getByRole("list", { name: "개인 프로젝트 바로가기" }),
+    ).toBeInTheDocument()
 
     expect(
         within(projectSwitcher).getByRole("link", { name: "BATON 프로젝트로 이동" }),
@@ -109,7 +115,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
 test("전자영장 상세는 LG CNS 컨소시엄의 독립망 연계 흐름과 기술 판단을 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="warrant" />)
 
-    expect(screen.getByText("주요 프로젝트 02 / 04")).toBeInTheDocument()
+    expect(screen.getByText("경력 프로젝트 01 / 02")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", { name: "전송형 전자영장 시스템", level: 1 }),
     ).toBeInTheDocument()

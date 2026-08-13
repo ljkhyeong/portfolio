@@ -125,12 +125,12 @@ const MetricRow = ({ proofs }) => (
 const WarrantCareerPage = ({ warrant }) => (
     <PrintPage
         number="03"
-        path="# projects/e-warrant/career-case.md"
+        path="# career-projects/e-warrant.md"
         meta={warrant.period}
-        footer="JAVA 11 / SPRING BOOT 2.6 / WEB SQUARE / SPRING RETRY / EAI"
+        footer="JAVA 11 / SPRING BOOT 2.6 / SPRING BATCH / WEB SQUARE / MAVEN"
         variant="warrant"
     >
-        <PrintTitle eyebrow="LG CNS 컨소시엄 / 독립망 기관 연계" title={warrant.title}>
+        <PrintTitle eyebrow="## CAREER PROJECT / LG CNS 컨소시엄" title={warrant.title}>
             {warrant.summary}
         </PrintTitle>
 
@@ -147,7 +147,7 @@ const WarrantCareerPage = ({ warrant }) => (
                 <span aria-hidden="true">→</span>
                 <div className="print-warrant-flow__core">
                     <small>INTEGRATION</small>
-                    <strong>전자영장 집행포털 인터페이스 및 배치</strong>
+                    <strong>전자영장 집행포털 인터페이스 및 Spring Batch</strong>
                 </div>
                 <span aria-hidden="true">↔</span>
                 <div>
@@ -192,6 +192,61 @@ const WarrantCareerPage = ({ warrant }) => (
             <strong>{warrant.status.label}</strong>
             <p>{warrant.status.text}</p>
         </aside>
+    </PrintPage>
+)
+
+const DefenseCareerPage = ({ defense }) => (
+    <PrintPage
+        number="04"
+        path="# career-projects/defense.md"
+        meta={defense.period}
+        footer="JAVA 8 / EGOV / MYBATIS / TIBERO / JENKINS"
+        variant="defense"
+    >
+        <PrintTitle eyebrow="## CAREER PROJECT / PUBLIC SI" title={defense.title}>
+            {defense.summary}
+        </PrintTitle>
+
+        <div className="print-defense-flow" role="img" aria-label="비식별 기관 연계 배치 흐름">
+            <div className="print-agency-stack">
+                <span>기관 A</span>
+                <span>기관 B</span>
+                <span>기관 C</span>
+            </div>
+            <div className="print-flow-arrow" aria-hidden="true">
+                →
+            </div>
+            <div className="print-flow-box">
+                <small>JENKINS</small>
+                <strong>기관 연계 배치 3종</strong>
+                <p>실행 결과 → 서버 로그 → DB 반영 → 화면 조회</p>
+            </div>
+            <div className="print-flow-arrow" aria-hidden="true">
+                →
+            </div>
+            <div className="print-flow-box">
+                <small>BUSINESS SYSTEM</small>
+                <strong>군교정 업무</strong>
+                <p>검증 · 반영 · 운영 대응</p>
+            </div>
+        </div>
+
+        <MetricRow proofs={defense.proofs} />
+
+        <div className="print-career-cases">
+            {defense.problems.map((problem, index) => (
+                <article key={problem.number}>
+                    <span>{["개발", "보안", "장애 대응"][index]}</span>
+                    <h3>{problem.title}</h3>
+                    <p>{problem.decision}</p>
+                </article>
+            ))}
+            <article>
+                <span>공개 범위</span>
+                <h3>직접 수행한 업무만 비식별화</h3>
+                <p>{defense.status.text}</p>
+            </article>
+        </div>
     </PrintPage>
 )
 
@@ -414,16 +469,21 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <WarrantCareerPage warrant={warrant} />
+                <DefenseCareerPage defense={defense} />
 
                 <PrintPage
-                    number="04"
-                    path="# projects/baton/overview.md"
+                    number="05"
+                    path="# personal-projects/baton/overview.md"
                     meta={`${baton.period} · ${baton.evidenceAsOf}`}
                     footer="JAVA 21 / SPRING BOOT / MYSQL / POSTGRESQL / TESTCONTAINERS"
                     dark
                     variant="baton"
                 >
-                    <PrintTitle eyebrow="## MAIN PROJECT" title={baton.title} project>
+                    <PrintTitle
+                        eyebrow="## PERSONAL PROJECT / MAIN PROJECT"
+                        title={baton.title}
+                        project
+                    >
                         {baton.summary}
                     </PrintTitle>
                     <PrintGallery project={baton} dark />
@@ -435,14 +495,17 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="05"
-                    path="# projects/baton/evidence.md"
+                    number="06"
+                    path="# personal-projects/baton/evidence.md"
                     meta="Decision records + recovery paths"
                     footer="PRD / ADR / RUNBOOK / API CONTRACT"
                     dark
                     variant="evidence"
                 >
-                    <PrintTitle eyebrow="## BATON / ENGINEERING EVIDENCE" title="대표 문제 해결">
+                    <PrintTitle
+                        eyebrow="## PERSONAL PROJECT / BATON EVIDENCE"
+                        title="대표 문제 해결"
+                    >
                         서비스마다 실제로 다루는 실패 단위와 복구 기준을 문서와 테스트로
                         고정했습니다.
                     </PrintTitle>
@@ -455,14 +518,17 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="06"
-                    path="# projects/baton/documents.md"
+                    number="07"
+                    path="# personal-projects/baton/documents.md"
                     meta={baton.evidenceAsOf}
                     footer="PRD / ADR / RUNBOOK / API CONTRACT"
                     dark
                     variant="documents"
                 >
-                    <PrintTitle eyebrow="## BATON / DOCUMENTATION" title="문서 분류와 대표 문서">
+                    <PrintTitle
+                        eyebrow="## PERSONAL PROJECT / BATON DOCUMENTS"
+                        title="문서 분류와 대표 문서"
+                    >
                         기술 선택, 복구 절차와 서비스 계약을 다음 변경 때 확인할 수 있는 기록으로
                         남겼습니다.
                     </PrintTitle>
@@ -475,13 +541,17 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="07"
-                    path="# projects/happyGallery/overview.md"
+                    number="08"
+                    path="# personal-projects/happyGallery/overview.md"
                     meta={`${gallery.period} · ${gallery.evidenceAsOf}`}
                     footer="SPRING BOOT / REACT / MYSQL / REDIS / REST DOCS"
                     variant="gallery"
                 >
-                    <PrintTitle eyebrow="## COMMERCE + BOOKING" title={gallery.title} project>
+                    <PrintTitle
+                        eyebrow="## PERSONAL PROJECT / COMMERCE + BOOKING"
+                        title={gallery.title}
+                        project
+                    >
                         {gallery.summary}
                     </PrintTitle>
                     <PrintGallery project={gallery} />
@@ -500,14 +570,14 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="08"
-                    path="# projects/happyGallery/evidence.md"
+                    number="09"
+                    path="# personal-projects/happyGallery/evidence.md"
                     meta={gallery.evidenceAsOf}
                     footer="ARCHITECTURE / PAYMENT / OUTBOX / CONCURRENCY / SECURITY / OPERATIONS"
                     variant="evidence"
                 >
                     <PrintTitle
-                        eyebrow="## HAPPYGALLERY / ENGINEERING EVIDENCE"
+                        eyebrow="## PERSONAL PROJECT / HAPPYGALLERY EVIDENCE"
                         title="대표 문제 해결"
                     >
                         정합성, 외부 I/O, 보안과 운영 비용을 각각 검증 가능한 경계로 나눴습니다.
@@ -522,14 +592,14 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="09"
-                    path="# projects/happyGallery/documents.md"
+                    number="10"
+                    path="# personal-projects/happyGallery/documents.md"
                     meta={gallery.evidenceAsOf}
                     footer="PRD / ADR / IDEA / POC / RETROSPECTIVE / RUNBOOK"
                     variant="documents"
                 >
                     <PrintTitle
-                        eyebrow="## HAPPYGALLERY / DOCUMENTATION"
+                        eyebrow="## PERSONAL PROJECT / HAPPYGALLERY DOCUMENTS"
                         title="문서 분류와 대표 문서"
                     >
                         요구사항, 설계 결정과 운영 회고를 구현 및 변경의 기준으로 관리했습니다.
@@ -540,63 +610,6 @@ const PortfolioPrintPage = () => {
                         showProblems={false}
                         toPublishedUrl={toPublishedUrl}
                     />
-                </PrintPage>
-
-                <PrintPage
-                    number="10"
-                    path="# projects/defense/career-case.md"
-                    meta={defense.period}
-                    footer="JAVA 8 / EGOV / MYBATIS / TIBERO / JENKINS"
-                    variant="defense"
-                >
-                    <PrintTitle eyebrow="PUBLIC SI / CLOSED NETWORK" title={defense.title}>
-                        {defense.summary}
-                    </PrintTitle>
-
-                    <div
-                        className="print-defense-flow"
-                        role="img"
-                        aria-label="비식별 기관 연계 배치 흐름"
-                    >
-                        <div className="print-agency-stack">
-                            <span>기관 A</span>
-                            <span>기관 B</span>
-                            <span>기관 C</span>
-                        </div>
-                        <div className="print-flow-arrow" aria-hidden="true">
-                            →
-                        </div>
-                        <div className="print-flow-box">
-                            <small>JENKINS</small>
-                            <strong>기관 연계 배치 3종</strong>
-                            <p>실행 결과 → 서버 로그 → DB 반영 → 화면 조회</p>
-                        </div>
-                        <div className="print-flow-arrow" aria-hidden="true">
-                            →
-                        </div>
-                        <div className="print-flow-box">
-                            <small>BUSINESS SYSTEM</small>
-                            <strong>군교정 업무</strong>
-                            <p>검증 · 반영 · 운영 대응</p>
-                        </div>
-                    </div>
-
-                    <MetricRow proofs={defense.proofs} />
-
-                    <div className="print-career-cases">
-                        {defense.problems.map((problem, index) => (
-                            <article key={problem.number}>
-                                <span>{["개발", "보안", "장애 대응"][index]}</span>
-                                <h3>{problem.title}</h3>
-                                <p>{problem.decision}</p>
-                            </article>
-                        ))}
-                        <article>
-                            <span>공개 범위</span>
-                            <h3>직접 수행한 업무만 비식별화</h3>
-                            <p>{defense.status.text}</p>
-                        </article>
-                    </div>
                 </PrintPage>
 
                 <PrintPage

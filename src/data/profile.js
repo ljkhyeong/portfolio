@@ -13,7 +13,7 @@ export const portfolioProfile = {
         tail: "로 만듭니다.",
     },
     webSummary:
-        "LG CNS 컨소시엄 전송형 전자영장 프로젝트에서 독립망 간 기관 연계 인터페이스와 배치를 개발하고 있습니다. 공공 시스템 운영 장애 대응 경험과 개인 프로젝트의 결제 및 환불 멱등성, 알림 아웃박스, 서비스별 데이터 분리를 함께 담았습니다.",
+        "LG CNS 컨소시엄 전송형 전자영장 프로젝트에서 독립망 간 기관 연계 인터페이스와 Spring Batch를 개발하고 있습니다. 공공 시스템 운영 장애 대응 경험과 개인 프로젝트의 결제 및 환불 멱등성, 알림 아웃박스, 서비스별 데이터 분리를 함께 담았습니다.",
     heroProofs: [
         "LG CNS 컨소시엄 / 독립망 연계",
         "GO 동시 요청 8 → 링크 1",
@@ -77,9 +77,9 @@ export const careers = [
         position: "해양경찰 KICS 연계 개발",
         projectId: "warrant",
         description:
-            "전송형 전자영장 시스템에서 해양경찰 KICS 통신사실확인자료 개선과 집행포털 연계를 담당하고 있습니다. 사법기관, 금융기관 및 통신사처럼 독립된 망 사이의 요청과 제출 자료를 인터페이스와 배치로 연결하고 대용량 조회와 외부 연동의 실패 경계를 설계했습니다.",
+            "전송형 전자영장 시스템에서 해양경찰 KICS 통신사실확인자료 개선과 집행포털 연계를 담당하고 있습니다. 사법기관, 금융기관 및 통신사처럼 독립된 망 사이의 요청과 제출 자료를 인터페이스와 Spring Batch로 연결하고 대용량 조회와 외부 연동의 실패 경계를 설계했습니다.",
         printDescription:
-            "해양경찰 KICS 통신사실확인자료 개선과 집행포털 연계를 담당하며 독립망 사이의 요청과 제출 자료를 인터페이스와 배치로 연결하고 있습니다.",
+            "해양경찰 KICS 통신사실확인자료 개선과 집행포털 연계를 담당하며 독립망 사이의 요청과 제출 자료를 인터페이스와 Spring Batch로 연결하고 있습니다.",
     },
     {
         id: "beintech",
@@ -128,8 +128,8 @@ export const personalActivities = [
 export const skillGroups = [
     {
         label: "백엔드",
-        items: ["Java 21 / 11 / 8", "Spring Boot / eGov", "JPA / MyBatis", "포트와 어댑터"],
-        proof: "BATON, happyGallery, 공공 SI",
+        items: ["Java 21 / 11 / 8", "Spring Boot / eGov", "Spring Batch", "JPA / MyBatis"],
+        proof: "전자영장, BATON, happyGallery, 공공 SI",
     },
     {
         label: "데이터 및 장애 대응",
@@ -146,7 +146,7 @@ export const skillGroups = [
 export const printSkillGroups = [
     {
         label: "Backend",
-        detail: "Java 21 / 11 / 8, Spring Boot, eGov 4.1, JPA, MyBatis",
+        detail: "Java 21 / 11 / 8, Spring Boot, Spring Batch, eGov 4.1, JPA, MyBatis",
     },
     {
         label: "Architecture",
