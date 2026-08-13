@@ -32,6 +32,10 @@
     margin: 0 auto;
 }
 
+.baton-service-page .baton-service-switcher {
+    width: min(1180px, calc(100% - 64px));
+}
+
 .baton-service-nav {
     display: flex;
     min-height: 68px;
@@ -512,6 +516,10 @@
     .baton-service-nav,
     .baton-service-case,
     .baton-service-footer {
+        width: min(100% - 36px, 1180px);
+    }
+
+    .baton-service-page .baton-service-switcher {
         width: min(100% - 36px, 1180px);
     }
 

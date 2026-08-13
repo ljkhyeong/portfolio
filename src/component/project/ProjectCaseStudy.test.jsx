@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen, within } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
 import BatonServiceCaseStudy from "./BatonServiceCaseStudy"
 import ProjectCaseStudy from "./ProjectCaseStudy"
@@ -17,7 +17,7 @@ test("주요 프로젝트 상세는 페이지 순서와 섹션 바로가기를 �
 
     expect(sectionNavigation).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "개요" })).toHaveAttribute("href", "#project-overview")
-    expect(screen.getByRole("link", { name: "화면 및 구성" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "화면 및 서비스" })).toHaveAttribute(
         "href",
         "#project-system",
     )
@@ -49,6 +49,44 @@ test("주요 프로젝트 상세는 페이지 순서와 섹션 바로가기를 �
     const additionalProblems = screen.getByText("추가 문제 해결 4건 보기").closest("details")
 
     expect(additionalProblems).not.toHaveAttribute("open")
+
+    const projectSwitcher = screen.getByRole("navigation", {
+        name: "다른 주요 프로젝트 상세",
+    })
+
+    expect(
+        within(projectSwitcher).getByRole("link", { name: "BATON 프로젝트로 이동" }),
+    ).toHaveAttribute("aria-current", "page")
+    expect(
+        within(projectSwitcher).getByRole("link", {
+            name: "전송형 전자영장 시스템 프로젝트로 이동",
+        }),
+    ).toHaveAttribute("href", "/projects/e-warrant")
+    expect(
+        within(projectSwitcher).getByRole("link", { name: "happyGallery 프로젝트로 이동" }),
+    ).toHaveAttribute("href", "/projects/happygallery")
+    expect(
+        within(projectSwitcher).getByRole("link", {
+            name: "차세대 군사법 정보 시스템 프로젝트로 이동",
+        }),
+    ).toHaveAttribute("href", "/projects/defense")
+
+    const serviceSwitcher = screen.getByRole("navigation", {
+        name: "BATON 서비스 바로가기",
+    })
+
+    expect(within(serviceSwitcher).getByRole("link", { name: "Core" })).toHaveAttribute(
+        "aria-current",
+        "page",
+    )
+    const serviceRoutes = ["GO", "WATCH", "RELAY"]
+
+    serviceRoutes.forEach((service) => {
+        expect(within(serviceSwitcher).getByRole("link", { name: service })).toHaveAttribute(
+            "href",
+            `/projects/baton/${service.toLowerCase()}`,
+        )
+    })
 })
 
 test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제를 접어 둔다", () => {
@@ -60,6 +98,11 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     expect(evidenceLinks).toHaveTextContent("대표 문서: 제품 기준 스펙")
     expect(screen.getByText("추가 문제 해결 2건 보기").closest("details")).not.toHaveAttribute(
         "open",
+    )
+    expect(screen.getByRole("heading", { name: "대표 화면" })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "대표 화면" })).toHaveAttribute(
+        "href",
+        "#project-system",
     )
 })
 
@@ -101,6 +144,19 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
         "#service-problems",
     )
     expect(screen.getByRole("link", { name: "문서" })).toHaveAttribute("href", "#service-documents")
+
+    const serviceSwitcher = screen.getByRole("navigation", {
+        name: "BATON 서비스 바로가기",
+    })
+
+    expect(within(serviceSwitcher).getByRole("link", { name: "WATCH" })).toHaveAttribute(
+        "aria-current",
+        "page",
+    )
+    expect(within(serviceSwitcher).getByRole("link", { name: "Core" })).toHaveAttribute(
+        "href",
+        "/projects/baton",
+    )
 })
 
 test("WebRTC/HLS 상세는 교육 프로젝트로 표시하고 제목 단위를 보존한다", () => {

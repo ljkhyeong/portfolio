@@ -4,6 +4,8 @@ const projects = [
     {
         ...projectSummariesById.baton,
         evidenceAsOf: "2026.08.09 저장소 기준",
+        systemTitle: "대표 화면 및 마이크로서비스 구성",
+        systemNavLabel: "화면 및 서비스",
         screenshots: [
             {
                 id: "workspace",
@@ -37,33 +39,33 @@ const projects = [
         ],
         architecture: {
             label: "서비스 경계",
-            title: "Core는 기준 데이터를, 연계 마이크로서비스는 외부 실패를 맡습니다.",
+            title: "Core는 기준 데이터를 관리하고, 연계 마이크로서비스는 외부 연동 실패를 격리합니다.",
             description:
-                "Core가 팀, 시즌, 권한, 루틴, 핸드오프의 기준 데이터를 관리합니다. GO, WATCH, RELAY는 서로 다른 보안, 지연, 재시도 요구를 독립된 저장소와 실행 환경으로 분리했습니다.",
+                "Core가 팀, 시즌, 권한, 루틴과 핸드오프를 관리합니다. GO, WATCH, RELAY는 보안 정책, 응답 지연과 재시도 방식이 달라 저장소와 실행 환경을 분리했습니다.",
             tradeoff:
-                "서비스별 장애와 배포 범위는 분리되지만 저장소, 배포, 관측 지점이 늘고 서비스 사이 정합성을 별도로 관리해야 합니다.",
+                "서비스별 장애와 배포 범위를 분리한 대신 저장소, 배포와 모니터링 대상이 늘고 서비스 간 데이터 정합성을 별도로 관리해야 합니다.",
         },
         featuredProblemNumbers: ["01", "03", "05", "07"],
         spotlights: [
             {
                 serviceId: "go",
                 label: "GO / 멱등성",
-                title: "동시 요청 8건을 링크 1건으로 수렴",
+                title: "동시 요청 8건에서도 링크를 1건만 생성",
                 problem:
                     "응답이 유실되거나 여러 서버가 같은 요청을 받으면 링크가 중복 생성될 수 있었습니다.",
                 solution:
-                    "UUID 멱등 키와 요청 해시를 저장하고 HMAC-SHA256으로 링크 코드를 결정했습니다. 같은 키의 다른 요청은 거절합니다.",
+                    "UUID 멱등 키와 요청 해시를 저장하고 HMAC-SHA256으로 링크 코드를 생성했습니다. 같은 멱등 키에 요청 내용이 다르면 충돌로 거절합니다.",
                 tradeoff:
                     "멱등 기록을 보관하는 비용이 들고, HMAC 키 교체와 DB 복구 시 기존 링크를 유지할 절차가 필요합니다.",
             },
             {
                 serviceId: "watch",
-                label: "WATCH / 안전한 점검",
+                label: "WATCH / URL 점검",
                 title: "네트워크 I/O와 DB 락을 분리",
                 problem:
                     "느린 URL 점검 중 DB 락을 잡으면 경합이 커지고, 늦게 끝난 작업이 최신 결과를 덮을 수 있었습니다.",
                 solution:
-                    "DNS pinning과 SSRF 차단을 적용하고, lease와 source revision 펜싱으로 오래된 결과를 거절했습니다.",
+                    "DNS pinning과 SSRF 차단을 적용했습니다. lease token과 source revision 펜싱으로 이전 작업의 늦은 결과를 거절했습니다.",
                 tradeoff:
                     "lease가 짧으면 중복 실행이 늘고 길면 장애 복구가 늦어져, 운영 지표에 맞춘 시간 조정이 필요합니다.",
             },
@@ -96,7 +98,7 @@ const projects = [
                 id: "runbook",
                 label: "Runbook",
                 count: "5",
-                summary: "배포, 복구와 공개 staging 검증 절차를 정리합니다.",
+                summary: "배포, 복구와 공개 스테이징 환경의 검증 절차를 정리합니다.",
             },
             {
                 id: "api",
@@ -118,7 +120,7 @@ const projects = [
                 type: "ADR 요약",
                 label: "GO 멱등 링크 생성",
                 href: "/docs/baton/go-idempotent-link.md",
-                note: "동시 요청과 재시도를 한 결과로 수렴시킨 결정 요약",
+                note: "동시 요청과 재시도에도 링크를 한 건만 생성하는 방식",
             },
             {
                 serviceId: "watch",
@@ -130,7 +132,7 @@ const projects = [
             {
                 serviceId: "watch",
                 type: "Runbook",
-                label: "WATCH 공개 staging 전달 검증",
+                label: "WATCH 공개 스테이징 전달 검증",
                 href: "https://github.com/ljkhyeong/baton-watch/blob/main/docs/runbooks/public-staging-event-delivery.md",
                 note: "최초 전달, 응답 유실 재전송과 적체 이벤트 복구를 검증하는 운영 절차",
             },
@@ -188,7 +190,7 @@ const projects = [
                 evidence: "354 tests",
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
-                status: "안전한 URL 점검과 이벤트 전달을 구현했으며 공개 staging 검증은 실행 전입니다.",
+                status: "안전한 URL 점검과 이벤트 전달을 구현했으며 공개 스테이징 환경 검증은 실행 전입니다.",
                 documentation: [
                     { label: "PRD", count: "4" },
                     { label: "ADR", count: "3" },
@@ -230,14 +232,14 @@ const projects = [
             },
         ],
         category: "개인 프로젝트",
-        role: "4개 저장소의 서비스 경계, 도메인 규칙, API, DB 계약, 테스트 및 운영 절차 설계와 구현",
-        oneLine: "실패 특성이 다른 기능을 서비스와 저장소 단위로 분리",
+        role: "4개 저장소의 서비스 분리, 도메인 규칙, API 및 DB 계약, 테스트와 운영 절차 설계 및 구현",
+        oneLine: "실패와 복구 방식이 다른 기능을 서비스와 저장소 단위로 분리",
         status: {
             label: "현재 상태",
             text: "각 서비스의 핵심 기능과 테스트는 구현했습니다. 서비스 간 전체 연동과 운영 환경 배포는 진행 중입니다. 문서와 테스트 수치는 2026.08.09 저장소 기준입니다.",
         },
         visualCaption:
-            "Core는 기준 데이터의 주체이며 GO, WATCH, RELAY를 직접 제어하는 상위 서버는 아닙니다. 각 서비스는 독립된 책임과 장애 경계를 가집니다.",
+            "Core가 조직 운영의 기준 데이터를 관리합니다. GO, WATCH, RELAY는 Core의 하위 기능이 아니라 독립적으로 배포하고 복구하는 마이크로서비스입니다.",
         problems: [
             {
                 number: "01",
@@ -246,7 +248,7 @@ const projects = [
                 constraint:
                     "링크 생성은 중복 요청, URL 점검은 느리고 위험한 네트워크 I/O, 메시지 전송은 외부 응답 유실을 다뤄야 합니다.",
                 decision:
-                    "Core는 조직 운영의 기준 데이터에 집중하고 GO, WATCH, RELAY를 별도 저장소와 실행 환경으로 분리했습니다. 상태 변경은 아웃박스와 커밋 이후 전달을 기준으로 설계했습니다.",
+                    "Core는 조직 운영의 기준 데이터에 집중하고 GO, WATCH, RELAY를 별도 저장소와 실행 환경으로 분리했습니다. 상태 변경과 이벤트는 같은 트랜잭션의 아웃박스에 저장하고 커밋 후 전달하도록 설계했습니다.",
                 validation:
                     "각 저장소의 계약 테스트와 통합 테스트를 독립 실행해 서비스별 규칙과 복구 경계를 확인했습니다.",
                 boundary:
@@ -259,7 +261,7 @@ const projects = [
                 constraint:
                     "바통 수락과 담당자 변경이 따로 반영되면 같은 역할에 이전 담당자와 다음 담당자가 섞일 수 있었습니다.",
                 decision:
-                    "PREPARING → TRANSFERRED → ACCEPTED 생명주기를 두고, 전달 순간의 바통북을 고정한 뒤 수락과 담당자 및 기간 변경을 한 트랜잭션에서 처리했습니다.",
+                    "PREPARING → TRANSFERRED → ACCEPTED 상태를 두고 전달 시점의 바통북을 고정했습니다. 수락, 담당자와 담당 기간 변경은 한 트랜잭션에서 처리했습니다.",
                 validation:
                     "역할별 열린 바통 1건 제약과 상태 전이 테스트로 중복 교대 및 전달 후 변경을 차단했습니다.",
                 boundary:
@@ -278,7 +280,7 @@ const projects = [
                 constraint:
                     "저장 후 응답이 유실되거나 여러 서버가 같은 요청을 동시에 받으면 링크가 중복 생성될 수 있습니다.",
                 decision:
-                    "UUID 멱등 키와 표준화한 요청 해시를 생성 예약에 저장했습니다. HMAC-SHA256으로 결정적인 링크 코드를 만들고 허용한 목적지 타입과 경로만 받습니다.",
+                    "UUID 멱등 키와 표준화한 요청 해시를 생성 예약에 저장했습니다. HMAC-SHA256으로 동일 입력에서 같은 링크 코드를 만들고, 허용한 목적지 타입과 경로만 받습니다.",
                 validation:
                     "같은 요청 8건을 동시에 보내도 링크와 예약이 각각 1건만 생성되는지 통합 테스트로 확인했습니다.",
                 boundary:
@@ -286,7 +288,7 @@ const projects = [
                 print: {
                     label: "GO / IDEMPOTENCY",
                     problem: "응답 유실과 동시 요청으로 같은 링크가 중복 생성될 수 있음",
-                    solution: "UUID 멱등 키, 요청 해시와 결정적 HMAC 코드",
+                    solution: "UUID 멱등 키, 요청 해시와 HMAC 기반 고정 링크 코드",
                     tradeoff: "HMAC 키와 DB를 같은 시점에 복구해야 함",
                 },
             },
@@ -297,7 +299,7 @@ const projects = [
                 constraint:
                     "잘못된 HMAC 키로 서버가 시작되면 같은 목적지에 다른 링크 코드가 생겨 기존 링크 계약이 깨질 수 있었습니다.",
                 decision:
-                    "키에서 파생한 version과 fingerprint를 DB singleton identity에 결합하고, 기존 데이터와 키가 맞지 않으면 readiness 전에 시작을 막았습니다.",
+                    "키에서 계산한 version과 fingerprint를 DB의 단일 identity 레코드에 저장했습니다. 기존 데이터와 키가 맞지 않으면 readiness 검사 전에 서버 시작을 막았습니다.",
                 validation:
                     "서로 다른 identity의 동시 최초 결합에서 하나만 성공하고 잘못된 키가 링크를 생성하지 못하는지 통합 테스트로 확인했습니다.",
                 boundary:
@@ -331,9 +333,9 @@ const projects = [
                 decision:
                     "상태 변경과 전달할 이벤트를 같은 트랜잭션에 저장하고 HTTPS at-least-once 전달과 적체 이벤트 복구를 선택했습니다.",
                 validation:
-                    "동일 이벤트 재전송, acknowledgement 유실과 적체 이벤트 복구 절차를 자동 테스트와 공개 staging runbook에 고정했습니다.",
+                    "동일 이벤트 재전송, ACK 유실과 적체 이벤트 복구를 자동 테스트와 공개 스테이징 Runbook으로 검증했습니다.",
                 boundary:
-                    "단일 consumer 요구에 맞춰 broker를 생략했으므로 소비자가 늘면 전달 구조를 다시 검토해야 합니다.",
+                    "현재는 소비자가 하나라 메시지 브로커를 두지 않았습니다. 소비자가 늘면 전달 방식을 다시 검토해야 합니다.",
             },
             {
                 number: "07",
@@ -342,7 +344,7 @@ const projects = [
                 constraint:
                     "외부 전송은 성공했지만 응답만 잃으면 자동 재시도가 중복 발송으로 이어질 수 있었습니다.",
                 decision:
-                    "외부 호출 전에 immutable attempt intent와 provider 멱등 키를 저장하고, 처리 결과 미확인 상태는 OUTCOME_UNKNOWN으로 보존한 채 별도 조정 이력으로만 현재 상태를 갱신했습니다.",
+                    "외부 호출 전에 변경할 수 없는 전송 시도 기록과 외부 전송업체용 멱등 키를 저장했습니다. 결과를 확인할 수 없으면 OUTCOME_UNKNOWN으로 보존하고, 별도 조정 이력으로만 현재 상태를 변경했습니다.",
                 validation:
                     "중단 뒤 같은 전송 식별자 복구, 오래된 token 거절과 조정 요청 재실행을 포함한 테스트로 확인했습니다.",
                 boundary:
@@ -350,22 +352,22 @@ const projects = [
                 print: {
                     label: "RELAY / RECOVERY",
                     problem: "응답 유실 뒤 재시도가 중복 발송으로 이어질 수 있음",
-                    solution: "immutable attempt, provider 멱등 키와 OUTCOME_UNKNOWN",
+                    solution: "불변 전송 시도 기록, 전송업체용 멱등 키와 OUTCOME_UNKNOWN",
                     tradeoff: "자동 재전송 대신 결과 조회 및 운영자 조정 절차가 필요",
                 },
             },
             {
                 number: "08",
                 serviceIds: ["relay"],
-                title: "DB 커밋 뒤 broker 재전달을 한 건으로 수렴한다",
+                title: "RabbitMQ 재전달을 inbox 한 건으로 처리한다",
                 constraint:
-                    "PostgreSQL 커밋 뒤 RabbitMQ acknowledgement 전에 프로세스가 멈추면 같은 이벤트가 다시 전달됩니다.",
+                    "PostgreSQL 커밋 뒤 RabbitMQ ACK 전에 프로세스가 멈추면 같은 이벤트가 다시 전달됩니다.",
                 decision:
-                    "분산 트랜잭션 대신 event ID inbox 멱등성과 commit-before-ack를 적용하고 실패 메시지는 retry와 DLQ로 분리했습니다.",
+                    "분산 트랜잭션 대신 event ID 기반 inbox 멱등 처리와 commit-before-ack를 적용했습니다. 실패 메시지는 재시도 큐와 DLQ로 분리했습니다.",
                 validation:
                     "메시지 브로커와 RELAY를 강제로 중단한 뒤 같은 이벤트가 재전달돼도 inbox가 1건인지 Docker Compose 통합 테스트로 확인했습니다.",
                 boundary:
-                    "메시지 보존과 DLQ 운영 지점이 늘어 broker 모니터링과 재처리 runbook이 필요합니다.",
+                    "메시지 보존과 DLQ 운영 지점이 늘어 메시지 브로커 모니터링과 재처리 Runbook이 필요합니다.",
             },
         ],
         stack: [
@@ -390,6 +392,8 @@ const projects = [
     {
         ...projectSummariesById.happygallery,
         evidenceAsOf: "2026.08.09 저장소 기준",
+        systemTitle: "대표 화면",
+        systemNavLabel: "대표 화면",
         screenshots: [
             {
                 id: "products",
@@ -423,9 +427,9 @@ const projects = [
             label: "모놀리식 애플리케이션 + Gradle 멀티모듈",
             title: "헥사고날 아키텍처를 적용한 6개 Gradle 모듈",
             description:
-                "bootstrap, web 입력 어댑터, persistence 및 external 출력 어댑터, application, domain으로 의존 방향을 정했습니다. 모든 클래스에 인터페이스를 만들지 않고 결제와 알림처럼 교체 가능한 외부 경계에 포트를 뒀습니다.",
+                "의존 방향을 bootstrap → web, persistence, external 어댑터 → application → domain 순서로 제한했습니다. 모든 클래스에 인터페이스를 만들지 않고 결제와 알림처럼 교체 가능한 외부 연동에만 포트를 뒀습니다.",
             tradeoff:
-                "모듈과 타입 수는 늘지만 의존 위반을 빌드에서 잡을 수 있습니다. 현재 규모에서는 domain의 일부 JPA 어노테이션을 유지해 분리 비용을 제한했습니다.",
+                "모듈과 타입 수는 늘지만 의존 위반을 빌드에서 차단할 수 있습니다. 현재 규모에서는 domain 모듈에 일부 JPA 매핑 어노테이션을 유지해 분리 비용을 줄였습니다.",
         },
         featuredProblemNumbers: ["02", "03", "04", "06"],
         spotlights: [
@@ -443,7 +447,7 @@ const projects = [
                 label: "알림 / 아웃박스",
                 title: "업무 커밋과 알림 작업을 함께 보존",
                 problem:
-                    "업무를 커밋한 직후 프로세스가 종료되면 메모리 이벤트와 알림 요청이 함께 사라질 수 있었습니다.",
+                    "메모리 이벤트만 사용하면 업무 커밋 직후 프로세스가 종료될 때 알림 작업이 유실될 수 있었습니다.",
                 solution:
                     "업무 상태와 알림 아웃박스를 같은 트랜잭션에 저장하고 AFTER_COMMIT 즉시 전송과 스케줄러 복구를 함께 사용했습니다.",
                 tradeoff:
@@ -457,7 +461,7 @@ const projects = [
                 solution:
                     "비관적 락을 사용하고 클래스→슬롯, productId 오름차순으로 락 순서를 고정했습니다.",
                 tradeoff:
-                    "정합성은 단순해지지만 같은 행에 요청이 집중되면 대기 시간이 늘어, 운영 지표에 따라 경계를 다시 나눠야 합니다.",
+                    "초과 예약과 재고 차감을 막는 대신 같은 행에 요청이 몰리면 락 대기 시간이 늘어납니다. 운영 지표에 따라 락 범위를 조정해야 합니다.",
             },
         ],
         documentGroups: [
@@ -548,14 +552,14 @@ const projects = [
             },
         ],
         category: "개인 프로젝트",
-        role: "기획, 백엔드, 프론트엔드, 테스트 및 설계 문서",
+        role: "요구사항 정리, 백엔드 및 프론트엔드 구현, 테스트와 설계 문서 작성",
         oneLine: "외부 I/O와 동시성 실패를 복구 가능한 상태로 설계",
         status: {
             label: "운영 상태",
             text: "AWS에 운영 배포했으나 트래픽과 무관한 상시 리소스 비용이 발생해 운영을 종료했습니다. 현재 공개 URL은 없으며 API와 테스트 수치는 2026.08.09 로컬 저장소 기준입니다.",
         },
         visualCaption:
-            "헥사고날 아키텍처의 포트와 어댑터 원칙을 적용했고, domain 모듈에는 일부 JPA 어노테이션을 유지했습니다.",
+            "헥사고날 아키텍처의 포트와 어댑터를 적용했고, domain 모듈에는 일부 JPA 매핑 어노테이션을 유지했습니다.",
         problems: [
             {
                 number: "01",
@@ -567,7 +571,7 @@ const projects = [
                 validation:
                     "LayerDependencyPolicyTest와 모듈별 컴파일로 금지한 의존이 빌드 단계에서 실패하는지 확인했습니다.",
                 boundary:
-                    "domain 모듈의 일부 JPA 의존은 유지했습니다. 현재 규모에서는 완전한 영속성 분리보다 일관된 의존 방향을 우선했습니다.",
+                    "domain 모듈의 일부 JPA 의존은 유지했습니다. 현재 규모에서는 JPA를 완전히 분리하는 비용보다 일관된 의존 방향을 우선했습니다.",
                 print: {
                     label: "ARCHITECTURE",
                     problem: "web과 persistence 코드가 도메인으로 섞이기 쉬움",
@@ -585,7 +589,7 @@ const projects = [
                 validation:
                     "작업 선점과 인계, 이전 토큰 거절, 늦은 성공 보상, 처리 결과 미확인 환불 조회를 통합 테스트로 확인했습니다.",
                 boundary:
-                    "현재는 Fake PG로 검증했으며 실제 Toss Payments의 지연과 장애를 포함한 운영 검증은 남아 있습니다.",
+                    "현재는 Fake PG 구현체로 검증했습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 운영 검증은 남아 있습니다.",
                 print: {
                     label: "PAYMENT / REFUND",
                     problem: "PG 응답 유실 뒤 중복 승인과 환불 위험",
@@ -619,7 +623,7 @@ const projects = [
                 decision:
                     "예약은 클래스 다음 슬롯 PK 순서, 재고는 productId 오름차순으로 비관적 락을 잡고 확인과 변경을 한 트랜잭션에서 처리했습니다.",
                 validation:
-                    "마지막 좌석과 재고의 동시 요청에서 한 건만 성공하고 나머지는 같은 업무 오류로 끝나는지 확인했습니다.",
+                    "마지막 좌석과 재고에 동시 요청을 보내 한 건만 성공하고, 나머지는 일관된 업무 오류를 반환하는지 확인했습니다.",
                 boundary:
                     "단일 MySQL 기준 설계입니다. 같은 행에 요청이 집중되면 대기 시간이 늘 수 있어 운영 지표를 보고 경계를 다시 나눠야 합니다.",
                 print: {
@@ -637,7 +641,7 @@ const projects = [
                 decision:
                     "복원이 필요한 값은 AES-GCM으로 암호화하고 정확 검색은 HMAC 블라인드 인덱스로 분리했습니다. 기존 데이터 전환과 키 회전도 별도 단계로 설계했습니다.",
                 validation:
-                    "암호화 round-trip, 잘못된 키 차단, 블라인드 인덱스 검색과 마이그레이션 재실행을 테스트했습니다.",
+                    "암호화 후 복호화, 잘못된 키 차단, 블라인드 인덱스 검색과 마이그레이션 재실행을 테스트했습니다.",
                 boundary:
                     "부분 검색은 지원하지 않으며 키 유실 시 복구할 수 없으므로 암호화 백업과 키 보관 절차가 함께 필요합니다.",
                 print: {
@@ -669,7 +673,7 @@ const projects = [
         stack: [
             "Java",
             "Spring Boot",
-            "Gradle Multi-module",
+            "Gradle 멀티모듈",
             "JPA",
             "MyBatis",
             "MySQL",
@@ -719,20 +723,21 @@ const projects = [
             text: "LG CNS 컨소시엄 참여 프로젝트로 현재 진행 중인 공공 SI입니다. 독립망 간 연계 구조와 직접 수행한 역할은 공개하고, 실제 접속 주소, 운영 값, 보안 설정, 소스 코드와 내부 문서만 제외했습니다.",
         },
         systemTitle: "독립망 간 업무 흐름 및 시스템 구성",
+        systemNavLabel: "업무 흐름",
         visualCaption:
             "사법기관 KICS, 전자영장 집행포털, 금융기관 및 통신사가 서로 독립된 망에서 요청과 제출 자료를 주고받는 흐름을 공개 가능한 수준으로 단순화했습니다.",
         architecture: {
             label: "독립망 간 기관 연계와 실패 경계",
-            title: "반복 흐름은 공통화하고 외부 호출과 DB 작업의 경계는 나눕니다.",
+            title: "기관별 공통 처리 흐름을 재사용하고 외부 호출과 DB 트랜잭션을 분리했습니다.",
             description:
-                "독립망 사이에서 처리하는 수신 자료와 통신사실확인자료의 공통 흐름을 제네릭, enum과 책임별 클래스로 나눴습니다. 외부 시스템 호출 전후의 DB 반영은 짧은 트랜잭션으로 분리해 연결 점유와 실패 영향을 제한했습니다.",
+                "수신 자료와 통신사실확인자료의 공통 흐름은 제네릭과 enum으로 묶고, 조회, 변환과 전송은 책임별 클래스로 나눴습니다. 외부 시스템 호출 전후의 DB 반영은 짧은 트랜잭션으로 분리해 연결 점유 시간을 줄였습니다.",
             tradeoff:
-                "공통 구조를 먼저 잡아 초기 구현 속도는 느려졌지만 후속 기능의 변경 지점은 줄었습니다. 현재 프로세스 락은 단일 JVM 범위이므로 서버를 여러 대로 늘리면 분산 조정 방식이 추가로 필요합니다.",
+                "공통 구조를 먼저 잡아 초기 구현은 느려졌지만 후속 기능에서 수정할 코드는 줄었습니다. 현재 ReentrantLock은 단일 JVM 범위이므로 서버를 여러 대로 늘리면 별도의 분산 조정 방식이 필요합니다.",
         },
         problems: [
             {
                 number: "01",
-                title: "데이터 규모와 화면 방식에 맞춰 페이지 전략을 나눈다",
+                title: "신규 화면은 커서, 기존 화면은 지연 조인을 적용한다",
                 constraint:
                     "전송 상태와 수신 자료가 계속 쌓이면 OFFSET이 커질수록 뒤쪽 페이지 조회 비용이 증가합니다. 기존 업무 화면은 번호 이동도 유지해야 했습니다.",
                 decision:
@@ -744,15 +749,15 @@ const projects = [
             },
             {
                 number: "02",
-                title: "독립망 간 비슷한 기관 연계 기능의 변경 지점을 줄인다",
+                title: "기관 연계 기능의 공통 처리 흐름을 재사용한다",
                 constraint:
                     "수신 자료와 통신사실확인자료의 화면, 인터페이스와 배치 흐름이 비슷해 기능마다 같은 분기와 변환 코드를 만들 가능성이 컸습니다.",
                 decision:
-                    "공통 처리 흐름은 제네릭과 enum으로 묶고 조회, 변환, 전송 책임은 클래스로 나눴습니다. 기관별 차이는 공통 흐름 안의 명시적인 확장 지점으로 남겼습니다.",
+                    "공통 처리 흐름은 제네릭과 enum으로 묶고 조회, 변환과 전송은 책임별 클래스로 나눴습니다. 기관별 차이는 별도 구현으로 분리했습니다.",
                 validation:
-                    "후속 수신 자료 기능에서 공통 코드를 재사용해 새 기능의 구현 범위와 변경 지점이 줄어드는 것을 확인했습니다.",
+                    "후속 수신 자료 기능에서 공통 코드를 재사용해 새로 작성하거나 수정할 코드 범위를 줄였습니다.",
                 boundary:
-                    "공통 구조를 설계하는 동안 첫 기능의 개발 속도는 느려졌습니다. 동작이 다른 흐름까지 억지로 합치지 않도록 기관별 규칙은 분리했습니다.",
+                    "공통 구조를 설계하는 동안 첫 기능의 개발 속도는 느려졌습니다. 동작이 다른 기관별 규칙은 분리해 과도한 공통화를 피했습니다.",
             },
             {
                 number: "03",
@@ -768,7 +773,7 @@ const projects = [
             },
             {
                 number: "04",
-                title: "외부 호출 중에는 DB 연결과 중복 작업을 오래 잡지 않는다",
+                title: "외부 API 호출과 DB 트랜잭션을 분리한다",
                 constraint:
                     "주기적으로 들어오는 연계 요청이 겹치고 외부 승인 API 응답이 늦어지면 같은 작업이 중복 실행되거나 DB 연결을 오래 점유할 수 있었습니다.",
                 decision:
@@ -795,6 +800,8 @@ const projects = [
     },
     {
         ...projectSummariesById.defense,
+        systemTitle: "기관 연계 배치 흐름",
+        systemNavLabel: "연계 흐름",
         proofs: [
             {
                 value: "3종",
@@ -836,7 +843,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "기존 화면에 요청 위조와 파일 검사를 추가한다",
+                title: "기존 화면에 CSRF 방어와 파일 형식 검사를 추가한다",
                 constraint:
                     "기존 업무 흐름은 유지하면서 요청 위조와 확장자를 바꾼 파일 업로드를 서버에서 차단해야 했습니다.",
                 decision:

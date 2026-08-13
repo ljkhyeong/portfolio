@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect, useRef } from "react"
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom"
 import Main from "./component/Main"
 import NotFound from "./component/NotFound"
+import ScrollToTopButton from "./component/ScrollToTopButton"
 import {
     defaultRouteMeta,
     normalizeRoutePath,
@@ -112,6 +113,7 @@ const App = () => {
         >
             <BrowserRouter>
                 <RouteEffects />
+                <ScrollToTopButton />
                 <Routes>
                     <Route path="/" element={<Main />} />
                     <Route

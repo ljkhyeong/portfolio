@@ -1,0 +1,72 @@
+.scroll-to-top {
+    position: fixed;
+    right: calc(20px + env(safe-area-inset-right));
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 90;
+    display: inline-grid;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(246, 248, 250, 0.96);
+    color: var(--ink-soft);
+    box-shadow:
+        0 1px 2px rgba(31, 35, 40, 0.08),
+        0 3px 10px rgba(31, 35, 40, 0.12);
+    cursor: pointer;
+    animation: scroll-to-top-enter 160ms ease-out both;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.scroll-to-top:hover {
+    border-color: #afb8c1;
+    background: var(--paper);
+    color: var(--accent);
+}
+
+.scroll-to-top:active {
+    background: var(--paper-raised);
+    box-shadow: 0 1px 2px rgba(31, 35, 40, 0.1);
+    transform: translateY(1px);
+}
+
+.scroll-to-top:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+@keyframes scroll-to-top-enter {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 640px) {
+    .scroll-to-top {
+        right: calc(14px + env(safe-area-inset-right));
+        bottom: calc(14px + env(safe-area-inset-bottom));
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-to-top {
+        animation: none;
+    }
+}
+
+@media print {
+    .scroll-to-top {
+        display: none !important;
+    }
+}

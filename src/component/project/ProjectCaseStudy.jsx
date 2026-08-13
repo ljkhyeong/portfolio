@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { navigableCaseStudies, projectsById } from "../../data/projects"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
+import BatonServiceSwitcher from "./BatonServiceSwitcher"
+import ProjectSwitcher from "./ProjectSwitcher"
 import "../../css/Project.css"
 
 const ProductVisual = ({ project }) => <ProjectScreenshotGallery project={project} context="case" />
@@ -279,10 +281,10 @@ const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
     </section>
 )
 
-const CaseSectionNavigation = ({ hasArchitecture, hasDocuments }) => {
+const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }) => {
     const sections = [
         { href: "#project-overview", label: "개요" },
-        { href: "#project-system", label: "화면 및 구성" },
+        { href: "#project-system", label: systemNavLabel ?? "대표 화면" },
         ...(hasArchitecture ? [{ href: "#project-architecture", label: "설계" }] : []),
         { href: "#project-problems", label: "문제 해결" },
         ...(hasDocuments ? [{ href: "#project-documents", label: "문서" }] : []),
@@ -316,7 +318,7 @@ const PriorExperienceCase = ({ project }) => {
                 <Link to="/" className="case-study-nav__home">
                     <span aria-hidden="true">←</span> 포트폴리오
                 </Link>
-                <span className="case-study-nav__count">교육 프로젝트</span>
+                <ProjectSwitcher contextLabel="교육 프로젝트" />
             </nav>
             <article className="prior-case">
                 <span className="case-kicker">{project.eyebrow}</span>
@@ -399,11 +401,10 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <Link to="/" className="case-study-nav__home">
                     <span aria-hidden="true">←</span> 포트폴리오
                 </Link>
-                <span className="case-study-nav__count">
-                    주요 프로젝트 {project.index} /{" "}
-                    {String(navigableCaseStudies.length).padStart(2, "0")}
-                </span>
+                <ProjectSwitcher currentProjectId={projectId} />
             </nav>
+
+            {project.services ? <BatonServiceSwitcher services={project.services} /> : null}
 
             <article className="case-study">
                 <header className="case-hero">
@@ -428,6 +429,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <CaseSectionNavigation
                     hasArchitecture={hasArchitecture}
                     hasDocuments={hasDocuments}
+                    systemNavLabel={project.systemNavLabel}
                 />
 
                 <section
@@ -466,9 +468,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <section className="case-system" id="project-system" aria-labelledby="system-title">
                     <div className="case-section-heading">
                         <span>01</span>
-                        <h2 id="system-title">
-                            {project.systemTitle ?? "대표 화면 및 서비스 구성"}
-                        </h2>
+                        <h2 id="system-title">{project.systemTitle ?? "대표 화면"}</h2>
                     </div>
                     <ProjectVisual project={project} />
                     {project.services ? <BatonServices services={project.services} /> : null}

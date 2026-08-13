@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { batonServicesById, projectsById } from "../../data/projects"
+import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import "../../css/BatonService.css"
 
 const ProblemStory = ({ problem }) => (
@@ -50,6 +51,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 <Link to="/projects/baton">← BATON 전체 보기</Link>
                 <span>services/{serviceId}.md</span>
             </nav>
+            <BatonServiceSwitcher services={project.services} currentServiceId={serviceId} />
 
             <article className="baton-service-case">
                 <header className="baton-service-hero">
