@@ -64,7 +64,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(document.title).toBe("BATON | 임정규 포트폴리오")
     expect(
         screen.getByRole("heading", {
-            name: "기능이 아니라 실패와 복구 방식으로 서비스를 나눈다",
+            name: "서비스별 실패 및 복구 경계 분리",
         }),
     ).toBeInTheDocument()
 })
@@ -302,7 +302,7 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
     expect(await screen.findByRole("heading", { name: "설계 판단" })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "결제와 환불 결과를 모를 때 같은 작업을 무작정 반복하지 않는다",
+            name: "PG 응답 유실 시 중복 승인 및 환불 방지",
         }),
     ).toBeInTheDocument()
     expect(screen.getAllByText(/processingToken/).length).toBeGreaterThan(0)
@@ -327,11 +327,9 @@ test("BATON 마이크로서비스 상세는 책임, 대표 문제 해결과 문�
     expect(screen.getByRole("heading", { name: "대표 문제 해결" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문서 분류와 대표 문서" })).toBeInTheDocument()
     expect(screen.getByText("공개 저장소")).toBeInTheDocument()
-    expect(screen.getByText("느린 URL 점검 중 DB 락을 잡지 않는다")).toBeInTheDocument()
-    expect(screen.queryByText("HMAC 키와 DB를 하나의 복구 단위로 묶는다")).not.toBeInTheDocument()
-    expect(
-        screen.queryByText("전송 결과를 모르면 원본 기록을 바꾸지 않는다"),
-    ).not.toBeInTheDocument()
+    expect(screen.getByText("URL 점검 I/O와 DB 트랜잭션 분리")).toBeInTheDocument()
+    expect(screen.queryByText("HMAC 키와 링크 데이터의 복구 시점 일치")).not.toBeInTheDocument()
+    expect(screen.queryByText("전송 결과 미확인 시 중복 발송 방지")).not.toBeInTheDocument()
     expect(screen.getByRole("link", { name: /WATCH 상태 변경 이벤트 전달/ })).toHaveAttribute(
         "href",
         expect.stringContaining("baton-watch"),

@@ -244,11 +244,11 @@ const projects = [
             {
                 number: "01",
                 serviceIds: ["core", "go", "watch", "relay"],
-                title: "기능이 아니라 실패와 복구 방식으로 서비스를 나눈다",
+                title: "서비스별 실패 및 복구 경계 분리",
                 constraint:
                     "링크 생성은 중복 요청, URL 점검은 느리고 위험한 네트워크 I/O, 메시지 전송은 외부 응답 유실을 다뤄야 합니다.",
                 decision:
-                    "Core는 조직 운영의 기준 데이터에 집중하고 GO, WATCH, RELAY를 별도 저장소와 실행 환경으로 분리했습니다. 상태 변경과 이벤트는 같은 트랜잭션의 아웃박스에 저장하고 커밋 후 전달하도록 설계했습니다.",
+                    "Core는 조직 운영의 기준 데이터에 집중하고 GO, WATCH, RELAY를 별도 저장소와 실행 환경으로 분리했습니다. 서비스 간 전달이 필요한 상태 변경은 같은 트랜잭션의 아웃박스에 저장하고 커밋 후 전달하도록 설계했습니다.",
                 validation:
                     "각 저장소의 계약 테스트와 통합 테스트를 독립 실행해 서비스별 규칙과 복구 경계를 확인했습니다.",
                 boundary:
@@ -257,7 +257,7 @@ const projects = [
             {
                 number: "02",
                 serviceIds: ["core"],
-                title: "역할 교대의 중간 상태를 한 트랜잭션으로 묶는다",
+                title: "바통 인계 상태와 담당자 변경을 한 트랜잭션으로 처리",
                 constraint:
                     "바통 수락과 담당자 변경이 따로 반영되면 같은 역할에 이전 담당자와 다음 담당자가 섞일 수 있었습니다.",
                 decision:
@@ -276,7 +276,7 @@ const projects = [
             {
                 number: "03",
                 serviceIds: ["go"],
-                title: "GO의 링크 생성은 재시도해도 같은 결과를 돌려준다",
+                title: "링크 생성 API의 멱등성 보장",
                 constraint:
                     "저장 후 응답이 유실되거나 여러 서버가 같은 요청을 동시에 받으면 링크가 중복 생성될 수 있습니다.",
                 decision:
@@ -295,7 +295,7 @@ const projects = [
             {
                 number: "04",
                 serviceIds: ["go"],
-                title: "HMAC 키와 DB를 하나의 복구 단위로 묶는다",
+                title: "HMAC 키와 링크 데이터의 복구 시점 일치",
                 constraint:
                     "잘못된 HMAC 키로 서버가 시작되면 같은 목적지에 다른 링크 코드가 생겨 기존 링크 계약이 깨질 수 있었습니다.",
                 decision:
@@ -308,7 +308,7 @@ const projects = [
             {
                 number: "05",
                 serviceIds: ["watch"],
-                title: "느린 URL 점검 중 DB 락을 잡지 않는다",
+                title: "URL 점검 I/O와 DB 트랜잭션 분리",
                 constraint:
                     "외부 URL은 느리거나 사설망을 가리킬 수 있고, 늦게 끝난 작업이 최신 점검 결과를 덮을 수도 있었습니다.",
                 decision:
@@ -327,20 +327,20 @@ const projects = [
             {
                 number: "06",
                 serviceIds: ["watch"],
-                title: "상태 변경 이벤트를 아웃박스에 먼저 남긴다",
+                title: "아웃박스로 상태 변경 이벤트 유실 방지",
                 constraint:
                     "URL 상태는 저장됐지만 Core 전달 호출이 실패하면 두 시스템이 서로 다른 상태를 볼 수 있었습니다.",
                 decision:
                     "상태 변경과 전달할 이벤트를 같은 트랜잭션에 저장하고 HTTPS at-least-once 전달과 적체 이벤트 복구를 선택했습니다.",
                 validation:
-                    "동일 이벤트 재전송, ACK 유실과 적체 이벤트 복구를 자동 테스트와 공개 스테이징 Runbook으로 검증했습니다.",
+                    "자동 테스트로 동일 이벤트 재전송, ACK 유실과 적체 이벤트 복구를 확인했고 공개 스테이징 검증 절차는 Runbook으로 정리했습니다.",
                 boundary:
                     "현재는 소비자가 하나라 메시지 브로커를 두지 않았습니다. 소비자가 늘면 전달 방식을 다시 검토해야 합니다.",
             },
             {
                 number: "07",
                 serviceIds: ["relay"],
-                title: "전송 결과를 모르면 원본 기록을 바꾸지 않는다",
+                title: "전송 결과 미확인 시 중복 발송 방지",
                 constraint:
                     "외부 전송은 성공했지만 응답만 잃으면 자동 재시도가 중복 발송으로 이어질 수 있었습니다.",
                 decision:
@@ -359,7 +359,7 @@ const projects = [
             {
                 number: "08",
                 serviceIds: ["relay"],
-                title: "RabbitMQ 재전달을 inbox 한 건으로 처리한다",
+                title: "RabbitMQ 재전달의 Inbox 멱등 처리",
                 constraint:
                     "PostgreSQL 커밋 뒤 RabbitMQ ACK 전에 프로세스가 멈추면 같은 이벤트가 다시 전달됩니다.",
                 decision:
@@ -563,7 +563,7 @@ const projects = [
         problems: [
             {
                 number: "01",
-                title: "계층 규칙은 코드 리뷰가 아니라 빌드에서 막는다",
+                title: "ArchUnit으로 모듈 의존 규칙 검증",
                 constraint:
                     "기능이 늘수록 web과 persistence 코드가 application과 domain 안으로 섞이기 쉽습니다.",
                 decision:
@@ -581,7 +581,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "결제와 환불 결과를 모를 때 같은 작업을 무작정 반복하지 않는다",
+                title: "PG 응답 유실 시 중복 승인 및 환불 방지",
                 constraint:
                     "PG 호출 뒤 응답만 유실되면 성공 여부를 모른 채 승인이나 환불을 다시 요청할 수 있습니다.",
                 decision:
@@ -599,7 +599,7 @@ const projects = [
             },
             {
                 number: "03",
-                title: "업무는 저장됐지만 알림 작업이 사라지는 틈을 없앤다",
+                title: "알림 아웃박스로 전송 작업 유실 방지",
                 constraint:
                     "주문이나 예약을 커밋한 직후 프로세스가 종료되면 알림 호출 자체가 사라질 수 있습니다.",
                 decision:
@@ -617,7 +617,7 @@ const projects = [
             },
             {
                 number: "04",
-                title: "예약과 재고의 락 순서를 고정한다",
+                title: "예약 및 재고 락 순서 고정",
                 constraint:
                     "마지막 자리나 재고에 요청이 몰리면 조회 시점에는 모두 가능해 보여 초과 처리될 수 있습니다.",
                 decision:
@@ -635,7 +635,7 @@ const projects = [
             },
             {
                 number: "05",
-                title: "개인정보 복원과 검색의 키를 분리한다",
+                title: "개인정보 암호화와 검색용 블라인드 인덱스 분리",
                 constraint:
                     "전화번호와 주소를 평문으로 저장하지 않으면서도 주문 조회와 비회원 이력 찾기를 지원해야 했습니다.",
                 decision:
@@ -653,13 +653,13 @@ const projects = [
             },
             {
                 number: "06",
-                title: "AWS 고정비를 확인하고 운영 구조를 다시 선택한다",
+                title: "AWS 운영 비용 분석 및 로컬 k3s 전환 준비",
                 constraint:
                     "CloudFront, ALB, ECS, RDS와 Valkey 기반 환경을 실제 가동했지만 트래픽과 무관한 상시 비용이 계속 발생했습니다.",
                 decision:
-                    "Cost Explorer로 비용 원인을 확인하고 주요 리소스를 중지 및 삭제했습니다. 이후 단일 노트북 k3s, 불변 이미지와 암호화 백업을 기준으로 운영 구조를 전환했습니다.",
+                    "Cost Explorer로 비용 원인을 확인하고 주요 리소스를 중지 및 삭제했습니다. 이후 단일 노트북 k3s 배포, 불변 이미지와 암호화 백업 절차를 준비했습니다.",
                 validation:
-                    "AWS 리소스별 비용과 종료 상태를 회고에 남기고 k3s 배포, 롤백, 백업 및 복구 절차를 runbook으로 검증했습니다.",
+                    "AWS 리소스별 비용과 종료 상태를 회고에 남기고 로컬 k3s 배포, 롤백, 백업 및 복구 절차를 Runbook으로 검증했습니다.",
                 boundary:
                     "단일 노드는 비용과 통제에는 유리하지만 고가용성을 제공하지 않습니다. 저장소 기준 준비는 완료했으나 공개 운영은 아직 시작하지 않았습니다.",
                 print: {
@@ -738,7 +738,7 @@ const projects = [
         problems: [
             {
                 number: "01",
-                title: "신규 화면은 커서, 기존 화면은 지연 조인을 적용한다",
+                title: "커서 페이지네이션과 지연 조인 적용",
                 constraint:
                     "전송 상태와 수신 자료가 계속 쌓이면 OFFSET이 커질수록 뒤쪽 페이지 조회 비용이 증가합니다. 기존 업무 화면은 번호 이동도 유지해야 했습니다.",
                 decision:
@@ -750,7 +750,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "기관 연계 기능의 공통 처리 흐름을 재사용한다",
+                title: "기관 연계 인터페이스 및 Spring Batch 공통 흐름 분리",
                 constraint:
                     "수신 자료와 통신사실확인자료의 화면, 인터페이스와 Spring Batch 흐름이 비슷해 기능마다 같은 분기와 변환 코드를 만들 가능성이 컸습니다.",
                 decision:
@@ -762,7 +762,7 @@ const projects = [
             },
             {
                 number: "03",
-                title: "먼저 도착한 PDF 콜백을 재조회로 복구한다",
+                title: "콜백 순서 역전을 Spring Retry로 복구",
                 constraint:
                     "PDF 변환 콜백이 요청 상태 저장보다 먼저 도착하면 콜백 처리 시 조회 대상이 없어 정상 결과를 반영하지 못할 수 있었습니다.",
                 decision:
@@ -774,7 +774,7 @@ const projects = [
             },
             {
                 number: "04",
-                title: "외부 API 호출과 DB 트랜잭션을 분리한다",
+                title: "외부 API 호출과 DB 트랜잭션 분리",
                 constraint:
                     "주기적으로 들어오는 연계 요청이 겹치고 외부 승인 API 응답이 늦어지면 같은 작업이 중복 실행되거나 DB 연결을 오래 점유할 수 있었습니다.",
                 decision:
@@ -823,7 +823,7 @@ const projects = [
         problems: [
             {
                 number: "01",
-                title: "기관마다 다른 데이터 연계를 배치로 처리한다",
+                title: "기관별 데이터 연계 배치 3종 구현",
                 constraint:
                     "기관마다 데이터 형식과 실행 시간이 다르고 연계 오류가 나면 다음 업무도 처리할 수 없습니다.",
                 decision:
@@ -835,7 +835,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "기존 화면에 CSRF 방어와 파일 형식 검사를 추가한다",
+                title: "CSRF 방어와 업로드 파일 형식 검증",
                 constraint:
                     "기존 업무 흐름은 유지하면서 요청 위조와 확장자를 바꾼 파일 업로드를 서버에서 차단해야 했습니다.",
                 decision:
@@ -847,7 +847,7 @@ const projects = [
             },
             {
                 number: "03",
-                title: "화면 오류를 로그, DB, 배치 순서로 추적한다",
+                title: "로그, DB 및 배치 상태를 시간순으로 추적",
                 constraint:
                     "화면의 오류 원인은 서버, SQL, 연계 배치 중 어느 곳에나 있을 수 있습니다.",
                 decision:

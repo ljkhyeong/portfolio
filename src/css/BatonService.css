@@ -305,6 +305,14 @@
     border-bottom: 1px solid var(--ink);
 }
 
+.baton-service-problems > .baton-service-section-heading {
+    margin-bottom: 18px;
+}
+
+.baton-service-problems > .baton-service-section-heading h2 {
+    font-size: clamp(28px, 2.6vw, 36px);
+}
+
 .service-problem {
     display: grid;
     grid-template-columns: minmax(220px, 0.62fr) minmax(0, 1.38fr);

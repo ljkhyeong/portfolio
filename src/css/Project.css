@@ -937,6 +937,19 @@
     display: none;
 }
 
+.case-problems__more > summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -3px;
+}
+
+.case-problems > .case-section-heading {
+    margin-bottom: 18px;
+}
+
+.case-problems > .case-section-heading h2 {
+    font-size: clamp(28px, 2.5vw, 36px);
+}
+
 .case-problems__more > summary span::before {
     content: "+";
     font-family: var(--mono);

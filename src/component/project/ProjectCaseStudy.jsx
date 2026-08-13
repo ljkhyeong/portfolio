@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { navigableCaseStudies, projectsById } from "../../data/projects"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
+import ProblemSolutionList from "./ProblemSolutionList"
 import ProjectSwitcher from "./ProjectSwitcher"
 import "../../css/Project.css"
 
@@ -56,39 +57,11 @@ const ProjectEvidenceLinks = ({ project }) => {
     )
 }
 
-const ProblemStory = ({ problem }) => (
-    <article className="case-problem">
-        <div className="case-problem__title">
-            <span>{problem.number}</span>
-            <h3>{problem.title}</h3>
-        </div>
-        <dl className="case-problem__story">
-            <div>
-                <dt>문제 상황</dt>
-                <dd>{problem.constraint}</dd>
-            </div>
-            <div>
-                <dt>해결</dt>
-                <dd>{problem.decision}</dd>
-            </div>
-            <div>
-                <dt>검증</dt>
-                <dd>{problem.validation}</dd>
-            </div>
-            <div>
-                <dt>트레이드오프와 한계</dt>
-                <dd>{problem.boundary}</dd>
-            </div>
-        </dl>
-    </article>
-)
-
 const ProblemList = ({ problems, additional = false }) => (
-    <div className={`case-problems__list${additional ? " case-problems__list--additional" : ""}`}>
-        {problems.map((problem) => (
-            <ProblemStory problem={problem} key={problem.number} />
-        ))}
-    </div>
+    <ProblemSolutionList
+        problems={problems}
+        label={additional ? "추가 문제 해결 목록" : "대표 문제 해결 목록"}
+    />
 )
 
 const BatonServices = ({ services }) => {

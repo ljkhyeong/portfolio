@@ -1,4 +1,5 @@
 import { render, screen, within } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router-dom"
 import BatonServiceCaseStudy from "./BatonServiceCaseStudy"
 import ProjectCaseStudy from "./ProjectCaseStudy"
@@ -6,7 +7,7 @@ import ProjectCaseStudy from "./ProjectCaseStudy"
 const renderWithRouter = (component) =>
     render(<MemoryRouter initialEntries={["/"]}>{component}</MemoryRouter>)
 
-test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 명확히 보여준다", () => {
+test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 명확히 보여준다", async () => {
     renderWithRouter(<ProjectCaseStudy projectId="baton" />)
 
     expect(screen.getByText("개인 프로젝트 01 / 02")).toBeInTheDocument()
@@ -47,8 +48,15 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     expect(evidenceLinks).toHaveTextContent("대표 문서: Core 헥사고날 아키텍처")
 
     const additionalProblems = screen.getByText("추가 문제 해결 4건 보기").closest("details")
+    const featuredProblemList = screen.getByRole("list", { name: "대표 문제 해결 목록" })
 
     expect(additionalProblems).not.toHaveAttribute("open")
+    expect(within(featuredProblemList).getAllByRole("listitem")).toHaveLength(4)
+
+    await userEvent.click(screen.getByText("추가 문제 해결 4건 보기"))
+
+    expect(additionalProblems).toHaveAttribute("open")
+    expect(screen.getByRole("list", { name: "추가 문제 해결 목록" })).toBeInTheDocument()
 
     const projectSwitcher = screen.getByRole("navigation", {
         name: "경력 및 개인 프로젝트 바로가기",
@@ -130,7 +138,7 @@ test("전자영장 상세는 LG CNS 컨소시엄의 독립망 연계 흐름과 �
     expect(screen.getByText("LG CNS 컨소시엄 / 독립망 간 기관 연계")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "먼저 도착한 PDF 콜백을 재조회로 복구한다",
+            name: "콜백 순서 역전을 Spring Retry로 복구",
         }),
     ).toBeInTheDocument()
     expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
@@ -144,6 +152,7 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
     expect(
         screen.getByRole("navigation", { name: "서비스 상세 섹션 바로가기" }),
     ).toBeInTheDocument()
+    expect(screen.getByRole("list", { name: "WATCH 대표 문제 해결 목록" })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "책임" })).toHaveAttribute("href", "#service-boundary")
     expect(screen.getByRole("link", { name: "문제 해결" })).toHaveAttribute(
         "href",

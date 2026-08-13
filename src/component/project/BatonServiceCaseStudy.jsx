@@ -1,34 +1,8 @@
 import { Link } from "react-router-dom"
 import { batonServicesById, projectsById } from "../../data/projects"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
+import ProblemSolutionList from "./ProblemSolutionList"
 import "../../css/BatonService.css"
-
-const ProblemStory = ({ problem }) => (
-    <article className="service-problem">
-        <div className="service-problem__heading">
-            <code>{problem.number}</code>
-            <h3>{problem.title}</h3>
-        </div>
-        <dl>
-            <div>
-                <dt>문제 상황</dt>
-                <dd>{problem.constraint}</dd>
-            </div>
-            <div>
-                <dt>해결</dt>
-                <dd>{problem.decision}</dd>
-            </div>
-            <div>
-                <dt>검증</dt>
-                <dd>{problem.validation}</dd>
-            </div>
-            <div className="service-problem__tradeoff">
-                <dt>트레이드오프와 한계</dt>
-                <dd>{problem.boundary}</dd>
-            </div>
-        </dl>
-    </article>
-)
 
 const BatonServiceCaseStudy = ({ serviceId }) => {
     const project = projectsById.baton
@@ -137,11 +111,10 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         <span>## 02</span>
                         <h2 id="service-problems-title">대표 문제 해결</h2>
                     </div>
-                    <div className="baton-service-problems__list">
-                        {problems.map((problem) => (
-                            <ProblemStory problem={problem} key={problem.number} />
-                        ))}
-                    </div>
+                    <ProblemSolutionList
+                        problems={problems}
+                        label={`${service.name} 대표 문제 해결 목록`}
+                    />
                 </section>
 
                 <section
