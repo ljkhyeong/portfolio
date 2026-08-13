@@ -3,6 +3,7 @@ import { navigableCaseStudies, projectsById } from "../../data/projects"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import ProblemSolutionList from "./ProblemSolutionList"
+import ProjectEvidenceList from "./ProjectEvidenceList"
 import ProjectSwitcher from "./ProjectSwitcher"
 import "../../css/Project.css"
 
@@ -82,7 +83,7 @@ const BatonServices = ({ services }) => {
                 <em>{core.evidence}</em>
             </article>
             <div className="case-service-map__divider">
-                <span>3개의 독립 마이크로서비스</span>
+                <span>{supporting.length}개의 독립 마이크로서비스</span>
             </div>
             <div className="case-service-map__children">
                 {supporting.map((service) => (
@@ -260,6 +261,7 @@ const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }
         { href: "#project-system", label: systemNavLabel ?? "대표 화면" },
         ...(hasArchitecture ? [{ href: "#project-architecture", label: "설계" }] : []),
         { href: "#project-problems", label: "문제 해결" },
+        { href: "#project-proof", label: "검증" },
         ...(hasDocuments ? [{ href: "#project-documents", label: "문서" }] : []),
     ]
 
@@ -351,6 +353,9 @@ const ProjectCaseStudy = ({ projectId }) => {
     const nextProject = navigableCaseStudies[(projectIndex + 1) % navigableCaseStudies.length]
     const hasArchitecture = Boolean(project.architecture)
     const hasDocuments = Boolean(project.documents?.length)
+    const evidenceTitle =
+        project.evidenceTitle ??
+        (project.projectType === "career" ? "주요 구현 및 운영 확인" : "테스트 및 운영 근거")
     const problemSectionNumber = hasArchitecture ? "03" : "02"
     const proofSectionNumber = hasArchitecture ? "04" : "03"
     const documentSectionNumber = hasArchitecture ? "05" : "04"
@@ -474,17 +479,9 @@ const ProjectCaseStudy = ({ projectId }) => {
                 <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
                     <div className="case-section-heading">
                         <span>{proofSectionNumber}</span>
-                        <h2 id="proof-title">검증 결과</h2>
+                        <h2 id="proof-title">{evidenceTitle}</h2>
                     </div>
-                    <div className="case-proof__grid">
-                        {project.proofs.map((proof) => (
-                            <div className="case-proof__item" key={proof.label}>
-                                <strong>{proof.value}</strong>
-                                <span>{proof.label}</span>
-                                <p>{proof.detail}</p>
-                            </div>
-                        ))}
-                    </div>
+                    <ProjectEvidenceList proofs={project.proofs} label={`${evidenceTitle} 목록`} />
                 </section>
 
                 {hasDocuments ? (

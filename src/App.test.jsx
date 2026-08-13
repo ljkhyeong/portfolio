@@ -12,8 +12,11 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     expect(heroHeading).toHaveTextContent("복잡한 요구사항을")
     expect(heroHeading).toHaveTextContent("안정적인 백엔드")
-    expect(screen.getByRole("list", { name: "대표 검증 근거" })).toHaveTextContent(
+    expect(screen.getByRole("list", { name: "주요 경험 요약" })).toHaveTextContent(
         "GO 동시 요청 8 → 링크 1",
+    )
+    expect(screen.getByRole("list", { name: "주요 경험 요약" })).toHaveTextContent(
+        "happyGallery 백엔드 테스트 218",
     )
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
@@ -64,7 +67,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(document.title).toBe("BATON | 임정규 포트폴리오")
     expect(
         screen.getByRole("heading", {
-            name: "서비스별 실패 및 복구 경계 분리",
+            name: "서비스별 데이터와 처리 경계 분리",
         }),
     ).toBeInTheDocument()
 })
@@ -112,12 +115,12 @@ test("홈은 상세 근거를 펼치지 않고 프로젝트 선택에 집중한�
     expect(screen.queryAllByRole("img")).toHaveLength(0)
 })
 
-test("BATON의 GO, WATCH, RELAY를 독립 마이크로서비스 상세로 연결한다", () => {
+test("BATON의 5개 마이크로서비스를 독립 상세로 연결한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    const services = ["GO", "WATCH", "RELAY"]
+    const services = ["GO", "WATCH", "RELAY", "BRIEF", "CAL"]
 
     services.forEach((service) => {
         expect(
@@ -212,6 +215,8 @@ const canonicalRouteCases = [
     ["/projects/baton/go", "GO", "BATON GO | 임정규 포트폴리오"],
     ["/projects/baton/watch", "WATCH", "BATON WATCH | 임정규 포트폴리오"],
     ["/projects/baton/relay", "RELAY", "BATON RELAY | 임정규 포트폴리오"],
+    ["/projects/baton/brief", "BRIEF", "BATON BRIEF | 임정규 포트폴리오"],
+    ["/projects/baton/cal", "CAL", "BATON CAL | 임정규 포트폴리오"],
     ["/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
     ["/projects/e-warrant", "전송형 전자영장 시스템", "전송형 전자영장 시스템 | 임정규 포트폴리오"],
     [
@@ -305,7 +310,7 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
             name: "PG 응답 유실 시 중복 승인 및 환불 방지",
         }),
     ).toBeInTheDocument()
-    expect(screen.getAllByText(/processingToken/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/작업 선점 토큰/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/알림 아웃박스/).length).toBeGreaterThan(0)
     expect(screen.getByText(/AWS에 운영 배포했으나/)).toBeInTheDocument()
     expect(
@@ -382,6 +387,14 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
     expect(screen.getByRole("link", { name: "RELAY" })).toHaveAttribute(
         "href",
         "https://ljkportfolio.netlify.app/projects/baton/relay",
+    )
+    expect(screen.getByRole("link", { name: "BRIEF" })).toHaveAttribute(
+        "href",
+        "https://ljkportfolio.netlify.app/projects/baton/brief",
+    )
+    expect(screen.getByRole("link", { name: "CAL" })).toHaveAttribute(
+        "href",
+        "https://ljkportfolio.netlify.app/projects/baton/cal",
     )
     expect(screen.getByRole("link", { name: "전송형 전자영장" })).toHaveAttribute(
         "href",

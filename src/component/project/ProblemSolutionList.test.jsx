@@ -38,5 +38,8 @@ test("문제를 접힌 목록으로 먼저 보여주고 선택한 근거를 펼�
 
     expect(firstDetails).toHaveAttribute("open")
     expect(within(firstDetails).getByText("멱등 키로 처리 결과를 재사용합니다.")).toBeVisible()
-    expect(within(firstDetails).getByText("트레이드오프와 한계")).toBeVisible()
+    expect(within(firstDetails).getByText("문제 상황")).toBeVisible()
+    expect(within(firstDetails).getByText("적용한 방법")).toBeVisible()
+    expect(within(firstDetails).getByText("테스트 및 확인")).toBeVisible()
+    expect(within(firstDetails).getByText("트레이드오프와 남은 과제")).toBeVisible()
 })

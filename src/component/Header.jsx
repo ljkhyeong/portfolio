@@ -56,7 +56,7 @@ const Header = () => {
                         </a>
                     </div>
                 </div>
-                <ul className="hero__proofs" aria-label="대표 검증 근거">
+                <ul className="hero__proofs" aria-label="주요 경험 요약">
                     {portfolioProfile.heroProofs.map((proof) => (
                         <li key={proof}>{proof}</li>
                     ))}

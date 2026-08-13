@@ -133,6 +133,14 @@ const App = () => {
                         element={<BatonServiceCaseStudy serviceId="relay" />}
                     />
                     <Route
+                        path="/projects/baton/brief"
+                        element={<BatonServiceCaseStudy serviceId="brief" />}
+                    />
+                    <Route
+                        path="/projects/baton/cal"
+                        element={<BatonServiceCaseStudy serviceId="cal" />}
+                    />
+                    <Route
                         path="/projects/happygallery"
                         element={<ProjectCaseStudy projectId="happygallery" />}
                     />

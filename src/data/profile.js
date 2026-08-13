@@ -17,14 +17,14 @@ export const portfolioProfile = {
     heroProofs: [
         "LG CNS 컨소시엄 / 독립망 연계",
         "GO 동시 요청 8 → 링크 1",
-        "happyGallery REST Docs 218 tests",
+        "happyGallery 백엔드 테스트 218",
     ],
     printHeadline: {
         lead: "실패 이후까지 설계하는",
         emphasis: "백엔드 개발자",
     },
     printSummary:
-        "LG CNS 컨소시엄 전송형 전자영장 프로젝트에서 독립망 간 기관 연계를 개발하고 있습니다. 공공 시스템 운영 장애 대응과 개인 프로젝트의 멱등성, 데이터 정합성, 복구 경로를 함께 담았습니다.",
+        "LG CNS 컨소시엄 전송형 전자영장 프로젝트에서 독립망 간 기관 연계를 개발하고 있습니다. 공공 시스템 운영 장애 대응과 개인 프로젝트의 멱등성, 데이터 일관성, 실패 후 재처리 방식을 함께 담았습니다.",
 }
 
 export const workPrinciples = [
@@ -33,17 +33,17 @@ export const workPrinciples = [
         title: "서비스별 역할을 먼저 나눕니다",
         printTitle: "경계를 먼저 정합니다",
         description:
-            "데이터를 어디서 관리하고 권한을 어디서 확인할지 정합니다. BATON에서는 조직 데이터, 링크 생성, URL 점검, 메시지 전송을 별도 서비스로 나눴습니다.",
+            "데이터를 어디서 관리하고 권한을 어디서 확인할지 정합니다. BATON에서는 조직 데이터, 링크 생성, URL 점검, 메시지 전송, 주간 브리프와 캘린더 구독을 별도 서비스로 나눴습니다.",
         printDescription: "데이터 소유권, 트랜잭션 범위, 서비스별 책임을 먼저 나눕니다.",
         link: "/projects/baton",
         linkLabel: "BATON 서비스 구성 보기",
     },
     {
         number: "02",
-        title: "외부 실패를 영속 상태로 남깁니다",
+        title: "외부 연동 실패를 DB에 기록합니다",
         printTitle: "재처리를 기능으로 만듭니다",
         description:
-            "결제 응답 누락과 알림 전송 실패를 멱등 키, 펜싱 토큰, 아웃박스로 남겨 중복 실행을 줄이고 중단된 작업을 이어서 복구합니다.",
+            "결제 응답 누락과 알림 전송 실패를 멱등 키, 작업 선점 토큰과 아웃박스로 기록해 중복 실행을 막고 중단된 작업을 이어서 처리합니다.",
         printDescription: "멱등 키, 락, 아웃박스와 복구 작업으로 실패 뒤의 동작을 정의합니다.",
         link: "/projects/happygallery",
         linkLabel: "happyGallery 장애 처리 보기",

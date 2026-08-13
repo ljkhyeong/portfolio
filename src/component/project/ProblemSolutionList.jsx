@@ -1,10 +1,10 @@
 import "../../css/ProblemSolutionList.css"
 
 const problemEvidence = [
-    ["문제", "constraint"],
-    ["해결", "decision"],
-    ["검증", "validation"],
-    ["트레이드오프와 한계", "boundary"],
+    ["문제 상황", "constraint"],
+    ["적용한 방법", "decision"],
+    ["테스트 및 확인", "validation"],
+    ["트레이드오프와 남은 과제", "boundary"],
 ]
 
 const ProblemSolutionList = ({ problems, label }) => (

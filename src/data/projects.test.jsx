@@ -23,6 +23,13 @@ describe("project summary data", () => {
             .map(({ id, name, route }) => ({ id, name, route }))
 
         expect(projectSummariesById.baton.serviceLinks).toEqual(detailedServiceLinks)
+        expect(detailedServiceLinks.map((service) => service.id)).toEqual([
+            "go",
+            "watch",
+            "relay",
+            "brief",
+            "cal",
+        ])
     })
 
     it("separates career, personal, and education projects in recruiter-first order", () => {
@@ -43,5 +50,31 @@ describe("project summary data", () => {
         expect(projectSummariesById.baton.tags).not.toContain("Outbox")
         expect(projectSummariesById.happygallery.tags).not.toContain("헥사고날 아키텍처")
         expect(projectSummariesById.warrant.tags).toContain("Spring Batch")
+    })
+
+    it("uses reader-facing terms and explains every implementation or verification claim", () => {
+        const publicCopy = JSON.stringify(projectsById)
+
+        expect(publicCopy).not.toContain("lease 복구")
+        expect(publicCopy).not.toContain("processingToken")
+        expect(publicCopy).not.toContain("AFTER_COMMIT")
+        expect(publicCopy).not.toContain("Fake PG")
+        expect(publicCopy).toContain("작업 선점에 유효 시간(lease)")
+
+        Object.values(projectsById).forEach((project) => {
+            project.proofs.forEach((proof) => {
+                expect(proof).toEqual(
+                    expect.objectContaining({
+                        item: expect.any(String),
+                        method: expect.any(String),
+                        rule: expect.any(String),
+                        result: expect.any(String),
+                    }),
+                )
+                expect(proof).not.toHaveProperty("value")
+                expect(proof).not.toHaveProperty("label")
+                expect(proof).not.toHaveProperty("detail")
+            })
+        })
     })
 })

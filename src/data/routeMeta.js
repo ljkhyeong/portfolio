@@ -12,7 +12,7 @@ export const routeMeta = {
     "/projects/baton": {
         title: "BATON | 임정규 포트폴리오",
         description:
-            "조직과 권한을 담당하는 Core와 GO, WATCH, RELAY 마이크로서비스의 경계와 복구 방식을 정리한 BATON 프로젝트",
+            "조직 운영 기준을 담당하는 Core와 GO, WATCH, RELAY, BRIEF, CAL 마이크로서비스의 책임과 테스트 기준을 정리한 BATON 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/baton/go": {
@@ -29,7 +29,19 @@ export const routeMeta = {
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "전송 결과를 영속화하고 재시도와 복구 경로를 설계한 BATON RELAY 마이크로서비스",
+            "전송 결과를 DB에 저장하고 중복 발송 방지와 재처리 기준을 설계한 BATON RELAY 마이크로서비스",
+        image: "/og-cover.png",
+    },
+    "/projects/baton/brief": {
+        title: "BATON BRIEF | 임정규 포트폴리오",
+        description:
+            "운영 이벤트를 중복 없이 처리하고 생성 후 수정하지 않는 주간 운영 브리프를 만드는 BATON BRIEF 마이크로서비스",
+        image: "/og-cover.png",
+    },
+    "/projects/baton/cal": {
+        title: "BATON CAL | 임정규 포트폴리오",
+        description:
+            "확정 일정을 읽기 전용 iCalendar 피드로 제공하고 구독 토큰과 조건부 조회를 처리하는 BATON CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {

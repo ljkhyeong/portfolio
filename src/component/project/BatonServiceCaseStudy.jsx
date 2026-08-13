@@ -77,9 +77,9 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     </div>
                     <div className="service-boundary-flow">
                         <article>
-                            <code>Core / System of Record</code>
-                            <strong>조직 운영 기준 데이터</strong>
-                            <p>팀, 시즌, 역할과 업무 기준을 관리합니다.</p>
+                            <code>입력</code>
+                            <strong>{service.input}</strong>
+                            <p>Core와 각 마이크로서비스가 합의한 입력 계약만 받습니다.</p>
                         </article>
                         <span aria-hidden="true">→</span>
                         <article className="service-boundary-flow__current">
@@ -91,9 +91,9 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         </article>
                         <span aria-hidden="true">→</span>
                         <article>
-                            <code>복구 상태</code>
-                            <strong>실패 뒤 재시작 지점</strong>
-                            <p>중복, 지연과 외부 응답 유실을 영속 상태로 남깁니다.</p>
+                            <code>출력 및 재처리 기준</code>
+                            <strong>{service.output}</strong>
+                            <p>{service.recoveryBoundary}</p>
                         </article>
                     </div>
                     <blockquote>
@@ -151,15 +151,18 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                 <p>{document.note}</p>
                             </article>
                         ))}
-                        {serviceId === "watch" ? (
+                        {service.repository ? (
                             <a
                                 className="service-repository-link"
-                                href="https://github.com/ljkhyeong/baton-watch"
+                                href={service.repository.href}
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                WATCH 공개 저장소 보기 <span aria-hidden="true">↗</span>
+                                {service.repository.label} 보기 <span aria-hidden="true">↗</span>
                             </a>
+                        ) : null}
+                        {service.repository?.note ? (
+                            <p className="service-repository-note">{service.repository.note}</p>
                         ) : null}
                     </div>
                 </section>

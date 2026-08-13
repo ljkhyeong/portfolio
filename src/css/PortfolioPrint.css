@@ -673,9 +673,7 @@ body.portfolio-print-mode {
 
 .print-service-index {
     position: relative;
-    display: grid;
-    grid-template-columns: 48mm 1fr;
-    gap: 3mm;
+    display: block;
     margin-top: 5mm;
     padding-top: 7mm;
     border-top: 0.35mm solid var(--print-line-dark);
@@ -689,13 +687,16 @@ body.portfolio-print-mode {
 
 .print-service-index__core,
 .print-service-index__children a {
-    display: flex;
-    min-height: 58mm;
-    flex-direction: column;
+    min-width: 0;
 }
 
 .print-service-index__core {
-    padding: 5mm;
+    display: grid;
+    grid-template-columns: 36mm minmax(0, 0.8fr) minmax(0, 1.4fr) auto;
+    gap: 4mm;
+    align-items: center;
+    min-height: 22mm;
+    padding: 4mm;
     border: 0.35mm solid #58a6ff;
     border-radius: 1.6mm;
     background: #0969da;
@@ -718,7 +719,7 @@ body.portfolio-print-mode {
 }
 
 .print-service-index p {
-    margin: 2mm 0 0;
+    margin: 0;
     font-size: 8pt;
     line-height: 1.4;
     word-break: keep-all;
@@ -726,18 +727,20 @@ body.portfolio-print-mode {
 
 .print-service-index span {
     display: block;
-    margin-top: auto;
 }
 
 .print-service-index__children {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 2.5mm;
+    margin-top: 2.5mm;
 }
 
 .print-service-index__children a {
-    min-width: 0;
-    padding: 4mm;
+    display: flex;
+    min-height: 40mm;
+    flex-direction: column;
+    padding: 3mm;
     border: 0.35mm solid #30363d;
     border-radius: 1.6mm;
     background: #161b22;
@@ -755,7 +758,12 @@ body.portfolio-print-mode {
 }
 
 .print-service-index__children p {
+    margin-top: 1.5mm;
     color: rgba(255, 255, 255, 0.68);
+}
+
+.print-service-index__children span {
+    margin-top: auto;
 }
 
 .print-status-note,
@@ -1102,14 +1110,24 @@ body.portfolio-print-mode {
 }
 
 .print-metric-row strong {
-    font-size: 17pt;
-    letter-spacing: -0.04em;
+    font-size: 9pt;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
 }
 
 .print-metric-row span {
     margin-top: 1.5mm;
     color: var(--print-muted);
     font-size: 8pt;
+    line-height: 1.35;
+}
+
+.print-metric-row small {
+    display: block;
+    margin-top: 1mm;
+    color: var(--print-muted);
+    font-size: 8pt;
+    line-height: 1.3;
 }
 
 .print-defense-flow {
@@ -1181,7 +1199,7 @@ body.portfolio-print-mode {
 /* Current career case */
 
 .print-page--warrant .print-title {
-    margin-top: 6mm;
+    margin-top: 5mm;
 }
 
 .print-page--warrant .print-title h2 {
@@ -1196,7 +1214,7 @@ body.portfolio-print-mode {
 }
 
 .print-warrant-overview {
-    margin-top: 5mm;
+    margin-top: 4mm;
     padding: 4mm 5mm;
     border: 0.35mm solid var(--print-line);
     border-radius: 1.6mm;
@@ -1285,7 +1303,7 @@ body.portfolio-print-mode {
 }
 
 .print-warrant-problems {
-    margin-top: 4mm;
+    margin-top: 3mm;
 }
 
 .print-warrant-problems > div {
@@ -1351,7 +1369,7 @@ body.portfolio-print-mode {
 }
 
 .print-status-note--warrant {
-    margin-top: 3mm;
+    margin-top: 2mm;
     padding-top: 2.5mm;
     padding-bottom: 2.5mm;
 }

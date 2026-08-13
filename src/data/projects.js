@@ -3,7 +3,8 @@ import { projectSummaries, projectSummariesById } from "./projectSummaries"
 const projects = [
     {
         ...projectSummariesById.baton,
-        evidenceAsOf: "2026.08.09 저장소 기준",
+        evidenceAsOf: "2026.08.13 저장소 기준",
+        evidenceTitle: "테스트 기준 및 결과",
         systemTitle: "대표 화면 및 마이크로서비스 구성",
         systemNavLabel: "화면 및 서비스",
         screenshots: [
@@ -39,9 +40,9 @@ const projects = [
         ],
         architecture: {
             label: "서비스 경계",
-            title: "Core는 기준 데이터를 관리하고, 연계 마이크로서비스는 외부 연동 실패를 격리합니다.",
+            title: "Core는 기준 데이터를 관리하고, 5개 마이크로서비스는 서로 다른 변경 및 장애 흐름을 분리합니다.",
             description:
-                "Core가 팀, 시즌, 권한, 루틴과 핸드오프를 관리합니다. GO, WATCH, RELAY는 보안 정책, 응답 지연과 재시도 방식이 달라 저장소와 실행 환경을 분리했습니다.",
+                "Core가 팀, 시즌, 권한, 루틴과 인수인계를 관리합니다. GO, WATCH, RELAY, BRIEF, CAL은 링크, URL 점검, 메시지 전송, 주간 브리프와 캘린더 구독을 각각 별도 저장소와 데이터베이스에서 처리합니다.",
             tradeoff:
                 "서비스별 장애와 배포 범위를 분리한 대신 저장소, 배포와 모니터링 대상이 늘고 서비스 간 데이터 정합성을 별도로 관리해야 합니다.",
         },
@@ -65,9 +66,9 @@ const projects = [
                 problem:
                     "느린 URL 점검 중 DB 락을 잡으면 경합이 커지고, 늦게 끝난 작업이 최신 결과를 덮을 수 있었습니다.",
                 solution:
-                    "DNS pinning과 SSRF 차단을 적용했습니다. lease token과 source revision 펜싱으로 이전 작업의 늦은 결과를 거절했습니다.",
+                    "DNS 조회 결과를 고정해 SSRF와 DNS 리바인딩을 차단했습니다. 작업 선점 토큰과 원본 데이터 버전을 비교해 이전 작업의 늦은 결과는 저장하지 않았습니다.",
                 tradeoff:
-                    "lease가 짧으면 중복 실행이 늘고 길면 장애 복구가 늦어져, 운영 지표에 맞춘 시간 조정이 필요합니다.",
+                    "작업 선점 유효 시간이 짧으면 중복 실행이 늘고, 길면 중단된 작업을 다른 서버가 이어받는 시점이 늦어집니다.",
             },
             {
                 serviceId: "relay",
@@ -76,7 +77,7 @@ const projects = [
                 problem:
                     "외부 전송은 성공했지만 응답만 잃으면 재시도가 중복 발송으로 이어질 수 있었습니다.",
                 solution:
-                    "inbox 중복 제거, SKIP LOCKED 작업 선점, lease token을 사용하고 처리 결과 미확인은 OUTCOME_UNKNOWN으로 남겼습니다.",
+                    "수신 이력(Inbox)으로 중복 처리를 막고, SKIP LOCKED로 처리할 작업을 선점했습니다. 전송 성공 여부를 확인할 수 없으면 결과 미확인 상태(OUTCOME_UNKNOWN)로 남겼습니다.",
                 tradeoff:
                     "중복 발송 방지를 우선해 자동 재전송을 멈추므로, 결과 조회나 수동 조정 절차가 추가로 필요합니다.",
             },
@@ -85,13 +86,13 @@ const projects = [
             {
                 id: "prd",
                 label: "PRD",
-                count: "14",
+                count: "18",
                 summary: "서비스별 책임, 입력 계약과 완료 조건을 정의합니다.",
             },
             {
                 id: "adr",
                 label: "ADR",
-                count: "43",
+                count: "47",
                 summary: "기술 선택의 이유, 대안과 트레이드오프를 기록합니다.",
             },
             {
@@ -102,9 +103,9 @@ const projects = [
             },
             {
                 id: "api",
-                label: "API Contract",
-                count: "1",
-                summary: "Core OpenAPI를 서비스 계약의 기준으로 관리합니다.",
+                label: "API / Data Contract",
+                count: "2",
+                summary: "Core OpenAPI와 CAL JSON Schema를 서비스 간 계약의 기준으로 관리합니다.",
             },
         ],
         documents: [
@@ -139,20 +140,37 @@ const projects = [
             {
                 serviceId: "relay",
                 type: "ADR 요약",
-                label: "RELAY 전송 시도 복구",
+                label: "RELAY 응답 유실 시 중복 발송 방지",
                 href: "/docs/baton/relay-attempt-recovery.md",
                 note: "외부 호출 전 시도 의도를 저장하고 복구하는 결정 요약",
+            },
+            {
+                serviceId: "brief",
+                type: "PRD / ADR 요약",
+                label: "BRIEF 이벤트 처리와 주간 브리프 생성",
+                href: "/docs/baton/brief-event-projection.md",
+                note: "중복 및 순서가 바뀐 이벤트 처리와 생성 후 수정하지 않는 주간 브리프",
+            },
+            {
+                serviceId: "cal",
+                type: "PRD / ADR 요약",
+                label: "CAL 일정 및 구독 계약",
+                href: "/docs/baton/cal-calendar-contract.md",
+                note: "일정 개정 번호, iCalendar 호환성, 구독 토큰 회전 및 폐기 계약",
             },
         ],
         services: [
             {
                 id: "core",
                 name: "Core",
-                kind: "SYSTEM OF RECORD",
+                kind: "CORE APPLICATION",
                 route: "/projects/baton",
                 role: "조직 운영 기준 데이터",
-                detail: "팀, 시즌, 역할, 루틴, 라운드, 의사결정, 자료, 핸드오프",
+                detail: "팀, 시즌, 역할, 루틴, 라운드, 의사결정, 자료, 인수인계",
                 evidence: "PRD 5 · ADR 17 · OpenAPI 계약",
+                input: "사용자 명령과 조직 운영 요청",
+                output: "팀, 시즌, 역할, 루틴과 인수인계 기준 데이터",
+                recoveryBoundary: "상태 변경과 담당자 변경을 한 트랜잭션에서 처리",
                 database: "MySQL",
                 primary: true,
                 visibility: "비공개 저장소 / 공개 가능 요약",
@@ -170,7 +188,10 @@ const projects = [
                 route: "/projects/baton/go",
                 role: "정책 기반 링크",
                 detail: "UUID 멱등 키, HMAC-SHA256 코드, 허용 경로만 처리",
-                evidence: "374 tests · 동시 8 → 1",
+                evidence: "자동화 테스트 374개 · 동시 요청 8건에서 링크 1건",
+                input: "허용된 BATON 경로와 UUID 멱등 키",
+                output: "정책 검증을 통과한 고정 링크 코드",
+                recoveryBoundary: "같은 요청은 같은 결과를 반환하고 다른 요청은 충돌로 차단",
                 database: "MySQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
                 status: "핵심 링크 계약과 복구 검증을 마쳤고 BATON 전체 연동은 진행 중입니다.",
@@ -186,11 +207,19 @@ const projects = [
                 kind: "MICROSERVICE",
                 route: "/projects/baton/watch",
                 role: "URL 상태 점검",
-                detail: "DNS pinning, SSRF 방어, lease 및 revision 펜싱, 아웃박스",
-                evidence: "354 tests",
+                detail: "SSRF 방어, 작업 선점 만료 후 재인계, 이전 작업 결과 반영 차단, 아웃박스",
+                evidence: "자동화 테스트 354개",
+                input: "점검 대상 URL과 원본 데이터 버전",
+                output: "URL 상태와 상태 변경 이벤트",
+                recoveryBoundary:
+                    "작업 선점에 유효 시간(lease)을 두고 중단된 작업을 다른 서버가 이어서 처리",
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
                 status: "안전한 URL 점검과 이벤트 전달을 구현했으며 공개 스테이징 환경 검증은 실행 전입니다.",
+                repository: {
+                    href: "https://github.com/ljkhyeong/baton-watch",
+                    label: "WATCH 공개 저장소",
+                },
                 documentation: [
                     { label: "PRD", count: "4" },
                     { label: "ADR", count: "3" },
@@ -203,8 +232,12 @@ const projects = [
                 kind: "MICROSERVICE",
                 route: "/projects/baton/relay",
                 role: "메시지 전달",
-                detail: "inbox 중복 제거, 작업 선점, 재시도, 처리 결과 미확인 상태",
-                evidence: "373 tests",
+                detail: "수신 이력(Inbox) 중복 제거, 작업 선점, 재시도와 전송 결과 미확인 상태",
+                evidence: "자동화 테스트 373개",
+                input: "메시지 전송 이벤트와 수신 이벤트 식별자",
+                output: "전송 성공, 실패 또는 결과 미확인 상태",
+                recoveryBoundary:
+                    "재전달은 중복 처리하지 않고 성공 여부를 모르면 자동 재전송을 중단",
                 database: "PostgreSQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
                 status: "전송 복구와 메시지 브로커 수신을 구현했고 실제 메시지 공급자 운영 검증은 남아 있습니다.",
@@ -213,46 +246,117 @@ const projects = [
                     { label: "ADR", count: "14" },
                 ],
             },
+            {
+                id: "brief",
+                name: "BRIEF",
+                kind: "MICROSERVICE",
+                route: "/projects/baton/brief",
+                role: "주간 운영 브리프",
+                detail: "운영 이벤트 중복 처리 방지, 확인 항목 구성, 생성 후 수정하지 않는 주간 브리프",
+                evidence: "자동화 테스트 8개 · PostgreSQL 통합 시나리오 4개",
+                input: "인수인계 지연, 루틴 누락과 결정 후속 조치 지연 이벤트",
+                output: "확인이 필요한 항목과 주간 운영 브리프",
+                recoveryBoundary:
+                    "중복 및 이전 버전 이벤트를 구분하고 저장한 수신 이력으로 조회 데이터를 재구축",
+                database: "PostgreSQL",
+                visibility: "공개 저장소 / 최신 로컬 MVP 동기화 전",
+                status: "로컬 MVP와 PostgreSQL 통합 테스트를 구현했습니다. BATON 생산자 연동, 인증 및 운영 배포는 아직 하지 않았습니다.",
+                repository: {
+                    href: "https://github.com/ljkhyeong/baton-brief",
+                    label: "BRIEF 공개 저장소",
+                    note: "최신 로컬 MVP는 공개 저장소 동기화 전입니다.",
+                },
+                documentation: [
+                    { label: "PRD", count: "2" },
+                    { label: "ADR", count: "2" },
+                ],
+            },
+            {
+                id: "cal",
+                name: "CAL",
+                kind: "MICROSERVICE",
+                route: "/projects/baton/cal",
+                role: "읽기 전용 일정 구독",
+                detail: "iCalendar(.ics) 피드, 구독 토큰 회전 및 폐기, ETag 조건부 조회",
+                evidence: "자동화 테스트 43개 · 실행 JAR 생성",
+                input: "BATON이 확정한 일정 스냅샷과 구독 명령",
+                output: "읽기 전용 iCalendar 피드와 조건부 조회 응답",
+                recoveryBoundary:
+                    "중복 및 이전 개정 번호를 구분하고 저장한 일정으로 캘린더를 재구축",
+                database: "PostgreSQL",
+                visibility: "공개 저장소 / 최신 로컬 구현 동기화 전",
+                status: "시즌 단위 MVP와 계약 테스트를 구현했습니다. BATON 발행 연동과 공개 배포는 아직 하지 않았습니다.",
+                repository: {
+                    href: "https://github.com/ljkhyeong/baton-cal",
+                    label: "CAL 공개 저장소",
+                    note: "최신 로컬 구현은 공개 저장소 동기화 전입니다.",
+                },
+                documentation: [
+                    { label: "PRD", count: "2" },
+                    { label: "ADR", count: "2" },
+                    { label: "JSON Schema", count: "6" },
+                ],
+            },
         ],
         proofs: [
             {
-                value: "374",
-                label: "GO 테스트",
-                detail: "멱등 링크 생성, 정책 검증과 동시 요청을 검증",
+                item: "GO 링크 중복 생성 방지",
+                method: "Testcontainers 통합 테스트",
+                rule: "같은 멱등 키와 요청으로 8건을 동시에 실행",
+                result: "링크와 생성 예약을 각각 1건만 저장",
+                scope: "GO 전체 자동화 테스트 374개 · 2026.08.09",
             },
             {
-                value: "354",
-                label: "WATCH 테스트",
-                detail: "URL 보안, 작업 선점과 상태 변경 이벤트를 검증",
+                item: "WATCH 안전한 URL 점검",
+                method: "자동화 테스트",
+                rule: "사설망 주소, DNS 재조회, 제한 초과 응답과 이전 작업의 늦은 결과를 입력",
+                result: "위험한 요청을 차단하고 최신 원본 버전의 결과만 저장",
+                scope: "WATCH 전체 자동화 테스트 354개 · 2026.08.09",
             },
             {
-                value: "373",
-                label: "RELAY 테스트",
-                detail: "중복 제거, lease 복구와 처리 결과 미확인 상태를 검증",
+                item: "RELAY 메시지 재전달 중복 방지",
+                method: "Docker Compose 통합 테스트",
+                rule: "DB 커밋 후 RabbitMQ ACK 전에 중단한 뒤 같은 이벤트를 재전달",
+                result: "수신 이력(Inbox)과 전달 작업을 각각 1건만 유지",
+                scope: "RELAY 전체 자동화 테스트 373개 · 2026.08.09",
+            },
+            {
+                item: "BRIEF 동시 요청 중복 방지",
+                method: "MockMvc 및 PostgreSQL Testcontainers",
+                rule: "같은 이벤트와 동일 상태의 주간 브리프 생성 요청을 동시에 실행",
+                result: "수신 기록과 주간 브리프를 각각 1건만 저장하고, 최초 요청과 중복 요청을 HTTP 상태로 구분",
+                scope: "전체 테스트 8개 중 PostgreSQL 통합 시나리오 4개 · 2026.08.13",
+            },
+            {
+                item: "CAL 일정 및 구독 계약",
+                method: "PostgreSQL Testcontainers 및 iCalendar 기대값 비교",
+                rule: "중복 및 낮은 개정 번호, DST와 자정 및 취소, 구독 회전 동시 요청",
+                result: "중복 및 이전 일정은 반영하지 않고, 동일 입력에서는 같은 캘린더와 캐시 검증값을 생성",
+                scope: "전체 자동화 테스트 43개 및 실행 JAR 생성 성공 · BATON 발행 연동과 공개 배포 전 · 2026.08.13",
             },
         ],
         category: "개인 프로젝트",
-        role: "4개 저장소의 서비스 분리, 도메인 규칙, API 및 DB 계약, 테스트와 운영 절차 설계 및 구현",
-        oneLine: "실패와 복구 방식이 다른 기능을 서비스와 저장소 단위로 분리",
+        role: "6개 저장소의 서비스 분리, 도메인 규칙, API 및 DB 계약, 테스트와 운영 절차 설계 및 구현",
+        oneLine: "변경 및 장애 처리 방식이 다른 기능을 서비스와 저장소 단위로 분리",
         status: {
             label: "현재 상태",
-            text: "각 서비스의 핵심 기능과 테스트는 구현했습니다. 서비스 간 전체 연동과 운영 환경 배포는 진행 중입니다. 문서와 테스트 수치는 2026.08.09 저장소 기준입니다.",
+            text: "Core, GO, WATCH, RELAY의 핵심 기능과 BRIEF 및 CAL의 로컬 MVP를 구현했습니다. 서비스 간 전체 연동과 운영 환경 배포는 진행 중입니다. 근거별 기준일은 각 테스트 항목에 표시했습니다.",
         },
         visualCaption:
-            "Core가 조직 운영의 기준 데이터를 관리합니다. GO, WATCH, RELAY는 Core의 하위 기능이 아니라 독립적으로 배포하고 복구하는 마이크로서비스입니다.",
+            "Core가 조직 운영의 기준 데이터를 관리합니다. GO, WATCH, RELAY, BRIEF, CAL은 Core의 단순 기능이 아니라 독립 저장소와 데이터베이스를 가진 마이크로서비스입니다.",
         problems: [
             {
                 number: "01",
-                serviceIds: ["core", "go", "watch", "relay"],
-                title: "서비스별 실패 및 복구 경계 분리",
+                serviceIds: ["core", "go", "watch", "relay", "brief", "cal"],
+                title: "서비스별 데이터와 처리 경계 분리",
                 constraint:
-                    "링크 생성은 중복 요청, URL 점검은 느리고 위험한 네트워크 I/O, 메시지 전송은 외부 응답 유실을 다뤄야 합니다.",
+                    "링크, URL 점검, 메시지 전송, 주간 브리프와 캘린더 구독은 입력, 보안과 재처리 방식이 서로 다릅니다.",
                 decision:
-                    "Core는 조직 운영의 기준 데이터에 집중하고 GO, WATCH, RELAY를 별도 저장소와 실행 환경으로 분리했습니다. 서비스 간 전달이 필요한 상태 변경은 같은 트랜잭션의 아웃박스에 저장하고 커밋 후 전달하도록 설계했습니다.",
+                    "Core는 조직 운영 기준 데이터에 집중하고 GO, WATCH, RELAY, BRIEF, CAL을 별도 저장소와 데이터베이스로 분리했습니다. 서비스 간 전달이 필요한 상태 변경은 같은 트랜잭션의 아웃박스에 저장하고 커밋 후 전달하도록 설계했습니다.",
                 validation:
-                    "각 저장소의 계약 테스트와 통합 테스트를 독립 실행해 서비스별 규칙과 복구 경계를 확인했습니다.",
+                    "각 저장소의 계약 및 통합 테스트를 독립 실행했습니다. GO는 동시 링크 요청, WATCH는 안전한 URL 점검, RELAY는 메시지 재전달, BRIEF는 중복 이벤트, CAL은 일정 및 구독 계약을 각각 확인했습니다.",
                 boundary:
-                    "개별 서비스 검증은 끝났지만 Core부터 RELAY까지의 전체 흐름과 실제 운영 배포는 아직 완료하지 않았습니다.",
+                    "개별 저장소의 구현 상태는 다르며 Core부터 5개 마이크로서비스까지의 전체 연동과 실제 운영 배포는 아직 완료하지 않았습니다.",
             },
             {
                 number: "02",
@@ -299,11 +403,11 @@ const projects = [
                 constraint:
                     "잘못된 HMAC 키로 서버가 시작되면 같은 목적지에 다른 링크 코드가 생겨 기존 링크 계약이 깨질 수 있었습니다.",
                 decision:
-                    "키에서 계산한 version과 fingerprint를 DB의 단일 identity 레코드에 저장했습니다. 기존 데이터와 키가 맞지 않으면 readiness 검사 전에 서버 시작을 막았습니다.",
+                    "HMAC 키의 버전과 식별 해시를 DB에 저장했습니다. 서버가 시작될 때 저장된 링크 데이터와 현재 키가 일치하는지 확인하고, 다르면 기동을 중단했습니다.",
                 validation:
-                    "서로 다른 identity의 동시 최초 결합에서 하나만 성공하고 잘못된 키가 링크를 생성하지 못하는지 통합 테스트로 확인했습니다.",
+                    "서로 다른 HMAC 키로 동시에 최초 기동했을 때 하나만 DB와 연결되고, 잘못된 키로는 링크를 만들 수 없는지 통합 테스트로 확인했습니다.",
                 boundary:
-                    "키 교체가 단순 환경 변수 변경이 아니므로 DB 백업과 secret을 같은 시점에 복원하는 운영 절차가 필요합니다.",
+                    "DB 백업과 HMAC 키를 같은 시점 기준으로 보관하고 복원하는 운영 절차가 필요합니다.",
             },
             {
                 number: "05",
@@ -312,16 +416,16 @@ const projects = [
                 constraint:
                     "외부 URL은 느리거나 사설망을 가리킬 수 있고, 늦게 끝난 작업이 최신 점검 결과를 덮을 수도 있었습니다.",
                 decision:
-                    "짧은 트랜잭션에서 SKIP LOCKED로 작업만 선점하고 네트워크 I/O를 분리했습니다. DNS pinning과 SSRF 방어, lease token과 source revision 펜싱을 적용했습니다.",
+                    "짧은 트랜잭션에서 SKIP LOCKED로 작업만 선점하고 네트워크 I/O를 분리했습니다. DNS 조회 결과를 고정해 SSRF와 DNS 리바인딩을 차단했습니다. 작업 선점 토큰과 원본 데이터 버전을 비교해 이전 작업의 늦은 결과는 저장하지 않았습니다.",
                 validation:
-                    "URL 보안, 작업 인계, 오래된 결과 거절과 제한된 redirect 및 응답 크기를 포함한 354개 테스트로 확인했습니다.",
+                    "사설망 주소와 DNS 재조회, 제한을 넘는 리다이렉트 및 응답, 작업 선점 만료 후 재인계와 이전 작업 결과 반영 차단을 자동화 테스트로 확인했습니다. WATCH 전체 테스트는 354개입니다.",
                 boundary:
-                    "lease 시간은 중복 실행과 복구 속도 사이의 균형이므로 실제 지연 분포를 보고 계속 조정해야 합니다.",
+                    "작업 선점 유효 시간이 짧으면 중복 실행이 늘고, 길면 중단된 작업을 다른 서버가 이어받는 시점이 늦어집니다.",
                 print: {
                     label: "WATCH / SAFE CHECK",
                     problem: "느린 I/O와 늦은 결과가 경합 및 최신 상태 덮어쓰기를 만듦",
-                    solution: "SSRF 차단, DNS pinning, lease와 revision 펜싱",
-                    tradeoff: "실제 지연 분포에 맞춰 lease 시간을 계속 조정해야 함",
+                    solution: "SSRF와 DNS 리바인딩 차단, 작업 선점 토큰과 원본 버전 비교",
+                    tradeoff: "실제 처리 시간에 맞춰 작업 선점 유효 시간을 조정해야 함",
                 },
             },
             {
@@ -331,7 +435,7 @@ const projects = [
                 constraint:
                     "URL 상태는 저장됐지만 Core 전달 호출이 실패하면 두 시스템이 서로 다른 상태를 볼 수 있었습니다.",
                 decision:
-                    "상태 변경과 전달할 이벤트를 같은 트랜잭션에 저장하고 HTTPS at-least-once 전달과 적체 이벤트 복구를 선택했습니다.",
+                    "상태 변경과 전달할 이벤트를 같은 트랜잭션에 저장했습니다. 수신 확인 전까지 같은 이벤트를 다시 보내고, 오래 남은 미전송 이벤트를 별도 작업이 다시 처리하도록 했습니다.",
                 validation:
                     "자동 테스트로 동일 이벤트 재전송, ACK 유실과 적체 이벤트 복구를 확인했고 공개 스테이징 검증 절차는 Runbook으로 정리했습니다.",
                 boundary:
@@ -344,40 +448,107 @@ const projects = [
                 constraint:
                     "외부 전송은 성공했지만 응답만 잃으면 자동 재시도가 중복 발송으로 이어질 수 있었습니다.",
                 decision:
-                    "외부 호출 전에 변경할 수 없는 전송 시도 기록과 외부 전송업체용 멱등 키를 저장했습니다. 결과를 확인할 수 없으면 OUTCOME_UNKNOWN으로 보존하고, 별도 조정 이력으로만 현재 상태를 변경했습니다.",
+                    "외부 호출 전에 수정하지 않는 전송 시도 이력과 전송업체용 멱등 키를 저장했습니다. 결과를 확인할 수 없으면 결과 미확인 상태(OUTCOME_UNKNOWN)로 보존하고, 운영자가 실제 결과를 확인한 이력으로만 상태를 확정하도록 했습니다.",
                 validation:
-                    "중단 뒤 같은 전송 식별자 복구, 오래된 token 거절과 조정 요청 재실행을 포함한 테스트로 확인했습니다.",
+                    "작업 중단 뒤 같은 전송 식별자로 이어서 처리하고, 이전 작업자의 선점 토큰으로 상태를 바꾸지 못하며, 상태 확정 요청을 다시 실행해도 결과가 중복되지 않는지 확인했습니다.",
                 boundary:
                     "중복 발송 방지를 우선해 자동 재전송을 멈추므로 결과 조회나 운영자 조정 절차가 필요합니다.",
                 print: {
                     label: "RELAY / RECOVERY",
                     problem: "응답 유실 뒤 재시도가 중복 발송으로 이어질 수 있음",
-                    solution: "불변 전송 시도 기록, 전송업체용 멱등 키와 OUTCOME_UNKNOWN",
+                    solution: "수정하지 않는 전송 시도 이력, 전송업체용 멱등 키와 결과 미확인 상태",
                     tradeoff: "자동 재전송 대신 결과 조회 및 운영자 조정 절차가 필요",
                 },
             },
             {
                 number: "08",
                 serviceIds: ["relay"],
-                title: "RabbitMQ 재전달의 Inbox 멱등 처리",
+                title: "RabbitMQ 메시지 재전달 시 중복 처리 방지",
                 constraint:
                     "PostgreSQL 커밋 뒤 RabbitMQ ACK 전에 프로세스가 멈추면 같은 이벤트가 다시 전달됩니다.",
                 decision:
-                    "분산 트랜잭션 대신 event ID 기반 inbox 멱등 처리와 commit-before-ack를 적용했습니다. 실패 메시지는 재시도 큐와 DLQ로 분리했습니다.",
+                    "분산 트랜잭션 대신 이벤트 ID를 수신 이력(Inbox)에 저장해 중복 처리를 막았습니다. DB 커밋 뒤 RabbitMQ ACK를 보내고, 실패 메시지는 재시도 큐와 DLQ로 분리했습니다.",
                 validation:
                     "메시지 브로커와 RELAY를 강제로 중단한 뒤 같은 이벤트가 재전달돼도 inbox가 1건인지 Docker Compose 통합 테스트로 확인했습니다.",
                 boundary:
                     "메시지 보존과 DLQ 운영 지점이 늘어 메시지 브로커 모니터링과 재처리 Runbook이 필요합니다.",
             },
+            {
+                number: "09",
+                serviceIds: ["brief"],
+                title: "중복 및 순서가 바뀐 운영 이벤트 처리",
+                constraint:
+                    "같은 이벤트가 다시 오거나 이전 개정 번호의 이벤트가 늦게 도착하면 현재 확인 항목이 잘못 바뀔 수 있습니다.",
+                decision:
+                    "이벤트 ID, 내용 해시와 개정 번호를 함께 저장해 중복, 식별자 충돌, 이전 버전과 개정 번호 누락을 구분했습니다. 수신 이력과 조회용 데이터는 같은 PostgreSQL 트랜잭션에서 반영합니다.",
+                validation:
+                    "MockMvc와 PostgreSQL Testcontainers로 중복, 충돌, 지원하지 않는 버전, 이전 개정 번호와 개정 번호 누락을 입력해 처리 결과와 저장 상태를 확인했습니다.",
+                boundary:
+                    "현재는 인증 없는 로컬 내부 HTTP 계약만 구현했으며 BATON 생산자와의 실제 연동은 아직 하지 않았습니다.",
+                print: {
+                    label: "BRIEF / EVENT",
+                    problem: "중복 또는 이전 버전 이벤트가 현재 확인 항목을 바꿀 수 있음",
+                    solution: "이벤트 ID, 내용 해시와 개정 번호를 같은 트랜잭션에서 확인",
+                    tradeoff: "현재는 로컬 내부 HTTP 계약이며 BATON 연동 전",
+                },
+            },
+            {
+                number: "10",
+                serviceIds: ["brief"],
+                title: "재구축 뒤에도 같은 주간 브리프 유지",
+                constraint:
+                    "이벤트를 다시 처리할 때 항목 순서나 생성 결과가 달라지면 이전 주간 브리프를 신뢰하기 어렵습니다.",
+                decision:
+                    "수락한 수신 이력으로 조회 데이터를 다시 만들고, 선정 항목의 해시를 기준으로 같은 내용의 브리프는 하나만 생성했습니다. 생성이 끝난 브리프는 수정하지 않습니다.",
+                validation:
+                    "같은 수신 이력의 재구축 전후 결과와 같은 상태의 동시 생성 요청을 확인했습니다. 동시 요청에서도 주간 브리프는 1건만 저장되고, 최초 생성은 HTTP 201, 같은 요청의 재실행은 HTTP 200으로 구분됩니다.",
+                boundary:
+                    "첫 버전은 인수인계 지연, 루틴 누락과 결정 후속 조치 지연 세 종류만 규칙 기반으로 처리합니다.",
+            },
+            {
+                number: "11",
+                serviceIds: ["cal"],
+                title: "중복 및 순서가 바뀐 일정 스냅샷 처리",
+                constraint:
+                    "네트워크 재시도로 같은 일정이 다시 오거나 이전 개정 번호가 늦게 도착하면 최신 캘린더가 과거 상태로 돌아갈 수 있습니다.",
+                decision:
+                    "이벤트 ID, 일정 ID, 개정 번호와 내용 해시를 비교해 적용, 중복, 이전 버전과 충돌을 구분했습니다. 수신 이력과 캘린더용 데이터는 같은 트랜잭션에서 변경합니다.",
+                validation:
+                    "동일 내용 재전송, 낮은 개정 번호, 같은 개정 번호의 다른 내용과 트랜잭션 실패 후 재시도를 PostgreSQL 통합 테스트로 확인했습니다.",
+                boundary:
+                    "BATON과 CAL 사이에는 최종적 일관성이 발생하며 BATON 발행 측과의 실제 연동은 아직 하지 않았습니다.",
+                print: {
+                    label: "CAL / REVISION",
+                    problem: "중복 및 이전 일정이 최신 캘린더를 덮을 수 있음",
+                    solution: "이벤트 ID, 일정 ID, 개정 번호와 내용 해시 비교",
+                    tradeoff: "BATON 발행 연동과 공개 배포 전",
+                },
+            },
+            {
+                number: "12",
+                serviceIds: ["cal"],
+                title: "캘린더 시간대, 취소 및 캐시 일관성 유지",
+                constraint:
+                    "캘린더 앱마다 시간대와 취소 일정 및 캐시 처리 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.",
+                decision:
+                    "일정마다 고정 UID와 원본 개정 번호 기반 SEQUENCE를 사용하고 취소 상태를 유지했습니다. 같은 데이터에서는 같은 .ics, ETag와 Last-Modified를 생성합니다.",
+                validation:
+                    "UTC, DST, 자정 경계, 취소 일정, UTF-8 줄 접기와 변경 없음 응답(304 Not Modified)을 iCalendar 기대값 파일 및 자동화 테스트로 확인했습니다.",
+                boundary:
+                    "iCal4j 또는 시간대 데이터 버전을 바꾸면 iCalendar 기대값 파일과 캐시 검증값이 함께 바뀌는지 확인해야 합니다.",
+            },
         ],
         stack: [
-            "Java 21",
+            "Java 21 / 25",
+            "Kotlin",
             "Spring Boot",
+            "Spring MVC / JdbcClient",
             "Gradle",
             "MySQL",
             "PostgreSQL",
             "Flyway",
             "RabbitMQ / SQS",
+            "iCal4j",
             "Testcontainers",
             "Docker",
         ],
@@ -392,6 +563,7 @@ const projects = [
     {
         ...projectSummariesById.happygallery,
         evidenceAsOf: "2026.08.09 저장소 기준",
+        evidenceTitle: "테스트 및 운영 근거",
         systemTitle: "대표 화면",
         systemNavLabel: "대표 화면",
         screenshots: [
@@ -439,7 +611,7 @@ const projects = [
                 problem:
                     "PG 호출 뒤 응답만 유실되면 성공 여부를 모른 채 승인이나 환불을 반복할 수 있었습니다.",
                 solution:
-                    "결제는 orderId, 환불은 최초 UUID를 멱등 키로 재사용하고 processingToken 펜싱과 결과 조회 후 재시도를 적용했습니다.",
+                    "결제는 orderId, 환불은 최초 UUID를 멱등 키로 재사용했습니다. 작업 선점 토큰을 비교해 이전 작업자의 결과 반영을 막고, 결과를 확인할 수 없으면 PG 상태를 조회한 뒤 재시도했습니다.",
                 tradeoff:
                     "PG 호출을 트랜잭션 밖으로 분리해 DB 점유는 줄지만, API 응답 시점에 환불 상태가 REQUESTED로 남을 수 있습니다.",
             },
@@ -449,9 +621,9 @@ const projects = [
                 problem:
                     "메모리 이벤트만 사용하면 업무 커밋 직후 프로세스가 종료될 때 알림 작업이 유실될 수 있었습니다.",
                 solution:
-                    "업무 상태와 알림 아웃박스를 같은 트랜잭션에 저장하고 AFTER_COMMIT 즉시 전송과 스케줄러 복구를 함께 사용했습니다.",
+                    "업무 상태와 알림 아웃박스를 같은 트랜잭션에 저장했습니다. 트랜잭션 커밋 직후 전송하고, 미전송 건은 스케줄러가 다시 조회해 처리합니다.",
                 tradeoff:
-                    "알림은 비동기로 처리되어 사용자 응답 시점에 발송이 끝나지 않을 수 있고, at-least-once 중복 가능성도 관리해야 합니다.",
+                    "알림은 비동기로 처리되어 사용자 응답 시점에 발송이 끝나지 않을 수 있습니다. 성공 확인 전까지 재시도하므로 응답 유실 시 중복 알림 가능성도 남습니다.",
             },
             {
                 label: "예약 및 재고 / 동시성",
@@ -536,24 +708,30 @@ const projects = [
         ],
         proofs: [
             {
-                value: "AWS",
-                label: "운영 환경 가동 후 종료",
-                detail: "AWS 운영 배포 뒤 상시 리소스 비용을 확인하고 종료",
+                item: "AWS 운영 이력",
+                method: "실제 AWS 배포 및 비용 내역 확인",
+                rule: "트래픽과 무관하게 발생하는 상시 리소스 비용을 월별로 확인",
+                result: "운영 환경을 종료하고 비용 원인을 회고 문서로 정리",
+                scope: "실운영 후 비용 문제로 종료",
             },
             {
-                value: "220",
-                label: "OpenAPI operations",
-                detail: "2026.08.09 API 스냅샷 기준 190 paths, 220 operations",
+                item: "API 계약 범위",
+                method: "OpenAPI 스냅샷 생성",
+                rule: "문서화한 API 경로와 작업을 빌드 산출물에서 집계",
+                result: "API 경로 190개, 작업 220개",
+                scope: "2026.08.09 저장소 기준",
             },
             {
-                value: "218",
-                label: "REST Docs 테스트",
-                detail: "2026.08.09 기준 8개 문서 테스트 스위트, 218개 테스트 완료",
+                item: "백엔드 및 API 문서 테스트",
+                method: "JUnit 및 Spring REST Docs",
+                rule: "전체 백엔드 테스트와 REST Docs 계약 테스트 스위트를 실행",
+                result: "전체 테스트 218개, REST Docs 계약 테스트 8개 스위트 통과",
+                scope: "2026.08.09 저장소 기준",
             },
         ],
         category: "개인 프로젝트",
         role: "요구사항 정리, 백엔드 및 프론트엔드 구현, 테스트와 설계 문서 작성",
-        oneLine: "외부 I/O와 동시성 실패를 복구 가능한 상태로 설계",
+        oneLine: "외부 I/O와 동시성 실패를 DB에 기록하고 재처리 기준을 설계",
         status: {
             label: "운영 상태",
             text: "AWS에 운영 배포했으나 트래픽과 무관한 상시 리소스 비용이 발생해 운영을 종료했습니다. 현재 공개 URL은 없으며 API와 테스트 수치는 2026.08.09 로컬 저장소 기준입니다.",
@@ -585,15 +763,15 @@ const projects = [
                 constraint:
                     "PG 호출 뒤 응답만 유실되면 성공 여부를 모른 채 승인이나 환불을 다시 요청할 수 있습니다.",
                 decision:
-                    "PG 호출은 DB 트랜잭션 밖에서 실행하고, 짧은 트랜잭션으로 작업을 선점합니다. orderId와 환불 UUID를 멱등 키로 재사용하고 processingToken으로 이전 작업자의 변경을 막습니다. 처리 결과를 확인할 수 없는 환불은 조회 후 재시도합니다.",
+                    "PG 호출은 DB 트랜잭션 밖에서 실행하고, 짧은 트랜잭션으로 작업을 선점합니다. orderId와 환불 UUID를 멱등 키로 재사용하고 작업 선점 토큰을 비교해 이전 작업자의 결과 반영을 막습니다. 처리 결과를 확인할 수 없는 환불은 조회 후 재시도합니다.",
                 validation:
-                    "작업 선점과 인계, 이전 토큰 거절, 늦은 성공 보상, 처리 결과 미확인 환불 조회를 통합 테스트로 확인했습니다.",
+                    "한 작업자만 처리하도록 선점하고 제한 시간이 지나면 다른 작업자가 이어받는지, 이전 작업자의 토큰은 거절되는지 확인했습니다. 늦은 성공 보상과 결과 미확인 환불 조회도 통합 테스트로 확인했습니다.",
                 boundary:
-                    "현재는 Fake PG 구현체로 검증했습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 운영 검증은 남아 있습니다.",
+                    "현재는 테스트용 PG 구현체로 확인했습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 운영 확인은 남아 있습니다.",
                 print: {
                     label: "PAYMENT / REFUND",
                     problem: "PG 응답 유실 뒤 중복 승인과 환불 위험",
-                    solution: "멱등 키, processingToken, 결과 조회 후 재시도",
+                    solution: "멱등 키, 작업 선점 토큰, 결과 조회 후 재시도",
                     tradeoff: "API 응답 시 REQUESTED 상태가 남을 수 있음",
                 },
             },
@@ -603,16 +781,16 @@ const projects = [
                 constraint:
                     "주문이나 예약을 커밋한 직후 프로세스가 종료되면 알림 호출 자체가 사라질 수 있습니다.",
                 decision:
-                    "업무 상태와 고유 멱등 키를 가진 알림 아웃박스를 같은 트랜잭션에 저장했습니다. AFTER_COMMIT 즉시 전송과 스케줄러 복구, processingToken과 낙관적 락을 함께 사용합니다.",
+                    "업무 상태와 고유 멱등 키를 가진 알림 아웃박스를 같은 트랜잭션에 저장했습니다. 트랜잭션 커밋 직후 전송하고, 미전송 건은 스케줄러가 다시 조회합니다. 작업 선점 토큰과 낙관적 락으로 이전 작업자의 결과 반영을 막습니다.",
                 validation:
-                    "중복 아웃박스 방지, 작업 인계, 실패 후 재시도, 발송 직전 대상 재확인을 통합 테스트로 검증했습니다.",
+                    "같은 알림의 아웃박스가 중복 생성되지 않는지, 처리 중단 뒤 다른 작업자가 이어받는지, 실패 후 다시 처리되는지, 발송 직전에 대상을 다시 확인하는지 통합 테스트로 확인했습니다.",
                 boundary:
-                    "at-least-once 방식이라 외부 업체의 멱등 지원이 없으면 응답 유실 뒤 중복 알림 가능성은 남습니다.",
+                    "성공 확인 전까지 재시도하므로 외부 업체가 멱등 요청을 지원하지 않으면 응답 유실 뒤 중복 알림 가능성이 남습니다.",
                 print: {
                     label: "NOTIFICATION",
                     problem: "업무 커밋 직후 종료되면 알림 요청이 사라짐",
                     solution: "같은 트랜잭션 아웃박스, 즉시 전송과 스케줄러 복구",
-                    tradeoff: "비동기 지연과 at-least-once 중복 가능성",
+                    tradeoff: "비동기 지연과 응답 유실 시 중복 알림 가능성",
                 },
             },
             {
@@ -659,7 +837,7 @@ const projects = [
                 decision:
                     "Cost Explorer로 비용 원인을 확인하고 주요 리소스를 중지 및 삭제했습니다. 이후 단일 노트북 k3s 배포, 불변 이미지와 암호화 백업 절차를 준비했습니다.",
                 validation:
-                    "AWS 리소스별 비용과 종료 상태를 회고에 남기고 로컬 k3s 배포, 롤백, 백업 및 복구 절차를 Runbook으로 검증했습니다.",
+                    "AWS 리소스별 비용과 종료 상태를 회고에 남겼습니다. 로컬 k3s에 배포하고 롤백, 백업 및 복원 절차를 실행한 결과를 Runbook에 기록했습니다.",
                 boundary:
                     "단일 노드는 비용과 통제에는 유리하지만 고가용성을 제공하지 않습니다. 저장소 기준 준비는 완료했으나 공개 운영은 아직 시작하지 않았습니다.",
                 print: {
@@ -699,21 +877,28 @@ const projects = [
     },
     {
         ...projectSummariesById.warrant,
+        evidenceTitle: "주요 구현 및 운영 확인",
         proofs: [
             {
-                value: "전담",
-                label: "해양경찰 KICS 연계",
-                detail: "독립망 간 통신사실확인자료 개선과 집행포털 연계 담당",
+                item: "해양경찰 KICS 독립망 연계",
+                method: "인터페이스 매핑 및 Spring Batch 단계별 확인",
+                rule: "전자영장 요청과 제출 자료를 기관별 계약에 맞춰 변환하고 처리 상태를 단계별로 확인",
+                result: "KICS와 집행포털 사이의 요청 및 제출 자료가 정의된 순서로 처리되는 것을 확인",
+                scope: "보안상 운영 수치와 테스트 코드는 비공개",
             },
             {
-                value: "Cursor",
-                label: "대용량 상태 조회",
-                detail: "신규 조회는 커서 페이지, 기존 번호 조회는 지연 조인 적용",
+                item: "누적 전송 상태 조회",
+                method: "조회 쿼리 및 화면 이동 시나리오 확인",
+                rule: "신규 화면은 커서 페이지네이션, 번호 이동이 필요한 기존 화면은 커버링 인덱스 기반 지연 조인 적용",
+                result: "화면 요구에 따라 두 조회 방식을 분리 적용",
+                scope: "구체적인 데이터 건수와 응답 시간은 비공개",
             },
             {
-                value: "Retry",
-                label: "콜백 순서 경합 복구",
-                detail: "지수 백오프와 지터로 선행 콜백 재조회",
+                item: "상태 저장보다 먼저 도착한 콜백 처리",
+                method: "콜백 순서 변경 시나리오 확인",
+                rule: "콜백이 선행 상태 저장보다 먼저 도착하도록 실행",
+                result: "Spring Retry의 지수 백오프와 지터로 상태를 다시 조회한 뒤 후속 처리",
+                scope: "보안상 운영 수치와 테스트 코드는 비공개",
             },
         ],
         category: "LG CNS 컨소시엄 공공 SI",
@@ -762,7 +947,7 @@ const projects = [
             },
             {
                 number: "03",
-                title: "콜백 순서 역전을 Spring Retry로 복구",
+                title: "상태 저장보다 먼저 도착한 콜백 재처리",
                 constraint:
                     "PDF 변환 콜백이 요청 상태 저장보다 먼저 도착하면 콜백 처리 시 조회 대상이 없어 정상 결과를 반영하지 못할 수 있었습니다.",
                 decision:
@@ -792,23 +977,30 @@ const projects = [
     },
     {
         ...projectSummariesById.defense,
+        evidenceTitle: "주요 구현 및 운영 확인",
         systemTitle: "기관 연계 배치 흐름",
         systemNavLabel: "연계 흐름",
         proofs: [
             {
-                value: "3종",
-                label: "기관 연계 배치",
-                detail: "기관별 데이터 형식과 실행 순서에 맞춘 Jenkins 배치",
+                item: "기관 연계 배치 3종",
+                method: "Jenkins 실행 결과, 서버 로그와 DB 확인",
+                rule: "기관별 데이터 형식과 실행 순서에 맞춰 배치를 실행하고 실패 단계 추적",
+                result: "입력, 배치 처리와 DB 반영 순서로 장애 원인을 확인하고 재처리",
+                scope: "보안상 기관명과 운영 수치는 비공개",
             },
             {
-                value: "CSRF",
-                label: "요청 위조 방지",
-                detail: "기존 화면 흐름에 Spring Security 적용",
+                item: "요청 위조 방지",
+                method: "정상 및 차단 요청 시나리오 확인",
+                rule: "기존 화면 흐름에 Spring Security CSRF 토큰을 적용",
+                result: "토큰이 없는 요청을 차단하고 오류 원인을 로그에 기록",
+                scope: "폐쇄망 운영 확인",
             },
             {
-                value: "Tika",
-                label: "파일 형식 검사",
-                detail: "파일 확장자와 실제 형식을 함께 확인",
+                item: "업로드 파일 형식 검사",
+                method: "정상 파일과 확장자를 바꾼 파일 업로드 확인",
+                rule: "파일 확장자와 Apache Tika가 확인한 실제 형식을 함께 비교",
+                result: "허용하지 않은 실제 형식의 파일을 서버에서 차단",
+                scope: "폐쇄망 운영 확인",
             },
         ],
         category: "경력 프로젝트",
@@ -875,16 +1067,21 @@ const projects = [
     },
     {
         ...projectSummariesById.webrtc,
+        evidenceTitle: "구현 및 측정 근거",
         proofs: [
             {
-                value: "6인",
-                label: "팀 구성",
-                detail: "HLS 서버와 React 프론트엔드 담당",
+                item: "담당 범위",
+                method: "6인 팀 역할 분담 및 시연",
+                rule: "HLS 서버와 React 프론트엔드 기능을 직접 구현",
+                result: "실시간 시청과 지난 구간 재생 흐름을 팀 시연에서 확인",
+                scope: "교육 프로젝트",
             },
             {
-                value: "약 30초 → 11초",
-                label: "HLS 지연",
-                detail: "세그먼트와 인코딩 설정 조정",
+                item: "HLS 재생 지연",
+                method: "팀 시연 환경에서 재생 시작 지연 측정",
+                rule: "세그먼트 길이와 인코딩 설정을 조정한 전후 비교",
+                result: "약 30초에서 약 11초로 단축",
+                scope: "팀 시연 환경 기준이며 정밀 벤치마크는 아님",
             },
         ],
         category: "교육 프로젝트",

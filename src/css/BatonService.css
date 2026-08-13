@@ -462,6 +462,13 @@
     font-weight: 750;
 }
 
+.service-repository-note {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
 .baton-service-footer {
     display: flex;
     align-items: center;
@@ -479,10 +486,15 @@
 
 .baton-service-footer > div {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 8px;
 }
 
 .baton-service-footer a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
     padding: 10px 13px;
     border: 1px solid var(--line);
     font-weight: 750;
@@ -588,6 +600,11 @@
     .baton-service-footer {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .baton-service-footer > div {
+        width: 100%;
+        justify-content: flex-start;
     }
 }
 

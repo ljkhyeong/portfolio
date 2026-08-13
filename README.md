@@ -9,7 +9,7 @@ Java와 Spring으로 개발한 공공 시스템, 모놀리식 애플리케이션
 
 ## 개인 프로젝트
 
--   **BATON**: Core를 기준 데이터의 주체로 두고 GO, WATCH, RELAY를 실패 특성에 따라 분리한 마이크로서비스 프로젝트
+-   **BATON**: Core를 기준 데이터의 주체로 두고 GO, WATCH, RELAY, BRIEF, CAL을 변경 및 장애 처리 방식에 따라 분리한 마이크로서비스 프로젝트
 -   **happyGallery**: 포트와 어댑터 원칙을 적용하고 결제, 환불, 알림과 동시성 실패를 복구 가능한 상태로 만든 Spring Boot 모놀리식 애플리케이션 및 Gradle 멀티모듈 구성
 
 ## 교육 프로젝트

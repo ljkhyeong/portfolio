@@ -30,6 +30,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "href",
         "#project-problems",
     )
+    expect(screen.getByRole("link", { name: "검증" })).toHaveAttribute("href", "#project-proof")
     expect(screen.getByRole("link", { name: "문서" })).toHaveAttribute("href", "#project-documents")
 
     const sectionIds = [
@@ -37,6 +38,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "project-system",
         "project-architecture",
         "project-problems",
+        "project-proof",
         "project-documents",
     ]
 
@@ -47,13 +49,13 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     expect(evidenceLinks).toHaveTextContent("BATON WATCH GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서: Core 헥사고날 아키텍처")
 
-    const additionalProblems = screen.getByText("추가 문제 해결 4건 보기").closest("details")
+    const additionalProblems = screen.getByText("추가 문제 해결 8건 보기").closest("details")
     const featuredProblemList = screen.getByRole("list", { name: "대표 문제 해결 목록" })
 
     expect(additionalProblems).not.toHaveAttribute("open")
     expect(within(featuredProblemList).getAllByRole("listitem")).toHaveLength(4)
 
-    await userEvent.click(screen.getByText("추가 문제 해결 4건 보기"))
+    await userEvent.click(screen.getByText("추가 문제 해결 8건 보기"))
 
     expect(additionalProblems).toHaveAttribute("open")
     expect(screen.getByRole("list", { name: "추가 문제 해결 목록" })).toBeInTheDocument()
@@ -93,7 +95,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "aria-current",
         "page",
     )
-    const serviceRoutes = ["GO", "WATCH", "RELAY"]
+    const serviceRoutes = ["GO", "WATCH", "RELAY", "BRIEF", "CAL"]
 
     serviceRoutes.forEach((service) => {
         expect(within(serviceSwitcher).getByRole("link", { name: service })).toHaveAttribute(
@@ -138,7 +140,7 @@ test("전자영장 상세는 LG CNS 컨소시엄의 독립망 연계 흐름과 �
     expect(screen.getByText("LG CNS 컨소시엄 / 독립망 간 기관 연계")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "콜백 순서 역전을 Spring Retry로 복구",
+            name: "상태 저장보다 먼저 도착한 콜백 재처리",
         }),
     ).toBeInTheDocument()
     expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
@@ -173,6 +175,34 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
         "/projects/baton",
     )
 })
+
+test.each([
+    [
+        "brief",
+        "BRIEF",
+        "중복 및 순서가 바뀐 운영 이벤트 처리",
+        "https://github.com/ljkhyeong/baton-brief",
+    ],
+    [
+        "cal",
+        "CAL",
+        "중복 및 순서가 바뀐 일정 스냅샷 처리",
+        "https://github.com/ljkhyeong/baton-cal",
+    ],
+])(
+    "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",
+    (id, name, problem, repository) => {
+        renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
+
+        expect(screen.getByRole("heading", { name, level: 1 })).toBeInTheDocument()
+        expect(screen.getByRole("heading", { name: problem })).toBeInTheDocument()
+        expect(screen.getByText(/BATON.*연동.*배포/)).toBeInTheDocument()
+        expect(
+            screen.getByRole("link", { name: new RegExp(`${name} 공개 저장소 보기`) }),
+        ).toHaveAttribute("href", repository)
+        expect(screen.getByText(/공개 저장소 동기화 전/)).toBeInTheDocument()
+    },
+)
 
 test("WebRTC/HLS 상세는 교육 프로젝트로 표시하고 제목 단위를 보존한다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="webrtc" />)

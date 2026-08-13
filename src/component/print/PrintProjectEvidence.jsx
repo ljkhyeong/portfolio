@@ -18,7 +18,7 @@ const ProblemGrid = ({ project, problemIds, compact = false }) => {
                             <dd>{problem.print.problem}</dd>
                         </div>
                         <div>
-                            <dt>해결</dt>
+                            <dt>적용한 방법</dt>
                             <dd>{problem.print.solution}</dd>
                         </div>
                         <div>

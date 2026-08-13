@@ -8,10 +8,10 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
         summary:
-            "조직 운영의 기준 데이터는 Core에 두고, 링크, URL 점검, 메시지 전송을 실패 특성에 따라 별도 마이크로서비스로 분리했습니다.",
+            "조직 운영의 기준 데이터는 Core에 두고 링크, URL 점검, 메시지 전송, 주간 브리프와 캘린더 구독을 독립 마이크로서비스로 분리했습니다.",
         period: "2026.07.20 — 진행 중",
         route: "/projects/baton",
-        tags: ["Java 21", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / SQS"],
+        tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / SQS"],
         visual: "baton",
         stage: "개발 중",
         visibility: "일부 공개",
@@ -19,6 +19,8 @@ export const projectSummaries = [
             { id: "go", name: "GO", route: "/projects/baton/go" },
             { id: "watch", name: "WATCH", route: "/projects/baton/watch" },
             { id: "relay", name: "RELAY", route: "/projects/baton/relay" },
+            { id: "brief", name: "BRIEF", route: "/projects/baton/brief" },
+            { id: "cal", name: "CAL", route: "/projects/baton/cal" },
         ],
     },
     {
@@ -47,7 +49,7 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "결제와 환불 결과를 확인할 수 없는 상태, 알림 프로세스 중단, 예약 및 재고 경쟁을 복구 가능한 상태로 저장했습니다.",
+            "결제 응답 누락, 알림 처리 중단과 예약 및 재고 경쟁을 DB에 기록해 중복 요청을 막고 다시 처리할 수 있도록 했습니다.",
         period: "2026.02.21 — 진행 중",
         route: "/projects/happygallery",
         tags: ["Java", "Spring Boot", "React / TypeScript", "MySQL / Redis"],

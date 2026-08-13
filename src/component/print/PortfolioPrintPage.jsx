@@ -114,9 +114,10 @@ const ServiceIndex = ({ project }) => {
 const MetricRow = ({ proofs }) => (
     <div className="print-metric-row" aria-label="주요 구현 및 운영 근거">
         {proofs.slice(0, 3).map((proof) => (
-            <div key={`${proof.value}-${proof.label}`}>
-                <strong>{proof.value}</strong>
-                <span>{proof.label}</span>
+            <div key={`${proof.item}-${proof.scope ?? "all"}`}>
+                <strong>{proof.item}</strong>
+                <span>{proof.result}</span>
+                {proof.scope ? <small>{proof.scope}</small> : null}
             </div>
         ))}
     </div>
@@ -175,7 +176,7 @@ const WarrantCareerPage = ({ warrant }) => (
                                 <dd>{takeSentences(problem.constraint)}</dd>
                             </div>
                             <div>
-                                <dt>해결</dt>
+                                <dt>적용한 방법</dt>
                                 <dd>{takeSentences(problem.decision, 2)}</dd>
                             </div>
                             <div>
@@ -259,8 +260,7 @@ const PortfolioPrintPage = () => {
     const webrtc = projectsById.webrtc
     const studies = personalActivities
     const go = baton.services.find((service) => service.id === "go")
-    const watch = baton.services.find((service) => service.id === "watch")
-    const relay = baton.services.find((service) => service.id === "relay")
+    const microservices = baton.services.filter((service) => !service.primary)
     const goConcurrency = go.evidence.split("·").at(-1).trim().replace("동시 ", "")
 
     useEffect(() => {
@@ -361,15 +361,13 @@ const PortfolioPrintPage = () => {
                         </div>
                         <div>
                             <span>{gallery.title}</span>
-                            <strong>
-                                {gallery.proofs[1].value} / {gallery.proofs[2].value}
-                            </strong>
-                            <p>OpenAPI operations / REST Docs tests</p>
+                            <strong>API 190 / 220</strong>
+                            <p>전체 테스트 218개 / REST Docs 8개 스위트</p>
                         </div>
                         <div>
                             <span>{warrant.title}</span>
-                            <strong>{warrant.proofs[0].value}</strong>
-                            <p>{warrant.proofs[0].detail}</p>
+                            <strong>독립망 연계</strong>
+                            <p>{warrant.proofs[0].result}</p>
                         </div>
                     </div>
 
@@ -389,7 +387,7 @@ const PortfolioPrintPage = () => {
                 >
                     <PrintTitle
                         eyebrow="# WORKING PRINCIPLES"
-                        title="정합성과 복구 경로를 먼저 설계합니다."
+                        title="데이터 일관성과 실패 후 재처리를 먼저 설계합니다."
                     >
                         기능이 정상 동작하는 순간뿐 아니라 중복 요청, 외부 연동 실패, 재시작 뒤의
                         상태까지 한 흐름으로 봅니다.
@@ -475,7 +473,7 @@ const PortfolioPrintPage = () => {
                     number="05"
                     path="# personal-projects/baton/overview.md"
                     meta={`${baton.period} · ${baton.evidenceAsOf}`}
-                    footer="JAVA 21 / SPRING BOOT / MYSQL / POSTGRESQL / TESTCONTAINERS"
+                    footer="JAVA / KOTLIN / SPRING BOOT / MYSQL / POSTGRESQL / TESTCONTAINERS"
                     dark
                     variant="baton"
                 >
@@ -497,7 +495,7 @@ const PortfolioPrintPage = () => {
                 <PrintPage
                     number="06"
                     path="# personal-projects/baton/evidence.md"
-                    meta="Decision records + recovery paths"
+                    meta="설계 결정 및 장애 처리"
                     footer="PRD / ADR / RUNBOOK / API CONTRACT"
                     dark
                     variant="evidence"
@@ -506,12 +504,13 @@ const PortfolioPrintPage = () => {
                         eyebrow="## PERSONAL PROJECT / BATON EVIDENCE"
                         title="대표 문제 해결"
                     >
-                        서비스마다 실제로 다루는 실패 단위와 복구 기준을 문서와 테스트로
-                        고정했습니다.
+                        Core와 5개 마이크로서비스의 데이터 처리 기준과 실패 후 동작을 문서와
+                        테스트로 정리했습니다.
                     </PrintTitle>
                     <PrintProjectEvidence
                         project={baton}
-                        problemIds={["02", "03", "05", "07"]}
+                        problemIds={["02", "03", "05", "07", "09", "11"]}
+                        compact
                         showDocuments={false}
                         toPublishedUrl={toPublishedUrl}
                     />
@@ -534,7 +533,7 @@ const PortfolioPrintPage = () => {
                     </PrintTitle>
                     <PrintProjectEvidence
                         project={baton}
-                        documentIndexes={[0, 1, 2, 3, 4]}
+                        documentIndexes={[0, 1, 2, 5, 6]}
                         showProblems={false}
                         toPublishedUrl={toPublishedUrl}
                     />
@@ -650,9 +649,11 @@ const PortfolioPrintPage = () => {
 
                     <nav className="print-project-links" aria-label="주요 프로젝트 링크">
                         <a href={toPublishedUrl(baton.route)}>BATON Core</a>
-                        <a href={toPublishedUrl(go.route)}>GO</a>
-                        <a href={toPublishedUrl(watch.route)}>WATCH</a>
-                        <a href={toPublishedUrl(relay.route)}>RELAY</a>
+                        {microservices.map((service) => (
+                            <a href={toPublishedUrl(service.route)} key={service.id}>
+                                {service.name}
+                            </a>
+                        ))}
                         <a href={toPublishedUrl(gallery.route)}>happyGallery</a>
                         <a href={toPublishedUrl(warrant.route)}>전송형 전자영장</a>
                         <a href={toPublishedUrl(defense.route)}>군사법 경력 사례</a>
