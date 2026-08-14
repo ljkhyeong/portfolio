@@ -8,7 +8,7 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
         summary:
-            "조직 운영의 기준 데이터는 Core에 두고 링크, URL 점검, 메시지 전송, 주간 브리프와 캘린더 구독을 독립 마이크로서비스로 분리했습니다.",
+            "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 운영 플랫폼입니다. Core와 5개 마이크로서비스의 서비스 경계, API, 데이터 모델과 운영 절차를 설계하고 구현하고 있습니다.",
         period: "2026.07.20 — 진행 중",
         route: "/projects/baton",
         tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / SQS"],
@@ -32,7 +32,7 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "LG CNS 컨소시엄 / 독립망 기관 연계",
         summary:
-            "LG CNS 컨소시엄 참여 프로젝트에서 사법기관 KICS, 전자영장 집행포털, 금융기관 및 통신사처럼 독립된 망 사이의 요청과 제출 자료를 연계하는 인터페이스와 Spring Batch를 개발하고 있습니다.",
+            "사법기관의 전자영장 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. LG CNS 컨소시엄에서 해양경찰 KICS 인터페이스와 Spring Batch 개발을 담당하고 있습니다.",
         period: "2026.03.24 — 진행 중",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "WebSquare"],
@@ -49,7 +49,7 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "결제 응답 누락, 알림 처리 중단과 예약 및 재고 경쟁을 DB에 기록해 중복 요청을 막고 다시 처리할 수 있도록 했습니다.",
+            "공방의 작품 판매와 클래스 예약을 온라인으로 처리하는 서비스입니다. 요구사항 정리부터 백엔드 및 프론트엔드 구현, 테스트와 AWS 운영까지 직접 담당했습니다.",
         period: "2026.02.21 — 진행 중",
         route: "/projects/happygallery",
         tags: ["Java", "Spring Boot", "React / TypeScript", "MySQL / Redis"],
@@ -66,7 +66,7 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "공공 SI / 백엔드 개발 및 운영",
         summary:
-            "폐쇄망과 레거시 환경에서 기관 연계 배치와 보안 기능을 개발하고 운영 장애를 분석했습니다.",
+            "군 사법 업무와 관련 기관 데이터를 폐쇄망에서 처리하는 공공 시스템입니다. 군교정 영역의 기능, 기관 연계 배치와 보안 기능을 개발하고 운영 장애 대응을 담당했습니다.",
         period: "2024.06.23 — 2026.01.30",
         route: "/projects/defense",
         tags: ["Java 8", "eGov", "MyBatis", "Tibero", "Jenkins"],
@@ -82,7 +82,7 @@ export const projectSummaries = [
         title: "WebRTC/HLS 현장강의 보조 서비스",
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
         summary:
-            "HLS 서버와 React 화면을 맡아 WebSocket 제어와 WebRTC/RTP 미디어 경로를 분리하고, FFmpeg와 GStreamer로 HLS를 변환했습니다.",
+            "현장 강의를 실시간으로 시청하고 지나간 구간을 다시 볼 수 있는 교육용 스트리밍 서비스입니다. 6인 팀에서 HLS 서버와 React 프론트엔드 구현을 맡았습니다.",
         period: "2023.09.01 — 2023.11.10",
         route: "/projects/webrtc",
         tags: ["WebRTC", "HLS", "React", "FFmpeg", "GStreamer"],

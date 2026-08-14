@@ -53,7 +53,7 @@ const ProjectEvidenceLinks = ({ project }) => {
     }
 
     return (
-        <ul className="case-hero__evidence" aria-label="프로젝트 근거 바로가기">
+        <ul className="case-hero__evidence" aria-label="프로젝트 자료 바로가기">
             {links.map((link) => (
                 <li key={link.href}>
                     <a
@@ -145,7 +145,7 @@ const DefenseVisual = () => (
             <div className="defense-map__destination">
                 <small>업무 시스템</small>
                 <strong>군교정 업무</strong>
-                <span>검증 / 반영 / 운영 대응</span>
+                <span>형식 확인 / DB 반영 / 장애 대응</span>
             </div>
         </div>
     </div>
@@ -170,7 +170,7 @@ const WarrantVisual = () => (
             <div className="warrant-map__node warrant-map__node--portal">
                 <small>Portal / Interface</small>
                 <strong>전자영장 집행포털</strong>
-                <span>검증 / 변환 / 상태 처리</span>
+                <span>계약 확인 / 데이터 변환 / 상태 처리</span>
             </div>
             <div className="warrant-map__connector" aria-hidden="true">
                 <span>독립망 전달</span>
@@ -274,7 +274,7 @@ const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }
         { href: "#project-system", label: systemNavLabel ?? "대표 화면" },
         ...(hasArchitecture ? [{ href: "#project-architecture", label: "설계" }] : []),
         { href: "#project-problems", label: "문제 해결" },
-        { href: "#project-proof", label: "검증" },
+        { href: "#project-proof", label: "테스트 및 결과" },
         ...(hasDocuments ? [{ href: "#project-documents", label: "문서" }] : []),
     ]
 
@@ -378,7 +378,7 @@ const ProjectCaseStudy = ({ projectId }) => {
     const hasDocuments = Boolean(project.documents?.length)
     const evidenceTitle =
         project.evidenceTitle ??
-        (project.projectType === "career" ? "주요 구현 및 운영 확인" : "테스트 및 운영 근거")
+        (project.projectType === "career" ? "주요 구현 및 확인 결과" : "테스트 범위 및 운영 이력")
     const problemSectionNumber = hasArchitecture ? "03" : "02"
     const proofSectionNumber = hasArchitecture ? "04" : "03"
     const documentSectionNumber = hasArchitecture ? "05" : "04"

@@ -16,7 +16,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         "GO 동시 요청 8 → 링크 1",
     )
     expect(screen.getByRole("list", { name: "주요 경험 요약" })).toHaveTextContent(
-        "happyGallery 백엔드 테스트 218",
+        "happyGallery 테스트 225개 통과",
     )
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
@@ -312,7 +312,7 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
     ).toBeInTheDocument()
     expect(screen.getAllByText(/작업 선점 토큰/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/알림 아웃박스/).length).toBeGreaterThan(0)
-    expect(screen.getByText(/AWS에 운영 배포했으나/)).toBeInTheDocument()
+    expect(screen.getByText(/AWS 운영 환경에 배포했으나/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
             name: /헥사고날 아키텍처 전환 대표 문서 새 창에서 보기/,
@@ -375,7 +375,7 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
     expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
     expect(screen.getByText("LnS (Learn & Share) — HTTP 완벽 가이드")).toBeInTheDocument()
     expect(screen.getByText("Effective Java 스터디")).toBeInTheDocument()
-    expect(screen.getByText(/AWS에 운영 배포했으나/)).toBeInTheDocument()
+    expect(screen.getByText(/AWS 운영 환경에 배포했으나/)).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "GO" })).toHaveAttribute(
         "href",
         "https://ljkportfolio.netlify.app/projects/baton/go",

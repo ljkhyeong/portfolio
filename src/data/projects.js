@@ -4,7 +4,7 @@ const projects = [
     {
         ...projectSummariesById.baton,
         evidenceAsOf: "2026.08.13 저장소 기준",
-        evidenceTitle: "테스트 기준 및 결과",
+        evidenceTitle: "테스트 방법 및 결과",
         systemTitle: "대표 화면 및 마이크로서비스 구성",
         systemNavLabel: "화면 및 서비스",
         screenshots: [
@@ -72,7 +72,7 @@ const projects = [
             },
             {
                 serviceId: "relay",
-                label: "RELAY / 복구",
+                label: "RELAY / 중복 발송 방지",
                 title: "전송 결과를 모르면 다시 보내지 않음",
                 problem:
                     "외부 전송은 성공했지만 응답만 잃으면 재시도가 중복 발송으로 이어질 수 있었습니다.",
@@ -99,7 +99,7 @@ const projects = [
                 id: "runbook",
                 label: "Runbook",
                 count: "5",
-                summary: "배포, 복구와 공개 스테이징 환경의 검증 절차를 정리합니다.",
+                summary: "배포, 장애 재처리와 공개 스테이징 전송 테스트 절차를 정리합니다.",
             },
             {
                 id: "api",
@@ -133,16 +133,16 @@ const projects = [
             {
                 serviceId: "watch",
                 type: "Runbook",
-                label: "WATCH 공개 스테이징 전달 검증",
+                label: "WATCH 공개 스테이징 전송 테스트",
                 href: "https://github.com/ljkhyeong/baton-watch/blob/main/docs/runbooks/public-staging-event-delivery.md",
-                note: "최초 전달, 응답 유실 재전송과 적체 이벤트 복구를 검증하는 운영 절차",
+                note: "최초 전달, 응답 유실 재전송과 미전송 이벤트 재처리를 확인하는 절차",
             },
             {
                 serviceId: "relay",
                 type: "ADR 요약",
                 label: "RELAY 응답 유실 시 중복 발송 방지",
                 href: "/docs/baton/relay-attempt-recovery.md",
-                note: "외부 호출 전 시도 의도를 저장하고 복구하는 결정 요약",
+                note: "외부 호출 전에 전송 시도를 저장하고 중단된 작업을 이어서 처리하는 결정 요약",
             },
             {
                 serviceId: "brief",
@@ -194,7 +194,7 @@ const projects = [
                 recoveryBoundary: "같은 요청은 같은 결과를 반환하고 다른 요청은 충돌로 차단",
                 database: "MySQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
-                status: "핵심 링크 계약과 복구 검증을 마쳤고 BATON 전체 연동은 진행 중입니다.",
+                status: "핵심 링크 계약과 재시도 동작을 자동화 테스트로 확인했고 BATON 전체 연동은 진행 중입니다.",
                 documentation: [
                     { label: "PRD", count: "3" },
                     { label: "ADR", count: "9" },
@@ -212,10 +212,10 @@ const projects = [
                 input: "점검 대상 URL과 원본 데이터 버전",
                 output: "URL 상태와 상태 변경 이벤트",
                 recoveryBoundary:
-                    "작업 선점에 유효 시간(lease)을 두고 중단된 작업을 다른 서버가 이어서 처리",
+                    "작업 선점 만료 시간을 두고 중단된 작업을 다른 서버가 이어서 처리",
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
-                status: "안전한 URL 점검과 이벤트 전달을 구현했으며 공개 스테이징 환경 검증은 실행 전입니다.",
+                status: "안전한 URL 점검과 이벤트 전달을 구현했으며 공개 스테이징 전송 테스트는 실행 전입니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-watch",
                     label: "WATCH 공개 저장소",
@@ -240,7 +240,7 @@ const projects = [
                     "재전달은 중복 처리하지 않고 성공 여부를 모르면 자동 재전송을 중단",
                 database: "PostgreSQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
-                status: "전송 복구와 메시지 브로커 수신을 구현했고 실제 메시지 공급자 운영 검증은 남아 있습니다.",
+                status: "중단 작업 재개와 메시지 브로커 수신을 구현했고 실제 메시지 공급자 연동 테스트는 남아 있습니다.",
                 documentation: [
                     { label: "PRD", count: "2" },
                     { label: "ADR", count: "14" },
@@ -260,7 +260,7 @@ const projects = [
                     "중복 및 이전 버전 이벤트를 구분하고 저장한 수신 이력으로 조회 데이터를 재구축",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 로컬 MVP 동기화 전",
-                status: "로컬 MVP와 PostgreSQL 통합 테스트를 구현했습니다. BATON 생산자 연동, 인증 및 운영 배포는 아직 하지 않았습니다.",
+                status: "로컬 MVP와 PostgreSQL 통합 테스트를 구현했습니다. BATON 생산자 연동, 인증 및 운영 환경 배포는 아직 하지 않았습니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-brief",
                     label: "BRIEF 공개 저장소",
@@ -356,7 +356,7 @@ const projects = [
                 validation:
                     "각 저장소의 계약 및 통합 테스트를 독립 실행했습니다. GO는 동시 링크 요청, WATCH는 안전한 URL 점검, RELAY는 메시지 재전달, BRIEF는 중복 이벤트, CAL은 일정 및 구독 계약을 각각 확인했습니다.",
                 boundary:
-                    "개별 저장소의 구현 상태는 다르며 Core부터 5개 마이크로서비스까지의 전체 연동과 실제 운영 배포는 아직 완료하지 않았습니다.",
+                    "개별 저장소의 구현 상태는 다르며 Core부터 5개 마이크로서비스까지의 전체 연동과 실제 운영 환경 배포는 아직 완료하지 않았습니다.",
             },
             {
                 number: "02",
@@ -369,12 +369,12 @@ const projects = [
                 validation:
                     "역할별 열린 바통 1건 제약과 상태 전이 테스트로 중복 교대 및 전달 후 변경을 차단했습니다.",
                 boundary:
-                    "교대 모델은 명확해졌지만 상태와 이력이 늘어 운영자가 실패 지점을 이해할 화면과 복구 절차가 필요합니다.",
+                    "교대 모델은 명확해졌지만 상태와 이력이 늘어 운영자가 실패 지점을 이해할 화면과 재처리 절차가 필요합니다.",
                 print: {
                     label: "CORE / HANDOFF",
                     problem: "수락과 담당자 변경이 따로 반영되면 책임자가 섞일 수 있음",
                     solution: "PREPARING → TRANSFERRED → ACCEPTED와 열린 바통 1건 제약",
-                    tradeoff: "상태와 이력이 늘어 운영 화면과 복구 절차가 필요",
+                    tradeoff: "상태와 이력이 늘어 운영 화면과 재처리 절차가 필요",
                 },
             },
             {
@@ -437,7 +437,7 @@ const projects = [
                 decision:
                     "상태 변경과 전달할 이벤트를 같은 트랜잭션에 저장했습니다. 수신 확인 전까지 같은 이벤트를 다시 보내고, 오래 남은 미전송 이벤트를 별도 작업이 다시 처리하도록 했습니다.",
                 validation:
-                    "자동 테스트로 동일 이벤트 재전송, ACK 유실과 적체 이벤트 복구를 확인했고 공개 스테이징 검증 절차는 Runbook으로 정리했습니다.",
+                    "자동 테스트로 동일 이벤트 재전송, ACK 유실과 미전송 이벤트 재처리를 확인했고 공개 스테이징 전송 테스트 절차는 Runbook으로 정리했습니다.",
                 boundary:
                     "현재는 소비자가 하나라 메시지 브로커를 두지 않았습니다. 소비자가 늘면 전달 방식을 다시 검토해야 합니다.",
             },
@@ -516,7 +516,7 @@ const projects = [
                 validation:
                     "동일 내용 재전송, 낮은 개정 번호, 같은 개정 번호의 다른 내용과 트랜잭션 실패 후 재시도를 PostgreSQL 통합 테스트로 확인했습니다.",
                 boundary:
-                    "BATON과 CAL 사이에는 최종적 일관성이 발생하며 BATON 발행 측과의 실제 연동은 아직 하지 않았습니다.",
+                    "BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있으며 BATON 발행 측과의 실제 연동은 아직 하지 않았습니다.",
                 print: {
                     label: "CAL / REVISION",
                     problem: "중복 및 이전 일정이 최신 캘린더를 덮을 수 있음",
@@ -562,8 +562,8 @@ const projects = [
     },
     {
         ...projectSummariesById.happygallery,
-        evidenceAsOf: "2026.08.09 저장소 기준",
-        evidenceTitle: "테스트 및 운영 근거",
+        evidenceAsOf: "2026.08.13 저장소 기준",
+        evidenceTitle: "테스트 범위 및 운영 이력",
         systemTitle: "대표 화면",
         systemNavLabel: "대표 화면",
         screenshots: [
@@ -691,7 +691,7 @@ const projects = [
                 type: "ADR",
                 label: "알림 Outbox 전달 보장",
                 href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0032_%EC%95%8C%EB%A6%BC_Outbox_%EC%A0%84%EB%8B%AC_%EB%B3%B4%EC%9E%A5/adr.md",
-                note: "같은 트랜잭션 저장과 커밋 이후 복구 방식을 정한 기록",
+                note: "같은 트랜잭션 저장과 커밋 후 미전송 알림 재처리 방식을 정한 기록",
             },
             {
                 type: "ADR",
@@ -718,15 +718,15 @@ const projects = [
                 item: "API 계약 범위",
                 method: "OpenAPI 스냅샷 생성",
                 rule: "문서화한 API 경로와 작업을 빌드 산출물에서 집계",
-                result: "API 경로 190개, 작업 220개",
-                scope: "2026.08.09 저장소 기준",
+                result: "API 경로 193개, 작업 225개",
+                scope: "2026.08.13 저장소 기준",
             },
             {
                 item: "백엔드 및 API 문서 테스트",
-                method: "JUnit 및 Spring REST Docs",
-                rule: "전체 백엔드 테스트와 REST Docs 계약 테스트 스위트를 실행",
-                result: "전체 테스트 218개, REST Docs 계약 테스트 8개 스위트 통과",
-                scope: "2026.08.09 저장소 기준",
+                method: "Gradle Test 및 Spring REST Docs",
+                rule: "백엔드 자동화 테스트를 실행하고 REST Docs 테스트에서 API 요청 및 응답 문서를 생성",
+                result: "테스트 225개 통과, 실패 및 오류 0건; REST Docs 테스트 클래스 10개 포함",
+                scope: "2026.08.13 저장소 기준",
             },
         ],
         category: "개인 프로젝트",
@@ -734,7 +734,7 @@ const projects = [
         oneLine: "외부 I/O와 동시성 실패를 DB에 기록하고 재처리 기준을 설계",
         status: {
             label: "운영 상태",
-            text: "AWS에 운영 배포했으나 트래픽과 무관한 상시 리소스 비용이 발생해 운영을 종료했습니다. 현재 공개 URL은 없으며 API와 테스트 수치는 2026.08.09 로컬 저장소 기준입니다.",
+            text: "AWS 운영 환경에 배포했으나 트래픽과 무관한 상시 리소스 비용이 발생해 운영을 종료했습니다. 현재 공개 URL은 없으며 API와 테스트 수치는 2026.08.13 로컬 저장소 기준입니다.",
         },
         visualCaption:
             "헥사고날 아키텍처의 포트와 어댑터를 적용했고, domain 모듈에는 일부 JPA 매핑 어노테이션을 유지했습니다.",
@@ -745,7 +745,7 @@ const projects = [
                 constraint:
                     "기능이 늘수록 web과 persistence 코드가 application과 domain 안으로 섞이기 쉽습니다.",
                 decision:
-                    "6개 운영 모듈로 의존 방향을 나누고 Gradle 의존성과 ArchUnit 정책 테스트로 bootstrap → adapter → application → domain 방향을 검사했습니다.",
+                    "6개 Gradle 모듈로 의존 방향을 나누고 Gradle 의존성과 ArchUnit 정책 테스트로 bootstrap → adapter → application → domain 방향을 검사했습니다.",
                 validation:
                     "LayerDependencyPolicyTest와 모듈별 컴파일로 금지한 의존이 빌드 단계에서 실패하는지 확인했습니다.",
                 boundary:
@@ -767,7 +767,7 @@ const projects = [
                 validation:
                     "한 작업자만 처리하도록 선점하고 제한 시간이 지나면 다른 작업자가 이어받는지, 이전 작업자의 토큰은 거절되는지 확인했습니다. 늦은 성공 보상과 결과 미확인 환불 조회도 통합 테스트로 확인했습니다.",
                 boundary:
-                    "현재는 테스트용 PG 구현체로 확인했습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 운영 확인은 남아 있습니다.",
+                    "현재는 테스트용 PG 구현체로 확인했습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
                 print: {
                     label: "PAYMENT / REFUND",
                     problem: "PG 응답 유실 뒤 중복 승인과 환불 위험",
@@ -789,7 +789,7 @@ const projects = [
                 print: {
                     label: "NOTIFICATION",
                     problem: "업무 커밋 직후 종료되면 알림 요청이 사라짐",
-                    solution: "같은 트랜잭션 아웃박스, 즉시 전송과 스케줄러 복구",
+                    solution: "같은 트랜잭션 아웃박스, 즉시 전송과 스케줄러 재처리",
                     tradeoff: "비동기 지연과 응답 유실 시 중복 알림 가능성",
                 },
             },
@@ -877,7 +877,7 @@ const projects = [
     },
     {
         ...projectSummariesById.warrant,
-        evidenceTitle: "주요 구현 및 운영 확인",
+        evidenceTitle: "주요 구현 및 확인 결과",
         proofs: [
             {
                 item: "해양경찰 KICS 독립망 연계",
@@ -906,7 +906,7 @@ const projects = [
         oneLine: "독립망 사이의 요청과 제출 자료를 인터페이스 및 Spring Batch로 연계",
         status: {
             label: "공개 범위",
-            text: "LG CNS 컨소시엄 참여 프로젝트로 현재 진행 중인 공공 SI입니다. 독립망 간 연계 구조와 직접 수행한 역할은 공개하고, 실제 접속 주소, 운영 값, 보안 설정, 소스 코드와 내부 문서만 제외했습니다.",
+            text: "LG CNS 컨소시엄 참여 프로젝트로 현재 진행 중인 공공 SI입니다. 독립망 간 연계 구조와 직접 수행한 역할은 공개하고, 실제 접속 주소, 운영 환경 설정값, 보안 설정, 소스 코드와 내부 문서만 제외했습니다.",
         },
         systemTitle: "독립망 간 업무 흐름 및 시스템 구성",
         systemNavLabel: "업무 흐름",
@@ -955,7 +955,7 @@ const projects = [
                 validation:
                     "콜백과 상태 저장의 선후관계가 바뀌는 경우에도 재조회 후 처리가 이어지는 것을 확인했습니다.",
                 boundary:
-                    "재시도는 정해진 횟수 안에서만 수행합니다. 계속 조회되지 않는 요청은 실패 상태와 운영 확인 절차로 넘겨야 합니다.",
+                    "재시도는 정해진 횟수 안에서만 수행합니다. 계속 조회되지 않는 요청은 실패 상태로 기록하고 운영자 확인 절차로 넘겨야 합니다.",
             },
             {
                 number: "04",
@@ -977,7 +977,7 @@ const projects = [
     },
     {
         ...projectSummariesById.defense,
-        evidenceTitle: "주요 구현 및 운영 확인",
+        evidenceTitle: "주요 구현 및 확인 결과",
         systemTitle: "기관 연계 배치 흐름",
         systemNavLabel: "연계 흐름",
         proofs: [
@@ -993,14 +993,14 @@ const projects = [
                 method: "정상 및 차단 요청 시나리오 확인",
                 rule: "기존 화면 흐름에 Spring Security CSRF 토큰을 적용",
                 result: "토큰이 없는 요청을 차단하고 오류 원인을 로그에 기록",
-                scope: "폐쇄망 운영 확인",
+                scope: "폐쇄망 환경에서 확인",
             },
             {
                 item: "업로드 파일 형식 검사",
                 method: "정상 파일과 확장자를 바꾼 파일 업로드 확인",
                 rule: "파일 확장자와 Apache Tika가 확인한 실제 형식을 함께 비교",
                 result: "허용하지 않은 실제 형식의 파일을 서버에서 차단",
-                scope: "폐쇄망 운영 확인",
+                scope: "폐쇄망 환경에서 확인",
             },
         ],
         category: "경력 프로젝트",
@@ -1067,7 +1067,7 @@ const projects = [
     },
     {
         ...projectSummariesById.webrtc,
-        evidenceTitle: "구현 및 측정 근거",
+        evidenceTitle: "담당 범위 및 측정 결과",
         proofs: [
             {
                 item: "담당 범위",

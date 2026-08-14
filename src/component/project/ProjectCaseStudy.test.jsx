@@ -30,7 +30,10 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "href",
         "#project-problems",
     )
-    expect(screen.getByRole("link", { name: "검증" })).toHaveAttribute("href", "#project-proof")
+    expect(screen.getByRole("link", { name: "테스트 및 결과" })).toHaveAttribute(
+        "href",
+        "#project-proof",
+    )
     expect(screen.getByRole("link", { name: "문서" })).toHaveAttribute("href", "#project-documents")
 
     const sectionIds = [
@@ -44,7 +47,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
 
     sectionIds.forEach((id) => expect(document.getElementById(id)).toBeInTheDocument())
 
-    const evidenceLinks = screen.getByRole("list", { name: "프로젝트 근거 바로가기" })
+    const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
@@ -126,8 +129,12 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
 test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제를 접어 둔다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="happygallery" />)
 
-    const evidenceLinks = screen.getByRole("list", { name: "프로젝트 근거 바로가기" })
+    const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
+    expect(
+        screen.getByText(/공방의 작품 판매와 클래스 예약을 온라인으로 처리하는 서비스입니다/),
+    ).toBeInTheDocument()
+    expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
     expect(screen.getByText("추가 문제 해결 2건 보기").closest("details")).not.toHaveAttribute(
@@ -195,7 +202,7 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
     const serviceFacts = screen.getByLabelText("서비스 정보")
     expect(within(serviceFacts).getByText("DB")).toBeInTheDocument()
     expect(within(serviceFacts).getByText("공개 범위")).toBeInTheDocument()
-    expect(within(serviceFacts).getByText("검증 근거")).toBeInTheDocument()
+    expect(within(serviceFacts).getByText("문서 및 테스트")).toBeInTheDocument()
 })
 
 test.each([

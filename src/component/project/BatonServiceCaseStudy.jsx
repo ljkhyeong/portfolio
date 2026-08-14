@@ -47,7 +47,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                 <dd>{service.visibility}</dd>
                             </div>
                             <div>
-                                <dt>검증 근거</dt>
+                                <dt>문서 및 테스트</dt>
                                 <dd>{service.evidence}</dd>
                             </div>
                         </dl>

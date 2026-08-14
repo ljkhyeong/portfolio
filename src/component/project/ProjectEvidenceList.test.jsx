@@ -19,32 +19,35 @@ const proofs = [
     },
 ]
 
-test("검증 항목과 테스트 규칙, 확인 결과를 목록의 각 행에 함께 보여준다", () => {
-    render(<ProjectEvidenceList proofs={proofs} label="테스트 기준 및 결과 목록" />)
+test("확인 항목과 테스트 조건, 확인 결과를 목록의 각 행에 함께 보여준다", () => {
+    render(<ProjectEvidenceList proofs={proofs} label="테스트 방법 및 결과 목록" />)
 
-    const list = screen.getByRole("list", { name: "테스트 기준 및 결과 목록" })
+    const list = screen.getByRole("list", { name: "테스트 방법 및 결과 목록" })
     const rows = within(list).getAllByRole("listitem")
 
     expect(rows).toHaveLength(2)
-    expect(rows[0]).toHaveTextContent("검증 항목")
+    expect(rows[0]).toHaveTextContent("확인 항목")
     expect(rows[0]).toHaveTextContent("링크 생성 멱등성")
     expect(rows[0]).toHaveTextContent("BATON GO")
-    expect(rows[0]).toHaveTextContent("검증 방법 및 기준")
+    expect(rows[0]).toHaveTextContent("확인 방법 및 조건")
     expect(rows[0]).toHaveTextContent("같은 멱등 키로 동시에 요청해도 링크는 하나만 생성되어야 함")
     expect(rows[0]).toHaveTextContent("확인 결과")
     expect(rows[0]).toHaveTextContent("동시 요청 8건에서 링크 1건 생성 확인")
 })
 
-test("BATON 상세에서 서비스별 테스트 규칙과 결과 및 검증 바로가기를 보여준다", () => {
+test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를 보여준다", () => {
     render(
         <MemoryRouter>
             <ProjectCaseStudy projectId="baton" />
         </MemoryRouter>,
     )
 
-    expect(screen.getByRole("link", { name: "검증" })).toHaveAttribute("href", "#project-proof")
+    expect(screen.getByRole("link", { name: "테스트 및 결과" })).toHaveAttribute(
+        "href",
+        "#project-proof",
+    )
 
-    const list = screen.getByRole("list", { name: "테스트 기준 및 결과 목록" })
+    const list = screen.getByRole("list", { name: "테스트 방법 및 결과 목록" })
     const rows = within(list).getAllByRole("listitem")
 
     expect(rows).toHaveLength(5)

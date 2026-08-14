@@ -55,11 +55,12 @@ describe("project summary data", () => {
     it("uses reader-facing terms and explains every implementation or verification claim", () => {
         const publicCopy = JSON.stringify(projectsById)
 
-        expect(publicCopy).not.toContain("lease 복구")
+        expect(publicCopy).not.toContain("lease")
         expect(publicCopy).not.toContain("processingToken")
         expect(publicCopy).not.toContain("AFTER_COMMIT")
         expect(publicCopy).not.toContain("Fake PG")
-        expect(publicCopy).toContain("작업 선점에 유효 시간(lease)")
+        expect(publicCopy).toContain("작업 선점 만료 시간")
+        expect(publicCopy).not.toContain("테스트 스위트")
 
         Object.values(projectsById).forEach((project) => {
             project.proofs.forEach((proof) => {

@@ -10,12 +10,12 @@ const ProjectEvidenceList = ({ proofs, label }) => (
         {proofs.map((proof) => (
             <li key={`${proof.item}-${proof.scope ?? "all"}`}>
                 <dl>
-                    <EvidenceField label="검증 항목" className="project-evidence-list__item">
+                    <EvidenceField label="확인 항목" className="project-evidence-list__item">
                         <strong>{proof.item}</strong>
                         {proof.scope ? <small>{proof.scope}</small> : null}
                     </EvidenceField>
                     <EvidenceField
-                        label="검증 방법 및 기준"
+                        label="확인 방법 및 조건"
                         className="project-evidence-list__method"
                     >
                         <strong>{proof.method}</strong>

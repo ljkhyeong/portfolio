@@ -17,7 +17,7 @@ export const portfolioProfile = {
     heroProofs: [
         "LG CNS 컨소시엄 / 독립망 연계",
         "GO 동시 요청 8 → 링크 1",
-        "happyGallery 백엔드 테스트 218",
+        "happyGallery 테스트 225개 통과",
     ],
     printHeadline: {
         lead: "실패 이후까지 설계하는",
@@ -44,7 +44,8 @@ export const workPrinciples = [
         printTitle: "재처리를 기능으로 만듭니다",
         description:
             "결제 응답 누락과 알림 전송 실패를 멱등 키, 작업 선점 토큰과 아웃박스로 기록해 중복 실행을 막고 중단된 작업을 이어서 처리합니다.",
-        printDescription: "멱등 키, 락, 아웃박스와 복구 작업으로 실패 뒤의 동작을 정의합니다.",
+        printDescription:
+            "멱등 키, 락, 아웃박스와 미처리 작업 재처리로 실패 뒤의 동작을 정의합니다.",
         link: "/projects/happygallery",
         linkLabel: "happyGallery 장애 처리 보기",
     },

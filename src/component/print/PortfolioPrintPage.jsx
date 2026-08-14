@@ -112,7 +112,7 @@ const ServiceIndex = ({ project }) => {
 }
 
 const MetricRow = ({ proofs }) => (
-    <div className="print-metric-row" aria-label="주요 구현 및 운영 근거">
+    <div className="print-metric-row" aria-label="주요 구현 및 확인 결과">
         {proofs.slice(0, 3).map((proof) => (
             <div key={`${proof.item}-${proof.scope ?? "all"}`}>
                 <strong>{proof.item}</strong>
@@ -228,7 +228,7 @@ const DefenseCareerPage = ({ defense }) => (
             <div className="print-flow-box">
                 <small>BUSINESS SYSTEM</small>
                 <strong>군교정 업무</strong>
-                <p>검증 · 반영 · 운영 대응</p>
+                <p>형식 확인 · DB 반영 · 장애 대응</p>
             </div>
         </div>
 
@@ -361,8 +361,8 @@ const PortfolioPrintPage = () => {
                         </div>
                         <div>
                             <span>{gallery.title}</span>
-                            <strong>API 190 / 220</strong>
-                            <p>전체 테스트 218개 / REST Docs 8개 스위트</p>
+                            <strong>API 193 / 225</strong>
+                            <p>테스트 225개 통과 / 실패 및 오류 0건</p>
                         </div>
                         <div>
                             <span>{warrant.title}</span>
@@ -528,8 +528,8 @@ const PortfolioPrintPage = () => {
                         eyebrow="## PERSONAL PROJECT / BATON DOCUMENTS"
                         title="문서 분류와 대표 문서"
                     >
-                        기술 선택, 복구 절차와 서비스 계약을 다음 변경 때 확인할 수 있는 기록으로
-                        남겼습니다.
+                        기술 선택, 장애 재처리 절차와 서비스 계약을 다음 변경 때 확인할 수 있는
+                        기록으로 남겼습니다.
                     </PrintTitle>
                     <PrintProjectEvidence
                         project={baton}
@@ -579,7 +579,8 @@ const PortfolioPrintPage = () => {
                         eyebrow="## PERSONAL PROJECT / HAPPYGALLERY EVIDENCE"
                         title="대표 문제 해결"
                     >
-                        정합성, 외부 I/O, 보안과 운영 비용을 각각 검증 가능한 경계로 나눴습니다.
+                        정합성, 외부 I/O, 보안과 운영 비용을 각각 확인할 수 있도록 처리 경계를
+                        나눴습니다.
                     </PrintTitle>
                     <PrintProjectEvidence
                         project={gallery}
@@ -620,8 +621,8 @@ const PortfolioPrintPage = () => {
                     variant="closing"
                 >
                     <PrintTitle eyebrow="# STACK WITH CONTEXT" title="사용한 기술과 적용 경험">
-                        기술 이름보다 어떤 문제에 적용했고, 실패 뒤 어떻게 복구했는지를 함께
-                        설명합니다.
+                        기술 이름보다 어떤 문제에 적용했고, 실패 뒤 어떤 기준으로 재처리했는지를
+                        함께 설명합니다.
                     </PrintTitle>
 
                     <div className="print-skill-table">
@@ -634,7 +635,10 @@ const PortfolioPrintPage = () => {
                     </div>
 
                     <div className="print-closing-contact">
-                        <p>요구사항, 장애 영향과 복구 방법을 확인한 뒤 필요한 구조를 선택합니다.</p>
+                        <p>
+                            요구사항, 장애 영향과 재처리 또는 복원 방법을 확인한 뒤 필요한 구조를
+                            선택합니다.
+                        </p>
                         <div>
                             <a href={`mailto:${portfolioProfile.email}`}>
                                 {portfolioProfile.email}
