@@ -69,6 +69,12 @@ describe("project summary data", () => {
         microservices.forEach((service) => {
             expect(service.summary).toEqual(expect.any(String))
             expect(service.summary.length).toBeGreaterThan(20)
+            expect(service.stack).toEqual(expect.any(Array))
+            expect(service.stack.length).toBeGreaterThanOrEqual(6)
+            expect(service.stack).toContain("Spring Boot 4.1")
+            expect(service.stack).not.toEqual(
+                expect.arrayContaining(["멱등성", "아웃박스", "Inbox", "헥사고날 아키텍처"]),
+            )
         })
 
         Object.values(projectsById).forEach((project) => {

@@ -106,6 +106,17 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                             <p>{service.recoveryBoundary}</p>
                         </article>
                     </div>
+                    <div className="service-technology-stack">
+                        <div className="service-technology-stack__label">
+                            <code>[stack]</code>
+                            <strong>기술 스택</strong>
+                        </div>
+                        <ul aria-label={`${service.name} 기술 스택`}>
+                            {service.stack.map((technology) => (
+                                <li key={technology}>{technology}</li>
+                            ))}
+                        </ul>
+                    </div>
                     <blockquote>
                         <strong>서비스 분리의 트레이드오프</strong>
                         {project.architecture.tradeoff}

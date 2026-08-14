@@ -248,6 +248,23 @@ test.each([
 })
 
 test.each([
+    ["go", "GO", ["Java 21", "Spring Data JPA", "MySQL 8.4"]],
+    ["watch", "WATCH", ["Spring JDBC", "PostgreSQL 18", "Apache HttpClient 5"]],
+    ["relay", "RELAY", ["RabbitMQ / Spring AMQP", "AWS SQS FIFO", "PostgreSQL 18"]],
+    ["brief", "BRIEF", ["Kotlin 2.3", "Java 21", "Spring JDBC"]],
+    ["cal", "CAL", ["Kotlin 2.3", "Java 25", "iCal4j 4.2"]],
+])("BATON %s 상세는 %s 구현에 실제 사용한 핵심 기술을 보여준다", (id, name, stack) => {
+    renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
+
+    const stackList = screen.getByRole("list", { name: `${name} 기술 스택` })
+    const renderedStack = within(stackList)
+        .getAllByRole("listitem")
+        .map((item) => item.textContent)
+
+    expect(renderedStack).toEqual(expect.arrayContaining(stack))
+})
+
+test.each([
     [
         "brief",
         "BRIEF",
