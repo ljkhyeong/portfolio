@@ -18,30 +18,31 @@ export const routeMeta = {
     "/projects/baton/go": {
         title: "BATON GO | 임정규 포트폴리오",
         description:
-            "정책을 적용한 단축 링크 생성과 조회, 리다이렉트, 멱등 처리를 담당하는 BATON GO 마이크로서비스",
+            "BATON의 업무 화면을 짧고 고정된 주소로 공유하고 허용된 내부 경로로 연결하는 GO 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/watch": {
         title: "BATON WATCH | 임정규 포트폴리오",
-        description: "URL 점검 작업의 락 범위와 상태 전이를 설계한 BATON WATCH 마이크로서비스",
+        description:
+            "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달하는 WATCH 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "전송 결과를 DB에 저장하고 중복 발송 방지와 재처리 기준을 설계한 BATON RELAY 마이크로서비스",
+            "BATON의 알림 요청을 외부 메시지 공급자에 전달하고 전송 상태를 관리하는 RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "운영 이벤트를 중복 없이 처리하고 생성 후 수정하지 않는 주간 운영 브리프를 만드는 BATON BRIEF 마이크로서비스",
+            "운영 이벤트를 모아 이번 주에 확인할 항목과 생성 시점의 주간 요약을 제공하는 BRIEF 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
         title: "BATON CAL | 임정규 포트폴리오",
         description:
-            "확정 일정을 읽기 전용 iCalendar 피드로 제공하고 구독 토큰과 조건부 조회를 처리하는 BATON CAL 마이크로서비스",
+            "BATON에서 확정한 일정과 마감을 외부 캘린더에서 구독할 수 있는 읽기 전용 피드로 제공하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {

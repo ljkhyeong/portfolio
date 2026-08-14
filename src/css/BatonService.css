@@ -111,7 +111,7 @@
 
 .baton-service-hero__facts > div {
     display: grid;
-    grid-template-columns: 78px minmax(0, 1fr);
+    grid-template-columns: 108px minmax(0, 1fr);
     min-height: 28px;
     align-items: baseline;
     gap: 10px;
@@ -128,6 +128,7 @@
 .baton-service-hero__facts dt {
     color: var(--muted);
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .baton-service-hero__facts dt::after {

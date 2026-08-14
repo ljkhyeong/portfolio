@@ -54,6 +54,7 @@ describe("project summary data", () => {
 
     it("uses reader-facing terms and explains every implementation or verification claim", () => {
         const publicCopy = JSON.stringify(projectsById)
+        const microservices = projectsById.baton.services.filter((service) => !service.primary)
 
         expect(publicCopy).not.toContain("lease")
         expect(publicCopy).not.toContain("processingToken")
@@ -61,6 +62,14 @@ describe("project summary data", () => {
         expect(publicCopy).not.toContain("Fake PG")
         expect(publicCopy).toContain("작업 선점 만료 시간")
         expect(publicCopy).not.toContain("테스트 스위트")
+        expect(publicCopy).not.toContain("재인계")
+        expect(publicCopy).not.toContain("BATON 생산자")
+        expect(publicCopy).not.toContain("BATON 발행")
+
+        microservices.forEach((service) => {
+            expect(service.summary).toEqual(expect.any(String))
+            expect(service.summary.length).toBeGreaterThan(20)
+        })
 
         Object.values(projectsById).forEach((project) => {
             project.proofs.forEach((proof) => {

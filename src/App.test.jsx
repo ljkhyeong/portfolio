@@ -328,6 +328,11 @@ test("BATON 마이크로서비스 상세는 책임, 대표 문제 해결과 문�
 
     expect(await screen.findByRole("heading", { name: "WATCH", level: 1 })).toBeInTheDocument()
     expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
+    expect(
+        screen.getByText(
+            "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달합니다.",
+        ),
+    ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "BATON 안에서의 책임" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "대표 문제 해결" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문서 분류와 대표 문서" })).toBeInTheDocument()

@@ -166,6 +166,8 @@ const projects = [
                 kind: "CORE APPLICATION",
                 route: "/projects/baton",
                 role: "조직 운영 기준 데이터",
+                summary:
+                    "팀, 역할, 루틴, 의사결정과 인수인계를 관리하고 각 마이크로서비스가 참조하는 기준 데이터를 제공합니다.",
                 detail: "팀, 시즌, 역할, 루틴, 라운드, 의사결정, 자료, 인수인계",
                 evidence: "PRD 5 · ADR 17 · OpenAPI 계약",
                 input: "사용자 명령과 조직 운영 요청",
@@ -186,15 +188,17 @@ const projects = [
                 name: "GO",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/go",
-                role: "정책 기반 링크",
+                role: "BATON 전용 공유 링크",
+                summary:
+                    "BATON의 업무 화면을 짧고 고정된 주소로 공유하고 허용된 내부 경로로 연결합니다.",
                 detail: "UUID 멱등 키, HMAC-SHA256 코드, 허용 경로만 처리",
                 evidence: "자동화 테스트 374개 · 동시 요청 8건에서 링크 1건",
                 input: "허용된 BATON 경로와 UUID 멱등 키",
-                output: "정책 검증을 통과한 고정 링크 코드",
+                output: "허용 경로 규칙을 통과한 고정 링크 코드",
                 recoveryBoundary: "같은 요청은 같은 결과를 반환하고 다른 요청은 충돌로 차단",
                 database: "MySQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
-                status: "핵심 링크 계약과 재시도 동작을 자동화 테스트로 확인했고 BATON 전체 연동은 진행 중입니다.",
+                status: "링크 생성, 조회, 리다이렉트와 중복 요청 처리를 구현했습니다. BATON Core 연동은 진행 중입니다.",
                 documentation: [
                     { label: "PRD", count: "3" },
                     { label: "ADR", count: "9" },
@@ -207,7 +211,9 @@ const projects = [
                 kind: "MICROSERVICE",
                 route: "/projects/baton/watch",
                 role: "URL 상태 점검",
-                detail: "SSRF 방어, 작업 선점 만료 후 재인계, 이전 작업 결과 반영 차단, 아웃박스",
+                summary:
+                    "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달합니다.",
+                detail: "SSRF 방어, 작업 선점 만료 후 다른 서버의 재처리, 이전 작업 결과 반영 차단, 아웃박스",
                 evidence: "자동화 테스트 354개",
                 input: "점검 대상 URL과 원본 데이터 버전",
                 output: "URL 상태와 상태 변경 이벤트",
@@ -215,7 +221,7 @@ const projects = [
                     "작업 선점 만료 시간을 두고 중단된 작업을 다른 서버가 이어서 처리",
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
-                status: "안전한 URL 점검과 이벤트 전달을 구현했으며 공개 스테이징 전송 테스트는 실행 전입니다.",
+                status: "안전한 URL 점검과 상태 변경 이벤트 전송을 구현했습니다. 스테이징 환경의 이벤트 전송 테스트는 아직 하지 않았습니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-watch",
                     label: "WATCH 공개 저장소",
@@ -231,7 +237,9 @@ const projects = [
                 name: "RELAY",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/relay",
-                role: "메시지 전달",
+                role: "알림 메시지 전달",
+                summary:
+                    "BATON의 알림 요청을 외부 메시지 공급자에 전달하고 전송 상태를 관리합니다.",
                 detail: "수신 이력(Inbox) 중복 제거, 작업 선점, 재시도와 전송 결과 미확인 상태",
                 evidence: "자동화 테스트 373개",
                 input: "메시지 전송 이벤트와 수신 이벤트 식별자",
@@ -240,7 +248,7 @@ const projects = [
                     "재전달은 중복 처리하지 않고 성공 여부를 모르면 자동 재전송을 중단",
                 database: "PostgreSQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
-                status: "중단 작업 재개와 메시지 브로커 수신을 구현했고 실제 메시지 공급자 연동 테스트는 남아 있습니다.",
+                status: "메시지 수신, 전송 이력과 중복 발송 방지 처리를 구현했습니다. 실제 메시지 공급자 연동 테스트는 아직 하지 않았습니다.",
                 documentation: [
                     { label: "PRD", count: "2" },
                     { label: "ADR", count: "14" },
@@ -251,16 +259,18 @@ const projects = [
                 name: "BRIEF",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/brief",
-                role: "주간 운영 브리프",
+                role: "주간 운영 요약",
+                summary:
+                    "운영 이벤트를 모아 이번 주에 확인할 항목과 생성 시점의 주간 요약을 제공합니다.",
                 detail: "운영 이벤트 중복 처리 방지, 확인 항목 구성, 생성 후 수정하지 않는 주간 브리프",
-                evidence: "자동화 테스트 8개 · PostgreSQL 통합 시나리오 4개",
+                evidence: "자동화 테스트 8개 · PostgreSQL 통합 테스트 4개",
                 input: "인수인계 지연, 루틴 누락과 결정 후속 조치 지연 이벤트",
                 output: "확인이 필요한 항목과 주간 운영 브리프",
                 recoveryBoundary:
                     "중복 및 이전 버전 이벤트를 구분하고 저장한 수신 이력으로 조회 데이터를 재구축",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 로컬 MVP 동기화 전",
-                status: "로컬 MVP와 PostgreSQL 통합 테스트를 구현했습니다. BATON 생산자 연동, 인증 및 운영 환경 배포는 아직 하지 않았습니다.",
+                status: "로컬 MVP와 PostgreSQL 통합 테스트를 구현했습니다. BATON Core 이벤트 연동, 인증과 운영 환경 배포는 아직 하지 않았습니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-brief",
                     label: "BRIEF 공개 저장소",
@@ -276,16 +286,18 @@ const projects = [
                 name: "CAL",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/cal",
-                role: "읽기 전용 일정 구독",
+                role: "외부 캘린더 구독",
+                summary:
+                    "BATON에서 확정한 일정과 마감을 외부 캘린더 앱에서 구독할 수 있는 읽기 전용 피드로 제공합니다.",
                 detail: "iCalendar(.ics) 피드, 구독 토큰 회전 및 폐기, ETag 조건부 조회",
-                evidence: "자동화 테스트 43개 · 실행 JAR 생성",
+                evidence: "자동화 테스트 43개 · PostgreSQL 및 iCalendar 포함",
                 input: "BATON이 확정한 일정 스냅샷과 구독 명령",
                 output: "읽기 전용 iCalendar 피드와 조건부 조회 응답",
                 recoveryBoundary:
                     "중복 및 이전 개정 번호를 구분하고 저장한 일정으로 캘린더를 재구축",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 로컬 구현 동기화 전",
-                status: "시즌 단위 MVP와 계약 테스트를 구현했습니다. BATON 발행 연동과 공개 배포는 아직 하지 않았습니다.",
+                status: "시즌 단위 MVP와 계약 테스트를 구현했습니다. BATON Core 일정 이벤트 연동과 공개 배포는 아직 하지 않았습니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-cal",
                     label: "CAL 공개 저장소",
@@ -325,14 +337,14 @@ const projects = [
                 method: "MockMvc 및 PostgreSQL Testcontainers",
                 rule: "같은 이벤트와 동일 상태의 주간 브리프 생성 요청을 동시에 실행",
                 result: "수신 기록과 주간 브리프를 각각 1건만 저장하고, 최초 요청과 중복 요청을 HTTP 상태로 구분",
-                scope: "전체 테스트 8개 중 PostgreSQL 통합 시나리오 4개 · 2026.08.13",
+                scope: "전체 테스트 8개 중 PostgreSQL 통합 테스트 4개 · 2026.08.13",
             },
             {
                 item: "CAL 일정 및 구독 계약",
                 method: "PostgreSQL Testcontainers 및 iCalendar 기대값 비교",
                 rule: "중복 및 낮은 개정 번호, DST와 자정 및 취소, 구독 회전 동시 요청",
                 result: "중복 및 이전 일정은 반영하지 않고, 동일 입력에서는 같은 캘린더와 캐시 검증값을 생성",
-                scope: "전체 자동화 테스트 43개 및 실행 JAR 생성 성공 · BATON 발행 연동과 공개 배포 전 · 2026.08.13",
+                scope: "전체 자동화 테스트 43개 · PostgreSQL 및 iCalendar 테스트 포함 · BATON Core 일정 이벤트 연동과 공개 배포 전 · 2026.08.13",
             },
         ],
         category: "개인 프로젝트",
@@ -418,7 +430,7 @@ const projects = [
                 decision:
                     "짧은 트랜잭션에서 SKIP LOCKED로 작업만 선점하고 네트워크 I/O를 분리했습니다. DNS 조회 결과를 고정해 SSRF와 DNS 리바인딩을 차단했습니다. 작업 선점 토큰과 원본 데이터 버전을 비교해 이전 작업의 늦은 결과는 저장하지 않았습니다.",
                 validation:
-                    "사설망 주소와 DNS 재조회, 제한을 넘는 리다이렉트 및 응답, 작업 선점 만료 후 재인계와 이전 작업 결과 반영 차단을 자동화 테스트로 확인했습니다. WATCH 전체 테스트는 354개입니다.",
+                    "사설망 주소와 DNS 재조회, 제한을 넘는 리다이렉트 및 응답, 작업 선점 만료 후 다른 서버의 재처리와 이전 작업 결과 반영 차단을 자동화 테스트로 확인했습니다. WATCH 전체 테스트는 354개입니다.",
                 boundary:
                     "작업 선점 유효 시간이 짧으면 중복 실행이 늘고, 길면 중단된 작업을 다른 서버가 이어받는 시점이 늦어집니다.",
                 print: {
@@ -484,7 +496,7 @@ const projects = [
                 validation:
                     "MockMvc와 PostgreSQL Testcontainers로 중복, 충돌, 지원하지 않는 버전, 이전 개정 번호와 개정 번호 누락을 입력해 처리 결과와 저장 상태를 확인했습니다.",
                 boundary:
-                    "현재는 인증 없는 로컬 내부 HTTP 계약만 구현했으며 BATON 생산자와의 실제 연동은 아직 하지 않았습니다.",
+                    "현재는 인증 없는 로컬 내부 HTTP 계약만 구현했으며 BATON Core 이벤트와의 실제 연동은 아직 하지 않았습니다.",
                 print: {
                     label: "BRIEF / EVENT",
                     problem: "중복 또는 이전 버전 이벤트가 현재 확인 항목을 바꿀 수 있음",
@@ -516,12 +528,12 @@ const projects = [
                 validation:
                     "동일 내용 재전송, 낮은 개정 번호, 같은 개정 번호의 다른 내용과 트랜잭션 실패 후 재시도를 PostgreSQL 통합 테스트로 확인했습니다.",
                 boundary:
-                    "BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있으며 BATON 발행 측과의 실제 연동은 아직 하지 않았습니다.",
+                    "BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있으며 BATON Core 일정 이벤트와의 실제 연동은 아직 하지 않았습니다.",
                 print: {
                     label: "CAL / REVISION",
                     problem: "중복 및 이전 일정이 최신 캘린더를 덮을 수 있음",
                     solution: "이벤트 ID, 일정 ID, 개정 번호와 내용 해시 비교",
-                    tradeoff: "BATON 발행 연동과 공개 배포 전",
+                    tradeoff: "BATON Core 일정 이벤트 연동과 공개 배포 전",
                 },
             },
             {

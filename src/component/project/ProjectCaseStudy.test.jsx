@@ -207,6 +207,48 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
 
 test.each([
     [
+        "go",
+        "GO",
+        "BATON의 업무 화면을 짧고 고정된 주소로 공유하고 허용된 내부 경로로 연결합니다.",
+        "UUID 멱등 키, HMAC-SHA256 코드, 허용 경로만 처리",
+    ],
+    [
+        "watch",
+        "WATCH",
+        "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달합니다.",
+        "SSRF 방어, 작업 선점 만료 후 다른 서버의 재처리, 이전 작업 결과 반영 차단, 아웃박스",
+    ],
+    [
+        "relay",
+        "RELAY",
+        "BATON의 알림 요청을 외부 메시지 공급자에 전달하고 전송 상태를 관리합니다.",
+        "수신 이력(Inbox) 중복 제거, 작업 선점, 재시도와 전송 결과 미확인 상태",
+    ],
+    [
+        "brief",
+        "BRIEF",
+        "운영 이벤트를 모아 이번 주에 확인할 항목과 생성 시점의 주간 요약을 제공합니다.",
+        "운영 이벤트 중복 처리 방지, 확인 항목 구성, 생성 후 수정하지 않는 주간 브리프",
+    ],
+    [
+        "cal",
+        "CAL",
+        "BATON에서 확정한 일정과 마감을 외부 캘린더 앱에서 구독할 수 있는 읽기 전용 피드로 제공합니다.",
+        "iCalendar(.ics) 피드, 구독 토큰 회전 및 폐기, ETag 조건부 조회",
+    ],
+])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
+    renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
+
+    const heading = screen.getByRole("heading", { name, level: 1 })
+    const hero = heading.closest("header")
+
+    expect(within(hero).getByText(summary)).toBeInTheDocument()
+    expect(within(hero).queryByText(detail)).not.toBeInTheDocument()
+    expect(screen.getByText(detail)).toBeInTheDocument()
+})
+
+test.each([
+    [
         "brief",
         "BRIEF",
         "중복 및 순서가 바뀐 운영 이벤트 처리",

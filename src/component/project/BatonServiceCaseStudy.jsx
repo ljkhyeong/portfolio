@@ -36,7 +36,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     </div>
                     <div className="baton-service-hero__intro">
                         <strong>{service.role}</strong>
-                        <p>{service.detail}</p>
+                        <p>{service.summary ?? service.detail}</p>
                         <dl className="baton-service-hero__facts" aria-label="서비스 정보">
                             <div>
                                 <dt>DB</dt>
@@ -89,7 +89,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         <article>
                             <code>입력</code>
                             <strong>{service.input}</strong>
-                            <p>Core와 각 마이크로서비스가 합의한 입력 계약만 받습니다.</p>
+                            <p>Core와 각 마이크로서비스가 정의한 입력 형식만 받습니다.</p>
                         </article>
                         <span aria-hidden="true">→</span>
                         <article className="service-boundary-flow__current">
