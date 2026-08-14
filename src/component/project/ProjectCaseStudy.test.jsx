@@ -34,6 +34,9 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "href",
         "#project-proof",
     )
+    expect(screen.getByRole("list", { name: "BATON 기술 스택" }).closest("section")).toHaveClass(
+        "case-meta",
+    )
     expect(screen.getByRole("link", { name: "문서" })).toHaveAttribute("href", "#project-documents")
 
     const sectionIds = [
@@ -253,16 +256,30 @@ test.each([
     ["relay", "RELAY", ["RabbitMQ / Spring AMQP", "AWS SQS FIFO", "PostgreSQL 18"]],
     ["brief", "BRIEF", ["Kotlin 2.3", "Java 21", "Spring JDBC"]],
     ["cal", "CAL", ["Kotlin 2.3", "Java 25", "iCal4j 4.2"]],
-])("BATON %s 상세는 %s 구현에 실제 사용한 핵심 기술을 보여준다", (id, name, stack) => {
-    renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
+])(
+    "BATON %s 상세는 %s 구현에 실제 사용한 기술을 Core와 같은 위치에 보여준다",
+    (id, name, stack) => {
+        renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
 
-    const stackList = screen.getByRole("list", { name: `${name} 기술 스택` })
-    const renderedStack = within(stackList)
-        .getAllByRole("listitem")
-        .map((item) => item.textContent)
+        const stackList = screen.getByRole("list", { name: `${name} 기술 스택` })
+        const stackSection = stackList.closest("section")
+        const documentsSection = screen
+            .getByRole("heading", { name: "문서 분류와 대표 문서" })
+            .closest("section")
+        const renderedStack = within(stackList)
+            .getAllByRole("listitem")
+            .map((item) => item.textContent)
 
-    expect(renderedStack).toEqual(expect.arrayContaining(stack))
-})
+        expect(renderedStack).toEqual(expect.arrayContaining(stack))
+        expect(stackSection).toHaveClass("case-meta")
+        expect(within(stackSection).getByRole("heading", { name: "사용 기술" })).toBeInTheDocument()
+        expect(within(stackSection).getByRole("heading", { name: "관련 링크" })).toBeInTheDocument()
+        expect(
+            documentsSection.compareDocumentPosition(stackSection) &
+                Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy()
+    },
+)
 
 test.each([
     [

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { batonServicesById, projectsById } from "../../data/projects"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
+import CaseMetaSection from "./CaseMetaSection"
 import ProblemSolutionList from "./ProblemSolutionList"
 import "../../css/BatonService.css"
 
@@ -106,17 +107,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                             <p>{service.recoveryBoundary}</p>
                         </article>
                     </div>
-                    <div className="service-technology-stack">
-                        <div className="service-technology-stack__label">
-                            <code>[stack]</code>
-                            <strong>기술 스택</strong>
-                        </div>
-                        <ul aria-label={`${service.name} 기술 스택`}>
-                            {service.stack.map((technology) => (
-                                <li key={technology}>{technology}</li>
-                            ))}
-                        </ul>
-                    </div>
                     <blockquote>
                         <strong>서비스 분리의 트레이드오프</strong>
                         {project.architecture.tradeoff}
@@ -172,21 +162,30 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                 <p>{document.note}</p>
                             </article>
                         ))}
-                        {service.repository ? (
-                            <a
-                                className="service-repository-link"
-                                href={service.repository.href}
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                {service.repository.label} 보기 <span aria-hidden="true">↗</span>
-                            </a>
-                        ) : null}
-                        {service.repository?.note ? (
-                            <p className="service-repository-note">{service.repository.note}</p>
-                        ) : null}
                     </div>
                 </section>
+
+                <CaseMetaSection
+                    id="service-stack"
+                    headingId="service-stack-title"
+                    sectionNumber="## 04"
+                    technologies={service.stack}
+                    technologyLabel={`${service.name} 기술 스택`}
+                    links={
+                        service.repository
+                            ? [
+                                  {
+                                      href: service.repository.href,
+                                      label: `${service.repository.label} 보기`,
+                                      note:
+                                          service.repository.note ??
+                                          "서비스 구현과 테스트 코드를 확인할 수 있습니다.",
+                                  },
+                              ]
+                            : []
+                    }
+                    linkNote="비공개 저장소입니다. 공개 가능한 설계 결정과 테스트 근거는 위 대표 문서에 정리했습니다."
+                />
             </article>
 
             <footer className="baton-service-footer">

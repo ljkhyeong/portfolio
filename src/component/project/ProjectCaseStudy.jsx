@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { navigableCaseStudies, projectsById } from "../../data/projects"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
+import CaseMetaSection from "./CaseMetaSection"
 import ProblemSolutionList from "./ProblemSolutionList"
 import ProjectEvidenceList from "./ProjectEvidenceList"
 import ProjectSwitcher from "./ProjectSwitcher"
@@ -512,40 +513,15 @@ const ProjectCaseStudy = ({ projectId }) => {
                     />
                 ) : null}
 
-                <section className="case-meta" id="project-stack" aria-labelledby="stack-title">
-                    <div className="case-meta__stack">
-                        <div className="case-section-heading">
-                            <span>{metaSectionNumber}</span>
-                            <h2 id="stack-title">사용 기술</h2>
-                        </div>
-                        <ul>
-                            {project.stack.map((item) => (
-                                <li key={item}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="case-meta__links">
-                        <div className="case-section-heading">
-                            <span>LINK</span>
-                            <h2>관련 링크</h2>
-                        </div>
-                        {project.links.length > 0 ? (
-                            <ul>
-                                {project.links.map((link) => (
-                                    <li key={link.href}>
-                                        <a href={link.href} target="_blank" rel="noreferrer">
-                                            <span>{link.label}</span>
-                                            <span aria-hidden="true">↗</span>
-                                        </a>
-                                        <p>{link.note}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p className="case-meta__link-note">{project.linkNote}</p>
-                        )}
-                    </div>
-                </section>
+                <CaseMetaSection
+                    id="project-stack"
+                    headingId="stack-title"
+                    sectionNumber={metaSectionNumber}
+                    technologies={project.stack}
+                    technologyLabel={`${project.title} 기술 스택`}
+                    links={project.links}
+                    linkNote={project.linkNote}
+                />
             </article>
 
             <footer className="case-next">
