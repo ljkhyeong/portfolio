@@ -1,7 +1,10 @@
 .project-switcher {
     position: relative;
     z-index: 20;
+    display: flex;
     flex: 0 0 auto;
+    align-items: center;
+    gap: 12px;
 }
 
 .project-switcher__details {
@@ -12,9 +15,11 @@
     display: flex;
     min-height: 44px;
     align-items: center;
-    gap: 10px;
-    padding: 0 4px 0 10px;
-    border-bottom: 2px solid transparent;
+    gap: 8px;
+    padding: 0 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
     color: var(--muted);
     cursor: pointer;
     font-size: 13px;
@@ -37,7 +42,8 @@
 .project-switcher__details[open] > summary,
 .project-switcher__details > summary:hover,
 .project-switcher__details > summary:focus-visible {
-    border-bottom-color: var(--accent);
+    border-color: var(--accent);
+    background: var(--paper-raised);
     color: var(--accent);
 }
 
@@ -51,6 +57,7 @@
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.04em;
+    white-space: nowrap;
 }
 
 .project-switcher__details > summary strong {
@@ -154,7 +161,7 @@
 
 @media (max-width: 560px) {
     .project-switcher__details > summary {
-        padding-right: 0;
+        padding: 0 9px;
     }
 
     .project-switcher__count {

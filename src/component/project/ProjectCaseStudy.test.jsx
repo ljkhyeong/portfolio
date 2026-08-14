@@ -70,6 +70,8 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     })
     const projectMenu = within(projectSwitcher).getByText("프로젝트 이동").closest("details")
 
+    expect(within(projectSwitcher).getByText("개인 프로젝트 01 / 02")).toBeInTheDocument()
+    expect(within(projectMenu).queryByText("개인 프로젝트 01 / 02")).not.toBeInTheDocument()
     expect(projectMenu).not.toHaveAttribute("open")
     await userEvent.click(within(projectSwitcher).getByText("프로젝트 이동"))
     expect(projectMenu).toHaveAttribute("open")
