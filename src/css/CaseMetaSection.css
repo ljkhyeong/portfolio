@@ -115,7 +115,8 @@
 
 @media (max-width: 700px) {
     .case-meta__stack li {
-        width: 100%;
+        width: 50%;
+        overflow-wrap: anywhere;
     }
 }
 

@@ -395,7 +395,8 @@
 
     .project-index__title-block h4,
     .project-index--education .project-index__title-block h4 {
-        font-size: clamp(28px, 8.8vw, 36px);
+        font-size: clamp(24px, 7.4vw, 30px);
+        line-height: 1.08;
         overflow-wrap: anywhere;
     }
 
@@ -404,8 +405,13 @@
     }
 
     .project-index__summary {
+        display: -webkit-box;
+        overflow: hidden;
         font-size: 16px;
+        line-height: 1.62;
         word-break: normal;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
     }
 
     .project-index__services > div {

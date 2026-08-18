@@ -32,8 +32,11 @@ const ProblemGrid = ({ project, problemIds, compact = false }) => {
     )
 }
 
-const DocumentCatalog = ({ project }) => (
-    <section className="print-document-catalog" aria-label={`${project.title} 문서 분류`}>
+const DocumentCatalog = ({ project, compact = false }) => (
+    <section
+        className={`print-document-catalog${compact ? " print-document-catalog--compact" : ""}`}
+        aria-label={`${project.title} 문서 분류`}
+    >
         <div className="print-document-catalog__heading">
             <h3 className="print-markdown-heading">### 문서 분류</h3>
             <span>{project.evidenceAsOf}</span>
@@ -55,29 +58,46 @@ const DocumentCatalog = ({ project }) => (
     </section>
 )
 
-const RepresentativeDocuments = ({ project, documentIndexes, toPublishedUrl }) => (
-    <nav className="print-representative-docs" aria-label={`${project.title} 대표 문서`}>
-        <h3 className="print-markdown-heading">### 대표 문서</h3>
-        {documentIndexes.map((index) => {
-            const document = project.documents[index]
+const RepresentativeDocuments = ({
+    project,
+    documentIndexes,
+    documentLabels,
+    compact = false,
+    toPublishedUrl,
+}) => {
+    const documents = documentLabels.length
+        ? documentLabels.map((label) =>
+              project.documents.find((document) => document.label === label),
+          )
+        : documentIndexes.map((index) => project.documents[index])
 
-            return (
+    return (
+        <nav
+            className={`print-representative-docs${
+                compact ? " print-representative-docs--compact" : ""
+            }`}
+            aria-label={`${project.title} 대표 문서`}
+        >
+            <h3 className="print-markdown-heading">### 대표 문서</h3>
+            {documents.filter(Boolean).map((document) => (
                 <a href={toPublishedUrl(document.href)} key={`${document.type}-${document.label}`}>
                     <b>
                         [{document.type}] {document.label}
                     </b>
                     <span>{document.note}</span>
                 </a>
-            )
-        })}
-    </nav>
-)
+            ))}
+        </nav>
+    )
+}
 
 const PrintProjectEvidence = ({
     project,
     problemIds = [],
     documentIndexes = [],
+    documentLabels = [],
     compact = false,
+    compactDocuments = false,
     showProblems = true,
     showDocuments = true,
     toPublishedUrl,
@@ -88,10 +108,12 @@ const PrintProjectEvidence = ({
         ) : null}
         {showDocuments ? (
             <>
-                <DocumentCatalog project={project} />
+                <DocumentCatalog project={project} compact={compactDocuments} />
                 <RepresentativeDocuments
                     project={project}
                     documentIndexes={documentIndexes}
+                    documentLabels={documentLabels}
+                    compact={compactDocuments}
                     toPublishedUrl={toPublishedUrl}
                 />
             </>

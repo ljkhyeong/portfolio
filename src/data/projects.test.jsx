@@ -52,6 +52,64 @@ describe("project summary data", () => {
         expect(projectSummariesById.warrant.tags).toContain("Spring Batch")
     })
 
+    it("keeps BATON shared decisions in Core and service pages focused on their own failures", () => {
+        const baton = projectsById.baton
+        const sharedProblem = baton.problems.find((problem) => problem.number === "01")
+        const coreProblem = baton.problems.find((problem) => problem.number === "02")
+        const coreProof = baton.proofs.find((proof) => proof.item.startsWith("Core 인수인계"))
+
+        expect(sharedProblem).toMatchObject({ shared: true })
+        expect(coreProblem.serviceIds).toEqual(["core"])
+        expect(baton.featuredProblemNumbers[0]).toBe("02")
+        expect(coreProof).toMatchObject({
+            method: "도메인 규칙 및 저장소 통합 테스트",
+            result: expect.stringContaining("열린 바통을 1건으로 유지"),
+        })
+
+        baton.services
+            .filter((service) => !service.primary)
+            .forEach((service) => {
+                const serviceProblems = baton.problems.filter(
+                    (problem) => problem.serviceIds.includes(service.id) && !problem.shared,
+                )
+
+                expect(serviceProblems).toHaveLength(2)
+                expect(service.tradeoff).toEqual(expect.any(String))
+                expect(service.evidence).not.toMatch(/^자동화 테스트/)
+            })
+    })
+
+    it("grounds happyGallery payment and pass refund claims in accepted ADR decisions", () => {
+        const happyGallery = projectsById.happygallery
+        const paymentProblem = happyGallery.problems.find((problem) => problem.number === "02")
+        const passRefundProblem = happyGallery.problems.find((problem) => problem.number === "07")
+        const passRefundProof = happyGallery.proofs.find(
+            (proof) => proof.item === "8회권 전체 환불 정합성",
+        )
+
+        expect(paymentProblem).toMatchObject({
+            constraint: expect.stringContaining("saveAndFlush"),
+            decision: expect.stringContaining("REQUIRES_NEW"),
+        })
+        expect(passRefundProblem).toMatchObject({
+            title: "8회권 환불과 미래 예약 정합성 유지",
+            decision: expect.stringContaining("PK 순서"),
+            boundary: expect.stringContaining("관리자 재처리"),
+            print: expect.objectContaining({ label: "PASS / REFUND" }),
+        })
+        expect(happyGallery.featuredProblemNumbers).not.toContain("07")
+        expect(passRefundProof).toMatchObject({
+            method: "MySQL 및 Redis Testcontainers 통합 테스트",
+            result: expect.stringContaining("8회분 환불 요청"),
+        })
+        expect(happyGallery.documents).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ label: "결제 승인 트랜잭션과 보상 경계" }),
+                expect.objectContaining({ label: "8회권 사용, 취소 및 환불 정책" }),
+            ]),
+        )
+    })
+
     it("uses reader-facing terms and explains every implementation or verification claim", () => {
         const publicCopy = JSON.stringify(projectsById)
         const microservices = projectsById.baton.services.filter((service) => !service.primary)
@@ -69,6 +127,8 @@ describe("project summary data", () => {
         microservices.forEach((service) => {
             expect(service.summary).toEqual(expect.any(String))
             expect(service.summary.length).toBeGreaterThan(20)
+            expect(service.contribution).toEqual(expect.any(String))
+            expect(service.contribution).toMatch(/구현했습니다\.$/)
             expect(service.stack).toEqual(expect.any(Array))
             expect(service.stack.length).toBeGreaterThanOrEqual(6)
             expect(service.stack).toContain("Spring Boot 4.1")

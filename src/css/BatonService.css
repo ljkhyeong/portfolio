@@ -101,6 +101,12 @@
     word-break: keep-all;
 }
 
+.baton-service-hero__intro > p + .baton-service-hero__contribution {
+    margin-top: 8px;
+    color: var(--ink);
+    font-weight: 650;
+}
+
 .baton-service-hero__facts {
     display: grid;
     gap: 6px;

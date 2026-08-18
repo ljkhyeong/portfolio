@@ -17,7 +17,7 @@ export const portfolioProfile = {
     heroProofs: [
         "LG CNS 컨소시엄 / 독립망 연계",
         "GO 동시 요청 8 → 링크 1",
-        "happyGallery 테스트 225개 통과",
+        "happyGallery 결제 및 환불 중복 처리 방지",
     ],
     printHeadline: {
         lead: "실패 이후까지 설계하는",
@@ -74,7 +74,7 @@ export const careers = [
     {
         id: "e-warrant",
         period: "2026.03 — 진행 중",
-        organization: "LG CNS 컨소시엄 참여 프로젝트",
+        organization: "소속사 비공개 / LG CNS 컨소시엄 참여",
         position: "해양경찰 KICS 연계 개발",
         projectId: "warrant",
         description:
@@ -151,7 +151,7 @@ export const printSkillGroups = [
     },
     {
         label: "Architecture",
-        detail: "헥사고날 아키텍처, 모놀리식 애플리케이션, Gradle 멀티모듈, 마이크로서비스",
+        detail: "BATON: Core + 5개 마이크로서비스 / happyGallery: 모놀리식 애플리케이션 + Gradle 멀티모듈 / 헥사고날 아키텍처",
     },
     {
         label: "Data & Recovery",

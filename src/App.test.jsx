@@ -16,7 +16,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         "GO 동시 요청 8 → 링크 1",
     )
     expect(screen.getByRole("list", { name: "주요 경험 요약" })).toHaveTextContent(
-        "happyGallery 테스트 225개 통과",
+        "happyGallery 결제 및 환불 중복 처리 방지",
     )
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
@@ -179,7 +179,7 @@ test("현재 경력 프로젝트를 이전 경력보다 먼저 보여주고 상�
         "/projects/e-warrant",
         "/projects/defense",
     ])
-    expect(screen.getAllByText(/LG CNS 컨소시엄 참여 프로젝트/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/소속사 비공개 \/ LG CNS 컨소시엄 참여/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/독립된 망 사이/).length).toBeGreaterThan(0)
     expect(screen.getByLabelText("프로젝트 상태: 진행 중, 공개 가능 범위")).toBeInTheDocument()
 })
@@ -359,21 +359,41 @@ test("WebRTC/HLS 상세는 교육 프로젝트용 간략 화면으로 유지한�
     expect(screen.queryByRole("heading", { name: "대표 문제 해결" })).not.toBeInTheDocument()
 })
 
-test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 쉬운 11쪽을 렌더링한다", async () => {
+test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 쉬운 9쪽을 렌더링한다", async () => {
     window.history.pushState({}, "", "/portfolio/print")
 
     render(<App />)
 
     await screen.findByRole("heading", { name: "실패 이후까지 설계하는 백엔드 개발자" })
     await waitFor(() => expect(document.title).toBe("인쇄용 포트폴리오 | 임정규"))
-    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(11)
+    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(9)
     expect(screen.getAllByText("BATON").length).toBeGreaterThan(0)
     expect(screen.getAllByText("전송형 전자영장 시스템").length).toBeGreaterThan(0)
     expect(screen.getAllByText(/LG CNS 컨소시엄/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/독립망/).length).toBeGreaterThan(0)
+    const profilePage = document.querySelector('[data-page-number="02"]')
+    const careerHeading = within(profilePage).getByText("## Career")
+    const educationHeading = within(profilePage).getByText("## Education")
+
+    expect(
+        Boolean(
+            careerHeading.compareDocumentPosition(educationHeading) &
+                Node.DOCUMENT_POSITION_FOLLOWING,
+        ),
+    ).toBe(true)
     expect(
         within(document.querySelector('[data-page-number="03"]')).getByText(
             "JAVA 11 / SPRING BOOT 2.6 / SPRING BATCH / WEB SQUARE / MAVEN",
+        ),
+    ).toBeInTheDocument()
+    expect(
+        within(document.querySelector('[data-page-number="07"]')).getByText(
+            "193 paths / 225 operations",
+        ),
+    ).toBeInTheDocument()
+    expect(
+        within(document.querySelector('[data-page-number="08"]')).getByText(
+            /결제 승인 트랜잭션과 보상 경계/,
         ),
     ).toBeInTheDocument()
     expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)

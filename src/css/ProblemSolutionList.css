@@ -161,7 +161,7 @@
 @media (max-width: 700px) {
     .problem-solution-list__item > summary {
         min-height: 62px;
-        padding: 10px 12px;
+        padding: 10px 64px 10px 12px;
     }
 
     .problem-solution-list__item > summary h3 {

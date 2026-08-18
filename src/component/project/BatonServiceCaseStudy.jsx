@@ -13,7 +13,9 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
         return null
     }
 
-    const problems = project.problems.filter((problem) => problem.serviceIds.includes(serviceId))
+    const problems = project.problems.filter(
+        (problem) => problem.serviceIds.includes(serviceId) && !problem.shared,
+    )
     const documents = project.documents.filter((document) => document.serviceId === serviceId)
     const siblings = project.services.filter((candidate) => !candidate.primary)
 
@@ -38,6 +40,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     <div className="baton-service-hero__intro">
                         <strong>{service.role}</strong>
                         <p>{service.summary ?? service.detail}</p>
+                        <p className="baton-service-hero__contribution">{service.contribution}</p>
                         <dl className="baton-service-hero__facts" aria-label="서비스 정보">
                             <div>
                                 <dt>DB</dt>
@@ -74,6 +77,9 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         <li>
                             <a href="#service-documents">문서</a>
                         </li>
+                        <li>
+                            <a href="#service-stack">사용 기술</a>
+                        </li>
                     </ul>
                 </nav>
 
@@ -108,8 +114,8 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         </article>
                     </div>
                     <blockquote>
-                        <strong>서비스 분리의 트레이드오프</strong>
-                        {project.architecture.tradeoff}
+                        <strong>{service.name}의 트레이드오프</strong>
+                        {service.tradeoff}
                     </blockquote>
                 </section>
 

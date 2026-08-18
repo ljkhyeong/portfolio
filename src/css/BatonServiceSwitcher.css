@@ -74,19 +74,29 @@
     .baton-service-switcher ul {
         flex-wrap: nowrap;
         justify-content: flex-start;
+        gap: 4px;
         overflow-x: auto;
+        padding-bottom: 5px;
         overscroll-behavior-inline: contain;
-        -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
-        mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
-        scrollbar-width: none;
+        scroll-snap-type: inline proximity;
+        scrollbar-color: var(--line-strong) transparent;
+        scrollbar-width: thin;
     }
 
     .baton-service-switcher ul::-webkit-scrollbar {
-        display: none;
+        height: 4px;
+    }
+
+    .baton-service-switcher ul::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: var(--line-strong);
     }
 
     .baton-service-switcher a {
+        min-width: 54px;
         min-height: 44px;
+        padding: 0 6px;
+        scroll-snap-align: center;
     }
 }
 

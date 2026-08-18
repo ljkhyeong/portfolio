@@ -817,12 +817,14 @@ body.portfolio-print-mode {
 
 /* Engineering evidence */
 
-.print-page--evidence .print-title h2 {
+.print-page--evidence .print-title h2,
+.print-page--evidence-docs .print-title h2 {
     margin-top: 2mm;
     font-size: 23pt;
 }
 
-.print-page--evidence .print-title > p:last-child {
+.print-page--evidence .print-title > p:last-child,
+.print-page--evidence-docs .print-title > p:last-child {
     margin-top: 2mm;
     font-size: 9.2pt;
 }
@@ -1084,6 +1086,75 @@ body.portfolio-print-mode {
     color: rgba(255, 255, 255, 0.62);
 }
 
+/* Combined engineering evidence pages */
+
+.print-page--evidence-docs .print-title {
+    margin-top: 5mm;
+}
+
+.print-page--evidence-docs .print-problem-grid--compact {
+    margin-top: 4mm;
+}
+
+.print-page--evidence-docs .print-problem-grid--compact article {
+    min-height: 47mm;
+    padding: 3.4mm 3.8mm;
+}
+
+.print-page--evidence-docs .print-problem-grid--compact dl > div {
+    grid-template-columns: 23mm 1fr;
+    padding: 1mm 0;
+}
+
+.print-document-catalog--compact {
+    margin-top: 5mm;
+}
+
+.print-document-catalog--compact .print-document-taxonomy {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.print-document-catalog--compact .print-document-taxonomy:not(.print-document-taxonomy--five) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.print-document-catalog--compact .print-document-taxonomy article {
+    min-height: 23mm;
+    padding: 2.8mm;
+}
+
+.print-document-catalog--compact .print-document-taxonomy strong {
+    font-size: 8pt;
+}
+
+.print-document-catalog--compact .print-document-taxonomy strong b {
+    font-size: 9.5pt;
+}
+
+.print-document-catalog--compact .print-document-taxonomy p {
+    margin-top: 1.2mm;
+    line-height: 1.35;
+}
+
+.print-representative-docs--compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 4mm;
+}
+
+.print-representative-docs--compact a {
+    min-height: 27mm;
+    padding: 3mm;
+}
+
+.print-representative-docs--compact a b {
+    font-size: 9pt;
+}
+
+.print-representative-docs--compact a span {
+    margin-top: 1.2mm;
+    line-height: 1.35;
+}
+
 /* Metrics, career case and closing */
 
 .print-metric-row {
@@ -1214,8 +1285,8 @@ body.portfolio-print-mode {
 }
 
 .print-warrant-overview {
-    margin-top: 4mm;
-    padding: 4mm 5mm;
+    margin-top: 3mm;
+    padding: 3mm 4mm;
     border: 0.35mm solid var(--print-line);
     border-radius: 1.6mm;
     background: var(--print-raised);
@@ -1251,7 +1322,7 @@ body.portfolio-print-mode {
 
 .print-warrant-flow > div {
     display: flex;
-    min-height: 18mm;
+    min-height: 16mm;
     flex-direction: column;
     justify-content: center;
     padding: 2.5mm 3mm;
@@ -1309,13 +1380,13 @@ body.portfolio-print-mode {
 .print-warrant-problems > div {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.5mm;
-    margin-top: 2mm;
+    gap: 2mm;
+    margin-top: 1.5mm;
 }
 
 .print-warrant-problems article {
     min-width: 0;
-    padding: 2.4mm 3.5mm;
+    padding: 2mm 3mm;
     border: 0.35mm solid var(--print-line);
     border-radius: 1.6mm;
     background: var(--print-raised);
@@ -1350,7 +1421,7 @@ body.portfolio-print-mode {
     display: grid;
     grid-template-columns: 20mm 1fr;
     gap: 2mm;
-    padding: 0.7mm 0;
+    padding: 0.45mm 0;
     border-top: 0.3mm solid var(--print-line);
 }
 
@@ -1369,9 +1440,9 @@ body.portfolio-print-mode {
 }
 
 .print-status-note--warrant {
-    margin-top: 2mm;
-    padding-top: 2.5mm;
-    padding-bottom: 2.5mm;
+    margin-top: 1.5mm;
+    padding-top: 2mm;
+    padding-bottom: 2mm;
 }
 
 .print-career-cases {
@@ -1494,6 +1565,13 @@ body.portfolio-print-mode {
 .print-profile-note {
     break-inside: avoid;
     page-break-inside: avoid;
+}
+
+/* Prose stays readable in an A4 export; 8pt is reserved for labels and metadata. */
+.print-page p,
+.print-page dd,
+.print-metric-row > div > span {
+    font-size: 9pt;
 }
 
 @media screen and (max-width: 850px) {

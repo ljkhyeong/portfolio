@@ -116,7 +116,12 @@ const MetricRow = ({ proofs }) => (
         {proofs.slice(0, 3).map((proof) => (
             <div key={`${proof.item}-${proof.scope ?? "all"}`}>
                 <strong>{proof.item}</strong>
-                <span>{proof.result}</span>
+                <span>
+                    {proof.result.replace(
+                        "API 경로 193개, 작업 225개",
+                        "193 paths / 225 operations",
+                    )}
+                </span>
                 {proof.scope ? <small>{proof.scope}</small> : null}
             </div>
         ))}
@@ -259,9 +264,7 @@ const PortfolioPrintPage = () => {
     const defense = projectsById.defense
     const webrtc = projectsById.webrtc
     const studies = personalActivities
-    const go = baton.services.find((service) => service.id === "go")
     const microservices = baton.services.filter((service) => !service.primary)
-    const goConcurrency = go.evidence.split("·").at(-1).trim().replace("동시 ", "")
 
     useEffect(() => {
         let cancelled = false
@@ -324,7 +327,7 @@ const PortfolioPrintPage = () => {
         <div className="portfolio-print">
             <nav className="print-toolbar" aria-label="인쇄본 도구">
                 <Link to="/">← 웹 포트폴리오</Link>
-                <span>React 인쇄 원본 · A4 11쪽</span>
+                <span>React 인쇄 원본 · A4 9쪽</span>
                 <button type="button" onClick={() => window.print()}>
                     인쇄 또는 PDF 저장
                 </button>
@@ -355,19 +358,19 @@ const PortfolioPrintPage = () => {
 
                     <div className="print-cover-proof" aria-label="주요 경험 요약">
                         <div>
-                            <span>BATON / GO</span>
-                            <strong>{goConcurrency}</strong>
-                            <p>동시에 들어온 같은 링크 생성 요청을 1건으로 처리</p>
+                            <span>CURRENT CAREER</span>
+                            <strong>기관 연계 및 배치</strong>
+                            <p>KICS 독립망 연계 인터페이스와 Spring Batch 개발</p>
+                        </div>
+                        <div>
+                            <span>{baton.title}</span>
+                            <strong>Core + 5개 서비스</strong>
+                            <p>상태 전이, 멱등 처리와 실패 후 재처리 기준 설계</p>
                         </div>
                         <div>
                             <span>{gallery.title}</span>
-                            <strong>API 193 / 225</strong>
-                            <p>테스트 225개 통과 / 실패 및 오류 0건</p>
-                        </div>
-                        <div>
-                            <span>{warrant.title}</span>
-                            <strong>독립망 연계</strong>
-                            <p>{warrant.proofs[0].result}</p>
+                            <strong>결제 및 예약 운영</strong>
+                            <p>결제 및 환불 멱등성, 알림 아웃박스와 예약 경쟁 처리</p>
                         </div>
                     </div>
 
@@ -403,20 +406,6 @@ const PortfolioPrintPage = () => {
                         ))}
                     </div>
 
-                    <section className="print-profile-row" aria-labelledby="print-education-title">
-                        <h3 id="print-education-title">## Education</h3>
-                        <div className="print-profile-row__meta">
-                            <time>{education.period}</time>
-                            <strong>{education.organization}</strong>
-                            <span>{education.meta}</span>
-                        </div>
-                        <div>
-                            <h4>{webrtc.title}</h4>
-                            <time className="print-profile-project-period">{webrtc.period}</time>
-                            <p>{education.description}</p>
-                        </div>
-                    </section>
-
                     <section
                         className="print-profile-row print-profile-row--careers"
                         aria-labelledby="print-career-title"
@@ -440,6 +429,20 @@ const PortfolioPrintPage = () => {
                                     </article>
                                 )
                             })}
+                        </div>
+                    </section>
+
+                    <section className="print-profile-row" aria-labelledby="print-education-title">
+                        <h3 id="print-education-title">## Education</h3>
+                        <div className="print-profile-row__meta">
+                            <time>{education.period}</time>
+                            <strong>{education.organization}</strong>
+                            <span>{education.meta}</span>
+                        </div>
+                        <div>
+                            <h4>{webrtc.title}</h4>
+                            <time className="print-profile-project-period">{webrtc.period}</time>
+                            <p>{education.description}</p>
                         </div>
                     </section>
 
@@ -494,53 +497,35 @@ const PortfolioPrintPage = () => {
 
                 <PrintPage
                     number="06"
-                    path="# personal-projects/baton/evidence.md"
-                    meta="설계 결정 및 장애 처리"
+                    path="# personal-projects/baton/engineering-evidence.md"
+                    meta="설계 결정, 확인 결과 및 대표 문서"
                     footer="PRD / ADR / RUNBOOK / API CONTRACT"
                     dark
-                    variant="evidence"
+                    variant="evidence-docs"
                 >
                     <PrintTitle
-                        eyebrow="## PERSONAL PROJECT / BATON EVIDENCE"
-                        title="대표 문제 해결"
+                        eyebrow="## PERSONAL PROJECT / BATON ENGINEERING EVIDENCE"
+                        title="문제 해결과 판단 근거"
                     >
-                        Core와 5개 마이크로서비스의 데이터 처리 기준과 실패 후 동작을 문서와
-                        테스트로 정리했습니다.
+                        Core와 마이크로서비스의 데이터 처리 기준, 실패 후 동작과 대표 설계 문서를
+                        함께 정리했습니다.
                     </PrintTitle>
                     <PrintProjectEvidence
                         project={baton}
-                        problemIds={["02", "03", "05", "07", "09", "11"]}
+                        problemIds={["02", "03", "05", "07"]}
+                        documentLabels={[
+                            "Core 헥사고날 아키텍처",
+                            "GO 멱등 링크 생성",
+                            "WATCH 상태 변경 이벤트 전달",
+                        ]}
                         compact
-                        showDocuments={false}
+                        compactDocuments
                         toPublishedUrl={toPublishedUrl}
                     />
                 </PrintPage>
 
                 <PrintPage
                     number="07"
-                    path="# personal-projects/baton/documents.md"
-                    meta={baton.evidenceAsOf}
-                    footer="PRD / ADR / RUNBOOK / API CONTRACT"
-                    dark
-                    variant="documents"
-                >
-                    <PrintTitle
-                        eyebrow="## PERSONAL PROJECT / BATON DOCUMENTS"
-                        title="문서 분류와 대표 문서"
-                    >
-                        기술 선택, 장애 재처리 절차와 서비스 계약을 다음 변경 때 확인할 수 있는
-                        기록으로 남겼습니다.
-                    </PrintTitle>
-                    <PrintProjectEvidence
-                        project={baton}
-                        documentIndexes={[0, 1, 2, 5, 6]}
-                        showProblems={false}
-                        toPublishedUrl={toPublishedUrl}
-                    />
-                </PrintPage>
-
-                <PrintPage
-                    number="08"
                     path="# personal-projects/happyGallery/overview.md"
                     meta={`${gallery.period} · ${gallery.evidenceAsOf}`}
                     footer="SPRING BOOT / REACT / MYSQL / REDIS / REST DOCS"
@@ -569,51 +554,35 @@ const PortfolioPrintPage = () => {
                 </PrintPage>
 
                 <PrintPage
-                    number="09"
-                    path="# personal-projects/happyGallery/evidence.md"
+                    number="08"
+                    path="# personal-projects/happyGallery/engineering-evidence.md"
                     meta={gallery.evidenceAsOf}
-                    footer="ARCHITECTURE / PAYMENT / OUTBOX / CONCURRENCY / SECURITY / OPERATIONS"
-                    variant="evidence"
+                    footer="ADR / RETROSPECTIVE / PAYMENT / OUTBOX / CONCURRENCY"
+                    variant="evidence-docs"
                 >
                     <PrintTitle
-                        eyebrow="## PERSONAL PROJECT / HAPPYGALLERY EVIDENCE"
-                        title="대표 문제 해결"
+                        eyebrow="## PERSONAL PROJECT / HAPPYGALLERY ENGINEERING EVIDENCE"
+                        title="문제 해결과 판단 근거"
                     >
-                        정합성, 외부 I/O, 보안과 운영 비용을 각각 확인할 수 있도록 처리 경계를
-                        나눴습니다.
+                        정합성, 외부 I/O와 동시성 문제를 처리한 방법과 그 판단 근거가 된 대표 문서를
+                        함께 정리했습니다.
                     </PrintTitle>
                     <PrintProjectEvidence
                         project={gallery}
-                        problemIds={["01", "02", "03", "04", "05", "06"]}
+                        problemIds={["02", "03", "04", "07"]}
+                        documentLabels={[
+                            "결제 승인 트랜잭션과 보상 경계",
+                            "8회권 사용, 취소 및 환불 정책",
+                            "알림 Outbox 전달 보장",
+                        ]}
                         compact
-                        showDocuments={false}
+                        compactDocuments
                         toPublishedUrl={toPublishedUrl}
                     />
                 </PrintPage>
 
                 <PrintPage
-                    number="10"
-                    path="# personal-projects/happyGallery/documents.md"
-                    meta={gallery.evidenceAsOf}
-                    footer="PRD / ADR / IDEA / POC / RETROSPECTIVE / RUNBOOK"
-                    variant="documents"
-                >
-                    <PrintTitle
-                        eyebrow="## PERSONAL PROJECT / HAPPYGALLERY DOCUMENTS"
-                        title="문서 분류와 대표 문서"
-                    >
-                        요구사항, 설계 결정과 운영 회고를 구현 및 변경의 기준으로 관리했습니다.
-                    </PrintTitle>
-                    <PrintProjectEvidence
-                        project={gallery}
-                        documentIndexes={[0, 1, 3, 4, 5]}
-                        showProblems={false}
-                        toPublishedUrl={toPublishedUrl}
-                    />
-                </PrintPage>
-
-                <PrintPage
-                    number="11"
+                    number="09"
                     path="# skills-and-contact.md"
                     meta="Backend developer"
                     footer={`${portfolioProfile.name.toUpperCase()} / 2026`}

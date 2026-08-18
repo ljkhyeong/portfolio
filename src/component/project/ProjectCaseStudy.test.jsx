@@ -38,6 +38,10 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "case-meta",
     )
     expect(screen.getByRole("link", { name: "문서" })).toHaveAttribute("href", "#project-documents")
+    expect(screen.getByRole("link", { name: "사용 기술" })).toHaveAttribute(
+        "href",
+        "#project-stack",
+    )
 
     const sectionIds = [
         "project-overview",
@@ -46,6 +50,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "project-problems",
         "project-proof",
         "project-documents",
+        "project-stack",
     ]
 
     sectionIds.forEach((id) => expect(document.getElementById(id)).toBeInTheDocument())
@@ -140,7 +145,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
-    expect(screen.getByText("추가 문제 해결 2건 보기").closest("details")).not.toHaveAttribute(
+    expect(screen.getByText("추가 문제 해결 3건 보기").closest("details")).not.toHaveAttribute(
         "open",
     )
     expect(screen.getByRole("heading", { name: "대표 화면" })).toBeInTheDocument()
@@ -189,6 +194,10 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
         "#service-problems",
     )
     expect(screen.getByRole("link", { name: "문서" })).toHaveAttribute("href", "#service-documents")
+    expect(screen.getByRole("link", { name: "사용 기술" })).toHaveAttribute(
+        "href",
+        "#service-stack",
+    )
 
     const serviceSwitcher = screen.getByRole("navigation", {
         name: "BATON 서비스 바로가기",

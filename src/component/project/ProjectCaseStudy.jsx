@@ -271,12 +271,21 @@ const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
 
 const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }) => {
     const sections = [
-        { href: "#project-overview", label: "개요" },
-        { href: "#project-system", label: systemNavLabel ?? "대표 화면" },
-        ...(hasArchitecture ? [{ href: "#project-architecture", label: "설계" }] : []),
-        { href: "#project-problems", label: "문제 해결" },
-        { href: "#project-proof", label: "테스트 및 결과" },
-        ...(hasDocuments ? [{ href: "#project-documents", label: "문서" }] : []),
+        { href: "#project-overview", label: "개요", shortLabel: "개요" },
+        {
+            href: "#project-system",
+            label: systemNavLabel ?? "대표 화면",
+            shortLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
+        },
+        ...(hasArchitecture
+            ? [{ href: "#project-architecture", label: "설계", shortLabel: "설계" }]
+            : []),
+        { href: "#project-problems", label: "문제 해결", shortLabel: "문제" },
+        { href: "#project-proof", label: "테스트 및 결과", shortLabel: "결과" },
+        ...(hasDocuments
+            ? [{ href: "#project-documents", label: "문서", shortLabel: "문서" }]
+            : []),
+        { href: "#project-stack", label: "사용 기술", shortLabel: "기술" },
     ]
 
     return (
@@ -287,7 +296,12 @@ const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }
             <ul>
                 {sections.map((section) => (
                     <li key={section.href}>
-                        <a href={section.href}>{section.label}</a>
+                        <a href={section.href}>
+                            <span className="case-section-nav__full-label">{section.label}</span>
+                            <span className="case-section-nav__short-label" aria-hidden="true">
+                                {section.shortLabel}
+                            </span>
+                        </a>
                     </li>
                 ))}
             </ul>

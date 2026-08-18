@@ -1,4 +1,5 @@
 import { render, screen, within } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router-dom"
 import ProjectEvidenceList from "./ProjectEvidenceList"
 import ProjectCaseStudy from "./ProjectCaseStudy"
@@ -19,20 +20,34 @@ const proofs = [
     },
 ]
 
-test("확인 항목과 테스트 조건, 확인 결과를 목록의 각 행에 함께 보여준다", () => {
+test("확인 항목과 결과를 먼저 보여주고 방법 및 조건은 펼쳐서 확인한다", async () => {
     render(<ProjectEvidenceList proofs={proofs} label="테스트 방법 및 결과 목록" />)
 
     const list = screen.getByRole("list", { name: "테스트 방법 및 결과 목록" })
     const rows = within(list).getAllByRole("listitem")
 
     expect(rows).toHaveLength(2)
-    expect(rows[0]).toHaveTextContent("확인 항목")
-    expect(rows[0]).toHaveTextContent("링크 생성 멱등성")
-    expect(rows[0]).toHaveTextContent("BATON GO")
+    const firstEvidence = rows[0].querySelector("details")
+    const firstSummary = rows[0].querySelector("summary")
+
+    expect(firstEvidence).not.toHaveAttribute("open")
+    expect(firstSummary).toHaveTextContent("확인 항목")
+    expect(firstSummary).toHaveTextContent("링크 생성 멱등성")
+    expect(firstSummary).toHaveTextContent("확인 결과")
+    expect(firstSummary).toHaveTextContent("동시 요청 8건에서 링크 1건 생성 확인")
+    expect(firstSummary).not.toHaveTextContent("BATON GO")
+    expect(firstSummary).not.toHaveTextContent("확인 방법 및 조건")
+    expect(firstSummary).not.toHaveTextContent(
+        "같은 멱등 키로 동시에 요청해도 링크는 하나만 생성되어야 함",
+    )
+
+    await userEvent.click(firstSummary)
+
+    expect(firstEvidence).toHaveAttribute("open")
     expect(rows[0]).toHaveTextContent("확인 방법 및 조건")
     expect(rows[0]).toHaveTextContent("같은 멱등 키로 동시에 요청해도 링크는 하나만 생성되어야 함")
-    expect(rows[0]).toHaveTextContent("확인 결과")
-    expect(rows[0]).toHaveTextContent("동시 요청 8건에서 링크 1건 생성 확인")
+    expect(rows[0]).toHaveTextContent("확인 범위")
+    expect(rows[0]).toHaveTextContent("BATON GO")
 })
 
 test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를 보여준다", () => {
@@ -50,10 +65,11 @@ test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를
     const list = screen.getByRole("list", { name: "테스트 방법 및 결과 목록" })
     const rows = within(list).getAllByRole("listitem")
 
-    expect(rows).toHaveLength(5)
-    expect(rows[0]).toHaveTextContent("GO 링크 중복 생성 방지")
-    expect(rows[0]).toHaveTextContent("같은 멱등 키와 요청으로 8건을 동시에 실행")
-    expect(rows[0]).toHaveTextContent("링크와 생성 예약을 각각 1건만 저장")
-    expect(rows[3]).toHaveTextContent("BRIEF 동시 요청 중복 방지")
-    expect(rows[4]).toHaveTextContent("CAL 일정 및 구독 계약")
+    expect(rows).toHaveLength(6)
+    expect(rows[0]).toHaveTextContent("Core 인수인계 상태 전이 및 중복 교대 차단")
+    expect(rows[1]).toHaveTextContent("GO 링크 중복 생성 방지")
+    expect(rows[1]).toHaveTextContent("같은 멱등 키와 요청으로 8건을 동시에 실행")
+    expect(rows[1]).toHaveTextContent("링크와 생성 예약을 각각 1건만 저장")
+    expect(rows[4]).toHaveTextContent("BRIEF 동시 요청 중복 방지")
+    expect(rows[5]).toHaveTextContent("CAL 일정 및 구독 계약")
 })

@@ -46,7 +46,7 @@ const projects = [
             tradeoff:
                 "서비스별 장애와 배포 범위를 분리한 대신 저장소, 배포와 모니터링 대상이 늘고 서비스 간 데이터 정합성을 별도로 관리해야 합니다.",
         },
-        featuredProblemNumbers: ["01", "03", "05", "07"],
+        featuredProblemNumbers: ["02", "03", "05", "07"],
         spotlights: [
             {
                 serviceId: "go",
@@ -191,6 +191,8 @@ const projects = [
                 role: "BATON 전용 공유 링크",
                 summary:
                     "BATON의 업무 화면을 짧고 고정된 주소로 공유하고 허용된 내부 경로로 연결합니다.",
+                contribution:
+                    "링크 생성, 조회와 리다이렉트, UUID 멱등 처리와 HMAC 키 검증을 설계하고 구현했습니다.",
                 stack: [
                     "Java 21",
                     "Spring Boot 4.1",
@@ -202,13 +204,15 @@ const projects = [
                     "Testcontainers",
                 ],
                 detail: "UUID 멱등 키, HMAC-SHA256 코드, 허용 경로만 처리",
-                evidence: "자동화 테스트 374개 · 동시 요청 8건에서 링크 1건",
+                evidence: "동시 요청 8건에서 링크 1건 · 자동화 테스트 374개",
                 input: "허용된 BATON 경로와 UUID 멱등 키",
                 output: "허용 경로 규칙을 통과한 고정 링크 코드",
                 recoveryBoundary: "같은 요청은 같은 결과를 반환하고 다른 요청은 충돌로 차단",
                 database: "MySQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
                 status: "링크 생성, 조회, 리다이렉트와 중복 요청 처리를 구현했습니다. BATON Core 연동은 진행 중입니다.",
+                tradeoff:
+                    "멱등 처리 기록과 HMAC 키를 함께 관리해야 합니다. DB를 복구할 때 같은 시점의 키가 없으면 기존 링크를 그대로 유지할 수 없습니다.",
                 documentation: [
                     { label: "PRD", count: "3" },
                     { label: "ADR", count: "9" },
@@ -223,6 +227,7 @@ const projects = [
                 role: "URL 상태 점검",
                 summary:
                     "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달합니다.",
+                contribution: "URL 검증, 작업 선점과 아웃박스 전송을 설계하고 구현했습니다.",
                 stack: [
                     "Java 21",
                     "Spring Boot 4.1",
@@ -235,7 +240,7 @@ const projects = [
                     "Testcontainers",
                 ],
                 detail: "SSRF 방어, 작업 선점 만료 후 다른 서버의 재처리, 이전 작업 결과 반영 차단, 아웃박스",
-                evidence: "자동화 테스트 354개",
+                evidence: "사설망 요청과 이전 작업의 늦은 결과 차단 · 자동화 테스트 354개",
                 input: "점검 대상 URL과 원본 데이터 버전",
                 output: "URL 상태와 상태 변경 이벤트",
                 recoveryBoundary:
@@ -243,6 +248,8 @@ const projects = [
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
                 status: "안전한 URL 점검과 상태 변경 이벤트 전송을 구현했습니다. 스테이징 환경의 이벤트 전송 테스트는 아직 하지 않았습니다.",
+                tradeoff:
+                    "작업 선점 만료 시간이 짧으면 중복 실행이 늘고, 길면 중단된 작업을 다른 서버가 다시 처리하기까지 오래 걸립니다. 운영 지표를 보며 조정해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-watch",
                     label: "WATCH 공개 저장소",
@@ -261,6 +268,8 @@ const projects = [
                 role: "알림 메시지 전달",
                 summary:
                     "BATON의 알림 요청을 외부 메시지 공급자에 전달하고 전송 상태를 관리합니다.",
+                contribution:
+                    "수신 이력 중복 방지, 전송 시도 이력과 결과 미확인 처리, RabbitMQ와 SQS 연동 계약을 설계하고 구현했습니다.",
                 stack: [
                     "Java 21",
                     "Spring Boot 4.1",
@@ -274,7 +283,7 @@ const projects = [
                     "Testcontainers",
                 ],
                 detail: "수신 이력(Inbox) 중복 제거, 작업 선점, 재시도와 전송 결과 미확인 상태",
-                evidence: "자동화 테스트 373개",
+                evidence: "메시지 재전달에도 수신 이력과 전달 작업 각 1건 · 자동화 테스트 373개",
                 input: "메시지 전송 이벤트와 수신 이벤트 식별자",
                 output: "전송 성공, 실패 또는 결과 미확인 상태",
                 recoveryBoundary:
@@ -282,6 +291,8 @@ const projects = [
                 database: "PostgreSQL",
                 visibility: "비공개 저장소 / 공개 가능 요약",
                 status: "메시지 수신, 전송 이력과 중복 발송 방지 처리를 구현했습니다. 실제 메시지 공급자 연동 테스트는 아직 하지 않았습니다.",
+                tradeoff:
+                    "중복 발송 방지를 우선해 결과 미확인 건은 자동 재전송하지 않습니다. 전송 결과 조회와 운영자 확정 절차가 추가로 필요합니다.",
                 documentation: [
                     { label: "PRD", count: "2" },
                     { label: "ADR", count: "14" },
@@ -295,6 +306,8 @@ const projects = [
                 role: "주간 운영 요약",
                 summary:
                     "운영 이벤트를 모아 이번 주에 확인할 항목과 생성 시점의 주간 요약을 제공합니다.",
+                contribution:
+                    "이벤트 수신과 조회 데이터 재구축, 주간 브리프 생성 규칙을 Kotlin과 Spring JDBC로 구현했습니다.",
                 stack: [
                     "Kotlin 2.3",
                     "Java 21",
@@ -306,7 +319,7 @@ const projects = [
                     "Testcontainers",
                 ],
                 detail: "운영 이벤트 중복 처리 방지, 확인 항목 구성, 생성 후 수정하지 않는 주간 브리프",
-                evidence: "자동화 테스트 8개 · PostgreSQL 통합 테스트 4개",
+                evidence: "중복 이벤트와 동시 생성에도 주간 브리프 1건 · 자동화 테스트 8개",
                 input: "인수인계 지연, 루틴 누락과 결정 후속 조치 지연 이벤트",
                 output: "확인이 필요한 항목과 주간 운영 브리프",
                 recoveryBoundary:
@@ -314,6 +327,8 @@ const projects = [
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 로컬 MVP 동기화 전",
                 status: "로컬 MVP와 PostgreSQL 통합 테스트를 구현했습니다. BATON Core 이벤트 연동, 인증과 운영 환경 배포는 아직 하지 않았습니다.",
+                tradeoff:
+                    "규칙을 코드로 관리해 결과를 설명하기 쉽지만, 확인 항목이 늘 때마다 이벤트 계약과 선정 규칙을 함께 변경해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-brief",
                     label: "BRIEF 공개 저장소",
@@ -332,6 +347,8 @@ const projects = [
                 role: "외부 캘린더 구독",
                 summary:
                     "BATON에서 확정한 일정과 마감을 외부 캘린더 앱에서 구독할 수 있는 읽기 전용 피드로 제공합니다.",
+                contribution:
+                    "일정 스냅샷 수신, 구독 토큰 관리, iCalendar 피드와 HTTP 캐시 조건을 구현했습니다.",
                 stack: [
                     "Kotlin 2.3",
                     "Java 25",
@@ -344,7 +361,8 @@ const projects = [
                     "Testcontainers",
                 ],
                 detail: "iCalendar(.ics) 피드, 구독 토큰 회전 및 폐기, ETag 조건부 조회",
-                evidence: "자동화 테스트 43개 · PostgreSQL 및 iCalendar 포함",
+                evidence:
+                    "중복 및 이전 일정 차단, 같은 입력에서 동일한 캘린더 생성 · 자동화 테스트 43개",
                 input: "BATON이 확정한 일정 스냅샷과 구독 명령",
                 output: "읽기 전용 iCalendar 피드와 조건부 조회 응답",
                 recoveryBoundary:
@@ -352,6 +370,8 @@ const projects = [
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 로컬 구현 동기화 전",
                 status: "시즌 단위 MVP와 계약 테스트를 구현했습니다. BATON Core 일정 이벤트 연동과 공개 배포는 아직 하지 않았습니다.",
+                tradeoff:
+                    "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-cal",
                     label: "CAL 공개 저장소",
@@ -365,6 +385,13 @@ const projects = [
             },
         ],
         proofs: [
+            {
+                item: "Core 인수인계 상태 전이 및 중복 교대 차단",
+                method: "도메인 규칙 및 저장소 통합 테스트",
+                rule: "정상 상태 전이, 상태 역행과 같은 역할의 열린 바통 동시 생성을 실행",
+                result: "PREPARING → TRANSFERRED → ACCEPTED 순서만 허용하고 역할별 열린 바통을 1건으로 유지",
+                scope: "Core 비공개 저장소 · 상태 전이 및 DB 제약 확인 · 2026.08.13",
+            },
             {
                 item: "GO 링크 중복 생성 방지",
                 method: "Testcontainers 통합 테스트",
@@ -414,6 +441,7 @@ const projects = [
             {
                 number: "01",
                 serviceIds: ["core", "go", "watch", "relay", "brief", "cal"],
+                shared: true,
                 title: "서비스별 데이터와 처리 경계 분리",
                 constraint:
                     "링크, URL 점검, 메시지 전송, 주간 브리프와 캘린더 구독은 입력, 보안과 재처리 방식이 서로 다릅니다.",
@@ -675,9 +703,9 @@ const projects = [
                 label: "결제 및 환불 / 멱등성",
                 title: "외부 응답을 잃어도 중복 승인과 환불을 막음",
                 problem:
-                    "PG 호출 뒤 응답만 유실되면 성공 여부를 모른 채 승인이나 환불을 반복할 수 있었습니다.",
+                    "PG 실패 상태를 저장한 뒤 예외를 던지면 같은 트랜잭션이 롤백되어 이력까지 사라졌습니다. 응답 유실 뒤 재요청은 중복 승인이나 환불로 이어질 수 있었습니다.",
                 solution:
-                    "결제는 orderId, 환불은 최초 UUID를 멱등 키로 재사용했습니다. 작업 선점 토큰을 비교해 이전 작업자의 결과 반영을 막고, 결과를 확인할 수 없으면 PG 상태를 조회한 뒤 재시도했습니다.",
+                    "PG 호출은 트랜잭션 밖에서 실행하고 상태 변경은 REQUIRES_NEW로 분리했습니다. 결제는 orderId, 환불은 최초 UUID를 멱등 키로 재사용하고 결과를 확인할 수 없으면 PG 조회와 복구 배치로 다시 처리합니다.",
                 tradeoff:
                     "PG 호출을 트랜잭션 밖으로 분리해 DB 점유는 줄지만, API 응답 시점에 환불 상태가 REQUESTED로 남을 수 있습니다.",
             },
@@ -749,9 +777,15 @@ const projects = [
             },
             {
                 type: "ADR",
-                label: "환불 이력 트랜잭션 분리",
-                href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0018_%ED%99%98%EB%B6%88_%EC%9D%B4%EB%A0%A5_%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98_%EB%B6%84%EB%A6%AC/adr.md",
-                note: "PG 호출과 DB 트랜잭션 및 재시도 경계를 정한 기록",
+                label: "결제 승인 트랜잭션과 보상 경계",
+                href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0033_결제_confirm_트랜잭션과_보상_경계/adr.md",
+                note: "PG 호출과 상태 저장을 분리하고 실패 이력, 멱등 키와 복구 기준을 정한 기록",
+            },
+            {
+                type: "ADR",
+                label: "8회권 사용, 취소 및 환불 정책",
+                href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0011_이용권_사용_소모_환불_결정/adr.md",
+                note: "미래 예약 자동 취소, 환불 크레딧 계산과 동시 처리의 잠금 순서를 정한 기록",
             },
             {
                 type: "ADR",
@@ -779,6 +813,13 @@ const projects = [
                 rule: "트래픽과 무관하게 발생하는 상시 리소스 비용을 월별로 확인",
                 result: "운영 환경을 종료하고 비용 원인을 회고 문서로 정리",
                 scope: "실운영 후 비용 문제로 종료",
+            },
+            {
+                item: "8회권 전체 환불 정합성",
+                method: "MySQL 및 Redis Testcontainers 통합 테스트",
+                rule: "미래 예약 2건으로 크레딧 2회를 사용한 8회권에 전체 환불 요청",
+                result: "미래 예약 2건을 취소하고 잔여 6회와 합쳐 8회분 환불 요청, 크레딧과 원장을 일치시킴",
+                scope: "PassCreditUsageUseCaseIT 통합 시나리오 · 2026.08.13 저장소 기준",
             },
             {
                 item: "API 계약 범위",
@@ -827,18 +868,18 @@ const projects = [
                 number: "02",
                 title: "PG 응답 유실 시 중복 승인 및 환불 방지",
                 constraint:
-                    "PG 호출 뒤 응답만 유실되면 성공 여부를 모른 채 승인이나 환불을 다시 요청할 수 있습니다.",
+                    "한 트랜잭션에서 PG 호출과 상태 저장을 처리하자 실패를 saveAndFlush한 뒤 예외를 던져도 이력이 함께 롤백됐습니다. 응답 유실 뒤 재요청은 중복 승인이나 환불로 이어질 수 있었습니다.",
                 decision:
-                    "PG 호출은 DB 트랜잭션 밖에서 실행하고, 짧은 트랜잭션으로 작업을 선점합니다. orderId와 환불 UUID를 멱등 키로 재사용하고 작업 선점 토큰을 비교해 이전 작업자의 결과 반영을 막습니다. 처리 결과를 확인할 수 없는 환불은 조회 후 재시도합니다.",
+                    "PG 호출은 DB 트랜잭션 밖에서 실행하고 상태 변경은 REQUIRES_NEW로 분리했습니다. PROCESSING, APPROVED, RETRYABLE 등 중간 상태를 저장하고 결제 orderId와 환불 UUID를 멱등 키로 재사용합니다. 결과 미확인은 PG 조회와 복구 배치로 다시 처리합니다.",
                 validation:
-                    "한 작업자만 처리하도록 선점하고 제한 시간이 지나면 다른 작업자가 이어받는지, 이전 작업자의 토큰은 거절되는지 확인했습니다. 늦은 성공 보상과 결과 미확인 환불 조회도 통합 테스트로 확인했습니다.",
+                    "예외 뒤에도 실패 이력이 남는지, 같은 멱등 키 재호출이 같은 결과를 반환하는지, 이전 작업 결과 차단과 늦은 승인 반영 및 결과 미확인 환불 복구를 통합 테스트로 확인했습니다.",
                 boundary:
-                    "현재는 테스트용 PG 구현체로 확인했습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
+                    "상태와 복구 경로가 늘어 운영 조회가 복잡해졌습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
                 print: {
                     label: "PAYMENT / REFUND",
-                    problem: "PG 응답 유실 뒤 중복 승인과 환불 위험",
-                    solution: "멱등 키, 작업 선점 토큰, 결과 조회 후 재시도",
-                    tradeoff: "API 응답 시 REQUESTED 상태가 남을 수 있음",
+                    problem: "예외 롤백으로 실패 이력이 사라지고 응답 유실 뒤 중복 처리 위험",
+                    solution: "비트랜잭션 PG 호출, REQUIRES_NEW 상태 저장과 멱등 키",
+                    tradeoff: "상태와 운영 복구 경로가 늘어남",
                 },
             },
             {
@@ -911,6 +952,24 @@ const projects = [
                     problem: "트래픽과 무관한 상시 리소스 비용 발생",
                     solution: "비용 원인 확인, 리소스 종료, 단일 노트북 k3s 준비",
                     tradeoff: "비용은 줄지만 단일 노드는 고가용성을 제공하지 않음",
+                },
+            },
+            {
+                number: "07",
+                title: "8회권 환불과 미래 예약 정합성 유지",
+                constraint:
+                    "8회권 전체 환불과 예약 사용 및 취소가 동시에 실행되면 환불할 크레딧, 미래 예약과 원장 잔액이 서로 달라질 수 있었습니다.",
+                decision:
+                    "환불 횟수를 잔여 크레딧과 자동 취소한 미래 예약 수의 합으로 계산했습니다. 8회권 행을 먼저 잠근 뒤 클래스와 슬롯을 PK 순서로 잠그고, 예약 취소, 크레딧 소멸과 REFUND 원장을 한 트랜잭션에 저장합니다. payment_key 기준 PG 환불 이력은 별도로 남깁니다.",
+                validation:
+                    "미래 예약 2건이 자동 취소되고 잔여 6회와 합쳐 8회분 환불 요청이 생성되는지 확인했습니다. 같은 8회권으로 서로 다른 클래스를 동시에 예약해도 크레딧과 원장이 모두 반영되는지 별도 통합 테스트로 확인했습니다.",
+                boundary:
+                    "PG 환불 완료 전에도 예약 취소와 크레딧 소멸이 먼저 끝날 수 있습니다. 환불 상태를 DB에 보존하고 자동 복구와 관리자 재처리로 금전 환불을 이어가야 합니다.",
+                print: {
+                    label: "PASS / REFUND",
+                    problem: "미래 예약과 잔여 크레딧이 환불 원장과 어긋날 수 있음",
+                    solution: "8회권 선잠금, PK 순 잠금과 미래 예약을 포함한 환불 횟수 계산",
+                    tradeoff: "PG 완료 전에 예약 취소와 크레딧 변경이 먼저 끝날 수 있음",
                 },
             },
         ],

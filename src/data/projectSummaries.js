@@ -32,7 +32,7 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "LG CNS 컨소시엄 / 독립망 기관 연계",
         summary:
-            "사법기관의 전자영장 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. LG CNS 컨소시엄에서 해양경찰 KICS 인터페이스와 Spring Batch 개발을 담당하고 있습니다.",
+            "사법기관의 전자영장 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. LG CNS 컨소시엄 참여사 소속으로 해양경찰 KICS 인터페이스와 Spring Batch 개발을 담당하고 있습니다.",
         period: "2026.03.24 — 진행 중",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "WebSquare"],
