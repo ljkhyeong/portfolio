@@ -7,9 +7,21 @@ export const homeSkillGroups = [
             { name: "Java" },
             { name: "Spring Boot / Spring MVC" },
             { name: "Spring Batch" },
-            { name: "JPA / MyBatis / Spring JDBC" },
+            { name: "JPA / MyBatis" },
             { name: "MySQL / PostgreSQL" },
             { name: "RabbitMQ / SQS" },
+        ],
+    },
+    {
+        id: "frontend",
+        label: "프론트엔드",
+        summary:
+            "React와 TypeScript로 사용자 화면을 구현하고, 공공 업무 화면은 WebSquare로 개발합니다.",
+        items: [
+            { name: "JavaScript" },
+            { name: "TypeScript" },
+            { name: "React" },
+            { name: "WebSquare" },
         ],
     },
     {

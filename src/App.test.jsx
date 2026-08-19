@@ -123,7 +123,13 @@ test("기술 섹션은 핵심 스택과 적용한 정합성 문제를 구체적�
     expect(desktop.getByText("Java")).toBeInTheDocument()
     expect(desktop.getByText("Spring Boot / Spring MVC")).toBeInTheDocument()
     expect(desktop.getByText("Spring Batch")).toBeInTheDocument()
+    expect(desktop.getByText("JPA / MyBatis")).toBeInTheDocument()
     expect(desktop.getByText("RabbitMQ / SQS")).toBeInTheDocument()
+    expect(desktop.getByRole("heading", { name: "프론트엔드" })).toBeInTheDocument()
+    expect(desktop.getByText("JavaScript")).toBeInTheDocument()
+    expect(desktop.getByText("TypeScript")).toBeInTheDocument()
+    expect(desktop.getByText("React")).toBeInTheDocument()
+    expect(desktop.getByText("WebSquare")).toBeInTheDocument()
 
     expect(desktop.getByRole("heading", { name: "데이터 정합성 및 장애 대응" })).toBeInTheDocument()
     expect(desktop.getByText("결제 및 환불 멱등성")).toBeInTheDocument()
@@ -132,8 +138,29 @@ test("기술 섹션은 핵심 스택과 적용한 정합성 문제를 구체적�
     expect(desktop.getByText("중단 작업 재처리")).toBeInTheDocument()
 
     expect(skills).not.toHaveTextContent("Java 21 / 11 / 8")
+    expect(skills).not.toHaveTextContent("Spring JDBC")
     expect(skills).not.toHaveTextContent("전자영장, BATON, happyGallery, 공공 SI")
     expect(skills).not.toHaveTextContent("Prometheus / Grafana")
+})
+
+test("모바일 기술 그룹은 필요한 항목만 펼쳐볼 수 있다", async () => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    const skills = screen.getByRole("region", { name: "기술" })
+    const mobileSkills = skills.querySelector(".capability-list--mobile")
+
+    expect(mobileSkills).not.toBeNull()
+    const frontendTitle = within(mobileSkills).getByText("프론트엔드", { exact: true })
+    const frontendDetails = frontendTitle.closest("details")
+
+    expect(frontendDetails).not.toHaveAttribute("open")
+    await act(async () => {
+        userEvent.click(frontendTitle)
+    })
+    expect(frontendDetails).toHaveAttribute("open")
+    expect(within(frontendDetails).getByText("WebSquare")).toBeInTheDocument()
 })
 
 test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, route) => {

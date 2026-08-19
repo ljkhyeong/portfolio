@@ -137,7 +137,7 @@ const About = () => {
                     <span className="section-kicker"># skills.md</span>
                     <h2 id="capability-title">기술</h2>
                     <p>
-                        백엔드 기술을 실제로 처리한 데이터, 장애와 운영 문제를 기준으로
+                        백엔드와 프론트엔드 기술, 데이터 정합성과 운영 경험을 실제 적용 기준으로
                         정리했습니다.
                     </p>
                 </div>
