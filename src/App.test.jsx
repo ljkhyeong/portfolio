@@ -109,6 +109,33 @@ test("GitHub 프로필 이미지와 아이디를 포트폴리오 식별 정보�
     expect(avatar).toHaveAttribute("alt", "")
 })
 
+test("기술 섹션은 핵심 스택과 적용한 정합성 문제를 구체적으로 보여준다", () => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    const skills = screen.getByRole("region", { name: "기술" })
+    const desktopSkills = skills.querySelector(".capability-list--desktop")
+
+    expect(desktopSkills).not.toBeNull()
+    const desktop = within(desktopSkills)
+    expect(desktop.getByRole("heading", { name: "백엔드" })).toBeInTheDocument()
+    expect(desktop.getByText("Java")).toBeInTheDocument()
+    expect(desktop.getByText("Spring Boot / Spring MVC")).toBeInTheDocument()
+    expect(desktop.getByText("Spring Batch")).toBeInTheDocument()
+    expect(desktop.getByText("RabbitMQ / SQS")).toBeInTheDocument()
+
+    expect(desktop.getByRole("heading", { name: "데이터 정합성 및 장애 대응" })).toBeInTheDocument()
+    expect(desktop.getByText("결제 및 환불 멱등성")).toBeInTheDocument()
+    expect(desktop.getByText("알림 아웃박스")).toBeInTheDocument()
+    expect(desktop.getByText("예약 및 재고 동시성 제어")).toBeInTheDocument()
+    expect(desktop.getByText("중단 작업 재처리")).toBeInTheDocument()
+
+    expect(skills).not.toHaveTextContent("Java 21 / 11 / 8")
+    expect(skills).not.toHaveTextContent("전자영장, BATON, happyGallery, 공공 SI")
+    expect(skills).not.toHaveTextContent("Prometheus / Grafana")
+})
+
 test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, route) => {
     window.history.pushState({}, "", "/")
 

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
-import { careers, education, personalActivities, skillGroups } from "../data/profile"
+import { careers, education, personalActivities } from "../data/profile"
+import { homeSkillGroups } from "../data/homeSkills"
 import { projectSummariesById } from "../data/projectSummaries"
 
 const CareerItem = ({ career }) => {
@@ -19,6 +20,38 @@ const CareerItem = ({ career }) => {
         </article>
     )
 }
+
+const CapabilityItems = ({ group }) => (
+    <ul aria-label={`${group.label} 기술 및 적용 사례`}>
+        {group.items.map((item) => (
+            <li className={item.detail ? undefined : "capability__stack-item"} key={item.name}>
+                <strong>{item.name}</strong>
+                {item.detail ? <span>{item.detail}</span> : null}
+            </li>
+        ))}
+    </ul>
+)
+
+const DesktopCapability = ({ group }) => (
+    <article className={`capability capability--${group.id}`}>
+        <div className="capability__heading">
+            <h3>{group.label}</h3>
+            <p>{group.summary}</p>
+        </div>
+        <CapabilityItems group={group} />
+    </article>
+)
+
+const MobileCapability = ({ group }) => (
+    <details className={`capability capability-mobile capability--${group.id}`}>
+        <summary>
+            <span className="capability-mobile__title">{group.label}</span>
+            <span className="capability-mobile__summary">{group.summary}</span>
+            <span className="capability-mobile__action" aria-hidden="true" />
+        </summary>
+        <CapabilityItems group={group} />
+    </details>
+)
 
 const About = () => {
     return (
@@ -103,21 +136,19 @@ const About = () => {
                 <div className="capability-section__intro">
                     <span className="section-kicker"># skills.md</span>
                     <h2 id="capability-title">기술</h2>
-                    <p>기술 이름과 실제로 적용한 프로젝트를 함께 적었습니다.</p>
+                    <p>
+                        백엔드 기술을 실제로 처리한 데이터, 장애와 운영 문제를 기준으로
+                        정리했습니다.
+                    </p>
                 </div>
-                <div className="capability-list">
-                    {skillGroups.map((group) => (
-                        <article className="capability" key={group.label}>
-                            <div className="capability__heading">
-                                <h3>{group.label}</h3>
-                                <span>{group.proof}</span>
-                            </div>
-                            <ul>
-                                {group.items.map((item) => (
-                                    <li key={item}>{item}</li>
-                                ))}
-                            </ul>
-                        </article>
+                <div className="capability-list capability-list--desktop">
+                    {homeSkillGroups.map((group) => (
+                        <DesktopCapability group={group} key={group.id} />
+                    ))}
+                </div>
+                <div className="capability-list capability-list--mobile">
+                    {homeSkillGroups.map((group) => (
+                        <MobileCapability group={group} key={group.id} />
                     ))}
                 </div>
             </section>

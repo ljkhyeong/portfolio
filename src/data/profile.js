@@ -114,24 +114,6 @@ export const personalActivities = [
     },
 ]
 
-export const skillGroups = [
-    {
-        label: "백엔드",
-        items: ["Java 21 / 11 / 8", "Spring Boot / eGov", "Spring Batch", "JPA / MyBatis"],
-        proof: "전자영장, BATON, happyGallery, 공공 SI",
-    },
-    {
-        label: "데이터 및 장애 대응",
-        items: ["MySQL / PostgreSQL", "Redis", "상태 전이", "멱등 처리 / 아웃박스"],
-        proof: "동시성 제어, 보상 처리, 재시도",
-    },
-    {
-        label: "테스트 및 운영",
-        items: ["JUnit / Testcontainers", "Playwright", "Prometheus / Grafana", "Docker / CI"],
-        proof: "API 계약, 통합 테스트, E2E 테스트",
-    },
-]
-
 export const printSkillGroups = [
     {
         label: "Backend",
