@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
 import { portfolioProfile } from "../data/profile"
+import { homeHeroContent } from "../data/homeHero"
 
 const Header = () => {
     return (
@@ -33,12 +35,12 @@ const Header = () => {
                         {portfolioProfile.name} · {portfolioProfile.role}
                     </p>
                     <h1 data-route-heading="/">
-                        {portfolioProfile.headline.lead}
+                        {homeHeroContent.headline.lead}
                         <br />
-                        <em>{portfolioProfile.headline.emphasis}</em>
-                        {portfolioProfile.headline.tail}
+                        <em>{homeHeroContent.headline.emphasis}</em>
+                        {homeHeroContent.headline.tail}
                     </h1>
-                    <p className="hero__summary">{portfolioProfile.webSummary}</p>
+                    <p className="hero__summary">{homeHeroContent.summary}</p>
                     <div className="hero__actions">
                         <a className="button button--primary" href="#work">
                             프로젝트 보기
@@ -56,11 +58,23 @@ const Header = () => {
                         </a>
                     </div>
                 </div>
-                <ul className="hero__proofs" aria-label="주요 경험 요약">
-                    {portfolioProfile.heroProofs.map((proof) => (
-                        <li key={proof}>{proof}</li>
-                    ))}
-                </ul>
+                <div className="hero__signals">
+                    <p className="hero__signals-label">대표 경험</p>
+                    <ul aria-label="대표 경험 프로젝트">
+                        {homeHeroContent.signals.map((signal) => (
+                            <li key={signal.route}>
+                                <Link to={signal.route}>
+                                    <span className="hero__signal-label">{signal.label}</span>
+                                    <strong>{signal.title}</strong>
+                                    <span className="hero__signal-evidence">{signal.evidence}</span>
+                                    <span className="hero__signal-action" aria-hidden="true">
+                                        →
+                                    </span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </section>
         </header>
     )

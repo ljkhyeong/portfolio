@@ -12,12 +12,28 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     expect(heroHeading).toHaveTextContent("복잡한 요구사항을")
     expect(heroHeading).toHaveTextContent("안정적인 백엔드")
-    expect(screen.getByRole("list", { name: "주요 경험 요약" })).toHaveTextContent(
-        "GO 동시 요청 8 → 링크 1",
-    )
-    expect(screen.getByRole("list", { name: "주요 경험 요약" })).toHaveTextContent(
-        "happyGallery 결제 및 환불 중복 처리 방지",
-    )
+    const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
+
+    expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
+    expect(heroHighlights).toHaveTextContent("LG CNS 컨소시엄 참여")
+    expect(heroHighlights).toHaveTextContent("독립망 기관 연계 · Spring Batch")
+    expect(heroHighlights).toHaveTextContent("BATON")
+    expect(heroHighlights).toHaveTextContent("Core + 5개 마이크로서비스")
+    expect(heroHighlights).toHaveTextContent("happyGallery")
+    expect(heroHighlights).toHaveTextContent("AWS 실운영 · 결제 및 환불 멱등성 · 알림 아웃박스")
+    expect(
+        within(heroHighlights).getByRole("link", { name: /전송형 전자영장 시스템/ }),
+    ).toHaveAttribute("href", "/projects/e-warrant")
+    expect(
+        within(heroHighlights).getByRole("link", {
+            name: /BATON/,
+        }),
+    ).toHaveAttribute("href", "/projects/baton")
+    expect(
+        within(heroHighlights).getByRole("link", {
+            name: /happyGallery/,
+        }),
+    ).toHaveAttribute("href", "/projects/happygallery")
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
     const careerProjects = screen.getByRole("list", { name: "경력 프로젝트" })

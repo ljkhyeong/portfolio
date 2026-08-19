@@ -7,18 +7,6 @@ export const portfolioProfile = {
     phoneHref: "+821039726284",
     github: "https://github.com/ljkhyeong",
     site: "https://ljkportfolio.netlify.app",
-    headline: {
-        lead: "복잡한 요구사항을",
-        emphasis: "안정적인 백엔드",
-        tail: "로 만듭니다.",
-    },
-    webSummary:
-        "LG CNS 컨소시엄 전송형 전자영장 프로젝트에서 독립망 간 기관 연계 인터페이스와 Spring Batch를 개발하고 있습니다. 공공 시스템 운영 장애 대응 경험과 개인 프로젝트의 결제 및 환불 멱등성, 알림 아웃박스, 서비스별 데이터 분리를 함께 담았습니다.",
-    heroProofs: [
-        "LG CNS 컨소시엄 / 독립망 연계",
-        "GO 동시 요청 8 → 링크 1",
-        "happyGallery 결제 및 환불 중복 처리 방지",
-    ],
     printHeadline: {
         lead: "실패 이후까지 설계하는",
         emphasis: "백엔드 개발자",
