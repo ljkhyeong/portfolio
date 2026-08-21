@@ -9,7 +9,6 @@ const TECH_TOKENS = [
     "Spring Boot",
     "Spring Interceptor",
     "JSR-303 Validator",
-    "Apache Tika",
     "React 19",
     "Multi-module",
     "Testcontainers",

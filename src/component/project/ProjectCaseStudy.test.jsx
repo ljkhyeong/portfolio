@@ -196,28 +196,32 @@ test("군사법 상세는 세 기관의 데이터 연계와 레거시 환경의 
 
     expect(
         screen.getByRole("heading", {
-            name: "군사법원, 군검찰 및 군사경찰 데이터 연계 흐름",
+            name: "수용자 인적정보 및 영장정보 연계 배치 흐름",
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /군사법원, 군검찰과 군사경찰의 데이터가 기관별 연계 배치의 입력 수신, 형식 검증과 DB 반영 단계를 거쳐 군교정 업무 시스템에 반영/,
+            name: /군사법원, 군검찰 및 군사경찰에서 수용 대상자의 인적정보와 영장정보를 전달하고, 기관별 배치가 필수값과 형식을 검증한 뒤 군교정 DB에 반영/,
         }),
     ).toBeInTheDocument()
     expect(screen.getAllByText("군사법원").length).toBeGreaterThan(0)
     expect(screen.getAllByText("군검찰").length).toBeGreaterThan(0)
     expect(screen.getAllByText("군사경찰").length).toBeGreaterThan(0)
-    expect(screen.getByText("기관별 데이터 연계 배치")).toBeInTheDocument()
+    expect(screen.getByText("수용자 정보 검증 배치")).toBeInTheDocument()
     expect(screen.getByRole("list", { name: "배치 처리 단계" })).toHaveTextContent(
-        "입력 수신형식 검증DB 반영",
+        "기관별 데이터 수신인적정보 및 영장정보 검증군교정 DB 반영",
     )
 
     const problems = screen.getByRole("list", { name: "대표 문제 해결 목록" })
 
     expect(problems).toHaveTextContent("Spring Security가 생성한 CSRF 토큰")
-    expect(problems).toHaveTextContent("WebSquare 화면 스펙")
-    expect(problems).toHaveTextContent("WAS 검증을 먼저 호출")
-    expect(problems).toHaveTextContent("기존 파일 솔루션으로 전달")
+    expect(problems).toHaveTextContent("WebSquare 화면 데이터 규격")
+    expect(problems).toHaveTextContent("Spring Security 필터에서 차단")
+    expect(problems).toHaveTextContent("WAS 업로드 요청 검증")
+    expect(problems).toHaveTextContent("Presigned URL")
+    expect(problems).toHaveTextContent("파일 본문은 수신하거나 중계하지 않아")
+    expect(problems).toHaveTextContent("기존 파일 솔루션 로직을 수정하지 않으면서")
+    expect(problems).toHaveTextContent("WAS 메모리 및 I/O 부하와 OOM 위험을 방지")
     expect(problems).toHaveTextContent("Jenkins 실행 이력")
     expect(problems).toHaveTextContent("JEUS 및 WAS 로그")
     expect(problems).toHaveTextContent("Tibero의 입력 데이터")
@@ -227,6 +231,8 @@ test("군사법 상세는 세 기관의 데이터 연계와 레거시 환경의 
     expect(document.body).not.toHaveTextContent("기관 C")
     expect(document.body).not.toHaveTextContent("연계 배치 3종")
     expect(document.body).not.toHaveTextContent("log → DB → batch")
+    expect(document.body).not.toHaveTextContent("WebSquare 보안 연동")
+    expect(document.body).not.toHaveTextContent("Apache Tika")
 })
 
 test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 바로 이동할 수 있다", () => {

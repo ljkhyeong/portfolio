@@ -60,7 +60,7 @@ export const routeMeta = {
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:
-            "BEINTECH에서 군사법원, 군검찰 및 군사경찰 데이터 연계 배치, WebSquare 보안 연동과 레거시 운영 장애 대응을 담당한 차세대 군사법 정보 시스템 경력 사례",
+            "BEINTECH에서 수용자 인적정보 및 영장정보 연계 배치, WebSquare 요청의 Spring Security CSRF 처리, Presigned URL 기반 대용량 파일 업로드와 폐쇄망 장애 대응을 담당한 차세대 군사법 정보 시스템 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/webrtc": {

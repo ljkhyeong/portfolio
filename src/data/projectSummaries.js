@@ -86,16 +86,19 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "BEINTECH / 국방부 SI / 백엔드 개발 및 운영",
         summary:
-            "군 사법 업무와 관련 기관 데이터를 폐쇄망에서 처리하는 국방부 시스템입니다. 군교정 기능, 군사법원, 군검찰 및 군사경찰 데이터 연계, 보안 기능 개발과 운영 장애 대응을 담당했습니다.",
+            "군 사법 업무와 군교정시설 수용 대상자의 인적정보 및 영장정보를 폐쇄망에서 처리하는 국방부 시스템입니다. 군교정 기능과 세 기관에서 받은 수용자 자료의 검증 및 반영 배치, WebSquare 요청의 CSRF 처리, Presigned URL 기반 파일 업로드와 운영 장애 대응을 담당했습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "군교정 기능과 군사법원, 군검찰 및 군사경찰 데이터 연계",
+                value: "군교정 기능과 수용자 인적정보 및 영장정보 검증 배치",
             },
-            { label: "문제", value: "폐쇄망 기관 데이터 연계와 레거시 운영 장애 분석" },
+            {
+                label: "문제",
+                value: "폐쇄망 수용자 정보 연계, 요청 위조와 대용량 파일의 WAS 부하",
+            },
             {
                 label: "해결",
-                value: "기관별 배치, WebSquare CSRF 연동과 WAS 로그 및 DB 상태 분석",
+                value: "기관별 검증 배치, Spring Security CSRF 토큰과 Presigned URL 직접 업로드",
             },
         ],
         period: "2024.06.23 — 2026.01.30",
