@@ -81,7 +81,7 @@ export const projectSummaries = [
         presentation: "career-case",
         title: "차세대 군사법 정보 시스템",
         navigationLabel: "군사법",
-        eyebrow: "BEINTECH / 공공 SI / 백엔드 개발 및 운영",
+        eyebrow: "BEINTECH / 국방부 SI / 백엔드 개발 및 운영",
         summary:
             "군 사법 업무와 관련 기관 데이터를 폐쇄망에서 처리하는 공공 시스템입니다. 군교정 영역의 기능, 기관 연계 배치와 보안 기능을 개발하고 운영 장애 대응을 담당했습니다.",
         homeFacts: [

@@ -209,7 +209,7 @@ const DefenseCareerPage = ({ defense }) => (
         footer="JAVA 8 / EGOV / MYBATIS / TIBERO / JENKINS"
         variant="defense"
     >
-        <PrintTitle eyebrow="## CAREER PROJECT / BEINTECH / PUBLIC SI" title={defense.title}>
+        <PrintTitle eyebrow="## CAREER PROJECT / BEINTECH / 국방부 SI" title={defense.title}>
             {defense.summary}
         </PrintTitle>
 

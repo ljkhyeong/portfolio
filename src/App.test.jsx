@@ -61,6 +61,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         }),
     ).toBeInTheDocument()
     expect(
+        within(careerProjects).getByText("BEINTECH / 국방부 SI / 백엔드 개발 및 운영"),
+    ).toBeInTheDocument()
+    expect(
         within(educationProjects).getByRole("heading", {
             name: "WebRTC/HLS 현장강의 보조 서비스",
             level: 4,
@@ -495,7 +498,7 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
     ).toBeInTheDocument()
     expect(
         within(document.querySelector('[data-page-number="04"]')).getByText(
-            "## CAREER PROJECT / BEINTECH / PUBLIC SI",
+            "## CAREER PROJECT / BEINTECH / 국방부 SI",
         ),
     ).toBeInTheDocument()
     expect(

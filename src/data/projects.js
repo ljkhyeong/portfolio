@@ -1128,7 +1128,7 @@ const projects = [
                 scope: "폐쇄망 환경에서 확인",
             },
         ],
-        category: "BEINTECH / 공공 SI",
+        category: "BEINTECH / 국방부 SI",
         role: "군교정 기능 개발, 기관 연계 및 운영 대응",
         oneLine: "기관 연계 배치 개발 및 로그, DB 기반 장애 분석",
         status: {
