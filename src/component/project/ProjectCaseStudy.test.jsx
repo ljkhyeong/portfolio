@@ -187,6 +187,11 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     ).toHaveTextContent("Oracle DB")
     expect(screen.getByText(/^\* 사법기관 KICS,/)).toBeInTheDocument()
     expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
+    expect(
+        screen.getByText(
+            /인터페이스 동시호출을 제한하기 위해 사용한 ReentrantLock은 단일 서버 싱글톤 빈 기준/,
+        ),
+    ).toHaveTextContent("서버를 여러 대로 늘리면 분산 락 방식이 필요합니다")
     expect(screen.queryByText("군교정 업무")).not.toBeInTheDocument()
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
 })
