@@ -9,6 +9,11 @@ export const projectSummaries = [
         eyebrow: "조직 운영 플랫폼",
         summary:
             "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 운영 플랫폼입니다. Core와 5개 마이크로서비스의 서비스 경계, API, 데이터 모델과 운영 절차를 설계하고 구현하고 있습니다.",
+        homeFacts: [
+            { label: "담당", value: "Core와 5개 마이크로서비스 설계 및 구현" },
+            { label: "문제", value: "서비스별 실패, 중복 요청과 이벤트 유실" },
+            { label: "해결", value: "데이터 경계, 멱등성, 아웃박스와 Inbox" },
+        ],
         period: "2026.07.20 — 진행 중",
         route: "/projects/baton",
         tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / SQS"],
@@ -27,12 +32,18 @@ export const projectSummaries = [
         id: "warrant",
         index: "01",
         projectType: "career",
+        careerId: "beintech",
         presentation: "career-case",
         title: "전송형 전자영장 시스템",
         navigationLabel: "전자영장",
-        eyebrow: "LG CNS 컨소시엄 / 독립망 기관 연계",
+        eyebrow: "BEINTECH / LG CNS 컨소시엄 / 독립망 기관 연계",
         summary:
-            "사법기관의 전자영장 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. LG CNS 컨소시엄 참여사 소속으로 해양경찰 KICS 인터페이스와 Spring Batch 개발을 담당하고 있습니다.",
+            "사법기관의 전자영장 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 해양경찰 KICS 인터페이스와 Spring Batch 개발을 담당하고 있습니다.",
+        homeFacts: [
+            { label: "담당", value: "해양경찰 KICS 인터페이스 및 Spring Batch" },
+            { label: "문제", value: "독립망 간 기관 연계와 누적 전송 상태 조회" },
+            { label: "해결", value: "공통 처리 흐름, 커서 조회와 실패 재처리" },
+        ],
         period: "2026.03.24 — 진행 중",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "WebSquare"],
@@ -50,6 +61,11 @@ export const projectSummaries = [
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
             "공방의 작품 판매와 클래스 예약을 온라인으로 처리하는 서비스입니다. 요구사항 정리부터 백엔드 및 프론트엔드 구현, 테스트와 AWS 운영까지 직접 담당했습니다.",
+        homeFacts: [
+            { label: "담당", value: "요구사항 정리부터 전체 구현 및 AWS 운영" },
+            { label: "문제", value: "결제 응답 누락, 알림 중단과 예약 및 재고 경쟁" },
+            { label: "해결", value: "결제 및 환불 멱등성, 알림 아웃박스와 락 순서" },
+        ],
         period: "2026.02.21 — 진행 중",
         route: "/projects/happygallery",
         tags: ["Java", "Spring Boot", "React / TypeScript", "MySQL / Redis"],
@@ -61,12 +77,18 @@ export const projectSummaries = [
         id: "defense",
         index: "02",
         projectType: "career",
+        careerId: "beintech",
         presentation: "career-case",
         title: "차세대 군사법 정보 시스템",
         navigationLabel: "군사법",
-        eyebrow: "공공 SI / 백엔드 개발 및 운영",
+        eyebrow: "BEINTECH / 공공 SI / 백엔드 개발 및 운영",
         summary:
             "군 사법 업무와 관련 기관 데이터를 폐쇄망에서 처리하는 공공 시스템입니다. 군교정 영역의 기능, 기관 연계 배치와 보안 기능을 개발하고 운영 장애 대응을 담당했습니다.",
+        homeFacts: [
+            { label: "담당", value: "군교정 기능, 기관 연계 배치 및 운영" },
+            { label: "문제", value: "폐쇄망 기관 연계와 운영 장애 추적" },
+            { label: "해결", value: "배치 3종, 보안 검증과 로그 및 DB 분석" },
+        ],
         period: "2024.06.23 — 2026.01.30",
         route: "/projects/defense",
         tags: ["Java 8", "eGov", "MyBatis", "Tibero", "Jenkins"],
@@ -83,6 +105,11 @@ export const projectSummaries = [
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
         summary:
             "현장 강의를 실시간으로 시청하고 지나간 구간을 다시 볼 수 있는 교육용 스트리밍 서비스입니다. 6인 팀에서 HLS 서버와 React 프론트엔드 구현을 맡았습니다.",
+        homeFacts: [
+            { label: "담당", value: "HLS 서버와 React 프론트엔드" },
+            { label: "문제", value: "라이브 강의 재생 지연 약 30초" },
+            { label: "해결", value: "FFmpeg와 GStreamer 조정으로 약 11초" },
+        ],
         period: "2023.09.01 — 2023.11.10",
         route: "/projects/webrtc",
         tags: ["WebRTC", "HLS", "React", "FFmpeg", "GStreamer"],

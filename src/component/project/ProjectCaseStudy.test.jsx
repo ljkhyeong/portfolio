@@ -155,7 +155,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     )
 })
 
-test("전자영장 상세는 LG CNS 컨소시엄의 독립망 연계 흐름과 기술 판단을 보여준다", () => {
+test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐름과 기술 판단을 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="warrant" />)
 
     expect(screen.getByText("경력 프로젝트 01 / 02")).toBeInTheDocument()
@@ -170,7 +170,9 @@ test("전자영장 상세는 LG CNS 컨소시엄의 독립망 연계 흐름과 �
             name: /사법기관 KICS의 전자영장 요청이 독립망 간 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달/,
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText("LG CNS 컨소시엄 / 독립망 간 기관 연계")).toBeInTheDocument()
+    expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 / 독립망 기관 연계")).toBeInTheDocument()
+    expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 / 독립망 간 기관 연계")).toBeInTheDocument()
+    expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 공공 SI")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
             name: "상태 저장보다 먼저 도착한 콜백 재처리",

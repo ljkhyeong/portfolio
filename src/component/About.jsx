@@ -3,21 +3,50 @@ import { careers, education, personalActivities } from "../data/profile"
 import { homeSkillGroups } from "../data/homeSkills"
 import { projectSummariesById } from "../data/projectSummaries"
 
-const CareerItem = ({ career }) => {
-    const project = projectSummariesById[career.projectId]
+const CareerGroup = ({ career }) => {
+    const projects = career.projectIds.map((projectId) => projectSummariesById[projectId])
 
     return (
-        <article className="timeline__item">
-            <div className="timeline__period">{career.period}</div>
-            <div className="timeline__content">
-                <span>
-                    {career.organization} / {career.position}
-                </span>
-                <h4>{project.title}</h4>
+        <section className="timeline__group timeline__group--career" aria-labelledby="career-title">
+            <h3 className="timeline__group-title" id="career-title">
+                경력
+            </h3>
+            <header className="career-company">
+                <div>
+                    <span>첫 회사 · 현재 재직</span>
+                    <strong>{career.organization}</strong>
+                </div>
+                <time>{career.period}</time>
                 <p>{career.description}</p>
-                <Link to={project.route}>경력 프로젝트 상세 보기 →</Link>
-            </div>
-        </article>
+            </header>
+            <ol className="career-track" aria-label={`${career.organization} 수행 프로젝트`}>
+                {projects.map((project, index) => (
+                    <li
+                        className={
+                            index === 0 ? "career-track__item is-current" : "career-track__item"
+                        }
+                        key={project.id}
+                    >
+                        <article>
+                            <div className="career-track__meta">
+                                <time>{project.period}</time>
+                                {index === 0 ? <span>진행 중</span> : <span>완료</span>}
+                            </div>
+                            <h4>{project.title}</h4>
+                            <dl className="career-track__facts">
+                                {[project.homeFacts[0], project.homeFacts[2]].map((fact) => (
+                                    <div key={fact.label}>
+                                        <dt>{fact.label}</dt>
+                                        <dd>{fact.value}</dd>
+                                    </div>
+                                ))}
+                            </dl>
+                            <Link to={project.route}>{project.title} 상세 보기 →</Link>
+                        </article>
+                    </li>
+                ))}
+            </ol>
+        </section>
     )
 }
 
@@ -69,12 +98,15 @@ const About = () => {
                     </p>
                 </div>
 
-                <div className="timeline" aria-label="교육, 경력 및 개인 활동">
-                    <section className="timeline__group" aria-labelledby="education-title">
+                <div className="timeline timeline--split" aria-label="교육, 경력 및 개인 활동">
+                    <section
+                        className="timeline__group timeline__group--education"
+                        aria-labelledby="education-title"
+                    >
                         <h3 className="timeline__group-title" id="education-title">
                             교육
                         </h3>
-                        <article className="timeline__item">
+                        <article className="timeline__item timeline__item--compact">
                             <div className="timeline__period">{education.period}</div>
                             <div className="timeline__content">
                                 <span>
@@ -87,21 +119,22 @@ const About = () => {
                         </article>
                     </section>
 
-                    <section className="timeline__group" aria-labelledby="career-title">
-                        <h3 className="timeline__group-title" id="career-title">
-                            경력
-                        </h3>
-                        {careers.map((career) => (
-                            <CareerItem career={career} key={career.id} />
-                        ))}
-                    </section>
+                    {careers.map((career) => (
+                        <CareerGroup career={career} key={career.id} />
+                    ))}
 
-                    <section className="timeline__group" aria-labelledby="activities-title">
+                    <section
+                        className="timeline__group timeline__group--activities"
+                        aria-labelledby="activities-title"
+                    >
                         <h3 className="timeline__group-title" id="activities-title">
                             개인 활동
                         </h3>
                         {personalActivities.map((activity) => (
-                            <article className="timeline__item" key={activity.id}>
+                            <article
+                                className="timeline__item timeline__item--compact"
+                                key={activity.id}
+                            >
                                 <div className="timeline__period">Group Study</div>
                                 <div className="timeline__content">
                                     <span>

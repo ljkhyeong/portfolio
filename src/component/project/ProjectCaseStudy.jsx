@@ -158,7 +158,7 @@ const WarrantVisual = () => (
         role="img"
         aria-label="사법기관 KICS의 전자영장 요청이 독립망 간 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달되고, 제출 자료가 KICS 업무 시스템으로 돌아오는 흐름"
     >
-        <div className="warrant-map__label">LG CNS 컨소시엄 / 독립망 간 기관 연계</div>
+        <div className="warrant-map__label">BEINTECH / LG CNS 컨소시엄 / 독립망 간 기관 연계</div>
         <div className="warrant-map">
             <div className="warrant-map__node warrant-map__node--requester">
                 <small>Request</small>

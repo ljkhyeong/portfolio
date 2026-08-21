@@ -10,7 +10,7 @@ export const homeHeroContent = {
         {
             label: "현재 업무",
             title: "전송형 전자영장 시스템",
-            evidence: "LG CNS 컨소시엄 참여 · 독립망 기관 연계 · Spring Batch",
+            evidence: "BEINTECH · LG CNS 컨소시엄 · 독립망 기관 연계 · Spring Batch",
             route: "/projects/e-warrant",
         },
         {

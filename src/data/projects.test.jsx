@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest"
+import { careers } from "./profile"
 import { projectSummaries, projectSummariesById } from "./projectSummaries"
 import {
     careerCaseStudies,
@@ -36,6 +37,30 @@ describe("project summary data", () => {
         expect(careerCaseStudies.map((project) => project.id)).toEqual(["warrant", "defense"])
         expect(personalCaseStudies.map((project) => project.id)).toEqual(["baton", "happygallery"])
         expect(educationCaseStudies.map((project) => project.id)).toEqual(["webrtc"])
+    })
+
+    it("models BEINTECH as one current employment with two ordered projects", () => {
+        expect(careers).toHaveLength(1)
+        expect(careers[0]).toMatchObject({
+            id: "beintech",
+            organization: "BEINTECH",
+            position: "백엔드 개발자",
+            period: "2024.06 — 현재",
+            projectIds: ["warrant", "defense"],
+        })
+        expect(careerCaseStudies.map(({ id, careerId }) => ({ id, careerId }))).toEqual([
+            { id: "warrant", careerId: "beintech" },
+            { id: "defense", careerId: "beintech" },
+        ])
+    })
+
+    it("gives every home project a concise responsibility, problem, and solution", () => {
+        projectSummaries.forEach((project) => {
+            expect(project.homeFacts.map((fact) => fact.label)).toEqual(["담당", "문제", "해결"])
+            project.homeFacts.forEach((fact) => {
+                expect(fact.value.trim().length).toBeGreaterThan(10)
+            })
+        })
     })
 
     it("keeps architecture patterns out of technology tags and names Spring Batch exactly", () => {

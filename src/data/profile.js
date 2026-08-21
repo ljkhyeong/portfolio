@@ -12,7 +12,7 @@ export const portfolioProfile = {
         emphasis: "백엔드 개발자",
     },
     printSummary:
-        "LG CNS 컨소시엄 전송형 전자영장 프로젝트에서 독립망 간 기관 연계를 개발하고 있습니다. 공공 시스템 운영 장애 대응과 개인 프로젝트의 멱등성, 데이터 일관성, 실패 후 재처리 방식을 함께 담았습니다.",
+        "BEINTECH 소속으로 LG CNS 컨소시엄 전송형 전자영장 프로젝트의 독립망 간 기관 연계를 개발하고 있습니다. 공공 시스템 운영 장애 대응과 개인 프로젝트의 멱등성, 데이터 일관성, 실패 후 재처리 방식을 함께 담았습니다.",
 }
 
 export const workPrinciples = [
@@ -60,26 +60,15 @@ export const education = {
 
 export const careers = [
     {
-        id: "e-warrant",
-        period: "2026.03 — 진행 중",
-        organization: "소속사 비공개 / LG CNS 컨소시엄 참여",
-        position: "해양경찰 KICS 연계 개발",
-        projectId: "warrant",
-        description:
-            "전송형 전자영장 시스템에서 해양경찰 KICS 통신사실확인자료 개선과 집행포털 연계를 담당하고 있습니다. 사법기관, 금융기관 및 통신사처럼 독립된 망 사이의 요청과 제출 자료를 인터페이스와 Spring Batch로 연결하고 대용량 조회와 외부 연동의 실패 경계를 설계했습니다.",
-        printDescription:
-            "해양경찰 KICS 통신사실확인자료 개선과 집행포털 연계를 담당하며 독립망 사이의 요청과 제출 자료를 인터페이스와 Spring Batch로 연결하고 있습니다.",
-    },
-    {
         id: "beintech",
-        period: "2024.06 — 2026.01",
+        period: "2024.06 — 현재",
         organization: "BEINTECH",
-        position: "백엔드 개발 및 운영",
-        projectId: "defense",
+        position: "백엔드 개발자",
         description:
-            "차세대 군사법 정보 시스템의 군교정 영역에서 기관 연계 배치, 보안 기능, 장애 대응을 맡았습니다. Java 8, eGov, MyBatis, Tibero 기반의 폐쇄망 환경에서 로그와 DB, 배치 흐름을 함께 확인했습니다.",
+            "2024년 6월 첫 회사로 입사해 2년 이상 공공 SI 백엔드 개발과 운영을 담당하고 있습니다. 차세대 군사법 정보 시스템을 거쳐 현재 전송형 전자영장 시스템을 개발하고 있습니다.",
         printDescription:
-            "차세대 군사법 정보 시스템 군교정 부문에서 기관 연계 배치, 보안 기능, 로그 및 DB 기반 장애 대응을 담당했습니다.",
+            "첫 회사에서 2년 이상 공공 SI 백엔드 개발과 운영을 담당하며 군사법 및 전자영장 프로젝트를 수행하고 있습니다.",
+        projectIds: ["warrant", "defense"],
     },
 ]
 

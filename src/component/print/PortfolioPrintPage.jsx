@@ -136,7 +136,7 @@ const WarrantCareerPage = ({ warrant }) => (
         footer="JAVA 11 / SPRING BOOT 2.6 / SPRING BATCH / WEB SQUARE / MAVEN"
         variant="warrant"
     >
-        <PrintTitle eyebrow="## CAREER PROJECT / LG CNS 컨소시엄" title={warrant.title}>
+        <PrintTitle eyebrow="## CAREER PROJECT / BEINTECH / LG CNS 컨소시엄" title={warrant.title}>
             {warrant.summary}
         </PrintTitle>
 
@@ -209,7 +209,7 @@ const DefenseCareerPage = ({ defense }) => (
         footer="JAVA 8 / EGOV / MYBATIS / TIBERO / JENKINS"
         variant="defense"
     >
-        <PrintTitle eyebrow="## CAREER PROJECT / PUBLIC SI" title={defense.title}>
+        <PrintTitle eyebrow="## CAREER PROJECT / BEINTECH / PUBLIC SI" title={defense.title}>
             {defense.summary}
         </PrintTitle>
 
@@ -359,8 +359,8 @@ const PortfolioPrintPage = () => {
                     <div className="print-cover-proof" aria-label="주요 경험 요약">
                         <div>
                             <span>CURRENT CAREER</span>
-                            <strong>기관 연계 및 배치</strong>
-                            <p>KICS 독립망 연계 인터페이스와 Spring Batch 개발</p>
+                            <strong>BEINTECH · 2년+</strong>
+                            <p>공공 SI 백엔드, KICS 독립망 연계와 Spring Batch 개발</p>
                         </div>
                         <div>
                             <span>{baton.title}</span>
@@ -413,20 +413,33 @@ const PortfolioPrintPage = () => {
                         <h3 id="print-career-title">## Career</h3>
                         <div className="print-career-summary-list">
                             {careers.map((careerItem) => {
-                                const project = projectsById[careerItem.projectId]
+                                const projects = careerItem.projectIds.map(
+                                    (projectId) => projectsById[projectId],
+                                )
 
                                 return (
-                                    <article key={careerItem.id}>
-                                        <div className="print-career-summary-list__meta">
-                                            <time>{careerItem.period}</time>
-                                            <strong>{careerItem.organization}</strong>
+                                    <section className="print-career-company" key={careerItem.id}>
+                                        <header>
+                                            <div className="print-career-summary-list__meta">
+                                                <time>{careerItem.period}</time>
+                                                <strong>{careerItem.organization}</strong>
+                                            </div>
+                                            <div>
+                                                <span>{careerItem.position}</span>
+                                                <p>{careerItem.printDescription}</p>
+                                            </div>
+                                        </header>
+                                        <div className="print-career-assignments">
+                                            {projects.map((project) => (
+                                                <article key={project.id}>
+                                                    <time>{project.period}</time>
+                                                    <h4>{project.title}</h4>
+                                                    <span>{project.homeFacts[0].value}</span>
+                                                    <p>{project.homeFacts[2].value}</p>
+                                                </article>
+                                            ))}
                                         </div>
-                                        <div>
-                                            <h4>{project.title}</h4>
-                                            <span>{careerItem.position}</span>
-                                            <p>{careerItem.printDescription}</p>
-                                        </div>
-                                    </article>
+                                    </section>
                                 )
                             })}
                         </div>

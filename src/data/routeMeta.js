@@ -3,7 +3,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "LG CNS 컨소시엄 전송형 전자영장 프로젝트의 독립망 간 기관 연계 경험과 결제 및 환불 멱등성, 알림 아웃박스 설계를 담은 백엔드 개발자 임정규의 포트폴리오",
+        "BEINTECH에서 2년 이상 공공 SI 백엔드를 개발하며 LG CNS 컨소시엄 전송형 전자영장 프로젝트의 독립망 간 기관 연계를 담당한 임정규의 포트폴리오",
     image: "/og-cover.png",
 }
 
@@ -48,7 +48,7 @@ export const routeMeta = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "LG CNS 컨소시엄 참여 프로젝트에서 독립망 간 기관 연계 인터페이스와 Spring Batch, 대용량 조회 및 외부 연동의 실패 경계를 다룬 전송형 전자영장 시스템 사례",
+            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 독립망 간 기관 연계 인터페이스와 Spring Batch를 개발한 전송형 전자영장 시스템 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
@@ -60,7 +60,7 @@ export const routeMeta = {
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:
-            "기관 연계 배치, 보안 기능과 운영 장애 대응 경험을 정리한 차세대 군사법 정보 시스템 경력 사례",
+            "BEINTECH에서 기관 연계 배치, 보안 기능과 운영 장애 대응을 담당한 차세대 군사법 정보 시스템 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/webrtc": {

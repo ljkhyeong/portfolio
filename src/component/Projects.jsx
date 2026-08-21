@@ -73,7 +73,17 @@ const ProjectIndex = ({ projects, label, type, education = false, separated = fa
                                 <h4>{project.title}</h4>
                                 <ProjectLabels project={project} />
                             </div>
-                            <p className="project-index__summary">{project.summary}</p>
+                            <dl
+                                className="project-index__facts"
+                                aria-label={`${project.title} 담당, 문제와 해결`}
+                            >
+                                {project.homeFacts.map((fact) => (
+                                    <div className="project-index__fact" key={fact.label}>
+                                        <dt>{fact.label}</dt>
+                                        <dd>{fact.value}</dd>
+                                    </div>
+                                ))}
+                            </dl>
                             <div className="project-index__meta">
                                 <time>{project.period}</time>
                                 <span>{project.tags.slice(0, 4).join(" / ")}</span>

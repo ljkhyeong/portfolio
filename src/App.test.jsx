@@ -15,7 +15,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
 
     expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
-    expect(heroHighlights).toHaveTextContent("LG CNS 컨소시엄 참여")
+    expect(heroHighlights).toHaveTextContent("BEINTECH · LG CNS 컨소시엄")
     expect(heroHighlights).toHaveTextContent("독립망 기관 연계 · Spring Batch")
     expect(heroHighlights).toHaveTextContent("BATON")
     expect(heroHighlights).toHaveTextContent("Core + 5개 마이크로서비스")
@@ -226,12 +226,15 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
     )
 })
 
-test("현재 경력 프로젝트를 이전 경력보다 먼저 보여주고 상세로 연결한다", () => {
+test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
     const careerSection = screen.getByRole("heading", { name: "경력", level: 3 }).closest("section")
+    const careerProjects = within(careerSection).getByRole("list", {
+        name: "BEINTECH 수행 프로젝트",
+    })
     const currentCareer = within(careerSection).getByRole("heading", {
         name: "전송형 전자영장 시스템",
         level: 4,
@@ -240,8 +243,11 @@ test("현재 경력 프로젝트를 이전 경력보다 먼저 보여주고 상�
         name: "차세대 군사법 정보 시스템",
         level: 4,
     })
-    const careerLinks = screen.getAllByRole("link", { name: "경력 프로젝트 상세 보기 →" })
+    const careerLinks = within(careerProjects).getAllByRole("link")
 
+    expect(within(careerSection).getByText("첫 회사 · 현재 재직")).toBeInTheDocument()
+    expect(within(careerSection).getByText("BEINTECH")).toBeInTheDocument()
+    expect(within(careerSection).getByText("2024.06 — 현재")).toBeInTheDocument()
     expect(currentCareer.compareDocumentPosition(previousCareer)).toBe(
         Node.DOCUMENT_POSITION_FOLLOWING,
     )
@@ -249,9 +255,29 @@ test("현재 경력 프로젝트를 이전 경력보다 먼저 보여주고 상�
         "/projects/e-warrant",
         "/projects/defense",
     ])
-    expect(screen.getAllByText(/소속사 비공개 \/ LG CNS 컨소시엄 참여/).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/독립된 망 사이/).length).toBeGreaterThan(0)
+    expect(within(careerProjects).getByText("2026.03.24 — 진행 중")).toBeInTheDocument()
+    expect(within(careerProjects).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
+    expect(within(careerSection).queryByText(/소속사 비공개/)).not.toBeInTheDocument()
     expect(screen.getByLabelText("프로젝트 상태: 진행 중, 공개 가능 범위")).toBeInTheDocument()
+})
+
+test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으로 보여준다", () => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    const warrantFacts = screen.getByLabelText("전송형 전자영장 시스템 담당, 문제와 해결")
+    const galleryFacts = screen.getByLabelText("happyGallery 담당, 문제와 해결")
+
+    expect(within(warrantFacts).getByText("담당")).toBeInTheDocument()
+    expect(within(warrantFacts).getByText("문제")).toBeInTheDocument()
+    expect(within(warrantFacts).getByText("해결")).toBeInTheDocument()
+    expect(warrantFacts).toHaveTextContent("해양경찰 KICS 인터페이스 및 Spring Batch")
+    expect(warrantFacts).toHaveTextContent("독립망 간 기관 연계와 누적 전송 상태 조회")
+    expect(warrantFacts).toHaveTextContent("공통 처리 흐름, 커서 조회와 실패 재처리")
+
+    expect(galleryFacts).toHaveTextContent("결제 응답 누락, 알림 중단과 예약 및 재고 경쟁")
+    expect(galleryFacts).toHaveTextContent("결제 및 환불 멱등성, 알림 아웃박스와 락 순서")
 })
 
 test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록을 연결한다", () => {
@@ -444,6 +470,7 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
     const profilePage = document.querySelector('[data-page-number="02"]')
     const careerHeading = within(profilePage).getByText("## Career")
     const educationHeading = within(profilePage).getByText("## Education")
+    const printedCareer = within(profilePage).getByText("BEINTECH").closest("section")
 
     expect(
         Boolean(
@@ -451,9 +478,24 @@ test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 �
                 Node.DOCUMENT_POSITION_FOLLOWING,
         ),
     ).toBe(true)
+    expect(within(printedCareer).getByText("2024.06 — 현재")).toBeInTheDocument()
+    expect(within(printedCareer).getByText("전송형 전자영장 시스템")).toBeInTheDocument()
+    expect(within(printedCareer).getByText("차세대 군사법 정보 시스템")).toBeInTheDocument()
+    expect(within(printedCareer).getByText("2026.03.24 — 진행 중")).toBeInTheDocument()
+    expect(within(printedCareer).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
     expect(
         within(document.querySelector('[data-page-number="03"]')).getByText(
             "JAVA 11 / SPRING BOOT 2.6 / SPRING BATCH / WEB SQUARE / MAVEN",
+        ),
+    ).toBeInTheDocument()
+    expect(
+        within(document.querySelector('[data-page-number="03"]')).getByText(
+            "## CAREER PROJECT / BEINTECH / LG CNS 컨소시엄",
+        ),
+    ).toBeInTheDocument()
+    expect(
+        within(document.querySelector('[data-page-number="04"]')).getByText(
+            "## CAREER PROJECT / BEINTECH / PUBLIC SI",
         ),
     ).toBeInTheDocument()
     expect(
