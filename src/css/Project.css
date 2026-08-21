@@ -664,6 +664,23 @@
     letter-spacing: -0.035em;
 }
 
+.defense-map__steps {
+    display: grid;
+    gap: 6px;
+    margin: 2px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.defense-map__steps li {
+    padding: 7px 9px;
+    border-left: 2px solid #58a6ff;
+    background: rgba(88, 166, 255, 0.08);
+    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-size: 14px;
+    line-height: 1.35;
+}
+
 .case-visual--warrant {
     display: flex;
     flex-direction: column;

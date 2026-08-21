@@ -136,6 +136,26 @@ describe("project summary data", () => {
         )
     })
 
+    it("describes defense integration, security, and legacy incident response without placeholder terms", () => {
+        const defense = projectsById.defense
+        const securityProblem = defense.problems.find((problem) => problem.number === "02")
+        const incidentProblem = defense.problems.find((problem) => problem.number === "03")
+        const publicCopy = JSON.stringify(defense)
+
+        expect(defense.systemTitle).toContain("군사법원, 군검찰 및 군사경찰")
+        expect(securityProblem.decision).toContain("WebSquare 화면 스펙")
+        expect(securityProblem.decision).toContain("WAS 검증을 먼저 호출")
+        expect(securityProblem.decision).toContain("기존 파일 솔루션 로직을 수정하지 않고")
+        expect(incidentProblem.title).toContain("폐쇄망 레거시 환경")
+        expect(incidentProblem.decision).toContain("Jenkins 실행 이력")
+        expect(incidentProblem.decision).toContain("Tibero의 입력 데이터")
+        expect(publicCopy).not.toContain("기관 A")
+        expect(publicCopy).not.toContain("기관 B")
+        expect(publicCopy).not.toContain("기관 C")
+        expect(publicCopy).not.toContain("배치 3종")
+        expect(publicCopy).not.toContain("log → DB → batch")
+    })
+
     it("uses reader-facing terms and explains every implementation or verification claim", () => {
         const publicCopy = JSON.stringify(projectsById)
         const microservices = projectsById.baton.services.filter((service) => !service.primary)

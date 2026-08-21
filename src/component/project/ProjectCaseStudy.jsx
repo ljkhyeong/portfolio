@@ -127,26 +127,30 @@ const DefenseVisual = () => (
     <div
         className="case-visual case-visual--defense"
         role="img"
-        aria-label="세 개의 비식별 기관 데이터가 연계 배치를 거쳐 군교정 업무로 전달되는 흐름"
+        aria-label="군사법원, 군검찰과 군사경찰의 데이터가 기관별 연계 배치의 입력 수신, 형식 검증과 DB 반영 단계를 거쳐 군교정 업무 시스템에 반영되는 흐름"
     >
-        <div className="defense-map__label">폐쇄망 / 비식별화</div>
+        <div className="defense-map__label">국방부 SI / 폐쇄망 기관 연계</div>
         <div className="defense-map">
             <div className="defense-map__sources">
-                <span>기관 A</span>
-                <span>기관 B</span>
-                <span>기관 C</span>
+                <span>군사법원</span>
+                <span>군검찰</span>
+                <span>군사경찰</span>
             </div>
             <span className="defense-map__connector" aria-hidden="true" />
             <div className="defense-map__batch">
-                <small>Jenkins</small>
-                <strong>연계 배치 3종</strong>
-                <span>log → DB → batch</span>
+                <small>Jenkins 실행 및 재처리</small>
+                <strong>기관별 데이터 연계 배치</strong>
+                <ol className="defense-map__steps" aria-label="배치 처리 단계">
+                    <li>입력 수신</li>
+                    <li>형식 검증</li>
+                    <li>DB 반영</li>
+                </ol>
             </div>
             <span className="defense-map__connector" aria-hidden="true" />
             <div className="defense-map__destination">
-                <small>업무 시스템</small>
+                <small>군교정 업무 시스템</small>
                 <strong>군교정 업무</strong>
-                <span>형식 확인 / DB 반영 / 장애 대응</span>
+                <span>연계 데이터 조회 및 후속 업무 처리</span>
             </div>
         </div>
     </div>

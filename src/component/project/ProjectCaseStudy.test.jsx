@@ -191,6 +191,44 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
 })
 
+test("군사법 상세는 세 기관의 데이터 연계와 레거시 환경의 보안 및 장애 대응을 구체적으로 보여준다", () => {
+    renderWithRouter(<ProjectCaseStudy projectId="defense" />)
+
+    expect(
+        screen.getByRole("heading", {
+            name: "군사법원, 군검찰 및 군사경찰 데이터 연계 흐름",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: /군사법원, 군검찰과 군사경찰의 데이터가 기관별 연계 배치의 입력 수신, 형식 검증과 DB 반영 단계를 거쳐 군교정 업무 시스템에 반영/,
+        }),
+    ).toBeInTheDocument()
+    expect(screen.getAllByText("군사법원").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("군검찰").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("군사경찰").length).toBeGreaterThan(0)
+    expect(screen.getByText("기관별 데이터 연계 배치")).toBeInTheDocument()
+    expect(screen.getByRole("list", { name: "배치 처리 단계" })).toHaveTextContent(
+        "입력 수신형식 검증DB 반영",
+    )
+
+    const problems = screen.getByRole("list", { name: "대표 문제 해결 목록" })
+
+    expect(problems).toHaveTextContent("Spring Security가 생성한 CSRF 토큰")
+    expect(problems).toHaveTextContent("WebSquare 화면 스펙")
+    expect(problems).toHaveTextContent("WAS 검증을 먼저 호출")
+    expect(problems).toHaveTextContent("기존 파일 솔루션으로 전달")
+    expect(problems).toHaveTextContent("Jenkins 실행 이력")
+    expect(problems).toHaveTextContent("JEUS 및 WAS 로그")
+    expect(problems).toHaveTextContent("Tibero의 입력 데이터")
+
+    expect(document.body).not.toHaveTextContent("기관 A")
+    expect(document.body).not.toHaveTextContent("기관 B")
+    expect(document.body).not.toHaveTextContent("기관 C")
+    expect(document.body).not.toHaveTextContent("연계 배치 3종")
+    expect(document.body).not.toHaveTextContent("log → DB → batch")
+})
+
 test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 바로 이동할 수 있다", () => {
     renderWithRouter(<BatonServiceCaseStudy serviceId="watch" />)
 
