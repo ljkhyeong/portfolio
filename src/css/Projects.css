@@ -1,5 +1,5 @@
 .work-section {
-    padding: clamp(80px, 8.5vw, 120px) clamp(24px, 6vw, 96px);
+    padding: clamp(64px, 6vw, 88px) clamp(24px, 6vw, 96px);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     background: var(--paper-raised);
@@ -18,12 +18,12 @@
     grid-template-columns: minmax(140px, 0.28fr) minmax(260px, 0.72fr) minmax(300px, 0.56fr);
     gap: clamp(28px, 5vw, 80px);
     align-items: end;
-    margin-bottom: clamp(42px, 5vw, 62px);
+    margin-bottom: clamp(32px, 3.5vw, 42px);
 }
 
 .project-index__intro h2 {
     margin: 0;
-    font-size: clamp(44px, 5vw, 72px);
+    font-size: clamp(40px, 3.7vw, 52px);
     font-weight: 710;
     letter-spacing: -0.05em;
     line-height: 0.95;
@@ -66,7 +66,7 @@
 }
 
 .project-index__group--separated {
-    margin-top: clamp(48px, 5vw, 64px);
+    margin-top: clamp(36px, 3.5vw, 42px);
 }
 
 .project-index {
@@ -97,7 +97,7 @@
 }
 
 .project-index__number {
-    padding: 34px 0 0 16px;
+    padding: 26px 0 0 16px;
     color: var(--muted);
     font-family: var(--mono);
     font-size: 14px;
@@ -113,10 +113,10 @@
     position: relative;
     display: grid;
     grid-template-columns: minmax(290px, 0.94fr) minmax(280px, 1.06fr) minmax(210px, 0.54fr) 32px;
-    gap: clamp(28px, 4vw, 64px);
+    gap: clamp(24px, 2.5vw, 36px);
     align-items: center;
-    min-height: 168px;
-    padding: 28px 18px 28px 0;
+    min-height: 144px;
+    padding: 20px 18px 20px 0;
     transition:
         background-color 180ms ease,
         color 180ms ease;
@@ -143,7 +143,7 @@
 
 .project-index__title-block > span {
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: 9px;
     color: var(--muted);
     font-size: 14px;
     font-weight: 700;
@@ -153,7 +153,7 @@
 .project-index__title-block h4 {
     margin: 0;
     color: var(--accent);
-    font-size: clamp(30px, 2.75vw, 40px);
+    font-size: clamp(28px, 2.25vw, 32px);
     font-weight: 710;
     letter-spacing: -0.045em;
     line-height: 1.04;
@@ -165,7 +165,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin: 16px 0 0;
+    margin: 10px 0 0;
     padding: 0;
     list-style: none;
 }
@@ -194,7 +194,7 @@
 
 .project-index__facts {
     display: grid;
-    gap: 8px;
+    gap: 6px;
     margin: 0;
 }
 
@@ -224,7 +224,7 @@
 
 .project-index__meta {
     display: grid;
-    gap: 13px;
+    gap: 9px;
     align-self: center;
     color: var(--muted);
     font-size: 14px;
@@ -252,10 +252,10 @@
 .project-index__services {
     display: grid;
     grid-template-columns: minmax(250px, 0.86fr) minmax(0, 1.72fr);
-    gap: clamp(28px, 4vw, 64px);
+    gap: clamp(24px, 2.5vw, 36px);
     align-items: center;
     margin-left: -58px;
-    padding: 14px 18px 14px 74px;
+    padding: 10px 18px 10px 74px;
     border-top: 1px solid var(--line);
     background: var(--paper-raised);
 }
@@ -295,17 +295,17 @@
 }
 
 .project-index--education .project-index__primary {
-    min-height: 152px;
-    padding-top: 26px;
-    padding-bottom: 26px;
+    min-height: 132px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .project-index--education .project-index__title-block h4 {
-    font-size: clamp(28px, 2.55vw, 36px);
+    font-size: clamp(26px, 2.1vw, 30px);
 }
 
 .project-index--education .project-index__number {
-    padding-top: 30px;
+    padding-top: 26px;
     font-size: 14px;
 }
 
