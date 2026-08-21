@@ -113,7 +113,7 @@ try {
     }
 
     if (overflowCount !== 0) {
-        throw new Error(`A4 영역을 넘는 페이지가 있습니다: ${overflowPages}`)
+        throw new Error(`인쇄 원본에서 가로 영역을 벗어난 요소가 있습니다: ${overflowPages}`)
     }
 
     await rm(temporaryOutputPath, { force: true })

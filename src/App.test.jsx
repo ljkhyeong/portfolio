@@ -275,7 +275,9 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
     expect(within(warrantFacts).getByText("담당")).toBeInTheDocument()
     expect(within(warrantFacts).getByText("문제")).toBeInTheDocument()
     expect(within(warrantFacts).getByText("해결")).toBeInTheDocument()
-    expect(warrantFacts).toHaveTextContent("해양경찰 KICS 인터페이스 및 Spring Batch")
+    expect(warrantFacts).toHaveTextContent(
+        "KICS-통신사 및 KICS-집행포털 연계 인터페이스와 Spring Batch",
+    )
     expect(warrantFacts).toHaveTextContent("독립망 간 기관 연계와 누적 전송 상태 조회")
     expect(warrantFacts).toHaveTextContent("공통 처리 흐름, 커서 조회와 실패 재처리")
 
@@ -429,7 +431,7 @@ test("BATON 마이크로서비스 상세는 책임, 대표 문제 해결과 문�
     expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
     expect(
         screen.getByText(
-            "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달합니다.",
+            "BATON에 등록된 외부 URL을 SSRF 방어 기준으로 점검하고, 저장된 이전 점검 결과와 달라진 경우 URL 상태 변경 이벤트를 Core에 전달합니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "BATON 안에서의 책임" })).toBeInTheDocument()
@@ -458,88 +460,59 @@ test("WebRTC/HLS 상세는 교육 프로젝트용 간략 화면으로 유지한�
     expect(screen.queryByRole("heading", { name: "대표 문제 해결" })).not.toBeInTheDocument()
 })
 
-test("인쇄본은 React 경로에서 공용 프로젝트 데이터로 읽기 쉬운 9쪽을 렌더링한다", async () => {
+test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 렌더링한다", async () => {
     window.history.pushState({}, "", "/portfolio/print")
+    const printSpy = vi.spyOn(window, "print").mockImplementation(() => undefined)
 
     render(<App />)
 
-    await screen.findByRole("heading", { name: "실패 이후까지 설계하는 백엔드 개발자" })
-    await waitFor(() => expect(document.title).toBe("인쇄용 포트폴리오 | 임정규"))
-    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(9)
-    expect(screen.getAllByText("BATON").length).toBeGreaterThan(0)
-    expect(screen.getAllByText("전송형 전자영장 시스템").length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/LG CNS 컨소시엄/).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/독립망/).length).toBeGreaterThan(0)
-    const profilePage = document.querySelector('[data-page-number="02"]')
-    const careerHeading = within(profilePage).getByText("## Career")
-    const educationHeading = within(profilePage).getByText("## Education")
-    const printedCareer = within(profilePage).getByText("BEINTECH").closest("section")
+    const printDocument = await waitFor(() => {
+        const element = document.querySelector(".portfolio-web-print__document .portfolio-page")
+        expect(element).toBeInTheDocument()
+        return element
+    })
 
+    await waitFor(() => expect(document.title).toBe("인쇄용 포트폴리오 | 임정규"))
+    expect(document.querySelectorAll("[data-print-page]")).toHaveLength(0)
+    expect(within(printDocument).getByRole("heading", { level: 1 })).toHaveTextContent(
+        "복잡한 요구사항을",
+    )
+    expect(within(printDocument).getByRole("heading", { name: "프로젝트" })).toBeInTheDocument()
+    expect(within(printDocument).getByRole("heading", { name: "경력 및 학습" })).toBeInTheDocument()
+    expect(within(printDocument).getByRole("heading", { name: "기술" })).toBeInTheDocument()
+    expect(within(printDocument).getAllByText("BEINTECH").length).toBeGreaterThan(0)
+    expect(within(printDocument).getAllByText("BATON").length).toBeGreaterThan(0)
+    expect(within(printDocument).getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(
-        Boolean(
-            careerHeading.compareDocumentPosition(educationHeading) &
-                Node.DOCUMENT_POSITION_FOLLOWING,
-        ),
-    ).toBe(true)
-    expect(within(printedCareer).getByText("2024.06 — 현재")).toBeInTheDocument()
-    expect(within(printedCareer).getByText("전송형 전자영장 시스템")).toBeInTheDocument()
-    expect(within(printedCareer).getByText("차세대 군사법 정보 시스템")).toBeInTheDocument()
-    expect(within(printedCareer).getByText("2026.03.24 — 진행 중")).toBeInTheDocument()
-    expect(within(printedCareer).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
-    expect(
-        within(document.querySelector('[data-page-number="03"]')).getByText(
-            "JAVA 11 / SPRING BOOT 2.6 / SPRING BATCH / WEB SQUARE / MAVEN",
-        ),
+        within(printDocument).getByRole("heading", {
+            name: /백엔드 개발과 운영 경험에 대해/,
+        }),
     ).toBeInTheDocument()
+
+    await waitFor(() => {
+        const warrantLinks = within(printDocument).getAllByRole("link", {
+            name: /전송형 전자영장 시스템/,
+        })
+
+        warrantLinks.forEach((link) =>
+            expect(link).toHaveAttribute(
+                "href",
+                "https://ljkportfolio.netlify.app/projects/e-warrant",
+            ),
+        )
+    })
     expect(
-        within(document.querySelector('[data-page-number="03"]')).getByText(
-            "## CAREER PROJECT / BEINTECH / LG CNS 컨소시엄",
-        ),
-    ).toBeInTheDocument()
-    expect(
-        within(document.querySelector('[data-page-number="04"]')).getByText(
-            "## CAREER PROJECT / BEINTECH / 국방부 SI",
-        ),
-    ).toBeInTheDocument()
-    expect(
-        within(document.querySelector('[data-page-number="07"]')).getByText(
-            "193 paths / 225 operations",
-        ),
-    ).toBeInTheDocument()
-    expect(
-        within(document.querySelector('[data-page-number="08"]')).getByText(
-            /결제 승인 트랜잭션과 보상 경계/,
-        ),
-    ).toBeInTheDocument()
-    expect(screen.getAllByText("happyGallery").length).toBeGreaterThan(0)
-    expect(screen.getByText("WebRTC/HLS 현장강의 보조 서비스")).toBeInTheDocument()
-    expect(screen.getByText("LnS (Learn & Share) — HTTP 완벽 가이드")).toBeInTheDocument()
-    expect(screen.getByText("Effective Java 스터디")).toBeInTheDocument()
-    expect(screen.getByText(/AWS 운영 환경에 배포했으나/)).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "GO" })).toHaveAttribute(
-        "href",
-        "https://ljkportfolio.netlify.app/projects/baton/go",
+        within(printDocument).getByRole("link", {
+            name: "BATON GO 마이크로서비스 상세 보기",
+        }),
+    ).toHaveAttribute("href", "https://ljkportfolio.netlify.app/projects/baton/go")
+    await waitFor(() =>
+        expect(document.documentElement).toHaveAttribute("data-print-ready", "true"),
     )
-    expect(screen.getByRole("link", { name: "WATCH" })).toHaveAttribute(
-        "href",
-        "https://ljkportfolio.netlify.app/projects/baton/watch",
-    )
-    expect(screen.getByRole("link", { name: "RELAY" })).toHaveAttribute(
-        "href",
-        "https://ljkportfolio.netlify.app/projects/baton/relay",
-    )
-    expect(screen.getByRole("link", { name: "BRIEF" })).toHaveAttribute(
-        "href",
-        "https://ljkportfolio.netlify.app/projects/baton/brief",
-    )
-    expect(screen.getByRole("link", { name: "CAL" })).toHaveAttribute(
-        "href",
-        "https://ljkportfolio.netlify.app/projects/baton/cal",
-    )
-    expect(screen.getByRole("link", { name: "전송형 전자영장" })).toHaveAttribute(
-        "href",
-        "https://ljkportfolio.netlify.app/projects/e-warrant",
-    )
+
+    await userEvent.click(screen.getByRole("button", { name: "인쇄 또는 PDF 저장" }))
+    expect(printSpy).toHaveBeenCalledTimes(1)
+    printSpy.mockRestore()
 })
 
 test("알 수 없는 경로는 주소를 숨기지 않고 404 안내를 제공한다", async () => {

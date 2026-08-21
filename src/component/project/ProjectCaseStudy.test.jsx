@@ -167,7 +167,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /사법기관 KICS의 전자영장 요청이 독립망 간 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달/,
+            name: /해양경찰 사건수사시스템 KICS 업무망의 자료 제공 요청이 LG CNS가 주관하는 집행포털 인터넷망을 거쳐 금융기관 업무망과 통신사 전용망으로 전달/,
         }),
     ).toBeInTheDocument()
     expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 / 독립망 기관 연계")).toBeInTheDocument()
@@ -175,9 +175,17 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 공공 SI")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "상태 저장보다 먼저 도착한 콜백 재처리",
+            name: "PDF 변환 요청 상태 저장 전 도착한 완료 콜백 재처리",
         }),
     ).toBeInTheDocument()
+    expect(screen.getAllByText("자료 제공 요청").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("제출 자료").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("행정망").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("인터넷망 / LG CNS 주관").length).toBeGreaterThan(0)
+    expect(
+        screen.getByRole("list", { name: "전송형 전자영장 시스템 기술 스택" }),
+    ).toHaveTextContent("Oracle DB")
+    expect(screen.getByText(/^\* 사법기관 KICS,/)).toBeInTheDocument()
     expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
     expect(screen.queryByText("군교정 업무")).not.toBeInTheDocument()
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
@@ -229,19 +237,19 @@ test.each([
     [
         "watch",
         "WATCH",
-        "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달합니다.",
+        "BATON에 등록된 외부 URL을 SSRF 방어 기준으로 점검하고, 저장된 이전 점검 결과와 달라진 경우 URL 상태 변경 이벤트를 Core에 전달합니다.",
         "SSRF 방어, 작업 선점 만료 후 다른 서버의 재처리, 이전 작업 결과 반영 차단, 아웃박스",
     ],
     [
         "relay",
         "RELAY",
-        "BATON의 알림 요청을 외부 메시지 공급자에 전달하고 전송 상태를 관리합니다.",
+        "BATON의 알림 이벤트를 외부 메시지 공급자에 전달하고 전송 성공, 실패와 공급자 응답 유실로 결과를 확인할 수 없는 경우를 구분해 저장합니다.",
         "수신 이력(Inbox) 중복 제거, 작업 선점, 재시도와 전송 결과 미확인 상태",
     ],
     [
         "brief",
         "BRIEF",
-        "운영 이벤트를 모아 이번 주에 확인할 항목과 생성 시점의 주간 요약을 제공합니다.",
+        "인수인계 지연, 루틴 누락과 결정 후속 조치 지연 이벤트를 모아 이번 주 확인 항목과 생성 시점 기준의 주간 브리프를 제공합니다.",
         "운영 이벤트 중복 처리 방지, 확인 항목 구성, 생성 후 수정하지 않는 주간 브리프",
     ],
     [

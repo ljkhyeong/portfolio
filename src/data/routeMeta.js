@@ -24,19 +24,19 @@ export const routeMeta = {
     "/projects/baton/watch": {
         title: "BATON WATCH | 임정규 포트폴리오",
         description:
-            "BATON에 등록된 외부 URL을 안전하게 점검하고 상태 변경을 Core에 전달하는 WATCH 마이크로서비스",
+            "BATON에 등록된 외부 URL을 SSRF 방어 기준으로 점검하고 이전 결과와 달라진 URL 상태를 Core에 전달하는 WATCH 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "BATON의 알림 요청을 외부 메시지 공급자에 전달하고 전송 상태를 관리하는 RELAY 마이크로서비스",
+            "BATON의 알림 이벤트를 외부 메시지 공급자에 전달하고 성공, 실패와 응답 유실 상태를 구분해 저장하는 RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "운영 이벤트를 모아 이번 주에 확인할 항목과 생성 시점의 주간 요약을 제공하는 BRIEF 마이크로서비스",
+            "인수인계 지연, 루틴 누락과 결정 후속 조치 지연 이벤트를 모아 이번 주 확인 항목과 주간 브리프를 제공하는 BRIEF 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
@@ -48,7 +48,7 @@ export const routeMeta = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 독립망 간 기관 연계 인터페이스와 Spring Batch를 개발한 전송형 전자영장 시스템 사례",
+            "LG CNS 컨소시엄에서 해양경찰 KICS 행정망, 통신사 전용망과 전자영장 집행포털 인터넷망 간 연계 인터페이스 및 Spring Batch를 개발한 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {

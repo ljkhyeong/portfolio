@@ -38,15 +38,18 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 독립망 기관 연계",
         summary:
-            "사법기관의 전자영장 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 해양경찰 KICS 인터페이스와 Spring Batch 개발을 담당하고 있습니다.",
+            "전자영장 관련 자료 제공 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. LG CNS 컨소시엄에 참여해 해양경찰 사건수사시스템(KICS, 행정망), 통신사 업무망(통신사 전용망), 전자영장 집행포털(인터넷망, LG CNS 주관) 간 연계 인터페이스와 배치 개발을 담당하고 있습니다.",
         homeFacts: [
-            { label: "담당", value: "해양경찰 KICS 인터페이스 및 Spring Batch" },
+            {
+                label: "담당",
+                value: "KICS-통신사 및 KICS-집행포털 연계 인터페이스와 Spring Batch",
+            },
             { label: "문제", value: "독립망 간 기관 연계와 누적 전송 상태 조회" },
             { label: "해결", value: "공통 처리 흐름, 커서 조회와 실패 재처리" },
         ],
         period: "2026.03.24 — 진행 중",
         route: "/projects/e-warrant",
-        tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "WebSquare"],
+        tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle DB", "WebSquare"],
         visual: "warrant",
         stage: "진행 중",
         visibility: "공개 가능 범위",

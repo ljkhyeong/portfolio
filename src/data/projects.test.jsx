@@ -68,6 +68,7 @@ describe("project summary data", () => {
             "Java 11",
             "Spring Boot 2.6",
             "Spring Batch",
+            "Oracle DB",
             "WebSquare",
             "Maven",
         ])

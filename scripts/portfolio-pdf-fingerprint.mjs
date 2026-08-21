@@ -12,18 +12,22 @@ export const portfolioPdfFingerprintPath = path.join(
 )
 
 const sourceTargets = [
-    "src/component/print",
+    "src/component/Main.jsx",
+    "src/component/Header.jsx",
+    "src/component/Projects.jsx",
+    "src/component/About.jsx",
+    "src/component/print/PortfolioPrintPage.jsx",
+    "src/App.css",
+    "src/index.css",
+    "src/css/Main.css",
+    "src/css/Projects.css",
     "src/css/PortfolioPrint.css",
     "src/data/profile.js",
+    "src/data/homeHero.js",
+    "src/data/homeSkills.js",
     "src/data/projectSummaries.js",
-    "src/data/projects.js",
     "src/utils/assetPath.js",
-    "public/baton-workspace.png",
-    "public/baton-batonbook.png",
-    "public/baton-role-detail.png",
-    "public/happygallery-products.jpg",
-    "public/happygallery-product-detail.jpg",
-    "public/happygallery-classes.jpg",
+    "public/ljkhyeong-avatar.png",
 ]
 
 const collectFiles = async (target) => {

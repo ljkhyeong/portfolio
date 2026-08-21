@@ -156,36 +156,74 @@ const WarrantVisual = () => (
     <div
         className="case-visual case-visual--warrant"
         role="img"
-        aria-label="사법기관 KICS의 전자영장 요청이 독립망 간 집행포털 연계 계층을 거쳐 금융기관 및 통신사로 전달되고, 제출 자료가 KICS 업무 시스템으로 돌아오는 흐름"
+        aria-label="해양경찰 사건수사시스템 KICS 업무망의 자료 제공 요청이 LG CNS가 주관하는 집행포털 인터넷망을 거쳐 금융기관 업무망과 통신사 전용망으로 전달되고, 금융기관 및 통신사의 제출 자료가 집행포털을 거쳐 KICS 업무망으로 전달되는 흐름"
     >
         <div className="warrant-map__label">BEINTECH / LG CNS 컨소시엄 / 독립망 간 기관 연계</div>
         <div className="warrant-map">
-            <div className="warrant-map__node warrant-map__node--requester">
-                <small>Request</small>
-                <strong>사법기관 KICS 업무망</strong>
-                <span>자료 제공 요청</span>
+            <div className="warrant-map__flow">
+                <div className="warrant-map__flow-title">
+                    <span>01</span>
+                    <strong>자료 제공 요청</strong>
+                </div>
+                <div className="warrant-map__lane">
+                    <div className="warrant-map__node warrant-map__node--requester">
+                        <small>행정망</small>
+                        <strong>해양경찰 사건수사시스템</strong>
+                        <span>KICS 업무망</span>
+                    </div>
+                    <div className="warrant-map__connector" aria-hidden="true">
+                        <span>자료 제공 요청</span>
+                    </div>
+                    <div className="warrant-map__node warrant-map__node--portal">
+                        <small>인터넷망 / LG CNS 주관</small>
+                        <strong>전자영장 집행포털</strong>
+                        <span>요청 수신 / 기관별 변환 / 상태 관리</span>
+                    </div>
+                    <div className="warrant-map__connector" aria-hidden="true">
+                        <span>기관별 전달</span>
+                    </div>
+                    <div className="warrant-map__responders">
+                        <small>기관 업무망</small>
+                        <strong>금융기관 업무망</strong>
+                        <strong>통신사 업무망 / 전용망</strong>
+                    </div>
+                </div>
             </div>
-            <div className="warrant-map__connector" aria-hidden="true">
-                <span>전자영장 요청</span>
+            <div className="warrant-map__flow">
+                <div className="warrant-map__flow-title warrant-map__flow-title--submission">
+                    <span>02</span>
+                    <strong>제출 자료</strong>
+                </div>
+                <div className="warrant-map__lane">
+                    <div className="warrant-map__responders">
+                        <small>기관 업무망</small>
+                        <strong>금융기관 업무망</strong>
+                        <strong>통신사 업무망 / 전용망</strong>
+                    </div>
+                    <div
+                        className="warrant-map__connector warrant-map__connector--submission"
+                        aria-hidden="true"
+                    >
+                        <span>제출 자료</span>
+                    </div>
+                    <div className="warrant-map__node warrant-map__node--portal">
+                        <small>인터넷망 / LG CNS 주관</small>
+                        <strong>전자영장 집행포털</strong>
+                        <span>자료 수신 / 연계 변환 / 전송 상태 관리</span>
+                    </div>
+                    <div
+                        className="warrant-map__connector warrant-map__connector--submission"
+                        aria-hidden="true"
+                    >
+                        <span>KICS 전달</span>
+                    </div>
+                    <div className="warrant-map__node warrant-map__node--requester">
+                        <small>행정망</small>
+                        <strong>해양경찰 사건수사시스템</strong>
+                        <span>KICS 업무 반영</span>
+                    </div>
+                </div>
             </div>
-            <div className="warrant-map__node warrant-map__node--portal">
-                <small>Portal / Interface</small>
-                <strong>전자영장 집행포털</strong>
-                <span>계약 확인 / 데이터 변환 / 상태 처리</span>
-            </div>
-            <div className="warrant-map__connector" aria-hidden="true">
-                <span>독립망 전달</span>
-            </div>
-            <div className="warrant-map__responders">
-                <small>Response</small>
-                <strong>금융기관 업무망</strong>
-                <strong>통신사 업무망</strong>
-            </div>
-        </div>
-        <div className="warrant-map__return" aria-hidden="true">
-            <span>독립망 제출 자료</span>
-            <i />
-            <strong>KICS 업무 반영</strong>
         </div>
     </div>
 )
