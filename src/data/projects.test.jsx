@@ -154,11 +154,13 @@ describe("project summary data", () => {
         expect(securityProblem.decision).toContain("WAS 메모리 및 I/O 부하와 OOM 위험을 방지")
         expect(incidentProblem.title).toContain("폐쇄망 레거시 환경")
         expect(incidentProblem.constraint).toContain(
-            "Spring Boot Actuator, Prometheus, Grafana 같은 모니터링 도구",
+            "Spring Boot Actuator, Prometheus, Grafana 같은 모니터링 환경",
         )
         expect(incidentProblem.constraint).toContain(
-            "JUnit과 AssertJ 기반 자동화 테스트도 구축되어 있지 않은",
+            "운영 화면 오류를 지표로 빠르게 좁힐 수 없었습니다",
         )
+        expect(incidentProblem.constraint).toContain("오류 조건을 코드로 재현하고 수정 영향을 확인")
+        expect(incidentProblem.constraint).toContain("WAS 로그와 DB 상태를 직접 대조")
         expect(incidentProblem.constraint).not.toContain("APM")
         expect(incidentProblem.constraint).not.toContain("분산 추적")
         expect(incidentProblem.decision).toContain("Jenkins 실행 이력")
