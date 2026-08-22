@@ -153,6 +153,14 @@ describe("project summary data", () => {
         expect(securityProblem.decision).toContain("기존 파일 솔루션 로직을 수정하지 않으면서")
         expect(securityProblem.decision).toContain("WAS 메모리 및 I/O 부하와 OOM 위험을 방지")
         expect(incidentProblem.title).toContain("폐쇄망 레거시 환경")
+        expect(incidentProblem.constraint).toContain(
+            "Spring Boot Actuator, Prometheus, Grafana 같은 모니터링 도구",
+        )
+        expect(incidentProblem.constraint).toContain(
+            "JUnit과 AssertJ 기반 자동화 테스트도 구축되어 있지 않은",
+        )
+        expect(incidentProblem.constraint).not.toContain("APM")
+        expect(incidentProblem.constraint).not.toContain("분산 추적")
         expect(incidentProblem.decision).toContain("Jenkins 실행 이력")
         expect(incidentProblem.decision).toContain("Tibero의 입력 데이터")
         expect(publicCopy).not.toContain("기관 A")
