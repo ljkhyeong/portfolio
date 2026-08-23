@@ -18,6 +18,8 @@
         "postbuild": "node scripts/generate-route-meta.mjs",
         "og:generate": "node scripts/generate-og-cover.mjs",
         "pdf:generate": "node scripts/generate-portfolio-pdf.mjs",
+        "pdf:generate:edge": "node scripts/generate-portfolio-pdf.mjs --browser=edge",
+        "pdf:generate:safari": "node scripts/generate-portfolio-pdf.mjs --browser=webkit",
         "pdf:check": "node scripts/check-portfolio-pdf.mjs",
         "preview": "vite preview",
         "test": "vitest run",

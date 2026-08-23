@@ -39,6 +39,17 @@ const findHorizontalOverflow = (root) => {
 
     return Array.from(root.querySelectorAll("*"))
         .filter((element) => {
+            const style = window.getComputedStyle(element)
+
+            if (
+                element.getClientRects().length === 0 ||
+                style.display === "none" ||
+                style.visibility === "hidden" ||
+                style.position === "fixed"
+            ) {
+                return false
+            }
+
             const rect = element.getBoundingClientRect()
             return rect.left < rootRect.left - 1 || rect.right > rootRect.right + 1
         })

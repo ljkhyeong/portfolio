@@ -47,11 +47,19 @@ Vite 빌드 결과는 `build/`에 생성됩니다. Netlify는 배포 전에 전�
 ```bash
 npm run dev
 npm run pdf:generate
+npm run pdf:generate:edge
+npm run pdf:generate:safari
 npm run pdf:check
 ```
 
 `pdf:generate`는 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트 로딩과 A4 페이지의
-overflow를 검사한 뒤 `public/포트폴리오최신.pdf`를 교체합니다. PDF를 갱신한 뒤
+overflow를 검사한 뒤 `public/포트폴리오최신.pdf`를 교체합니다. Edge가 설치된 환경에서는
+`pdf:generate:edge`로 같은 과정을 실행할 수 있습니다. 실행 파일을 자동으로 찾지 못하면
+`PDF_BROWSER_PATH`, `CHROME_PATH` 또는 `EDGE_PATH`로 경로를 지정합니다.
+
+macOS에서는 `pdf:generate:safari`가 Safari와 같은 WebKit으로 인쇄 화면을 렌더링하고,
+인쇄 창을 열지 않은 채 PDF를 저장합니다. 이 명령은 Apple의 Swift, AppKit과 WebKit을
+사용하므로 Windows, Linux와 Netlify에서는 실행하지 않습니다. PDF를 갱신한 뒤
 `npm run build`를 실행하면 최신 파일이 `build/`에도 포함됩니다.
 `pdf:check`는 인쇄 소스와 커밋된 PDF의 지문을 비교하며 프로덕션 빌드에서도 자동으로
 실행됩니다.
