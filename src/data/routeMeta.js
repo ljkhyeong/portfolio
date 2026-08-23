@@ -69,6 +69,12 @@ export const routeMeta = {
             "WebRTC와 RTP 미디어를 HLS로 변환하고 재생 지연을 약 30초에서 11초로 줄인 교육 프로젝트",
         image: "/og-cover.png",
     },
+    "/search": {
+        title: "포트폴리오 문서 검색 | 임정규",
+        description:
+            "임정규의 프로젝트 개요, 문제 해결, 설계 판단과 공개한 대표 문서를 검색하고 근거가 표시된 AI 답변을 확인할 수 있습니다.",
+        image: "/og-cover.png",
+    },
     "/portfolio/print": {
         title: "인쇄용 포트폴리오 | 임정규",
         description: defaultRouteMeta.description,

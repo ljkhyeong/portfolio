@@ -14,6 +14,8 @@
     "scripts": {
         "dev": "vite",
         "start": "vite",
+        "knowledge:generate": "node scripts/generate-knowledge-corpus.mjs",
+        "prebuild": "npm run knowledge:generate",
         "build": "vite build",
         "postbuild": "node scripts/generate-route-meta.mjs",
         "og:generate": "node scripts/generate-og-cover.mjs",

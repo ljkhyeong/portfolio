@@ -37,6 +37,34 @@ Vite 빌드 결과는 `build/`에 생성됩니다. Netlify는 배포 전에 전�
 페이지를 만들고, 현재 코드에서 참조하지 않는 이전 포트폴리오 자산은 배포 결과에서만
 제외합니다. 원본 파일은 `public/`에 보존합니다.
 
+## 공개 문서 검색
+
+`/search`에서는 프로젝트 개요, 설계 판단, 문제 해결과 공개한 대표 문서를 검색할 수
+있습니다. 기본 설정은 API 키 없이 Elasticsearch BM25 검색만 실행합니다. OpenAI 또는
+Ollama 프로필에서는 키워드 검색과 벡터 검색을 Java RRF로 합쳐 정렬합니다. AI 답변은
+검색과 분리되어 있으며, 사용자가 요청할 때만 검색된 공개 근거를 LLM에 전달합니다.
+답변 생성이 중단되어도 검색 결과와 원문 링크는 그대로 유지됩니다.
+
+-   프론트엔드: 현재 React 및 Netlify 애플리케이션
+-   검색 API: `knowledge-api/`의 별도 Spring Boot 애플리케이션
+-   검색 저장소: Elasticsearch
+-   운영 AI: OpenAI API
+-   로컬 AI: Ollama 프로필
+
+공개 검색 자료는 포트폴리오 데이터와 명시적으로 허용한 Markdown에서만 생성합니다.
+빌드 중 외부 문서를 내려받지 않으며, 회사 비공개 자료와 Obsidian 원문은 포함하지
+않습니다.
+
+```bash
+npm run knowledge:generate
+cp .env.example .env.local
+npm run dev
+```
+
+`VITE_KNOWLEDGE_API_BASE_URL`에는 로컬 또는 운영 Knowledge API 주소를 설정합니다. API
+키는 브라우저 환경 변수에 넣지 않습니다. Elasticsearch, Spring Boot API, OpenAI 및
+Ollama 프로필의 실행 방법은 `knowledge-api/README.md`를 확인합니다.
+
 ## PDF
 
 -   최신 파일: `public/임정규_포트폴리오.pdf`

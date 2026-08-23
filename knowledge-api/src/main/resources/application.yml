@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: portfolio-knowledge-api
+  ai:
+    model:
+      chat: none
+      embedding: none
+      image: none
+      moderation: none
+      audio:
+        speech: none
+        transcription: none
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,elasticsearch
+
+knowledge:
+  source:
+    location: ${KNOWLEDGE_SOURCE_LOCATION:classpath:knowledge/portfolio.json}
+    sync-on-startup: ${KNOWLEDGE_SYNC_ON_STARTUP:false}
+    sync-key: ${KNOWLEDGE_SYNC_KEY:}
+    allow-empty: ${KNOWLEDGE_ALLOW_EMPTY:false}
+    max-chunk-characters: 1200
+    overlap-characters: 150
+  elasticsearch:
+    base-url: ${ELASTICSEARCH_URL:http://localhost:9200}
+    index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-disabled-v1}
+    username: ${ELASTICSEARCH_USERNAME:}
+    password: ${ELASTICSEARCH_PASSWORD:}
+  search:
+    default-limit: 10
+    max-limit: 20
+    candidate-limit: 40
+    rrf-k: 60
+  ai:
+    provider: disabled
+    embedding-model-id: disabled
+    embedding-dimensions: 1024
+    answer-context-limit: 6
+    global-answers-per-minute: ${AI_GLOBAL_ANSWERS_PER_MINUTE:30}
+    client-answers-per-minute: ${AI_CLIENT_ANSWERS_PER_MINUTE:5}
+    global-searches-per-minute: ${AI_GLOBAL_SEARCHES_PER_MINUTE:300}
+    client-searches-per-minute: ${AI_CLIENT_SEARCHES_PER_MINUTE:30}
+    trust-proxy-headers: ${AI_TRUST_PROXY_HEADERS:false}
+  cors:
+    allowed-origins: ${KNOWLEDGE_CORS_ALLOWED_ORIGINS:http://localhost:5173,https://ljkportfolio.netlify.app}

@@ -1,0 +1,66 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.20
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms768m -Xmx768m
+    ports:
+      - "127.0.0.1:9200:9200"
+    volumes:
+      - portfolio-knowledge-es:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  knowledge-api:
+    build:
+      context: ..
+      dockerfile: knowledge-api/Dockerfile
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: ${AI_PROFILE:-}
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX:-portfolio-knowledge-${AI_PROFILE:-disabled}-v1}
+      KNOWLEDGE_SYNC_ON_STARTUP: ${KNOWLEDGE_SYNC_ON_STARTUP:-true}
+      KNOWLEDGE_ALLOW_EMPTY: ${KNOWLEDGE_ALLOW_EMPTY:-false}
+      KNOWLEDGE_SYNC_KEY: ${KNOWLEDGE_SYNC_KEY:-}
+      KNOWLEDGE_CORS_ALLOWED_ORIGINS: ${KNOWLEDGE_CORS_ALLOWED_ORIGINS:-http://localhost:5173,https://ljkportfolio.netlify.app}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_CHAT_MODEL: ${OPENAI_CHAT_MODEL:-gpt-5-mini}
+      OPENAI_EMBEDDING_MODEL: ${OPENAI_EMBEDDING_MODEL:-text-embedding-3-large}
+      OPENAI_EMBEDDING_DIMENSIONS: ${OPENAI_EMBEDDING_DIMENSIONS:-1024}
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_CHAT_MODEL: ${OLLAMA_CHAT_MODEL:-qwen3:8b}
+      OLLAMA_EMBEDDING_MODEL: ${OLLAMA_EMBEDDING_MODEL:-bge-m3}
+      OLLAMA_EMBEDDING_DIMENSIONS: ${OLLAMA_EMBEDDING_DIMENSIONS:-1024}
+      AI_GLOBAL_ANSWERS_PER_MINUTE: ${AI_GLOBAL_ANSWERS_PER_MINUTE:-30}
+      AI_CLIENT_ANSWERS_PER_MINUTE: ${AI_CLIENT_ANSWERS_PER_MINUTE:-5}
+      AI_GLOBAL_SEARCHES_PER_MINUTE: ${AI_GLOBAL_SEARCHES_PER_MINUTE:-300}
+      AI_CLIENT_SEARCHES_PER_MINUTE: ${AI_CLIENT_SEARCHES_PER_MINUTE:-30}
+      AI_TRUST_PROXY_HEADERS: ${AI_TRUST_PROXY_HEADERS:-false}
+    ports:
+      - "127.0.0.1:8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS --max-time 3 http://localhost:8080/actuator/health/readiness >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+  ollama:
+    image: ollama/ollama:0.11.4
+    profiles: ["ollama"]
+    volumes:
+      - portfolio-knowledge-ollama:/root/.ollama
+    ports:
+      - "127.0.0.1:11434:11434"
+
+volumes:
+  portfolio-knowledge-es:
+  portfolio-knowledge-ollama:

@@ -6,3 +6,7 @@ AGENTS.md
 .DS_Store
 .playwright-cli/
 output/playwright/
+.env
+.env.local
+.env.*.local
+!.env.example

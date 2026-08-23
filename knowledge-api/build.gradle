@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.0'
+}
+
+group = 'com.ljkhyeong.portfolio'
+version = '0.1.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+def generatedKnowledgeResources = layout.buildDirectory.dir('generated/knowledge-resources')
+
+sourceSets {
+    main {
+        resources.srcDir(generatedKnowledgeResources)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform('org.springframework.boot:spring-boot-dependencies:4.1.0')
+    implementation platform('org.springframework.ai:spring-ai-bom:2.0.0')
+    testImplementation platform('org.springframework.boot:spring-boot-dependencies:4.1.0')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+    implementation 'org.springframework.ai:spring-ai-starter-model-ollama'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:4.1.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:junit-jupiter:1.21.3'
+    testImplementation 'org.testcontainers:elasticsearch:1.21.3'
+}
+
+tasks.named('test') {
+    useJUnitPlatform {
+        excludeTags 'integration'
+    }
+}
+
+tasks.register('syncKnowledgeManifest', Copy) {
+    from(layout.projectDirectory.file('../public/knowledge/portfolio.json'))
+    into(generatedKnowledgeResources.map { it.dir('knowledge') })
+}
+
+tasks.named('processResources') {
+    dependsOn tasks.named('syncKnowledgeManifest')
+}
+
+tasks.register('integrationTest', Test) {
+    description = 'Elasticsearch를 사용하는 통합 테스트를 실행합니다.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform {
+        includeTags 'integration'
+    }
+    environment 'DOCKER_AUTH_CONFIG', '{"auths":{}}'
+    shouldRunAfter tasks.named('test')
+}

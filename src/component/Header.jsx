@@ -22,6 +22,7 @@ const Header = () => {
                     <a href="#work">프로젝트</a>
                     <a href="#experience">경력 및 학습</a>
                     <a href="#capabilities">기술</a>
+                    <Link to="/search">문서 검색</Link>
                 </div>
                 <a className="site-nav__contact" href={`mailto:${portfolioProfile.email}`}>
                     이야기 나누기

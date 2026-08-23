@@ -1,0 +1,22 @@
+knowledge:
+  elasticsearch:
+    index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-ollama-v1}
+  ai:
+    provider: ollama
+    embedding-model-id: ${OLLAMA_EMBEDDING_MODEL:bge-m3}
+    embedding-dimensions: ${OLLAMA_EMBEDDING_DIMENSIONS:1024}
+
+spring:
+  ai:
+    model:
+      chat: ollama
+      embedding: ollama
+    ollama:
+      base-url: ${OLLAMA_URL:http://localhost:11434}
+      init:
+        pull-model-strategy: never
+      chat:
+        model: ${OLLAMA_CHAT_MODEL:qwen3:8b}
+        temperature: 0.2
+      embedding:
+        model: ${OLLAMA_EMBEDDING_MODEL:bge-m3}

@@ -16,6 +16,7 @@ import {
 const ProjectCaseStudy = lazy(() => import("./component/project/ProjectCaseStudy"))
 const BatonServiceCaseStudy = lazy(() => import("./component/project/BatonServiceCaseStudy"))
 const PortfolioPrintPage = lazy(() => import("./component/print/PortfolioPrintPage"))
+const PortfolioKnowledgePage = lazy(() => import("./component/search/PortfolioKnowledgePage"))
 
 const updateMetaContent = (attribute, key, value) => {
     let element = document.head.querySelector(`meta[${attribute}="${key}"]`)
@@ -157,6 +158,7 @@ const App = () => {
                         element={<ProjectCaseStudy projectId="webrtc" />}
                     />
                     <Route path="/portfolio/print" element={<PortfolioPrintPage />} />
+                    <Route path="/search" element={<PortfolioKnowledgePage />} />
 
                     <Route
                         path="/project-baton"
