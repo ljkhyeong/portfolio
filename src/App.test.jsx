@@ -106,10 +106,12 @@ test("GitHub 프로필 이미지와 아이디를 포트폴리오 식별 정보�
 
     const brand = screen.getByRole("link", { name: "ljkhyeong 포트폴리오 홈" })
     const avatar = brand.querySelector("img")
+    const pdfDownload = screen.getByRole("link", { name: "PDF 내려받기" })
 
     expect(brand).toHaveTextContent("ljkhyeong")
     expect(avatar).toHaveAttribute("src", expect.stringContaining("ljkhyeong-avatar.png"))
     expect(avatar).toHaveAttribute("alt", "")
+    expect(decodeURI(pdfDownload.getAttribute("href"))).toBe("/임정규_포트폴리오.pdf")
 })
 
 test("기술 섹션은 핵심 스택과 적용한 정합성 문제를 구체적으로 보여준다", () => {

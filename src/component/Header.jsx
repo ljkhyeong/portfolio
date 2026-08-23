@@ -48,7 +48,7 @@ const Header = () => {
                         </a>
                         <a
                             className="button button--ghost"
-                            href={assetPath("포트폴리오최신.pdf")}
+                            href={assetPath("임정규_포트폴리오.pdf")}
                             target="_blank"
                             rel="noreferrer"
                             download

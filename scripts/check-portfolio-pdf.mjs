@@ -7,7 +7,7 @@ import {
 } from "./portfolio-pdf-fingerprint.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const pdfPath = path.join(repositoryRoot, "public", "포트폴리오최신.pdf")
+const pdfPath = path.join(repositoryRoot, "public", "임정규_포트폴리오.pdf")
 
 const [savedFingerprint, currentFingerprint, pdfHeader, pdfStat] = await Promise.all([
     readFile(portfolioPdfFingerprintPath, "utf8").then((value) => value.trim()),

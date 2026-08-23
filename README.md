@@ -39,7 +39,7 @@ Vite 빌드 결과는 `build/`에 생성됩니다. Netlify는 배포 전에 전�
 
 ## PDF
 
--   최신 파일: `public/포트폴리오최신.pdf`
+-   최신 파일: `public/임정규_포트폴리오.pdf`
 -   React 인쇄 원본: `src/component/print/PortfolioPrintPage.jsx`
 -   인쇄 스타일: `src/css/PortfolioPrint.css`
 -   로컬 미리보기: `http://localhost:5173/portfolio/print`
@@ -53,7 +53,7 @@ npm run pdf:check
 ```
 
 `pdf:generate`는 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트 로딩과 A4 페이지의
-overflow를 검사한 뒤 `public/포트폴리오최신.pdf`를 교체합니다. Edge가 설치된 환경에서는
+overflow를 검사한 뒤 `public/임정규_포트폴리오.pdf`를 교체합니다. Edge가 설치된 환경에서는
 `pdf:generate:edge`로 같은 과정을 실행할 수 있습니다. 실행 파일을 자동으로 찾지 못하면
 `PDF_BROWSER_PATH`, `CHROME_PATH` 또는 `EDGE_PATH`로 경로를 지정합니다.
 

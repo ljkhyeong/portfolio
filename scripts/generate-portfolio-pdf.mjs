@@ -15,7 +15,7 @@ import {
 } from "./portfolio-pdf-fingerprint.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const canonicalOutputPath = path.join(repositoryRoot, "public", "포트폴리오최신.pdf")
+const canonicalOutputPath = path.join(repositoryRoot, "public", "임정규_포트폴리오.pdf")
 const argumentsWithoutRuntime = process.argv.slice(2)
 const selectedBrowser = resolvePdfBrowser(argumentsWithoutRuntime)
 const requestedOutputPath = readCliOption(argumentsWithoutRuntime, "output")
