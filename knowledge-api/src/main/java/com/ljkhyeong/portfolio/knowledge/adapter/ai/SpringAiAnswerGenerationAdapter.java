@@ -40,19 +40,18 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
                 ))
                 .collect(Collectors.joining("\n\n"));
 
+        String answer;
         try {
-            String answer = chatClient.prompt()
+            answer = chatClient.prompt()
                     .user("질문:\n%s\n\n공개 근거:\n%s".formatted(question, evidence))
                     .call()
                     .content();
-            if (answer == null || answer.isBlank()) {
-                throw new AnswerGenerationUnavailableException("AI가 빈 답변을 반환했습니다.");
-            }
-            return answer.trim();
-        } catch (AnswerGenerationUnavailableException exception) {
-            throw exception;
         } catch (RuntimeException exception) {
             throw new AnswerGenerationUnavailableException("AI 답변을 생성하지 못했습니다.", exception);
         }
+        if (answer == null || answer.isBlank()) {
+            throw new AnswerGenerationUnavailableException("AI가 빈 답변을 반환했습니다.");
+        }
+        return answer.trim();
     }
 }
