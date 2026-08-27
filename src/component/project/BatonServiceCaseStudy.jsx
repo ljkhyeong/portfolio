@@ -96,7 +96,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         <article>
                             <code>입력</code>
                             <strong>{service.input}</strong>
-                            <p>요청의 필수값과 형식을 확인한 뒤 처리합니다.</p>
+                            <p>{service.inputRule}</p>
                         </article>
                         <span aria-hidden="true">→</span>
                         <article className="service-boundary-flow__current">
@@ -110,7 +110,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         <article>
                             <code>처리 결과</code>
                             <strong>{service.output}</strong>
-                            <p>실패 후 처리: {service.recoveryBoundary}</p>
+                            <p>중복 및 실패 처리: {service.recoveryBoundary}</p>
                         </article>
                     </div>
                     <blockquote>

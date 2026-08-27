@@ -3,7 +3,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "BEINTECH에서 2년 이상 공공 SI 백엔드를 개발하며 LG CNS 컨소시엄 전송형 전자영장 프로젝트의 독립망 간 기관 연계를 담당한 임정규의 포트폴리오",
+        "BEINTECH에서 2024년 6월부터 공공 SI 백엔드를 개발하며 LG CNS 컨소시엄 전송형 전자영장 프로젝트의 독립망 간 기관 연계를 담당한 임정규의 포트폴리오",
     image: "/og-cover.png",
 }
 
@@ -24,13 +24,13 @@ export const routeMeta = {
     "/projects/baton/watch": {
         title: "BATON WATCH | 임정규 포트폴리오",
         description:
-            "BATON에 등록된 외부 URL을 SSRF 방어 기준으로 점검하고 이전 결과와 달라진 URL 상태를 Core에 전달하는 WATCH 마이크로서비스",
+            "사설 IP와 내부망 주소 접근을 차단하면서 BATON에 등록된 외부 URL을 점검하고, 이전 점검과 달라진 상태를 Core에 전달하는 WATCH 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "BATON의 알림 이벤트를 HTTP Webhook 또는 SQS FIFO로 전달하고 성공 여부를 확인하지 못한 건은 자동 재전송하지 않고 별도 상태로 저장하는 RELAY 마이크로서비스",
+            "BATON 이벤트를 등록된 HTTP Webhook 또는 SQS FIFO 큐로 전달하고, 대상의 처리 결과를 확인하지 못한 건은 자동 재전송하지 않고 별도 상태로 저장하는 RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/brief": {
@@ -48,7 +48,7 @@ export const routeMeta = {
     "/projects/baton/round": {
         title: "BATON ROUND | 임정규 포트폴리오",
         description:
-            "Core가 발급한 방 참여권을 확인하고 최대 6명 브라우저의 offer, answer와 ICE를 WebSocket으로 중계하며 TURN 접속 정보를 발급하는 ROUND 마이크로서비스",
+            "Core가 발급한 방 참여권을 확인한 뒤 최대 6명이 참여할 수 있는 WebRTC 화상방의 연결 메시지를 중계하고 TURN 접속 정보를 제공하는 ROUND 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {
@@ -60,19 +60,19 @@ export const routeMeta = {
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "공방 작품 주문과 클래스 예약을 구현하고, 결제 결과 미수신, 미전송 알림과 동시 옵션 재고 차감을 DB 처리 상태와 잠금으로 해결한 happyGallery 프로젝트",
+            "결제 및 환불 요청 ID로 중복 처리를 막고, 미전송 알림은 DB에서 다시 처리하며, 옵션 재고 행을 같은 순서로 잠가 초과 차감을 막은 happyGallery 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님의 Hope 3.0.3을 포크해 입력한 커밋과 부모에 저장된 코드만 비교하고, 검증한 리뷰를 새 HTML 파일로 생성하는 Commit Diff를 추가한 프로젝트",
+            "SeungIl 님의 Hope 3.0.3을 포크해 입력 커밋과 부모에 저장된 코드만 비교하고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 확인한 뒤 새 HTML로 저장하는 Commit Diff 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:
-            "BEINTECH에서 수용자 인적정보 및 영장정보 연계 배치, WebSquare 요청의 Spring Security CSRF 처리, Presigned URL 기반 대용량 파일 업로드와 폐쇄망 장애 대응을 담당한 차세대 군사법 정보 시스템 경력 사례",
+            "BEINTECH에서 수용자 정보 연계 배치, 상태 변경 요청 위조 차단, 파일 본문이 WAS를 거치지 않는 저장소 직접 업로드와 폐쇄망 장애 대응을 담당한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/webrtc": {

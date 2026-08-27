@@ -18,10 +18,13 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(heroHighlights).toHaveTextContent("BEINTECH · LG CNS 컨소시엄")
     expect(heroHighlights).toHaveTextContent("독립망 기관 연계 · Spring Batch")
     expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent("조직 데이터와 참여 권한은 Core")
+    expect(heroHighlights).toHaveTextContent("Core가 조직, 역할과 접근 권한 관리")
+    expect(heroHighlights).toHaveTextContent(
+        "6개 서비스가 링크, URL 점검, 이벤트 전달, 보고서, 캘린더와 화상방 처리",
+    )
     expect(heroHighlights).toHaveTextContent("happyGallery")
     expect(heroHighlights).toHaveTextContent(
-        "AWS 배포 및 운영 · 중복 결제 및 환불 방지 · 중단된 알림 재전송",
+        "AWS 배포 및 운영 이력 · 중복 결제 및 환불 방지 · 중단된 알림 재전송",
     )
     expect(
         within(heroHighlights).getByRole("link", { name: /전송형 전자영장 시스템/ }),
@@ -236,7 +239,9 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
             level: 4,
         }),
     ).toBeInTheDocument()
-    expect(screen.getAllByText(/WebSocket 제어와/).length).toBeGreaterThan(0)
+    expect(
+        within(educationSection).getByText(/RTP 영상을 FFmpeg와 GStreamer로 HLS 세그먼트/),
+    ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "교육 프로젝트 상세 보기 →" })).toHaveAttribute(
         "href",
         "/projects/webrtc",
@@ -262,7 +267,7 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     })
     const careerLinks = within(careerProjects).getAllByRole("link")
 
-    expect(within(careerSection).getByText("첫 회사 · 현재 재직")).toBeInTheDocument()
+    expect(within(careerSection).getByText("백엔드 개발자 · 재직 중")).toBeInTheDocument()
     expect(within(careerSection).getByText("BEINTECH")).toBeInTheDocument()
     expect(within(careerSection).getByText("2024.06 — 현재")).toBeInTheDocument()
     expect(currentCareer.compareDocumentPosition(previousCareer)).toBe(
@@ -274,6 +279,7 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     ])
     expect(within(careerProjects).getByText("2026.03.24 — 진행 중")).toBeInTheDocument()
     expect(within(careerProjects).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
+    expect(within(careerProjects).getAllByText("문제")).toHaveLength(2)
     expect(within(careerSection).queryByText(/소속사 비공개/)).not.toBeInTheDocument()
     expect(screen.getByLabelText("프로젝트 상태: 진행 중, 공개 가능 범위")).toBeInTheDocument()
 })
@@ -296,7 +302,7 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
         "KICS, 통신사 및 집행포털의 서로 다른 연계 규격과 계속 누적되는 전송 이력",
     )
     expect(warrantFacts).toHaveTextContent(
-        "기관별 변환 코드 분리, Spring Batch 공통 단계, 커서 페이지네이션과 콜백 재처리",
+        "기관별 변환 코드와 배치 공통 단계를 분리하고, 누적 이력은 커서로 조회하며, DB 저장보다 먼저 온 PDF 완료 콜백은 상태를 다시 조회해 반영",
     )
 
     expect(galleryFacts).toHaveTextContent(
@@ -323,7 +329,9 @@ test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록�
         screen.getByRole("heading", { name: "Effective Java 스터디", level: 4 }),
     ).toBeInTheDocument()
     expect(screen.getByText(/HTTP 메시지, 캐시, 프록시와 인증/)).toBeInTheDocument()
-    expect(screen.getByText(/객체 생성, 불변성, 제네릭과 API 설계 원칙/)).toBeInTheDocument()
+    expect(
+        screen.getByText(/객체 생성, 변경할 수 없는 객체 설계, 제네릭과 API 설계 원칙/),
+    ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "LnS 발표 및 Q&A 기록 ↗" })).toHaveAttribute(
         "href",
         "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
@@ -442,7 +450,7 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
     expect(screen.getByText(/AWS 운영 환경에 배포했으나/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
-            name: /헥사고날 아키텍처 전환 대표 문서 새 창에서 보기/,
+            name: /업무 규칙과 웹 및 DB 코드 분리 대표 문서 새 창에서 보기/,
         }),
     ).toHaveAttribute("href", expect.stringContaining("ADR/0021"))
     expect(screen.getAllByText("적용 범위와 제약").length).toBeGreaterThan(0)
@@ -481,7 +489,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
     expect(
         screen.getByText(
-            "BATON에 등록된 외부 URL을 SSRF 방어 기준으로 점검하고, 저장된 이전 점검 결과와 달라진 경우 URL 상태 변경 이벤트를 Core에 전달합니다.",
+            "BATON에 등록된 외부 URL이 사설망이나 로컬 주소로 연결되지 않는지 확인한 뒤 상태를 점검합니다. 저장된 이전 결과와 달라지면 URL 상태 변경 이벤트를 Core에 전달합니다.",
         ),
     ).toBeInTheDocument()
     expect(
@@ -490,7 +498,9 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문서 분류와 대표 문서" })).toBeInTheDocument()
     expect(screen.getByText("공개 저장소")).toBeInTheDocument()
-    expect(screen.getByText("URL 점검 I/O와 DB 트랜잭션 분리")).toBeInTheDocument()
+    expect(
+        screen.getByText("외부 URL을 확인하는 동안 DB 연결을 반환하고 늦은 결과 차단"),
+    ).toBeInTheDocument()
     expect(screen.queryByText("HMAC 키와 링크 데이터의 복구 시점 일치")).not.toBeInTheDocument()
     expect(screen.queryByText("전송 결과 미확인 시 중복 발송 방지")).not.toBeInTheDocument()
     expect(screen.getByRole("link", { name: /WATCH 상태 변경 이벤트 전달/ })).toHaveAttribute(
@@ -508,7 +518,8 @@ test("WebRTC/HLS 상세는 담당 흐름, 문제 해결과 확인 결과를 보�
         await screen.findByRole("heading", { name: "WebRTC/HLS 현장강의 보조 서비스" }),
     ).toBeInTheDocument()
     expect(screen.getAllByText("교육 프로젝트").length).toBeGreaterThan(0)
-    expect(screen.getByText("mediasoup RTP 출력")).toBeInTheDocument()
+    expect(screen.getByText("mediasoup → WebRTC")).toBeInTheDocument()
+    expect(screen.getByText("RTP 출력 → FFmpeg / GStreamer")).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
@@ -530,6 +541,9 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
     })
 
     await waitFor(() => expect(document.title).toBe("인쇄용 포트폴리오 | 임정규"))
+    expect(
+        screen.getByText("웹 포트폴리오와 같은 내용을 인쇄용으로 배치한 페이지"),
+    ).toBeInTheDocument()
     expect(document.querySelectorAll("[data-print-page]")).toHaveLength(0)
     expect(within(printDocument).getByRole("heading", { level: 1 })).toHaveTextContent(
         "기관 간 데이터를 연결하고",

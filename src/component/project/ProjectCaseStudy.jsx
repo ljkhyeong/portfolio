@@ -271,25 +271,25 @@ const EducationStreamingVisual = () => (
     <div
         className="case-visual case-visual--webrtc"
         role="img"
-        aria-label="mediasoup가 출력한 RTP 영상을 WebRTC로 React 실시간 화면에 전달하고, FFmpeg와 GStreamer에서 HLS로 변환해 React 다시보기 화면에 제공하는 흐름"
+        aria-label="강의 영상을 mediasoup에서 WebRTC로 React 실시간 화면에 전달하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer에서 HLS로 변환해 React 다시보기 화면에 제공하는 흐름"
     >
         <div className="stream-map__source">
             <span className="stream-map__pulse" aria-hidden="true" />
-            <small>HLS SERVER INPUT</small>
-            <strong>mediasoup RTP 출력</strong>
+            <small>강의 영상 입력</small>
+            <strong>mediasoup</strong>
         </div>
         <div className="stream-map__lanes">
             <div className="stream-lane">
                 <span className="stream-lane__label">LIVE</span>
                 <span className="stream-lane__path" aria-hidden="true" />
-                <div className="stream-lane__node">WebRTC 실시간 전송</div>
+                <div className="stream-lane__node">mediasoup → WebRTC</div>
                 <div className="stream-lane__node">React 실시간 시청</div>
                 <small>현재 강의 영상을 낮은 지연으로 재생</small>
             </div>
             <div className="stream-lane">
                 <span className="stream-lane__label">REPLAY</span>
                 <span className="stream-lane__path" aria-hidden="true" />
-                <div className="stream-lane__node">FFmpeg / GStreamer HLS 변환</div>
+                <div className="stream-lane__node">RTP 출력 → FFmpeg / GStreamer</div>
                 <div className="stream-lane__node">React 지난 구간 재생</div>
                 <small>HLS 세그먼트와 재생 목록으로 다시보기 제공</small>
             </div>
@@ -348,8 +348,8 @@ const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
             <h2 id="documents-title">문서 분류와 대표 문서</h2>
         </div>
         <p className="case-documents__intro">
-            각 문서가 관리하는 내용과, 구현 방법 및 배포와 재처리 절차를 확인할 대표 문서를
-            정리했습니다.
+            요구사항, 기술 선택, 테스트, 배포 및 장애 재처리 절차별로 문서를 나누고, 공개한 대표
+            문서로 바로 이동할 수 있게 정리했습니다.
         </p>
         <div className="case-document-catalog" aria-label="문서 분류">
             {documentGroups.map((group) => (
@@ -632,7 +632,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                             <dd>{project.role}</dd>
                         </div>
                         <div>
-                            <dt>핵심 과제</dt>
+                            <dt>주요 구현 및 해결</dt>
                             <dd>{project.oneLine}</dd>
                         </div>
                     </dl>

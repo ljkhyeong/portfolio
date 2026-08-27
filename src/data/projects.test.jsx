@@ -142,12 +142,12 @@ describe("project summary data", () => {
         )
 
         expect(paymentProblem).toMatchObject({
-            constraint: expect.stringContaining("saveAndFlush"),
+            constraint: expect.stringContaining("실패 이력까지 사라졌습니다"),
             decision: expect.stringContaining("REQUIRES_NEW"),
         })
         expect(passRefundProblem).toMatchObject({
             title: "8회권 전체 환불 시 미래 예약, 잔여 횟수와 환불 원장 일치",
-            decision: expect.stringContaining("PK 순서"),
+            decision: expect.stringContaining("ID 순서"),
             boundary: expect.stringContaining("관리자 재처리"),
             print: expect.objectContaining({ label: "PASS / REFUND" }),
         })
@@ -158,7 +158,7 @@ describe("project summary data", () => {
         })
         expect(happyGallery.documents).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ label: "결제 승인 트랜잭션과 보상 경계" }),
+                expect.objectContaining({ label: "결제 승인 실패 이력과 중복 처리 방지" }),
                 expect.objectContaining({ label: "8회권 사용, 취소 및 환불 정책" }),
             ]),
         )
@@ -173,25 +173,24 @@ describe("project summary data", () => {
 
         expect(defense.systemTitle).toBe("수용자 인적정보 및 영장정보 연계 배치 흐름")
         expect(defense.visualCaption).toContain("수용 대상자의 인적정보와 영장정보")
-        expect(defense.oneLine).toContain("WebSquare 요청의 Spring Security CSRF 토큰 처리")
+        expect(defense.oneLine).toContain("WebSquare 상태 변경 요청의 위조를 차단")
         expect(securityProblem.decision).toContain("WebSquare 화면 데이터 규격")
         expect(securityProblem.decision).toContain("Spring Security 필터에서 차단")
-        expect(uploadProblem.decision).toContain("WAS 권한 및 파일 정보 검증")
+        expect(uploadProblem.decision).toContain("WAS에 업로드 권한과 파일 정보를 요청")
         expect(uploadProblem.decision).toContain("Presigned URL")
-        expect(uploadProblem.decision).toContain("파일 본문은 받거나 중계하지 않았습니다")
+        expect(uploadProblem.decision).toContain("WAS는 파일 본문을 받거나 중계하지 않았습니다")
         expect(incidentProblem.title).toContain("Jenkins 실행 이력")
         expect(incidentProblem.title).toContain("배치 중단 위치 확인")
+        expect(incidentProblem.constraint).toContain("통합 모니터링과 자동화 테스트가 없어")
         expect(incidentProblem.constraint).toContain(
-            "Spring Boot Actuator, Prometheus, Grafana 같은 모니터링 환경",
+            "화면 오류만으로 장애 위치를 알기 어려웠습니다",
         )
-        expect(incidentProblem.constraint).toContain(
-            "운영 화면 오류를 지표로 빠르게 좁힐 수 없었습니다",
-        )
-        expect(incidentProblem.constraint).toContain("오류 조건을 코드로 재현하고 수정 영향을 확인")
-        expect(incidentProblem.constraint).toContain("WAS 로그와 DB 상태를 직접 대조")
+        expect(incidentProblem.constraint).toContain("요청 처리, SQL, 기관 연계 배치와 DB 반영")
+        expect(incidentProblem.constraint).toContain("로그와 DB 상태를 직접 대조")
         expect(incidentProblem.constraint).not.toContain("APM")
         expect(incidentProblem.constraint).not.toContain("분산 추적")
         expect(incidentProblem.decision).toContain("Jenkins 실행 이력")
+        expect(incidentProblem.decision).toContain("JEUS 및 WAS 로그")
         expect(incidentProblem.decision).toContain("Tibero의 입력 데이터")
         expect(publicCopy).not.toContain("기관 A")
         expect(publicCopy).not.toContain("기관 B")
@@ -210,7 +209,8 @@ describe("project summary data", () => {
         expect(publicCopy).not.toContain("processingToken")
         expect(publicCopy).not.toContain("AFTER_COMMIT")
         expect(publicCopy).not.toContain("Fake PG")
-        expect(publicCopy).toContain("작업 선점 만료 시간")
+        expect(publicCopy).not.toContain("작업 선점")
+        expect(publicCopy).toContain("점검의 처리 기한")
         expect(publicCopy).not.toContain("테스트 스위트")
         expect(publicCopy).not.toContain("재인계")
         expect(publicCopy).not.toContain("BATON 생산자")
@@ -220,7 +220,7 @@ describe("project summary data", () => {
             expect(service.summary).toEqual(expect.any(String))
             expect(service.summary.length).toBeGreaterThan(20)
             expect(service.contribution).toEqual(expect.any(String))
-            expect(service.contribution).toMatch(/구현했습니다\.$/)
+            expect(service.contribution).toMatch(/다\.$/)
             expect(service.stack).toEqual(expect.any(Array))
             expect(service.stack.length).toBeGreaterThanOrEqual(6)
             expect(service.stack).toContain("Spring Boot 4.1")

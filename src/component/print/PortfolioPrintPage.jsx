@@ -113,7 +113,7 @@ const PortfolioPrintPage = () => {
         <div className="portfolio-web-print">
             <nav className="print-toolbar" aria-label="인쇄본 도구">
                 <Link to="/">← 웹 포트폴리오</Link>
-                <span>현재 웹 포트폴리오와 동일한 React 원본</span>
+                <span>웹 포트폴리오와 같은 내용을 인쇄용으로 배치한 페이지</span>
                 <button type="button" onClick={() => window.print()}>
                     인쇄 또는 PDF 저장
                 </button>

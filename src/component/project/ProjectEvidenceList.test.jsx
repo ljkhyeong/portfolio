@@ -68,9 +68,9 @@ test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를
     expect(rows).toHaveLength(7)
     expect(rows[0]).toHaveTextContent("Core 인수인계 상태 전이 및 중복 교대 차단")
     expect(rows[1]).toHaveTextContent("GO 링크 중복 생성 방지")
-    expect(rows[1]).toHaveTextContent("같은 멱등 키와 요청으로 8건을 동시에 실행")
+    expect(rows[1]).toHaveTextContent("같은 UUID와 요청으로 8건을 동시에 실행")
     expect(rows[1]).toHaveTextContent(
-        "동일 멱등 키에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
+        "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
     )
     expect(rows[4]).toHaveTextContent("BRIEF 중복 이벤트 처리와 주간 보고서 재생성")
     expect(rows[5]).toHaveTextContent("CAL 일정 및 구독 계약")

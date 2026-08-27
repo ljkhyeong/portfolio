@@ -8,13 +8,19 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
         summary:
-            "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 서비스입니다. 조직 데이터와 사용자의 참여 가능 여부는 Core가 관리하고, 링크 생성, URL 점검, 알림 전송, 주간 보고서, 캘린더 구독과 화상 회의는 6개 마이크로서비스가 각각 처리하도록 구현했습니다.",
+            "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 서비스입니다. 조직 데이터와 사용자의 참여 가능 여부는 Core가 관리하고, 링크 생성, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더 구독과 화상 회의는 6개 마이크로서비스가 각각 처리하도록 구현했습니다.",
         homeFacts: [
-            { label: "담당", value: "Core와 6개 마이크로서비스의 API, DB 및 실행 환경 구현" },
-            { label: "문제", value: "중복 요청, 서비스 중단과 이벤트 재전송으로 인한 중복 처리" },
+            {
+                label: "담당",
+                value: "Core와 6개 서비스의 API, DB 구조, 이벤트 형식, 자동화 테스트와 배포 절차 구현",
+            },
+            {
+                label: "문제",
+                value: "응답 유실 뒤 요청 재시도, 작업 서버 중단과 RabbitMQ 재전달로 같은 링크 및 이벤트가 다시 처리될 위험",
+            },
             {
                 label: "해결",
-                value: "서비스별 관리 데이터 분리, 요청 처리 기록과 미전송 이벤트 재처리",
+                value: "UUID와 eventId 처리 이력을 DB에 저장해 중복 반영을 막고, 미전송 이벤트는 다시 처리하되 성공 여부를 모르는 전송은 자동 재시도 중단",
             },
         ],
         period: "2026.07.20 — 진행 중",
@@ -42,7 +48,7 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 독립망 기관 연계",
         summary:
-            "전자영장 관련 자료 제공 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 연계하는 공공 시스템입니다. LG CNS 컨소시엄에 참여해 해양경찰 사건수사시스템(KICS, 행정망), 통신사 업무망(통신사 전용망), 전자영장 집행포털(인터넷망, LG CNS 주관) 간 연계 인터페이스와 배치 개발을 담당하고 있습니다.",
+            "전자영장 자료 제공 요청과 금융기관 및 통신사의 제출 자료를 독립망 사이에서 전달하는 공공 시스템입니다. LG CNS 컨소시엄에서 해양경찰 KICS와 통신사 업무망, 전자영장 집행포털 사이의 연계 인터페이스와 Spring Batch를 개발하고 있습니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -54,7 +60,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "기관별 변환 코드 분리, Spring Batch 공통 단계, 커서 페이지네이션과 콜백 재처리",
+                value: "기관별 변환 코드와 배치 공통 단계를 분리하고, 누적 이력은 커서로 조회하며, DB 저장보다 먼저 온 PDF 완료 콜백은 상태를 다시 조회해 반영",
             },
         ],
         period: "2026.03.24 — 진행 중",
@@ -73,9 +79,12 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "공방 고객이 작품을 주문하고 클래스를 예약하며, 관리자가 상품, 재고, 일정과 주문 상태를 처리하는 서비스입니다. 요구사항 정리부터 Java 및 Spring 백엔드와 React 화면, 결제 및 환불 복구, 주문제작 옵션별 재고, 테스트와 AWS 배포까지 직접 구현했습니다.",
+            "공방 고객이 작품을 주문하고 클래스를 예약하며, 관리자가 상품, 재고, 일정과 주문 상태를 처리하는 서비스입니다. 결제사 응답을 받지 못한 승인 및 환불은 기존 처리 결과를 조회하고, 옵션별 재고는 잠근 뒤 차감하도록 구현했으며 AWS에 배포해 운영한 이력이 있습니다.",
         homeFacts: [
-            { label: "담당", value: "요구사항 정리부터 전체 구현 및 AWS 운영" },
+            {
+                label: "담당",
+                value: "요구사항 정리, 전체 서비스 구현, 자동화 테스트와 AWS 배포 및 운영 이력",
+            },
             {
                 label: "문제",
                 value: "결제 승인 결과 미수신, 서버 중단 시 알림 유실과 동시 주문 시 옵션 재고 초과 차감",
@@ -101,7 +110,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 3.0.3 비공식 포크 / 커밋 검토 기능 추가 및 보완",
         summary:
-            "SeungIl 님이 개발한 Hope 3.0.3을 포크해, 사용자가 입력한 로컬 커밋과 부모 커밋을 비교하고 변경 코드와 리뷰 결과를 HTML로 저장하는 Commit Diff 기능을 추가했습니다. 현재 수정 중인 파일과 이전 대화가 리뷰에 섞이지 않도록 커밋에 저장된 파일만 읽고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 검증하도록 보완했습니다.",
+            "SeungIl 님이 개발한 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 사용자가 고른 커밋과 부모 커밋에 저장된 코드만 비교하고 결과를 HTML로 저장합니다. 현재 수정 파일과 이전 대화를 제외하며, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지도 검증합니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -118,7 +127,7 @@ export const projectSummaries = [
         ],
         period: "2026.08.22 — 진행 중",
         route: "/projects/hope-commit",
-        tags: ["JavaScript", "Node.js 22", "Git Objects", "JSON Schema"],
+        tags: ["JavaScript", "Node.js 22", "Git 객체 조회", "JSON Schema"],
         visual: "hope-commit",
         stage: "개발 중",
         visibility: "공개 저장소",
@@ -133,7 +142,7 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "BEINTECH / 국방부 SI / 백엔드 개발 및 운영",
         summary:
-            "군 사법 업무와 군교정시설 수용 대상자의 인적정보 및 영장정보를 폐쇄망에서 처리하는 국방부 시스템입니다. 군교정 기능과 세 기관에서 받은 수용자 자료의 검증 및 반영 배치, WebSquare 요청의 CSRF 처리, Presigned URL 기반 파일 업로드와 운영 장애 대응을 담당했습니다.",
+            "군 사법 업무와 군교정시설 수용 대상자의 정보를 폐쇄망에서 처리하는 국방부 시스템입니다. 세 기관의 수용자 인적정보 및 영장정보를 검증해 군교정 DB에 반영하는 배치를 개발했습니다. WebSquare 위조 요청 차단, 대용량 파일 직접 업로드와 운영 장애 재처리도 담당했습니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -145,7 +154,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "기관별 검증 배치, Spring Security CSRF 토큰과 Presigned URL 직접 업로드",
+                value: "상태 변경 요청마다 CSRF 토큰을 전달해 위조 요청을 차단하고, 대용량 파일은 WAS를 거치지 않고 저장소에 직접 업로드",
             },
         ],
         period: "2024.06.23 — 2026.01.30",

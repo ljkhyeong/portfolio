@@ -116,8 +116,8 @@ const Projects = () => {
                 <span className="section-kicker"># projects.md</span>
                 <h2 id="projects-title">프로젝트</h2>
                 <p>
-                    프로젝트를 선택하면 담당 업무, 구현 방법, 문제와 해결 과정, 테스트 결과와 공개
-                    문서를 볼 수 있습니다.
+                    프로젝트를 선택하면 담당 업무, 구현 방법, 문제와 해결 과정 및 확인 결과를 볼 수
+                    있습니다. 공개한 자료가 있는 프로젝트에는 문서 링크도 제공합니다.
                 </p>
             </div>
 

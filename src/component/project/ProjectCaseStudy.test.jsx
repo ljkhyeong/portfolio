@@ -145,6 +145,10 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
     expect(screen.getByText(/공방 고객이 작품을 주문하고 클래스를 예약하며/)).toBeInTheDocument()
+    expect(screen.getByText("주요 구현 및 해결")).toBeInTheDocument()
+    expect(
+        screen.getByText(/요구사항, 기술 선택, 테스트, 배포 및 장애 재처리 절차별로/),
+    ).toBeInTheDocument()
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
@@ -194,10 +198,8 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.getByText(/이 가운데 KICS-통신사 및 KICS-집행포털/)).toBeInTheDocument()
     expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
     expect(
-        screen.getByText(
-            /인터페이스 동시호출을 제한하기 위해 사용한 ReentrantLock은 단일 서버 싱글톤 빈 기준/,
-        ),
-    ).toHaveTextContent("서버를 여러 대로 늘리면 분산 락 방식이 필요합니다")
+        screen.getByText(/ReentrantLock은 한 서버 프로세스 안에서만 유효/),
+    ).toHaveTextContent("서버를 여러 대로 확장하면 DB 잠금이나 분산 잠금")
     expect(screen.queryByText("군교정 업무")).not.toBeInTheDocument()
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
 })
@@ -228,9 +230,9 @@ test("군사법 상세는 세 기관의 데이터 연계와 레거시 환경의 
     expect(problems).toHaveTextContent("Spring Security가 생성한 CSRF 토큰")
     expect(problems).toHaveTextContent("WebSquare 화면 데이터 규격")
     expect(problems).toHaveTextContent("Spring Security 필터에서 차단")
-    expect(problems).toHaveTextContent("WAS 권한 및 파일 정보 검증")
+    expect(problems).toHaveTextContent("WAS에 업로드 권한과 파일 정보를 요청")
     expect(problems).toHaveTextContent("Presigned URL")
-    expect(problems).toHaveTextContent("파일 본문은 받거나 중계하지 않았습니다")
+    expect(problems).toHaveTextContent("WAS는 파일 본문을 받거나 중계하지 않았습니다")
     expect(problems).toHaveTextContent("대용량 파일을 WAS를 거치지 않고 저장소로 직접 업로드")
     expect(problems).toHaveTextContent("Jenkins 실행 이력")
     expect(problems).toHaveTextContent("JEUS 및 WAS 로그")
@@ -286,24 +288,24 @@ test.each([
         "go",
         "GO",
         "허용 목록에 등록한 BATON 및 ROUND 경로만 짧은 코드와 연결합니다. GO는 목적지로 이동시키는 역할만 하고 실제 접근 허용 여부는 BATON 또는 ROUND가 직접 확인합니다.",
-        "UUID 멱등 키, HMAC-SHA256 링크 코드와 허용 대상 타입 및 경로 검증",
+        "UUID 처리 기록, 저장된 링크 조건 직접 비교, HMAC-SHA256 링크 코드와 허용 대상 및 경로 확인",
     ],
     [
         "watch",
         "WATCH",
-        "BATON에 등록된 외부 URL을 SSRF 방어 기준으로 점검하고, 저장된 이전 점검 결과와 달라진 경우 URL 상태 변경 이벤트를 Core에 전달합니다.",
-        "SSRF 방어, 한 서버가 가져간 작업의 만료 후 재처리, 이전 점검 결과의 덮어쓰기 차단과 미전송 이벤트 보관",
+        "BATON에 등록된 외부 URL이 사설망이나 로컬 주소로 연결되지 않는지 확인한 뒤 상태를 점검합니다. 저장된 이전 결과와 달라지면 URL 상태 변경 이벤트를 Core에 전달합니다.",
+        "사설망 및 로컬 주소 접근 차단, 중단된 점검 재처리, 이전 점검 결과의 덮어쓰기 차단과 미전송 이벤트 보관",
     ],
     [
         "relay",
         "RELAY",
-        "BATON의 알림 이벤트를 외부 메시지 공급자에 전달하고 전송 성공, 실패와 공급자 응답 유실로 결과를 확인할 수 없는 경우를 구분해 저장합니다.",
-        "eventId 기반 중복 차단, 처리할 작업 선점, 제한 횟수 재시도와 성공 여부를 모르는 전송의 별도 보관",
+        "BATON이 발행한 이벤트를 등록된 HTTP Webhook 또는 SQS FIFO 큐로 전달합니다. 전송 성공, 실패와 대상이 처리했는지 확인할 수 없는 경우를 구분해 저장합니다.",
+        "eventId 기반 중복 차단, 다른 서버가 처리하지 않은 작업 선택, 제한 횟수 재시도와 성공 여부를 모르는 전송의 별도 보관",
     ],
     [
         "brief",
         "BRIEF",
-        "BATON이 보낸 역할 미배정, 후임자 미지정, 인수인계 준비 미완료, 반복 지연 루틴과 미완료 인수인계 이벤트를 받아 현재 확인해야 할 항목 목록을 만듭니다. 매주 생성한 보고서는 이후 이벤트가 바뀌어도 수정하지 않고 당시 기록으로 보관합니다.",
+        "BATON이 보낸 이벤트로 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 준비 자료가 부족한 인수인계, 반복해서 마감이 지난 업무와 시작되지 않은 인수인계를 찾아 현재 확인 목록을 만듭니다. 매주 생성한 보고서는 이후 이벤트가 바뀌어도 수정하지 않고 당시 기록으로 보관합니다.",
         "이벤트 중복 및 구버전 차단, 저장 이벤트 기반 현재 목록 재생성, 생성 후 수정하지 않는 주간 보고서",
     ],
     [
@@ -315,8 +317,8 @@ test.each([
     [
         "round",
         "ROUND",
-        "Core가 계정과 스터디 멤버십을 확인해 발급한 방 참여권을 검증합니다. 최대 6명 브라우저 사이의 offer, answer와 ICE를 WebSocket으로 중계하고 미디어 연결에 필요한 짧은 TURN 접속 정보를 발급합니다.",
-        "6인 mesh WebRTC, 연결 시도별 순번으로 지연된 offer 및 answer 차단, DataChannel 수신 확인, RS256 참여권 검증과 짧은 TURN 접속 정보",
+        "Core가 계정과 스터디 멤버십을 확인해 발급한 방 참여권을 검증합니다. 최대 6명의 브라우저가 영상 및 음성 연결을 만들 때 교환하는 연결 설명(offer 및 answer)과 네트워크 경로 후보(ICE)를 WebSocket으로 전달하고, 직접 연결할 수 없을 때 사용할 TURN 서버의 짧은 접속 정보도 발급합니다.",
+        "참가자마다 나머지 최대 5명과 직접 연결하는 mesh WebRTC, 이전 연결의 늦은 메시지 차단, DataChannel 애플리케이션 수신 응답, RS256 참여권 검증과 짧은 TURN 접속 정보",
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
     renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
@@ -430,10 +432,11 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /mediasoup가 출력한 RTP 영상을 WebRTC로 React 실시간 화면에 전달하고, FFmpeg와 GStreamer에서 HLS로 변환/,
+            name: /강의 영상을 mediasoup에서 WebRTC로 React 실시간 화면에 전달하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer에서 HLS로 변환/,
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText("mediasoup RTP 출력")).toBeInTheDocument()
+    expect(screen.getByText("mediasoup → WebRTC")).toBeInTheDocument()
+    expect(screen.getByText("RTP 출력 → FFmpeg / GStreamer")).toBeInTheDocument()
     expect(screen.getByText("React 실시간 시청")).toBeInTheDocument()
     expect(screen.getByText("React 지난 구간 재생")).toBeInTheDocument()
 
@@ -441,11 +444,15 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     const [mediaFlowProblem] = within(problems).getAllByRole("listitem")
 
     expect(within(problems).getAllByRole("listitem")).toHaveLength(2)
-    expect(problems).toHaveTextContent("RTP 영상을 WebRTC 실시간 시청과 HLS 다시보기로 제공")
+    expect(problems).toHaveTextContent(
+        "현재 강의는 WebRTC로 실시간 재생하고 지난 구간은 HLS로 다시보기 제공",
+    )
     expect(problems).toHaveTextContent("HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축")
 
     await userEvent.click(
-        within(mediaFlowProblem).getByText("RTP 영상을 WebRTC 실시간 시청과 HLS 다시보기로 제공"),
+        within(mediaFlowProblem).getByText(
+            "현재 강의는 WebRTC로 실시간 재생하고 지난 구간은 HLS로 다시보기 제공",
+        ),
     )
 
     expect(mediaFlowProblem).toHaveTextContent("문제 상황")

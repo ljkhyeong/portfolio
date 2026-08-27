@@ -53,6 +53,22 @@ describe("공개 지식 문서 목록", () => {
         expect(serializedCorpus).not.toContain("Obsidian")
         expect(serializedCorpus).toContain("ADR/0033_결제_confirm_트랜잭션과_보상_경계")
         expect(serializedCorpus).toContain("ADR/0036_%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4")
+
+        const batonOverview = corpus.documents.find(
+            (document) =>
+                document.projectId === "baton" && document.documentType === "project_overview",
+        )
+        const roundOverview = corpus.documents.find(
+            (document) =>
+                document.projectId === "baton" &&
+                document.serviceId === "round" &&
+                document.documentType === "service_overview",
+        )
+
+        expect(batonOverview.content).toContain("공개 범위: 일부 공개")
+        expect(roundOverview.content).toContain("저장소 공개 범위: 비공개 저장소 / 공개 가능 요약")
+        expect(roundOverview.content).toContain("검증 요약: 정상 및 비정상 참여권")
+        expect(roundOverview.content).toContain("입력 확인: 참여권의 서명")
     })
 
     it("같은 입력에는 같은 문서 ID와 해시를 생성한다", () => {

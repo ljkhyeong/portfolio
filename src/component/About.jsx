@@ -13,7 +13,7 @@ const CareerGroup = ({ career }) => {
             </h3>
             <header className="career-company">
                 <div>
-                    <span>첫 회사 · 현재 재직</span>
+                    <span>{career.position} · 재직 중</span>
                     <strong>{career.organization}</strong>
                 </div>
                 <time>{career.period}</time>
@@ -34,7 +34,7 @@ const CareerGroup = ({ career }) => {
                             </div>
                             <h4>{project.title}</h4>
                             <dl className="career-track__facts">
-                                {[project.homeFacts[0], project.homeFacts[2]].map((fact) => (
+                                {project.homeFacts.map((fact) => (
                                     <div key={fact.label}>
                                         <dt>{fact.label}</dt>
                                         <dd>{fact.value}</dd>

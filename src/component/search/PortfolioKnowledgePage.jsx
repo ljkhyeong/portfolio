@@ -8,7 +8,7 @@ import "../../css/PortfolioKnowledge.css"
 
 const suggestionQuestions = [
     "결제와 환불 중복 처리를 어떻게 막았나요?",
-    "BATON 마이크로서비스는 각각 어떤 책임을 가지나요?",
+    "BATON의 Core와 6개 서비스는 각각 어떤 데이터를 받고 무엇을 처리하나요?",
     "독립망 연계 배치에서 장애를 어떻게 확인했나요?",
     "서버가 중단돼도 미전송 알림을 다시 보내는 방법은 무엇인가요?",
 ]
@@ -189,7 +189,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
     <aside className="knowledge-answer" aria-labelledby="knowledge-answer-title">
         <div className="knowledge-answer__heading">
             <div>
-                <span>grounded.answer</span>
+                <span>검색 문서 기반 답변</span>
                 <h2 id="knowledge-answer-title">AI 요약 답변</h2>
             </div>
             <span className="knowledge-answer__count">출처 {citations.length}</span>
@@ -207,13 +207,13 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
         {state === "loading" && (
             <div className="knowledge-answer__status" role="status" aria-live="polite">
                 <span className="knowledge-answer__cursor" aria-hidden="true" />
-                검색된 근거로 답변을 작성하고 있습니다.
+                검색 결과에 있는 공개 문서로 답변을 작성하고 있습니다.
             </div>
         )}
 
         {state === "insufficient" && (
             <div className="knowledge-answer__notice" role="status">
-                <strong>답변할 근거가 충분하지 않습니다.</strong>
+                <strong>질문과 관련된 공개 문서가 충분하지 않습니다.</strong>
                 <p>왼쪽 검색 결과를 직접 확인하거나 질문 범위를 좁혀 보세요.</p>
             </div>
         )}
@@ -221,7 +221,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
         {state === "unavailable" && (
             <div className="knowledge-answer__notice knowledge-answer__notice--error" role="alert">
                 <strong>AI 답변을 만들지 못했습니다.</strong>
-                <p>{errorMessage} 검색 결과와 근거 링크는 계속 확인할 수 있습니다.</p>
+                <p>{errorMessage} 검색 결과와 문서 링크는 계속 확인할 수 있습니다.</p>
             </div>
         )}
 
@@ -263,7 +263,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
             <span aria-hidden="true">→</span>
         </button>
         <p className="knowledge-answer__policy">
-            공개한 자료만 전달하며 답변마다 출처를 표시합니다.
+            AI 답변은 공개 문서만 사용하며, 답변에 사용한 문서를 함께 표시합니다.
         </p>
     </aside>
 )
