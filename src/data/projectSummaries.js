@@ -83,11 +83,14 @@ export const projectSummaries = [
         presentation: "tooling-case",
         title: "Hope Commit",
         navigationLabel: "Hope Commit",
-        eyebrow: "Git 커밋 검토 플러그인 / Hope 비공식 포크",
+        eyebrow: "Hope 비공식 포크 / 커밋 검토 기능 수정 및 보완",
         summary:
-            "Hope의 변경사항 검토 흐름을 확장해 로컬 Git 커밋 한 건을 부모 커밋과 비교하고, 근거 링크가 포함된 오프라인 HTML 리뷰를 생성하는 Codex 및 Claude Code 플러그인입니다. 커밋된 Git 객체만 읽어 작업 트리 변경사항이 검토 결과에 섞이지 않도록 설계했습니다.",
+            "SeungIl 님이 개발한 원본 Hope를 포크한 뒤, 개인적으로 필요했던 커밋 단위 검토에 맞게 수정 및 보완했습니다. 직접 추가한 Commit Diff는 로컬 Git 커밋 한 건을 부모 커밋과 비교하고, 커밋된 Git 객체의 근거만 사용해 오프라인 HTML 리뷰를 생성합니다.",
         homeFacts: [
-            { label: "담당", value: "Commit Diff 워크플로와 Git 객체 수집 및 검증 절차" },
+            {
+                label: "담당",
+                value: "원본 Hope 포크, Commit Diff 기능 추가 및 검증 절차 보완",
+            },
             { label: "문제", value: "작업 중인 파일과 이전 대화가 특정 커밋 검토에 미치는 영향" },
             { label: "해결", value: "커밋 객체 고정, 근거 범위 제한과 검증 후 HTML 게시" },
         ],

@@ -45,7 +45,9 @@ describe("project summary data", () => {
         const hopeCommit = projectsById["hope-commit"]
 
         expect(hopeCommit.category).toBe("오픈소스 및 개발 도구")
-        expect(hopeCommit.status.text).toContain("Hope 기반 비공식 포크")
+        expect(hopeCommit.status.text).toContain("SeungIl 님이 개발한 원본 Hope")
+        expect(hopeCommit.status.text).toContain("개인적으로 필요했던 커밋 단위 검토")
+        expect(hopeCommit.status.text).toContain("수정 및 보완")
         expect(hopeCommit.status.text).toContain("Commit Diff")
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
@@ -53,6 +55,7 @@ describe("project summary data", () => {
                 expect.objectContaining({ href: "https://github.com/dkstm95/hope" }),
             ]),
         )
+        expect(hopeCommit.links[1].note).toBe("SeungIl 님이 개발한 원본 프로젝트")
         expect(hopeCommit.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({

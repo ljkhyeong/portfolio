@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:f22a9aad308e",
+  "sourceRevision": "sha256:bd95526b8dd8",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -1100,7 +1100,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e9646cfa5847",
+      "sourceRevision": "sha256:81eca862fe09",
       "documentId": "knowledge_196d5b180644fac747338191",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1108,13 +1108,13 @@
       "documentType": "project_overview",
       "title": "Hope Commit 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: Hope Commit\n\nGit 커밋 검토 플러그인 / Hope 비공식 포크\n\nHope의 변경사항 검토 흐름을 확장해 로컬 Git 커밋 한 건을 부모 커밋과 비교하고, 근거 링크가 포함된 오프라인 HTML 리뷰를 생성하는 Codex 및 Claude Code 플러그인입니다. 커밋된 Git 객체만 읽어 작업 트리 변경사항이 검토 결과에 섞이지 않도록 설계했습니다.\n\n기간: 2026.08.22 — 진행 중\n\n구분: 오픈소스 및 개발 도구\n\n담당: Hope 포크 유지, Commit Diff 워크플로와 Git 객체 수집 및 검증 절차 설계 및 구현\n\n핵심 범위: 작업 트리와 이전 대화의 영향을 분리하고 지정한 커밋만 근거로 검토하는 오프라인 HTML 생성\n\n현재 상태: GitHub에 공개한 Hope 기반 비공식 포크이며 현재 플러그인 버전은 3.1.1입니다. 원본 Git 이력과 MIT 라이선스를 유지하고, 직접 추가한 Commit Diff 기능의 범위를 README와 NOTICE에 구분해 기록했습니다.\n\n사용 기술: JavaScript, Node.js 22, Git Objects, JSON Schema, HTML / CSS, Node Test Runner, Codex Plugin, Claude Code Plugin",
+      "content": "프로젝트: Hope Commit\n\nHope 비공식 포크 / 커밋 검토 기능 수정 및 보완\n\nSeungIl 님이 개발한 원본 Hope를 포크한 뒤, 개인적으로 필요했던 커밋 단위 검토에 맞게 수정 및 보완했습니다. 직접 추가한 Commit Diff는 로컬 Git 커밋 한 건을 부모 커밋과 비교하고, 커밋된 Git 객체의 근거만 사용해 오프라인 HTML 리뷰를 생성합니다.\n\n기간: 2026.08.22 — 진행 중\n\n구분: 오픈소스 및 개발 도구\n\n담당: 원본 Hope 포크, Commit Diff 기능 추가 및 Git 객체 수집과 검증 절차 보완\n\n핵심 범위: 작업 트리와 이전 대화의 영향을 분리하고 지정한 커밋만 근거로 검토하는 오프라인 HTML 생성\n\n현재 상태: SeungIl 님이 개발한 원본 Hope가 먼저 존재하며, 이를 포크한 뒤 개인적으로 필요했던 커밋 단위 검토를 위해 수정 및 보완한 비공식 프로젝트입니다. 현재 플러그인 버전은 3.1.1이며, 원본 Git 이력과 MIT 라이선스를 유지하고 직접 추가한 Commit Diff 기능의 범위를 README와 NOTICE에 구분해 기록했습니다.\n\n사용 기술: JavaScript, Node.js 22, Git Objects, JSON Schema, HTML / CSS, Node Test Runner, Codex Plugin, Claude Code Plugin",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-overview",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "e9646cfa584754913eef9a2faf0cb0b4fda589ab83b101fe5a4c085d2a8b0763",
-      "contentHash": "8c66864d62f3f10afa8381af18f375cf0155a568fa6ec3d4c931bde5557278b0"
+      "sourceHash": "81eca862fe099f5acda024c704a89480ff397f9ee2d217ff46d7316c040d16a7",
+      "contentHash": "efd19ee9643edaaa0d273f23e0d8578cc168b906d96283c2d42abe04e01095b0"
     },
     {
       "schemaVersion": "1.0",
@@ -1334,7 +1334,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:534f15440e95",
+      "sourceRevision": "sha256:7cf2974ca405",
       "documentId": "knowledge_b451de74cf41bed6578c264c",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1342,13 +1342,13 @@
       "documentType": "representative_document",
       "title": "원본 프로젝트 고지",
       "heading": "Notice",
-      "content": "프로젝트: Hope Commit\n\n문서 종류: Notice\n\n원본 Hope의 저작권, MIT 라이선스와 비공식 포크 관계",
+      "content": "프로젝트: Hope Commit\n\n문서 종류: Notice\n\nSeungIl 님이 개발한 원본 Hope의 저작권, MIT 라이선스와 비공식 포크 관계",
       "sourceUrl": "https://github.com/ljkhyeong/hope-commit/blob/main/NOTICE",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "534f15440e956e4425bec8c7d89e409c3b54310f472c4802dc90509463672a0c",
-      "contentHash": "3f99ba06cce8bee1abb9c694d6ed1ac7aba50881e9bcb41f9d3b6f545c66c758"
+      "sourceHash": "7cf2974ca405dce15555345b9c51940cd3835a9944073a5d5961877b1fcbeb14",
+      "contentHash": "91c2d5f64f1e7cdd5e163e90ef5d7a4eafe5eec3e9052406a9cfd4ba251b5f50"
     },
     {
       "schemaVersion": "1.0",

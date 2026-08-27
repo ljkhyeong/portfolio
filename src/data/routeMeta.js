@@ -60,7 +60,7 @@ export const routeMeta = {
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "지정한 Git 커밋과 부모의 객체만 수집하고 근거 범위를 검증해 오프라인 HTML 리뷰를 생성하는 Hope Commit 플러그인",
+            "SeungIl 님의 원본 Hope를 포크한 뒤 개인적인 필요에 맞게 수정 및 보완하고, 커밋 단위 오프라인 HTML 리뷰 기능을 추가한 Hope Commit",
         image: "/og-cover.png",
     },
     "/projects/defense": {

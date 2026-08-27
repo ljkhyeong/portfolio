@@ -441,7 +441,12 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(
         await screen.findByRole("heading", { name: "Hope Commit", level: 1 }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/Hope 기반 비공식 포크/)).toBeInTheDocument()
+    expect(
+        screen.getAllByText(/SeungIl 님이 개발한 원본 Hope/).length,
+    ).toBeGreaterThan(0)
+    expect(
+        screen.getAllByText(/개인적으로 필요했던 커밋 단위 검토/).length,
+    ).toBeGreaterThan(0)
     expect(
         screen.getByRole("heading", { name: "작업 트리와 분리된 커밋 검토" }),
     ).toBeInTheDocument()
@@ -450,7 +455,9 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
         screen.getByRole("link", { name: "Hope Commit GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/hope-commit")
     expect(
-        screen.getByText(/원본 프로젝트가 이 포크를 보증하거나 유지보수하지 않습니다/),
+        screen.getByText(
+            /개인적인 커밋 검토 필요에 맞게 수정 및 보완했습니다.*원본 프로젝트가 이 포크를 보증하거나 유지보수하지 않습니다/,
+        ),
     ).toBeInTheDocument()
 })
 

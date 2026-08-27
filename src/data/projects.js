@@ -1034,7 +1034,8 @@ const projects = [
                 id: "license",
                 label: "License / Notice",
                 count: "2",
-                summary: "MIT 라이선스와 원본 Hope의 저작권 및 포크 관계를 명시합니다.",
+                summary:
+                    "SeungIl 님이 개발한 원본 Hope의 저작권, MIT 라이선스와 포크 관계를 명시합니다.",
             },
         ],
         documents: [
@@ -1060,7 +1061,7 @@ const projects = [
                 type: "Notice",
                 label: "원본 프로젝트 고지",
                 href: "https://github.com/ljkhyeong/hope-commit/blob/main/NOTICE",
-                note: "원본 Hope의 저작권, MIT 라이선스와 비공식 포크 관계",
+                note: "SeungIl 님이 개발한 원본 Hope의 저작권, MIT 라이선스와 비공식 포크 관계",
             },
         ],
         proofs: [
@@ -1094,12 +1095,12 @@ const projects = [
             },
         ],
         category: "오픈소스 및 개발 도구",
-        role: "Hope 포크 유지, Commit Diff 워크플로와 Git 객체 수집 및 검증 절차 설계 및 구현",
+        role: "원본 Hope 포크, Commit Diff 기능 추가 및 Git 객체 수집과 검증 절차 보완",
         oneLine:
             "작업 트리와 이전 대화의 영향을 분리하고 지정한 커밋만 근거로 검토하는 오프라인 HTML 생성",
         status: {
             label: "공개 상태",
-            text: "GitHub에 공개한 Hope 기반 비공식 포크이며 현재 플러그인 버전은 3.1.1입니다. 원본 Git 이력과 MIT 라이선스를 유지하고, 직접 추가한 Commit Diff 기능의 범위를 README와 NOTICE에 구분해 기록했습니다.",
+            text: "SeungIl 님이 개발한 원본 Hope가 먼저 존재하며, 이를 포크한 뒤 개인적으로 필요했던 커밋 단위 검토를 위해 수정 및 보완한 비공식 프로젝트입니다. 현재 플러그인 버전은 3.1.1이며, 원본 Git 이력과 MIT 라이선스를 유지하고 직접 추가한 Commit Diff 기능의 범위를 README와 NOTICE에 구분해 기록했습니다.",
         },
         visualCaption:
             "커밋 ID와 부모를 먼저 확정하고 Git 객체에서 근거를 수집한 뒤, 분석 검증과 재확인을 통과한 결과만 오프라인 HTML로 게시합니다.",
@@ -1172,11 +1173,11 @@ const projects = [
             {
                 label: "원본 Hope 저장소",
                 href: "https://github.com/dkstm95/hope",
-                note: "SeungIl이 개발한 원본 프로젝트",
+                note: "SeungIl 님이 개발한 원본 프로젝트",
             },
         ],
         linkNote:
-            "Hope Commit은 Hope를 기반으로 만든 비공식 포크이며 원본 프로젝트가 이 포크를 보증하거나 유지보수하지 않습니다.",
+            "SeungIl 님이 개발한 원본 Hope를 포크한 뒤, 개인적인 커밋 검토 필요에 맞게 수정 및 보완했습니다. Hope Commit은 비공식 포크이며 원본 프로젝트가 이 포크를 보증하거나 유지보수하지 않습니다.",
     },
     {
         ...projectSummariesById.warrant,
