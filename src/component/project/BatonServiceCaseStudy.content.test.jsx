@@ -19,15 +19,15 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
         renderService(serviceId)
 
         const problems = screen.getByRole("list", {
-            name: `${service.name} 대표 문제 해결 목록`,
+            name: `${service.name} 문제와 해결 방법 목록`,
         })
 
         expect(within(problems).getAllByRole("listitem")).toHaveLength(2)
         expect(
-            screen.queryByRole("heading", { name: "서비스별 데이터와 처리 경계 분리" }),
+            screen.queryByRole("heading", { name: "Core와 6개 서비스의 담당 업무 및 DB 분리" }),
         ).not.toBeInTheDocument()
         expect(screen.queryByText(project.architecture.tradeoff)).not.toBeInTheDocument()
-        expect(screen.getByText(`${service.name}의 트레이드오프`)).toBeInTheDocument()
+        expect(screen.getByText(`${service.name}의 적용 범위와 제약`)).toBeInTheDocument()
         expect(screen.getByText(service.tradeoff)).toBeInTheDocument()
         expect(screen.getByText(service.contribution)).toBeInTheDocument()
         expect(screen.getByRole("link", { name: "사용 기술" })).toHaveAttribute(

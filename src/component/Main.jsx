@@ -19,8 +19,8 @@ const Main = () => {
                 <div className="site-footer__lead">
                     <span className="section-kicker">연락처</span>
                     <h2>
-                        백엔드 개발과 운영 경험에 대해
-                        <br /> 이야기 나누고 싶습니다.
+                        백엔드 개발자 포지션이나
+                        <br /> 프로젝트 경험에 관해 문의해 주세요.
                     </h2>
                 </div>
                 <div className="site-footer__contact">

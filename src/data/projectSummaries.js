@@ -8,11 +8,14 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
         summary:
-            "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 운영 플랫폼입니다. Core와 6개 마이크로서비스의 서비스 경계, API, 데이터 모델과 운영 절차를 설계하고 구현하고 있습니다.",
+            "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 서비스입니다. 조직 데이터와 사용자의 참여 가능 여부는 Core가 관리하고, 링크 생성, URL 점검, 알림 전송, 주간 보고서, 캘린더 구독과 화상 회의는 6개 마이크로서비스가 각각 처리하도록 구현했습니다.",
         homeFacts: [
-            { label: "담당", value: "Core와 6개 마이크로서비스 설계 및 구현" },
-            { label: "문제", value: "서비스별 실패, 중복 요청과 이벤트 유실" },
-            { label: "해결", value: "데이터 경계, 멱등성, 아웃박스와 Inbox" },
+            { label: "담당", value: "Core와 6개 마이크로서비스의 API, DB 및 실행 환경 구현" },
+            { label: "문제", value: "중복 요청, 서비스 중단과 이벤트 재전송으로 인한 중복 처리" },
+            {
+                label: "해결",
+                value: "서비스별 관리 데이터 분리, 요청 처리 기록과 미전송 이벤트 재처리",
+            },
         ],
         period: "2026.07.20 — 진행 중",
         route: "/projects/baton",
@@ -45,8 +48,14 @@ export const projectSummaries = [
                 label: "담당",
                 value: "KICS-통신사 및 KICS-집행포털 연계 인터페이스와 Spring Batch",
             },
-            { label: "문제", value: "독립망 간 기관 연계와 누적 전송 상태 조회" },
-            { label: "해결", value: "공통 처리 흐름, 커서 조회와 실패 재처리" },
+            {
+                label: "문제",
+                value: "KICS, 통신사 및 집행포털의 서로 다른 연계 규격과 계속 누적되는 전송 이력",
+            },
+            {
+                label: "해결",
+                value: "기관별 변환 코드 분리, Spring Batch 공통 단계, 커서 페이지네이션과 콜백 재처리",
+            },
         ],
         period: "2026.03.24 — 진행 중",
         route: "/projects/e-warrant",
@@ -64,11 +73,17 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "공방의 작품 판매와 클래스 예약을 온라인으로 처리하는 서비스입니다. Java 및 Spring 백엔드, React SSR 화면, 주문제작 옵션과 SKU 재고부터 테스트와 AWS 운영까지 직접 담당했습니다.",
+            "공방 고객이 작품을 주문하고 클래스를 예약하며, 관리자가 상품, 재고, 일정과 주문 상태를 처리하는 서비스입니다. 요구사항 정리부터 Java 및 Spring 백엔드와 React 화면, 결제 및 환불 복구, 주문제작 옵션별 재고, 테스트와 AWS 배포까지 직접 구현했습니다.",
         homeFacts: [
             { label: "담당", value: "요구사항 정리부터 전체 구현 및 AWS 운영" },
-            { label: "문제", value: "결제 응답 누락, 알림 중단과 옵션별 재고 경쟁" },
-            { label: "해결", value: "멱등 처리, 알림 아웃박스와 SKU별 고정 락 순서" },
+            {
+                label: "문제",
+                value: "결제 승인 결과 미수신, 서버 중단 시 알림 유실과 동시 주문 시 옵션 재고 초과 차감",
+            },
+            {
+                label: "해결",
+                value: "결제 요청 ID로 중복 승인을 막고, 미전송 알림은 DB에서 다시 처리하며, 옵션 재고는 항상 같은 순서로 잠근 뒤 차감",
+            },
         ],
         period: "2026.02.21 — 진행 중",
         route: "/projects/happygallery",
@@ -86,14 +101,20 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 3.0.3 비공식 포크 / 커밋 검토 기능 추가 및 보완",
         summary:
-            "SeungIl 님이 개발한 Hope 3.0.3을 기반으로 포크했습니다. 원본의 제한된 수집, 근거 검증과 오프라인 HTML 렌더링 구조를 활용해 로컬 Git 커밋 한 건을 부모와 비교하는 Commit Diff를 추가하고, 개인적인 검토 흐름에 맞게 수정 및 보완했습니다.",
+            "SeungIl 님이 개발한 Hope 3.0.3을 포크해, 사용자가 입력한 로컬 커밋과 부모 커밋을 비교하고 변경 코드와 리뷰 결과를 HTML로 저장하는 Commit Diff 기능을 추가했습니다. 현재 수정 중인 파일과 이전 대화가 리뷰에 섞이지 않도록 커밋에 저장된 파일만 읽고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 검증하도록 보완했습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "원본 Hope 포크, Commit Diff 기능 추가 및 검증 절차 보완",
+                value: "Hope 3.0.3 포크, 로컬 커밋 비교 및 HTML 리뷰 기능과 자동화 테스트 추가",
             },
-            { label: "문제", value: "작업 중인 파일과 이전 대화가 특정 커밋 검토에 미치는 영향" },
-            { label: "해결", value: "커밋 객체 고정, 근거 범위 제한과 검증 후 HTML 게시" },
+            {
+                label: "문제",
+                value: "현재 수정 중인 파일이나 이전 대화가 섞여 입력한 커밋과 다른 코드까지 리뷰될 수 있음",
+            },
+            {
+                label: "해결",
+                value: "입력 커밋과 부모 커밋에 저장된 파일만 수집하고, 설명이 실제 변경 줄을 가리킬 때만 새 HTML 생성",
+            },
         ],
         period: "2026.08.22 — 진행 중",
         route: "/projects/hope-commit",
@@ -142,11 +163,14 @@ export const projectSummaries = [
         title: "WebRTC/HLS 현장강의 보조 서비스",
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
         summary:
-            "현장 강의를 실시간으로 시청하고 지나간 구간을 다시 볼 수 있는 교육용 스트리밍 서비스입니다. 6인 팀에서 HLS 서버와 React 프론트엔드 구현을 맡았습니다.",
+            "현장 강의를 WebRTC로 실시간 시청하고, 지나간 구간은 HLS로 다시 재생하는 서비스입니다. 6인 팀에서 RTP 영상을 HLS로 변환하는 서버와 React 시청 화면을 구현하고, HLS 재생 지연을 약 35초에서 17초로 줄였습니다.",
         homeFacts: [
-            { label: "담당", value: "HLS 서버와 React 프론트엔드" },
-            { label: "문제", value: "HLS 재생 지연 약 35초" },
-            { label: "해결", value: "FFmpeg 설정 조정으로 약 17초" },
+            { label: "담당", value: "RTP 영상의 HLS 변환 서버와 실시간 및 다시보기 React 화면" },
+            { label: "문제", value: "강의 영상의 HLS 다시보기가 약 35초 늦게 재생됨" },
+            {
+                label: "해결",
+                value: "HLS 세그먼트 길이와 FFmpeg 인코딩 설정을 조정해 약 17초로 단축",
+            },
         ],
         period: "2023.09.01 — 2023.11.10",
         route: "/projects/webrtc",

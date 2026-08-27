@@ -8,42 +8,44 @@ export const portfolioProfile = {
     github: "https://github.com/ljkhyeong",
     site: "https://ljkportfolio.netlify.app",
     printHeadline: {
-        lead: "실패 이후까지 설계하는",
+        lead: "기관 연계와 실패 재처리를 구현하는",
         emphasis: "백엔드 개발자",
     },
     printSummary:
-        "BEINTECH 소속으로 LG CNS 컨소시엄 전송형 전자영장 프로젝트의 독립망 간 기관 연계를 개발하고 있습니다. 공공 시스템 운영 장애 대응과 개인 프로젝트의 멱등성, 데이터 일관성, 실패 후 재처리 방식을 함께 담았습니다.",
+        "BEINTECH에서 KICS와 통신사 및 전자영장 집행포털 사이의 요청 및 제출 자료를 연계하는 인터페이스와 Spring Batch를 개발하고 있습니다. 군사법 시스템에서는 Jenkins 실행 이력, WAS 로그와 DB 상태를 대조해 연계 장애를 확인하고 재처리했습니다. 개인 프로젝트에서는 중복 결제, 알림 유실과 재고 경쟁을 DB 상태와 락으로 제어했습니다.",
 }
 
 export const workPrinciples = [
     {
         number: "01",
-        title: "서비스별 역할을 먼저 나눕니다",
-        printTitle: "경계를 먼저 정합니다",
+        title: "서비스마다 관리할 데이터와 API 책임을 정합니다",
+        printTitle: "서비스 책임을 먼저 정합니다",
         description:
-            "데이터를 어디서 관리하고 권한을 어디서 확인할지 정합니다. BATON에서는 조직 데이터, 링크 생성, URL 점검, 메시지 전송, 주간 브리프와 캘린더 구독을 별도 서비스로 나눴습니다.",
-        printDescription: "데이터 소유권, 트랜잭션 범위, 서비스별 책임을 먼저 나눕니다.",
+            "BATON에서는 조직 데이터와 사용자의 참여 가능 여부를 Core가 관리합니다. 링크 생성, URL 점검, 알림 전송, 주간 보고서, 캘린더 구독과 화상 회의는 각각 별도 서비스에서 처리합니다.",
+        printDescription:
+            "어떤 서비스가 데이터를 저장하고 변경하는지, 다른 서비스가 호출할 API는 무엇인지 먼저 정합니다.",
         link: "/projects/baton",
         linkLabel: "BATON 서비스 구성 보기",
     },
     {
         number: "02",
         title: "외부 연동 실패를 DB에 기록합니다",
-        printTitle: "재처리를 기능으로 만듭니다",
+        printTitle: "중단된 작업을 다시 처리합니다",
         description:
-            "결제 응답 누락과 알림 전송 실패를 멱등 키, 작업 선점 토큰과 아웃박스로 기록해 중복 실행을 막고 중단된 작업을 이어서 처리합니다.",
+            "결제와 알림 요청의 처리 상태를 DB에 저장하고, 같은 요청이 다시 와도 기존 결과를 반환하도록 구현했습니다. 서버가 중단되면 미처리 상태를 조회해 다른 작업이 이어서 처리합니다.",
         printDescription:
-            "멱등 키, 락, 아웃박스와 미처리 작업 재처리로 실패 뒤의 동작을 정의합니다.",
+            "결제 결과를 받지 못한 재요청은 기존 처리 결과를 조회하고, 보내지 못한 알림은 DB에서 찾아 다시 전송합니다.",
         link: "/projects/happygallery",
         linkLabel: "happyGallery 장애 처리 보기",
     },
     {
         number: "03",
-        title: "설계 이유와 테스트를 기록합니다",
-        printTitle: "근거를 남깁니다",
+        title: "ADR와 자동화 테스트로 변경 기준을 남깁니다",
+        printTitle: "구현 이유와 확인 결과를 남깁니다",
         description:
-            "설계 이유를 ADR로 남기고 통합 테스트, E2E 테스트, 로그와 모니터링으로 동작을 확인합니다. 문서는 이후 변경할 때 확인하는 기준으로 사용합니다.",
-        printDescription: "ADR, API 계약, 통합 테스트와 로그로 설계 이유와 결과를 확인합니다.",
+            "기술 선택 이유는 ADR로, API 요청 및 응답은 REST Docs와 OpenAPI로 남깁니다. 통합 및 E2E 테스트로 결제, 주문과 예약 흐름이 변경 후에도 유지되는지 확인합니다.",
+        printDescription:
+            "ADR에 선택 이유를 기록하고, API 문서와 자동화 테스트로 변경 후에도 기존 기능이 동작하는지 확인합니다.",
         link: "/projects/happygallery",
         linkLabel: "문서와 테스트 보기",
     },
@@ -65,9 +67,9 @@ export const careers = [
         organization: "BEINTECH",
         position: "백엔드 개발자",
         description:
-            "2024년 6월 첫 회사로 입사해 2년 이상 공공 SI 백엔드 개발과 운영을 담당하고 있습니다. 차세대 군사법 정보 시스템을 거쳐 현재 전송형 전자영장 시스템을 개발하고 있습니다.",
+            "2024년 6월 BEINTECH에 입사했습니다. 차세대 군사법 정보 시스템에서 수용자 인적정보 및 영장정보 연계 배치와 운영 장애 대응을 맡았고, 현재 전송형 전자영장 시스템에서 KICS-통신사 및 KICS-집행포털 연계 인터페이스와 Spring Batch를 개발하고 있습니다.",
         printDescription:
-            "첫 회사에서 2년 이상 공공 SI 백엔드 개발과 운영을 담당하며 군사법 및 전자영장 프로젝트를 수행하고 있습니다.",
+            "차세대 군사법 정보 시스템의 기관 연계 배치와 운영 장애 대응을 맡았고, 현재 전송형 전자영장 시스템의 KICS-통신사 및 KICS-집행포털 연계를 개발하고 있습니다.",
         projectIds: ["warrant", "defense"],
     },
 ]
@@ -106,7 +108,7 @@ export const personalActivities = [
 export const printSkillGroups = [
     {
         label: "Backend",
-        detail: "Java 21 / 11 / 8, Spring Boot, Spring Batch, eGov 4.1, JPA, MyBatis",
+        detail: "Java 25 / 21 / 11 / 8, Spring Boot, Spring Batch, eGov 4.1, JPA, MyBatis",
     },
     {
         label: "Architecture",
@@ -114,7 +116,7 @@ export const printSkillGroups = [
     },
     {
         label: "Data & Recovery",
-        detail: "MySQL, PostgreSQL, Tibero, Redis, 멱등 처리, 아웃박스, 보상 처리",
+        detail: "MySQL, PostgreSQL, Tibero, Redis, 중복 처리 방지, 미전송 작업 재처리",
     },
     {
         label: "Test & Operations",

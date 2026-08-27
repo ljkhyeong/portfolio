@@ -90,13 +90,13 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 >
                     <div className="baton-service-section-heading">
                         <span>## 01</span>
-                        <h2 id="boundary-title">BATON 안에서의 책임</h2>
+                        <h2 id="boundary-title">이 서비스가 받는 데이터와 처리 결과</h2>
                     </div>
                     <div className="service-boundary-flow">
                         <article>
                             <code>입력</code>
                             <strong>{service.input}</strong>
-                            <p>Core와 각 마이크로서비스가 정의한 입력 형식만 받습니다.</p>
+                            <p>요청의 필수값과 형식을 확인한 뒤 처리합니다.</p>
                         </article>
                         <span aria-hidden="true">→</span>
                         <article className="service-boundary-flow__current">
@@ -108,13 +108,13 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         </article>
                         <span aria-hidden="true">→</span>
                         <article>
-                            <code>출력 및 재처리 기준</code>
+                            <code>처리 결과</code>
                             <strong>{service.output}</strong>
-                            <p>{service.recoveryBoundary}</p>
+                            <p>실패 후 처리: {service.recoveryBoundary}</p>
                         </article>
                     </div>
                     <blockquote>
-                        <strong>{service.name}의 트레이드오프</strong>
+                        <strong>{service.name}의 적용 범위와 제약</strong>
                         {service.tradeoff}
                     </blockquote>
                 </section>
@@ -126,11 +126,11 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 >
                     <div className="baton-service-section-heading">
                         <span>## 02</span>
-                        <h2 id="service-problems-title">대표 문제 해결</h2>
+                        <h2 id="service-problems-title">문제와 해결 방법</h2>
                     </div>
                     <ProblemSolutionList
                         problems={problems}
-                        label={`${service.name} 대표 문제 해결 목록`}
+                        label={`${service.name} 문제와 해결 방법 목록`}
                     />
                 </section>
 

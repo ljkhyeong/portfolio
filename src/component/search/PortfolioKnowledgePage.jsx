@@ -10,14 +10,14 @@ const suggestionQuestions = [
     "결제와 환불 중복 처리를 어떻게 막았나요?",
     "BATON 마이크로서비스는 각각 어떤 책임을 가지나요?",
     "독립망 연계 배치에서 장애를 어떻게 확인했나요?",
-    "알림 아웃박스를 적용한 이유는 무엇인가요?",
+    "서버가 중단돼도 미전송 알림을 다시 보내는 방법은 무엇인가요?",
 ]
 
 const documentTypes = [
     ["project_overview", "프로젝트 개요"],
     ["service_overview", "서비스 개요"],
-    ["architecture_decision", "설계 판단"],
-    ["problem_solution", "대표 문제 해결"],
+    ["architecture_decision", "구현 구조와 선택 이유"],
+    ["problem_solution", "문제와 해결 방법"],
     ["implementation_evidence", "구현 및 확인 결과"],
     ["representative_document", "대표 문서"],
 ]
@@ -75,7 +75,7 @@ const KnowledgeHeader = () => (
                 </Link>
             </div>
             <a className="knowledge-nav__contact" href={`mailto:${portfolioProfile.email}`}>
-                이야기 나누기 <span aria-hidden="true">↗</span>
+                이메일 보내기 <span aria-hidden="true">↗</span>
             </a>
         </nav>
     </header>
@@ -115,7 +115,7 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
             <div className="knowledge-state knowledge-state--idle">
                 <span aria-hidden="true">⌕</span>
                 <h2>프로젝트에서 확인하고 싶은 내용을 검색해 보세요.</h2>
-                <p>설계 판단, 문제 해결 과정과 공개한 대표 문서를 함께 찾습니다.</p>
+                <p>구현 구조와 선택 이유, 문제 해결 과정과 공개한 대표 문서를 함께 찾습니다.</p>
             </div>
         )
     }
@@ -175,7 +175,7 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
                             )}
                             <p className="knowledge-result__snippet">{result.snippet}</p>
                             <SourceLink item={result} className="knowledge-result__link">
-                                근거 확인 <span aria-hidden="true">↗</span>
+                                원문 확인 <span aria-hidden="true">↗</span>
                             </SourceLink>
                         </article>
                     </li>
@@ -190,7 +190,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
         <div className="knowledge-answer__heading">
             <div>
                 <span>grounded.answer</span>
-                <h2 id="knowledge-answer-title">AI 근거 답변</h2>
+                <h2 id="knowledge-answer-title">AI 요약 답변</h2>
             </div>
             <span className="knowledge-answer__count">출처 {citations.length}</span>
         </div>
@@ -229,7 +229,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
             <div className="knowledge-answer__content" aria-live="polite">
                 <p>{answer}</p>
                 <section aria-labelledby="knowledge-citations-title">
-                    <h3 id="knowledge-citations-title">사용한 근거</h3>
+                    <h3 id="knowledge-citations-title">답변에 사용한 문서</h3>
                     <ol>
                         {citations.map((citation, index) => (
                             <li key={citation.chunkId || `${citation.title}-${index}`}>
@@ -425,11 +425,11 @@ const PortfolioKnowledgePage = () => {
                     <div className="knowledge-hero__copy">
                         <span className="knowledge-kicker"># portfolio.search</span>
                         <h1 id="knowledge-title" data-route-heading="/search">
-                            프로젝트의 <em>근거</em>를 찾아보세요.
+                            프로젝트 <em>구현 내용과 공개 문서</em>를 검색해 보세요.
                         </h1>
                         <p>
-                            프로젝트 개요, 문제 해결과 설계 판단을 한 번에 검색합니다. AI는 검색된
-                            공개 자료 안에서만 답변합니다.
+                            프로젝트별 담당 업무, 문제 해결 방법, 테스트 결과와 공개 문서를
+                            검색합니다. AI 답변에는 사용한 문서 링크를 함께 표시합니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">
@@ -443,7 +443,7 @@ const PortfolioKnowledgePage = () => {
                         </li>
                         <li>
                             <span aria-hidden="true">03</span>
-                            근거가 부족하면 답변 중단
+                            관련 문서가 부족하면 답변하지 않음
                         </li>
                     </ul>
                 </section>

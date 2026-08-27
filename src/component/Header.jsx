@@ -25,7 +25,7 @@ const Header = () => {
                     <Link to="/search">문서 검색</Link>
                 </div>
                 <a className="site-nav__contact" href={`mailto:${portfolioProfile.email}`}>
-                    이야기 나누기
+                    이메일 보내기
                     <span aria-hidden="true">↗</span>
                 </a>
             </nav>

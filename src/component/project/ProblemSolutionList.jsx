@@ -4,7 +4,7 @@ const problemEvidence = [
     ["문제 상황", "constraint"],
     ["적용한 방법", "decision"],
     ["테스트 및 확인", "validation"],
-    ["트레이드오프와 남은 과제", "boundary"],
+    ["제약과 남은 작업", "boundary"],
 ]
 
 const ProblemSolutionList = ({ problems, label }) => (

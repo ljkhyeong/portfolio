@@ -75,7 +75,7 @@ const ProjectEvidenceLinks = ({ project }) => {
 const ProblemList = ({ problems, additional = false }) => (
     <ProblemSolutionList
         problems={problems}
-        label={additional ? "추가 문제 해결 목록" : "대표 문제 해결 목록"}
+        label={additional ? "추가 문제와 해결 방법 목록" : "주요 문제와 해결 방법 목록"}
     />
 )
 
@@ -84,7 +84,7 @@ const BatonServices = ({ services }) => {
     const supporting = services.filter((service) => !service.primary)
 
     return (
-        <div className="case-service-map" aria-label="BATON 서비스 책임 경계">
+        <div className="case-service-map" aria-label="BATON Core와 6개 서비스의 담당 업무">
             <article className="case-service-map__core">
                 <div>
                     <span>
@@ -234,20 +234,20 @@ const WarrantVisual = () => (
 
 const HopeCommitVisual = () => {
     const steps = [
-        ["01 / TARGET", "커밋 ID 입력", "16진수 커밋 식별자"],
-        ["02 / BIND", "커밋과 부모 확정", "전체 객체 ID 및 비교 기준"],
-        ["03 / COLLECT", "Git 객체 수집", "작업 트리 제외"],
-        ["04 / VALIDATE", "근거와 분석 검증", "파일 및 줄 범위 연결"],
-        ["05 / PUBLISH", "오프라인 HTML", "재확인 후 새 파일 게시"],
+        ["01 / 대상 지정", "검토할 커밋 ID", "사용자가 입력한 로컬 커밋"],
+        ["02 / 비교 기준", "입력 커밋과 부모 커밋", "전체 ID와 비교할 부모 확정"],
+        ["03 / 코드 수집", "변경 코드 수집", "현재 수정 중인 파일 제외"],
+        ["04 / 내용 확인", "설명과 실제 코드 연결", "변경 파일과 줄 번호 확인"],
+        ["05 / 결과 저장", "새 HTML 파일 생성", "검증을 통과한 경우에만 저장"],
     ]
 
     return (
         <div
             className="case-visual case-visual--hope-commit"
             role="img"
-            aria-label="커밋 ID를 전체 Git 객체 ID와 부모에 연결하고 작업 트리를 제외한 변경 근거를 수집한 뒤 분석 검증과 재확인을 거쳐 오프라인 HTML 리뷰를 게시하는 흐름"
+            aria-label="입력한 커밋과 부모 커밋을 비교하고 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
         >
-            <div className="hope-commit-map__label">COMMIT DIFF / IMMUTABLE REVIEW</div>
+            <div className="hope-commit-map__label">COMMIT DIFF / 지정한 커밋만 검토</div>
             <ol className="hope-commit-map">
                 {steps.map(([label, title, description]) => (
                     <li key={label}>
@@ -258,14 +258,44 @@ const HopeCommitVisual = () => {
                 ))}
             </ol>
             <div className="hope-commit-map__boundaries">
-                <span>WORKTREE 제외</span>
+                <span>현재 수정 중인 파일 제외</span>
                 <span>이전 대화 제외</span>
                 <span>원격 CI 제외</span>
-                <strong>COMMITTED OBJECTS ONLY</strong>
+                <strong>입력 커밋에 저장된 코드만 사용</strong>
             </div>
         </div>
     )
 }
+
+const EducationStreamingVisual = () => (
+    <div
+        className="case-visual case-visual--webrtc"
+        role="img"
+        aria-label="mediasoup가 출력한 RTP 영상을 WebRTC로 React 실시간 화면에 전달하고, FFmpeg와 GStreamer에서 HLS로 변환해 React 다시보기 화면에 제공하는 흐름"
+    >
+        <div className="stream-map__source">
+            <span className="stream-map__pulse" aria-hidden="true" />
+            <small>HLS SERVER INPUT</small>
+            <strong>mediasoup RTP 출력</strong>
+        </div>
+        <div className="stream-map__lanes">
+            <div className="stream-lane">
+                <span className="stream-lane__label">LIVE</span>
+                <span className="stream-lane__path" aria-hidden="true" />
+                <div className="stream-lane__node">WebRTC 실시간 전송</div>
+                <div className="stream-lane__node">React 실시간 시청</div>
+                <small>현재 강의 영상을 낮은 지연으로 재생</small>
+            </div>
+            <div className="stream-lane">
+                <span className="stream-lane__label">REPLAY</span>
+                <span className="stream-lane__path" aria-hidden="true" />
+                <div className="stream-lane__node">FFmpeg / GStreamer HLS 변환</div>
+                <div className="stream-lane__node">React 지난 구간 재생</div>
+                <small>HLS 세그먼트와 재생 목록으로 다시보기 제공</small>
+            </div>
+        </div>
+    </div>
+)
 
 const ProjectVisual = ({ project }) => {
     if (project.presentation === "featured") {
@@ -280,6 +310,10 @@ const ProjectVisual = ({ project }) => {
         return <WarrantVisual />
     }
 
+    if (project.visual === "webrtc") {
+        return <EducationStreamingVisual />
+    }
+
     return <DefenseVisual />
 }
 
@@ -291,7 +325,7 @@ const ArchitectureSection = ({ project }) => (
     >
         <div className="case-section-heading">
             <span aria-hidden="true">## 02</span>
-            <h2 id="architecture-title">설계 판단</h2>
+            <h2 id="architecture-title">구현 구조와 선택 이유</h2>
         </div>
         <div className="case-architecture__intro">
             <span>{project.architecture.label}</span>
@@ -299,7 +333,7 @@ const ArchitectureSection = ({ project }) => (
             <div>
                 <p>{project.architecture.description}</p>
                 <blockquote>
-                    <strong>트레이드오프</strong>
+                    <strong>적용 범위와 제약</strong>
                     {project.architecture.tradeoff}
                 </blockquote>
             </div>
@@ -314,7 +348,8 @@ const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
             <h2 id="documents-title">문서 분류와 대표 문서</h2>
         </div>
         <p className="case-documents__intro">
-            문서 종류별 역할을 구분하고, 기술 선택과 운영 판단을 확인할 대표 문서를 골랐습니다.
+            각 문서가 관리하는 내용과, 구현 방법 및 배포와 재처리 절차를 확인할 대표 문서를
+            정리했습니다.
         </p>
         <div className="case-document-catalog" aria-label="문서 분류">
             {documentGroups.map((group) => (
@@ -359,7 +394,7 @@ const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }
             shortLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
         },
         ...(hasArchitecture
-            ? [{ href: "#project-architecture", label: "설계", shortLabel: "설계" }]
+            ? [{ href: "#project-architecture", label: "구현 구조", shortLabel: "구조" }]
             : []),
         { href: "#project-problems", label: "문제 해결", shortLabel: "문제" },
         { href: "#project-proof", label: "테스트 및 결과", shortLabel: "결과" },
@@ -392,6 +427,7 @@ const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }
 
 const PriorExperienceCase = ({ project }) => {
     const [technology, ...subject] = project.title.split(" ")
+    const evidenceTitle = project.evidenceTitle ?? "구현 범위 및 확인 결과"
 
     return (
         <main className="case-study-page case-study-page--prior" id="main-content">
@@ -402,56 +438,103 @@ const PriorExperienceCase = ({ project }) => {
                 <Link to="/" className="case-study-nav__home">
                     <span aria-hidden="true">←</span> 포트폴리오
                 </Link>
-                <ProjectSwitcher contextLabel="경력 및 개인 프로젝트" />
+                <ProjectSwitcher contextLabel="교육 프로젝트" />
             </nav>
             <article className="prior-case">
-                <div className="case-kicker prior-case__kicker">
-                    <span>교육 프로젝트</span>
-                    <span>{project.eyebrow}</span>
-                </div>
-                <h1
-                    id="prior-project-title"
-                    aria-label={project.title}
-                    data-route-heading={project.route}
-                    tabIndex={-1}
+                <header>
+                    <div className="case-kicker prior-case__kicker">
+                        <span>교육 프로젝트</span>
+                        <span>{project.eyebrow}</span>
+                    </div>
+                    <h1
+                        id="prior-project-title"
+                        aria-label={project.title}
+                        data-route-heading={project.route}
+                        tabIndex={-1}
+                    >
+                        <span>{technology}</span>
+                        <span>{subject.join(" ")}</span>
+                    </h1>
+                    <ProjectLabels project={project} />
+                    <p className="prior-case__summary">{project.summary}</p>
+                </header>
+
+                <CaseSectionNavigation
+                    hasArchitecture={false}
+                    hasDocuments={false}
+                    systemNavLabel="미디어 처리 흐름"
+                />
+
+                <section
+                    className="case-snapshot"
+                    id="project-overview"
+                    aria-labelledby="snapshot-title"
                 >
-                    <span>{technology}</span>
-                    <span>{subject.join(" ")}</span>
-                </h1>
-                <ProjectLabels project={project} />
-                <p className="prior-case__summary">{project.summary}</p>
-                <dl className="prior-case__facts">
-                    <div>
-                        <dt>기간</dt>
-                        <dd>{project.period}</dd>
+                    <div className="case-section-heading">
+                        <span>00</span>
+                        <h2 id="snapshot-title">프로젝트 개요</h2>
                     </div>
-                    <div>
-                        <dt>담당</dt>
-                        <dd>{project.role}</dd>
+                    <dl className="prior-case__facts">
+                        <div>
+                            <dt>기간</dt>
+                            <dd>{project.period}</dd>
+                        </div>
+                        <div>
+                            <dt>담당</dt>
+                            <dd>{project.role}</dd>
+                        </div>
+                        <div>
+                            <dt>입력 및 변환</dt>
+                            <dd>mediasoup RTP 입력 / FFmpeg 및 GStreamer HLS 변환</dd>
+                        </div>
+                        <div>
+                            <dt>제공 기능</dt>
+                            <dd>React WebRTC 실시간 시청 / HLS 지난 구간 다시보기</dd>
+                        </div>
+                    </dl>
+                    <aside className="case-status" aria-label={project.status.label}>
+                        <span>{project.status.label}</span>
+                        <p>{project.status.text}</p>
+                    </aside>
+                </section>
+
+                <section className="case-system" id="project-system" aria-labelledby="system-title">
+                    <div className="case-section-heading">
+                        <span>01</span>
+                        <h2 id="system-title">RTP 입력부터 실시간 및 다시보기 화면까지</h2>
                     </div>
-                    <div>
-                        <dt>구성</dt>
-                        <dd>WebSocket 제어 / WebRTC 및 RTP 미디어 / FFmpeg 및 GStreamer HLS</dd>
+                    <ProjectVisual project={project} />
+                    <p className="case-system__caption">{project.visualCaption}</p>
+                </section>
+
+                <section
+                    className="case-problems"
+                    id="project-problems"
+                    aria-labelledby="problems-title"
+                >
+                    <div className="case-section-heading">
+                        <span>02</span>
+                        <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
-                    <div>
-                        <dt>개선</dt>
-                        <dd>HLS 재생 지연 약 35초 → 17초</dd>
+                    <ProblemList problems={project.problems} />
+                </section>
+
+                <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
+                    <div className="case-section-heading">
+                        <span>03</span>
+                        <h2 id="proof-title">{evidenceTitle}</h2>
                     </div>
-                </dl>
-                <p className="prior-case__note">{project.status.text}</p>
-                <div className="prior-case__links">
-                    {project.links.map((link) => (
-                        <a
-                            href={link.href}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${link.label} 새 창에서 보기`}
-                            key={link.href}
-                        >
-                            {link.label} ↗
-                        </a>
-                    ))}
-                </div>
+                    <ProjectEvidenceList proofs={project.proofs} label={`${evidenceTitle} 목록`} />
+                </section>
+
+                <CaseMetaSection
+                    id="project-stack"
+                    headingId="stack-title"
+                    sectionNumber="04"
+                    technologies={project.stack}
+                    technologyLabel={`${project.title} 기술 스택`}
+                    links={project.links}
+                />
             </article>
         </main>
     )
@@ -578,7 +661,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                 >
                     <div className="case-section-heading">
                         <span>{problemSectionNumber}</span>
-                        <h2 id="problems-title">대표 문제 해결</h2>
+                        <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
                     <ProblemList problems={featuredProblems} />
                     {additionalProblems.length > 0 ? (

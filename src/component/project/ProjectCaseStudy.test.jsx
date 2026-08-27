@@ -22,7 +22,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "href",
         "#project-system",
     )
-    expect(screen.getByRole("link", { name: "설계" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "구현 구조" })).toHaveAttribute(
         "href",
         "#project-architecture",
     )
@@ -66,7 +66,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/baton-watch")
 
     const additionalProblems = screen.getByText("추가 문제 해결 10건 보기").closest("details")
-    const featuredProblemList = screen.getByRole("list", { name: "대표 문제 해결 목록" })
+    const featuredProblemList = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
 
     expect(additionalProblems).not.toHaveAttribute("open")
     expect(within(featuredProblemList).getAllByRole("listitem")).toHaveLength(4)
@@ -74,7 +74,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     await userEvent.click(screen.getByText("추가 문제 해결 10건 보기"))
 
     expect(additionalProblems).toHaveAttribute("open")
-    expect(screen.getByRole("list", { name: "추가 문제 해결 목록" })).toBeInTheDocument()
+    expect(screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })).toBeInTheDocument()
 
     const projectSwitcher = screen.getByRole("group", {
         name: "프로젝트 바로가기",
@@ -144,9 +144,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
-    expect(
-        screen.getByText(/공방의 작품 판매와 클래스 예약을 온라인으로 처리하는 서비스입니다/),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/공방 고객이 작품을 주문하고 클래스를 예약하며/)).toBeInTheDocument()
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
@@ -190,7 +188,10 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(
         screen.getByRole("list", { name: "전송형 전자영장 시스템 기술 스택" }),
     ).toHaveTextContent("Oracle DB")
-    expect(screen.getByText(/^\* 사법기관 KICS,/)).toBeInTheDocument()
+    expect(
+        screen.getByText(/전체 시스템은 KICS, 집행포털, 금융기관 및 통신사의 독립망 사이에서/),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/이 가운데 KICS-통신사 및 KICS-집행포털/)).toBeInTheDocument()
     expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
     expect(
         screen.getByText(
@@ -222,16 +223,15 @@ test("군사법 상세는 세 기관의 데이터 연계와 레거시 환경의 
         "기관별 데이터 수신인적정보 및 영장정보 검증군교정 DB 반영",
     )
 
-    const problems = screen.getByRole("list", { name: "대표 문제 해결 목록" })
+    const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
 
     expect(problems).toHaveTextContent("Spring Security가 생성한 CSRF 토큰")
     expect(problems).toHaveTextContent("WebSquare 화면 데이터 규격")
     expect(problems).toHaveTextContent("Spring Security 필터에서 차단")
-    expect(problems).toHaveTextContent("WAS 업로드 요청 검증")
+    expect(problems).toHaveTextContent("WAS 권한 및 파일 정보 검증")
     expect(problems).toHaveTextContent("Presigned URL")
-    expect(problems).toHaveTextContent("파일 본문은 수신하거나 중계하지 않아")
-    expect(problems).toHaveTextContent("기존 파일 솔루션 로직을 수정하지 않으면서")
-    expect(problems).toHaveTextContent("WAS 메모리 및 I/O 부하와 OOM 위험을 방지")
+    expect(problems).toHaveTextContent("파일 본문은 받거나 중계하지 않았습니다")
+    expect(problems).toHaveTextContent("대용량 파일을 WAS를 거치지 않고 저장소로 직접 업로드")
     expect(problems).toHaveTextContent("Jenkins 실행 이력")
     expect(problems).toHaveTextContent("JEUS 및 WAS 로그")
     expect(problems).toHaveTextContent("Tibero의 입력 데이터")
@@ -251,7 +251,7 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
     expect(
         screen.getByRole("navigation", { name: "서비스 상세 섹션 바로가기" }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("list", { name: "WATCH 대표 문제 해결 목록" })).toBeInTheDocument()
+    expect(screen.getByRole("list", { name: "WATCH 문제와 해결 방법 목록" })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "책임" })).toHaveAttribute("href", "#service-boundary")
     expect(screen.getByRole("link", { name: "문제 해결" })).toHaveAttribute(
         "href",
@@ -285,26 +285,26 @@ test.each([
     [
         "go",
         "GO",
-        "BATON과 ROUND의 허용된 화면만 짧고 고정된 주소로 연결하고, 최종 접근 권한은 각 대상 서비스가 계속 판정하도록 경계를 유지합니다.",
-        "UUID 멱등 키, HMAC-SHA256 코드, BATON 및 ROUND의 정확한 대상 계약",
+        "허용 목록에 등록한 BATON 및 ROUND 경로만 짧은 코드와 연결합니다. GO는 목적지로 이동시키는 역할만 하고 실제 접근 허용 여부는 BATON 또는 ROUND가 직접 확인합니다.",
+        "UUID 멱등 키, HMAC-SHA256 링크 코드와 허용 대상 타입 및 경로 검증",
     ],
     [
         "watch",
         "WATCH",
         "BATON에 등록된 외부 URL을 SSRF 방어 기준으로 점검하고, 저장된 이전 점검 결과와 달라진 경우 URL 상태 변경 이벤트를 Core에 전달합니다.",
-        "SSRF 방어, 작업 선점 만료 후 다른 서버의 재처리, 이전 작업 결과 반영 차단, 아웃박스",
+        "SSRF 방어, 한 서버가 가져간 작업의 만료 후 재처리, 이전 점검 결과의 덮어쓰기 차단과 미전송 이벤트 보관",
     ],
     [
         "relay",
         "RELAY",
         "BATON의 알림 이벤트를 외부 메시지 공급자에 전달하고 전송 성공, 실패와 공급자 응답 유실로 결과를 확인할 수 없는 경우를 구분해 저장합니다.",
-        "수신 이력(Inbox) 중복 제거, 작업 선점, 재시도와 전송 결과 미확인 상태",
+        "eventId 기반 중복 차단, 처리할 작업 선점, 제한 횟수 재시도와 성공 여부를 모르는 전송의 별도 보관",
     ],
     [
         "brief",
         "BRIEF",
-        "BATON의 다섯 연속성 신호를 설명 가능한 현재 관심 항목으로 투영하고, 일정 시점의 상태를 수정하지 않는 주간 운영 브리프로 고정합니다.",
-        "운영 이벤트 멱등 수신, 관심 항목 투영 및 재구축, 수정하지 않는 주간 에디션",
+        "BATON이 보낸 역할 미배정, 후임자 미지정, 인수인계 준비 미완료, 반복 지연 루틴과 미완료 인수인계 이벤트를 받아 현재 확인해야 할 항목 목록을 만듭니다. 매주 생성한 보고서는 이후 이벤트가 바뀌어도 수정하지 않고 당시 기록으로 보관합니다.",
+        "이벤트 중복 및 구버전 차단, 저장 이벤트 기반 현재 목록 재생성, 생성 후 수정하지 않는 주간 보고서",
     ],
     [
         "cal",
@@ -315,8 +315,8 @@ test.each([
     [
         "round",
         "ROUND",
-        "BATON Core가 계정과 스터디 멤버십을 확인해 발급한 참여권을 검증하고, 최대 6명의 WebRTC 방과 피어, 시그널링과 TURN 자격 증명을 관리합니다.",
-        "6인 mesh WebRTC, 협상 세대, DataChannel ACK, RS256 및 JWK 참여권, 짧은 TURN 자격 증명",
+        "Core가 계정과 스터디 멤버십을 확인해 발급한 방 참여권을 검증합니다. 최대 6명 브라우저 사이의 offer, answer와 ICE를 WebSocket으로 중계하고 미디어 연결에 필요한 짧은 TURN 접속 정보를 발급합니다.",
+        "6인 mesh WebRTC, 연결 시도별 순번으로 지연된 offer 및 answer 차단, DataChannel 수신 확인, RS256 참여권 검증과 짧은 TURN 접속 정보",
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
     renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
@@ -365,7 +365,7 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "중복 및 순서가 바뀐 운영 이벤트 처리",
+        "중복되거나 순서가 바뀐 BATON 이벤트 차단",
         "https://github.com/ljkhyeong/baton-brief",
         /공개 main 반영 전/,
         /공개 main은 초기 스캐폴드/,
@@ -373,10 +373,10 @@ test.each([
     [
         "cal",
         "CAL",
-        "중복 및 순서가 바뀐 일정 스냅샷 처리",
+        "중복되거나 순서가 바뀐 일정 JSON 차단",
         "https://github.com/ljkhyeong/baton-cal",
-        /실제 BATON 직렬화 및 CAL 컨테이너 교차 검증/,
-        /안정 계약 1.0.0과 Core 생산자 계약 검증/,
+        /BATON 코드가 만든 실제 일정 JSON을 CAL 컨테이너에 보내 정상 반영/,
+        /안정 계약 1.0.0의 JSON Schema와 BATON 일정 이벤트 호환성 테스트/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",
@@ -393,22 +393,24 @@ test.each([
     },
 )
 
-test("BATON ROUND 상세는 비공개 서비스의 참여권 경계와 남은 파일럿 범위를 구분한다", () => {
+test("BATON ROUND 상세는 Core의 방 입장 확인과 ROUND의 WebRTC 처리를 구분한다", () => {
     renderWithRouter(<BatonServiceCaseStudy serviceId="round" />)
 
     expect(screen.getByRole("heading", { name: "ROUND", level: 1 })).toBeInTheDocument()
     expect(
-        screen.getByRole("heading", { name: "BATON 권한 판정과 WebRTC 실시간 경로 분리" }),
+        screen.getByRole("heading", {
+            name: "Core는 방 입장 권한을 확인하고 ROUND는 WebRTC 메시지만 처리",
+        }),
     ).toBeInTheDocument()
     expect(screen.getByText(/공인 DNS 및 ACME/)).toBeInTheDocument()
     expect(screen.getByText("비공개 저장소 / 공개 가능 요약")).toBeInTheDocument()
     expect(screen.queryByRole("link", { name: /ROUND.*저장소/ })).not.toBeInTheDocument()
 })
 
-test("WebRTC/HLS 상세는 교육 프로젝트로 표시하고 제목 단위를 보존한다", () => {
+test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과 지연 개선을 보여준다", async () => {
     renderWithRouter(<ProjectCaseStudy projectId="webrtc" />)
 
-    expect(screen.getByText("교육 프로젝트")).toBeInTheDocument()
+    expect(screen.getAllByText("교육 프로젝트")).toHaveLength(2)
     expect(
         screen.getByRole("heading", {
             level: 1,
@@ -417,4 +419,47 @@ test("WebRTC/HLS 상세는 교육 프로젝트로 표시하고 제목 단위를 
     ).toBeInTheDocument()
     expect(screen.getByText("WebRTC/HLS")).toBeInTheDocument()
     expect(screen.getByText("현장강의 보조 서비스")).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "미디어 처리 흐름" })).toHaveAttribute(
+        "href",
+        "#project-system",
+    )
+    expect(
+        screen.getByRole("heading", {
+            name: "RTP 입력부터 실시간 및 다시보기 화면까지",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: /mediasoup가 출력한 RTP 영상을 WebRTC로 React 실시간 화면에 전달하고, FFmpeg와 GStreamer에서 HLS로 변환/,
+        }),
+    ).toBeInTheDocument()
+    expect(screen.getByText("mediasoup RTP 출력")).toBeInTheDocument()
+    expect(screen.getByText("React 실시간 시청")).toBeInTheDocument()
+    expect(screen.getByText("React 지난 구간 재생")).toBeInTheDocument()
+
+    const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
+    const [mediaFlowProblem] = within(problems).getAllByRole("listitem")
+
+    expect(within(problems).getAllByRole("listitem")).toHaveLength(2)
+    expect(problems).toHaveTextContent("RTP 영상을 WebRTC 실시간 시청과 HLS 다시보기로 제공")
+    expect(problems).toHaveTextContent("HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축")
+
+    await userEvent.click(
+        within(mediaFlowProblem).getByText("RTP 영상을 WebRTC 실시간 시청과 HLS 다시보기로 제공"),
+    )
+
+    expect(mediaFlowProblem).toHaveTextContent("문제 상황")
+    expect(mediaFlowProblem).toHaveTextContent("적용한 방법")
+    expect(mediaFlowProblem).toHaveTextContent("테스트 및 확인")
+    expect(mediaFlowProblem).toHaveTextContent(
+        "mediasoup의 RTP 출력을 입력받고 FFmpeg와 GStreamer로 HLS 세그먼트 및 재생 목록을 생성",
+    )
+
+    const proofs = screen.getByRole("list", { name: "구현 범위 및 확인 결과 목록" })
+
+    expect(proofs).toHaveTextContent("RTP 입력부터 React 실시간 및 다시보기 화면까지")
+    expect(proofs).toHaveTextContent("HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축")
+    expect(
+        screen.getByRole("list", { name: "WebRTC/HLS 현장강의 보조 서비스 기술 스택" }),
+    ).toHaveTextContent("mediasoupFFmpegGStreamer")
 })

@@ -8,7 +8,7 @@ test("검색 페이지 직접 진입 시 전용 화면과 메타데이터를 표
 
     expect(
         await screen.findByRole("heading", {
-            name: /프로젝트의\s+근거\s*를\s+찾아보세요\./,
+            name: /프로젝트\s+구현 내용과 공개 문서\s*를\s+검색해 보세요\./,
             level: 1,
         }),
     ).toBeInTheDocument()

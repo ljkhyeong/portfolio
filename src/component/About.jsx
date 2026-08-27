@@ -94,7 +94,8 @@ const About = () => {
                     <span className="section-kicker"># experience.md</span>
                     <h2 id="experience-title">경력 및 학습</h2>
                     <p>
-                        교육, 실무 경력과 꾸준히 이어온 학습 활동을 시간과 성격에 맞게 나눴습니다.
+                        공공 SI에서 맡은 개발 및 운영 업무, 교육 프로젝트와 개발 서적 스터디를
+                        정리했습니다.
                     </p>
                 </div>
 
@@ -169,10 +170,7 @@ const About = () => {
                 <div className="capability-section__intro">
                     <span className="section-kicker"># skills.md</span>
                     <h2 id="capability-title">기술</h2>
-                    <p>
-                        백엔드와 프론트엔드 기술, 데이터 정합성과 운영 경험을 실제 적용 기준으로
-                        정리했습니다.
-                    </p>
+                    <p>사용한 기술과 해당 기술로 해결한 문제를 함께 정리했습니다.</p>
                 </div>
                 <div className="capability-list capability-list--desktop">
                     {homeSkillGroups.map((group) => (

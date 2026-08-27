@@ -46,9 +46,9 @@ describe("project summary data", () => {
         const hopeCommit = projectsById["hope-commit"]
 
         expect(hopeCommit.category).toBe("오픈소스 및 개발 도구")
-        expect(hopeCommit.status.text).toContain("SeungIl 님이 개발한 원본 Hope")
-        expect(hopeCommit.status.text).toContain("개인적으로 필요했던 커밋 단위 검토")
-        expect(hopeCommit.status.text).toContain("수정 및 보완")
+        expect(hopeCommit.status.text).toContain("SeungIl 님이 개발한 Hope 3.0.3")
+        expect(hopeCommit.status.text).toContain("제가 추가한 Commit Diff")
+        expect(hopeCommit.status.text).toContain("README와 NOTICE에 구분")
         expect(hopeCommit.status.text).toContain("Commit Diff")
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
@@ -138,7 +138,7 @@ describe("project summary data", () => {
         const paymentProblem = happyGallery.problems.find((problem) => problem.number === "02")
         const passRefundProblem = happyGallery.problems.find((problem) => problem.number === "07")
         const passRefundProof = happyGallery.proofs.find(
-            (proof) => proof.item === "8회권 전체 환불 정합성",
+            (proof) => proof.item === "8회권 환불, 미래 예약과 잔여 횟수 일치",
         )
 
         expect(paymentProblem).toMatchObject({
@@ -146,7 +146,7 @@ describe("project summary data", () => {
             decision: expect.stringContaining("REQUIRES_NEW"),
         })
         expect(passRefundProblem).toMatchObject({
-            title: "8회권 환불과 미래 예약 정합성 유지",
+            title: "8회권 전체 환불 시 미래 예약, 잔여 횟수와 환불 원장 일치",
             decision: expect.stringContaining("PK 순서"),
             boundary: expect.stringContaining("관리자 재처리"),
             print: expect.objectContaining({ label: "PASS / REFUND" }),
@@ -167,7 +167,8 @@ describe("project summary data", () => {
     it("describes defense integration, security, and legacy incident response without placeholder terms", () => {
         const defense = projectsById.defense
         const securityProblem = defense.problems.find((problem) => problem.number === "02")
-        const incidentProblem = defense.problems.find((problem) => problem.number === "03")
+        const uploadProblem = defense.problems.find((problem) => problem.number === "03")
+        const incidentProblem = defense.problems.find((problem) => problem.number === "04")
         const publicCopy = JSON.stringify(defense)
 
         expect(defense.systemTitle).toBe("수용자 인적정보 및 영장정보 연계 배치 흐름")
@@ -175,12 +176,11 @@ describe("project summary data", () => {
         expect(defense.oneLine).toContain("WebSquare 요청의 Spring Security CSRF 토큰 처리")
         expect(securityProblem.decision).toContain("WebSquare 화면 데이터 규격")
         expect(securityProblem.decision).toContain("Spring Security 필터에서 차단")
-        expect(securityProblem.decision).toContain("WAS 업로드 요청 검증")
-        expect(securityProblem.decision).toContain("Presigned URL")
-        expect(securityProblem.decision).toContain("파일 본문은 수신하거나 중계하지 않아")
-        expect(securityProblem.decision).toContain("기존 파일 솔루션 로직을 수정하지 않으면서")
-        expect(securityProblem.decision).toContain("WAS 메모리 및 I/O 부하와 OOM 위험을 방지")
-        expect(incidentProblem.title).toContain("폐쇄망 레거시 환경")
+        expect(uploadProblem.decision).toContain("WAS 권한 및 파일 정보 검증")
+        expect(uploadProblem.decision).toContain("Presigned URL")
+        expect(uploadProblem.decision).toContain("파일 본문은 받거나 중계하지 않았습니다")
+        expect(incidentProblem.title).toContain("Jenkins 실행 이력")
+        expect(incidentProblem.title).toContain("배치 중단 위치 확인")
         expect(incidentProblem.constraint).toContain(
             "Spring Boot Actuator, Prometheus, Grafana 같은 모니터링 환경",
         )

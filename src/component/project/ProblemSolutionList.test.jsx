@@ -22,9 +22,9 @@ const problems = [
 ]
 
 test("문제를 접힌 목록으로 먼저 보여주고 선택한 근거를 펼친다", async () => {
-    render(<ProblemSolutionList problems={problems} label="대표 문제 해결 목록" />)
+    render(<ProblemSolutionList problems={problems} label="문제와 해결 방법 목록" />)
 
-    const list = screen.getByRole("list", { name: "대표 문제 해결 목록" })
+    const list = screen.getByRole("list", { name: "문제와 해결 방법 목록" })
     const items = within(list).getAllByRole("listitem")
     const firstDetails = items[0].querySelector("details")
 
@@ -41,5 +41,5 @@ test("문제를 접힌 목록으로 먼저 보여주고 선택한 근거를 펼�
     expect(within(firstDetails).getByText("문제 상황")).toBeVisible()
     expect(within(firstDetails).getByText("적용한 방법")).toBeVisible()
     expect(within(firstDetails).getByText("테스트 및 확인")).toBeVisible()
-    expect(within(firstDetails).getByText("트레이드오프와 남은 과제")).toBeVisible()
+    expect(within(firstDetails).getByText("제약과 남은 작업")).toBeVisible()
 })

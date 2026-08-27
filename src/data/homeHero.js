@@ -1,11 +1,11 @@
 export const homeHeroContent = {
     headline: {
-        lead: "복잡한 요구사항을",
-        emphasis: "안정적인 백엔드",
-        tail: "로 만듭니다.",
+        lead: "기관 간 데이터를 연결하고,",
+        emphasis: "중단된 작업을 다시 처리하는 백엔드",
+        tail: "를 개발합니다.",
     },
     summary:
-        "공공 시스템에서 독립망 간 기관 연계 인터페이스와 배치를 개발하고 운영 장애에 대응해 왔습니다. 개인 프로젝트에서는 서비스별 책임을 나누고, 요청이 중복되거나 작업이 실패해도 데이터가 어긋나지 않고 다시 처리할 수 있도록 설계하고 구현합니다.",
+        "공공 SI에서 KICS, 통신사 업무망과 전자영장 집행포털 사이의 요청 및 제출 자료를 연계하는 인터페이스와 Spring Batch를 개발하고 있습니다. 개인 프로젝트에서는 결제, 알림과 링크 생성처럼 중복되거나 중단될 수 있는 작업의 처리 상태를 DB에 저장하고, 다시 실행해도 같은 결과가 나오도록 구현합니다.",
     signals: [
         {
             label: "현재 업무",
@@ -14,15 +14,15 @@ export const homeHeroContent = {
             route: "/projects/e-warrant",
         },
         {
-            label: "서비스 설계",
+            label: "마이크로서비스 개발",
             title: "BATON",
-            evidence: "Core + 6개 마이크로서비스 · 서비스별 데이터 경계",
+            evidence: "조직 데이터와 참여 권한은 Core · 부가 기능은 6개 서비스로 분리",
             route: "/projects/baton",
         },
         {
-            label: "구현 및 운영",
+            label: "전체 서비스 개발",
             title: "happyGallery",
-            evidence: "AWS 실운영 · 결제 및 환불 멱등성 · 알림 아웃박스",
+            evidence: "AWS 배포 및 운영 · 중복 결제 및 환불 방지 · 중단된 알림 재전송",
             route: "/projects/happygallery",
         },
     ],

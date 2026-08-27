@@ -192,8 +192,8 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .capability-section {
-        gap: 18px;
-        padding: 32px 42px;
+        gap: 12px;
+        padding: 24px 42px;
     }
 
     .portfolio-web-print .capability-section__intro h2 {
@@ -206,12 +206,12 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .capability {
-        padding: 10px 18px 12px;
+        padding: 8px 18px 9px;
     }
 
     .portfolio-web-print .capability::before {
-        top: 10px;
-        bottom: 12px;
+        top: 8px;
+        bottom: 9px;
     }
 
     .portfolio-web-print .capability__heading {
@@ -223,7 +223,7 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .capability li {
-        padding: 6px 0;
+        padding: 5px 0;
     }
 
     .portfolio-web-print :is(.capability--backend, .capability--frontend) .capability__stack-item {

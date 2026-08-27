@@ -14,7 +14,7 @@ const searchResult = {
     projectId: "happygallery",
     projectName: "happyGallery",
     documentType: "problem_solution",
-    title: "happyGallery 대표 문제 해결",
+    title: "happyGallery 문제와 해결 방법",
     heading: "PG 응답 유실 시 중복 승인 및 환불 방지",
     snippet: "결제 승인과 환불 요청에 멱등 키를 적용했습니다.",
     route: "/projects/happygallery",

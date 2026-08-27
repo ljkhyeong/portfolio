@@ -25,7 +25,7 @@ const ProjectServices = ({ project }) => {
 
     return (
         <div className="project-index__services" aria-label="BATON 마이크로서비스 상세">
-            <span>Microservices</span>
+            <span>서비스 상세</span>
             <div>
                 {project.serviceLinks.map((service) => (
                     <Link
@@ -115,7 +115,10 @@ const Projects = () => {
             <div className="project-index__intro">
                 <span className="section-kicker"># projects.md</span>
                 <h2 id="projects-title">프로젝트</h2>
-                <p>프로젝트를 선택하면 역할, 설계 판단, 문제 해결과 대표 문서를 볼 수 있습니다.</p>
+                <p>
+                    프로젝트를 선택하면 담당 업무, 구현 방법, 문제와 해결 과정, 테스트 결과와 공개
+                    문서를 볼 수 있습니다.
+                </p>
             </div>
 
             <ProjectIndex projects={careerProjects} label="경력 프로젝트" type="career" />

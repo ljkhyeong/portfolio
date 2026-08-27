@@ -72,7 +72,7 @@ test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를
     expect(rows[1]).toHaveTextContent(
         "동일 멱등 키에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
     )
-    expect(rows[4]).toHaveTextContent("BRIEF 이벤트 투영과 불변 에디션")
+    expect(rows[4]).toHaveTextContent("BRIEF 중복 이벤트 처리와 주간 보고서 재생성")
     expect(rows[5]).toHaveTextContent("CAL 일정 및 구독 계약")
-    expect(rows[6]).toHaveTextContent("ROUND 참여권과 실시간 통신 경계")
+    expect(rows[6]).toHaveTextContent("Core가 발급한 참여권 검증과 WebRTC 방 입장")
 })
