@@ -235,7 +235,7 @@ const WarrantVisual = () => (
 const HopeCommitVisual = () => {
     const steps = [
         ["01 / 대상 지정", "검토할 커밋 ID", "사용자가 입력한 로컬 커밋"],
-        ["02 / 비교 기준", "입력 커밋과 부모 커밋", "전체 ID와 비교할 부모 확정"],
+        ["02 / 비교 기준", "입력 커밋과 부모 커밋", "전체 ID와 비교 대상 확정"],
         ["03 / 코드 수집", "변경 코드 수집", "현재 수정 중인 파일 제외"],
         ["04 / 내용 확인", "설명과 실제 코드 연결", "변경 파일과 줄 번호 확인"],
         ["05 / 결과 저장", "새 HTML 파일 생성", "검증을 통과한 경우에만 저장"],
@@ -245,7 +245,7 @@ const HopeCommitVisual = () => {
         <div
             className="case-visual case-visual--hope-commit"
             role="img"
-            aria-label="입력한 커밋과 부모 커밋을 비교하고 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
+            aria-label="입력한 커밋과 비교 대상으로 확정한 부모 커밋을 대조하고 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
         >
             <div className="hope-commit-map__label">COMMIT DIFF / 지정한 커밋만 검토</div>
             <ol className="hope-commit-map">
@@ -260,7 +260,7 @@ const HopeCommitVisual = () => {
             <div className="hope-commit-map__boundaries">
                 <span>현재 수정 중인 파일 제외</span>
                 <span>이전 대화 제외</span>
-                <span>원격 CI 제외</span>
+                <span>원격 저장소 자동 검사 결과 제외</span>
                 <strong>입력 커밋에 저장된 코드만 사용</strong>
             </div>
         </div>
@@ -325,7 +325,7 @@ const ArchitectureSection = ({ project }) => (
     >
         <div className="case-section-heading">
             <span aria-hidden="true">## 02</span>
-            <h2 id="architecture-title">구현 구조와 선택 이유</h2>
+            <h2 id="architecture-title">구현 방법과 선택 이유</h2>
         </div>
         <div className="case-architecture__intro">
             <span>{project.architecture.label}</span>
@@ -394,7 +394,7 @@ const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }
             shortLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
         },
         ...(hasArchitecture
-            ? [{ href: "#project-architecture", label: "구현 구조", shortLabel: "구조" }]
+            ? [{ href: "#project-architecture", label: "구현 방법", shortLabel: "방법" }]
             : []),
         { href: "#project-problems", label: "문제 해결", shortLabel: "문제" },
         { href: "#project-proof", label: "테스트 및 결과", shortLabel: "결과" },
@@ -501,7 +501,7 @@ const PriorExperienceCase = ({ project }) => {
                 <section className="case-system" id="project-system" aria-labelledby="system-title">
                     <div className="case-section-heading">
                         <span>01</span>
-                        <h2 id="system-title">RTP 입력부터 실시간 및 다시보기 화면까지</h2>
+                        <h2 id="system-title">WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 흐름</h2>
                     </div>
                     <ProjectVisual project={project} />
                     <p className="case-system__caption">{project.visualCaption}</p>

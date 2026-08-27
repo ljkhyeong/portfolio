@@ -113,7 +113,7 @@ const Projects = () => {
     return (
         <section className="work-section" id="work" aria-labelledby="projects-title">
             <div className="project-index__intro">
-                <span className="section-kicker"># projects.md</span>
+                <span className="section-kicker">주요 프로젝트</span>
                 <h2 id="projects-title">프로젝트</h2>
                 <p>
                     프로젝트를 선택하면 담당 업무, 구현 방법, 문제와 해결 과정 및 확인 결과를 볼 수

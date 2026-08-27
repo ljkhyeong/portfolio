@@ -91,7 +91,7 @@ const About = () => {
                 aria-labelledby="experience-title"
             >
                 <div className="experience-section__intro">
-                    <span className="section-kicker"># experience.md</span>
+                    <span className="section-kicker">경력과 학습</span>
                     <h2 id="experience-title">경력 및 학습</h2>
                     <p>
                         공공 SI에서 맡은 개발 및 운영 업무, 교육 프로젝트와 개발 서적 스터디를
@@ -136,7 +136,7 @@ const About = () => {
                                 className="timeline__item timeline__item--compact"
                                 key={activity.id}
                             >
-                                <div className="timeline__period">Group Study</div>
+                                <div className="timeline__period">그룹 스터디</div>
                                 <div className="timeline__content">
                                     <span>
                                         {activity.type} · {activity.role}
@@ -168,7 +168,7 @@ const About = () => {
                 aria-labelledby="capability-title"
             >
                 <div className="capability-section__intro">
-                    <span className="section-kicker"># skills.md</span>
+                    <span className="section-kicker">사용 기술과 적용 경험</span>
                     <h2 id="capability-title">기술</h2>
                     <p>사용한 기술과 해당 기술로 해결한 문제를 함께 정리했습니다.</p>
                 </div>

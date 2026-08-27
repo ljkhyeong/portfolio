@@ -34,7 +34,7 @@ const Main = () => {
                     <span>
                         {portfolioProfile.name} · {portfolioProfile.role}
                     </span>
-                    <span>{portfolioProfile.location} · 2026</span>
+                    <span>{portfolioProfile.location}</span>
                 </div>
             </footer>
         </div>

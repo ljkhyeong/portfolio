@@ -10,21 +10,23 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(screen.getAllByText("임정규 · 백엔드 개발자").length).toBeGreaterThan(0)
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
-    expect(heroHeading).toHaveTextContent("기관 간 데이터를 연결하고")
+    expect(heroHeading).toHaveTextContent("기관 간 요청과 제출 자료를 전달하고")
     expect(heroHeading).toHaveTextContent("중단된 작업을 다시 처리하는 백엔드")
     const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
 
     expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
     expect(heroHighlights).toHaveTextContent("BEINTECH · LG CNS 컨소시엄")
-    expect(heroHighlights).toHaveTextContent("독립망 기관 연계 · Spring Batch")
+    expect(heroHighlights).toHaveTextContent("KICS-통신사 및 집행포털 연계 · Spring Batch")
     expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent("Core가 조직, 역할과 접근 권한 관리")
+    expect(heroHighlights).toHaveTextContent(
+        "중앙 서비스가 조직, 역할과 조직 작업 공간 접속용 공유 키 관리",
+    )
     expect(heroHighlights).toHaveTextContent(
         "6개 서비스가 링크, URL 점검, 이벤트 전달, 보고서, 캘린더와 화상방 처리",
     )
     expect(heroHighlights).toHaveTextContent("happyGallery")
     expect(heroHighlights).toHaveTextContent(
-        "AWS 배포 및 운영 이력 · 중복 결제 및 환불 방지 · 중단된 알림 재전송",
+        "AWS 배포 및 운영 이력 · 중복 결제 및 환불 방지 · 서버 중단으로 남은 알림 재전송",
     )
     expect(
         within(heroHighlights).getByRole("link", { name: /전송형 전자영장 시스템/ }),
@@ -98,7 +100,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(document.title).toBe("BATON | 임정규 포트폴리오")
     expect(
         screen.getByRole("heading", {
-            name: /Core는 조직 정보와 접근 권한을 관리하고/,
+            name: /중앙 서비스\(Core\)는 조직 정보와 조직 작업 공간 접속용 공유 키를 관리하고/,
         }),
     ).toBeInTheDocument()
 })
@@ -153,7 +155,7 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
         desktop.getByRole("heading", { name: "중복 처리 방지 및 장애 복구" }),
     ).toBeInTheDocument()
     expect(desktop.getByText("중복 결제 및 환불 방지")).toBeInTheDocument()
-    expect(desktop.getByText("중단된 알림 재전송")).toBeInTheDocument()
+    expect(desktop.getByText("서버 중단으로 남은 알림 재전송")).toBeInTheDocument()
     expect(desktop.getByText("동시 예약 및 재고 초과 차감 방지")).toBeInTheDocument()
     expect(desktop.getByText("중단 작업 재처리")).toBeInTheDocument()
 
@@ -240,7 +242,9 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
         }),
     ).toBeInTheDocument()
     expect(
-        within(educationSection).getByText(/RTP 영상을 FFmpeg와 GStreamer로 HLS 세그먼트/),
+        within(educationSection).getByText(
+            /mediasoup가 내보낸 RTP 영상은 FFmpeg와 GStreamer로 HLS 세그먼트/,
+        ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "교육 프로젝트 상세 보기 →" })).toHaveAttribute(
         "href",
@@ -281,7 +285,7 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     expect(within(careerProjects).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
     expect(within(careerProjects).getAllByText("문제")).toHaveLength(2)
     expect(within(careerSection).queryByText(/소속사 비공개/)).not.toBeInTheDocument()
-    expect(screen.getByLabelText("프로젝트 상태: 진행 중, 공개 가능 범위")).toBeInTheDocument()
+    expect(screen.getByLabelText("프로젝트 상태: 진행 중, 담당 범위만 공개")).toBeInTheDocument()
 })
 
 test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으로 보여준다", () => {
@@ -296,20 +300,20 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
     expect(within(warrantFacts).getByText("문제")).toBeInTheDocument()
     expect(within(warrantFacts).getByText("해결")).toBeInTheDocument()
     expect(warrantFacts).toHaveTextContent(
-        "KICS-통신사 및 KICS-집행포털 연계 인터페이스와 Spring Batch",
+        "KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 다시 KICS에 반영하는 서버 기능과 Spring Batch",
     )
     expect(warrantFacts).toHaveTextContent(
-        "KICS, 통신사 및 집행포털의 서로 다른 연계 규격과 계속 누적되는 전송 이력",
+        "기관마다 자료 형식이 다르고, 전송 이력이 쌓일수록 뒤쪽 목록 조회가 느려지며, PDF 변환 완료 응답이 요청 저장보다 먼저 도착할 수 있음",
     )
     expect(warrantFacts).toHaveTextContent(
-        "기관별 변환 코드와 배치 공통 단계를 분리하고, 누적 이력은 커서로 조회하며, DB 저장보다 먼저 온 PDF 완료 콜백은 상태를 다시 조회해 반영",
+        "기관별 자료 변환과 공통 배치 단계를 분리하고, 신규 목록은 마지막 조회 위치 다음부터 불러오며, 먼저 도착한 PDF 변환 완료 응답은 요청 상태를 다시 조회해 반영",
     )
 
     expect(galleryFacts).toHaveTextContent(
-        "결제 승인 결과 미수신, 서버 중단 시 알림 유실과 동시 주문 시 옵션 재고 초과 차감",
+        "결제 승인 결과 미수신, 주문 저장 직후 서버 중단으로 인한 알림 유실과 동시 주문 시 옵션 재고 초과 차감",
     )
     expect(galleryFacts).toHaveTextContent(
-        "결제 요청 ID로 중복 승인을 막고, 미전송 알림은 DB에서 다시 처리하며, 옵션 재고는 항상 같은 순서로 잠근 뒤 차감",
+        "결제 요청 ID로 중복 승인을 막고, 미전송 알림은 DB에서 다시 처리하며, 옵션 재고 행은 항상 같은 순서로 잠근 뒤 차감",
     )
 })
 
@@ -438,7 +442,7 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
     render(<App />)
 
     expect(
-        await screen.findByRole("heading", { name: "구현 구조와 선택 이유" }),
+        await screen.findByRole("heading", { name: "구현 방법과 선택 이유" }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
@@ -489,7 +493,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
     expect(
         screen.getByText(
-            "BATON에 등록된 외부 URL이 사설망이나 로컬 주소로 연결되지 않는지 확인한 뒤 상태를 점검합니다. 저장된 이전 결과와 달라지면 URL 상태 변경 이벤트를 Core에 전달합니다.",
+            "Core에 등록된 외부 URL이 사설망이나 로컬 주소로 연결되지 않는지 확인한 뒤 상태를 점검합니다. 저장된 이전 결과와 달라지면 URL 상태 변경 이벤트를 Core에 전달합니다.",
         ),
     ).toBeInTheDocument()
     expect(
@@ -546,7 +550,7 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
     ).toBeInTheDocument()
     expect(document.querySelectorAll("[data-print-page]")).toHaveLength(0)
     expect(within(printDocument).getByRole("heading", { level: 1 })).toHaveTextContent(
-        "기관 간 데이터를 연결하고",
+        "기관 간 요청과 제출 자료를 전달하고",
     )
     expect(within(printDocument).getByRole("heading", { name: "프로젝트" })).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "경력 및 학습" })).toBeInTheDocument()

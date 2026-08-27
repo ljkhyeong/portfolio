@@ -8,17 +8,17 @@ import "../../css/PortfolioKnowledge.css"
 
 const suggestionQuestions = [
     "결제와 환불 중복 처리를 어떻게 막았나요?",
-    "BATON의 Core와 6개 서비스는 각각 어떤 데이터를 받고 무엇을 처리하나요?",
-    "독립망 연계 배치에서 장애를 어떻게 확인했나요?",
+    "BATON의 중앙 서비스와 나머지 6개 서비스는 각각 어떤 데이터를 받고 무엇을 처리하나요?",
+    "독립망 사이의 자료 전송이 중단됐을 때 어떻게 원인을 찾고 다시 처리했나요?",
     "서버가 중단돼도 미전송 알림을 다시 보내는 방법은 무엇인가요?",
 ]
 
 const documentTypes = [
     ["project_overview", "프로젝트 개요"],
     ["service_overview", "서비스 개요"],
-    ["architecture_decision", "구현 구조와 선택 이유"],
+    ["architecture_decision", "구현 방법과 선택 이유"],
     ["problem_solution", "문제와 해결 방법"],
-    ["implementation_evidence", "구현 및 확인 결과"],
+    ["implementation_evidence", "구현 내용과 테스트 결과"],
     ["representative_document", "대표 문서"],
 ]
 
@@ -115,7 +115,10 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
             <div className="knowledge-state knowledge-state--idle">
                 <span aria-hidden="true">⌕</span>
                 <h2>프로젝트에서 확인하고 싶은 내용을 검색해 보세요.</h2>
-                <p>구현 구조와 선택 이유, 문제 해결 과정과 공개한 대표 문서를 함께 찾습니다.</p>
+                <p>
+                    구현 방법과 선택 이유, 문제 해결 과정, 테스트 결과와 공개한 대표 문서를 함께
+                    찾습니다.
+                </p>
             </div>
         )
     }
@@ -423,7 +426,7 @@ const PortfolioKnowledgePage = () => {
             <main id="knowledge-main" tabIndex="-1">
                 <section className="knowledge-hero" aria-labelledby="knowledge-title">
                     <div className="knowledge-hero__copy">
-                        <span className="knowledge-kicker"># portfolio.search</span>
+                        <span className="knowledge-kicker">포트폴리오 문서 검색</span>
                         <h1 id="knowledge-title" data-route-heading="/search">
                             프로젝트 <em>구현 내용과 공개 문서</em>를 검색해 보세요.
                         </h1>
@@ -519,7 +522,7 @@ const PortfolioKnowledgePage = () => {
                 </div>
             </main>
             <footer className="knowledge-footer">
-                <span>{portfolioProfile.name} · Portfolio Knowledge Search</span>
+                <span>{portfolioProfile.name} · 포트폴리오 문서 검색</span>
                 <Link to="/">포트폴리오로 돌아가기 →</Link>
             </footer>
         </div>

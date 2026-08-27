@@ -2,7 +2,8 @@ export const homeSkillGroups = [
     {
         id: "backend",
         label: "백엔드",
-        summary: "Java와 Spring 기반으로 API, 기관 연계 배치와 메시지 처리를 구현합니다.",
+        summary:
+            "Java와 Spring으로 기관 간 자료를 주고받는 API와 배치를 개발하고, RabbitMQ와 SQS로 서비스 간 이벤트를 전달합니다.",
         items: [
             { name: "Java" },
             { name: "Spring Boot / Spring MVC" },
@@ -34,12 +35,12 @@ export const homeSkillGroups = [
                 detail: "요청 ID와 처리 상태를 저장하고 PG 결과를 다시 조회해, 같은 요청이 와도 승인이나 환불을 한 번만 처리합니다.",
             },
             {
-                name: "중단된 알림 재전송",
+                name: "서버 중단으로 남은 알림 재전송",
                 detail: "주문 및 예약 상태와 보낼 알림을 같은 DB 트랜잭션에 저장하고, 남은 알림은 스케줄러가 다시 전송합니다.",
             },
             {
                 name: "동시 예약 및 재고 초과 차감 방지",
-                detail: "좌석과 재고 행을 항상 같은 순서로 잠근 뒤 확인하고 변경해, 동시에 요청해도 수량을 초과하지 않게 합니다.",
+                detail: "좌석과 재고 행을 항상 같은 순서로 잠근 뒤 남은 수량을 확인하고 차감해, 동시에 요청해도 수량을 초과하지 않게 합니다.",
             },
             {
                 name: "중단 작업 재처리",
@@ -50,23 +51,24 @@ export const homeSkillGroups = [
     {
         id: "delivery",
         label: "테스트 및 운영",
-        summary: "통합 및 계약 테스트, 브라우저 E2E와 운영 장애 분석으로 동작을 확인합니다.",
+        summary:
+            "실제 DB를 사용하는 통합 테스트, 주요 화면 자동화 테스트와 로그 및 DB 조회로 변경 사항과 운영 장애를 확인합니다.",
         items: [
             {
                 name: "통합 테스트",
-                detail: "JUnit과 Testcontainers로 도메인 규칙과 실제 DB 동작을 확인합니다.",
+                detail: "JUnit과 Testcontainers로 주문, 결제와 예약 등의 업무 규칙과 실제 DB 동작을 확인합니다.",
             },
             {
-                name: "API 계약 검증",
-                detail: "Spring REST Docs와 OpenAPI로 요청 및 응답 계약과 문서를 동기화합니다.",
+                name: "API 요청 및 응답 문서 검증",
+                detail: "Spring REST Docs와 OpenAPI로 요청 및 응답 형식이 API 문서와 함께 바뀌는지 확인합니다.",
             },
             {
-                name: "브라우저 E2E",
-                detail: "Playwright로 주문, 결제, 예약과 주요 사용자 흐름의 회귀를 확인합니다.",
+                name: "주요 화면 자동화 테스트",
+                detail: "Playwright로 주문, 결제, 예약과 주요 사용자 흐름이 변경 후에도 계속 동작하는지 확인합니다.",
             },
             {
                 name: "배포 및 장애 분석",
-                detail: "Docker 배포, Jenkins 배치 실행과 로그 및 DB 조회로 운영 장애를 추적합니다.",
+                detail: "Docker 배포 상태, Jenkins 배치 실행 이력, 서버 로그와 DB 처리 상태를 대조해 장애가 발생한 단계를 찾습니다.",
             },
         ],
     },

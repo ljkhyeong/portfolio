@@ -65,9 +65,11 @@ describe("공개 지식 문서 목록", () => {
                 document.documentType === "service_overview",
         )
 
-        expect(batonOverview.content).toContain("공개 범위: 일부 공개")
-        expect(roundOverview.content).toContain("저장소 공개 범위: 비공개 저장소 / 공개 가능 요약")
-        expect(roundOverview.content).toContain("검증 요약: 정상 및 비정상 참여권")
+        expect(batonOverview.content).toContain("공개 범위: 일부 저장소 공개")
+        expect(roundOverview.content).toContain(
+            "저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개",
+        )
+        expect(roundOverview.content).toContain("검증 요약: Chromium에서는 가짜 카메라")
         expect(roundOverview.content).toContain("입력 확인: 참여권의 서명")
     })
 

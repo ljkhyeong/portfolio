@@ -24,7 +24,9 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
 
         expect(within(problems).getAllByRole("listitem")).toHaveLength(2)
         expect(
-            screen.queryByRole("heading", { name: "Core와 6개 서비스의 담당 업무 및 DB 분리" }),
+            screen.queryByRole("heading", {
+                name: "Core와 6개 서비스의 담당 업무, 실행 환경과 데이터 저장 방식 분리",
+            }),
         ).not.toBeInTheDocument()
         expect(screen.queryByText(project.architecture.tradeoff)).not.toBeInTheDocument()
         expect(screen.getByText(`${service.name}의 적용 범위와 제약`)).toBeInTheDocument()

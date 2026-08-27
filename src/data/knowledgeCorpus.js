@@ -124,11 +124,11 @@ const createArchitectureDecision = (project) => {
         projectSource(project, {
             sourceKey: `project:${project.id}:architecture`,
             documentType: "architecture_decision",
-            title: `${project.title} 구현 구조와 선택 이유`,
-            heading: "구현 구조와 선택 이유",
+            title: `${project.title} 구현 방법과 선택 이유`,
+            heading: "구현 방법과 선택 이유",
             content: joinContent([
                 labeledContent("프로젝트", project.title),
-                labeledContent("구현 구조", project.architecture.label),
+                labeledContent("구현 방법", project.architecture.label),
                 project.architecture.title,
                 project.architecture.description,
                 labeledContent("적용 범위와 제약", project.architecture.tradeoff),

@@ -117,7 +117,7 @@ describe("project summary data", () => {
         expect(baton.featuredProblemNumbers[0]).toBe("02")
         expect(coreProof).toMatchObject({
             method: "도메인 규칙 및 저장소 통합 테스트",
-            result: expect.stringContaining("열린 바통을 1건으로 유지"),
+            result: expect.stringContaining("진행 중인 인수인계를 1건으로 유지"),
         })
 
         baton.services
@@ -176,9 +176,11 @@ describe("project summary data", () => {
         expect(defense.oneLine).toContain("WebSquare 상태 변경 요청의 위조를 차단")
         expect(securityProblem.decision).toContain("WebSquare 화면 데이터 규격")
         expect(securityProblem.decision).toContain("Spring Security 필터에서 차단")
-        expect(uploadProblem.decision).toContain("WAS에 업로드 권한과 파일 정보를 요청")
+        expect(uploadProblem.decision).toContain("업무 서버에 업로드 권한과 파일 정보를 요청")
         expect(uploadProblem.decision).toContain("Presigned URL")
-        expect(uploadProblem.decision).toContain("WAS는 파일 본문을 받거나 중계하지 않았습니다")
+        expect(uploadProblem.decision).toContain(
+            "업무 서버는 파일 본문을 받거나 중계하지 않았습니다",
+        )
         expect(incidentProblem.title).toContain("Jenkins 실행 이력")
         expect(incidentProblem.title).toContain("배치 중단 위치 확인")
         expect(incidentProblem.constraint).toContain("통합 모니터링과 자동화 테스트가 없어")
