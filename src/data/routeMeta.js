@@ -57,6 +57,12 @@ export const routeMeta = {
             "AWS 실운영 경험과 결제 및 환불 멱등성, 알림 아웃박스, 예약 및 주문 상태 전이를 정리한 happyGallery 프로젝트",
         image: "/og-cover.png",
     },
+    "/projects/hope-commit": {
+        title: "Hope Commit | 임정규 포트폴리오",
+        description:
+            "지정한 Git 커밋과 부모의 객체만 수집하고 근거 범위를 검증해 오프라인 HTML 리뷰를 생성하는 Hope Commit 플러그인",
+        image: "/og-cover.png",
+    },
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:

@@ -232,9 +232,48 @@ const WarrantVisual = () => (
     </div>
 )
 
+const HopeCommitVisual = () => {
+    const steps = [
+        ["01 / TARGET", "커밋 ID 입력", "16진수 커밋 식별자"],
+        ["02 / BIND", "커밋과 부모 확정", "전체 객체 ID 및 비교 기준"],
+        ["03 / COLLECT", "Git 객체 수집", "작업 트리 제외"],
+        ["04 / VALIDATE", "근거와 분석 검증", "파일 및 줄 범위 연결"],
+        ["05 / PUBLISH", "오프라인 HTML", "재확인 후 새 파일 게시"],
+    ]
+
+    return (
+        <div
+            className="case-visual case-visual--hope-commit"
+            role="img"
+            aria-label="커밋 ID를 전체 Git 객체 ID와 부모에 연결하고 작업 트리를 제외한 변경 근거를 수집한 뒤 분석 검증과 재확인을 거쳐 오프라인 HTML 리뷰를 게시하는 흐름"
+        >
+            <div className="hope-commit-map__label">COMMIT DIFF / IMMUTABLE REVIEW</div>
+            <ol className="hope-commit-map">
+                {steps.map(([label, title, description]) => (
+                    <li key={label}>
+                        <span>{label}</span>
+                        <strong>{title}</strong>
+                        <small>{description}</small>
+                    </li>
+                ))}
+            </ol>
+            <div className="hope-commit-map__boundaries">
+                <span>WORKTREE 제외</span>
+                <span>이전 대화 제외</span>
+                <span>원격 CI 제외</span>
+                <strong>COMMITTED OBJECTS ONLY</strong>
+            </div>
+        </div>
+    )
+}
+
 const ProjectVisual = ({ project }) => {
     if (project.presentation === "featured") {
         return <ProductVisual project={project} />
+    }
+
+    if (project.visual === "hope-commit") {
+        return <HopeCommitVisual />
     }
 
     if (project.visual === "warrant") {
@@ -583,7 +622,12 @@ const ProjectCaseStudy = ({ projectId }) => {
             <footer className="case-next">
                 <Link to={nextProject.route}>
                     <span>
-                        다음 프로젝트 / {nextProject.projectType === "career" ? "경력" : "개인"}{" "}
+                        다음 프로젝트 /{" "}
+                        {nextProject.projectType === "career"
+                            ? "경력"
+                            : nextProject.projectType === "tooling"
+                              ? "도구"
+                              : "개인"}{" "}
                         {nextProject.index}
                     </span>
                     <strong>{nextProject.title}</strong>

@@ -1003,6 +1003,182 @@ const projects = [
         ],
     },
     {
+        ...projectSummariesById["hope-commit"],
+        evidenceAsOf: "2026.08.27 공개 저장소 기준",
+        evidenceTitle: "구현 및 자동화 테스트",
+        systemTitle: "커밋 검토 처리 흐름",
+        systemNavLabel: "처리 흐름",
+        architecture: {
+            label: "불변 Git 객체 기반 검토",
+            title: "작업 트리를 제외하고 지정한 커밋과 부모의 Git 객체만 검토합니다.",
+            description:
+                "짧은 커밋 ID를 전체 객체 ID로 확정하고, 기본적으로 첫 번째 부모와 비교합니다. 최초 커밋은 빈 트리, 병합 커밋은 사용자가 지정한 부모를 기준으로 삼습니다. 수집, 근거 기록, 분석 검증과 게시 단계를 분리해 검토 중 커밋이나 작업 파일이 바뀌어도 처음 확정한 대상을 유지합니다.",
+            tradeoff:
+                "검토 결과의 재현성과 근거 추적을 우선해 실행 절차가 길어졌습니다. 로컬 저장소에 대상 커밋이 있어야 하며, 원격 CI와 토론 내용은 Commit Diff 검토 범위에 포함하지 않습니다.",
+        },
+        featuredProblemNumbers: ["01", "02", "03", "04"],
+        documentGroups: [
+            {
+                id: "feature",
+                label: "Feature Contract",
+                count: "1",
+                summary: "Commit Diff의 실행 조건, 입력과 완료 기준을 정의합니다.",
+            },
+            {
+                id: "security",
+                label: "Security",
+                count: "1",
+                summary: "비공개 경로와 자격 증명 형태의 데이터를 차단하는 기준을 관리합니다.",
+            },
+            {
+                id: "license",
+                label: "License / Notice",
+                count: "2",
+                summary: "MIT 라이선스와 원본 Hope의 저작권 및 포크 관계를 명시합니다.",
+            },
+        ],
+        documents: [
+            {
+                type: "README",
+                label: "Hope Commit 한국어 소개",
+                href: "https://github.com/ljkhyeong/hope-commit/blob/main/README.ko.md",
+                note: "Commit Diff의 목적, 동작 범위와 설치 방법",
+            },
+            {
+                type: "Skill Contract",
+                label: "Commit Diff 실행 계약",
+                href: "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit-diff/SKILL.md",
+                note: "대상 커밋 확정부터 근거 수집, 검증과 HTML 게시까지의 처리 절차",
+            },
+            {
+                type: "Security",
+                label: "보안 정책",
+                href: "https://github.com/ljkhyeong/hope-commit/blob/main/SECURITY.md",
+                note: "민감정보, 비공개 경로와 안전하지 않은 입력을 다루는 기준",
+            },
+            {
+                type: "Notice",
+                label: "원본 프로젝트 고지",
+                href: "https://github.com/ljkhyeong/hope-commit/blob/main/NOTICE",
+                note: "원본 Hope의 저작권, MIT 라이선스와 비공식 포크 관계",
+            },
+        ],
+        proofs: [
+            {
+                item: "커밋과 부모 객체 고정",
+                method: "Git 저장소 픽스처를 사용한 Commit Diff 수집기 테스트",
+                rule: "짧은 커밋 ID, 최초 커밋과 병합 커밋의 선택한 부모를 각각 확정해 Git 객체에서 변경 파일을 수집",
+                result: "전체 커밋 ID와 부모를 고정하고 파일 이름 변경 및 변경 줄 수를 유지하는 테스트 통과",
+                scope: "commit-collector.test.mjs 기준",
+            },
+            {
+                item: "민감정보와 근거 범위 제한",
+                method: "비공개 경로, 토큰 형태와 근거 좌표 검증 테스트",
+                rule: "자격 증명 가능성이 있는 경로와 값은 본문 수집 전에 제외하고, 분석 근거는 제공된 파일과 줄 범위만 허용",
+                result: "npm, PyPI와 네트워크 자격 증명 경로 및 토큰 형태를 차단하고 범위를 벗어난 근거를 거절",
+                scope: "commit-redaction.test.mjs 및 근거 검증 테스트 기준",
+            },
+            {
+                item: "검증 후 오프라인 HTML 게시",
+                method: "Commit Diff 전체 생명주기 테스트",
+                rule: "대상 준비, 근거 기록, 분석 스키마 검증과 커밋 재확인을 모두 통과한 경우에만 새 HTML 파일 게시",
+                result: "기존 결과 파일을 덮어쓰지 않고 확정한 커밋과 스냅샷 정보가 포함된 HTML 생성",
+                scope: "commit-lifecycle.test.mjs 기준",
+            },
+            {
+                item: "저장소 자동화 테스트",
+                method: "Node.js 내장 테스트 러너로 npm test 실행",
+                rule: "Commit Diff와 원본 Hope 기능의 수집, 검증, 렌더링, 게시 및 패키징 회귀 테스트 실행",
+                result: "자동화 테스트 245개 통과, 실패 0개",
+                scope: "2026.08.27 공개 저장소 main 브랜치 기준",
+            },
+        ],
+        category: "오픈소스 및 개발 도구",
+        role: "Hope 포크 유지, Commit Diff 워크플로와 Git 객체 수집 및 검증 절차 설계 및 구현",
+        oneLine:
+            "작업 트리와 이전 대화의 영향을 분리하고 지정한 커밋만 근거로 검토하는 오프라인 HTML 생성",
+        status: {
+            label: "공개 상태",
+            text: "GitHub에 공개한 Hope 기반 비공식 포크이며 현재 플러그인 버전은 3.1.1입니다. 원본 Git 이력과 MIT 라이선스를 유지하고, 직접 추가한 Commit Diff 기능의 범위를 README와 NOTICE에 구분해 기록했습니다.",
+        },
+        visualCaption:
+            "커밋 ID와 부모를 먼저 확정하고 Git 객체에서 근거를 수집한 뒤, 분석 검증과 재확인을 통과한 결과만 오프라인 HTML로 게시합니다.",
+        problems: [
+            {
+                number: "01",
+                title: "작업 트리와 분리된 커밋 검토",
+                constraint:
+                    "스테이징한 파일, 수정 중인 파일과 추적하지 않는 파일을 함께 읽으면 특정 커밋에 없던 내용이 검토 결과에 섞일 수 있습니다.",
+                decision:
+                    "입력한 16진수 커밋 ID를 전체 객체 ID로 확정하고 선택한 부모와 비교했습니다. 파일 본문과 변경 내역은 현재 작업 트리가 아니라 확정한 커밋과 부모의 Git 객체에서 읽습니다.",
+                validation:
+                    "짧은 커밋 ID, 최초 커밋, 병합 커밋의 부모 선택과 파일 이름 변경을 포함한 저장소 픽스처 테스트로 확인했습니다.",
+                boundary:
+                    "로컬 저장소에 존재하는 한 커밋만 검토합니다. 원격 CI 결과, 이슈와 토론 내용은 자동으로 수집하지 않습니다.",
+            },
+            {
+                number: "02",
+                title: "수집 범위 제한과 민감정보 차단",
+                constraint:
+                    "큰 변경사항이나 저장소 안의 자격 증명 값이 그대로 분석 입력과 HTML 결과에 포함되면 검토 범위가 불명확해지고 정보가 노출될 수 있습니다.",
+                decision:
+                    "변경 파일, 줄 수, 본문 크기와 추가 문맥 요청 수에 상한을 두었습니다. 비공개 설정 경로와 자격 증명 형태의 값은 본문을 읽기 전에 제외하고, 제외한 항목은 검토 한계로 남깁니다.",
+                validation:
+                    "npm, PyPI 및 네트워크 자격 증명 경로와 토큰 형태, 파일 크기와 문맥 요청 상한을 경계값 테스트로 확인했습니다.",
+                boundary:
+                    "제외한 파일의 구현 내용은 분석하지 않습니다. 필요한 근거가 제한 범위 밖에 있으면 결과에 확인하지 못한 범위로 표시합니다.",
+            },
+            {
+                number: "03",
+                title: "근거 좌표와 분석 결과 검증",
+                constraint:
+                    "분석 모델이 이전 대화나 추측을 섞으면 실제 변경 코드가 뒷받침하지 않는 설명과 지적이 생성될 수 있습니다.",
+                decision:
+                    "분석은 이전 대화를 받지 않은 별도 작업 컨텍스트에서 실행하고, 각 판단에 수집기가 제공한 파일 식별자와 줄 범위를 연결합니다. 결과는 JSON Schema와 근거 규칙으로 검증합니다.",
+                validation:
+                    "다른 페이지의 근거 참조, 존재하지 않는 파일과 줄 범위, 스키마에 없는 필드 및 과도한 설명을 거절하는 테스트로 확인했습니다.",
+                boundary:
+                    "별도 분석 작업자를 사용할 수 없으면 검토를 중단합니다. 모델의 판단 자체를 증명하는 것이 아니라 판단이 참조한 코드 범위를 추적할 수 있게 합니다.",
+            },
+            {
+                number: "04",
+                title: "검증 결과의 원자적 게시",
+                constraint:
+                    "검토 도중 대상 커밋이나 임시 상태가 바뀌거나 기존 결과를 덮어쓰면 어떤 근거로 만든 문서인지 확인하기 어렵습니다.",
+                decision:
+                    "분석 검증 후 처음 확정한 Git 객체가 남아 있는지 다시 확인하고 새 경로에 HTML을 게시합니다. 기존 출력 파일과 다른 실행의 임시 디렉터리는 교체하거나 삭제하지 않습니다.",
+                validation:
+                    "검증 전후 커밋 변경, 기존 출력 경로, 심볼릭 링크와 게시 중 경합을 재현해 게시 중단 및 임시 상태 보존 규칙을 확인했습니다.",
+                boundary:
+                    "HTML은 로컬 파일로만 생성합니다. 원격 저장소 게시, 브랜치 생성, 푸시와 리뷰 댓글 작성은 수행하지 않습니다.",
+            },
+        ],
+        stack: [
+            "JavaScript",
+            "Node.js 22",
+            "Git Objects",
+            "JSON Schema",
+            "HTML / CSS",
+            "Node Test Runner",
+            "Codex Plugin",
+            "Claude Code Plugin",
+        ],
+        links: [
+            {
+                label: "Hope Commit GitHub 저장소",
+                href: "https://github.com/ljkhyeong/hope-commit",
+                note: "Commit Diff 구현, 자동화 테스트와 플러그인 패키지",
+            },
+            {
+                label: "원본 Hope 저장소",
+                href: "https://github.com/dkstm95/hope",
+                note: "SeungIl이 개발한 원본 프로젝트",
+            },
+        ],
+        linkNote:
+            "Hope Commit은 Hope를 기반으로 만든 비공식 포크이며 원본 프로젝트가 이 포크를 보증하거나 유지보수하지 않습니다.",
+    },
+    {
         ...projectSummariesById.warrant,
         evidenceTitle: "주요 구현 및 확인 결과",
         proofs: [
@@ -1247,6 +1423,8 @@ export const personalCaseStudies = projectList.filter(
     (project) => project.projectType === "personal",
 )
 
+export const toolingCaseStudies = projectList.filter((project) => project.projectType === "tooling")
+
 export const educationCaseStudies = projectList.filter(
     (project) => project.projectType === "education",
 )
@@ -1254,6 +1432,12 @@ export const educationCaseStudies = projectList.filter(
 export const navigableCaseStudyGroups = [
     { id: "career", label: "경력", title: "경력 프로젝트", projects: careerCaseStudies },
     { id: "personal", label: "개인", title: "개인 프로젝트", projects: personalCaseStudies },
+    {
+        id: "tooling",
+        label: "도구",
+        title: "오픈소스 및 개발 도구",
+        projects: toolingCaseStudies,
+    },
 ]
 
 export const navigableCaseStudies = navigableCaseStudyGroups.flatMap((group) => group.projects)

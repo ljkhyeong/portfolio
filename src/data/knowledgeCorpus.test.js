@@ -36,7 +36,14 @@ describe("공개 지식 문서 목록", () => {
             document.sourceUrl.startsWith("https://github.com/"),
         )
 
-        expect(corpus.projectIds).toEqual(["baton", "warrant", "happygallery", "defense", "webrtc"])
+        expect(corpus.projectIds).toEqual([
+            "baton",
+            "warrant",
+            "happygallery",
+            "hope-commit",
+            "defense",
+            "webrtc",
+        ])
         expect(corpus.documentTypes).toEqual(KNOWLEDGE_DOCUMENT_TYPES)
         expect(externalDocuments.map((document) => document.sourceUrl)).toEqual(
             PUBLIC_EXTERNAL_DOCUMENTS,

@@ -6,6 +6,7 @@ import {
     educationCaseStudies,
     personalCaseStudies,
     projectsById,
+    toolingCaseStudies,
 } from "./projects"
 
 describe("project summary data", () => {
@@ -33,10 +34,33 @@ describe("project summary data", () => {
         ])
     })
 
-    it("separates career, personal, and education projects in recruiter-first order", () => {
+    it("separates career, personal, tooling, and education projects in recruiter-first order", () => {
         expect(careerCaseStudies.map((project) => project.id)).toEqual(["warrant", "defense"])
         expect(personalCaseStudies.map((project) => project.id)).toEqual(["baton", "happygallery"])
+        expect(toolingCaseStudies.map((project) => project.id)).toEqual(["hope-commit"])
         expect(educationCaseStudies.map((project) => project.id)).toEqual(["webrtc"])
+    })
+
+    it("separates Hope Commit fork attribution from the added Commit Diff scope", () => {
+        const hopeCommit = projectsById["hope-commit"]
+
+        expect(hopeCommit.category).toBe("오픈소스 및 개발 도구")
+        expect(hopeCommit.status.text).toContain("Hope 기반 비공식 포크")
+        expect(hopeCommit.status.text).toContain("Commit Diff")
+        expect(hopeCommit.links).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ href: "https://github.com/ljkhyeong/hope-commit" }),
+                expect.objectContaining({ href: "https://github.com/dkstm95/hope" }),
+            ]),
+        )
+        expect(hopeCommit.proofs).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    item: "저장소 자동화 테스트",
+                    result: "자동화 테스트 245개 통과, 실패 0개",
+                }),
+            ]),
+        )
     })
 
     it("models BEINTECH as one current employment with two ordered projects", () => {

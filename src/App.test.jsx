@@ -38,6 +38,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     const careerProjects = screen.getByRole("list", { name: "경력 프로젝트" })
     const personalProjects = screen.getByRole("list", { name: "개인 프로젝트" })
+    const toolingProjects = screen.getByRole("list", { name: "오픈소스 및 개발 도구" })
     const educationProjects = screen.getByRole("list", { name: "교육 프로젝트" })
     const batonHeading = within(personalProjects).getByRole("heading", {
         name: "BATON",
@@ -53,6 +54,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     ).toBeInTheDocument()
     expect(
         within(personalProjects).getByRole("heading", { name: "happyGallery", level: 4 }),
+    ).toBeInTheDocument()
+    expect(
+        within(toolingProjects).getByRole("heading", { name: "Hope Commit", level: 4 }),
     ).toBeInTheDocument()
     expect(
         within(careerProjects).getByRole("heading", {
@@ -72,7 +76,10 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(careerProjects.compareDocumentPosition(personalProjects)).toBe(
         Node.DOCUMENT_POSITION_FOLLOWING,
     )
-    expect(personalProjects.compareDocumentPosition(educationProjects)).toBe(
+    expect(personalProjects.compareDocumentPosition(toolingProjects)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(toolingProjects.compareDocumentPosition(educationProjects)).toBe(
         Node.DOCUMENT_POSITION_FOLLOWING,
     )
     await act(async () => {
@@ -95,6 +102,7 @@ const projectLinkCases = [
     ["BATON", "/projects/baton"],
     ["전송형 전자영장 시스템", "/projects/e-warrant"],
     ["happyGallery", "/projects/happygallery"],
+    ["Hope Commit", "/projects/hope-commit"],
     ["차세대 군사법 정보 시스템", "/projects/defense"],
     ["WebRTC/HLS 현장강의 보조 서비스", "/projects/webrtc"],
 ]
@@ -321,6 +329,7 @@ const canonicalRouteCases = [
     ["/projects/baton/brief", "BRIEF", "BATON BRIEF | 임정규 포트폴리오"],
     ["/projects/baton/cal", "CAL", "BATON CAL | 임정규 포트폴리오"],
     ["/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
+    ["/projects/hope-commit", "Hope Commit", "Hope Commit | 임정규 포트폴리오"],
     ["/projects/e-warrant", "전송형 전자영장 시스템", "전송형 전자영장 시스템 | 임정규 포트폴리오"],
     [
         "/projects/defense",
@@ -424,6 +433,27 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
     expect(screen.getAllByText("트레이드오프").length).toBeGreaterThan(0)
 })
 
+test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범위를 구분한다", async () => {
+    window.history.pushState({}, "", "/projects/hope-commit")
+
+    render(<App />)
+
+    expect(
+        await screen.findByRole("heading", { name: "Hope Commit", level: 1 }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/Hope 기반 비공식 포크/)).toBeInTheDocument()
+    expect(
+        screen.getByRole("heading", { name: "작업 트리와 분리된 커밋 검토" }),
+    ).toBeInTheDocument()
+    expect(screen.getByText("자동화 테스트 245개 통과, 실패 0개")).toBeInTheDocument()
+    expect(
+        screen.getByRole("link", { name: "Hope Commit GitHub 저장소 새 창에서 보기" }),
+    ).toHaveAttribute("href", "https://github.com/ljkhyeong/hope-commit")
+    expect(
+        screen.getByText(/원본 프로젝트가 이 포크를 보증하거나 유지보수하지 않습니다/),
+    ).toBeInTheDocument()
+})
+
 test("BATON 마이크로서비스 상세는 책임, 대표 문제 해결과 문서를 분리해 보여준다", async () => {
     window.history.pushState({}, "", "/projects/baton/watch")
 
@@ -485,6 +515,7 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
     expect(within(printDocument).getAllByText("BEINTECH").length).toBeGreaterThan(0)
     expect(within(printDocument).getAllByText("BATON").length).toBeGreaterThan(0)
     expect(within(printDocument).getAllByText("happyGallery").length).toBeGreaterThan(0)
+    expect(within(printDocument).getAllByText("Hope Commit").length).toBeGreaterThan(0)
     expect(
         within(printDocument).getByRole("heading", {
             name: /백엔드 개발과 운영 경험에 대해/,

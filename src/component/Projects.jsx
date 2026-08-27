@@ -105,6 +105,7 @@ const Projects = () => {
     const personalProjects = projectSummaries.filter(
         (project) => project.projectType === "personal",
     )
+    const toolingProjects = projectSummaries.filter((project) => project.projectType === "tooling")
     const educationProjects = projectSummaries.filter(
         (project) => project.projectType === "education",
     )
@@ -124,6 +125,14 @@ const Projects = () => {
                 type="personal"
                 separated
             />
+            {toolingProjects.length > 0 && (
+                <ProjectIndex
+                    projects={toolingProjects}
+                    label="오픈소스 및 개발 도구"
+                    type="tooling"
+                    separated
+                />
+            )}
             {educationProjects.length > 0 && (
                 <ProjectIndex
                     projects={educationProjects}

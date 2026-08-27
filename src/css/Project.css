@@ -116,6 +116,10 @@
     font-size: clamp(52px, 6vw, 82px);
 }
 
+.case-study-page--hope-commit .case-hero h1 {
+    font-size: clamp(50px, 5.7vw, 80px);
+}
+
 .case-study-page--warrant .case-hero h1,
 .case-study-page--defense .case-hero h1,
 .case-study-page--webrtc .case-hero h1 {
@@ -828,6 +832,116 @@
     color: rgba(243, 241, 234, 0.68);
     text-align: center;
     white-space: nowrap;
+}
+
+.case-visual--hope-commit {
+    display: grid;
+    min-height: 470px;
+    grid-template-rows: auto 1fr auto;
+    gap: 28px;
+    padding: 32px clamp(28px, 4.5vw, 58px);
+}
+
+.hope-commit-map__label {
+    color: rgba(240, 246, 252, 0.62);
+    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.hope-commit-map {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(18px, 2.4vw, 32px);
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.hope-commit-map li {
+    position: relative;
+    display: flex;
+    min-height: 190px;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background: #161b22;
+}
+
+.hope-commit-map li:not(:last-child)::after {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 5px);
+    color: #58a6ff;
+    content: "→";
+    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-size: 18px;
+    transform: translateY(-50%);
+}
+
+.hope-commit-map li:last-child {
+    border-color: #2f81f7;
+    background: rgba(47, 129, 247, 0.14);
+}
+
+.hope-commit-map span,
+.hope-commit-map small,
+.hope-commit-map__boundaries {
+    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+}
+
+.hope-commit-map span {
+    margin-bottom: auto;
+    color: #58a6ff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.hope-commit-map strong {
+    margin-top: 28px;
+    font-size: clamp(17px, 1.55vw, 22px);
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+}
+
+.hope-commit-map small {
+    margin-top: 10px;
+    color: #8b949e;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.hope-commit-map__boundaries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid #30363d;
+    font-size: 14px;
+}
+
+.hope-commit-map__boundaries span,
+.hope-commit-map__boundaries strong {
+    padding: 6px 9px;
+    border: 1px solid #30363d;
+    border-radius: 4px;
+}
+
+.hope-commit-map__boundaries span {
+    color: #8b949e;
+}
+
+.hope-commit-map__boundaries strong {
+    margin-left: auto;
+    border-color: rgba(63, 185, 80, 0.5);
+    color: #3fb950;
+    letter-spacing: 0.04em;
 }
 
 .case-visual--webrtc {
@@ -1710,6 +1824,14 @@
         padding-top: 22px;
     }
 
+    .hope-commit-map {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hope-commit-map li:not(:last-child)::after {
+        display: none;
+    }
+
     .case-problem {
         grid-template-columns: 1fr;
         gap: 28px;
@@ -1774,6 +1896,7 @@
     .case-hero h1,
     .case-study-page--baton .case-hero h1,
     .case-study-page--gallery .case-hero h1,
+    .case-study-page--hope-commit .case-hero h1,
     .case-study-page--warrant .case-hero h1,
     .case-study-page--defense .case-hero h1,
     .case-study-page--webrtc .case-hero h1 {
@@ -1791,6 +1914,11 @@
     .case-study-page--gallery .case-hero h1 {
         font-size: clamp(36px, 10.8vw, 44px);
         letter-spacing: -0.055em;
+    }
+
+    .case-study-page--hope-commit .case-hero h1 {
+        font-size: clamp(38px, 11.2vw, 46px);
+        letter-spacing: -0.06em;
     }
 
     .case-section-nav {
@@ -1925,6 +2053,33 @@
 
     .case-visual--warrant {
         padding: 72px 22px 32px;
+    }
+
+    .case-visual--hope-commit {
+        gap: 22px;
+        padding: 26px 22px;
+    }
+
+    .hope-commit-map {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .hope-commit-map li {
+        min-height: 132px;
+    }
+
+    .hope-commit-map li:not(:last-child)::after {
+        display: none;
+    }
+
+    .hope-commit-map__boundaries {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .hope-commit-map__boundaries strong {
+        margin-left: 0;
     }
 
     .warrant-map__label {
@@ -2610,6 +2765,10 @@
 .baton-node__index,
 .baton-node small,
 .case-visual--gallery figcaption span,
+.hope-commit-map__label,
+.hope-commit-map span,
+.hope-commit-map small,
+.hope-commit-map__boundaries,
 .defense-map__label,
 .defense-map__sources span,
 .defense-map small,

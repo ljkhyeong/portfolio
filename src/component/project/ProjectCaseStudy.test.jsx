@@ -77,7 +77,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     expect(screen.getByRole("list", { name: "추가 문제 해결 목록" })).toBeInTheDocument()
 
     const projectSwitcher = screen.getByRole("group", {
-        name: "경력 및 개인 프로젝트 바로가기",
+        name: "프로젝트 바로가기",
     })
     const projectMenu = within(projectSwitcher).getByText("프로젝트 이동").closest("details")
 
@@ -92,6 +92,11 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     ).toBeInTheDocument()
     expect(
         within(projectSwitcher).getByRole("list", { name: "개인 프로젝트 바로가기" }),
+    ).toBeInTheDocument()
+    expect(
+        within(projectSwitcher).getByRole("list", {
+            name: "오픈소스 및 개발 도구 바로가기",
+        }),
     ).toBeInTheDocument()
 
     expect(

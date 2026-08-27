@@ -38,9 +38,8 @@ const CaseMetaSection = ({
                         </li>
                     ))}
                 </ul>
-            ) : (
-                <p className="case-meta__link-note">{linkNote}</p>
-            )}
+            ) : null}
+            {linkNote ? <p className="case-meta__link-note">{linkNote}</p> : null}
         </div>
     </section>
 )

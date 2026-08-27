@@ -25,6 +25,10 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0011_이용권_사용_소모_환불_결정/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0032_%EC%95%8C%EB%A6%BC_Outbox_%EC%A0%84%EB%8B%AC_%EB%B3%B4%EC%9E%A5/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/Retrospective/0010_AWS_%EB%B9%84%EC%9A%A9_%EA%B3%BC%EA%B8%88_%EC%9B%90%EC%9D%B8_%EC%A0%90%EA%B2%80/retrospective.md",
+    "https://github.com/ljkhyeong/hope-commit/blob/main/README.ko.md",
+    "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit-diff/SKILL.md",
+    "https://github.com/ljkhyeong/hope-commit/blob/main/SECURITY.md",
+    "https://github.com/ljkhyeong/hope-commit/blob/main/NOTICE",
 ]
 
 const PORTFOLIO_ORIGIN = "https://ljkportfolio.netlify.app"

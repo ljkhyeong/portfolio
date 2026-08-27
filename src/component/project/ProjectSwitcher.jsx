@@ -45,7 +45,7 @@ const ProjectSwitcher = ({ currentProjectId, contextLabel }) => {
     }, [])
 
     return (
-        <div className="project-switcher" role="group" aria-label="경력 및 개인 프로젝트 바로가기">
+        <div className="project-switcher" role="group" aria-label="프로젝트 바로가기">
             <span className="project-switcher__count" aria-label={`현재 위치: ${countLabel}`}>
                 {countLabel}
             </span>

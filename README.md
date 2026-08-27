@@ -12,6 +12,10 @@ Java와 Spring으로 개발한 공공 시스템, 모놀리식 애플리케이션
 -   **BATON**: Core를 기준 데이터의 주체로 두고 GO, WATCH, RELAY, BRIEF, CAL을 변경 및 장애 처리 방식에 따라 분리한 마이크로서비스 프로젝트
 -   **happyGallery**: 포트와 어댑터 원칙을 적용하고 결제, 환불, 알림과 동시성 실패를 DB에 기록해 중복을 막고 미처리 작업을 재처리하는 Spring Boot 모놀리식 애플리케이션 및 Gradle 멀티모듈 구성
 
+## 오픈소스 및 개발 도구
+
+-   **Hope Commit**: Hope를 기반으로 로컬 Git 커밋 한 건을 부모 커밋과 비교하고, 커밋된 Git 객체의 근거만 사용해 오프라인 HTML 리뷰를 생성하도록 확장한 비공식 포크
+
 ## 교육 프로젝트
 
 -   **WebRTC/HLS 현장강의 보조 서비스**: HLS 서버와 React 화면을 맡아 WebRTC/RTP 미디어 경로와 HLS 변환을 구현한 팀 프로젝트
