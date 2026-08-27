@@ -15,7 +15,6 @@ import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import tools.jackson.databind.json.JsonMapper;
 
 @Testcontainers(disabledWithoutDocker = true)
 @Tag("integration")
@@ -33,7 +32,9 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
         KnowledgeProperties properties = new KnowledgeProperties();
         properties.getElasticsearch().setBaseUrl("http://" + ELASTICSEARCH.getHttpHostAddress());
         properties.getElasticsearch().setIndexName("portfolio-knowledge-integration-test");
-        repository = new ElasticsearchKnowledgeRepository(properties, new JsonMapper());
+        repository = new ElasticsearchKnowledgeRepository(properties);
+        repository.checkHealth();
+        repository.ensureIndex("test-model", 2);
         repository.ensureIndex("test-model", 2);
         repository.bulkIndex(List.of(chunk("integration-chunk")));
     }
@@ -73,10 +74,40 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
                 null,
                 List.of()
         );
+        KnowledgeChunk staleChunk = new KnowledgeChunk(
+                "disabled-stale-chunk",
+                withoutEmbedding.documentId(),
+                withoutEmbedding.projectId(),
+                withoutEmbedding.projectName(),
+                withoutEmbedding.serviceId(),
+                withoutEmbedding.documentType(),
+                withoutEmbedding.title(),
+                withoutEmbedding.heading(),
+                "임베딩 없이 BM25 검색을 제공하던 오래된 청크입니다.",
+                withoutEmbedding.sourceUrl(),
+                withoutEmbedding.route(),
+                withoutEmbedding.evidenceLevel(),
+                withoutEmbedding.sourceRevision(),
+                withoutEmbedding.sourceHash(),
+                "sha256:stale-content",
+                "sha256:stale-chunk",
+                null,
+                List.of()
+        );
 
+        repository.bulkIndex(List.of(withoutEmbedding, staleChunk));
         repository.bulkIndex(List.of(withoutEmbedding));
+        repository.deleteStaleChunks("disabled-doc", List.of("disabled-embedding-chunk"));
 
         var result = repository.searchBm25("임베딩 없이 BM25 검색", new KnowledgeFilter(List.of(), List.of()), 5);
-        assertThat(result).extracting(hit -> hit.chunk().chunkId()).contains("disabled-embedding-chunk");
+        assertThat(result).extracting(hit -> hit.chunk().chunkId())
+                .contains("disabled-embedding-chunk")
+                .doesNotContain("disabled-stale-chunk");
+        assertThat(repository.findIndexedSourceHashes()).containsEntry("disabled-doc", "sha256:source");
+
+        repository.deleteByDocumentId("disabled-doc");
+
+        var deleted = repository.searchBm25("임베딩 없이 BM25 검색", new KnowledgeFilter(List.of(), List.of()), 5);
+        assertThat(deleted).extracting(hit -> hit.chunk().chunkId()).doesNotContain("disabled-embedding-chunk");
     }
 }

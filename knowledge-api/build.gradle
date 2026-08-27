@@ -32,6 +32,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation('co.elastic.clients:elasticsearch-java') {
+        version {
+            strictly '8.19.19'
+        }
+    }
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
     implementation 'org.springframework.ai:spring-ai-starter-model-ollama'
 

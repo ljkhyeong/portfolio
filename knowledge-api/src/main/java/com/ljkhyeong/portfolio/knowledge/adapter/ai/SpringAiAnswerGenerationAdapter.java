@@ -5,10 +5,9 @@ import java.util.stream.Collectors;
 
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
-import org.springframework.ai.chat.messages.SystemMessage;
-import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.template.NoOpTemplateRenderer;
 
 public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
 
@@ -21,10 +20,13 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
             근거만으로 답할 수 없으면 "공개된 자료에서 확인할 수 없습니다."라고 답하세요.
             """;
 
-    private final ChatModel chatModel;
+    private final ChatClient chatClient;
 
     public SpringAiAnswerGenerationAdapter(ChatModel chatModel) {
-        this.chatModel = chatModel;
+        this.chatClient = ChatClient.builder(chatModel)
+                .defaultSystem(SYSTEM_PROMPT)
+                .defaultTemplateRenderer(new NoOpTemplateRenderer())
+                .build();
     }
 
     @Override
@@ -39,11 +41,10 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
                 .collect(Collectors.joining("\n\n"));
 
         try {
-            var response = chatModel.call(new Prompt(List.of(
-                    new SystemMessage(SYSTEM_PROMPT),
-                    new UserMessage("질문:\n%s\n\n공개 근거:\n%s".formatted(question, evidence))
-            )));
-            String answer = response.getResult().getOutput().getText();
+            String answer = chatClient.prompt()
+                    .user("질문:\n%s\n\n공개 근거:\n%s".formatted(question, evidence))
+                    .call()
+                    .content();
             if (answer == null || answer.isBlank()) {
                 throw new AnswerGenerationUnavailableException("AI가 빈 답변을 반환했습니다.");
             }

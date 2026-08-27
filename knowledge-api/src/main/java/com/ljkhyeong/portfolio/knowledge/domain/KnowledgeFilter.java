@@ -5,7 +5,7 @@ import java.util.List;
 public record KnowledgeFilter(List<String> projectIds, List<String> documentTypes) {
 
     public KnowledgeFilter {
-        projectIds = projectIds == null ? List.of() : List.copyOf(projectIds);
-        documentTypes = documentTypes == null ? List.of() : List.copyOf(documentTypes);
+        projectIds = List.copyOf(projectIds);
+        documentTypes = List.copyOf(documentTypes);
     }
 }

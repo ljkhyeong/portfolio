@@ -1,49 +1,72 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
-import java.net.http.HttpClient;
-import java.time.Duration;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.Conflicts;
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.Refresh;
+import co.elastic.clients.elasticsearch._types.mapping.DenseVectorSimilarity;
+import co.elastic.clients.elasticsearch._types.mapping.DynamicMapping;
+import co.elastic.clients.elasticsearch._types.mapping.Property;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
+import co.elastic.clients.elasticsearch.core.DeleteByQueryResponse;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
+import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
+import co.elastic.clients.json.JsonData;
+import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
+import co.elastic.clients.util.ObjectBuilder;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
+import jakarta.annotation.PreDestroy;
+import org.apache.http.HttpHost;
+import org.apache.http.message.BasicHeader;
+import org.elasticsearch.client.ResponseException;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClient;
-import tools.jackson.databind.ObjectMapper;
 
 @Repository
 public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
 
-    private static final String JSON_MEDIA_TYPE = "application/json";
-    private static final String NDJSON_MEDIA_TYPE = "application/x-ndjson";
-
     private final KnowledgeProperties properties;
-    private final ObjectMapper objectMapper;
-    private final RestClient restClient;
+    private final RestClientTransport transport;
+    private final ElasticsearchClient client;
 
-    public ElasticsearchKnowledgeRepository(KnowledgeProperties properties, ObjectMapper objectMapper) {
+    public ElasticsearchKnowledgeRepository(KnowledgeProperties properties) {
         this.properties = properties;
-        this.objectMapper = objectMapper;
-        this.restClient = createClient(properties.getElasticsearch());
+        RestClient restClient = createRestClient(properties.getElasticsearch());
+        this.transport = new RestClientTransport(restClient, new Jackson3JsonpMapper());
+        this.client = new ElasticsearchClient(transport);
     }
 
     public void checkHealth() {
-        try {
-            restClient.get().uri("/_cluster/health?local=true&timeout=2s").retrieve().toBodilessEntity();
-        } catch (RuntimeException exception) {
-            throw accessException("Elasticsearch 상태를 확인하지 못했습니다.", exception);
-        }
+        execute(
+                "Elasticsearch 상태를 확인하지 못했습니다.",
+                () -> client.cluster().health(request -> request.local(true).timeout(timeout -> timeout.time("2s")))
+        );
     }
 
     @Override
@@ -52,24 +75,69 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
             verifyIndexCompatibility(embeddingModelId, dimensions);
             return;
         }
-        put("/" + indexName(), indexDefinition(embeddingModelId, dimensions));
+
+        execute("Elasticsearch 인덱스를 생성하지 못했습니다.", () -> client.indices().create(request -> request
+                .index(indexName())
+                .settings(settings -> settings.numberOfShards("1").numberOfReplicas("0"))
+                .mappings(mapping -> mapping
+                        .dynamic(DynamicMapping.Strict)
+                        .meta("embeddingModelId", JsonData.of(embeddingModelId))
+                        .meta("embeddingDimensions", JsonData.of(dimensions))
+                        .properties("chunkId", keyword())
+                        .properties("documentId", keyword())
+                        .properties("projectId", keyword())
+                        .properties("projectName", textWithKeyword())
+                        .properties("serviceId", keyword())
+                        .properties("documentType", keyword())
+                        .properties("title", analyzedText())
+                        .properties("heading", analyzedText())
+                        .properties("content", analyzedText())
+                        .properties("sourceUrl", keyword())
+                        .properties("route", keyword())
+                        .properties("evidenceLevel", keyword())
+                        .properties("sourceRevision", keyword())
+                        .properties("sourceHash", keyword())
+                        .properties("contentHash", keyword())
+                        .properties("chunkHash", keyword())
+                        .properties("embeddingModelId", keyword())
+                        .properties("documentChunkCount", property -> property.integer(integer -> integer))
+                        .properties("embedding", property -> property.denseVector(vector -> vector
+                                .dims(dimensions)
+                                .index(true)
+                                .similarity(DenseVectorSimilarity.Cosine)
+                        ))
+                )
+        ));
     }
 
     @Override
     public Map<String, String> findIndexedSourceHashes() {
-        Map<String, Object> request = Map.of(
-                "size", 10_000,
-                "_source", List.of("documentId", "sourceHash", "documentChunkCount"),
-                "query", Map.of("match_all", Map.of())
+        SearchResponse<IndexedChunkDocument> response = execute(
+                "Elasticsearch 조회에 실패했습니다.",
+                () -> client.search(request -> request
+                                .index(indexName())
+                                .size(10_000)
+                                .source(source -> source.filter(filter -> filter.includes(
+                                        "documentId",
+                                        "sourceHash",
+                                        "documentChunkCount"
+                                )))
+                                .query(query -> query.matchAll(matchAll -> matchAll)),
+                        IndexedChunkDocument.class
+                )
         );
-        Map<String, Object> response = post("/" + indexName() + "/_search", request);
+
         Map<String, IndexedDocumentState> states = new LinkedHashMap<>();
-        for (Map<String, Object> hit : hits(response)) {
-            Map<String, Object> source = map(hit.get("_source"));
-            String documentId = string(source.get("documentId"));
-            states.computeIfAbsent(documentId, ignored -> new IndexedDocumentState())
-                    .add(string(source.get("sourceHash")), number(source.get("documentChunkCount")).intValue());
-        }
+        response.hits().hits().stream()
+                .map(hit -> hit.source())
+                .filter(java.util.Objects::nonNull)
+                .forEach(document -> states
+                        .computeIfAbsent(valueOrEmpty(document.documentId()), ignored -> new IndexedDocumentState())
+                        .add(
+                                valueOrEmpty(document.sourceHash()),
+                                document.documentChunkCount() == null ? 0 : document.documentChunkCount()
+                        ));
+
         Map<String, String> hashes = new LinkedHashMap<>();
         states.forEach((documentId, state) -> hashes.put(documentId, state.completeSourceHash()));
         return Map.copyOf(hashes);
@@ -77,12 +145,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
 
     @Override
     public void deleteByDocumentId(String documentId) {
-        Map<String, Object> request = Map.of(
-                "query", Map.of("term", Map.of("documentId", documentId))
-        );
-        verifyDeleteByQueryResponse(
-                post("/" + indexName() + "/_delete_by_query?refresh=true&conflicts=proceed", request)
-        );
+        deleteByQuery(Query.of(query -> query.term(term -> term.field("documentId").value(documentId))));
     }
 
     @Override
@@ -91,16 +154,11 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
             deleteByDocumentId(documentId);
             return;
         }
-        Map<String, Object> bool = Map.of(
-                "must", List.of(Map.of("term", Map.of("documentId", documentId))),
-                "must_not", List.of(Map.of("ids", Map.of("values", retainedChunkIds)))
-        );
-        verifyDeleteByQueryResponse(
-                post(
-                        "/" + indexName() + "/_delete_by_query?refresh=true&conflicts=proceed",
-                        Map.of("query", Map.of("bool", bool))
-                )
-        );
+
+        deleteByQuery(Query.of(query -> query.bool(bool -> bool
+                .must(must -> must.term(term -> term.field("documentId").value(documentId)))
+                .mustNot(mustNot -> mustNot.ids(ids -> ids.values(retainedChunkIds)))
+        )));
     }
 
     @Override
@@ -108,122 +166,138 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         if (chunks.isEmpty()) {
             return;
         }
-        Map<String, Long> chunkCounts = chunks.stream().collect(java.util.stream.Collectors.groupingBy(
-                KnowledgeChunk::documentId,
-                java.util.stream.Collectors.counting()
-        ));
-        StringBuilder body = new StringBuilder();
-        for (KnowledgeChunk chunk : chunks) {
-            body.append(writeJson(Map.of("index", Map.of("_index", indexName(), "_id", chunk.chunkId()))))
-                    .append('\n');
-            body.append(writeJson(toSource(chunk, chunkCounts.get(chunk.documentId()).intValue()))).append('\n');
-        }
 
-        Map<String, Object> response = postRaw("/_bulk?refresh=true", body.toString(), NDJSON_MEDIA_TYPE);
-        if (Boolean.TRUE.equals(response.get("errors"))) {
+        Map<String, Long> chunkCounts = chunks.stream().collect(Collectors.groupingBy(
+                KnowledgeChunk::documentId,
+                Collectors.counting()
+        ));
+        BulkRequest.Builder request = new BulkRequest.Builder().refresh(Refresh.True);
+        chunks.forEach(chunk -> request.operations(operation -> operation.index(index -> index
+                .index(indexName())
+                .id(chunk.chunkId())
+                .document(IndexedChunkDocument.from(
+                        chunk,
+                        chunkCounts.get(chunk.documentId()).intValue()
+                ))
+        )));
+
+        BulkResponse response = execute(
+                "Elasticsearch 벌크 요청에 실패했습니다.",
+                () -> client.bulk(request.build())
+        );
+        if (response.errors()) {
             throw new ElasticsearchAccessException("Elasticsearch 벌크 색인 실패: " + bulkFailureSummary(response));
         }
     }
 
     @Override
     public List<SearchHit> searchBm25(String query, KnowledgeFilter filter, int limit) {
-        Map<String, Object> boolQuery = new LinkedHashMap<>();
-        boolQuery.put("must", List.of(Map.of(
-                "multi_match", Map.of(
-                        "query", query,
-                        "fields", List.of("title^3", "heading^2", "projectName^2", "content"),
-                        "type", "best_fields"
-                )
-        )));
-        List<Map<String, Object>> filters = filters(filter);
-        if (!filters.isEmpty()) {
-            boolQuery.put("filter", filters);
-        }
+        List<Query> filters = filters(filter);
+        Query bm25Query = Query.of(root -> root.bool(bool -> {
+            bool.must(must -> must.multiMatch(multiMatch -> multiMatch
+                    .query(query)
+                    .fields("title^3", "heading^2", "projectName^2", "content")
+                    .type(TextQueryType.BestFields)
+            ));
+            if (!filters.isEmpty()) {
+                bool.filter(filters);
+            }
+            return bool;
+        }));
 
-        Map<String, Object> request = Map.of(
-                "size", limit,
-                "_source", Map.of("excludes", List.of("embedding")),
-                "query", Map.of("bool", boolQuery)
+        return search(request -> request
+                .index(indexName())
+                .size(limit)
+                .source(source -> source.filter(sourceFilter -> sourceFilter.excludes("embedding")))
+                .query(bm25Query)
         );
-        return search(request);
     }
 
     @Override
     public List<SearchHit> searchKnn(List<Float> queryVector, KnowledgeFilter filter, int limit, int candidates) {
-        Map<String, Object> knn = new LinkedHashMap<>();
-        knn.put("field", "embedding");
-        knn.put("query_vector", queryVector);
-        knn.put("k", limit);
-        knn.put("num_candidates", Math.max(candidates, limit));
-        List<Map<String, Object>> filters = filters(filter);
-        if (!filters.isEmpty()) {
-            knn.put("filter", Map.of("bool", Map.of("filter", filters)));
-        }
-
-        Map<String, Object> request = Map.of(
-                "size", limit,
-                "_source", Map.of("excludes", List.of("embedding")),
-                "knn", knn
+        List<Query> filters = filters(filter);
+        return search(request -> request
+                .index(indexName())
+                .size(limit)
+                .source(source -> source.filter(sourceFilter -> sourceFilter.excludes("embedding")))
+                .knn(knn -> {
+                    knn.field("embedding")
+                            .queryVector(queryVector)
+                            .k(limit)
+                            .numCandidates(Math.max(candidates, limit));
+                    if (!filters.isEmpty()) {
+                        knn.filter(query -> query.bool(bool -> bool.filter(filters)));
+                    }
+                    return knn;
+                })
         );
-        return search(request);
     }
 
-    private List<SearchHit> search(Map<String, Object> request) {
-        Map<String, Object> response = post("/" + indexName() + "/_search", request);
-        List<SearchHit> results = new ArrayList<>();
-        for (Map<String, Object> hit : hits(response)) {
-            Map<String, Object> source = map(hit.get("_source"));
-            results.add(new SearchHit(toChunk(source), number(hit.get("_score")).doubleValue()));
+    @PreDestroy
+    void close() {
+        try {
+            transport.close();
+        } catch (IOException exception) {
+            throw new ElasticsearchAccessException("Elasticsearch 연결을 종료하지 못했습니다.", exception);
         }
+    }
+
+    private void deleteByQuery(Query query) {
+        DeleteByQueryResponse response = execute(
+                "Elasticsearch 문서 삭제 요청에 실패했습니다.",
+                () -> client.deleteByQuery(request -> request
+                        .index(indexName())
+                        .refresh(true)
+                        .conflicts(Conflicts.Proceed)
+                        .query(query)
+                )
+        );
+        verifyDeleteByQueryResponse(
+                Boolean.TRUE.equals(response.timedOut()),
+                response.versionConflicts() == null ? 0 : response.versionConflicts(),
+                response.failures().size()
+        );
+    }
+
+    private List<SearchHit> search(
+            Function<SearchRequest.Builder, ObjectBuilder<SearchRequest>> requestFactory
+    ) {
+        SearchResponse<IndexedChunkDocument> response = execute(
+                "Elasticsearch 검색에 실패했습니다.",
+                () -> client.search(requestFactory, IndexedChunkDocument.class)
+        );
+        List<SearchHit> results = new ArrayList<>();
+        response.hits().hits().forEach(hit -> {
+            if (hit.source() != null) {
+                results.add(new SearchHit(
+                        toChunk(hit.source()),
+                        hit.score() == null ? 0 : hit.score()
+                ));
+            }
+        });
         return List.copyOf(results);
     }
 
-    private RestClient createClient(KnowledgeProperties.Elasticsearch configuration) {
-        HttpClient httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(configuration.getConnectTimeoutSeconds()))
-                .build();
-        JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
-        requestFactory.setReadTimeout(Duration.ofSeconds(configuration.getReadTimeoutSeconds()));
-
-        RestClient.Builder builder = RestClient.builder()
-                .baseUrl(configuration.getBaseUrl())
-                .requestFactory(requestFactory)
-                .defaultHeader(HttpHeaders.ACCEPT, JSON_MEDIA_TYPE);
-        if (StringUtils.hasText(configuration.getUsername())) {
-            String credentials = configuration.getUsername() + ":" + configuration.getPassword();
-            builder.defaultHeader(
-                    HttpHeaders.AUTHORIZATION,
-                    "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes(java.nio.charset.StandardCharsets.UTF_8))
-            );
-        }
-        return builder.build();
-    }
-
     private boolean indexExists() {
-        try {
-            return restClient.head()
-                    .uri("/" + indexName())
-                    .exchange((request, response) -> {
-                        if (response.getStatusCode().value() == 404) {
-                            return false;
-                        }
-                        if (response.getStatusCode().isError()) {
-                            throw new ElasticsearchAccessException("Elasticsearch 인덱스를 확인하지 못했습니다.");
-                        }
-                        return true;
-                    });
-        } catch (RuntimeException exception) {
-            throw accessException("Elasticsearch 인덱스를 확인하지 못했습니다.", exception);
-        }
+        return execute(
+                "Elasticsearch 인덱스를 확인하지 못했습니다.",
+                () -> client.indices().exists(request -> request.index(indexName())).value()
+        );
     }
 
     private void verifyIndexCompatibility(String embeddingModelId, int dimensions) {
-        Map<String, Object> mapping = get("/" + indexName() + "/_mapping");
-        Map<String, Object> indexMapping = map(mapping.get(indexName()));
-        Map<String, Object> mappings = map(indexMapping.get("mappings"));
-        Map<String, Object> metadata = map(mappings.get("_meta"));
-        String currentModel = string(metadata.get("embeddingModelId"));
-        int currentDimensions = number(metadata.get("embeddingDimensions")).intValue();
+        GetMappingResponse response = execute(
+                "Elasticsearch 매핑을 조회하지 못했습니다.",
+                () -> client.indices().getMapping(request -> request.index(indexName()))
+        );
+        var indexMapping = response.result().get(indexName());
+        Map<String, JsonData> metadata = indexMapping == null
+                ? Map.of()
+                : indexMapping.mappings().meta();
+        JsonData modelValue = metadata.get("embeddingModelId");
+        JsonData dimensionsValue = metadata.get("embeddingDimensions");
+        String currentModel = modelValue == null ? "" : modelValue.to(String.class);
+        int currentDimensions = dimensionsValue == null ? 0 : dimensionsValue.to(Integer.class);
         if (!embeddingModelId.equals(currentModel) || currentDimensions != dimensions) {
             throw new ElasticsearchAccessException(
                     "현재 인덱스의 임베딩 모델 또는 차원이 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
@@ -231,231 +305,80 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }
     }
 
-    private Map<String, Object> indexDefinition(String embeddingModelId, int dimensions) {
-        Map<String, Object> propertiesMap = new LinkedHashMap<>();
-        propertiesMap.put("chunkId", keyword());
-        propertiesMap.put("documentId", keyword());
-        propertiesMap.put("projectId", keyword());
-        propertiesMap.put("projectName", textWithKeyword());
-        propertiesMap.put("serviceId", keyword());
-        propertiesMap.put("documentType", keyword());
-        propertiesMap.put("title", analyzedText());
-        propertiesMap.put("heading", analyzedText());
-        propertiesMap.put("content", analyzedText());
-        propertiesMap.put("sourceUrl", keyword());
-        propertiesMap.put("route", keyword());
-        propertiesMap.put("evidenceLevel", keyword());
-        propertiesMap.put("sourceRevision", keyword());
-        propertiesMap.put("sourceHash", keyword());
-        propertiesMap.put("contentHash", keyword());
-        propertiesMap.put("chunkHash", keyword());
-        propertiesMap.put("embeddingModelId", keyword());
-        propertiesMap.put("documentChunkCount", Map.of("type", "integer"));
-        propertiesMap.put("embedding", Map.of(
-                "type", "dense_vector",
-                "dims", dimensions,
-                "index", true,
-                "similarity", "cosine"
+    private Property analyzedText() {
+        return Property.of(property -> property.text(text -> text
+                .analyzer("standard")
+                .searchAnalyzer("standard")
         ));
-
-        return Map.of(
-                "settings", Map.of(
-                        "number_of_shards", 1,
-                        "number_of_replicas", 0
-                ),
-                "mappings", Map.of(
-                        "dynamic", "strict",
-                        "_meta", Map.of(
-                                "embeddingModelId", embeddingModelId,
-                                "embeddingDimensions", dimensions
-                        ),
-                        "properties", propertiesMap
-                )
-        );
     }
 
-    private Map<String, Object> analyzedText() {
-        return Map.of("type", "text", "analyzer", "standard", "search_analyzer", "standard");
+    private Property textWithKeyword() {
+        return Property.of(property -> property.text(text -> text
+                .analyzer("standard")
+                .fields("raw", raw -> raw.keyword(keyword -> keyword))
+        ));
     }
 
-    private Map<String, Object> textWithKeyword() {
-        return Map.of(
-                "type", "text",
-                "analyzer", "standard",
-                "fields", Map.of("raw", Map.of("type", "keyword"))
-        );
+    private Property keyword() {
+        return Property.of(property -> property.keyword(keyword -> keyword.ignoreAbove(2048)));
     }
 
-    private Map<String, Object> keyword() {
-        return Map.of("type", "keyword", "ignore_above", 2048);
-    }
-
-    private List<Map<String, Object>> filters(KnowledgeFilter filter) {
-        List<Map<String, Object>> filters = new ArrayList<>();
+    private List<Query> filters(KnowledgeFilter filter) {
+        List<Query> filters = new ArrayList<>();
         if (!filter.projectIds().isEmpty()) {
-            filters.add(Map.of("terms", Map.of("projectId", filter.projectIds())));
+            filters.add(termsQuery("projectId", filter.projectIds()));
         }
         if (!filter.documentTypes().isEmpty()) {
-            filters.add(Map.of("terms", Map.of("documentType", filter.documentTypes())));
+            filters.add(termsQuery("documentType", filter.documentTypes()));
         }
         return List.copyOf(filters);
     }
 
-    private Map<String, Object> toSource(KnowledgeChunk chunk, int documentChunkCount) {
-        Map<String, Object> source = new LinkedHashMap<>();
-        source.put("chunkId", chunk.chunkId());
-        source.put("documentId", chunk.documentId());
-        source.put("projectId", chunk.projectId());
-        source.put("projectName", chunk.projectName());
-        source.put("serviceId", chunk.serviceId());
-        source.put("documentType", chunk.documentType());
-        source.put("title", chunk.title());
-        source.put("heading", chunk.heading());
-        source.put("content", chunk.content());
-        source.put("sourceUrl", chunk.sourceUrl());
-        source.put("route", chunk.route());
-        source.put("evidenceLevel", chunk.evidenceLevel());
-        source.put("sourceRevision", chunk.sourceRevision());
-        source.put("sourceHash", chunk.sourceHash());
-        source.put("contentHash", chunk.contentHash());
-        source.put("chunkHash", chunk.chunkHash());
-        source.put("documentChunkCount", documentChunkCount);
-        if (StringUtils.hasText(chunk.embeddingModelId())) {
-            source.put("embeddingModelId", chunk.embeddingModelId());
-        }
-        if (!chunk.embedding().isEmpty()) {
-            source.put("embedding", chunk.embedding());
-        }
-        return source;
+    private Query termsQuery(String field, List<String> values) {
+        return Query.of(query -> query.terms(terms -> terms
+                .field(field)
+                .terms(termsField -> termsField.value(values.stream().map(FieldValue::of).toList()))
+        ));
     }
 
-    private KnowledgeChunk toChunk(Map<String, Object> source) {
+    private KnowledgeChunk toChunk(IndexedChunkDocument source) {
         return new KnowledgeChunk(
-                string(source.get("chunkId")),
-                string(source.get("documentId")),
-                string(source.get("projectId")),
-                string(source.get("projectName")),
-                nullableString(source.get("serviceId")),
-                string(source.get("documentType")),
-                string(source.get("title")),
-                nullableString(source.get("heading")),
-                string(source.get("content")),
-                nullableString(source.get("sourceUrl")),
-                nullableString(source.get("route")),
-                nullableString(source.get("evidenceLevel")),
-                nullableString(source.get("sourceRevision")),
-                nullableString(source.get("sourceHash")),
-                string(source.get("contentHash")),
-                string(source.get("chunkHash")),
-                nullableString(source.get("embeddingModelId")),
+                valueOrEmpty(source.chunkId()),
+                valueOrEmpty(source.documentId()),
+                valueOrEmpty(source.projectId()),
+                valueOrEmpty(source.projectName()),
+                source.serviceId(),
+                valueOrEmpty(source.documentType()),
+                valueOrEmpty(source.title()),
+                source.heading(),
+                valueOrEmpty(source.content()),
+                source.sourceUrl(),
+                source.route(),
+                source.evidenceLevel(),
+                source.sourceRevision(),
+                source.sourceHash(),
+                valueOrEmpty(source.contentHash()),
+                valueOrEmpty(source.chunkHash()),
+                source.embeddingModelId(),
                 List.of()
         );
     }
 
-    private Map<String, Object> get(String uri) {
-        try {
-            String body = restClient.get().uri(uri).retrieve().body(String.class);
-            return readMap(body);
-        } catch (RuntimeException exception) {
-            throw accessException("Elasticsearch 조회에 실패했습니다.", exception);
-        }
+    private String bulkFailureSummary(BulkResponse response) {
+        String summary = response.items().stream()
+                .filter(item -> item.status() >= 300)
+                .limit(3)
+                .map(this::bulkFailure)
+                .collect(Collectors.joining("; "));
+        return summary.isEmpty() ? "상세 응답 없음" : summary;
     }
 
-    private Map<String, Object> put(String uri, Map<String, Object> body) {
-        try {
-            String response = restClient.put()
-                    .uri(uri)
-                    .contentType(MediaType.parseMediaType(JSON_MEDIA_TYPE))
-                    .body(body)
-                    .retrieve()
-                    .body(String.class);
-            return readMap(response);
-        } catch (RuntimeException exception) {
-            throw accessException("Elasticsearch 저장에 실패했습니다.", exception);
-        }
+    private String bulkFailure(BulkResponseItem item) {
+        String reason = item.error() == null ? "" : valueOrEmpty(item.error().reason());
+        return "id=%s, status=%d, reason=%s".formatted(valueOrEmpty(item.id()), item.status(), reason);
     }
 
-    private Map<String, Object> post(String uri, Map<String, Object> body) {
-        try {
-            String response = restClient.post()
-                    .uri(uri)
-                    .contentType(MediaType.parseMediaType(JSON_MEDIA_TYPE))
-                    .body(body)
-                    .retrieve()
-                    .body(String.class);
-            return readMap(response);
-        } catch (RuntimeException exception) {
-            throw accessException("Elasticsearch 요청에 실패했습니다.", exception);
-        }
-    }
-
-    private Map<String, Object> postRaw(String uri, String body, String mediaType) {
-        try {
-            String response = restClient.post()
-                    .uri(uri)
-                    .contentType(MediaType.parseMediaType(mediaType + ";charset=UTF-8"))
-                    .body(body.getBytes(java.nio.charset.StandardCharsets.UTF_8))
-                    .retrieve()
-                    .body(String.class);
-            return readMap(response);
-        } catch (RuntimeException exception) {
-            throw accessException("Elasticsearch 벌크 요청에 실패했습니다.", exception);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<Map<String, Object>> hits(Map<String, Object> response) {
-        Map<String, Object> hits = map(response.get("hits"));
-        Object values = hits.get("hits");
-        return values instanceof List<?> list ? (List<Map<String, Object>>) list : List.of();
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> map(Object value) {
-        return value instanceof Map<?, ?> map ? (Map<String, Object>) map : Map.of();
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> readMap(String body) {
-        if (!StringUtils.hasText(body)) {
-            return Map.of();
-        }
-        return objectMapper.readValue(body, Map.class);
-    }
-
-    private String writeJson(Object value) {
-        return objectMapper.writeValueAsString(value);
-    }
-
-    private String bulkFailureSummary(Map<String, Object> response) {
-        Object itemValue = response.get("items");
-        if (!(itemValue instanceof List<?> items)) {
-            return "상세 응답 없음";
-        }
-        List<String> failures = new ArrayList<>();
-        for (Object itemValueEntry : items) {
-            Map<String, Object> item = map(itemValueEntry);
-            Map<String, Object> operation = map(item.values().stream().findFirst().orElse(Map.of()));
-            if (number(operation.get("status")).intValue() >= 300) {
-                Map<String, Object> error = map(operation.get("error"));
-                failures.add("id=%s, status=%s, reason=%s".formatted(
-                        string(operation.get("_id")),
-                        number(operation.get("status")).intValue(),
-                        string(error.get("reason"))
-                ));
-            }
-            if (failures.size() == 3) {
-                break;
-            }
-        }
-        return failures.isEmpty() ? "상세 응답 없음" : String.join("; ", failures);
-    }
-
-    static void verifyDeleteByQueryResponse(Map<String, Object> response) {
-        boolean timedOut = Boolean.TRUE.equals(response.get("timed_out"));
-        int versionConflicts = numberValue(response.get("version_conflicts"));
-        Object failuresValue = response.get("failures");
-        int failureCount = failuresValue instanceof List<?> failures ? failures.size() : 0;
+    static void verifyDeleteByQueryResponse(boolean timedOut, long versionConflicts, int failureCount) {
         if (timedOut || versionConflicts > 0 || failureCount > 0) {
             throw new ElasticsearchAccessException(
                     "Elasticsearch 문서 삭제가 완료되지 않았습니다. timedOut=%s, versionConflicts=%d, failures=%d"
@@ -464,39 +387,119 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }
     }
 
-    private static int numberValue(Object value) {
-        return value instanceof Number number ? number.intValue() : 0;
+    private RestClient createRestClient(KnowledgeProperties.Elasticsearch configuration) {
+        RestClientBuilder builder = RestClient.builder(HttpHost.create(configuration.getBaseUrl()))
+                .setRequestConfigCallback(request -> request
+                        .setConnectTimeout(configuration.getConnectTimeoutSeconds() * 1_000)
+                        .setSocketTimeout(configuration.getReadTimeoutSeconds() * 1_000)
+                );
+        if (StringUtils.hasText(configuration.getUsername())) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBasicAuth(
+                    configuration.getUsername(),
+                    configuration.getPassword(),
+                    StandardCharsets.UTF_8
+            );
+            builder.setDefaultHeaders(new BasicHeader[]{
+                    new BasicHeader(HttpHeaders.AUTHORIZATION, headers.getFirst(HttpHeaders.AUTHORIZATION))
+            });
+        }
+        return builder.build();
     }
 
-    private String string(Object value) {
-        return value == null ? "" : String.valueOf(value);
+    private <T> T execute(String message, ElasticsearchCall<T> call) {
+        try {
+            return call.execute();
+        } catch (IOException | RuntimeException exception) {
+            throw accessException(message, exception);
+        }
     }
 
-    private String nullableString(Object value) {
-        return value == null ? null : String.valueOf(value);
-    }
-
-    private Number number(Object value) {
-        return value instanceof Number number ? number : 0;
+    private ElasticsearchAccessException accessException(String message, Exception exception) {
+        if (exception instanceof ElasticsearchAccessException accessException) {
+            return accessException;
+        }
+        if (exception instanceof ElasticsearchException elasticsearchException) {
+            return new ElasticsearchAccessException(
+                    message + " 상태 코드: " + elasticsearchException.status(),
+                    exception
+            );
+        }
+        if (exception instanceof ResponseException responseException) {
+            return new ElasticsearchAccessException(
+                    message + " 상태 코드: " + responseException.getResponse().getStatusLine().getStatusCode(),
+                    exception
+            );
+        }
+        return new ElasticsearchAccessException(message, exception);
     }
 
     private String indexName() {
         return properties.getElasticsearch().getIndexName();
     }
 
-    private ElasticsearchAccessException accessException(String message, RuntimeException exception) {
-        if (exception instanceof ElasticsearchAccessException accessException) {
-            return accessException;
+    private static String valueOrEmpty(String value) {
+        return value == null ? "" : value;
+    }
+
+    @FunctionalInterface
+    private interface ElasticsearchCall<T> {
+
+        T execute() throws IOException;
+    }
+
+    private record IndexedChunkDocument(
+            String chunkId,
+            String documentId,
+            String projectId,
+            String projectName,
+            String serviceId,
+            String documentType,
+            String title,
+            String heading,
+            String content,
+            String sourceUrl,
+            String route,
+            String evidenceLevel,
+            String sourceRevision,
+            String sourceHash,
+            String contentHash,
+            String chunkHash,
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            String embeddingModelId,
+            @JsonInclude(JsonInclude.Include.NON_NULL)
+            List<Float> embedding,
+            Integer documentChunkCount
+    ) {
+
+        private static IndexedChunkDocument from(KnowledgeChunk chunk, int documentChunkCount) {
+            return new IndexedChunkDocument(
+                    chunk.chunkId(),
+                    chunk.documentId(),
+                    chunk.projectId(),
+                    chunk.projectName(),
+                    chunk.serviceId(),
+                    chunk.documentType(),
+                    chunk.title(),
+                    chunk.heading(),
+                    chunk.content(),
+                    chunk.sourceUrl(),
+                    chunk.route(),
+                    chunk.evidenceLevel(),
+                    chunk.sourceRevision(),
+                    chunk.sourceHash(),
+                    chunk.contentHash(),
+                    chunk.chunkHash(),
+                    StringUtils.hasText(chunk.embeddingModelId()) ? chunk.embeddingModelId() : null,
+                    chunk.embedding().isEmpty() ? null : List.copyOf(chunk.embedding()),
+                    documentChunkCount
+            );
         }
-        if (exception instanceof HttpClientErrorException clientException) {
-            return new ElasticsearchAccessException(message + " 상태 코드: " + clientException.getStatusCode(), exception);
-        }
-        return new ElasticsearchAccessException(message, exception);
     }
 
     private static final class IndexedDocumentState {
 
-        private final java.util.Set<String> sourceHashes = new java.util.HashSet<>();
+        private final Set<String> sourceHashes = new HashSet<>();
         private int actualChunkCount;
         private int expectedChunkCount;
 
