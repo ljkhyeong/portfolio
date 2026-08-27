@@ -18,7 +18,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(heroHighlights).toHaveTextContent("BEINTECH · LG CNS 컨소시엄")
     expect(heroHighlights).toHaveTextContent("독립망 기관 연계 · Spring Batch")
     expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent("Core + 5개 마이크로서비스")
+    expect(heroHighlights).toHaveTextContent("Core + 6개 마이크로서비스")
     expect(heroHighlights).toHaveTextContent("happyGallery")
     expect(heroHighlights).toHaveTextContent("AWS 실운영 · 결제 및 환불 멱등성 · 알림 아웃박스")
     expect(
@@ -198,12 +198,12 @@ test("홈은 상세 근거를 펼치지 않고 프로젝트 선택에 집중한�
     expect(screen.queryAllByRole("img")).toHaveLength(0)
 })
 
-test("BATON의 5개 마이크로서비스를 독립 상세로 연결한다", () => {
+test("BATON의 6개 마이크로서비스를 독립 상세로 연결한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    const services = ["GO", "WATCH", "RELAY", "BRIEF", "CAL"]
+    const services = ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"]
 
     services.forEach((service) => {
         expect(
@@ -291,8 +291,8 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
     expect(warrantFacts).toHaveTextContent("독립망 간 기관 연계와 누적 전송 상태 조회")
     expect(warrantFacts).toHaveTextContent("공통 처리 흐름, 커서 조회와 실패 재처리")
 
-    expect(galleryFacts).toHaveTextContent("결제 응답 누락, 알림 중단과 예약 및 재고 경쟁")
-    expect(galleryFacts).toHaveTextContent("결제 및 환불 멱등성, 알림 아웃박스와 락 순서")
+    expect(galleryFacts).toHaveTextContent("결제 응답 누락, 알림 중단과 옵션별 재고 경쟁")
+    expect(galleryFacts).toHaveTextContent("멱등 처리, 알림 아웃박스와 SKU별 고정 락 순서")
 })
 
 test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록을 연결한다", () => {
@@ -328,6 +328,7 @@ const canonicalRouteCases = [
     ["/projects/baton/relay", "RELAY", "BATON RELAY | 임정규 포트폴리오"],
     ["/projects/baton/brief", "BRIEF", "BATON BRIEF | 임정규 포트폴리오"],
     ["/projects/baton/cal", "CAL", "BATON CAL | 임정규 포트폴리오"],
+    ["/projects/baton/round", "ROUND", "BATON ROUND | 임정규 포트폴리오"],
     ["/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
     ["/projects/hope-commit", "Hope Commit", "Hope Commit | 임정규 포트폴리오"],
     ["/projects/e-warrant", "전송형 전자영장 시스템", "전송형 전자영장 시스템 | 임정규 포트폴리오"],
@@ -441,12 +442,8 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(
         await screen.findByRole("heading", { name: "Hope Commit", level: 1 }),
     ).toBeInTheDocument()
-    expect(
-        screen.getAllByText(/SeungIl 님이 개발한 원본 Hope/).length,
-    ).toBeGreaterThan(0)
-    expect(
-        screen.getAllByText(/개인적으로 필요했던 커밋 단위 검토/).length,
-    ).toBeGreaterThan(0)
+    expect(screen.getAllByText(/SeungIl 님이 개발한 원본 Hope/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/개인적으로 필요했던 커밋 단위 검토/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("heading", { name: "작업 트리와 분리된 커밋 검토" }),
     ).toBeInTheDocument()
@@ -546,6 +543,11 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
             name: "BATON GO 마이크로서비스 상세 보기",
         }),
     ).toHaveAttribute("href", "https://ljkportfolio.netlify.app/projects/baton/go")
+    expect(
+        within(printDocument).getByRole("link", {
+            name: "BATON ROUND 마이크로서비스 상세 보기",
+        }),
+    ).toHaveAttribute("href", "https://ljkportfolio.netlify.app/projects/baton/round")
     await waitFor(() =>
         expect(document.documentElement).toHaveAttribute("data-print-ready", "true"),
     )

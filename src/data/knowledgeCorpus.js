@@ -15,6 +15,7 @@ export const PUBLIC_LOCAL_DOCUMENTS = [
     "/docs/baton/relay-attempt-recovery.md",
     "/docs/baton/brief-event-projection.md",
     "/docs/baton/cal-calendar-contract.md",
+    "/docs/baton/round-realtime-boundary.md",
 ]
 
 export const PUBLIC_EXTERNAL_DOCUMENTS = [
@@ -22,9 +23,11 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/baton-watch/blob/main/docs/runbooks/public-staging-event-delivery.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/PRD/0001_%EA%B8%B0%EC%A4%80_%EC%8A%A4%ED%8E%99/spec.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0021_Hexagonal_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98_%EC%A0%84%ED%99%98/adr.md",
+    "https://github.com/ljkhyeong/happyGallery/blob/04e57fa2afbd65241282eb2d5dfc5fe6319fafa5/docs/ADR/0033_결제_confirm_트랜잭션과_보상_경계/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0011_이용권_사용_소모_환불_결정/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0032_%EC%95%8C%EB%A6%BC_Outbox_%EC%A0%84%EB%8B%AC_%EB%B3%B4%EC%9E%A5/adr.md",
-    "https://github.com/ljkhyeong/happyGallery/blob/main/docs/Retrospective/0010_AWS_%EB%B9%84%EC%9A%A9_%EA%B3%BC%EA%B8%88_%EC%9B%90%EC%9D%B8_%EC%A0%90%EA%B2%80/retrospective.md",
+    "https://github.com/ljkhyeong/happyGallery/blob/04e57fa2afbd65241282eb2d5dfc5fe6319fafa5/docs/ADR/0036_%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4_%ED%8F%89%EB%AC%B8_%EC%A0%9C%EA%B1%B0%EC%99%80_%EB%B8%94%EB%9D%BC%EC%9D%B8%EB%93%9C_%EC%9D%B8%EB%8D%B1%EC%8A%A4_%EA%B8%B0%EC%A4%80/adr.md",
+    "https://github.com/ljkhyeong/happyGallery/blob/04e57fa2afbd65241282eb2d5dfc5fe6319fafa5/docs/Retrospective/0010_AWS_%EB%B9%84%EC%9A%A9_%EA%B3%BC%EA%B8%88_%EC%9B%90%EC%9D%B8_%EC%A0%90%EA%B2%80/retrospective.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/README.ko.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit-diff/SKILL.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/SECURITY.md",

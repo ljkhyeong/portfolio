@@ -16,7 +16,7 @@ export const homeHeroContent = {
         {
             label: "서비스 설계",
             title: "BATON",
-            evidence: "Core + 5개 마이크로서비스 · 서비스별 데이터 경계",
+            evidence: "Core + 6개 마이크로서비스 · 서비스별 데이터 경계",
             route: "/projects/baton",
         },
         {

@@ -3217,7 +3217,8 @@
 
 @media (min-width: 701px) {
     .case-service-map__children > a:nth-child(4),
-    .case-service-map__children > a:nth-child(5) {
+    .case-service-map__children > a:nth-child(5),
+    .case-service-map__children > a:nth-child(6) {
         border-top: 1px solid var(--line);
     }
 

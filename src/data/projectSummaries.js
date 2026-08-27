@@ -8,15 +8,15 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
         summary:
-            "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 운영 플랫폼입니다. Core와 5개 마이크로서비스의 서비스 경계, API, 데이터 모델과 운영 절차를 설계하고 구현하고 있습니다.",
+            "조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 운영 플랫폼입니다. Core와 6개 마이크로서비스의 서비스 경계, API, 데이터 모델과 운영 절차를 설계하고 구현하고 있습니다.",
         homeFacts: [
-            { label: "담당", value: "Core와 5개 마이크로서비스 설계 및 구현" },
+            { label: "담당", value: "Core와 6개 마이크로서비스 설계 및 구현" },
             { label: "문제", value: "서비스별 실패, 중복 요청과 이벤트 유실" },
             { label: "해결", value: "데이터 경계, 멱등성, 아웃박스와 Inbox" },
         ],
         period: "2026.07.20 — 진행 중",
         route: "/projects/baton",
-        tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / SQS"],
+        tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "WebRTC / Messaging"],
         visual: "baton",
         stage: "개발 중",
         visibility: "일부 공개",
@@ -26,6 +26,7 @@ export const projectSummaries = [
             { id: "relay", name: "RELAY", route: "/projects/baton/relay" },
             { id: "brief", name: "BRIEF", route: "/projects/baton/brief" },
             { id: "cal", name: "CAL", route: "/projects/baton/cal" },
+            { id: "round", name: "ROUND", route: "/projects/baton/round" },
         ],
     },
     {
@@ -63,15 +64,15 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "공방의 작품 판매와 클래스 예약을 온라인으로 처리하는 서비스입니다. 요구사항 정리부터 백엔드 및 프론트엔드 구현, 테스트와 AWS 운영까지 직접 담당했습니다.",
+            "공방의 작품 판매와 클래스 예약을 온라인으로 처리하는 서비스입니다. Java 및 Spring 백엔드, React SSR 화면, 주문제작 옵션과 SKU 재고부터 테스트와 AWS 운영까지 직접 담당했습니다.",
         homeFacts: [
             { label: "담당", value: "요구사항 정리부터 전체 구현 및 AWS 운영" },
-            { label: "문제", value: "결제 응답 누락, 알림 중단과 예약 및 재고 경쟁" },
-            { label: "해결", value: "결제 및 환불 멱등성, 알림 아웃박스와 락 순서" },
+            { label: "문제", value: "결제 응답 누락, 알림 중단과 옵션별 재고 경쟁" },
+            { label: "해결", value: "멱등 처리, 알림 아웃박스와 SKU별 고정 락 순서" },
         ],
         period: "2026.02.21 — 진행 중",
         route: "/projects/happygallery",
-        tags: ["Java", "Spring Boot", "React / TypeScript", "MySQL / Redis"],
+        tags: ["Java 25", "Spring Boot 4.1", "React 19 / SSR", "MySQL / Redis"],
         visual: "gallery",
         stage: "개발 중",
         visibility: "공개 저장소",
@@ -83,9 +84,9 @@ export const projectSummaries = [
         presentation: "tooling-case",
         title: "Hope Commit",
         navigationLabel: "Hope Commit",
-        eyebrow: "Hope 비공식 포크 / 커밋 검토 기능 수정 및 보완",
+        eyebrow: "Hope 3.0.3 비공식 포크 / 커밋 검토 기능 추가 및 보완",
         summary:
-            "SeungIl 님이 개발한 원본 Hope를 포크한 뒤, 개인적으로 필요했던 커밋 단위 검토에 맞게 수정 및 보완했습니다. 직접 추가한 Commit Diff는 로컬 Git 커밋 한 건을 부모 커밋과 비교하고, 커밋된 Git 객체의 근거만 사용해 오프라인 HTML 리뷰를 생성합니다.",
+            "SeungIl 님이 개발한 Hope 3.0.3을 기반으로 포크했습니다. 원본의 제한된 수집, 근거 검증과 오프라인 HTML 렌더링 구조를 활용해 로컬 Git 커밋 한 건을 부모와 비교하는 Commit Diff를 추가하고, 개인적인 검토 흐름에 맞게 수정 및 보완했습니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -135,7 +136,7 @@ export const projectSummaries = [
     },
     {
         id: "webrtc",
-        index: "교육 프로젝트",
+        index: "2023 교육 프로젝트",
         projectType: "education",
         presentation: "prior-experience",
         title: "WebRTC/HLS 현장강의 보조 서비스",
@@ -144,8 +145,8 @@ export const projectSummaries = [
             "현장 강의를 실시간으로 시청하고 지나간 구간을 다시 볼 수 있는 교육용 스트리밍 서비스입니다. 6인 팀에서 HLS 서버와 React 프론트엔드 구현을 맡았습니다.",
         homeFacts: [
             { label: "담당", value: "HLS 서버와 React 프론트엔드" },
-            { label: "문제", value: "라이브 강의 재생 지연 약 30초" },
-            { label: "해결", value: "FFmpeg와 GStreamer 조정으로 약 11초" },
+            { label: "문제", value: "HLS 재생 지연 약 35초" },
+            { label: "해결", value: "FFmpeg 설정 조정으로 약 17초" },
         ],
         period: "2023.09.01 — 2023.11.10",
         route: "/projects/webrtc",

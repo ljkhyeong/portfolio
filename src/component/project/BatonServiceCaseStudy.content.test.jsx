@@ -10,7 +10,7 @@ const renderService = (serviceId) =>
         </MemoryRouter>,
     )
 
-test.each(["go", "watch", "relay", "brief", "cal"])(
+test.each(["go", "watch", "relay", "brief", "cal", "round"])(
     "BATON %s 상세는 공통 설계 대신 서비스 고유 근거를 보여준다",
     (serviceId) => {
         const project = projectsById.baton

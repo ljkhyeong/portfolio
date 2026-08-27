@@ -9,16 +9,16 @@ Java와 Spring으로 개발한 공공 시스템, 모놀리식 애플리케이션
 
 ## 개인 프로젝트
 
--   **BATON**: Core를 기준 데이터의 주체로 두고 GO, WATCH, RELAY, BRIEF, CAL을 변경 및 장애 처리 방식에 따라 분리한 마이크로서비스 프로젝트
--   **happyGallery**: 포트와 어댑터 원칙을 적용하고 결제, 환불, 알림과 동시성 실패를 DB에 기록해 중복을 막고 미처리 작업을 재처리하는 Spring Boot 모놀리식 애플리케이션 및 Gradle 멀티모듈 구성
+-   **BATON**: Core를 기준 데이터와 최종 권한의 주체로 두고 GO, WATCH, RELAY, BRIEF, CAL, ROUND를 변경 및 장애 처리 방식에 따라 분리한 마이크로서비스 프로젝트
+-   **happyGallery**: 결제 및 환불 중간 상태와 알림 아웃박스를 DB에 남겨 미처리 작업을 복구하고, 옵션별 SKU 재고는 고정된 락 순서로 차감하는 Spring Boot 모놀리식 애플리케이션 및 React SSR 화면
 
 ## 오픈소스 및 개발 도구
 
--   **Hope Commit**: SeungIl 님이 개발한 원본 Hope를 포크한 뒤, 개인적인 커밋 검토 필요에 맞게 수정 및 보완한 비공식 프로젝트. Commit Diff 기능을 추가해 로컬 Git 커밋 한 건을 부모 커밋과 비교하고, 커밋된 Git 객체의 근거만 사용한 오프라인 HTML 리뷰를 생성
+-   **Hope Commit**: SeungIl 님이 개발한 Hope 3.0.3을 기반으로 포크한 비공식 프로젝트. 원본의 제한된 수집, 근거 검증과 오프라인 HTML 렌더링 구조를 활용해 Commit Diff를 추가하고 개인적인 커밋 검토 흐름에 맞게 수정 및 보완
 
 ## 교육 프로젝트
 
--   **WebRTC/HLS 현장강의 보조 서비스**: HLS 서버와 React 화면을 맡아 WebRTC/RTP 미디어 경로와 HLS 변환을 구현한 팀 프로젝트
+-   **WebRTC/HLS 현장강의 보조 서비스**: 2023년 6인 팀에서 HLS 서버와 React 화면을 맡아 WebRTC/RTP 미디어 경로와 HLS 변환을 구현한 교육 프로젝트
 
 ## 실행
 
@@ -96,7 +96,8 @@ macOS에서는 `pdf:generate:safari`가 Safari와 같은 WebKit으로 인쇄 화
 `pdf:check`는 인쇄 소스와 커밋된 PDF의 지문을 비교하며 프로덕션 빌드에서도 자동으로
 실행됩니다.
 
-인쇄본과 웹 화면은 `src/data/profile.js`, `src/data/projects.js`를 함께 사용합니다.
+인쇄본과 홈 웹 화면은 `src/data/profile.js`, `src/data/projectSummaries.js`를 함께 사용하고,
+웹 프로젝트 상세는 `src/data/projects.js`의 근거와 문제 해결 내용을 추가로 사용합니다.
 기존 `/portfolio-pdf/index.html` 주소는 배포 환경에서 최신 PDF로 이동합니다.
 
 ## 공유 이미지

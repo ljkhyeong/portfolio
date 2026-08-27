@@ -435,7 +435,7 @@ const PriorExperienceCase = ({ project }) => {
                     </div>
                     <div>
                         <dt>개선</dt>
-                        <dd>HLS 재생 지연 약 30초 → 11초</dd>
+                        <dd>HLS 재생 지연 약 35초 → 17초</dd>
                     </div>
                 </dl>
                 <p className="prior-case__note">{project.status.text}</p>

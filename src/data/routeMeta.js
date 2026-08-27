@@ -12,13 +12,13 @@ export const routeMeta = {
     "/projects/baton": {
         title: "BATON | 임정규 포트폴리오",
         description:
-            "조직 운영 기준을 담당하는 Core와 GO, WATCH, RELAY, BRIEF, CAL 마이크로서비스의 책임과 테스트 기준을 정리한 BATON 프로젝트",
+            "조직 운영 기준을 담당하는 Core와 GO, WATCH, RELAY, BRIEF, CAL, ROUND 마이크로서비스의 책임과 검증 범위를 정리한 BATON 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/baton/go": {
         title: "BATON GO | 임정규 포트폴리오",
         description:
-            "BATON의 업무 화면을 짧고 고정된 주소로 공유하고 허용된 내부 경로로 연결하는 GO 마이크로서비스",
+            "BATON과 ROUND에서 허용한 화면을 짧고 고정된 주소로 연결하고 최종 권한 판정은 대상 서비스에 남기는 GO 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/watch": {
@@ -45,6 +45,12 @@ export const routeMeta = {
             "BATON에서 확정한 일정과 마감을 외부 캘린더에서 구독할 수 있는 읽기 전용 피드로 제공하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
+    "/projects/baton/round": {
+        title: "BATON ROUND | 임정규 포트폴리오",
+        description:
+            "BATON 참여권을 검증하고 최대 6명의 WebRTC 방, 피어, WebSocket 시그널링과 TURN 자격 증명을 관리하는 ROUND 마이크로서비스",
+        image: "/og-cover.png",
+    },
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
@@ -60,7 +66,7 @@ export const routeMeta = {
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님의 원본 Hope를 포크한 뒤 개인적인 필요에 맞게 수정 및 보완하고, 커밋 단위 오프라인 HTML 리뷰 기능을 추가한 Hope Commit",
+            "SeungIl 님이 개발한 Hope 3.0.3을 기반으로 포크하고, 원본 검토 구조를 활용해 커밋 단위 오프라인 HTML 리뷰 기능을 추가 및 보완한 Hope Commit",
         image: "/og-cover.png",
     },
     "/projects/defense": {
@@ -72,7 +78,7 @@ export const routeMeta = {
     "/projects/webrtc": {
         title: "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
         description:
-            "WebRTC와 RTP 미디어를 HLS로 변환하고 재생 지연을 약 30초에서 11초로 줄인 교육 프로젝트",
+            "2023년 6인 팀에서 HLS 서버와 React 화면을 담당하고 재생 지연을 약 35초에서 17초로 줄인 교육 프로젝트",
         image: "/og-cover.png",
     },
     "/search": {

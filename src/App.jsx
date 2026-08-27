@@ -142,6 +142,10 @@ const App = () => {
                         element={<BatonServiceCaseStudy serviceId="cal" />}
                     />
                     <Route
+                        path="/projects/baton/round"
+                        element={<BatonServiceCaseStudy serviceId="round" />}
+                    />
+                    <Route
                         path="/projects/happygallery"
                         element={<ProjectCaseStudy projectId="happygallery" />}
                     />

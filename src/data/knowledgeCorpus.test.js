@@ -51,8 +51,8 @@ describe("공개 지식 문서 목록", () => {
         expect(publicContent).not.toMatch(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i)
         expect(publicContent).not.toMatch(/(?:\+?82[-.\s]?)?0?1[016789][-.\s]?\d{3,4}[-.\s]?\d{4}/)
         expect(serializedCorpus).not.toContain("Obsidian")
-        expect(serializedCorpus).not.toContain("ADR/0033_결제_confirm_트랜잭션과_보상_경계")
-        expect(serializedCorpus).not.toContain("ADR/0036_%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4")
+        expect(serializedCorpus).toContain("ADR/0033_결제_confirm_트랜잭션과_보상_경계")
+        expect(serializedCorpus).toContain("ADR/0036_%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4")
     })
 
     it("같은 입력에는 같은 문서 ID와 해시를 생성한다", () => {

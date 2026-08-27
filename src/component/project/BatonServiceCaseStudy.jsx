@@ -190,7 +190,11 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                               ]
                             : []
                     }
-                    linkNote="비공개 저장소입니다. 공개 가능한 설계 결정과 테스트 근거는 위 대표 문서에 정리했습니다."
+                    linkNote={
+                        service.repository
+                            ? undefined
+                            : "비공개 저장소입니다. 공개 가능한 설계 결정과 테스트 근거는 위 대표 문서에 정리했습니다."
+                    }
                 />
             </article>
 

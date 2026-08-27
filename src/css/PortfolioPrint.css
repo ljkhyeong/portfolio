@@ -178,6 +178,12 @@ body.portfolio-print-mode {
         grid-column: 3;
     }
 
+    .portfolio-web-print .project-index--education .project-index__number {
+        padding-left: 10px;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+    }
+
     .portfolio-web-print .project-index__services {
         grid-template-columns: 134px minmax(0, 1fr);
         gap: 14px;

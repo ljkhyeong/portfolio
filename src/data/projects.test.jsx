@@ -31,6 +31,7 @@ describe("project summary data", () => {
             "relay",
             "brief",
             "cal",
+            "round",
         ])
     })
 

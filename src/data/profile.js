@@ -55,7 +55,7 @@ export const education = {
     meta: "6인 팀",
     projectId: "webrtc",
     description:
-        "HLS 서버와 React 화면을 맡았습니다. WebSocket 제어와 WebRTC/RTP 미디어 경로를 분리하고 FFmpeg와 GStreamer로 HLS를 변환해 지연을 약 30초에서 11초로 줄였습니다.",
+        "HLS 서버와 React 화면을 맡았습니다. WebSocket 제어와 WebRTC/RTP 미디어 경로를 분리하고 FFmpeg와 GStreamer로 HLS를 변환했으며, FFmpeg 설정 조정으로 지연을 약 35초에서 17초로 줄였습니다.",
 }
 
 export const careers = [
@@ -110,7 +110,7 @@ export const printSkillGroups = [
     },
     {
         label: "Architecture",
-        detail: "BATON: Core + 5개 마이크로서비스 / happyGallery: 모놀리식 애플리케이션 + Gradle 멀티모듈 / 헥사고날 아키텍처",
+        detail: "BATON: Core + 6개 마이크로서비스 / happyGallery: 모놀리식 애플리케이션 + Gradle 멀티모듈 / 헥사고날 아키텍처",
     },
     {
         label: "Data & Recovery",

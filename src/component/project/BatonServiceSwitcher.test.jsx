@@ -9,6 +9,7 @@ const services = [
     { id: "relay", name: "RELAY", route: "/projects/baton/relay" },
     { id: "brief", name: "BRIEF", route: "/projects/baton/brief" },
     { id: "cal", name: "CAL", route: "/projects/baton/cal" },
+    { id: "round", name: "ROUND", route: "/projects/baton/round" },
 ]
 
 const scrollToDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "scrollTo")
