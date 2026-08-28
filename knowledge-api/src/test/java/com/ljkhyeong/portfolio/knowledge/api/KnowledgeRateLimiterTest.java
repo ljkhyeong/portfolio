@@ -82,6 +82,26 @@ class KnowledgeRateLimiterTest {
         assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-a").allowed()).isTrue();
     }
 
+    @Test
+    void 클라이언트_버킷_상한을_넘으면_새_클라이언트를_다음_분까지_거절한다() {
+        MutableClock clock = new MutableClock(Instant.parse("2026-08-23T12:00:30Z"));
+        KnowledgeProperties properties = properties(0, 2, 0, 0);
+        properties.getAi().setMaxClientBucketsPerMinute(2);
+        KnowledgeRateLimiter limiter = new KnowledgeRateLimiter(properties, clock);
+
+        assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-a").allowed()).isTrue();
+        assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-b").allowed()).isTrue();
+        assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-a").allowed()).isTrue();
+
+        var denied = limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-c");
+        assertThat(denied.allowed()).isFalse();
+        assertThat(denied.retryAfterSeconds()).isEqualTo(30);
+
+        clock.advance(Duration.ofSeconds(30));
+
+        assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-c").allowed()).isTrue();
+    }
+
     private KnowledgeProperties properties(
             int globalAnswers,
             int clientAnswers,

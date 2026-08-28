@@ -55,6 +55,7 @@ knowledge:
     client-answers-per-minute: ${AI_CLIENT_ANSWERS_PER_MINUTE:5}
     global-searches-per-minute: ${AI_GLOBAL_SEARCHES_PER_MINUTE:300}
     client-searches-per-minute: ${AI_CLIENT_SEARCHES_PER_MINUTE:30}
+    max-client-buckets-per-minute: ${AI_MAX_CLIENT_BUCKETS_PER_MINUTE:100}
     trust-proxy-headers: ${AI_TRUST_PROXY_HEADERS:false}
   cors:
     allowed-origins: ${KNOWLEDGE_CORS_ALLOWED_ORIGINS:http://localhost:5173,https://ljkportfolio.netlify.app}

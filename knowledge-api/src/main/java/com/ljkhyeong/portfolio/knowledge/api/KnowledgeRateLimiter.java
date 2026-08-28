@@ -35,11 +35,13 @@ public class KnowledgeRateLimiter {
         this.timeMeter = new ClockTimeMeter(clock);
         this.answerState = new LimitState(
                 properties.getAi().getGlobalAnswersPerMinute(),
-                properties.getAi().getClientAnswersPerMinute()
+                properties.getAi().getClientAnswersPerMinute(),
+                properties.getAi().getMaxClientBucketsPerMinute()
         );
         this.searchState = new LimitState(
                 properties.getAi().getGlobalSearchesPerMinute(),
-                properties.getAi().getClientSearchesPerMinute()
+                properties.getAi().getClientSearchesPerMinute(),
+                properties.getAi().getMaxClientBucketsPerMinute()
         );
     }
 
@@ -62,9 +64,10 @@ public class KnowledgeRateLimiter {
             }
         }
 
-        Bucket clientBucket = state.clientBuckets != null
-                ? state.clientBuckets.computeIfAbsent(clientId, ignored -> newBucket(state.clientLimit))
-                : null;
+        Bucket clientBucket = state.clientBucket(clientId);
+        if (clientBucket == null && state.clientBuckets != null) {
+            return deniedUntilNextMinute();
+        }
         if (clientBucket != null) {
             EstimationProbe clientProbe = clientBucket.estimateAbilityToConsume(1);
             if (!clientProbe.canBeConsumed()) {
@@ -92,6 +95,14 @@ public class KnowledgeRateLimiter {
         return new RateLimitDecision(false, Math.max(1, retryAfter));
     }
 
+    private RateLimitDecision deniedUntilNextMinute() {
+        Instant now = clock.instant();
+        Instant nextMinute = now.truncatedTo(ChronoUnit.MINUTES).plus(REFILL_PERIOD);
+        long nanosToWait = Duration.between(now, nextMinute).toNanos();
+        long retryAfter = Math.ceilDiv(nanosToWait, TimeUnit.SECONDS.toNanos(1));
+        return new RateLimitDecision(false, Math.max(1, retryAfter));
+    }
+
     private Bucket newBucket(int limit) {
         Instant nextMinute = clock.instant().truncatedTo(ChronoUnit.MINUTES).plus(REFILL_PERIOD);
         return Bucket.builder()
@@ -110,14 +121,34 @@ public class KnowledgeRateLimiter {
     private final class LimitState {
 
         private final int clientLimit;
+        private final int maxClientBuckets;
         private final Bucket globalBucket;
         private final Map<String, Bucket> clientBuckets;
         private long clientWindow = Long.MIN_VALUE;
 
-        private LimitState(int globalLimit, int clientLimit) {
+        private LimitState(int globalLimit, int clientLimit, int maxClientBuckets) {
             this.clientLimit = clientLimit;
+            this.maxClientBuckets = maxClientBuckets;
             this.globalBucket = globalLimit > 0 ? newBucket(globalLimit) : null;
             this.clientBuckets = clientLimit > 0 ? new HashMap<>() : null;
+        }
+
+        private Bucket clientBucket(String clientId) {
+            if (clientBuckets == null) {
+                return null;
+            }
+
+            Bucket existing = clientBuckets.get(clientId);
+            if (existing != null) {
+                return existing;
+            }
+            if (maxClientBuckets > 0 && clientBuckets.size() >= maxClientBuckets) {
+                return null;
+            }
+
+            Bucket created = newBucket(clientLimit);
+            clientBuckets.put(clientId, created);
+            return created;
         }
     }
 

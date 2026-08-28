@@ -201,6 +201,7 @@ public class KnowledgeProperties {
         private int clientAnswersPerMinute = 5;
         private int globalSearchesPerMinute = 300;
         private int clientSearchesPerMinute = 30;
+        private int maxClientBucketsPerMinute = 100;
         private boolean trustProxyHeaders;
 
         public String getProvider() {
@@ -265,6 +266,14 @@ public class KnowledgeProperties {
 
         public void setClientSearchesPerMinute(int clientSearchesPerMinute) {
             this.clientSearchesPerMinute = clientSearchesPerMinute;
+        }
+
+        public int getMaxClientBucketsPerMinute() {
+            return maxClientBucketsPerMinute;
+        }
+
+        public void setMaxClientBucketsPerMinute(int maxClientBucketsPerMinute) {
+            this.maxClientBucketsPerMinute = maxClientBucketsPerMinute;
         }
 
         public boolean isTrustProxyHeaders() {
