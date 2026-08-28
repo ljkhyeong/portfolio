@@ -152,7 +152,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
-    expect(screen.getByText("추가 문제 해결 6건 보기").closest("details")).not.toHaveAttribute(
+    expect(screen.getByText("추가 문제 해결 7건 보기").closest("details")).not.toHaveAttribute(
         "open",
     )
     expect(screen.getByRole("heading", { name: "대표 화면" })).toBeInTheDocument()
@@ -180,7 +180,6 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(
         screen.getByText("BEINTECH / LG CNS 컨소시엄 / KICS-통신사 및 집행포털 연계"),
     ).toBeInTheDocument()
-    expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 / 독립망 간 기관 연계")).toBeInTheDocument()
     expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 공공 SI")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
@@ -239,7 +238,7 @@ test("군사법 상세는 세 기관의 데이터 연계와 레거시 환경의 
     expect(problems).toHaveTextContent("업무 서버는 파일 본문을 받거나 중계하지 않았습니다")
     expect(problems).toHaveTextContent("대용량 파일을 업무 서버를 거치지 않고 저장소로 직접 업로드")
     expect(problems).toHaveTextContent("Jenkins 실행 이력")
-    expect(problems).toHaveTextContent("JEUS 및 WAS 로그")
+    expect(problems).toHaveTextContent("JEUS 및 업무 서버 로그")
     expect(problems).toHaveTextContent("Tibero의 입력 데이터")
 
     expect(document.body).not.toHaveTextContent("기관 A")
@@ -309,7 +308,7 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 BRIEF가 받으면 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록됐지만 책임 목록, 인수인계할 업무 항목(바통 항목) 또는 역할 수행에 필요한 자료가 부족한 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운데 인수인계를 시작하지 않았거나 전달 및 수락 조건이 남은 경우를 찾아 운영 점검 목록을 만듭니다. 매주 생성한 보고서는 이후 이벤트가 바뀌어도 수정하지 않고 당시 기록으로 보관합니다.",
+        "Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 BRIEF가 받으면 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록됐고 책임 목록이 없거나 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나 역할 수행 자료가 없는 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계를 찾아 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간, 마지막 수신 이벤트 순번과 포함 항목을 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.",
         "이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서",
     ],
     [
@@ -372,29 +371,32 @@ test.each([
         "brief",
         "BRIEF",
         "중복되거나 순서가 바뀐 BATON 이벤트 차단",
-        "https://github.com/ljkhyeong/baton-brief",
+        "https://github.com/ljkhyeong/baton-brief/tree/61584199a5caaa15cdb65ab071977cde74029d08",
+        /BRIEF 개발 브랜치 고정 커밋 보기/,
         /공개 main 반영 전/,
-        /공개 main에는 초기 프로젝트 뼈대만/,
+        /최신 구현은 원격 개발 브랜치에 있으며 공개 main에는 아직 반영하지 않았습니다/,
     ],
     [
         "cal",
         "CAL",
         "중복되거나 순서가 바뀐 일정 JSON 차단",
-        "https://github.com/ljkhyeong/baton-cal",
+        "https://github.com/ljkhyeong/baton-cal/tree/fba74a22c9d62e940ccb5287947051f7a8d31f89",
+        /CAL 개발 브랜치 고정 커밋 보기/,
         /Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 정상 반영/,
-        /일정 JSON 형식 1.0.0과 Core가 실제로 만든 일정 데이터의 호환성 테스트/,
+        /안정 계약 1.0.0의 Core 호환성 근거와 미공개 개발 후보 1.1.0-rc.1/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",
-    (id, name, problem, repository, status, repositoryNote) => {
+    (id, name, problem, repository, repositoryLinkName, status, repositoryNote) => {
         renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
 
         expect(screen.getByRole("heading", { name, level: 1 })).toBeInTheDocument()
         expect(screen.getByRole("heading", { name: problem })).toBeInTheDocument()
         expect(screen.getByLabelText("구현 상태")).toHaveTextContent(status)
-        expect(
-            screen.getByRole("link", { name: new RegExp(`${name} 공개 저장소 보기`) }),
-        ).toHaveAttribute("href", repository)
+        expect(screen.getByRole("link", { name: repositoryLinkName })).toHaveAttribute(
+            "href",
+            repository,
+        )
         expect(screen.getByText(repositoryNote)).toBeInTheDocument()
     },
 )

@@ -3,7 +3,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "BEINTECH에서 KICS 요청을 통신사와 집행포털 규격으로 변환해 전송하고 제출 자료를 다시 KICS에 반영하는 서버 기능과 Spring Batch를 개발하고 있는 임정규의 포트폴리오",
+        "BEINTECH에서 해양경찰 사건수사시스템(KICS) 요청을 통신사와 집행포털 규격으로 변환해 전송하고 제출 자료를 다시 KICS에 반영하는 서버 기능과 Spring Batch를 개발하고 있는 임정규의 포트폴리오",
     image: "/og-cover.png",
 }
 
@@ -24,7 +24,7 @@ export const routeMeta = {
     "/projects/baton/watch": {
         title: "BATON WATCH | 임정규 포트폴리오",
         description:
-            "사설 IP와 내부망 주소 접근을 차단하면서 Core에 등록된 외부 URL을 점검하고, 이전 점검과 달라진 상태를 중앙 서비스에 전달하는 WATCH 마이크로서비스",
+            "사설 IP와 내부망 주소 접근을 차단하면서 BATON 중앙 서비스에 등록된 외부 URL을 점검하고, 이전 결과와 달라진 상태를 중앙 서비스에 전달하는 WATCH 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/relay": {
@@ -36,13 +36,13 @@ export const routeMeta = {
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "담당자가 없거나 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록됐지만 책임 목록, 인수인계할 업무 항목 또는 역할 수행에 필요한 자료가 부족한 역할, 반복 지연 업무와 교대가 가까운 미완료 인수인계를 찾아 운영 점검 목록과 주간 보고서를 만드는 BRIEF 마이크로서비스",
+            "담당자 공백, 종료가 임박한 역할의 후임자 미지정, 위험 역할의 책임 및 인수인계 자료 부족, 반복 지연 업무와 교대가 가까운 미완료 인수인계를 찾아 운영 점검 목록과 주간 보고서를 만드는 BRIEF 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
         title: "BATON CAL | 임정규 포트폴리오",
         description:
-            "Core가 확정한 일정과 마감을 외부 캘린더에서 구독할 수 있는 읽기 전용 iCalendar 피드로 제공하는 CAL 마이크로서비스",
+            "BATON 중앙 서비스가 확정한 일정과 마감을 외부 캘린더에서 구독할 수 있는 읽기 전용 iCalendar 피드로 제공하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/round": {
@@ -54,19 +54,19 @@ export const routeMeta = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "LG CNS 컨소시엄에서 KICS의 자료 제공 요청을 통신사와 집행포털 규격으로 변환해 전송하고, 통신사와 집행포털 연계를 통해 수신한 제출 자료를 KICS에 반영하는 서버 기능과 Spring Batch를 개발하고 있는 사례",
+            "LG CNS 컨소시엄에서 해양경찰 사건수사시스템(KICS)의 자료 제공 요청을 통신사와 집행포털 규격으로 변환해 전송하고, 연계를 통해 수신한 제출 자료를 KICS에 반영하는 서버 기능과 Spring Batch를 개발하고 있는 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "결제 및 환불 요청 ID로 중복 처리를 막고, 미전송 알림은 DB에서 다시 처리하며, 옵션 재고 행을 같은 순서로 잠가 초과 차감을 막은 happyGallery 프로젝트",
+            "결제 및 환불 중복 처리와 미전송 알림을 복구하고, 옵션 재고 초과 차감을 막으며 외부 배송조회 등록 실패를 배치로 다시 처리한 happyGallery 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님이 개발한 Hope 3.0.3을 포크해 입력한 커밋과 비교 대상으로 확정한 부모 커밋에 저장된 코드만 비교하고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 확인한 뒤 새 HTML로 저장하는 Commit Diff 프로젝트",
+            "SeungIl 님이 개발한 Hope 3.0.3을 포크해 입력한 커밋과 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준의 코드만 대조하고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 확인한 뒤 새 HTML로 저장하는 Commit Diff 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/defense": {

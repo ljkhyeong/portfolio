@@ -162,7 +162,9 @@ const WarrantVisual = () => (
         role="img"
         aria-label="해양경찰 사건수사시스템 KICS 업무망의 자료 제공 요청이 LG CNS가 주관하는 집행포털 인터넷망을 거쳐 금융기관 업무망과 통신사 전용망으로 전달되고, 금융기관 및 통신사의 제출 자료가 집행포털을 거쳐 KICS 업무망으로 전달되는 흐름"
     >
-        <div className="warrant-map__label">BEINTECH / LG CNS 컨소시엄 / 독립망 간 기관 연계</div>
+        <div className="warrant-map__label">
+            BEINTECH / LG CNS 컨소시엄 / KICS-통신사 및 집행포털 연계
+        </div>
         <div className="warrant-map">
             <div className="warrant-map__flow">
                 <div className="warrant-map__flow-title">
@@ -235,7 +237,7 @@ const WarrantVisual = () => (
 const HopeCommitVisual = () => {
     const steps = [
         ["01 / 대상 지정", "검토할 커밋 ID", "사용자가 입력한 로컬 커밋"],
-        ["02 / 비교 기준", "입력 커밋과 부모 커밋", "전체 ID와 비교 대상 확정"],
+        ["02 / 비교 기준", "커밋 종류별 비교 상태", "일반, 최초 및 병합 커밋 기준 확정"],
         ["03 / 코드 수집", "변경 코드 수집", "현재 수정 중인 파일 제외"],
         ["04 / 내용 확인", "설명과 실제 코드 연결", "변경 파일과 줄 번호 확인"],
         ["05 / 결과 저장", "새 HTML 파일 생성", "검증을 통과한 경우에만 저장"],
@@ -245,7 +247,7 @@ const HopeCommitVisual = () => {
         <div
             className="case-visual case-visual--hope-commit"
             role="img"
-            aria-label="입력한 커밋과 비교 대상으로 확정한 부모 커밋을 대조하고 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
+            aria-label="입력한 커밋을 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준과 대조하고 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
         >
             <div className="hope-commit-map__label">COMMIT DIFF / 지정한 커밋만 검토</div>
             <ol className="hope-commit-map">

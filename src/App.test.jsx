@@ -11,7 +11,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
     expect(heroHeading).toHaveTextContent("기관 간 요청과 제출 자료를 전달하고")
-    expect(heroHeading).toHaveTextContent("중단된 작업을 다시 처리하는 백엔드")
+    expect(heroHeading).toHaveTextContent(
+        "응답 유실과 서버 중단 뒤 남은 작업을 다시 처리하는 백엔드",
+    )
     const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
 
     expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
@@ -300,7 +302,7 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
     expect(within(warrantFacts).getByText("문제")).toBeInTheDocument()
     expect(within(warrantFacts).getByText("해결")).toBeInTheDocument()
     expect(warrantFacts).toHaveTextContent(
-        "KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 다시 KICS에 반영하는 서버 기능과 Spring Batch",
+        "해양경찰 사건수사시스템(KICS) 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 다시 KICS에 반영하는 서버 기능과 Spring Batch",
     )
     expect(warrantFacts).toHaveTextContent(
         "기관마다 자료 형식이 다르고, 전송 이력이 쌓일수록 뒤쪽 목록 조회가 느려지며, PDF 변환 완료 응답이 요청 저장보다 먼저 도착할 수 있음",
@@ -473,7 +475,11 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(
         screen.getByRole("heading", { name: "현재 수정 파일을 제외하고 입력 커밋만 비교" }),
     ).toBeInTheDocument()
-    expect(screen.getByText("자동화 테스트 245개 통과, 실패 0개")).toBeInTheDocument()
+    expect(
+        screen.getByText(
+            /공개 main 3\.1\.1은 245개, 원격 개발 브랜치 4\.0\.0 커밋 d6203de는 277개 통과/,
+        ),
+    ).toBeInTheDocument()
     expect(
         screen.getByRole("link", { name: "Hope Commit GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/hope-commit")

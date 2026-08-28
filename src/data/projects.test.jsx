@@ -61,7 +61,9 @@ describe("project summary data", () => {
             expect.arrayContaining([
                 expect.objectContaining({
                     item: "저장소 자동화 테스트",
-                    result: "자동화 테스트 245개 통과, 실패 0개",
+                    result: expect.stringMatching(
+                        /공개 main 3\.1\.1은 245개.*원격 개발 브랜치 4\.0\.0 커밋 d6203de는 277개 통과/,
+                    ),
                 }),
             ]),
         )
@@ -192,7 +194,7 @@ describe("project summary data", () => {
         expect(incidentProblem.constraint).not.toContain("APM")
         expect(incidentProblem.constraint).not.toContain("분산 추적")
         expect(incidentProblem.decision).toContain("Jenkins 실행 이력")
-        expect(incidentProblem.decision).toContain("JEUS 및 WAS 로그")
+        expect(incidentProblem.decision).toContain("JEUS 및 업무 서버 로그")
         expect(incidentProblem.decision).toContain("Tibero의 입력 데이터")
         expect(publicCopy).not.toContain("기관 A")
         expect(publicCopy).not.toContain("기관 B")

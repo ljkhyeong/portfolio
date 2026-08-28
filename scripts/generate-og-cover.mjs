@@ -1,8 +1,9 @@
 import { spawn } from "node:child_process"
-import { access, readFile, rename, rm, stat } from "node:fs/promises"
+import { access, readFile, rename, rm, stat, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { createServer } from "vite"
+import { createOgCoverFingerprint, ogCoverFingerprintPath } from "./og-cover-fingerprint.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const outputPath = path.join(repositoryRoot, "public", "og-cover.png")
@@ -98,6 +99,8 @@ try {
     }
 
     await rename(temporaryOutputPath, outputPath)
+    const fingerprint = await createOgCoverFingerprint()
+    await writeFile(ogCoverFingerprintPath, `${fingerprint}\n`)
     process.stdout.write(
         `공유 이미지 생성 완료: ${outputPath} (${width}x${height}, ${generatedFile.size} bytes)\n`,
     )
