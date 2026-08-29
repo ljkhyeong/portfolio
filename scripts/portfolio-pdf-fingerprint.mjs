@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { readdir, readFile, stat } from "node:fs/promises"
+import { readFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -30,24 +30,8 @@ const sourceTargets = [
     "public/ljkhyeong-avatar.png",
 ]
 
-const collectFiles = async (target) => {
-    const targetPath = path.join(repositoryRoot, target)
-    const targetStat = await stat(targetPath)
-
-    if (targetStat.isFile()) {
-        return [targetPath]
-    }
-
-    const entries = await readdir(targetPath, { withFileTypes: true })
-    const files = await Promise.all(
-        entries.map((entry) => collectFiles(path.join(target, entry.name))),
-    )
-
-    return files.flat()
-}
-
 export const createPortfolioPdfFingerprint = async () => {
-    const files = (await Promise.all(sourceTargets.map(collectFiles))).flat().sort()
+    const files = sourceTargets.map((target) => path.join(repositoryRoot, target)).sort()
     const hash = createHash("sha256")
 
     for (const filePath of files) {

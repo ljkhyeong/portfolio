@@ -36,7 +36,7 @@ export const routeMeta = {
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "담당자 공백, 종료가 임박한 역할의 후임자 미지정, 위험 역할의 책임 및 인수인계 자료 부족, 반복 지연 업무와 교대가 가까운 미완료 인수인계를 찾아 운영 점검 목록과 주간 보고서를 만드는 BRIEF 마이크로서비스",
+            "담당자 공백, 담당 종료가 임박한 역할의 후임자 미지정, 위험 역할의 책임 및 인수인계 자료 부족, 반복 지연 업무와 교대가 가까운 미완료 인수인계를 찾아 운영 점검 목록과 주간 보고서를 만드는 BRIEF 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
@@ -60,13 +60,13 @@ export const routeMeta = {
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "결제 및 환불 중복 처리와 미전송 알림을 복구하고, 옵션 재고 초과 차감을 막으며 외부 배송조회 등록 실패를 배치로 다시 처리한 happyGallery 프로젝트",
+            "결제 및 환불의 중복 처리를 막고 미전송 알림을 복구하며, 옵션 재고 초과 차감을 방지하고 외부 배송조회 등록 실패를 배치로 다시 처리한 happyGallery 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님이 개발한 Hope 3.0.3을 포크해 입력한 커밋과 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준의 코드만 대조하고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 확인한 뒤 새 HTML로 저장하는 Commit Diff 프로젝트",
+            "SeungIl 님이 개발한 Hope 3.0.3을 포크해 입력한 커밋과 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준에 각각 저장된 코드만 대조하고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 확인한 뒤 새 HTML로 저장하는 Commit Diff 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/defense": {

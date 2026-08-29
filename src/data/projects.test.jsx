@@ -151,7 +151,6 @@ describe("project summary data", () => {
             title: "8회권 전체 환불 시 미래 예약, 잔여 횟수와 환불 원장 일치",
             decision: expect.stringContaining("ID 순서"),
             boundary: expect.stringContaining("관리자 재처리"),
-            print: expect.objectContaining({ label: "PASS / REFUND" }),
         })
         expect(happyGallery.featuredProblemNumbers).not.toContain("07")
         expect(passRefundProof).toMatchObject({

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:818ff52c4b9b",
+  "sourceRevision": "sha256:ecfb2d3fe74a",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -110,7 +110,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:6ef87aa1040f",
+      "sourceRevision": "sha256:e9c06f7ff7fb",
       "documentId": "knowledge_716cb839f83bf7376a2e9c78",
       "projectId": "baton",
       "projectName": "BATON",
@@ -118,13 +118,13 @@
       "documentType": "service_overview",
       "title": "BATON BRIEF 서비스 개요",
       "heading": "BRIEF 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 주간 운영 요약\n\nCore 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 BRIEF가 받으면 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록됐고 책임 목록이 없거나 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나 역할 수행 자료가 없는 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계를 찾아 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간, 마지막 수신 이벤트 순번과 포함 항목을 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n담당 구현: 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않았습니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 기록했습니다. 저장한 이벤트로 운영 점검 목록을 다시 만드는 기능, 주간 보고서 중복 생성 방지와 서비스 간 요청 인증 토큰(Bearer) 무중단 교체를 Kotlin과 Spring JDBC로 구현했습니다.\n\n주요 기능: 이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서\n\n저장소 공개 범위: 공개 저장소 / 최신 구현은 원격 개발 브랜치\n\n검증 요약: 실제 Core와 BRIEF 실행 JAR를 JSON 계약 패키지 2.0.0-rc.1 기준으로 로컬 HTTP에서 연결하고, 별도로 Caddy 내부 인증서 HTTPS 앞단에 계약 예시 JSON을 전송해 인증과 수신 검증\n\n입력: 담당자 및 후임자 공백, 위험 요소가 있는 역할의 책임 목록, 인수인계할 업무 항목과 역할 수행 자료 부족, 반복 마감 지연, 교대 시점이 가까운 미완료 인수인계 이벤트 및 각 개정 번호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 운영 점검 목록, 수신 이벤트 이력과 생성 후 수정하지 않는 주간 보고서\n\n중복 및 실패 처리: 같은 이벤트와 과거 개정 번호는 다시 반영하지 않고 저장한 수신 이벤트 전체를 읽어 운영 점검 목록을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.3, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: JSON 계약 패키지 2.0.0-rc.1 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 하며, 실제 Core에서 Caddy로 보내는 HTTPS 전달도 아직 검증하지 않았습니다. 최신 구현은 원격 개발 브랜치에 있으며 공개 main 반영 전이고 원격 스테이징에도 배포하지 않았습니다.\n\n적용 범위와 제약: 각 항목이 선택된 이유를 이벤트 종류와 심각도로 확인할 수 있습니다. BRIEF는 Core가 판정한 다섯 가지 조직 연속성 신호를 담는 두 번째 이벤트 형식(v2)과 이전 형식(v1)을 함께 처리합니다. 이벤트 종류가 추가되면 Core가 보내는 JSON 형식, BRIEF의 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 두 버전에 맞춰 함께 변경해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 주간 운영 요약\n\nCore 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 BRIEF가 받으면 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록된 역할 중 책임 목록이 없거나 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나 역할 수행 자료가 없는 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계를 찾아 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간과 BRIEF가 마지막으로 받은 이벤트 순번, 포함 항목을 함께 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n담당 구현: 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않았습니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 기록했습니다. 저장한 이벤트로 운영 점검 목록을 다시 만드는 기능, 주간 보고서 중복 생성 방지와 서비스 간 요청 인증 토큰(Bearer) 무중단 교체를 Kotlin과 Spring JDBC로 구현했습니다.\n\n주요 기능: 이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서\n\n저장소 공개 범위: 공개 저장소 / 최신 구현은 원격 개발 브랜치\n\n검증 요약: 실제 Core와 BRIEF 실행 JAR를 JSON 계약 패키지 2.0.0-rc.1 기준으로 로컬 HTTP에서 연결하고, 별도로 Caddy 내부 인증서 HTTPS 앞단에 계약 예시 JSON을 전송해 인증과 수신 검증\n\n입력: 담당자 및 후임자 공백, 위험 요소가 있는 역할의 책임 목록, 인수인계할 업무 항목과 역할 수행 자료 부족, 반복 마감 지연, 교대 시점이 가까운 미완료 인수인계 이벤트 및 각 개정 번호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 운영 점검 목록, 수신 이벤트 이력과 생성 후 수정하지 않는 주간 보고서\n\n중복 및 실패 처리: 같은 이벤트와 과거 개정 번호는 다시 반영하지 않고 저장한 수신 이벤트 전체를 읽어 운영 점검 목록을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.3, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: JSON 계약 패키지 2.0.0-rc.1 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 하며, 실제 Core에서 Caddy로 보내는 HTTPS 전달도 아직 검증하지 않았습니다. 최신 구현은 원격 개발 브랜치에 있으며 공개 main 반영 전이고 원격 스테이징에도 배포하지 않았습니다.\n\n적용 범위와 제약: 각 항목이 선택된 이유를 이벤트 종류와 심각도로 확인할 수 있습니다. BRIEF는 Core가 판정한 다섯 가지 조직 연속성 신호를 담는 두 번째 이벤트 형식(v2)과 이전 형식(v1)을 함께 처리합니다. 이벤트 종류가 추가되면 Core가 보내는 JSON 형식, BRIEF의 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 두 버전에 맞춰 함께 변경해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "6ef87aa1040fb3c96baa9e1c6ea8fe33a35e16539793b019e659db6911c61c6a",
-      "contentHash": "331f98c49411951a9cf095a2e426b372d77ba573959f8a96d8465307ace72643"
+      "sourceHash": "e9c06f7ff7fba65fb0ab1117368bab398a90ccb3440b9a633d8a7d72b617051b",
+      "contentHash": "08c905a268a95612b05840c786f11419a95f7f05b9afe14d2ce7ead714bad1bd"
     },
     {
       "schemaVersion": "1.0",
@@ -146,7 +146,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e5c716ef8fef",
+      "sourceRevision": "sha256:ab5ed67a2a5a",
       "documentId": "knowledge_ad06d759d736b76a0dfbbd8c",
       "projectId": "baton",
       "projectName": "BATON",
@@ -154,13 +154,13 @@
       "documentType": "service_overview",
       "title": "BATON ROUND 서비스 개요",
       "heading": "ROUND 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: ROUND\n\n역할: 실시간 스터디룸\n\nCore가 계정에 연결된 활동 중인 스터디 구성원인지 확인해 발급한 방 참여권을 검증합니다. 최대 6명의 브라우저가 영상 및 음성 연결을 만들 때 교환하는 연결 설명(offer 및 answer)과 네트워크 경로 후보(ICE)를 WebSocket으로 전달하고, 직접 연결할 수 없을 때 사용할 TURN 서버의 짧은 접속 정보도 발급합니다.\n\n담당 구현: React 방 화면, React와 분리한 WebRTC 연결 모듈, 프론트엔드와 Java 서버가 함께 사용하는 메시지 규격, Spring raw WebSocket 시그널링 서버와 Core 참여권 검증을 구현했습니다.\n\n주요 기능: 참가자마다 나머지 최대 5명과 직접 연결하는 mesh WebRTC, 이전 연결의 늦은 메시지 차단, DataChannel 채팅이 상대 브라우저 애플리케이션에 도착했는지 확인하는 응답, Core가 RSA 개인 키로 서명하고 ROUND가 공개 키로 검증하는 RS256 참여권과 짧은 TURN 접속 정보\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: Chromium에서는 가짜 카메라, 마이크와 화면으로 원격 미디어, 화면 공유, 채팅 수신 응답과 퇴장을 확인했고, WebKit에서는 직접 초대와 장치 권한 동의까지만 확인\n\n입력: Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 짧은 RS256 참여권\n\n입력 확인: 참여권의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.\n\n출력: 브라우저 사이의 WebRTC 연결 메시지 전달, DataChannel 채팅 수신 응답과 짧은 TURN 접속 정보\n\n중복 및 실패 처리: 연결을 새로 만들 때마다 순번을 올려 이전 연결에서 늦게 온 메시지는 버리고, 같은 참가자가 새 참여권으로 접속하면 이전 WebSocket 세션을 종료\n\n데이터베이스: DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장\n\n사용 기술: TypeScript, React 19, Vite 8, WebRTC / RTCDataChannel, Java 21, Spring Boot 4.1, Raw WebSocket, coturn / Caddy, Playwright\n\n구현 상태: 원격 개발 브랜치에서 Core의 실제 참여권 서명 코드로 만든 참여권을 ROUND가 로컬 HTTPS와 암호화된 WebSocket(WSS)에서 검증하고 방에 입장시키는 과정을 확인했습니다. 공인 DNS와 자동 발급 TLS 인증서, 외부 TURN 미디어 중계 서버(coturn)와 6명 장시간 접속 테스트는 아직 하지 않았습니다.\n\n적용 범위와 제약: 참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: ROUND\n\n역할: 실시간 스터디룸\n\nCore가 계정에 연결된 활동 중인 스터디 구성원인지 확인해 발급한 방 참여권을 검증합니다. 최대 6명의 브라우저가 영상 및 음성 연결을 만들 때 교환하는 연결 설명(offer 및 answer)과 네트워크 경로 후보(ICE)를 WebSocket으로 전달하고, 직접 연결할 수 없을 때 사용할 TURN 서버의 짧은 접속 정보도 발급합니다.\n\n담당 구현: React 방 화면, React와 분리한 WebRTC 연결 모듈, 프론트엔드와 Java 서버가 함께 사용하는 메시지 규격, Spring raw WebSocket 시그널링 서버와 Core 참여권 검증을 구현했습니다.\n\n주요 기능: 참가자마다 나머지 최대 5명과 직접 연결하는 mesh WebRTC, 이전 연결의 늦은 메시지 차단, DataChannel 채팅이 상대 브라우저 애플리케이션에 도착했는지 확인하는 응답, Core가 RSA 개인 키로 서명하고 ROUND가 공개 키로 검증하는 RS256 참여권과 짧은 TURN 접속 정보\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: Chromium에서는 가짜 카메라, 마이크와 화면으로 원격 미디어, 화면 공유, 채팅 수신 응답과 퇴장을 확인했고, WebKit에서는 직접 초대와 장치 권한 동의까지만 확인\n\n입력: Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 짧은 RS256 참여권\n\n입력 확인: 참여권의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.\n\n출력: 브라우저 사이의 WebRTC 연결 메시지 전달, DataChannel 채팅 수신 응답과 짧은 TURN 접속 정보\n\n중복 및 실패 처리: 연결을 새로 만들 때마다 순번을 올려 이전 연결에서 늦게 온 메시지는 버리고, 같은 참가자가 새 참여권으로 접속하면 이전 WebSocket 세션을 종료\n\n데이터베이스: DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장\n\n사용 기술: TypeScript, React 19, Vite 8, WebRTC / RTCDataChannel, Java 21, Spring Boot 4.1, Raw WebSocket, coturn / Caddy, Playwright\n\n구현 상태: 원격 개발 브랜치에서 Core의 실제 참여권 서명 코드로 만든 참여권을 ROUND가 로컬 HTTPS와 암호화된 WebSocket(WSS) 연결에서 검증한 뒤 방에 입장시키는 과정을 확인했습니다. 공인 DNS와 자동 발급 TLS 인증서, 외부 TURN 미디어 중계 서버(coturn)와 6명 장시간 접속 테스트는 아직 하지 않았습니다.\n\n적용 범위와 제약: 참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/round",
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e5c716ef8fef2b6daf6e6b17ce806a0b6b14d29828efc9e5cd0025e3b7abd9b3",
-      "contentHash": "bdb813d5e05576d025158cf5eaeb9f8c60cff5741580bd17c88a437fa7d19fc9"
+      "sourceHash": "ab5ed67a2a5a7f5cfe29833553a8aba93546ca20bed6eab3b78c687a35237926",
+      "contentHash": "46cdce4877b27a49b466e7ba7132a370914be4feb6f4d3b84f5bafc7a6cbd86a"
     },
     {
       "schemaVersion": "1.0",
@@ -344,7 +344,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:20d1f837cb30",
+      "sourceRevision": "sha256:b95d943b8c9e",
       "documentId": "knowledge_f53bde8601c6c9a2d11f8b09",
       "projectId": "baton",
       "projectName": "BATON",
@@ -352,13 +352,13 @@
       "documentType": "problem_solution",
       "title": "BATON - 저장한 이벤트로 다시 만들어도 같은 주간 보고서 유지",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n문제: DB에 저장한 이벤트로 운영 점검 목록을 다시 만들 때 항목 순서나 결과가 달라지면 이전 주간 보고서를 신뢰하기 어렵습니다.\n\n적용: 수락한 이벤트 전체를 다시 읽어 운영 점검 목록을 만들었습니다. 보고서를 만들 때 BRIEF가 이벤트를 받은 순서(수신 순번)와 포함 항목을 함께 저장하고, 같은 주간과 같은 수신 순번 및 항목으로 다시 요청하면 기존 보고서를 반환했습니다. 한 번 생성한 보고서는 수정하지 않고 당시 상태를 확인할 수 있도록 보관합니다.\n\n확인: 같은 이벤트 기록으로 운영 점검 목록을 다시 만들기 전후의 결과와 같은 주간 보고서를 동시에 생성하는 요청을 확인했습니다. 동시 요청에서도 보고서는 1건만 저장되고 최초 생성은 HTTP 201, 같은 요청의 재실행은 HTTP 200으로 구분됩니다.\n\n제약과 남은 작업: Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)에는 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록됐고 책임 목록이 없거나 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나 역할 수행 자료가 없는 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운데 인수인계를 시작하지 않았거나 전달 및 수락 조건이 남은 경우가 포함됩니다. 이전 이벤트 형식(v1)도 계속 처리하므로 항목을 추가할 때 두 버전의 이벤트 JSON, 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 함께 변경해야 합니다. 입력 규칙을 강화한 JSON 계약 패키지 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n문제: DB에 저장한 이벤트로 운영 점검 목록을 다시 만들 때 항목 순서나 결과가 달라지면 이전 주간 보고서를 신뢰하기 어렵습니다.\n\n적용: 수락한 이벤트 전체를 다시 읽어 운영 점검 목록을 만들었습니다. 보고서를 만들 때 해당 주간과 BRIEF가 마지막으로 받은 이벤트 순번, 포함 항목을 함께 저장하고, 같은 주간과 같은 수신 순번 및 항목으로 다시 요청하면 기존 보고서를 반환했습니다. 한 번 생성한 보고서는 수정하지 않고 당시 상태를 확인할 수 있도록 보관합니다.\n\n확인: 같은 이벤트 기록으로 운영 점검 목록을 다시 만들기 전후의 결과와 같은 주간 보고서를 동시에 생성하는 요청을 확인했습니다. 동시 요청에서도 보고서는 1건만 저장되고 최초 생성은 HTTP 201, 같은 요청의 재실행은 HTTP 200으로 구분됩니다.\n\n제약과 남은 작업: Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)에는 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록된 역할 중 책임 목록이 없거나 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나 역할 수행 자료가 없는 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운데 인수인계를 시작하지 않았거나 전달 및 수락 조건이 남은 경우가 포함됩니다. 이전 이벤트 형식(v1)도 계속 처리하므로 항목을 추가할 때 두 버전의 이벤트 JSON, 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 함께 변경해야 합니다. 입력 규칙을 강화한 JSON 계약 패키지 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief#service-problems",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "20d1f837cb30588a5835d0ed3c165a157dba2983a4e9b60fb9b3049716ffc839",
-      "contentHash": "acb530ce08f845a448f953d1233ef9c2607492d98d56e182ebf13415e29a323c"
+      "sourceHash": "b95d943b8c9ea7ee692ed2da803d2d4b7dadffe29149ec7a1cd57197d8363935",
+      "contentHash": "af4826b1cdaed8a849b620c93f5732528694d2581821fb47fae50dfe7ba44e60"
     },
     {
       "schemaVersion": "1.0",
@@ -650,7 +650,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:1fddcdcf17fc",
+      "sourceRevision": "sha256:6f0306a3f876",
       "documentId": "knowledge_b76304103fc2240fb8731289",
       "projectId": "baton",
       "projectName": "BATON",
@@ -658,13 +658,13 @@
       "documentType": "representative_document",
       "title": "BRIEF 중복 이벤트 처리와 주간 보고서 생성",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON BRIEF 이벤트 중복 처리와 주간 보고서 생성\n\n## 책임\n\nBRIEF는 Core 개발 브랜치가 생성한 BATON 이벤트를 받아 현재 운영자가 확인해야 할 항목을 찾습니다. 두 번째 이벤트 형식(v2)에는 다음 운영 위험이 담깁니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록됐고 책임 목록이 없거나, 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대 시점이 가까운데 인수인계를 시작하지 않았거나 전달 및 수락 조건이 남은 인수인계\n\n이 항목으로 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간, BRIEF가 마지막으로 받은 이벤트 순번과 포함 항목을 함께 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 보고서를 반환합니다. 이후 상태가 바뀌었다가 같아진 경우에는 새 생성 번호로 별도 보고서를 저장합니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 이벤트 중복, ID 충돌, 지원하지 않는 버전, 과거 개정 번호 차단, 건너뛴 최신 개정 적용 및 누락 구간 기록, 운영 점검 목록 전체 다시 생성과 동일 보고서 중복 생성을 확인했습니다. JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다.\n\n## 현재 범위\n\n최신 구현은 원격 개발 브랜치에 있으며 공개 저장소의 `main`에는 아직 반영하지 않았습니다. Core 개발 브랜치와 BRIEF의 로컬 연동은 JSON 계약 패키지 `2.0.0-rc.1` 및 로컬 HTTP 기준으로 확인했습니다. 입력 규칙을 강화한 현재 `2.0.0-rc.2`는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다. v2는 Core가 판정한 다섯 가지 조직 연속성 신호를 담으며, 이전의 인수인계 진행 중단, 미완료 반복 업무와 결정 후속 조치 지연을 받는 첫 번째 이벤트 형식(v1)도 계속 처리합니다. 실제 Core에서 Caddy로 보내는 HTTPS 전달, 공인 DNS 및 자동 발급 TLS 인증서와 두 스테이징 호스트 사이의 원격 전달 및 장기 운영 배포도 아직 검증하지 않았습니다.",
+      "content": "# BATON BRIEF 이벤트 중복 처리와 주간 보고서 생성\n\n## 책임\n\nBRIEF는 Core 개발 브랜치가 생성한 BATON 이벤트를 받아 현재 운영자가 확인해야 할 항목을 찾습니다. 두 번째 이벤트 형식(v2)에는 다음 운영 위험이 담깁니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대 시점이 가까운데 인수인계를 시작하지 않았거나 전달 및 수락 조건이 남은 인수인계\n\n이 항목으로 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간과 BRIEF가 마지막으로 받은 이벤트 순번, 포함 항목을 함께 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 보고서를 반환합니다. 이후 상태가 바뀌었다가 같아진 경우에는 새 생성 번호로 별도 보고서를 저장합니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 이벤트 중복, ID 충돌, 지원하지 않는 버전, 과거 개정 번호 차단, 건너뛴 최신 개정 적용 및 누락 구간 기록, 운영 점검 목록 전체 다시 생성과 동일 보고서 중복 생성을 확인했습니다. JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다.\n\n## 현재 범위\n\n최신 구현은 원격 개발 브랜치에 있으며 공개 저장소의 `main`에는 아직 반영하지 않았습니다. Core 개발 브랜치와 BRIEF의 로컬 연동은 JSON 계약 패키지 `2.0.0-rc.1` 및 로컬 HTTP 기준으로 확인했습니다. 입력 규칙을 강화한 현재 `2.0.0-rc.2`는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다. v2는 Core가 판정한 다섯 가지 조직 연속성 신호를 담으며, 이전의 인수인계 진행 중단, 미완료 반복 업무와 결정 후속 조치 지연을 받는 첫 번째 이벤트 형식(v1)도 계속 처리합니다. 실제 Core에서 Caddy로 보내는 HTTPS 전달, 공인 DNS 및 자동 발급 TLS 인증서와 두 스테이징 호스트 사이의 원격 전달 및 장기 운영 배포도 아직 검증하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/brief-event-projection.md",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "1fddcdcf17fcc71c0e4d305786d122904362ccfe789c18105ef5d0d8bc771f67",
-      "contentHash": "d11d71ccaba4032380bc2c7c55cd3d94422b34e8d136f1c306c145e1c6ae54ad"
+      "sourceHash": "6f0306a3f8764eb2314a35371ee6cc3d12761d5f9228397407d15eb51a5e9479",
+      "contentHash": "19eb960511cf88d48f778a682f339021d8ea1e9240b4c88cbfce479d58197b54"
     },
     {
       "schemaVersion": "1.0",
@@ -686,7 +686,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:5949942d2261",
+      "sourceRevision": "sha256:5308bdf911ed",
       "documentId": "knowledge_6ad26b46f6b4377339282b8b",
       "projectId": "baton",
       "projectName": "BATON",
@@ -694,13 +694,13 @@
       "documentType": "representative_document",
       "title": "ROUND 방 참여권 검증과 WebRTC 연결 관리",
       "heading": "ADR / 아키텍처 요약",
-      "content": "# BATON ROUND 참여권 검증과 WebRTC 연결 관리\n\n## 책임\n\nCore는 계정에 연결된 활동 중인 스터디 구성원인지 확인해 사용자가 지정된 방에 들어갈 수 있는지 결정합니다. ROUND는 Core가 발급한 참여권을 검증하고 최대 6명 브라우저의 방 및 연결 상태를 프로세스 메모리에 저장합니다. 브라우저가 영상 및 음성 연결을 만들 때 교환하는 연결 설명(offer 및 answer)과 네트워크 경로 후보(ICE)를 WebSocket으로 전달하고, 직접 연결할 수 없을 때 사용할 TURN 서버의 짧은 접속 정보도 발급합니다. 두 서비스는 DB와 엔티티를 공유하지 않습니다.\n\n## 방 입장 권한 확인 방식\n\n-   Core가 계정에 연결된 활동 중인 스터디 구성원인지 확인한 뒤 RSA 개인 키와 SHA-256을 사용하는 `RS256` 방식으로 서명한 짧은 참여권을 발급합니다. 참여권 쿠키는 방 경로로 범위를 제한하고, JavaScript에서 읽을 수 없으며 HTTPS 요청에만 전송되도록 `HttpOnly`, `Secure`, `SameSite=Strict`를 적용합니다.\n-   ROUND는 Core의 공개 키 목록(`JWKS`)으로 서명, 발급자, 단일 수신자, 만료와 방 식별자를 로컬에서 검증합니다.\n-   참여권 갱신은 Core가 처리하고 WebSocket 및 TURN 요청만 ROUND로 전달합니다.\n-   ROUND가 참여권을 한 번 검증한 뒤에는 WebRTC 연결 설명과 네트워크 경로 후보를 전달할 때마다 Core를 다시 호출하지 않습니다. 따라서 Core 응답이 느리거나 일시적으로 실패해도 이미 입장한 참가자의 연결은 계속 처리할 수 있습니다.\n-   같은 참가자가 새 참여권으로 다시 입장하면 서버가 이전 WebSocket 세션을 종료하고 새 연결만 유지합니다.\n\n## 연결 복구\n\n-   연결마다 먼저 연결 설명을 만드는 브라우저를 하나로 고정해 동시에 offer를 만드는 충돌을 피합니다.\n-   새 연결을 만들 때마다 순번을 올리고 연결 설명과 네트워크 경로 후보에 같은 순번을 넣습니다. 이전 연결 순번으로 늦게 도착한 메시지는 버립니다.\n-   ICE 재시작으로 복구되지 않으면 피어 연결을 다시 만들되, 제한된 시그널링 재연결 동안 로컬 미디어는 유지합니다.\n-   DataChannel 채팅은 메시지별 중복 제거와 애플리케이션 수신 응답을 적용합니다. 상대 브라우저 애플리케이션이 메시지를 받았다는 응답 수에 따라 전체 성공, 일부 성공과 실패를 구분하며, 사용자가 내용을 읽었다는 뜻은 아닙니다. 송신 대기 버퍼의 최대 크기도 제한합니다.\n\n## 검증과 현재 범위\n\nCore의 실제 참여권 서명 코드와 공개 키를 사용해 정상 참여권, 다른 방의 참여권, 잘못된 발급자 및 수신자와 공개 키, 만료 참여권을 각각 ROUND에 전달했습니다. 정상 참여권만 로컬 HTTPS에서 TURN 접속 정보를 받고 암호화된 WebSocket(WSS) 방에 입장하는지 확인했으며, 새 개인 키를 사용하기 전에 공개 키를 먼저 등록하는 키 교체 순서도 확인했습니다.\n\nROUND 시그널링 테스트로 같은 참가자의 새 연결이 이전 WebSocket 세션을 종료하는지 확인했습니다. Chromium에서는 가짜 카메라, 마이크와 화면 스트림으로 원격 미디어 연결, 화면 공유 전환, 방장의 미디어 끄기 요청, 채팅 수신 응답과 퇴장을 확인했습니다. WebKit에서는 직접 초대와 장치 권한 동의 흐름만 확인했으며 실제 카메라 및 마이크, TURN 중계와 iPhone 및 iPad Safari는 검증 범위에 포함하지 않았습니다.\n\n현재 구현은 비공개 원격 개발 브랜치 기준입니다. ROUND 자체의 남은 검증은 공인 DNS와 인증서, 외부 TURN 미디어 중계 서버(coturn), 실기기 Safari 및 6명 장시간 접속입니다. BATON 전체 연동 테스트에는 실제 소셜 로그인 계정을 사용하지 않았습니다. 방과 참가자 상태는 프로세스 재시작 시 사라지므로 현재 시그널링 서버는 한 인스턴스로만 실행해야 합니다.",
+      "content": "# BATON ROUND 참여권 검증과 WebRTC 연결 관리\n\n## 책임\n\nCore는 계정에 연결된 활동 중인 스터디 구성원인지 확인해 사용자가 지정된 방에 들어갈 수 있는지 결정합니다. ROUND는 Core가 발급한 참여권을 검증하고 최대 6명 브라우저의 방 및 연결 상태를 프로세스 메모리에 저장합니다. 브라우저가 영상 및 음성 연결을 만들 때 교환하는 연결 설명(offer 및 answer)과 네트워크 경로 후보(ICE)를 WebSocket으로 전달하고, 직접 연결할 수 없을 때 사용할 TURN 서버의 짧은 접속 정보도 발급합니다. 두 서비스는 DB와 엔티티를 공유하지 않습니다.\n\n## 방 입장 권한 확인 방식\n\n-   Core가 계정에 연결된 활동 중인 스터디 구성원인지 확인한 뒤 RSA 개인 키와 SHA-256을 사용하는 `RS256` 방식으로 서명한 짧은 참여권을 발급합니다. 참여권 쿠키는 방 경로로 범위를 제한하고, JavaScript에서 읽을 수 없으며 HTTPS 요청에만 전송되도록 `HttpOnly`, `Secure`, `SameSite=Strict`를 적용합니다.\n-   ROUND는 Core의 공개 키 목록(`JWKS`)으로 서명, 발급자, 단일 수신자, 만료와 방 식별자를 로컬에서 검증합니다.\n-   참여권 갱신은 Core가 처리하고 WebSocket 및 TURN 요청만 ROUND로 전달합니다.\n-   ROUND가 참여권을 한 번 검증한 뒤에는 WebRTC 연결 설명과 네트워크 경로 후보를 전달할 때마다 Core를 다시 호출하지 않습니다. 따라서 Core 응답이 느리거나 일시적으로 실패해도 이미 입장한 참가자의 연결은 계속 처리할 수 있습니다.\n-   같은 참가자가 새 참여권으로 다시 입장하면 서버가 이전 WebSocket 세션을 종료하고 새 연결만 유지합니다.\n\n## 연결 복구\n\n-   연결마다 먼저 연결 설명을 만드는 브라우저를 하나로 고정해 동시에 offer를 만드는 충돌을 피합니다.\n-   새 연결을 만들 때마다 순번을 올리고 연결 설명과 네트워크 경로 후보에 같은 순번을 넣습니다. 이전 연결 순번으로 늦게 도착한 메시지는 버립니다.\n-   ICE 재시작으로 복구되지 않으면 피어 연결을 다시 만들되, 제한된 시그널링 재연결 동안 로컬 미디어는 유지합니다.\n-   DataChannel 채팅은 메시지별 중복 제거와 애플리케이션 수신 응답을 적용합니다. 상대 브라우저 애플리케이션이 메시지를 받았다는 응답 수에 따라 전체 성공, 일부 성공과 실패를 구분하며, 사용자가 내용을 읽었다는 뜻은 아닙니다. 송신 대기 버퍼의 최대 크기도 제한합니다.\n\n## 검증과 현재 범위\n\nCore의 실제 참여권 서명 코드와 공개 키를 사용해 정상 참여권, 다른 방의 참여권, 잘못된 발급자 및 수신자와 공개 키, 만료 참여권을 각각 ROUND에 전달했습니다. 정상 참여권만 로컬 HTTPS에서 TURN 접속 정보를 받고 암호화된 WebSocket(WSS) 연결로 방에 입장하는지 확인했으며, 새 개인 키를 사용하기 전에 공개 키를 먼저 등록하는 키 교체 순서도 확인했습니다.\n\nROUND 시그널링 테스트로 같은 참가자의 새 연결이 이전 WebSocket 세션을 종료하는지 확인했습니다. Chromium에서는 가짜 카메라, 마이크와 화면 스트림으로 원격 미디어 연결, 화면 공유 전환, 방장의 미디어 끄기 요청, 채팅 수신 응답과 퇴장을 확인했습니다. WebKit에서는 직접 초대와 장치 권한 동의 흐름만 확인했으며 실제 카메라 및 마이크, TURN 중계와 iPhone 및 iPad Safari는 검증 범위에 포함하지 않았습니다.\n\n현재 구현은 비공개 원격 개발 브랜치 기준입니다. ROUND 자체의 남은 검증은 공인 DNS와 인증서, 외부 TURN 미디어 중계 서버(coturn), 실기기 Safari 및 6명 장시간 접속입니다. BATON 전체 연동 테스트에는 실제 소셜 로그인 계정을 사용하지 않았습니다. 방과 참가자 상태는 프로세스 재시작 시 사라지므로 현재 시그널링 서버는 한 인스턴스로만 실행해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/round-realtime-boundary.md",
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "5949942d226150db98063c068215c3473cffc10c1e6457312be95588e8070a43",
-      "contentHash": "6d7ead61393c40f4ceae8a4f82120204bdae5ba82a8616f8b0f1677c3590fdc1"
+      "sourceHash": "5308bdf911edd3f1838985207ec90d9e9315df3f6de06e7a483e9e68747392f6",
+      "contentHash": "41845079a9bfe5894086e12a47c39c1862d9e46066a36a0820f9ab83e2b58b71"
     },
     {
       "schemaVersion": "1.0",
@@ -866,7 +866,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:a8065b92dc28",
+      "sourceRevision": "sha256:b8b5cb6c8423",
       "documentId": "knowledge_e35aae37f4a24244d1c3cdc7",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -874,13 +874,13 @@
       "documentType": "project_overview",
       "title": "happyGallery 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: happyGallery\n\n공방 상품 판매 및 예약 서비스\n\n공방 고객이 작품을 주문하고 클래스를 예약하며, 관리자가 상품, 재고, 일정과 주문 상태를 처리하는 서비스입니다. 결제 및 환불 요청 ID로 중복 처리를 막고, 결과를 확인할 수 없으면 결제사에서 기존 처리 결과를 다시 조회한 뒤 복구 배치로 재처리합니다. 외부 배송조회 등록 실패는 배치로 다시 처리하고, 택배사 배송 완료와 관리자의 주문 완료를 분리했습니다. 옵션별 재고는 항상 같은 순서로 잠근 뒤 차감했으며 AWS 운영 이력이 있습니다.\n\n기간: 2026.02.21 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 요구사항 정리, 백엔드 및 프론트엔드 구현, 테스트와 설계 문서 작성\n\n주요 구현 및 해결: 결제 및 환불 요청 ID로 중복 처리를 막았습니다. 미전송 알림은 DB에서 다시 처리하고, 동시 주문과 예약은 재고 및 좌석을 잠근 뒤 확정했습니다.\n\n현재 상태: AWS 운영 환경에 배포했으나 상시 리소스 비용으로 운영을 종료했습니다. 현재 공개 URL은 없습니다. 최신 로컬 브랜치에는 공개 화면 서버 렌더링, 옵션 조합별 재고, 예약 캘린더와 클래스별 정원, 배송조회, 취소 전 환불 안내와 미수령 주문의 관리자 예외 환불, 관리자 30분 예약 시간표, 홈 공지 및 이벤트, 이벤트 쿠폰, 카카오 로그인과 계정 연결까지 구현했습니다. 기준 커밋은 2026.08.27 b50a9ef0이며 아직 원격 개발 브랜치와 공개 main에는 반영하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, JPA, MyBatis, MySQL, Redis, React 19, React Router 8 Framework Mode, TypeScript, Testcontainers, Playwright, Spring REST Docs, Google / Naver / Kakao OAuth",
+      "content": "프로젝트: happyGallery\n\n공방 상품 판매 및 예약 서비스\n\n공방 고객이 작품을 주문하고 클래스를 예약하며, 관리자가 상품, 재고, 일정과 주문 상태를 처리하는 서비스입니다. 결제 및 환불 요청 ID로 중복 처리를 막고, 결과를 확인할 수 없으면 결제사에서 기존 처리 결과를 다시 조회한 뒤 복구 배치로 재처리합니다. 외부 배송조회 등록 실패는 배치로 다시 처리하고, 택배사 배송 완료와 관리자의 주문 완료를 분리했습니다. 옵션별 재고는 항상 같은 순서로 잠근 뒤 차감했으며 AWS 운영 이력이 있습니다.\n\n기간: 2026.02.21 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 요구사항 정리, 백엔드 및 프론트엔드 구현, 테스트와 설계 문서 작성\n\n주요 구현 및 해결: 결제 및 환불 요청 ID로 중복 처리를 막았습니다. 미전송 알림은 DB에서 다시 처리하고, 동시 주문과 예약은 재고 및 좌석을 잠근 뒤 확정했습니다.\n\n현재 상태: AWS 운영 환경에 배포했으나 상시 리소스 비용으로 운영을 종료했습니다. 현재 공개 URL은 없습니다. 최신 로컬 브랜치에는 공개 화면 서버 렌더링, 옵션 조합별 재고, 예약 캘린더와 클래스별 정원 및 배송조회를 구현했습니다. 취소 전 환불 안내와 미수령 주문의 관리자 예외 환불, 관리자 30분 예약 시간표도 구현했습니다. 홈 공지 및 이벤트, 이벤트 쿠폰, 카카오 로그인과 계정 연결까지 반영했습니다. 기준 커밋은 2026.08.27 b50a9ef0이며 아직 원격 개발 브랜치와 공개 main에는 반영하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, JPA, MyBatis, MySQL, Redis, React 19, React Router 8 Framework Mode, TypeScript, Testcontainers, Playwright, Spring REST Docs, Google / Naver / Kakao OAuth",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-overview",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "a8065b92dc28d74ea7988b4aaca0c07dc9702969106642ff8d6f2caa2671f025",
-      "contentHash": "ca153f106780b3e61415bf4534021431d75106610bc3c95be8b0772018dc60ca"
+      "sourceHash": "b8b5cb6c8423cdd30b70f84d9b8f8cb8951ccbc0821c8f9a4ff234d81a5efbd0",
+      "contentHash": "63352c55e0bc5ad91bb8290ce2ad0b5dbda8018744eeb0298c4c03d46cf857a7"
     },
     {
       "schemaVersion": "1.0",
@@ -1082,7 +1082,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:cb447376ba21",
+      "sourceRevision": "sha256:1e2ae257de24",
       "documentId": "knowledge_8e68713d6663b1ca2773c829",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1090,13 +1090,13 @@
       "documentType": "problem_solution",
       "title": "happyGallery - 외부 배송조회 등록 실패를 다시 처리하고 배송 완료와 주문 완료를 분리",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 관리자가 운송장을 저장한 뒤 외부 배송조회 등록이 실패하면 고객은 배송 경로를 볼 수 없습니다. 반대로 택배사의 배송 완료 웹훅만으로 주문을 완료하면 적립금 지급과 후기 요청 같은 업무 처리가 실제 인도 확인보다 먼저 실행될 수 있었습니다.\n\n적용: 택배사 코드, 표시명과 운송장 번호를 주문 이행 정보에 저장하고 외부 배송조회 등록 상태는 별도로 관리했습니다. 429, 5xx 및 통신 실패는 배치가 DB 상태를 읽어 다시 요청합니다. 웹훅은 HMAC-SHA256 서명과 5분 이내 전송 시각을 확인한 뒤 배송 상태와 이동 이력만 갱신하며, 주문 완료는 관리자가 별도로 확정합니다.\n\n확인: 제작 완료부터 운송장 등록, 외부 배송조회 등록, 배송 완료 웹훅과 관리자 주문 완료까지 통합 테스트로 확인했습니다. 올바른 서명과 허용 시각의 웹훅만 처리하고, 택배사 배송 완료 뒤에도 주문 상태가 배송 중으로 유지되는지 검증했습니다.\n\n제약과 남은 작업: 현재는 Delivery API 한 곳과 지원 택배사 목록을 기준으로 구현했습니다. 실제 운영 자격 증명, 외부 서비스 장애 시간과 웹훅 재전달을 포함한 운영 환경 검증은 아직 하지 않았습니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 관리자가 운송장을 저장한 뒤 외부 배송조회 등록이 실패하면 고객은 배송 경로를 볼 수 없습니다. 반대로 택배사의 배송 완료 웹훅만으로 주문을 완료하면 적립금 지급과 후기 요청 같은 업무 처리가 실제 인도 확인보다 먼저 실행될 수 있었습니다.\n\n적용: 택배사 코드, 표시명과 운송장 번호를 주문 이행 정보에 저장하고 외부 배송조회 등록 상태는 별도로 관리했습니다. 요청 제한(HTTP 429), 서버 오류(HTTP 5xx) 및 통신 실패는 배치가 DB 상태를 읽어 다시 요청합니다. 웹훅은 HMAC-SHA256 서명과 5분 이내 전송 시각을 확인한 뒤 배송 상태와 이동 이력만 갱신하며, 주문 완료는 관리자가 별도로 확정합니다.\n\n확인: 제작 완료부터 운송장 등록, 외부 배송조회 등록, 배송 완료 웹훅과 관리자 주문 완료까지 통합 테스트로 확인했습니다. 올바른 서명과 허용 시각의 웹훅만 처리하고, 택배사 배송 완료 뒤에도 주문 상태가 배송 중으로 유지되는지 검증했습니다.\n\n제약과 남은 작업: 현재는 Delivery API 한 곳과 지원 택배사 목록을 기준으로 구현했습니다. 실제 운영 자격 증명, 외부 서비스 장애 시간과 웹훅 재전달을 포함한 운영 환경 검증은 아직 하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "cb447376ba217e5f435c84af04d0a9ea58e5addb844c587072b9d46a17bed608",
-      "contentHash": "5ab357d5153807d7b902e6b642b0b97e055e85b1fde4a45bbd1788c95a477c36"
+      "sourceHash": "1e2ae257de247ff69cc973b24c36b65f4ae4f4151dd1c6e7eb4b4135aa4fd4e3",
+      "contentHash": "306b250b2197bf2eff6750aae675e0e3490edf885c7fd4424ad55dafb00a1801"
     },
     {
       "schemaVersion": "1.0",
@@ -1352,7 +1352,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:4f3fd746434c",
+      "sourceRevision": "sha256:163d3d253cc0",
       "documentId": "knowledge_196d5b180644fac747338191",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1360,17 +1360,17 @@
       "documentType": "project_overview",
       "title": "Hope Commit 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: Hope Commit\n\nHope 3.0.3 비공식 포크 / 커밋 검토 기능 추가 및 보완\n\nSeungIl 님이 개발한 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 사용자가 고른 커밋과 비교 기준에 저장된 코드만 비교합니다. 일반 커밋은 첫 번째 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 확정합니다. 현재 수정 파일과 이전 대화를 제외하고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 확인한 뒤 HTML로 저장합니다.\n\n기간: 2026.08.22 — 진행 중\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: Hope 3.0.3 포크, 로컬 커밋 비교 및 HTML 리뷰 기능과 자동화 테스트 추가\n\n주요 구현 및 해결: 입력한 로컬 커밋을 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준과 대조해 변경 코드와 리뷰를 새 HTML 파일로 저장하되, 현재 수정 중인 파일과 이전 대화는 분석에서 제외\n\n현재 상태: SeungIl 님이 개발한 Hope 3.0.3의 Git 이력, MIT 라이선스와 기존 기능을 유지한 비공식 포크입니다. 제가 추가한 Commit Diff와 관련 테스트 및 문서는 README와 NOTICE에 구분했습니다. 공개 main은 3.1.1입니다. 원격 개발 브랜치 4.0.0에서는 비공개 경로와 토큰 차단에 더해 Git의 textconv 및 색상 설정을 무시하고 UTF-8이 아닌 파일 경로를 거절하며, 중단된 리뷰 수집을 같은 실행에서 재개하도록 보완했습니다. 4.0.0은 아직 main과 태그에 반영하지 않았습니다.\n\n사용 기술: JavaScript, Node.js 22 / 26, Git 객체 조회, JSON Schema, HTML / CSS, Node Test Runner, Codex Plugin, Claude Code Plugin",
+      "content": "프로젝트: Hope Commit\n\nHope 3.0.3 비공식 포크 / 커밋 검토 기능 추가 및 보완\n\nSeungIl 님이 개발한 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 사용자가 고른 커밋과 비교 기준에 저장된 코드만 비교합니다. 일반 커밋은 첫 번째 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 확정합니다. 현재 수정 파일과 이전 대화를 제외하고, 리뷰 설명이 실제 변경 파일과 줄을 가리키는지 확인한 뒤 HTML로 저장합니다.\n\n기간: 2026.08.22 — 진행 중\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: Hope 3.0.3 포크, 로컬 커밋 비교 및 HTML 리뷰 기능과 자동화 테스트 추가\n\n주요 구현 및 해결: 입력한 로컬 커밋과 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준에 각각 저장된 코드를 대조해 리뷰를 새 HTML 파일로 저장하되, 현재 수정 중인 파일과 이전 대화는 분석에서 제외\n\n현재 상태: SeungIl 님이 개발한 Hope 3.0.3의 Git 이력, MIT 라이선스와 기존 기능을 유지한 비공식 포크입니다. 제가 추가한 Commit Diff와 관련 테스트 및 문서는 README와 NOTICE에 구분했습니다. 공개 main은 3.1.1입니다. 원격 개발 브랜치 4.0.0에서는 비공개 경로와 토큰 차단에 더해 Git의 외부 텍스트 변환 설정(textconv)과 색상 설정을 무시하고 UTF-8이 아닌 파일 경로를 거절하며, 중단된 리뷰 수집을 같은 실행에서 재개하도록 보완했습니다. 4.0.0은 아직 main과 태그에 반영하지 않았습니다.\n\n사용 기술: JavaScript, Node.js 22 / 26, Git 객체 조회, JSON Schema, HTML / CSS, Node Test Runner, Codex Plugin, Claude Code Plugin",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-overview",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "4f3fd746434c258fff96c6b64d10d2691e10130e3c7fc718879fbb861f9633a9",
-      "contentHash": "c50f14bc034301b457aa1ef625d1c1a82b0e7841834957970c3aa43276363cf4"
+      "sourceHash": "163d3d253cc0f0967dd62e103993229720d4171676a7ec8b8cd00269d7992535",
+      "contentHash": "ca1dd0e78616d314c86d8e06d7e19159c2a37043bf8b17886f2b7fec25c9e146"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:7567928bd949",
+      "sourceRevision": "sha256:f6fcbe337dbf",
       "documentId": "knowledge_f1ee8d964fd1ffe20cafb7fb",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1378,17 +1378,17 @@
       "documentType": "architecture_decision",
       "title": "Hope Commit 구현 방법과 선택 이유",
       "heading": "구현 방법과 선택 이유",
-      "content": "프로젝트: Hope Commit\n\n구현 방법: 입력한 커밋과 커밋 종류별 규칙으로 확정한 비교 기준의 코드만 사용\n\n현재 수정 중인 파일을 제외하고, 사용자가 입력한 커밋과 확정한 비교 기준 사이의 변경만 검토합니다.\n\n짧은 커밋 ID를 전체 ID로 확정하고 기본적으로 첫 번째 부모와 비교합니다. 최초 커밋은 빈 상태, 병합 커밋은 사용자가 지정한 부모를 기준으로 삼습니다. 현재 작업 파일이 바뀌어도 처음 선택한 커밋에 저장된 코드와 변경 내역을 계속 사용합니다.\n\n적용 범위와 제약: 같은 커밋에서는 같은 코드를 검토할 수 있지만 수집과 검증 단계가 추가됩니다. 로컬 저장소에 대상 커밋이 있어야 하며, 원격 CI 결과와 이슈 및 토론 내용은 자동으로 가져오지 않습니다.",
+      "content": "프로젝트: Hope Commit\n\n구현 방법: 입력한 커밋과 커밋 종류별 규칙으로 확정한 비교 기준에 각각 저장된 코드만 사용\n\n현재 수정 중인 파일을 제외하고, 사용자가 입력한 커밋과 확정한 비교 기준 사이의 변경만 검토합니다.\n\n짧은 커밋 ID를 전체 ID로 확정하고 기본적으로 첫 번째 부모와 비교합니다. 최초 커밋은 빈 상태, 병합 커밋은 사용자가 지정한 부모를 기준으로 삼습니다. 현재 작업 파일이 바뀌어도 처음 선택한 커밋에 저장된 코드와 변경 내역을 계속 사용합니다.\n\n적용 범위와 제약: 같은 커밋에서는 같은 코드를 검토할 수 있지만 수집과 검증 단계가 추가됩니다. 로컬 저장소에 대상 커밋이 있어야 하며, 원격 CI 결과와 이슈 및 토론 내용은 자동으로 가져오지 않습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-architecture",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "7567928bd949df6dad4204e7ecc41af3155a8674360ec09715d1d35a351426b7",
-      "contentHash": "09f7bb8ea50ea6820bf7249162a7a256dc3c9efcb7e0f687fd181d3e4d71e530"
+      "sourceHash": "f6fcbe337dbf51f736372d403e2442c0292211b42a6ca623fbe9049a0a40602c",
+      "contentHash": "271aa429c03c050413c902ee301576374f388ab98e871b51968de83288a8a7f9"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:382185f63f57",
+      "sourceRevision": "sha256:c864748d2522",
       "documentId": "knowledge_03aea57d7091d297985a5d29",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1396,13 +1396,13 @@
       "documentType": "problem_solution",
       "title": "Hope Commit - 현재 수정 파일을 제외하고 입력 커밋만 비교",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: Hope Commit\n\n문제: 스테이징한 파일, 수정 중인 파일과 추적하지 않는 파일을 함께 읽으면 특정 커밋에 없던 내용이 검토 결과에 섞일 수 있습니다.\n\n적용: 입력한 16진수 커밋 ID를 전체 ID로 확정했습니다. 일반 커밋은 첫 번째 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 삼았습니다. 파일 본문과 변경 내역은 현재 수정 중인 파일이 아니라 확정한 커밋과 비교 기준에 저장된 코드에서 읽습니다. 4.0 개발 브랜치에서는 사용자 Git 설정의 textconv 및 색상 출력을 끄고, 파일 경로를 바이트 단위로 확인해 UTF-8이 아니면 분석 전에 거절합니다.\n\n확인: 짧은 커밋 ID, 최초 커밋, 병합 커밋의 부모 선택과 파일 이름 변경을 테스트용 Git 저장소로 확인했습니다. textconv가 설정돼도 실행되지 않는지, 색상 코드가 섞이지 않는지와 UTF-8이 아닌 파일 경로를 거절하는지도 검증했습니다.\n\n제약과 남은 작업: 로컬 저장소에 존재하는 한 커밋만 검토합니다. 원격 CI 결과, 이슈와 토론 내용은 자동으로 수집하지 않습니다.",
+      "content": "프로젝트: Hope Commit\n\n문제: 스테이징한 파일, 수정 중인 파일과 추적하지 않는 파일을 함께 읽으면 특정 커밋에 없던 내용이 검토 결과에 섞일 수 있습니다.\n\n적용: 입력한 16진수 커밋 ID를 전체 ID로 확정했습니다. 일반 커밋은 첫 번째 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 삼았습니다. 파일 본문과 변경 내역은 현재 수정 중인 파일이 아니라 확정한 커밋과 비교 기준에 저장된 코드에서 읽습니다. 4.0.0 개발 브랜치에서는 사용자의 Git 외부 텍스트 변환 설정(textconv)과 색상 출력을 끄고, 파일 경로를 바이트 단위로 확인해 UTF-8이 아니면 분석 전에 거절합니다.\n\n확인: 짧은 커밋 ID, 최초 커밋, 병합 커밋의 부모 선택과 파일 이름 변경을 테스트용 Git 저장소로 확인했습니다. textconv가 설정돼도 실행되지 않는지, 색상 코드가 섞이지 않는지와 UTF-8이 아닌 파일 경로를 거절하는지도 검증했습니다.\n\n제약과 남은 작업: 로컬 저장소에 존재하는 한 커밋만 검토합니다. 원격 CI 결과, 이슈와 토론 내용은 자동으로 수집하지 않습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-problems",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "382185f63f57bc37cd4d0a9074768cf6b6efc3d965fca0e42d870e9abeea2655",
-      "contentHash": "d64a6eb1578d0fe7460c6a83e735148ec985ebc34ce7262a4aa5717f1cf421bf"
+      "sourceHash": "c864748d252275944eae4527ea6a4d5063be8b969edf3c83b98ab23a724b5500",
+      "contentHash": "1f2ff00f8f53d1ebca1b634793b9a165e7dc55a685e38584fc07cf2e91b99a37"
     },
     {
       "schemaVersion": "1.0",
@@ -1460,7 +1460,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:861c8f4112ad",
+      "sourceRevision": "sha256:f1c2310420b2",
       "documentId": "knowledge_f8ec3ed5086118fb4b616e83",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1468,13 +1468,13 @@
       "documentType": "implementation_evidence",
       "title": "Hope Commit - 입력 커밋과 비교 대상 확정",
       "heading": "구현 및 자동화 테스트",
-      "content": "프로젝트: Hope Commit\n\n확인 대상: 입력 커밋과 비교 대상 확정\n\n확인 방법: 테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트\n\n확인 조건: 짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집\n\n결과: 전체 커밋 ID와 비교 기준을 고정하고, 로컬 Git의 textconv 및 색상 설정을 끈 상태에서도 파일 이름 변경과 변경 줄 수를 유지하며 UTF-8이 아닌 경로는 분석 전에 거절\n\n공개 범위: 2026.08.27 원격 개발 브랜치 4.0.0 커밋 d6203de의 commit-collector.test.mjs 기준 · 공개 main 반영 전",
+      "content": "프로젝트: Hope Commit\n\n확인 대상: 입력 커밋과 비교 대상 확정\n\n확인 방법: 테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트\n\n확인 조건: 짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집\n\n결과: 전체 커밋 ID와 비교 기준을 고정하고, 로컬 Git의 외부 텍스트 변환 설정(textconv)과 색상 설정을 끈 상태에서도 파일 이름 변경과 변경 줄 수를 유지하며 UTF-8이 아닌 경로는 분석 전에 거절\n\n공개 범위: 2026.08.27 원격 개발 브랜치 4.0.0 커밋 d6203de의 commit-collector.test.mjs 기준 · 공개 main 반영 전",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-proof",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "861c8f4112ad5986a2ae7a55e8c3c9791be3353548503753e56691d4a5a7cfc0",
-      "contentHash": "5bc2f5607640a0744e5cde0cc6a0ff09f7e1fbe42c71f95e5f09f523947a1726"
+      "sourceHash": "f1c2310420b246ac40dcf430a39cded9abf40f44e169e563b4732cbe1b7aa496",
+      "contentHash": "a5a460b206de9e21f8c6022dbade97e01d255bf196338d4f0adda6a985894094"
     },
     {
       "schemaVersion": "1.0",
