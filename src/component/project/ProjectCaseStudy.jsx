@@ -97,10 +97,7 @@ const BatonServices = ({ services }) => {
                 <header className="baton-service-directory__header">
                     <span>{supporting.length} MICROSERVICES</span>
                     <h3 id="baton-service-directory-title">서비스별 책임과 검증 근거</h3>
-                    <p>
-                        Core와 분리한 책임, 저장소 경계와 자동화 테스트 근거를 서비스별로 확인할 수
-                        있습니다.
-                    </p>
+                    <p>Core와 6개 서비스의 담당 기능, 저장소와 테스트 근거입니다.</p>
                 </header>
                 <article className="baton-service-directory__core">
                     <div>
@@ -253,8 +250,7 @@ const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
             <h2 id="documents-title">문서 분류와 대표 문서</h2>
         </div>
         <p className="case-documents__intro">
-            요구사항, 기술 선택, 테스트, 배포 및 장애 재처리 절차별로 문서를 나누고, 공개한 대표
-            문서로 바로 이동할 수 있게 정리했습니다.
+            문서를 요구사항, 기술 선택, 테스트와 운영 절차로 나눴습니다.
         </p>
         <div className="case-document-catalog" aria-label="문서 분류">
             {documentGroups.map((group) => (

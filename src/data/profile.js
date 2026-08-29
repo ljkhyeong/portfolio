@@ -15,7 +15,7 @@ export const education = {
     meta: "6인 팀",
     projectId: "webrtc",
     description:
-        "현재 강의는 WebRTC로 실시간 재생하고, 놓친 구간은 HLS로 다시 볼 수 있는 React 화면을 구현했습니다. mediasoup가 내보낸 RTP 영상은 FFmpeg와 GStreamer로 HLS 세그먼트와 재생 목록으로 변환했습니다. 세그먼트 길이와 FFmpeg 설정을 조정해 팀 시연 환경의 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
+        "WebRTC 실시간 강의와 HLS 다시보기 화면을 구현했습니다. mediasoup RTP를 HLS로 변환하고 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
 }
 
 export const careers = [
@@ -25,7 +25,7 @@ export const careers = [
         organization: "BEINTECH",
         position: "백엔드 개발자",
         description:
-            "2024년 6월 BEINTECH에 입사했습니다. 차세대 군사법 정보 시스템에서 군사법원, 군검찰 및 군사경찰의 수용자 및 영장 자료를 검증해 군교정 DB에 반영하는 배치를 개발하고, 중단된 연계를 찾아 재처리했습니다. 현재 전송형 전자영장 시스템에서 해양경찰 사건수사시스템(KICS) 요청을 통신사와 집행포털 규격으로 변환해 보내고 제출 자료를 다시 KICS에 반영하는 서버 기능과 Spring Batch를 개발하고 있습니다.",
+            "차세대 군사법 정보 시스템에서 군사법원, 군검찰과 군사경찰 자료 검증 배치 및 장애 재처리를 담당했습니다. 현재 전송형 전자영장 시스템에서 KICS 연계 서버와 Spring Batch를 개발합니다.",
         projectIds: ["warrant", "defense"],
     },
 ]

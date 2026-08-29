@@ -118,7 +118,7 @@ describe("project summary data", () => {
             result: expect.stringContaining("진행 중인 인수인계를 1건으로 유지"),
         })
         expect(coreProof.result).toContain("준비 → 전달 → 수락 순서")
-        expect(coreProof.result).toContain("준비 또는 전달 단계에서는 취소")
+        expect(coreProof.result).toContain("준비 또는 전달 단계만 취소")
 
         baton.services
             .filter((service) => !service.primary)
@@ -142,12 +142,12 @@ describe("project summary data", () => {
         )
 
         expect(paymentProblem).toMatchObject({
-            constraint: expect.stringContaining("실패 이력까지 사라졌습니다"),
-            decision: expect.stringContaining("REQUIRES_NEW"),
+            constraint: expect.stringContaining("실패 이력이 사라지거나"),
+            decision: expect.stringContaining("독립 트랜잭션"),
         })
         expect(passRefundProblem).toMatchObject({
-            title: "8회권 전체 환불 시 미래 예약, 잔여 횟수와 환불 원장 일치",
-            decision: expect.stringContaining("ID 순서"),
+            title: "8회권 환불 시 예약, 크레딧과 원장 일치",
+            decision: expect.stringContaining("순서대로 잠그고"),
             boundary: expect.stringContaining("관리자 재처리"),
         })
         expect(happyGallery.featuredProblemNumbers).not.toContain("07")
@@ -171,28 +171,22 @@ describe("project summary data", () => {
         const publicCopy = JSON.stringify(defense)
 
         expect(defense.systemTitle).toBe("수용자 인적정보 및 영장정보 연계 배치 흐름")
-        expect(defense.visualCaption).toContain("수용 대상자의 인적정보와 영장정보")
-        expect(defense.oneLine).toContain("WebSquare 상태 변경 요청의 위조를 차단")
-        expect(securityProblem.decision).toContain("WebSquare 화면 데이터 규격")
-        expect(securityProblem.decision).toContain("Spring Security 필터에서 차단")
-        expect(uploadProblem.decision).toContain("업무 서버에 업로드 권한과 파일 정보를 요청")
+        expect(defense.visualCaption).toContain("수용자 인적정보와 영장정보")
+        expect(defense.oneLine).toContain("CSRF 차단")
+        expect(securityProblem.decision).toContain("WebSquare 공통 요청")
+        expect(securityProblem.decision).toContain("필터에서 차단")
+        expect(uploadProblem.decision).toContain("업로드 권한과 파일 정보를 검증")
         expect(uploadProblem.decision).toContain("Presigned URL")
-        expect(uploadProblem.decision).toContain(
-            "업무 서버는 파일 본문을 받거나 중계하지 않았습니다",
-        )
-        expect(incidentProblem.title).toContain("Jenkins 실행 이력")
-        expect(incidentProblem.title).toContain("배치 중단 위치 확인")
-        expect(incidentProblem.constraint).toContain("통합 모니터링과 자동화 테스트가 없어")
-        expect(incidentProblem.constraint).toContain(
-            "화면 오류만으로 장애 위치를 알기 어려웠습니다",
-        )
-        expect(incidentProblem.constraint).toContain("요청 처리, SQL, 기관 연계 배치와 DB 반영")
-        expect(incidentProblem.constraint).toContain("로그와 DB 상태를 직접 대조")
+        expect(uploadProblem.decision).toContain("저장소로 직접 전송")
+        expect(incidentProblem.title).toContain("Jenkins")
+        expect(incidentProblem.title).toContain("배치 중단 단계 확인")
+        expect(incidentProblem.constraint).toContain("통합 모니터링이 없는 폐쇄망")
+        expect(incidentProblem.constraint).toContain("장애 단계를 찾기 어려웠습니다")
         expect(incidentProblem.constraint).not.toContain("APM")
         expect(incidentProblem.constraint).not.toContain("분산 추적")
-        expect(incidentProblem.decision).toContain("Jenkins 실행 이력")
-        expect(incidentProblem.decision).toContain("JEUS 및 업무 서버 로그")
-        expect(incidentProblem.decision).toContain("Tibero의 입력 데이터")
+        expect(incidentProblem.decision).toContain("Jenkins")
+        expect(incidentProblem.decision).toContain("JEUS 로그")
+        expect(incidentProblem.decision).toContain("Tibero 상태")
         expect(publicCopy).not.toContain("기관 A")
         expect(publicCopy).not.toContain("기관 B")
         expect(publicCopy).not.toContain("기관 C")

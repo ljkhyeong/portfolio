@@ -2,11 +2,8 @@ const WarrantIntegrationDiagram = () => (
     <figure className="editorial-diagram warrant-integration">
         <figcaption className="editorial-diagram__header">
             <span className="editorial-diagram__eyebrow">FIG 03 / BEINTECH / LG CNS 컨소시엄</span>
-            <strong>KICS 연계 서버와 배치가 기관별 요청을 변환해 전달</strong>
-            <p>
-                KICS 요청을 통신사용 형식과 전자영장 포털용 형식으로 각각 변환했습니다. 전자영장
-                포털은 금융기관으로 요청을 전달하고 제출 자료를 KICS로 돌려보내는 경로를 중계합니다.
-            </p>
+            <strong>KICS 요청 변환 및 제출 자료 반영</strong>
+            <p>요청은 통신사 및 포털 형식으로 전달하고, 제출 자료는 KICS에 반영합니다.</p>
         </figcaption>
         <div
             className="editorial-diagram__viewport"
@@ -22,9 +19,8 @@ const WarrantIntegrationDiagram = () => (
             >
                 <title id="warrant-integration-title">KICS 요청 변환 및 기관 연계 흐름</title>
                 <desc id="warrant-integration-desc">
-                    KICS 연계 서버와 배치가 KICS 요청을 통신사용 형식으로 변환해 통신사 경로로
-                    전달하고, 포털용 형식으로 변환한 요청은 전자영장 포털을 거쳐 금융기관에 전달한
-                    뒤 제출 자료를 KICS에 반영하는 흐름입니다.
+                    KICS 연계 서버와 배치는 요청을 통신사용 또는 포털용 형식으로 변환해 전달하고,
+                    통신사와 금융기관의 제출 자료를 KICS에 반영합니다.
                 </desc>
                 <defs>
                     <marker
@@ -199,7 +195,7 @@ const WarrantIntegrationDiagram = () => (
                         y="152"
                         textAnchor="middle"
                     >
-                        금융기관 요청 중계
+                        금융기관 요청
                     </text>
 
                     <line
@@ -224,7 +220,7 @@ const WarrantIntegrationDiagram = () => (
                         y="200"
                         textAnchor="middle"
                     >
-                        제출 자료 중계
+                        금융기관 제출 자료
                     </text>
 
                     <line
@@ -305,13 +301,10 @@ const WarrantIntegrationDiagram = () => (
                         />
                         <text className="editorial-diagram__node-meta" x="88" y="252">
                             <tspan x="88" dy="0">
-                                KICS 요청 수신
+                                요청 수신
                             </tspan>
                             <tspan x="88" dy="20">
-                                통신사용 요청 변환
-                            </tspan>
-                            <tspan x="88" dy="20">
-                                포털용 요청 변환
+                                기관별 형식 변환
                             </tspan>
                             <tspan x="88" dy="20">
                                 전송 요청 생성
@@ -329,7 +322,7 @@ const WarrantIntegrationDiagram = () => (
                                 제출 자료 수신
                             </tspan>
                             <tspan x="88" dy="20">
-                                KICS 제출 자료 반영
+                                KICS 반영
                             </tspan>
                             <tspan x="88" dy="20">
                                 Spring Batch
@@ -352,10 +345,7 @@ const WarrantIntegrationDiagram = () => (
                         </text>
                         <text className="editorial-diagram__node-meta" x="412" y="216">
                             <tspan x="412" dy="0">
-                                금융기관 요청 중계
-                            </tspan>
-                            <tspan x="412" dy="16">
-                                제출 자료 중계
+                                요청 및 제출 자료 중계
                             </tspan>
                         </text>
                     </g>
@@ -408,7 +398,7 @@ const WarrantIntegrationDiagram = () => (
                         y2="516"
                     />
                     <text x="176" y="520">
-                        기관별 요청
+                        자료 제공 요청
                     </text>
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--muted editorial-diagram__connector--dashed"
@@ -418,7 +408,7 @@ const WarrantIntegrationDiagram = () => (
                         y2="516"
                     />
                     <text x="368" y="520">
-                        제출 자료 및 KICS 반영
+                        제출 자료
                     </text>
                     <rect
                         className="editorial-diagram__legend-zone"

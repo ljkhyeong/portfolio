@@ -93,10 +93,7 @@ const About = () => {
                 <div className="experience-section__intro">
                     <span className="section-kicker">경력과 학습</span>
                     <h2 id="experience-title">경력 및 학습</h2>
-                    <p>
-                        공공 SI에서 맡은 개발 및 운영 업무, 교육 프로젝트와 개발 서적 스터디를
-                        정리했습니다.
-                    </p>
+                    <p>경력, 교육 프로젝트와 개발 서적 스터디를 정리했습니다.</p>
                 </div>
 
                 <div className="timeline timeline--split" aria-label="교육, 경력 및 개인 활동">
@@ -170,7 +167,7 @@ const About = () => {
                 <div className="capability-section__intro">
                     <span className="section-kicker">사용 기술과 적용 경험</span>
                     <h2 id="capability-title">기술</h2>
-                    <p>사용한 기술과 해당 기술로 해결한 문제를 함께 정리했습니다.</p>
+                    <p>프로젝트에 적용한 기술입니다.</p>
                 </div>
                 <div className="capability-list capability-list--desktop">
                     {homeSkillGroups.map((group) => (

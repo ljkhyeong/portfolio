@@ -165,10 +165,8 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                     Core와 6개 서비스의 책임 및 연동 계약
                 </h3>
                 <p className="editorial-diagram__summary baton-architecture__summary">
-                    Core는 조직, 역할 및 인수인계를 관리하고 6개 서비스는 허용 경로의 짧은 링크,
-                    외부 URL 상태 점검, 서비스 간 이벤트 전달, 운영 점검과 주간 보고서, 읽기 전용
-                    캘린더 구독 및 WebRTC 스터디룸을 각각 담당합니다. 선은 서비스 사이의 요청과
-                    이벤트 계약을 나타내며 공개 환경 전체 연동 완료를 뜻하지 않습니다.
+                    Core와 6개 서비스의 담당 기능과 요청 및 이벤트 흐름입니다. 전체 연동 완료를
+                    뜻하지 않습니다.
                 </p>
             </figcaption>
 
@@ -359,7 +357,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             rx="4"
                         />
                         <text x="172" y="536">
-                            Core 관리 데이터
+                            중앙 서비스 Core
                         </text>
                         <line
                             className="baton-architecture__connector baton-architecture__connector--default"
@@ -369,7 +367,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             y2="532"
                         />
                         <text x="344" y="536">
-                            동기 요청 계약
+                            동기 요청
                         </text>
                         <line
                             className="baton-architecture__connector baton-architecture__connector--async"
@@ -379,7 +377,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             y2="532"
                         />
                         <text x="512" y="536">
-                            이벤트 및 비동기 계약
+                            비동기 이벤트
                         </text>
                         <line
                             className="baton-architecture__connector baton-architecture__connector--link"
@@ -389,7 +387,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             y2="532"
                         />
                         <text x="760" y="536">
-                            요청 및 응답 계약
+                            요청과 응답
                         </text>
                     </g>
                 </svg>
