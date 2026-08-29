@@ -28,10 +28,21 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0032_%EC%95%8C%EB%A6%BC_Outbox_%EC%A0%84%EB%8B%AC_%EB%B3%B4%EC%9E%A5/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/04e57fa2afbd65241282eb2d5dfc5fe6319fafa5/docs/ADR/0036_%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4_%ED%8F%89%EB%AC%B8_%EC%A0%9C%EA%B1%B0%EC%99%80_%EB%B8%94%EB%9D%BC%EC%9D%B8%EB%93%9C_%EC%9D%B8%EB%8D%B1%EC%8A%A4_%EA%B8%B0%EC%A4%80/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/04e57fa2afbd65241282eb2d5dfc5fe6319fafa5/docs/Retrospective/0010_AWS_%EB%B9%84%EC%9A%A9_%EA%B3%BC%EA%B8%88_%EC%9B%90%EC%9D%B8_%EC%A0%90%EA%B2%80/retrospective.md",
+    "https://github.com/ljkhyeong/happyGallery/blob/ba3ec0a2e7e59b3c21636def56cad7a77e27cf33/docs/ADR/0047_%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%8A%A4%ED%86%A0%EC%96%B4_%EC%9E%AC%EA%B3%A0_%EB%8F%99%EA%B8%B0%ED%99%94/adr.md",
+    "https://github.com/ljkhyeong/happyGallery/blob/ba3ec0a2e7e59b3c21636def56cad7a77e27cf33/docs/ADR/0048_%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%8A%A4%ED%86%A0%EC%96%B4_%EC%A3%BC%EB%AC%B8_%EC%9A%B4%EC%98%81_%EC%97%B0%EB%8F%99/adr.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/README.ko.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit/SKILL.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/SECURITY.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/NOTICE",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/README.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/docs/PRD-0001-intent-trace-mvp.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/docs/ADR-0001-evidence-bound-change-record.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/docs/ADR-0002-github-check-run-publication.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/docs/ADR-0005-github-web-oauth-memory-session.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/docs/PRD-0004-intellij-line-intent.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/docs/operations/team-deployment.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/docs/operations/release.md",
+    "https://github.com/ljkhyeong/intent-trace/blob/main/SECURITY.md",
 ]
 
 const PORTFOLIO_ORIGIN = "https://ljkportfolio.netlify.app"

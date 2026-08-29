@@ -12,7 +12,8 @@ export const homeHeroContent = {
         {
             label: "개인 프로젝트",
             title: "BATON",
-            evidence: "같은 링크 요청은 1건만 저장하고 중단된 이벤트 전달은 기존 ID로 재개",
+            evidence:
+                "같은 링크 요청과 이벤트는 새 작업을 만들지 않고, 중단된 전달은 시도 UUID와 제공자 멱등 키를 유지",
             route: "/projects/baton",
         },
         {

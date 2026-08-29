@@ -9,7 +9,7 @@ const HopeCommitFlowDiagram = () => {
                 <span className="editorial-diagram__eyebrow">COMMIT DIFF / LOCAL GIT OBJECTS</span>
                 <h3 className="editorial-diagram__title">검증을 통과한 커밋 리뷰만 저장</h3>
                 <p className="editorial-diagram__summary">
-                    선택한 커밋과 확정한 비교 기준 사이의 변경만 읽고, 실제 변경 파일과 줄에 연결된
+                    입력한 커밋과 확정한 비교 기준 사이의 변경만 읽고, 실제 변경 파일과 줄에 연결된
                     결과만 새 HTML로 저장합니다.
                 </p>
             </figcaption>
@@ -29,7 +29,7 @@ const HopeCommitFlowDiagram = () => {
                 >
                     <title id="hope-commit-flow-title">Hope Commit의 커밋 검토 및 저장 흐름</title>
                     <desc id="hope-commit-flow-desc">
-                        선택한 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준과의 변경을 수집한
+                        입력한 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준과의 변경을 수집한
                         뒤 파일과 줄 및 JSON 근거를 검증해, 통과하면 새 HTML을 저장하고 실패하면
                         저장하지 않고 중단하는 흐름입니다.
                     </desc>

@@ -9,6 +9,7 @@ import ProjectSwitcher from "./ProjectSwitcher"
 import BatonArchitectureDiagram from "./diagrams/BatonArchitectureDiagram"
 import HopeCommitFlowDiagram from "./diagrams/HopeCommitFlowDiagram"
 import WarrantIntegrationDiagram from "./diagrams/WarrantIntegrationDiagram"
+import IntentTraceRecordPreview from "./IntentTraceRecordPreview"
 import "../../css/Project.css"
 import "../../css/EditorialDiagram.css"
 
@@ -208,6 +209,10 @@ const ProjectVisual = ({ project }) => {
         return <HopeCommitFlowDiagram />
     }
 
+    if (project.visual === "intent-trace") {
+        return <IntentTraceRecordPreview />
+    }
+
     if (project.visual === "warrant") {
         return <WarrantIntegrationDiagram />
     }
@@ -216,7 +221,11 @@ const ProjectVisual = ({ project }) => {
         return <EducationStreamingVisual />
     }
 
-    return <DefenseVisual />
+    if (project.visual === "defense") {
+        return <DefenseVisual />
+    }
+
+    return null
 }
 
 const ArchitectureSection = ({ project }) => (

@@ -154,6 +154,10 @@ const App = () => {
                         element={<ProjectCaseStudy projectId="hope-commit" />}
                     />
                     <Route
+                        path="/projects/intent-trace"
+                        element={<ProjectCaseStudy projectId="intent-trace" />}
+                    />
+                    <Route
                         path="/projects/e-warrant"
                         element={<ProjectCaseStudy projectId="warrant" />}
                     />

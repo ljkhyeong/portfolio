@@ -8,11 +8,11 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
         summary:
-            "조직의 역할, 반복 업무, 의사결정과 인수인계를 관리하는 플랫폼입니다. Core와 링크, 점검, 이벤트, 보고서, 캘린더 및 WebRTC를 담당하는 6개 마이크로서비스로 구성했습니다.",
+            "조직의 역할, 반복 업무, 의사결정과 인수인계를 관리하는 플랫폼입니다. Core와 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC를 맡는 6개 마이크로서비스로 구성했습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "Core와 6개 마이크로서비스의 API, 저장소, 테스트 및 배포",
+                value: "Core와 6개 마이크로서비스의 API, 저장소, 서비스 간 계약, 테스트 및 배포 설계",
             },
             {
                 label: "문제",
@@ -20,7 +20,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "링크 요청 UUID와 이벤트 ID로 기존 작업을 재사용하고, 중단된 전달은 기존 전송 ID로 재개하며 결과 미확인 전송은 자동 재시도하지 않음",
+                value: "링크 요청 UUID와 이벤트 ID로 기존 작업을 재사용하고, 중단된 전달은 같은 시도 UUID와 제공자 멱등 키를 유지하며 결과 미확인 전송은 자동 재시도하지 않음",
             },
         ],
         period: "2026.07.20 — 진행 중",
@@ -78,11 +78,11 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "공방 상품 주문과 클래스 예약을 관리하는 서비스입니다. 결제 orderId와 환불 UUID를 재사용해 중복 실행을 막고, DB에 남은 알림 작업은 스케줄러가 다시 처리합니다. 클래스와 예약 시간 및 재고 행을 잠가 정원과 재고 초과를 막았습니다. AWS에서 운영한 이력이 있습니다.",
+            "공방 상품 주문과 클래스 예약을 관리하는 서비스입니다. 결제와 알림 재처리, 예약 및 재고 동시성 제어에 이어 스마트스토어 주문, Toss 결제 대사, 빈자리 알림과 다인 예약 부분취소까지 구현했습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영",
+                value: "요구사항 정리, Java 25 및 Spring Boot 백엔드, React SSR/CSR 화면, 자동화 테스트, AWS 운영과 k3s 재배포 준비",
             },
             {
                 label: "문제",
@@ -90,7 +90,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "결제 orderId와 환불 UUID를 재사용하고, DB 알림 작업은 스케줄러가 처리하며 클래스와 예약 시간 및 재고 행을 잠가 초과 차단",
+                value: "결제 orderId와 환불 UUID를 재사용하고 DB 알림 작업을 다시 처리하며, 클래스와 예약 시간 및 재고 행을 잠가 초과 차단",
             },
         ],
         period: "2026.02.21 — 진행 중",
@@ -109,7 +109,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 3.0.3 비공식 포크 / 로컬 커밋 HTML 리뷰",
         summary:
-            "SeungIl 님의 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 선택한 커밋과 확정한 비교 기준 사이의 변경만 검토하고, 실제 변경 줄이 근거인 결과만 HTML로 저장합니다.",
+            "SeungIl 님의 Hope 3.0.3에서 파생한 비공식 포크입니다. 입력한 커밋과 확정한 비교 기준 사이의 변경만 검토하고, 실제 변경 줄이 근거인 결과만 HTML로 저장합니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -121,13 +121,49 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "선택한 커밋과 확정한 비교 기준에 저장된 코드만 읽고, 설명이 실제 변경 줄을 가리킬 때만 HTML 생성",
+                value: "입력한 커밋과 확정한 비교 기준에 저장된 코드만 읽고, 설명이 실제 변경 줄을 가리킬 때만 HTML 생성",
             },
         ],
         period: "2026.08.22 — 진행 중",
         route: "/projects/hope-commit",
         tags: ["JavaScript", "Node.js 22", "Git 객체 조회", "JSON Schema"],
         visual: "hope-commit",
+        stage: "개발 중",
+        visibility: "공개 저장소",
+    },
+    {
+        id: "intent-trace",
+        index: "02",
+        projectType: "tooling",
+        presentation: "tooling-case",
+        title: "IntentTrace",
+        navigationLabel: "IntentTrace",
+        eyebrow: "AI 코드 변경 의도 및 검증 기록",
+        summary:
+            "AI가 만든 코드에 사용자 요청, 판단 근거, 코드 위치와 실제 검증 결과를 연결해 남기는 개발 도구입니다. 원문 대화와 숨은 추론은 저장하지 않고, 작성자가 확인한 뒤 코드가 바뀌지 않은 기록만 팀에 공개합니다.",
+        homeFacts: [
+            {
+                label: "담당",
+                value: "Kotlin 및 Spring 서버, GitHub 인증과 Check Run, Codex 연동 및 IntelliJ 플러그인 구현",
+            },
+            {
+                label: "문제",
+                value: "AI가 바꾼 코드의 요청과 판단 근거가 커밋 및 실제 검증 결과와 분리됨",
+            },
+            {
+                label: "해결",
+                value: "전체 길이 커밋 ID와 코드 줄 해시를 저장하고, 작성자 확인 뒤 코드가 바뀌면 공개 차단",
+            },
+        ],
+        period: "2026.08.27 — 진행 중",
+        route: "/projects/intent-trace",
+        tags: [
+            "Kotlin / Java 21",
+            "Spring Boot / Spring AI",
+            "GitHub App / Check Run",
+            "IntelliJ Platform",
+        ],
+        visual: "intent-trace",
         stage: "개발 중",
         visibility: "공개 저장소",
     },

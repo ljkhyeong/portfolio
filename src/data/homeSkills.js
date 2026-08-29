@@ -33,7 +33,7 @@ export const homeSkillGroups = [
             },
             {
                 name: "중단된 URL 점검 및 이벤트 전달 인계",
-                detail: "WATCH는 처리 기한이 지난 URL 점검을 다른 서버가 재개하고, RELAY는 기존 전송 ID로 전달을 이어가며 이전 서버의 늦은 결과를 버립니다.",
+                detail: "WATCH는 처리 기한이 지난 URL 점검을 다른 서버가 새 시도로 실행합니다. RELAY는 중단 전 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 넘기고 이전 서버의 늦은 결과를 버립니다.",
             },
         ],
     },

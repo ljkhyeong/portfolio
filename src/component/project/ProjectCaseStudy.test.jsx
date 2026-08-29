@@ -176,7 +176,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
-    expect(screen.getByText("추가 문제 해결 7건 보기").closest("details")).not.toHaveAttribute(
+    expect(screen.getByText("추가 문제 해결 10건 보기").closest("details")).not.toHaveAttribute(
         "open",
     )
     expect(screen.getByRole("heading", { name: "대표 화면" })).toBeInTheDocument()
@@ -184,6 +184,29 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
         "href",
         "#project-system",
     )
+})
+
+test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록으로 보여준다", () => {
+    renderWithRouter(<ProjectCaseStudy projectId="intent-trace" />)
+
+    expect(screen.getByRole("heading", { name: "IntentTrace", level: 1 })).toBeInTheDocument()
+    expect(
+        screen.getByRole("group", {
+            name: /사용자 요청과 판단 출처, 전체 길이 커밋 ID, 코드 위치 및 검증 결과를 저장하고 작성자 확인 뒤 코드가 바뀌면 공개를 차단/,
+        }),
+    ).toBeInTheDocument()
+    expect(screen.getByText("CODE ANCHOR")).toBeInTheDocument()
+    expect(screen.getByText("VERIFICATION")).toBeInTheDocument()
+    expect(screen.getAllByText("PUBLISHED").length).toBeGreaterThan(0)
+    expect(screen.getByText("원문 대화 / 숨은 추론 / 검증 원문")).toBeInTheDocument()
+    expect(
+        screen.getByRole("heading", {
+            name: "전체 길이 커밋 ID와 코드 위치를 기록하고, 작성자 확인 뒤 코드가 바뀌면 공개하지 않습니다.",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
+    ).toHaveAttribute("href", "https://github.com/ljkhyeong/intent-trace")
 })
 
 test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐름과 기술 판단을 보여준다", () => {
@@ -325,7 +348,7 @@ test.each([
         "watch",
         "WATCH",
         "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
-        /서버 중단 뒤 처리 기한이 지난 URL 점검을 다른 서버가 재개/,
+        /서버 중단 뒤 처리 기한이 지난 URL 점검을 새 시도로 회수/,
     ],
     [
         "relay",
@@ -336,8 +359,8 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "담당 공백, 자료 부족, 업무 지연과 미완료 인수인계를 찾아 주간 보고서로 보관합니다.",
-        /같은 주간과 마지막 순번 및 항목의 보고서 1건 유지/,
+        "Core가 판정한 5개 운영 신호를 받아 현재 관심 항목과 주간 보고서로 투영합니다.",
+        /ACTIVE 및 RESOLVED 투영.*발행 후 수정하지 않는 보고서 에디션/,
     ],
     [
         "cal",
@@ -348,7 +371,7 @@ test.each([
     [
         "round",
         "ROUND",
-        "Core 참여권을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 TURN 접속 정보를 제공합니다.",
+        "Core 참여권을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.",
         /이전 연결 메시지 차단/,
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
@@ -372,7 +395,7 @@ test.each([
     ["watch", "WATCH", ["Spring JDBC", "PostgreSQL 18", "Apache HttpClient 5"]],
     ["relay", "RELAY", ["RabbitMQ / Spring AMQP", "AWS SQS FIFO", "PostgreSQL 18"]],
     ["brief", "BRIEF", ["Kotlin 2.3", "Java 21", "Spring JDBC"]],
-    ["cal", "CAL", ["Kotlin 2.3", "Java 25", "iCal4j 4.2"]],
+    ["cal", "CAL", ["Kotlin 2.3", "Java 25", "iCal4j 4.3.0"]],
     ["round", "ROUND", ["React 19", "WebRTC / RTCDataChannel", "Raw WebSocket"]],
 ])(
     "BATON %s 상세는 %s 구현에 실제 사용한 기술을 Core와 같은 위치에 보여준다",
@@ -403,20 +426,20 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "중복 및 역순 BATON 이벤트 차단",
-        "https://github.com/ljkhyeong/baton-brief/tree/61584199a5caaa15cdb65ab071977cde74029d08",
-        /BRIEF 개발 브랜치 고정 커밋 보기/,
-        /2\.0\.0-rc\.1 실제 Core 실행 JAR.*로컬 HTTP/,
-        /최신 구현은 원격 개발 브랜치에 있으며 공개 main에는 아직 반영하지 않았습니다/,
+        "Core 운영 신호를 그대로 관심 항목에 투영",
+        "https://github.com/ljkhyeong/baton-brief/tree/a2c5fb9bf04dbd7d805b613713c0d1b88e8deb13",
+        /BRIEF 공개 main 고정 커밋 보기/,
+        /2\.0\.0-rc\.1 실제 Core JAR.*로컬 HTTP/,
+        /Core 연동, 관심 항목 투영과 주간 에디션 구현이 공개 main에 반영돼 있습니다/,
     ],
     [
         "cal",
         "CAL",
         "중복 및 과거 일정 JSON 차단",
-        "https://github.com/ljkhyeong/baton-cal/tree/fba74a22c9d62e940ccb5287947051f7a8d31f89",
-        /CAL 개발 브랜치 고정 커밋 보기/,
-        /Core 1\.0\.0 생성 코드로 만든 일정 JSON.*CAL 컨테이너.*iCalendar로 변환/,
-        /안정 계약 1.0.0의 Core 호환성 근거와 미공개 개발 후보 1.1.0-rc.1/,
+        "https://github.com/ljkhyeong/baton-cal/tree/39b916d01dd597c0a1903bedde71bc3c27ef368f",
+        /CAL 공개 main 고정 커밋 보기/,
+        /Core의 stable 1\.0\.0 일정 JSON.*CAL 컨테이너.*호환성을 확인/,
+        /안정 계약 1.0.0의 Core 호환성 근거와 공개 main의 미게시 후보 1.1.0-rc.1/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",
@@ -443,7 +466,9 @@ test("BATON ROUND 상세는 Core의 방 입장 확인과 ROUND의 WebRTC 처리�
             name: "Core는 입장 권한, ROUND는 연결 중계 담당",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/공인 DNS, 외부 coturn과 6명 장시간 접속/)).toBeInTheDocument()
+    expect(
+        screen.getAllByText(/실제 Cloudflare relay-only.*6명 장시간 접속/).length,
+    ).toBeGreaterThan(0)
     expect(screen.getByText("비공개 저장소 / 설계와 테스트 요약 공개")).toBeInTheDocument()
     expect(screen.queryByRole("link", { name: /ROUND.*저장소/ })).not.toBeInTheDocument()
 })

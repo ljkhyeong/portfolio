@@ -29,7 +29,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         "KICS 요청을 기관별 규격으로 변환하고 제출 자료를 KICS에 반영",
     )
     expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent("같은 링크 요청은 1건만 저장")
+    expect(heroHighlights).toHaveTextContent("같은 링크 요청과 이벤트는 새 작업을 만들지 않고")
     expect(heroHighlights).toHaveTextContent("happyGallery")
     expect(heroHighlights).toHaveTextContent("결제 orderId와 환불 UUID를 재사용")
     expect(
@@ -68,6 +68,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     ).toBeInTheDocument()
     expect(
         within(toolingProjects).getByRole("heading", { name: "Hope Commit", level: 4 }),
+    ).toBeInTheDocument()
+    expect(
+        within(toolingProjects).getByRole("heading", { name: "IntentTrace", level: 4 }),
     ).toBeInTheDocument()
     expect(
         within(careerProjects).getByRole("heading", {
@@ -116,6 +119,7 @@ const projectLinkCases = [
     ["전송형 전자영장 시스템", "/projects/e-warrant"],
     ["happyGallery", "/projects/happygallery"],
     ["Hope Commit", "/projects/hope-commit"],
+    ["IntentTrace", "/projects/intent-trace"],
     ["차세대 군사법 정보 시스템", "/projects/defense"],
     ["WebRTC/HLS 현장강의 보조 서비스", "/projects/webrtc"],
 ]
@@ -343,7 +347,7 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
         "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
     )
     expect(galleryFacts).toHaveTextContent(
-        "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영",
+        "요구사항 정리, Java 25 및 Spring Boot 백엔드, React SSR/CSR 화면, 자동화 테스트, AWS 운영과 k3s 재배포 준비",
     )
 })
 
@@ -385,6 +389,7 @@ const canonicalRouteCases = [
     ["/projects/baton/round", "ROUND", "BATON ROUND | 임정규 포트폴리오"],
     ["/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
     ["/projects/hope-commit", "Hope Commit", "Hope Commit | 임정규 포트폴리오"],
+    ["/projects/intent-trace", "IntentTrace", "IntentTrace | 임정규 포트폴리오"],
     ["/projects/e-warrant", "전송형 전자영장 시스템", "전송형 전자영장 시스템 | 임정규 포트폴리오"],
     [
         "/projects/defense",
@@ -489,9 +494,9 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
             name: "결제 및 환불 재요청의 중복 처리 방지",
         }),
     ).toBeInTheDocument()
-    expect(screen.getAllByText(/작업 서버가 멈추면/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/NHN 접수 ID로 최종 수신 결과/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/미전송 알림/).length).toBeGreaterThan(0)
-    expect(screen.getByText(/AWS 운영은 상시 비용으로 종료/)).toBeInTheDocument()
+    expect(screen.getByText(/AWS 주요 리소스는 2026년 5월 3일 종료/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
             name: /업무 규칙과 웹 및 DB 코드 분리 대표 문서 새 창에서 보기/,
@@ -512,16 +517,16 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(screen.getAllByText(/제가 추가한 Commit Diff/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("heading", {
-            name: "선택한 커밋과 확정한 비교 기준 사이의 변경만 검토",
+            name: "입력한 커밋과 확정한 비교 기준 사이의 변경만 검토",
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /Hope Commit의 커밋 검토 및 저장 흐름.*선택한 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준/,
+            name: /Hope Commit의 커밋 검토 및 저장 흐름.*입력한 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준/,
         }),
     ).toBeInTheDocument()
     expect(
-        screen.getByText(/선택한 커밋과 확정한 비교 기준 사이의 변경만 읽고/),
+        screen.getByText(/입력한 커밋과 확정한 비교 기준 사이의 변경만 읽고/),
     ).toBeInTheDocument()
     expect(screen.getByText("사용자가 고른 부모")).toBeInTheDocument()
     expect(screen.getByText("저장하지 않고 중단")).toBeInTheDocument()
@@ -617,6 +622,7 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
     expect(within(printDocument).getAllByText("BATON").length).toBeGreaterThan(0)
     expect(within(printDocument).getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(within(printDocument).getAllByText("Hope Commit").length).toBeGreaterThan(0)
+    expect(within(printDocument).getAllByText("IntentTrace").length).toBeGreaterThan(0)
     expect(
         within(printDocument).getByRole("heading", {
             name: /백엔드 개발자 포지션이나/,

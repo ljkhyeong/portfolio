@@ -38,7 +38,10 @@ describe("project summary data", () => {
     it("separates career, personal, tooling, and education projects in recruiter-first order", () => {
         expect(careerCaseStudies.map((project) => project.id)).toEqual(["warrant", "defense"])
         expect(personalCaseStudies.map((project) => project.id)).toEqual(["baton", "happygallery"])
-        expect(toolingCaseStudies.map((project) => project.id)).toEqual(["hope-commit"])
+        expect(toolingCaseStudies.map((project) => project.id)).toEqual([
+            "hope-commit",
+            "intent-trace",
+        ])
         expect(educationCaseStudies.map((project) => project.id)).toEqual(["webrtc"])
     })
 
@@ -46,10 +49,12 @@ describe("project summary data", () => {
         const hopeCommit = projectsById["hope-commit"]
 
         expect(hopeCommit.category).toBe("오픈소스 및 개발 도구")
-        expect(hopeCommit.status.text).toContain("SeungIl 님이 개발한 Hope 3.0.3")
+        expect(hopeCommit.status.text).toContain("SeungIl 님의 Hope 3.0.3")
         expect(hopeCommit.status.text).toContain("제가 추가한 Commit Diff")
         expect(hopeCommit.status.text).toContain("README와 NOTICE에 구분")
-        expect(hopeCommit.status.text).toContain("공개 main의 패키지와 플러그인 버전은 모두 4.0.0")
+        expect(hopeCommit.status.text).toContain(
+            "최신 릴리스와 공개 main의 패키지 및 플러그인 버전은 모두 4.0.0",
+        )
         expect(hopeCommit.status.text).toContain("Commit Diff")
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
@@ -76,6 +81,33 @@ describe("project summary data", () => {
                         /공개 main 4\.0\.0의 GitHub Actions Node\.js 22 환경에서 275개 통과.*실패 및 건너뜀 0개/,
                     ),
                 }),
+            ]),
+        )
+    })
+
+    it("IntentTrace의 검증 근거와 공개 및 릴리스 범위를 구분한다", () => {
+        const intentTrace = projectsById["intent-trace"]
+
+        expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
+        expect(intentTrace.status.text).toContain("v0.6.0")
+        expect(intentTrace.status.text).toContain("0.7.0-SNAPSHOT")
+        expect(intentTrace.status.text).toContain("v0.7.0 릴리스")
+        expect(intentTrace.architecture.tradeoff).toContain(
+            "서버는 Git 객체를 직접 다시 읽지 않고 클라이언트가 제출한 증거를 신뢰",
+        )
+        expect(intentTrace.proofs).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    item: "공개 main 자동화 검증",
+                    result: expect.stringContaining("총 94개"),
+                }),
+            ]),
+        )
+        expect(intentTrace.documents).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ label: "변경 의도 기록 MVP" }),
+                expect.objectContaining({ label: "IntelliJ 현재 줄 의도 조회" }),
+                expect.objectContaining({ label: "릴리스 생성과 검증" }),
             ]),
         )
     })
@@ -162,7 +194,7 @@ describe("project summary data", () => {
             boundary: expect.stringContaining("관리자 재처리"),
         })
         expect(happyGallery.featuredProblemNumbers).not.toContain("07")
-        expect(happyGallery.featuredProblemNumbers).toEqual(["02", "03", "04", "09"])
+        expect(happyGallery.featuredProblemNumbers).toEqual(["02", "03", "12", "14"])
         expect(passRefundProof).toMatchObject({
             method: "MySQL 및 Redis Testcontainers 통합 테스트",
             result: expect.stringContaining("8회분 환불 요청"),
@@ -212,7 +244,7 @@ describe("project summary data", () => {
         const publicCopy = JSON.stringify(projectsById)
         const microservices = projectsById.baton.services.filter((service) => !service.primary)
 
-        expect(publicCopy).not.toContain("lease")
+        expect(publicCopy).not.toMatch(/\blease\b/i)
         expect(publicCopy).not.toContain("processingToken")
         expect(publicCopy).not.toContain("AFTER_COMMIT")
         expect(publicCopy).not.toContain("Fake PG")

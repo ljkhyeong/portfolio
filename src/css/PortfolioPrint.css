@@ -227,8 +227,8 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .capability-section {
-        gap: 10px;
-        padding: 20px 42px;
+        gap: 6px;
+        padding: 12px 42px;
     }
 
     .portfolio-web-print .capability-section__intro h2 {
