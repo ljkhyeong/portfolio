@@ -35,8 +35,8 @@ test("확인 항목과 결과를 먼저 보여주고 방법 및 조건은 펼쳐
     expect(firstSummary).toHaveTextContent("링크 생성 멱등성")
     expect(firstSummary).toHaveTextContent("확인 결과")
     expect(firstSummary).toHaveTextContent("동시 요청 8건에서 링크 1건 생성 확인")
-    expect(firstSummary).toHaveTextContent("확인 범위")
-    expect(firstSummary).toHaveTextContent("BATON GO")
+    expect(firstSummary).not.toHaveTextContent("확인 범위")
+    expect(firstSummary).not.toHaveTextContent("BATON GO")
     expect(firstSummary).not.toHaveTextContent("확인 방법 및 조건")
     expect(firstSummary).not.toHaveTextContent(
         "같은 멱등 키로 동시에 요청해도 링크는 하나만 생성되어야 함",
@@ -47,6 +47,7 @@ test("확인 항목과 결과를 먼저 보여주고 방법 및 조건은 펼쳐
     expect(firstEvidence).toHaveAttribute("open")
     expect(rows[0]).toHaveTextContent("확인 방법 및 조건")
     expect(rows[0]).toHaveTextContent("같은 멱등 키로 동시에 요청해도 링크는 하나만 생성되어야 함")
+    expect(rows[0]).toHaveTextContent("확인 범위")
     expect(rows[0]).toHaveTextContent("BATON GO")
 })
 

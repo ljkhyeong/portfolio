@@ -954,7 +954,7 @@
 
 .project-evidence-list__entry > summary {
     display: grid;
-    grid-template-columns: minmax(160px, 0.72fr) minmax(0, 1.18fr) minmax(160px, 0.7fr) auto;
+    grid-template-columns: minmax(180px, 0.8fr) minmax(0, 1.2fr) auto;
     gap: 18px;
     align-items: center;
     min-height: 92px;
@@ -1090,6 +1090,10 @@
     padding: 14px 18px 16px;
 }
 
+.project-evidence-list dl > div + div {
+    border-top: 1px solid var(--line, #d0d7de);
+}
+
 .project-evidence-list dd p {
     margin: 3px 0 0;
 }
@@ -1119,13 +1123,6 @@
         border-top: 1px solid var(--line, #d0d7de);
     }
 
-    .project-evidence-list__scope {
-        grid-column: 1 / -1;
-        grid-row: 3;
-        padding-top: 10px;
-        border-top: 1px solid var(--line, #d0d7de);
-    }
-
     .project-evidence-list__result > span {
         position: absolute;
         width: 1px;
@@ -1135,10 +1132,6 @@
         clip: rect(0, 0, 0, 0);
         white-space: nowrap;
         border: 0;
-    }
-
-    .project-evidence-list__scope > span {
-        margin-bottom: 4px;
     }
 
     .project-evidence-list__result p::before {

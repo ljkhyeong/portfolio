@@ -50,7 +50,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                 <dd>{service.visibility}</dd>
                             </div>
                             <div>
-                                <dt>문서 및 테스트</dt>
+                                <dt>검증 요약</dt>
                                 <dd>{service.evidence}</dd>
                             </div>
                         </dl>
@@ -109,7 +109,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         <article>
                             <code>처리 결과</code>
                             <strong>{service.output}</strong>
-                            <p>중복 및 실패 처리: {service.recoveryBoundary}</p>
+                            <p>처리 기준: {service.recoveryBoundary}</p>
                         </article>
                     </div>
                     <blockquote>

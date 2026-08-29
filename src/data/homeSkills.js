@@ -3,7 +3,7 @@ export const homeSkillGroups = [
         id: "backend",
         label: "백엔드",
         summary:
-            "Java와 Spring으로 기관 연계 API와 배치를 개발하고, RabbitMQ와 SQS로 서비스 이벤트를 전달합니다.",
+            "Java와 Spring으로 KICS 요청을 기관별 형식으로 바꾸고 제출 자료를 KICS에 반영하는 API와 배치를 개발합니다. RabbitMQ와 SQS로 BATON 이벤트를 전달합니다.",
         items: [
             { name: "Java" },
             { name: "Spring Boot / Spring MVC" },
@@ -15,32 +15,33 @@ export const homeSkillGroups = [
     },
     {
         id: "reliability",
-        label: "중복 방지 및 장애 복구",
+        label: "결제 및 환불 재요청, 서버 중단 처리",
         summary:
-            "중복 결제 및 환불과 정원 및 재고 초과를 막고, 미전송 알림과 중단 작업을 재처리합니다.",
+            "결제 승인 orderId와 환불 UUID를 재사용하고, DB에 남은 알림과 처리 기한이 지난 URL 점검을 다른 실행이 이어받게 했습니다.",
         items: [
             {
-                name: "중복 결제 및 환불 방지",
-                detail: "요청 ID와 처리 상태를 저장하고, 결과가 불확실하면 PG 처리 결과를 조회합니다.",
+                name: "같은 결제 승인과 환불 1건 유지",
+                detail: "결제 승인에는 orderId, 환불에는 생성할 때 저장한 UUID를 모든 재시도에 재사용합니다. 결과가 불확실하면 PG 처리 결과를 조회합니다.",
             },
             {
-                name: "미전송 알림 재처리",
-                detail: "주문 및 예약 상태와 알림을 함께 저장하고, 스케줄러가 미전송 알림을 다시 보냅니다.",
+                name: "서버 중단 뒤 알림 작업 인계",
+                detail: "주문 또는 예약과 알림 작업을 같은 트랜잭션에 저장하고, 대기 중이거나 처리 기한이 지난 작업은 스케줄러가 가져갑니다.",
             },
             {
                 name: "정원 및 재고 초과 방지",
                 detail: "클래스와 예약 시간, 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
             },
             {
-                name: "중단 작업 재처리",
-                detail: "서버가 멈추면 다른 서버가 미완료 작업을 이어받고, 이전 서버의 늦은 결과는 버립니다.",
+                name: "중단된 URL 점검 및 이벤트 전달 인계",
+                detail: "WATCH는 처리 기한이 지난 URL 점검을 다른 서버가 재개하고, RELAY는 기존 전송 ID로 전달을 이어가며 이전 서버의 늦은 결과를 버립니다.",
             },
         ],
     },
     {
         id: "delivery",
         label: "테스트 및 운영",
-        summary: "통합 및 화면 테스트로 기능을 검증하고, 로그와 DB로 장애 지점을 찾습니다.",
+        summary:
+            "통합 및 화면 테스트로 주요 기능을 검증합니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾습니다.",
         items: [
             {
                 name: "통합 테스트",
@@ -55,8 +56,8 @@ export const homeSkillGroups = [
                 detail: "Playwright로 주문, 결제와 예약의 주요 흐름을 회귀 테스트합니다.",
             },
             {
-                name: "배포 및 장애 분석",
-                detail: "Docker 상태, Jenkins 배치 이력, 서버 로그와 DB 상태를 대조해 장애 지점을 찾습니다.",
+                name: "배포 상태 및 중단 배치 확인",
+                detail: "Docker 배포 상태를 확인하고, Jenkins 실행 이력과 JEUS 로그 및 Tibero 상태를 대조해 중단된 기관 자료 반영 배치를 찾습니다.",
             },
         ],
     },

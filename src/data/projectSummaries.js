@@ -16,11 +16,11 @@ export const projectSummaries = [
             },
             {
                 label: "문제",
-                value: "재요청하거나 장애를 복구할 때 링크와 이벤트가 중복 처리될 수 있음",
+                value: "같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달 작업이 중복 생성될 수 있음",
             },
             {
                 label: "해결",
-                value: "요청 및 이벤트 ID로 중복을 막고, 결과 미확인 전송은 자동 재시도에서 제외",
+                value: "링크 요청 UUID와 이벤트 ID로 기존 작업을 재사용하고, 중단된 전달은 기존 전송 ID로 재개하며 결과 미확인 전송은 자동 재시도하지 않음",
             },
         ],
         period: "2026.07.20 — 진행 중",
@@ -47,19 +47,19 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 해양경찰 사건수사시스템, 통신사 및 집행포털 연계",
         summary:
-            "KICS의 자료 요청을 통신사 및 전자영장 포털 규격으로 변환해 전달하는 공공 시스템입니다. 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
+            "KICS의 자료 요청을 기관별 규격으로 변환해 전달하고, 제출 자료를 KICS에 반영하는 공공 시스템입니다. 해당 서버와 Spring Batch를 개발합니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "KICS 요청 변환 및 전송, 제출 자료 반영 서버와 Spring Batch 개발",
+                value: "KICS 요청 변환 및 전송, 제출 자료의 KICS 반영 서버와 Spring Batch 개발",
             },
             {
                 label: "문제",
-                value: "기관별 형식 차이, 누적 이력 조회 지연과 PDF 완료 응답의 순서 역전",
+                value: "기관별 요청 및 제출 형식이 다르고, PDF 완료 응답이 요청 상태 저장보다 먼저 도착할 수 있음",
             },
             {
                 label: "해결",
-                value: "기관별 변환과 공통 배치를 분리하고, 마지막 전송 ID 다음부터 조회하며 PDF 요청 상태를 다시 확인",
+                value: "기관별 변환 코드를 분리하고, 먼저 도착한 PDF 완료 응답은 요청 상태를 다시 조회해 반영",
             },
         ],
         period: "2026.03.24 — 진행 중",
@@ -78,19 +78,19 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "공방 상품 주문과 클래스 예약을 관리하는 서비스입니다. 요청 ID로 결제 및 환불 중복을 막고, 미전송 알림을 재처리하며 DB 잠금으로 예약 정원과 재고 초과를 방지했습니다. AWS에서 운영한 이력이 있습니다.",
+            "공방 상품 주문과 클래스 예약을 관리하는 서비스입니다. 결제 orderId와 환불 UUID를 재사용해 중복 실행을 막고, DB에 남은 알림 작업은 스케줄러가 다시 처리합니다. 클래스와 예약 시간 및 재고 행을 잠가 정원과 재고 초과를 막았습니다. AWS에서 운영한 이력이 있습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영 이력",
+                value: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영",
             },
             {
                 label: "문제",
-                value: "결제 결과 미수신, 서버 중단에 따른 알림 유실과 동시 요청의 정원 및 재고 초과",
+                value: "결제사 응답 유실, 서버 중단에 따른 알림 유실과 동시 요청의 정원 및 재고 초과",
             },
             {
                 label: "해결",
-                value: "요청 ID로 중복 결제 방지, 미전송 알림 재처리, DB 잠금으로 정원 및 재고 초과 방지",
+                value: "결제 orderId와 환불 UUID를 재사용하고, DB 알림 작업은 스케줄러가 처리하며 클래스와 예약 시간 및 재고 행을 잠가 초과 차단",
             },
         ],
         period: "2026.02.21 — 진행 중",
@@ -109,7 +109,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 3.0.3 비공식 포크 / 로컬 커밋 HTML 리뷰",
         summary:
-            "SeungIl 님의 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 일반 커밋은 첫 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모와 비교하고 실제 변경 줄이 근거인 결과만 HTML로 저장합니다.",
+            "SeungIl 님의 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 선택한 커밋과 확정한 비교 기준 사이의 변경만 검토하고, 실제 변경 줄이 근거인 결과만 HTML로 저장합니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -140,7 +140,7 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "BEINTECH / 국방부 SI / 백엔드 개발 및 운영",
         summary:
-            "군 사법 및 군교정 업무를 처리하는 국방부 폐쇄망 시스템입니다. 군사법원, 군검찰 및 군사경찰의 자료 검증 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발했습니다.",
+            "군 사법 및 군교정 업무를 처리하는 국방부 폐쇄망 시스템입니다. 군사법원, 군검찰 및 군사경찰의 자료 검증 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 재실행했습니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -152,7 +152,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "자료 검증 배치, CSRF 차단과 저장소 직접 업로드 적용",
+                value: "자료 검증 배치와 CSRF 차단 및 저장소 직접 업로드를 구현하고, Jenkins, JEUS와 Tibero로 중단 단계를 찾아 해당 기관 배치를 재실행",
             },
         ],
         period: "2024.06.23 — 2026.01.30",

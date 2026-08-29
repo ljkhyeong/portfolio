@@ -14,7 +14,7 @@ const searchResult = {
     projectId: "happygallery",
     projectName: "happyGallery",
     documentType: "problem_solution",
-    title: "happyGallery - 결제 및 환불 재요청의 중복 처리 방지",
+    title: "결제 및 환불 재요청의 중복 처리 방지",
     heading: "문제와 해결 방법",
     snippet: "결제 승인과 환불 요청에 멱등 키를 적용했습니다.",
     route: "/projects/happygallery",
@@ -60,7 +60,7 @@ test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI �
 
     expect(
         await screen.findByRole("heading", {
-            name: "happyGallery - 결제 및 환불 재요청의 중복 처리 방지",
+            name: "결제 및 환불 재요청의 중복 처리 방지",
         }),
     ).toBeInTheDocument()
     expect(searchPortfolioKnowledge).toHaveBeenCalledWith(

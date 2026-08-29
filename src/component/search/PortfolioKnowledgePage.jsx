@@ -9,7 +9,7 @@ import "../../css/PortfolioKnowledge.css"
 const suggestionQuestions = [
     "결제와 환불 중복 처리를 어떻게 막았나요?",
     "BATON Core와 6개 서비스는 각각 무엇을 담당하나요?",
-    "폐쇄망 배치가 중단되면 서버 로그와 DB에서 장애 지점을 어떻게 찾았나요?",
+    "폐쇄망 배치가 중단되면 Jenkins 실행 이력, JEUS 로그와 Tibero 상태에서 어떻게 중단 단계를 찾았나요?",
     "서버 중단 뒤 미전송 알림을 어떻게 재처리했나요?",
 ]
 
@@ -197,7 +197,7 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
 const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGenerate }) => (
     <aside className="knowledge-answer" aria-labelledby="knowledge-answer-title">
         <div className="knowledge-answer__heading">
-            <h2 id="knowledge-answer-title">AI 요약 답변</h2>
+            <h2 id="knowledge-answer-title">공개 문서 기반 답변</h2>
             <span className="knowledge-answer__count">출처 {citations.length}</span>
         </div>
 
@@ -427,8 +427,8 @@ const PortfolioKnowledgePage = () => {
                             백엔드 문제 해결 방법과 테스트 결과를 검색합니다.
                         </h1>
                         <p>
-                            기관 연계, 중복 처리 방지와 장애 복구 경험을 공개 프로젝트 문서에서
-                            확인할 수 있습니다.
+                            KICS 요청 변환과 제출 자료의 KICS 반영, 결제 orderId와 환불 UUID 재사용,
+                            서버 중단 뒤 DB 알림 작업 처리를 공개 문서에서 확인할 수 있습니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">

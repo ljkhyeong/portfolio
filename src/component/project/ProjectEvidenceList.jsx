@@ -19,12 +19,6 @@ const ProjectEvidenceList = ({ proofs, label }) => (
                             <span>확인 결과</span>
                             <p>{proof.result}</p>
                         </div>
-                        {proof.scope ? (
-                            <div className="project-evidence-list__scope">
-                                <span>확인 범위</span>
-                                <p>{proof.scope}</p>
-                            </div>
-                        ) : null}
                         <span className="project-evidence-list__action" aria-hidden="true">
                             <span>방법 보기</span>
                             <span>접기</span>
@@ -39,6 +33,14 @@ const ProjectEvidenceList = ({ proofs, label }) => (
                             <strong>{proof.method}</strong>
                             <p>{proof.rule}</p>
                         </EvidenceField>
+                        {proof.scope ? (
+                            <EvidenceField
+                                label="확인 범위"
+                                className="project-evidence-list__scope"
+                            >
+                                <p>{proof.scope}</p>
+                            </EvidenceField>
+                        ) : null}
                     </dl>
                 </details>
             </li>

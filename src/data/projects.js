@@ -43,7 +43,7 @@ const projects = [
             description:
                 "Core는 조직과 인수인계를 관리합니다. 6개 서비스는 링크, 점검, 이벤트, 보고서, 캘린더와 WebRTC를 담당하며 DB를 공유하지 않습니다.",
             tradeoff:
-                "장애와 배포 영향은 분리했지만 7개 서비스를 각각 운영하고 서비스 간 이벤트의 재처리를 관리해야 합니다.",
+                "한 서비스의 중단이나 배포가 다른 서비스에 미치는 영향은 줄였지만, 7개 서비스를 따로 운영하고 전달되지 않은 이벤트를 다시 보내는 경로를 관리해야 합니다.",
         },
         featuredProblemNumbers: ["02", "03", "05", "07"],
         documentGroups: [
@@ -63,7 +63,8 @@ const projects = [
                 id: "runbook",
                 label: "Runbook",
                 count: "7",
-                summary: "배포, 장애 재처리와 공개 스테이징 전송 테스트 절차를 정리합니다.",
+                summary:
+                    "배포, DB에 남은 URL 점검 및 이벤트 전달 작업을 다른 실행이 이어받는 절차와 공개 스테이징 전송 테스트를 정리합니다.",
             },
             {
                 id: "api",
@@ -152,7 +153,7 @@ const projects = [
                 database: "MySQL",
                 primary: true,
                 visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "조직 운영, ROUND 참여권, WATCH 및 CAL 연동과 지표를 구현했습니다. 외부 알림, 자동 재처리와 공개 HTTPS는 미검증입니다.",
+                status: "조직 운영과 ROUND 참여권, WATCH 상태 변경 이벤트 수신 및 CAL 일정 JSON 생성을 구현했습니다. 외부 알림과 실패 항목 자동 재처리는 연결하지 않았고, 공개 HTTPS는 확인하지 않았습니다.",
                 documentation: [
                     { label: "PRD", count: "6" },
                     { label: "ADR", count: "19" },
@@ -208,7 +209,7 @@ const projects = [
                 summary:
                     "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
                 contribution:
-                    "점검 작업마다 처리 서버와 기한을 기록한 뒤, 외부 요청 중에는 DB 연결을 반환했습니다. 상태 변경 이벤트 재전송과 Prometheus 운영 지표도 구현했습니다.",
+                    "점검 작업마다 처리 서버와 기한을 기록한 뒤, 외부 HTTP 요청 중에는 DB 연결을 반환했습니다. Core 응답을 받지 못한 상태 변경 이벤트는 DB에 남겨 다시 보내고, 대기 및 실패 건수를 Prometheus로 노출했습니다.",
                 stack: [
                     "Java 21",
                     "Spring Boot 4.1",
@@ -221,7 +222,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "사설망 및 로컬 주소 접근 차단, 중단된 점검 재처리, 이전 점검 결과의 덮어쓰기 차단과 미전송 이벤트 보관",
+                detail: "사설망 및 로컬 주소 접근 차단, 서버 중단 뒤 처리 기한이 지난 URL 점검을 다른 서버가 재개, 이전 URL 버전 결과 미저장과 미전송 이벤트 보관",
                 evidence:
                     "사설망 및 DNS 재조회 중 IP 변경을 차단하고, 이전 URL 버전의 늦은 결과가 저장되지 않는지 검증",
                 input: "점검 대상 URL과 점검 요청 시점의 URL 버전",
@@ -234,7 +235,7 @@ const projects = [
                 visibility: "공개 저장소",
                 status: "URL 점검, 상태 변경 전송과 지표를 구현했습니다. 외부 대시보드 및 알림을 포함한 공개 스테이징은 미검증입니다.",
                 tradeoff:
-                    "점검 처리 기한이 짧으면 중복 실행이 늘고, 길면 장애 복구가 늦어집니다. 운영 지표를 기준으로 조정해야 합니다.",
+                    "점검 처리 기한이 짧으면 같은 URL 점검이 겹치고, 길면 중단한 서버의 점검을 다른 서버가 이어받기까지 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-watch/tree/65113d935cd272d486652dab4bdd1b3f377a683b",
                     label: "WATCH 개발 브랜치 고정 커밋",
@@ -268,7 +269,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "이벤트 중복 차단, 중단 작업 재처리와 결과 미확인 작업 분리",
+                detail: "같은 이벤트 ID의 전달 작업 재생성 차단, 서버 중단 뒤 기존 전송 ID로 재개, 이전 서버의 늦은 결과 차단과 결과 미확인 작업 분리",
                 evidence:
                     "이벤트 재수신에도 전달 작업이 늘지 않고, 서버 중단 뒤 기존 전송 ID로 재개되는지 검증",
                 input: "이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각",
@@ -295,7 +296,7 @@ const projects = [
                 summary:
                     "담당 공백, 자료 부족, 업무 지연과 미완료 인수인계를 찾아 주간 보고서로 보관합니다.",
                 contribution:
-                    "중복 및 과거 이벤트를 차단하고 누락된 개정 구간을 기록했습니다. 목록 재생성, 보고서 중복 방지와 Bearer 토큰 교체도 구현했습니다.",
+                    "같은 이벤트 ID와 낮은 개정 번호는 반영하지 않고 누락된 개정 구간을 기록했습니다. 저장 이벤트 전체로 점검 목록을 다시 만들고 같은 조건의 주간 보고서는 1건만 저장했습니다.",
                 stack: [
                     "Kotlin 2.3",
                     "Java 21",
@@ -306,7 +307,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "중복 및 과거 이벤트 차단, 점검 목록 재생성, 생성 후 고정하는 주간 보고서",
+                detail: "같은 이벤트 ID 및 낮은 개정 미반영, 저장 이벤트 전체로 점검 목록 재생성, 같은 주간과 마지막 순번 및 항목의 보고서 1건 유지",
                 evidence:
                     "중복 및 과거 이벤트 차단, 저장 이벤트 기반 목록 재생성과 동일 주간 보고서 1건 저장을 PostgreSQL 통합 테스트로 확인했습니다. 2.0.0-rc.1 실제 Core 실행 JAR은 로컬 HTTP로 연동했습니다.",
                 input: "담당 공백, 책임 및 자료 부족, 반복 마감 지연과 미완료 인수인계 이벤트",
@@ -352,7 +353,8 @@ const projects = [
                     "Testcontainers",
                 ],
                 detail: "읽기 전용 .ics 피드, 구독 토큰 교체 및 폐기, 304 캐시",
-                evidence: "Core 실제 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증",
+                evidence:
+                    "Core 1.0.0 생성 코드의 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증",
                 input: "Core가 확정한 일정의 전체 현재 값 및 개정 번호와 구독 생성, 회전 및 폐기 요청",
                 inputRule:
                     "일정 ID, 이벤트 ID, 개정 번호와 시간대 값이 공개한 일정 JSON 형식에 맞는지 확인합니다.",
@@ -361,7 +363,7 @@ const projects = [
                     "중복 및 과거 개정 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 안정 계약 1.0.0 / 개발 후보 1.1.0-rc.1",
-                status: "일정 수신 및 iCalendar 구독과 Core 1.0.0 연동을 확인했습니다. 1.1.0-rc.1 공개와 운영 구독은 미검증입니다.",
+                status: "Core 1.0.0 생성 코드로 만든 일정 JSON을 CAL 컨테이너가 수신해 iCalendar로 변환하는 호환성을 확인했습니다. 1.1.0-rc.1 공개와 운영 구독은 미검증입니다.",
                 tradeoff:
                     "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
                 repository: {
@@ -435,9 +437,9 @@ const projects = [
             {
                 item: "WATCH 안전한 URL 점검",
                 method: "자동화 테스트",
-                rule: "사설망 IP를 가리키는 URL, DNS 재조회 때 IP가 바뀐 URL, 허용 크기를 넘는 HTTP 응답과 이전 URL 버전으로 시작한 점검 결과를 각각 입력",
-                result: "사설망 및 과대 응답을 차단하고 현재 URL 버전의 점검 결과만 저장",
-                scope: "WATCH 공개 저장소 · URL 보안 및 중단된 점검 재처리 자동화 시나리오 · 2026.08.27 커밋 상태 기준",
+                rule: "사설망 IP를 가리키는 URL, DNS 재조회 때 IP가 바뀐 URL, 허용 크기를 넘는 HTTP 응답, 이전 URL 버전 결과와 처리 서버 중단 뒤 기한이 지난 URL 점검을 각각 입력",
+                result: "사설망 및 과대 응답을 차단하고 현재 URL 버전의 결과만 저장하며, 처리 기한이 지난 점검은 다른 서버가 이어받음",
+                scope: "WATCH 공개 저장소 · URL 보안 및 중단된 점검 인계 자동화 시나리오 · 2026.08.27 커밋 상태 기준",
             },
             {
                 item: "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지",
@@ -469,12 +471,12 @@ const projects = [
             },
         ],
         category: "개인 프로젝트",
-        role: "Core와 6개 서비스의 API, 이벤트, 저장소, 재처리와 배포 설계 및 구현",
+        role: "Core와 6개 서비스의 API, 자체 저장소, 이벤트 저장 및 전달, 중단된 URL 점검과 전달 작업 인계, 배포 설계 및 구현",
         oneLine:
             "Core는 조직과 인수인계를 관리하고, 6개 서비스는 링크, URL 점검, 이벤트, 보고서, 캘린더와 WebRTC를 담당합니다.",
         status: {
             label: "현재 상태",
-            text: "Core와 6개 서비스의 주요 기능을 구현했습니다. CAL 및 ROUND 실제 데이터와 BRIEF 2.0.0-rc.1 실제 Core 실행 JAR의 로컬 HTTP 연동을 확인했습니다. Caddy HTTPS 앞단은 실제 Core가 아닌 예시 JSON의 인증 및 수신만 확인했으며, 2.0.0-rc.2 실제 Core JSON, 실제 Core-Caddy HTTPS와 원격 배포는 미검증입니다.",
+            text: "Core와 6개 서비스의 주요 기능을 구현했습니다. Core 1.0.0 생성 코드의 일정 JSON을 CAL 컨테이너에 전송했고, Core 서명 코드가 만든 참여권으로 ROUND 실행 JAR의 HTTPS 및 WSS 입장을 확인했습니다. BRIEF 2.0.0-rc.1은 실제 Core 실행 JAR과 로컬 HTTP로 연결했습니다. Caddy HTTPS 앞단은 실제 Core가 아닌 예시 JSON의 인증 및 수신만 확인했으며, 2.0.0-rc.2 실제 Core JSON, 실제 Core-Caddy HTTPS와 원격 배포는 미검증입니다.",
         },
         visualCaption:
             "Core만 조직 데이터를 저장하며 각 서비스는 자체 저장소를 사용합니다. ROUND 방 상태는 메모리에 둡니다.",
@@ -488,9 +490,9 @@ const projects = [
                 decision:
                     "Core는 조직 운영을 맡고 6개 서비스를 저장소와 실행 환경별로 분리했습니다. 상태 변경 이벤트는 업무 데이터와 함께 저장한 뒤 전송합니다.",
                 validation:
-                    "GO 중복 링크, WATCH 사설망 URL, RELAY 재전달, BRIEF 보고서, CAL 일정과 ROUND 참여권을 각각 테스트했습니다.",
+                    "GO는 같은 UUID의 링크 1건, WATCH는 사설망 URL 차단, RELAY는 같은 이벤트 ID의 수신 이력 1건, BRIEF는 같은 조건의 보고서 1건, CAL은 과거 개정 미반영, ROUND는 비정상 참여권 입장 거절을 확인했습니다.",
                 boundary:
-                    "개별 기능은 검증했지만 실제 자격 증명을 사용한 공개 환경 전체 연동은 미검증입니다.",
+                    "서비스별 구현과 일부 Core 교차 검증만 완료했으며, 실제 자격 증명을 쓴 Core와 6개 서비스의 공개 환경 종단 간 연결은 확인하지 않았습니다.",
             },
             {
                 number: "02",
@@ -565,7 +567,7 @@ const projects = [
                 decision:
                     "호출 전에 시도와 중복 방지 키를 저장했습니다. 결과를 확인할 수 없으면 자동 재전송을 멈추고 외부 기록 확인 후 상태를 확정합니다.",
                 validation:
-                    "중단 재개, 만료 서버의 늦은 결과 차단과 상태 확정 재실행을 확인했습니다.",
+                    "전달 서버 중단과 처리 기한 만료 뒤 기존 전송 ID로 이어가는지, 이전 서버의 늦은 결과를 버리는지와 운영자 상태 확정 뒤 처리를 다시 시작하는지 확인했습니다.",
                 boundary:
                     "중복 전달 방지를 우선해 자동 재전송을 멈추므로 외부 전송 기록 확인과 운영자 조정 절차가 필요합니다.",
             },
@@ -826,7 +828,7 @@ const projects = [
                 scope: "2026.08.27 로컬 커밋 b50a9ef0 기준",
             },
             {
-                item: "백엔드 기능과 API 문서가 변경 후에도 유지되는지 확인",
+                item: "변경 후 백엔드 기능 및 API 문서 검증",
                 method: "Gradle 기본, 정책, Spring REST Docs와 OpenAPI 생성 테스트",
                 rule: "도메인 및 통합 테스트, 아키텍처 정책, API 요청 및 응답 문서와 OpenAPI 생성을 작업별로 실행",
                 result: "중복을 제외한 1,074개 통과: 기본 테스트 723개, 정책 테스트 120개, REST Docs 230개와 OpenAPI 생성 테스트 1개, 실패, 오류 및 건너뜀 0건",
@@ -855,9 +857,9 @@ const projects = [
             },
         ],
         category: "개인 프로젝트",
-        role: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영 이력",
+        role: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영",
         oneLine:
-            "결제 및 환불 중복과 미전송 알림을 재처리하고, DB 잠금으로 예약 정원과 주문 재고 초과를 막았습니다.",
+            "결제 orderId와 환불 UUID를 재사용해 중복 실행을 막고, DB에 남은 알림 작업을 스케줄러가 처리했습니다. 클래스와 예약 시간 및 재고 행을 잠가 정원과 재고 초과를 막았습니다.",
         status: {
             label: "운영 상태",
             text: "AWS 운영은 상시 비용으로 종료했습니다. 최신 로컬 브랜치에 서버 렌더링, 옵션별 재고, 예약 캘린더, 배송조회, 환불과 소셜 로그인을 구현했으며 main 반영 전입니다.",
@@ -882,11 +884,11 @@ const projects = [
                 constraint:
                     "결제사 응답을 잃으면 실패 이력이 사라지거나 같은 요청이 중복 승인 및 환불될 수 있었습니다.",
                 decision:
-                    "결제사 호출을 DB 트랜잭션 밖으로 분리하고 전후 상태를 독립 트랜잭션으로 저장했습니다. 결과 미확인은 orderId와 환불 UUID로 조회해 복구합니다.",
+                    "결제사 호출을 DB 트랜잭션 밖으로 분리하고 전후 상태를 독립 트랜잭션으로 저장했습니다. 결과를 확인하지 못하면 결제 orderId와 환불을 생성할 때 저장한 UUID로 PG 처리 결과를 조회합니다.",
                 validation:
-                    "실패 이력 보존, 같은 요청 결과 재사용, 늦은 응답 차단과 환불 복구를 통합 테스트로 확인했습니다.",
+                    "실패 이력 보존, 같은 orderId 및 환불 UUID의 결과 재사용, 늦은 응답 차단과 결과 재조회를 통합 테스트로 확인했습니다.",
                 boundary:
-                    "상태와 복구 경로가 늘어 운영 조회가 복잡해졌습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
+                    "결제 및 환불 처리 상태와 결과 조회 경로가 늘어 운영자 확인 화면이 복잡해졌습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
             },
             {
                 number: "03",
@@ -1073,7 +1075,7 @@ const projects = [
             {
                 type: "실행 절차",
                 label: "Commit Diff 실행 절차",
-                href: "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit-diff/SKILL.md",
+                href: "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit/SKILL.md",
                 note: "입력 가능한 커밋, 비교 대상, 코드 수집, 결과 검증과 HTML 저장 조건",
             },
             {
@@ -1095,28 +1097,28 @@ const projects = [
                 method: "테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트",
                 rule: "짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집",
                 result: "수집기는 커밋 ID와 비교 기준을 고정했습니다. textconv 및 색상을 꺼도 이름 변경과 줄 수를 유지했고, UTF-8이 아닌 경로는 거절했습니다.",
-                scope: "2026.08.27 원격 개발 브랜치 4.0.0 커밋 d6203de의 commit-collector.test.mjs 기준 · 공개 main 반영 전",
+                scope: "2026.08.29 공개 main 4.0.0 커밋 dfa8dc0의 commit-collector.test.mjs 기준",
             },
             {
                 item: "비공개 파일과 토큰 제외 및 리뷰 근거 검증",
                 method: "비공개 경로, 토큰 형태와 변경 파일 및 줄 위치 검증 테스트",
                 rule: "분석 과정에서 추가로 요청한 파일도 본문을 읽기 전에 비공개 경로인지 검사. 변경 파일에서 발견한 토큰 및 인증 키 형태의 값은 분석 입력과 HTML에서 제외",
                 result: "검증기는 비공개 경로와 자격 증명을 제외하고, 수집하지 않은 파일과 줄을 가리킨 리뷰를 거절했습니다.",
-                scope: "2026.08.27 원격 개발 브랜치 4.0.0에서 보완한 비공개 경로 및 토큰 차단 규칙 기준 · 공개 main 반영 전",
+                scope: "2026.08.29 공개 main 4.0.0 커밋 dfa8dc0의 비공개 경로 및 토큰 차단 규칙 기준",
             },
             {
                 item: "검증이 끝난 결과만 새 HTML로 저장",
                 method: "커밋 선택부터 HTML 저장까지 전체 처리 테스트",
                 rule: "입력 커밋과 비교 기준을 확정하고 리뷰 설명의 파일, 줄과 JSON 형식을 확인한 뒤, 저장 직전에 실행 식별자와 검토 버전이 처음 확인한 값과 같은지 다시 확인한 경우에만 새 HTML 파일 생성",
                 result: "저장기는 중단 후 빈 파일을 남기지 않고 재개했으며, 다른 실행의 디렉터리와 기존 결과를 유지했습니다.",
-                scope: "2026.08.27 원격 개발 브랜치 4.0.0 커밋 d6203de의 commit-lifecycle.test.mjs 기준 · 공개 main 반영 전",
+                scope: "2026.08.29 공개 main 4.0.0 커밋 dfa8dc0의 commit-lifecycle.test.mjs 기준",
             },
             {
                 item: "저장소 자동화 테스트",
                 method: "Node.js 내장 테스트 러너로 npm test 실행",
                 rule: "Commit Diff와 원본 Hope의 코드 수집, 결과 검증, HTML 생성 및 플러그인 설치 기능이 유지되는지 자동화 테스트 실행",
-                result: "공개 main 3.1.1은 245개, 원격 개발 브랜치 4.0.0 커밋 d6203de는 277개 통과, 실패 및 건너뜀 0개",
-                scope: "2026.08.27 공개 main과 원격 개발 브랜치 npm test 결과를 분리해 집계",
+                result: "공개 main 4.0.0의 GitHub Actions Node.js 22 환경에서 275개 통과, 실패 및 건너뜀 0개",
+                scope: "2026.08.29 공개 main 커밋 dfa8dc0 · run 33240828599 · job 99069772102",
             },
         ],
         category: "오픈소스 및 개발 도구",
@@ -1125,7 +1127,7 @@ const projects = [
             "선택한 커밋과 확정한 비교 기준 사이의 변경만 검토하고, 파일과 줄 근거를 확인한 결과를 새 HTML로 저장합니다.",
         status: {
             label: "공개 상태",
-            text: "SeungIl 님이 개발한 Hope 3.0.3을 포크했습니다. 제가 추가한 Commit Diff는 README와 NOTICE에 구분했습니다. 공개 main은 3.1.1이며 4.0.0 보완은 미반영입니다.",
+            text: "SeungIl 님이 개발한 Hope 3.0.3을 포크했습니다. 제가 추가한 Commit Diff는 README와 NOTICE에 구분했습니다. 공개 main의 패키지와 플러그인 버전은 모두 4.0.0입니다.",
         },
         visualCaption: "커밋 확정 → 변경 수집 → 줄 근거 검증 → HTML 저장 순서입니다.",
         problems: [
@@ -1195,13 +1197,18 @@ const projects = [
                 note: "Commit Diff 구현, 자동화 테스트와 플러그인 패키지",
             },
             {
+                label: "Hope Commit Node.js 22 CI 결과",
+                href: "https://github.com/ljkhyeong/hope-commit/actions/runs/33240828599/job/99069772102",
+                note: "공개 main 4.0.0에서 자동화 테스트 275개가 통과한 GitHub Actions 결과",
+            },
+            {
                 label: "원본 Hope 저장소",
                 href: "https://github.com/dkstm95/hope",
                 note: "SeungIl 님이 개발한 원본 프로젝트",
             },
         ],
         linkNote:
-            "SeungIl 님이 개발한 Hope 3.0.3을 개인 커밋 검토 용도에 맞게 보완한 비공식 포크입니다. 원본 개발자는 이 포크를 보증하거나 유지보수하지 않습니다.",
+            "SeungIl 님이 개발한 Hope 3.0.3을 개인 커밋 검토 용도에 맞게 보완한 비공식 포크입니다. 원본 Hope 프로젝트는 이 포크를 공식적으로 보증하거나 유지보수하지 않습니다.",
     },
     {
         ...projectSummariesById.warrant,
@@ -1222,7 +1229,7 @@ const projects = [
                 scope: "구체적인 데이터 건수와 응답 시간은 비공개",
             },
             {
-                item: "PDF 변환 요청 상태 저장 전 도착한 완료 응답 처리",
+                item: "PDF 완료 응답 순서 역전 처리",
                 method: "PDF 변환 요청 상태 저장과 변환 완료 응답의 순서를 바꾼 시나리오 확인",
                 rule: "PDF 변환 완료 응답이 요청 상태의 DB 저장보다 먼저 도착하도록 실행",
                 result: "요청 상태를 간격을 늘려 재조회해 먼저 도착한 PDF 완료 결과를 반영했습니다.",
@@ -1230,7 +1237,7 @@ const projects = [
             },
         ],
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "KICS 요청과 제출 자료를 통신사 및 집행포털 규격으로 변환하는 서버와 Spring Batch 구현",
+        role: "KICS 요청을 통신사용 또는 포털용 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현",
         oneLine:
             "KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.",
         status: {
@@ -1310,14 +1317,14 @@ const projects = [
         systemNavLabel: "연계 흐름",
         proofs: [
             {
-                item: "기관별 수용자 정보 연계 배치와 중단 단계 재처리",
+                item: "기관별 수용자 자료 반영 배치의 중단 단계 확인 및 재실행",
                 method: "기관별 배치 실행 결과, 업무 서버 로그와 Tibero 처리 상태 확인",
-                rule: "군사법원, 군검찰 및 군사경찰에서 받은 수용 대상자의 인적정보와 영장정보를 수신하고 필수값과 형식을 검증한 뒤 군교정 DB에 반영",
-                result: "Jenkins 실행 이력과 업무 서버 및 DB 상태를 대조해 중단 단계를 찾고, 해당 기관 자료의 재처리와 군교정 DB 반영까지 확인",
+                rule: "군사법원, 군검찰 및 군사경찰 자료 반영 배치를 기관별로 실행하고, 중단되면 Jenkins 실행 이력과 JEUS 로그 및 Tibero 상태를 대조해 해당 기관 배치를 재실행",
+                result: "Jenkins 실행 이력, JEUS 로그와 Tibero 상태를 대조해 중단 단계를 찾고, 해당 기관 배치를 재실행해 군교정 DB 반영까지 확인",
                 scope: "운영 건수, 내부 데이터와 세부 연계 규격은 비공개",
             },
             {
-                item: "WebSquare 상태 변경 요청의 위조 방지 토큰(CSRF) 확인",
+                item: "WebSquare 상태 변경 요청의 CSRF 차단",
                 method: "정상 토큰, 토큰 누락 및 불일치 요청을 각각 실행",
                 rule: "Spring Security가 생성한 CSRF 토큰의 이름과 값을 WebSquare 화면 데이터 규격으로 전달하고 공통 요청 로직에서 상태 변경 요청마다 포함",
                 result: "정상 요청은 처리하고 토큰이 없거나 일치하지 않는 요청은 Spring Security 필터에서 차단되는 것을 확인",
@@ -1332,7 +1339,7 @@ const projects = [
             },
         ],
         category: "BEINTECH / 국방부 SI",
-        role: "군교정 업무 화면 개발, 기관별 수용자 정보 연계 배치와 Jenkins, JEUS 및 Tibero를 이용한 장애 분석",
+        role: "군교정 업무 화면과 기관별 수용자 정보 반영 배치 개발, Jenkins 실행 이력과 JEUS 로그 및 Tibero 상태를 이용한 중단 배치 확인 및 재실행",
         oneLine:
             "군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 차단과 대용량 파일 직접 업로드를 구현했습니다.",
         status: {

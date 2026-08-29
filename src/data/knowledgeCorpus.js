@@ -29,7 +29,7 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/happyGallery/blob/04e57fa2afbd65241282eb2d5dfc5fe6319fafa5/docs/ADR/0036_%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4_%ED%8F%89%EB%AC%B8_%EC%A0%9C%EA%B1%B0%EC%99%80_%EB%B8%94%EB%9D%BC%EC%9D%B8%EB%93%9C_%EC%9D%B8%EB%8D%B1%EC%8A%A4_%EA%B8%B0%EC%A4%80/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/04e57fa2afbd65241282eb2d5dfc5fe6319fafa5/docs/Retrospective/0010_AWS_%EB%B9%84%EC%9A%A9_%EA%B3%BC%EA%B8%88_%EC%9B%90%EC%9D%B8_%EC%A0%90%EA%B2%80/retrospective.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/README.ko.md",
-    "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit-diff/SKILL.md",
+    "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope-commit/skills/commit/SKILL.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/SECURITY.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/NOTICE",
 ]
@@ -88,7 +88,7 @@ const createServiceOverviews = (project) =>
         ...projectSource(project, {
             sourceKey: `project:${project.id}:service:${service.id}`,
             documentType: "service_overview",
-            title: `${project.title} ${service.name} 서비스 개요`,
+            title: `${service.name} - ${service.role}`,
             heading: `${service.name} 서비스 개요`,
             content: joinContent([
                 labeledContent("프로젝트", project.title),
@@ -102,7 +102,7 @@ const createServiceOverviews = (project) =>
                 labeledContent("입력", service.input),
                 labeledContent("입력 확인", service.inputRule),
                 labeledContent("출력", service.output),
-                labeledContent("중복 및 실패 처리", service.recoveryBoundary),
+                labeledContent("처리 기준", service.recoveryBoundary),
                 labeledContent("데이터베이스", service.database),
                 labeledContent("사용 기술", service.stack?.join(", ")),
                 labeledContent("구현 상태", service.status),
@@ -124,7 +124,7 @@ const createArchitectureDecision = (project) => {
         projectSource(project, {
             sourceKey: `project:${project.id}:architecture`,
             documentType: "architecture_decision",
-            title: `${project.title} 구현 방법과 선택 이유`,
+            title: project.architecture.title,
             heading: "구현 방법과 선택 이유",
             content: joinContent([
                 labeledContent("프로젝트", project.title),
@@ -150,7 +150,7 @@ const createProblemSolutions = (project) =>
             ...projectSource(project, {
                 sourceKey: `project:${project.id}:problem:${problem.number}`,
                 documentType: "problem_solution",
-                title: `${project.title} - ${problem.title}`,
+                title: problem.title,
                 heading: "문제와 해결 방법",
                 content: joinContent([
                     labeledContent("프로젝트", project.title),
@@ -176,7 +176,7 @@ const createImplementationEvidence = (project) =>
         projectSource(project, {
             sourceKey: `project:${project.id}:evidence:${index + 1}`,
             documentType: "implementation_evidence",
-            title: `${project.title} - ${proof.item}`,
+            title: proof.item,
             heading: project.evidenceTitle ?? "테스트 및 확인 결과",
             content: joinContent([
                 labeledContent("프로젝트", project.title),

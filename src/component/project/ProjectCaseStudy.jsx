@@ -151,7 +151,7 @@ const DefenseVisual = () => (
             </div>
             <span className="defense-map__connector" aria-hidden="true" />
             <div className="defense-map__batch">
-                <small>Jenkins 실행 및 재처리</small>
+                <small>중단 단계 확인 및 해당 배치 재실행</small>
                 <strong>수용자 정보 검증 배치</strong>
                 <ol className="defense-map__steps" aria-label="배치 처리 단계">
                     <li>기관별 데이터 수신</li>

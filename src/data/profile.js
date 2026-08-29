@@ -25,7 +25,7 @@ export const careers = [
         organization: "BEINTECH",
         position: "백엔드 개발자",
         description:
-            "차세대 군사법 정보 시스템에서 군사법원, 군검찰과 군사경찰 자료 검증 배치 및 장애 재처리를 담당했습니다. 현재 전송형 전자영장 시스템에서 KICS 연계 서버와 Spring Batch를 개발합니다.",
+            "차세대 군사법 정보 시스템에서 세 기관의 수용자 자료를 검증해 군교정 DB에 반영하는 배치를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 필요한 배치만 재실행했습니다. 현재는 KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         projectIds: ["warrant", "defense"],
     },
 ]

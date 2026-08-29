@@ -49,6 +49,7 @@ describe("project summary data", () => {
         expect(hopeCommit.status.text).toContain("SeungIl 님이 개발한 Hope 3.0.3")
         expect(hopeCommit.status.text).toContain("제가 추가한 Commit Diff")
         expect(hopeCommit.status.text).toContain("README와 NOTICE에 구분")
+        expect(hopeCommit.status.text).toContain("공개 main의 패키지와 플러그인 버전은 모두 4.0.0")
         expect(hopeCommit.status.text).toContain("Commit Diff")
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
@@ -56,13 +57,23 @@ describe("project summary data", () => {
                 expect.objectContaining({ href: "https://github.com/dkstm95/hope" }),
             ]),
         )
-        expect(hopeCommit.links[1].note).toBe("SeungIl 님이 개발한 원본 프로젝트")
+        expect(hopeCommit.links).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    href: "https://github.com/ljkhyeong/hope-commit/actions/runs/33240828599/job/99069772102",
+                }),
+                expect.objectContaining({
+                    href: "https://github.com/dkstm95/hope",
+                    note: "SeungIl 님이 개발한 원본 프로젝트",
+                }),
+            ]),
+        )
         expect(hopeCommit.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     item: "저장소 자동화 테스트",
                     result: expect.stringMatching(
-                        /공개 main 3\.1\.1은 245개.*원격 개발 브랜치 4\.0\.0 커밋 d6203de는 277개 통과/,
+                        /공개 main 4\.0\.0의 GitHub Actions Node\.js 22 환경에서 275개 통과.*실패 및 건너뜀 0개/,
                     ),
                 }),
             ]),

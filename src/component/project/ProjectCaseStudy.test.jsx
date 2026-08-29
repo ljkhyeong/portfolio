@@ -311,7 +311,7 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
     const serviceFacts = screen.getByLabelText("서비스 정보")
     expect(within(serviceFacts).getByText("DB")).toBeInTheDocument()
     expect(within(serviceFacts).getByText("공개 범위")).toBeInTheDocument()
-    expect(within(serviceFacts).getByText("문서 및 테스트")).toBeInTheDocument()
+    expect(within(serviceFacts).getByText("검증 요약")).toBeInTheDocument()
 })
 
 test.each([
@@ -319,37 +319,37 @@ test.each([
         "go",
         "GO",
         "허용한 BATON 및 ROUND 경로에 짧은 링크를 발급합니다. 실제 접근 권한은 대상 서비스가 확인합니다.",
-        "같은 UUID와 조건은 링크 1건으로 유지하고, HMAC-SHA256 코드 및 허용 경로를 검증",
+        /같은 UUID와 조건은 링크 1건으로 유지/,
     ],
     [
         "watch",
         "WATCH",
         "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
-        "사설망 및 로컬 주소 접근 차단, 중단된 점검 재처리, 이전 점검 결과의 덮어쓰기 차단과 미전송 이벤트 보관",
+        /서버 중단 뒤 처리 기한이 지난 URL 점검을 다른 서버가 재개/,
     ],
     [
         "relay",
         "RELAY",
         "Core 이벤트를 Webhook 또는 SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
-        "이벤트 중복 차단, 중단 작업 재처리와 결과 미확인 작업 분리",
+        /이전 서버의 늦은 결과 차단/,
     ],
     [
         "brief",
         "BRIEF",
         "담당 공백, 자료 부족, 업무 지연과 미완료 인수인계를 찾아 주간 보고서로 보관합니다.",
-        "중복 및 과거 이벤트 차단, 점검 목록 재생성, 생성 후 고정하는 주간 보고서",
+        /같은 주간과 마지막 순번 및 항목의 보고서 1건 유지/,
     ],
     [
         "cal",
         "CAL",
         "Core 일정과 마감을 외부 캘린더가 구독하는 읽기 전용 피드로 제공합니다.",
-        "읽기 전용 .ics 피드, 구독 토큰 교체 및 폐기, 304 캐시",
+        /구독 토큰 교체 및 폐기/,
     ],
     [
         "round",
         "ROUND",
         "Core 참여권을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 TURN 접속 정보를 제공합니다.",
-        "최대 6명 mesh WebRTC, 이전 연결 메시지 차단, RS256 참여권과 TURN 접속 정보",
+        /이전 연결 메시지 차단/,
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
     renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
@@ -415,7 +415,7 @@ test.each([
         "중복 및 과거 일정 JSON 차단",
         "https://github.com/ljkhyeong/baton-cal/tree/fba74a22c9d62e940ccb5287947051f7a8d31f89",
         /CAL 개발 브랜치 고정 커밋 보기/,
-        /Core 1\.0\.0 연동을 확인/,
+        /Core 1\.0\.0 생성 코드로 만든 일정 JSON.*CAL 컨테이너.*iCalendar로 변환/,
         /안정 계약 1.0.0의 Core 호환성 근거와 미공개 개발 후보 1.1.0-rc.1/,
     ],
 ])(
