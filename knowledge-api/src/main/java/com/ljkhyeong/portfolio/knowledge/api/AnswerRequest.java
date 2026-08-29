@@ -19,4 +19,8 @@ public record AnswerRequest(
         @Max(value = 10, message = "답변 근거는 최대 10개까지 요청할 수 있습니다.")
         Integer limit
 ) {
+
+    public AnswerRequest {
+        question = question == null ? null : question.strip();
+    }
 }

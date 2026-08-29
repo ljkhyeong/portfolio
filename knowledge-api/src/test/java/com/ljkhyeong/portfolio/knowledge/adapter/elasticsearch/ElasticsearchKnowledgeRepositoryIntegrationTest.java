@@ -2,6 +2,7 @@ package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 
@@ -34,8 +35,9 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
         properties.getElasticsearch().setIndexName("portfolio-knowledge-integration-test");
         repository = new ElasticsearchKnowledgeRepository(properties);
         repository.checkHealth();
-        repository.ensureIndex("test-model", 2);
-        repository.ensureIndex("test-model", 2);
+        String chunkingFingerprint = properties.getSource().chunkingFingerprint();
+        repository.ensureIndex("test-model", 2, chunkingFingerprint);
+        repository.ensureIndex("test-model", 2, chunkingFingerprint);
         repository.bulkIndex(List.of(chunk("integration-chunk")));
     }
 
@@ -109,5 +111,12 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
 
         var deleted = repository.searchBm25("임베딩 없이 BM25 검색", new KnowledgeFilter(List.of(), List.of()), 5);
         assertThat(deleted).extracting(hit -> hit.chunk().chunkId()).doesNotContain("disabled-embedding-chunk");
+    }
+
+    @Test
+    void 청크_설정_지문이_다른_기존_인덱스는_재사용하지_않는다() {
+        assertThatThrownBy(() -> repository.ensureIndex("test-model", 2, "sha256:changed-chunking"))
+                .isInstanceOf(ElasticsearchAccessException.class)
+                .hasMessageContaining("청크 설정");
     }
 }

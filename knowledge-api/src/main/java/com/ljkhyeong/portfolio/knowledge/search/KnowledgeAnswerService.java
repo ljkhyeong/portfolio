@@ -96,10 +96,7 @@ public class KnowledgeAnswerService {
                     searchResults
             );
         } catch (AnswerGenerationUnavailableException exception) {
-            log.warn("AI 답변을 제공하지 못해 검색 결과만 반환합니다: {}", exception.getMessage());
-            return generationUnavailable(question, searchResults);
-        } catch (RuntimeException exception) {
-            log.warn("AI 답변 제공자 호출에 실패해 검색 결과만 반환합니다: {}", exception.getMessage());
+            log.warn("AI 답변을 제공하지 못해 검색 결과만 반환합니다.", exception);
             return generationUnavailable(question, searchResults);
         }
     }
@@ -108,7 +105,15 @@ public class KnowledgeAnswerService {
         Matcher matcher = CITATION_PATTERN.matcher(answer);
         Set<Integer> citedIndexes = new LinkedHashSet<>();
         while (matcher.find()) {
-            int citation = Integer.parseInt(matcher.group(1));
+            int citation;
+            try {
+                citation = Integer.parseInt(matcher.group(1));
+            } catch (NumberFormatException exception) {
+                throw new AnswerGenerationUnavailableException(
+                        "AI 답변의 인용 번호가 허용 범위를 벗어났습니다.",
+                        exception
+                );
+            }
             if (citation < 1 || citation > contextCount) {
                 throw new AnswerGenerationUnavailableException("AI 답변에 제공하지 않은 인용 번호가 포함됐습니다.");
             }

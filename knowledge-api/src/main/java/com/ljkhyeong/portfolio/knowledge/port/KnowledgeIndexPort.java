@@ -9,7 +9,7 @@ import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 
 public interface KnowledgeIndexPort {
 
-    void ensureIndex(String embeddingModelId, int dimensions);
+    void ensureIndex(String embeddingModelId, int dimensions, String chunkingFingerprint);
 
     Map<String, String> findIndexedSourceHashes();
 

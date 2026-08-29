@@ -2,8 +2,13 @@ package com.ljkhyeong.portfolio.knowledge.adapter.ai;
 
 import java.util.List;
 
+import com.openai.errors.OpenAIException;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
+import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.retry.NonTransientAiException;
+import org.springframework.ai.retry.TransientAiException;
+import org.springframework.web.client.RestClientException;
 
 public class SpringAiEmbeddingAdapter implements EmbeddingPort {
 
@@ -22,9 +27,16 @@ public class SpringAiEmbeddingAdapter implements EmbeddingPort {
         if (texts.isEmpty()) {
             return List.of();
         }
-        return embeddingModel.embed(texts).stream()
-                .map(this::toFloatList)
-                .toList();
+        try {
+            return embeddingModel.embed(texts).stream()
+                    .map(this::toFloatList)
+                    .toList();
+        } catch (TransientAiException
+                 | NonTransientAiException
+                 | OpenAIException
+                 | RestClientException exception) {
+            throw new EmbeddingUnavailableException("임베딩을 생성하지 못했습니다.", exception);
+        }
     }
 
     @Override

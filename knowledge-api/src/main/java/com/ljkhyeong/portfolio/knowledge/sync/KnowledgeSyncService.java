@@ -44,7 +44,11 @@ public class KnowledgeSyncService {
         if (manifest.documents().isEmpty() && !properties.getSource().isAllowEmpty()) {
             throw new IllegalArgumentException("빈 공개 지식 문서 목록은 동기화할 수 없습니다.");
         }
-        indexPort.ensureIndex(embeddingPort.modelId(), embeddingPort.dimensions());
+        indexPort.ensureIndex(
+                embeddingPort.modelId(),
+                embeddingPort.dimensions(),
+                properties.getSource().chunkingFingerprint()
+        );
         Map<String, String> currentHashes = indexPort.findIndexedSourceHashes();
 
         Set<String> desiredDocumentIds = new HashSet<>();

@@ -4,12 +4,12 @@
 
 ## 실행 구성
 
-- Java 21
-- Spring Boot 4.1.0
-- Spring AI 2.0.0
-- Elasticsearch 8.19.20
-- 운영 AI: OpenAI
-- 로컬 AI: Ollama
+-   Java 21
+-   Spring Boot 4.1.0
+-   Spring AI 2.0.0
+-   Elasticsearch 8.19.20
+-   운영 AI: OpenAI
+-   로컬 AI: Ollama
 
 Spring AI 2.0.x는 Spring Boot 4.0 및 4.1을 지원합니다. 버전 기준은 [Spring AI Getting Started](https://docs.spring.io/spring-ai/reference/getting-started.html)에서 확인할 수 있습니다.
 
@@ -25,8 +25,10 @@ docker compose up --build
 애플리케이션만 실행할 때는 Elasticsearch를 먼저 실행한 뒤 다음 명령을 사용합니다.
 
 ```bash
-./gradlew bootRun
+KNOWLEDGE_SYNC_ON_STARTUP=true ./gradlew bootRun
 ```
+
+`KNOWLEDGE_SYNC_ON_STARTUP`을 설정하지 않으면 애플리케이션은 기존 인덱스를 조회하되 시작 시 공개 문서를 색인하지 않습니다. 시작 동기화를 끈 환경에서는 `KNOWLEDGE_SYNC_KEY`를 설정하고 아래의 내부 동기화 API를 한 번 호출해야 합니다.
 
 빌드 시 루트의 `public/knowledge/portfolio.json`을 생성 리소스 디렉터리로 복사합니다. JAR에 별도 문서 사본을 직접 관리하지 않으므로 원본과 색인 자료가 달라지는 문제를 막습니다.
 
@@ -53,7 +55,9 @@ docker compose exec ollama ollama pull bge-m3
 AI_PROFILE=ollama docker compose --profile ollama up --build knowledge-api
 ```
 
-프로필별 기본 인덱스는 `portfolio-knowledge-disabled-v1`, `portfolio-knowledge-openai-v1`, `portfolio-knowledge-ollama-v1`으로 분리됩니다. Compose에서 `ELASTICSEARCH_INDEX`를 설정하면 사용자 지정 이름을 우선 사용합니다. 임베딩 모델 또는 차원을 변경하면 기존 벡터와 호환되지 않으므로 새 인덱스 이름으로 전체 문서를 다시 색인해야 합니다.
+프로필별 기본 인덱스는 `portfolio-knowledge-disabled-v2`, `portfolio-knowledge-openai-v2`, `portfolio-knowledge-ollama-v2`로 분리됩니다. Compose에서 `ELASTICSEARCH_INDEX`를 설정하면 사용자 지정 이름을 우선 사용합니다. 임베딩 모델 또는 차원을 변경하면 기존 벡터와 호환되지 않으므로 새 인덱스 이름으로 전체 문서를 다시 색인해야 합니다.
+
+`AI_PROFILE`은 `disabled`, `openai`, `ollama`만 허용합니다. 철자가 틀린 값은 AI가 비활성화된 상태로 기동하지 않고 설정 오류로 시작을 중단합니다.
 
 ## API
 
@@ -89,15 +93,19 @@ Content-Type: application/json
 
 답변 상태는 다음 세 가지입니다.
 
-- `GENERATED`: 답변과 검증된 인용을 반환합니다.
-- `INSUFFICIENT_EVIDENCE`: 관련 공개 근거가 부족해 답변을 만들지 않습니다.
-- `GENERATION_UNAVAILABLE`: AI 제공자 오류 또는 설정 없음으로 답변을 만들지 않고 검색 결과만 반환합니다.
+-   `GENERATED`: 답변과 검증된 인용을 반환합니다.
+-   `INSUFFICIENT_EVIDENCE`: 관련 공개 근거가 부족해 답변을 만들지 않습니다.
+-   `GENERATION_UNAVAILABLE`: AI 제공자 오류 또는 설정 없음으로 답변을 만들지 않고 검색 결과만 반환합니다.
 
 답변 API는 모델이 반환한 `[1]` 형식의 인용 번호가 실제 전달 근거에 있는지 확인합니다. 제공하지 않은 번호나 인용이 없는 답변은 노출하지 않습니다.
 
+벡터 검색 결과만 있고 BM25 키워드 검색에서 적중한 문서가 없으면 AI를 호출하지 않습니다. 이 조건은 질문과 직접 일치하는 공개 문서가 없는 상태에서 의미상 가까운 문서만으로 답변을 만드는 일을 막습니다.
+
 ## 동기화
 
-본문과 제목, 링크 등 공개 메타데이터를 포함한 `sourceHash`가 같은 문서는 청크 분할과 임베딩을 다시 실행하지 않습니다. `contentHash`는 본문 변경 여부를 별도로 추적하기 위해 함께 저장합니다. 변경된 청크를 먼저 upsert한 뒤 더 이상 사용하지 않는 이전 청크를 삭제하므로 벌크 색인 실패 시 기존 전체 문서가 먼저 사라지지 않습니다. 문서 목록에서 빠진 항목은 Elasticsearch에서 삭제합니다.
+증분 동기화는 본문, 제목, 링크 등 공개 입력 전체를 계산한 `sourceHash`로 변경 여부를 판단합니다. `contentHash`는 본문만의 변경 이력을 확인할 수 있도록 각 청크에 함께 저장합니다. 변경된 청크를 먼저 upsert한 뒤 더 이상 사용하지 않는 이전 청크를 삭제하므로 벌크 색인 실패 시 기존 전체 문서가 먼저 사라지지 않습니다. 문서 목록에서 빠진 항목은 Elasticsearch에서 삭제합니다.
+
+최대 청크 길이와 겹침 범위는 Elasticsearch 인덱스 매핑에 호환성 지문으로 저장합니다. 두 값 중 하나를 바꾸면 기존 인덱스를 재사용하지 않으므로 `ELASTICSEARCH_INDEX`에 새 이름을 지정한 뒤 전체 문서를 다시 색인해야 합니다.
 
 문서 0건인 목록은 생성 오류로 간주해 기본적으로 동기화를 거부합니다. 전체 삭제가 의도된 별도 작업에서만 `KNOWLEDGE_ALLOW_EMPTY=true`를 설정합니다.
 
@@ -112,7 +120,7 @@ X-Knowledge-Sync-Key: 설정한 값
 
 ## 비용 제한과 프록시 주소
 
-AI 답변 생성은 기본적으로 인스턴스 전체 분당 30회, 클라이언트별 5회로 제한합니다. OpenAI 프로필에서는 검색 질문의 임베딩에도 비용이 발생하므로 검색은 전체 300회, 클라이언트별 30회로 제한합니다. 초과 시 `429`와 `Retry-After`를 반환하며 CORS 사전 요청인 `OPTIONS`는 횟수에 포함하지 않습니다.
+AI 답변 생성은 기본적으로 인스턴스 전체 분당 30회, 클라이언트별 5회로 제한합니다. OpenAI 프로필에서는 검색 질문의 임베딩에도 비용이 발생하므로 검색은 전체 300회, 클라이언트별 30회로 제한합니다. 초과 시 `429`와 `Retry-After`를 반환하며 브라우저 JavaScript에서도 `Retry-After`를 읽을 수 있게 CORS 응답 헤더로 노출합니다. CORS 사전 요청인 `OPTIONS`는 횟수에 포함하지 않습니다.
 
 요청 종류별로 한 분 동안 최대 100개의 클라이언트 버킷을 유지합니다. 상한에 도달하면 이미 등록된 클라이언트의 제한은 계속 적용하고, 새로운 클라이언트는 다음 분까지 `429`로 차단합니다. `AI_MAX_CLIENT_BUCKETS_PER_MINUTE`로 상한을 조정할 수 있으며 0 이하이면 상한을 적용하지 않습니다.
 
@@ -126,8 +134,8 @@ Compose의 Knowledge API 상태 확인은 Elasticsearch 연결을 포함한 `/ac
 
 CORS 기본 허용 주소는 다음 두 개이며 와일드카드를 사용하지 않습니다.
 
-- `http://localhost:5173`
-- `https://ljkportfolio.netlify.app`
+-   `http://localhost:5173`
+-   `https://ljkportfolio.netlify.app`
 
 운영 주소가 달라지면 `KNOWLEDGE_CORS_ALLOWED_ORIGINS`에 쉼표로 구분해 설정합니다.
 
@@ -139,4 +147,4 @@ CORS 기본 허용 주소는 다음 두 개이며 와일드카드를 사용하�
 ./gradlew bootJar
 ```
 
-단위 테스트는 공개 문서 필터, `contentHash` 증분 처리, RRF 순위, 임베딩 장애 시 BM25 대체, AI 장애 시 검색 결과 유지, 인용 검증과 답변 호출 제한을 확인합니다. 통합 테스트는 표준 Elasticsearch 이미지에서 임베딩이 있는 문서와 없는 문서를 모두 색인하고 BM25 및 kNN 검색을 확인합니다.
+단위 테스트는 공개 문서 필터, `sourceHash` 증분 판정, 청크 설정 지문, RRF 순위, 제공자 장애 시 BM25 대체, 인용 번호 검증과 요청 제한을 확인합니다. 통합 테스트는 표준 Elasticsearch 이미지에서 임베딩이 있는 문서와 없는 문서를 모두 색인하고 BM25 및 kNN 검색을 확인합니다.

@@ -3,11 +3,15 @@ package com.ljkhyeong.portfolio.knowledge.adapter.ai;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.openai.errors.OpenAIException;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.retry.NonTransientAiException;
+import org.springframework.ai.retry.TransientAiException;
 import org.springframework.ai.template.NoOpTemplateRenderer;
+import org.springframework.web.client.RestClientException;
 
 public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
 
@@ -46,7 +50,10 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
                     .user("질문:\n%s\n\n공개 근거:\n%s".formatted(question, evidence))
                     .call()
                     .content();
-        } catch (RuntimeException exception) {
+        } catch (TransientAiException
+                 | NonTransientAiException
+                 | OpenAIException
+                 | RestClientException exception) {
             throw new AnswerGenerationUnavailableException("AI 답변을 생성하지 못했습니다.", exception);
         }
         if (answer == null || answer.isBlank()) {

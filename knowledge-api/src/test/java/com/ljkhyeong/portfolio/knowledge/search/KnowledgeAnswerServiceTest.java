@@ -2,6 +2,7 @@ package com.ljkhyeong.portfolio.knowledge.search;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -69,6 +70,42 @@ class KnowledgeAnswerServiceTest {
     }
 
     @Test
+    void 인용이_없는_AI_답변은_노출하지_않는다() {
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn("알림 이벤트를 DB에 기록해 다시 처리합니다.");
+
+        AnswerResponse response = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE);
+        assertThat(response.answer()).isNull();
+        assertThat(response.citations()).isEmpty();
+    }
+
+    @Test
+    void 전달하지_않은_번호를_인용한_AI_답변은_노출하지_않는다() {
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn("알림 이벤트를 DB에 기록해 다시 처리합니다. [2]");
+
+        AnswerResponse response = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE);
+        assertThat(response.answer()).isNull();
+        assertThat(response.citations()).isEmpty();
+    }
+
+    @Test
+    void 정수_범위를_벗어난_인용_번호는_노출하지_않는다() {
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn("알림 이벤트를 DB에 기록해 다시 처리합니다. [99999999999999999999]");
+
+        AnswerResponse response = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE);
+        assertThat(response.answer()).isNull();
+        assertThat(response.citations()).isEmpty();
+    }
+
+    @Test
     void 모델이_공개_근거로_답할_수_없다고_하면_근거_부족으로_반환한다() {
         when(answerGenerationPort.generate(anyString(), anyList()))
                 .thenReturn("공개된 자료에서 확인할 수 없습니다.");
@@ -93,5 +130,14 @@ class KnowledgeAnswerServiceTest {
         assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE);
         assertThat(response.results()).hasSize(1);
         verify(answerGenerationPort, never()).generate(anyString(), anyList());
+    }
+
+    @Test
+    void 임의의_코드_오류는_검색_결과로_대체하지_않고_전파한다() {
+        IllegalStateException programmingError = new IllegalStateException("programming error");
+        when(answerGenerationPort.generate(anyString(), anyList())).thenThrow(programmingError);
+
+        assertThatThrownBy(() -> service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6))
+                .isSameAs(programmingError);
     }
 }

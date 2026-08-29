@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -27,6 +28,7 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .allowedOrigins(properties.getCors().getAllowedOrigins().toArray(String[]::new))
                 .allowedMethods("POST", "OPTIONS")
                 .allowedHeaders("Content-Type")
+                .exposedHeaders(HttpHeaders.RETRY_AFTER)
                 .maxAge(3600);
     }
 

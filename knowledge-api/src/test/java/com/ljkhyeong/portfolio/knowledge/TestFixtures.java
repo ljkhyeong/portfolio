@@ -11,6 +11,10 @@ public final class TestFixtures {
     }
 
     public static KnowledgeSourceDocument document(String documentId, String contentHash) {
+        return document(documentId, "sha256:source", contentHash);
+    }
+
+    public static KnowledgeSourceDocument document(String documentId, String sourceHash, String contentHash) {
         return new KnowledgeSourceDocument(
                 "1.0",
                 "sha256:revision",
@@ -26,7 +30,7 @@ public final class TestFixtures {
                 "/projects/baton/#notification",
                 "public",
                 "verified",
-                "sha256:source",
+                sourceHash,
                 contentHash
         );
     }

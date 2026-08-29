@@ -19,4 +19,8 @@ public record SearchRequest(
         @Max(value = 20, message = "검색 결과는 최대 20개까지 요청할 수 있습니다.")
         Integer limit
 ) {
+
+    public SearchRequest {
+        query = query == null ? null : query.strip();
+    }
 }

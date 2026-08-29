@@ -70,9 +70,9 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
     }
 
     @Override
-    public void ensureIndex(String embeddingModelId, int dimensions) {
+    public void ensureIndex(String embeddingModelId, int dimensions, String chunkingFingerprint) {
         if (indexExists()) {
-            verifyIndexCompatibility(embeddingModelId, dimensions);
+            verifyIndexCompatibility(embeddingModelId, dimensions, chunkingFingerprint);
             return;
         }
 
@@ -83,6 +83,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                         .dynamic(DynamicMapping.Strict)
                         .meta("embeddingModelId", JsonData.of(embeddingModelId))
                         .meta("embeddingDimensions", JsonData.of(dimensions))
+                        .meta("chunkingFingerprint", JsonData.of(chunkingFingerprint))
                         .properties("chunkId", keyword())
                         .properties("documentId", keyword())
                         .properties("projectId", keyword())
@@ -285,7 +286,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         );
     }
 
-    private void verifyIndexCompatibility(String embeddingModelId, int dimensions) {
+    private void verifyIndexCompatibility(String embeddingModelId, int dimensions, String chunkingFingerprint) {
         GetMappingResponse response = execute(
                 "Elasticsearch 매핑을 조회하지 못했습니다.",
                 () -> client.indices().getMapping(request -> request.index(indexName()))
@@ -296,11 +297,15 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 : indexMapping.mappings().meta();
         JsonData modelValue = metadata.get("embeddingModelId");
         JsonData dimensionsValue = metadata.get("embeddingDimensions");
+        JsonData chunkingValue = metadata.get("chunkingFingerprint");
         String currentModel = modelValue == null ? "" : modelValue.to(String.class);
         int currentDimensions = dimensionsValue == null ? 0 : dimensionsValue.to(Integer.class);
-        if (!embeddingModelId.equals(currentModel) || currentDimensions != dimensions) {
+        String currentChunkingFingerprint = chunkingValue == null ? "" : chunkingValue.to(String.class);
+        if (!embeddingModelId.equals(currentModel)
+                || currentDimensions != dimensions
+                || !chunkingFingerprint.equals(currentChunkingFingerprint)) {
             throw new ElasticsearchAccessException(
-                    "현재 인덱스의 임베딩 모델 또는 차원이 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
+                    "현재 인덱스의 임베딩 모델, 차원 또는 청크 설정이 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
             );
         }
     }

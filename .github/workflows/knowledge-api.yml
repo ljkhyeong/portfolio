@@ -1,78 +1,83 @@
 name: 공개 문서 검색 API 검증
 
 on:
-  push:
-    paths:
-      - "knowledge-api/**"
-      - "public/docs/**"
-      - "public/knowledge/**"
-      - "scripts/generate-knowledge-corpus.mjs"
-      - "scripts/knowledge-corpus-core.mjs"
-      - "src/data/knowledgeCorpus.js"
-      - "src/data/projects.js"
-      - "src/data/projectSummaries.js"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/knowledge-api.yml"
-  pull_request:
-    paths:
-      - "knowledge-api/**"
-      - "public/docs/**"
-      - "public/knowledge/**"
-      - "scripts/generate-knowledge-corpus.mjs"
-      - "scripts/knowledge-corpus-core.mjs"
-      - "src/data/knowledgeCorpus.js"
-      - "src/data/projects.js"
-      - "src/data/projectSummaries.js"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/knowledge-api.yml"
+    push:
+        paths:
+            - "knowledge-api/**"
+            - "public/docs/**"
+            - "public/knowledge/**"
+            - "scripts/generate-knowledge-corpus.mjs"
+            - "scripts/knowledge-corpus-core.mjs"
+            - "src/data/knowledgeCorpus.js"
+            - "src/data/projects.js"
+            - "src/data/projectSummaries.js"
+            - "package.json"
+            - "package-lock.json"
+            - ".nvmrc"
+            - ".github/workflows/knowledge-api.yml"
+    pull_request:
+        paths:
+            - "knowledge-api/**"
+            - "public/docs/**"
+            - "public/knowledge/**"
+            - "scripts/generate-knowledge-corpus.mjs"
+            - "scripts/knowledge-corpus-core.mjs"
+            - "src/data/knowledgeCorpus.js"
+            - "src/data/projects.js"
+            - "src/data/projectSummaries.js"
+            - "package.json"
+            - "package-lock.json"
+            - ".nvmrc"
+            - ".github/workflows/knowledge-api.yml"
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  test:
-    name: 문서 생성 및 검색 API 테스트
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    test:
+        name: 문서 생성 및 검색 API 테스트
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
 
-    steps:
-      - name: 저장소 확인
-        uses: actions/checkout@v4
+        steps:
+            - name: 저장소 확인
+              uses: actions/checkout@v4
 
-      - name: Node.js 설정
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
+            - name: Gradle Wrapper 무결성 확인
+              uses: gradle/actions/wrapper-validation@v4
 
-      - name: Java 설정
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "21"
+            - name: Node.js 설정
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
 
-      - name: Gradle 설정
-        uses: gradle/actions/setup-gradle@v4
+            - name: Java 설정
+              uses: actions/setup-java@v4
+              with:
+                  distribution: temurin
+                  java-version: "21"
 
-      - name: 프론트엔드 의존성 설치
-        run: npm ci
+            - name: Gradle 설정
+              uses: gradle/actions/setup-gradle@v4
 
-      - name: 공개 문서 목록 확인
-        run: |
-          npm run knowledge:generate
-          git diff --exit-code -- public/knowledge/portfolio.json
+            - name: 프론트엔드 의존성 설치
+              run: npm ci
 
-      - name: 검색 API 검증
-        working-directory: knowledge-api
-        run: ./gradlew --no-daemon test integrationTest bootJar
+            - name: 공개 문서 목록 확인
+              run: |
+                  npm run knowledge:generate
+                  git diff --exit-code -- public/knowledge/portfolio.json
 
-      - name: Elasticsearch 통합 테스트 실행 확인
-        working-directory: knowledge-api
-        run: |
-          test -f build/test-results/integrationTest/TEST-com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchKnowledgeRepositoryIntegrationTest.xml
-          grep -Eq 'tests="[1-9][0-9]*" skipped="0" failures="0" errors="0"' build/test-results/integrationTest/TEST-com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchKnowledgeRepositoryIntegrationTest.xml
+            - name: 검색 API 검증
+              working-directory: knowledge-api
+              run: ./gradlew --no-daemon test integrationTest bootJar
 
-      - name: 검색 API 이미지 빌드
-        run: docker build -f knowledge-api/Dockerfile -t portfolio-knowledge-api:test .
+            - name: Elasticsearch 통합 테스트 실행 확인
+              working-directory: knowledge-api
+              run: |
+                  test -f build/test-results/integrationTest/TEST-com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchKnowledgeRepositoryIntegrationTest.xml
+                  grep -Eq 'tests="[1-9][0-9]*" skipped="0" failures="0" errors="0"' build/test-results/integrationTest/TEST-com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchKnowledgeRepositoryIntegrationTest.xml
+
+            - name: 검색 API 이미지 빌드
+              run: docker build -f knowledge-api/Dockerfile -t portfolio-knowledge-api:test .

@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchAccessException;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
+import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +61,11 @@ public class KnowledgeSearchService {
         );
         int candidateLimit = Math.max(limit, properties.getSearch().getCandidateLimit());
 
-        indexPort.ensureIndex(embeddingPort.modelId(), embeddingPort.dimensions());
+        indexPort.ensureIndex(
+                embeddingPort.modelId(),
+                embeddingPort.dimensions(),
+                properties.getSource().chunkingFingerprint()
+        );
         List<SearchHit> bm25 = indexPort.searchBm25(normalizedQuery, filter, candidateLimit);
         List<List<SearchHit>> rankings = new ArrayList<>();
         rankings.add(bm25);
@@ -71,8 +77,8 @@ public class KnowledgeSearchService {
         try {
             List<Float> queryVector = embeddingPort.embed(List.of(normalizedQuery)).getFirst();
             rankings.add(indexPort.searchKnn(queryVector, filter, candidateLimit, candidateLimit * 2));
-        } catch (RuntimeException exception) {
-            log.warn("임베딩 또는 벡터 검색에 실패해 BM25 결과만 반환합니다: {}", exception.getMessage());
+        } catch (EmbeddingUnavailableException | ElasticsearchAccessException exception) {
+            log.warn("임베딩 또는 벡터 검색에 실패해 BM25 결과만 반환합니다.", exception);
         }
 
         return result(rankings, bm25, limit);

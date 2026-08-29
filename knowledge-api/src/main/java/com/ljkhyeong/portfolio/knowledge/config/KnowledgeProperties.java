@@ -2,7 +2,10 @@ package com.ljkhyeong.portfolio.knowledge.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
+import com.ljkhyeong.portfolio.knowledge.util.Hashing;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "knowledge")
@@ -90,12 +93,19 @@ public class KnowledgeProperties {
         public void setOverlapCharacters(int overlapCharacters) {
             this.overlapCharacters = overlapCharacters;
         }
+
+        public String chunkingFingerprint() {
+            return Hashing.sha256("chunking-v1|max=%d|overlap=%d".formatted(
+                    maxChunkCharacters,
+                    overlapCharacters
+            ));
+        }
     }
 
     public static class Elasticsearch {
 
         private String baseUrl = "http://localhost:9200";
-        private String indexName = "portfolio-knowledge-disabled-v1";
+        private String indexName = "portfolio-knowledge-disabled-v2";
         private String username = "";
         private String password = "";
         private int connectTimeoutSeconds = 3;
@@ -193,6 +203,8 @@ public class KnowledgeProperties {
 
     public static class Ai {
 
+        private static final Set<String> SUPPORTED_PROVIDERS = Set.of("disabled", "openai", "ollama");
+
         private String provider = "disabled";
         private String embeddingModelId = "disabled";
         private int embeddingDimensions = 1024;
@@ -209,7 +221,11 @@ public class KnowledgeProperties {
         }
 
         public void setProvider(String provider) {
-            this.provider = provider;
+            String normalized = provider == null ? "" : provider.strip().toLowerCase(Locale.ROOT);
+            if (!SUPPORTED_PROVIDERS.contains(normalized)) {
+                throw new IllegalArgumentException("AI provider는 disabled, openai, ollama 중 하나여야 합니다.");
+            }
+            this.provider = normalized;
         }
 
         public String getEmbeddingModelId() {

@@ -84,4 +84,29 @@ class KnowledgeControllerHttpContractTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("INVALID_REQUEST"));
     }
+
+    @Test
+    void 공백을_제거한_검색어와_질문이_한_글자면_400을_반환한다() throws Exception {
+        mockMvc.perform(post("/api/v1/knowledge/search")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "query": " a"
+                                }
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.fieldErrors.query")
+                        .value("검색어는 2자 이상 300자 이하로 입력해 주세요."));
+
+        mockMvc.perform(post("/api/v1/knowledge/answers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "question": " 가"
+                                }
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.fieldErrors.question")
+                        .value("질문은 2자 이상 300자 이하로 입력해 주세요."));
+    }
 }

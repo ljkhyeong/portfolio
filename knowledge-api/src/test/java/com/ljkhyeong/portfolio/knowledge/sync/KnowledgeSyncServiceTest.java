@@ -58,7 +58,7 @@ class KnowledgeSyncServiceTest {
 
     @Test
     void 본문이_같아도_제목이나_링크를_포함한_sourceHash가_바뀌면_다시_색인한다() {
-        var document = document("doc-1", "sha256:same-content");
+        var document = document("doc-1", "sha256:new-source", "sha256:same-content");
         var chunk = chunk("doc-1#000");
         when(loader.load(properties.getSource().getLocation())).thenReturn(manifest(document));
         when(indexPort.findIndexedSourceHashes()).thenReturn(Map.of("doc-1", "sha256:old-source"));
@@ -69,6 +69,21 @@ class KnowledgeSyncServiceTest {
 
         assertThat(result.indexedDocuments()).isEqualTo(1);
         verify(indexPort).bulkIndex(anyList());
+    }
+
+    @Test
+    void 인덱스_호환성_검사에_현재_청크_설정_지문을_전달한다() {
+        var document = document("doc-1", "sha256:same-content");
+        when(loader.load(properties.getSource().getLocation())).thenReturn(manifest(document));
+        when(indexPort.findIndexedSourceHashes()).thenReturn(Map.of("doc-1", "sha256:source"));
+
+        service.syncConfiguredManifest();
+
+        verify(indexPort).ensureIndex(
+                "test-model",
+                2,
+                properties.getSource().chunkingFingerprint()
+        );
     }
 
     @Test
