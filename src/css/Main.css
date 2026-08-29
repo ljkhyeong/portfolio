@@ -473,10 +473,10 @@
 
 .timeline--split {
     display: grid;
-    grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.48fr);
+    grid-template-columns: minmax(0, 1.48fr) minmax(300px, 0.72fr);
     grid-template-areas:
-        "education career"
-        "activities career";
+        "career education"
+        "career activities";
     gap: 24px;
     overflow: visible;
     border: 0;
@@ -1020,8 +1020,8 @@
     .timeline--split {
         grid-template-columns: 1fr;
         grid-template-areas:
-            "education"
             "career"
+            "education"
             "activities";
     }
 }
@@ -1058,7 +1058,7 @@
 
     .hero h1 {
         max-width: 100%;
-        font-size: clamp(36px, 10.4vw, 44px);
+        font-size: clamp(34px, 9.2vw, 38px);
         letter-spacing: -0.045em;
         overflow-wrap: break-word;
         word-break: normal;

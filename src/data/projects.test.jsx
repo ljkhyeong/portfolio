@@ -151,6 +151,7 @@ describe("project summary data", () => {
             boundary: expect.stringContaining("관리자 재처리"),
         })
         expect(happyGallery.featuredProblemNumbers).not.toContain("07")
+        expect(happyGallery.featuredProblemNumbers).toEqual(["02", "03", "04", "09"])
         expect(passRefundProof).toMatchObject({
             method: "MySQL 및 Redis Testcontainers 통합 테스트",
             result: expect.stringContaining("8회분 환불 요청"),

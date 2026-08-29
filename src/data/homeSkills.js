@@ -14,28 +14,17 @@ export const homeSkillGroups = [
         ],
     },
     {
-        id: "frontend",
-        label: "프론트엔드",
-        summary:
-            "React와 TypeScript로 사용자 화면을 구현하고, 공공 업무 화면은 WebSquare로 개발합니다.",
-        items: [
-            { name: "JavaScript" },
-            { name: "TypeScript" },
-            { name: "React" },
-            { name: "WebSquare" },
-        ],
-    },
-    {
         id: "reliability",
         label: "중복 방지 및 장애 복구",
-        summary: "같은 요청은 한 번만 처리하고, 서버가 멈추면 남은 작업을 다시 시작합니다.",
+        summary:
+            "중복 결제 및 환불과 정원 및 재고 초과를 막고, 미전송 알림과 중단 작업을 재처리합니다.",
         items: [
             {
                 name: "중복 결제 및 환불 방지",
                 detail: "요청 ID와 처리 상태를 저장하고, 결과가 불확실하면 PG 처리 결과를 조회합니다.",
             },
             {
-                name: "미전송 알림 재전송",
+                name: "미전송 알림 재처리",
                 detail: "주문 및 예약 상태와 알림을 함께 저장하고, 스케줄러가 미전송 알림을 다시 보냅니다.",
             },
             {
@@ -51,7 +40,7 @@ export const homeSkillGroups = [
     {
         id: "delivery",
         label: "테스트 및 운영",
-        summary: "통합 테스트와 화면 테스트로 기능을 확인하고, 로그와 DB에서 장애 지점을 찾습니다.",
+        summary: "통합 및 화면 테스트로 기능을 검증하고, 로그와 DB로 장애 지점을 찾습니다.",
         items: [
             {
                 name: "통합 테스트",
@@ -69,6 +58,18 @@ export const homeSkillGroups = [
                 name: "배포 및 장애 분석",
                 detail: "Docker 상태, Jenkins 배치 이력, 서버 로그와 DB 상태를 대조해 장애 지점을 찾습니다.",
             },
+        ],
+    },
+    {
+        id: "frontend",
+        label: "프론트엔드",
+        summary:
+            "React와 TypeScript로 사용자 화면을 구현하고, 공공 업무 화면은 WebSquare로 개발합니다.",
+        items: [
+            { name: "JavaScript" },
+            { name: "TypeScript" },
+            { name: "React" },
+            { name: "WebSquare" },
         ],
     },
 ]

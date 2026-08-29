@@ -319,12 +319,12 @@ test.each([
         "go",
         "GO",
         "허용한 BATON 및 ROUND 경로에 짧은 링크를 발급합니다. 실제 접근 권한은 대상 서비스가 확인합니다.",
-        "UUID 중복 처리, HMAC-SHA256 코드와 허용 경로 검증",
+        "같은 UUID와 조건은 링크 1건으로 유지하고, HMAC-SHA256 코드 및 허용 경로를 검증",
     ],
     [
         "watch",
         "WATCH",
-        "외부 URL의 사설망 연결을 차단해 상태를 점검하고, 변경 이벤트를 Core에 전달합니다.",
+        "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
         "사설망 및 로컬 주소 접근 차단, 중단된 점검 재처리, 이전 점검 결과의 덮어쓰기 차단과 미전송 이벤트 보관",
     ],
     [
@@ -348,7 +348,7 @@ test.each([
     [
         "round",
         "ROUND",
-        "Core 참여권을 검증해 최대 6명의 WebRTC 연결을 중계하고, 필요하면 TURN 접속 정보를 제공합니다.",
+        "Core 참여권을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 TURN 접속 정보를 제공합니다.",
         "최대 6명 mesh WebRTC, 이전 연결 메시지 차단, RS256 참여권과 TURN 접속 정보",
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
@@ -493,7 +493,9 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     expect(mediaFlowProblem).toHaveTextContent("문제 상황")
     expect(mediaFlowProblem).toHaveTextContent("적용한 방법")
     expect(mediaFlowProblem).toHaveTextContent("테스트 및 확인")
-    expect(mediaFlowProblem).toHaveTextContent("RTP 출력은 FFmpeg와 GStreamer로 HLS로 변환")
+    expect(mediaFlowProblem).toHaveTextContent(
+        "mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환",
+    )
 
     const proofs = screen.getByRole("list", { name: "구현 범위 및 확인 결과 목록" })
 

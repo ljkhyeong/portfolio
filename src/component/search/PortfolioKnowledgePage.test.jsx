@@ -14,8 +14,8 @@ const searchResult = {
     projectId: "happygallery",
     projectName: "happyGallery",
     documentType: "problem_solution",
-    title: "happyGallery 문제와 해결 방법",
-    heading: "PG 응답 유실 시 중복 승인 및 환불 방지",
+    title: "happyGallery - 결제 및 환불 재요청의 중복 처리 방지",
+    heading: "문제와 해결 방법",
     snippet: "결제 승인과 환불 요청에 멱등 키를 적용했습니다.",
     route: "/projects/happygallery",
     score: 0.92,
@@ -60,7 +60,7 @@ test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI �
 
     expect(
         await screen.findByRole("heading", {
-            name: "PG 응답 유실 시 중복 승인 및 환불 방지",
+            name: "happyGallery - 결제 및 환불 재요청의 중복 처리 방지",
         }),
     ).toBeInTheDocument()
     expect(searchPortfolioKnowledge).toHaveBeenCalledWith(
@@ -88,7 +88,7 @@ test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI �
             documentType: "problem_solution",
         }),
     )
-    expect(screen.getByRole("link", { name: /PG 응답 유실/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /결제 및 환불 재요청/ })).toHaveAttribute(
         "href",
         "/projects/happygallery",
     )

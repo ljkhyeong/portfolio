@@ -88,7 +88,11 @@ const About = () => {
                     <p>경력, 교육 프로젝트와 개발 서적 스터디를 정리했습니다.</p>
                 </div>
 
-                <div className="timeline timeline--split" aria-label="교육, 경력 및 개인 활동">
+                <div className="timeline timeline--split" aria-label="경력, 교육 및 개인 활동">
+                    {careers.map((career) => (
+                        <CareerGroup career={career} key={career.id} />
+                    ))}
+
                     <section
                         className="timeline__group timeline__group--education"
                         aria-labelledby="education-title"
@@ -108,10 +112,6 @@ const About = () => {
                             </div>
                         </article>
                     </section>
-
-                    {careers.map((career) => (
-                        <CareerGroup career={career} key={career.id} />
-                    ))}
 
                     <section
                         className="timeline__group timeline__group--activities"
@@ -159,7 +159,7 @@ const About = () => {
                 <div className="capability-section__intro">
                     <span className="section-kicker">사용 기술과 적용 경험</span>
                     <h2 id="capability-title">기술</h2>
-                    <p>프로젝트에 적용한 기술입니다.</p>
+                    <p>백엔드 개발을 중심으로 사용 기술과 적용 사례를 정리했습니다.</p>
                 </div>
                 <div className="capability-list capability-list--desktop">
                     {homeSkillGroups.map((group) => (

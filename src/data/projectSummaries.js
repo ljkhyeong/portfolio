@@ -16,7 +16,7 @@ export const projectSummaries = [
             },
             {
                 label: "문제",
-                value: "재요청과 장애 복구 때 링크와 이벤트가 중복 처리될 수 있음",
+                value: "재요청하거나 장애를 복구할 때 링크와 이벤트가 중복 처리될 수 있음",
             },
             {
                 label: "해결",
@@ -78,11 +78,11 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "공방 상품 주문과 클래스 예약을 관리하는 서비스입니다. 중복 결제 및 환불, 알림 유실, 예약 정원 및 재고 초과를 방지하고 AWS에 배포했습니다.",
+            "공방 상품 주문과 클래스 예약을 관리하는 서비스입니다. 요청 ID로 결제 및 환불 중복을 막고, 미전송 알림을 재처리하며 DB 잠금으로 예약 정원과 재고 초과를 방지했습니다. AWS에서 운영한 이력이 있습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 운영",
+                value: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영 이력",
             },
             {
                 label: "문제",
@@ -107,13 +107,13 @@ export const projectSummaries = [
         presentation: "tooling-case",
         title: "Hope Commit",
         navigationLabel: "Hope Commit",
-        eyebrow: "Hope 3.0.3 비공식 포크 / 커밋 검토 기능 추가 및 보완",
+        eyebrow: "Hope 3.0.3 비공식 포크 / 로컬 커밋 HTML 리뷰",
         summary:
-            "SeungIl 님의 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 선택한 커밋과 확정한 비교 기준 사이의 변경만 검토해 HTML 리뷰를 만듭니다.",
+            "SeungIl 님의 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 일반 커밋은 첫 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모와 비교하고 실제 변경 줄이 근거인 결과만 HTML로 저장합니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "Hope 3.0.3 포크, 로컬 커밋 비교 및 HTML 리뷰 기능과 자동화 테스트 추가",
+                value: "SeungIl 님의 Hope 3.0.3 포크에 로컬 커밋 비교, HTML 리뷰 및 자동화 테스트 추가",
             },
             {
                 label: "문제",
@@ -144,7 +144,7 @@ export const projectSummaries = [
         homeFacts: [
             {
                 label: "담당",
-                value: "군교정 업무 화면과 수용자 인적정보 및 영장정보 검증 배치 개발",
+                value: "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
             },
             {
                 label: "문제",

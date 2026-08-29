@@ -243,14 +243,14 @@ const ArchitectureSection = ({ project }) => (
     </section>
 )
 
-const CaseDocuments = ({ documentGroups, documents, sectionNumber }) => (
+const CaseDocuments = ({ documentGroups, documents, intro, sectionNumber }) => (
     <section className="case-documents" id="project-documents" aria-labelledby="documents-title">
         <div className="case-section-heading">
             <span>{sectionNumber}</span>
             <h2 id="documents-title">문서 분류와 대표 문서</h2>
         </div>
         <p className="case-documents__intro">
-            문서를 요구사항, 기술 선택, 테스트와 운영 절차로 나눴습니다.
+            {intro ?? "문서를 요구사항, 기술 선택, 테스트와 운영 절차로 나눴습니다."}
         </p>
         <div className="case-document-catalog" aria-label="문서 분류">
             {documentGroups.map((group) => (
@@ -584,6 +584,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                     <CaseDocuments
                         documentGroups={project.documentGroups}
                         documents={project.documents}
+                        intro={project.documentsIntro}
                         sectionNumber={documentSectionNumber}
                     />
                 ) : null}

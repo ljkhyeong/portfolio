@@ -3,7 +3,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "KICS와 통신사 및 전자영장 포털을 연계하는 서버와 배치를 개발하는 백엔드 개발자 임정규의 포트폴리오",
+        "Java와 Spring으로 기관 연계 서버와 배치를 개발하고, 중복 처리 방지와 장애 복구를 구현한 백엔드 개발자 임정규의 포트폴리오",
     image: "/og-cover.png",
 }
 
@@ -18,13 +18,13 @@ export const routeMeta = {
     "/projects/baton/go": {
         title: "BATON GO | 임정규 포트폴리오",
         description:
-            "허용된 BATON 및 ROUND 주소에 짧은 링크를 발급하고 이동을 처리하는 GO 마이크로서비스",
+            "같은 UUID와 조건은 링크 1건으로 유지하고 HMAC-SHA256 코드와 허용 경로를 검증하는 GO 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/watch": {
         title: "BATON WATCH | 임정규 포트폴리오",
         description:
-            "내부망 접근을 차단하며 외부 URL을 점검하고 상태 변경을 Core에 전달하는 WATCH 마이크로서비스",
+            "사설망 및 DNS 재조회 중 IP 변경을 차단하고 이전 URL 버전의 늦은 결과를 버리는 WATCH 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/relay": {
@@ -36,18 +36,19 @@ export const routeMeta = {
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "담당 공백과 지연된 업무 및 인수인계를 찾아 운영 점검 목록과 주간 보고서를 만드는 BRIEF 마이크로서비스",
+            "중복 및 역순 이벤트를 차단하고 저장 이벤트로 점검 목록을 재생성하며 동일 조건의 주간 보고서를 1건만 저장하는 BRIEF 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
         title: "BATON CAL | 임정규 포트폴리오",
-        description: "BATON 일정과 마감을 읽기 전용 iCalendar 구독으로 제공하는 CAL 마이크로서비스",
+        description:
+            "일정 개정 번호를 검증하고 구독 토큰 회전 및 폐기와 읽기 전용 iCalendar를 제공하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/round": {
         title: "BATON ROUND | 임정규 포트폴리오",
         description:
-            "Core 참여권을 검증하고 최대 6명의 WebRTC 연결을 중계하는 ROUND 마이크로서비스",
+            "Core 참여권을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고 TURN 접속 정보를 제공하는 ROUND 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {
@@ -65,7 +66,7 @@ export const routeMeta = {
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님의 Hope 3.0.3을 포크해 선택한 커밋과 확정한 비교 기준 사이의 변경만 검토하는 HTML 리뷰 기능을 추가한 프로젝트",
+            "SeungIl 님의 Hope 3.0.3을 포크해 일반, 최초 및 병합 커밋의 비교 기준을 확정하고 실제 변경 줄이 근거인 결과만 HTML로 저장하는 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/defense": {
@@ -81,9 +82,9 @@ export const routeMeta = {
         image: "/og-cover.png",
     },
     "/search": {
-        title: "포트폴리오 문서 검색 | 임정규",
+        title: "백엔드 프로젝트 문서 검색 | 임정규",
         description:
-            "프로젝트별 담당 업무, 구현 방법과 테스트 결과를 검색하고 출처가 포함된 답변을 확인할 수 있습니다.",
+            "기관 연계, 중복 처리 방지와 장애 복구 경험을 공개 프로젝트 문서에서 검색하고 출처와 함께 확인할 수 있습니다.",
         image: "/og-cover.png",
     },
     "/portfolio/print": {

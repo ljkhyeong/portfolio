@@ -10,13 +10,13 @@ test("검색 페이지 직접 진입 시 전용 화면과 메타데이터를 표
         await screen.findByRole(
             "heading",
             {
-                name: "프로젝트 문서를 검색해 보세요.",
+                name: "백엔드 문제 해결 방법과 테스트 결과를 검색합니다.",
                 level: 1,
             },
             { timeout: 10000 },
         ),
     ).toBeInTheDocument()
-    await waitFor(() => expect(document.title).toBe("포트폴리오 문서 검색 | 임정규"))
+    await waitFor(() => expect(document.title).toBe("백엔드 프로젝트 문서 검색 | 임정규"))
     expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute(
         "href",
         "https://ljkportfolio.netlify.app/search/",

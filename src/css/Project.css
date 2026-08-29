@@ -954,8 +954,8 @@
 
 .project-evidence-list__entry > summary {
     display: grid;
-    grid-template-columns: minmax(190px, 0.8fr) minmax(260px, 1.2fr) auto;
-    gap: 20px;
+    grid-template-columns: minmax(160px, 0.72fr) minmax(0, 1.18fr) minmax(160px, 0.7fr) auto;
+    gap: 18px;
     align-items: center;
     min-height: 92px;
     padding: 14px 18px;
@@ -976,12 +976,14 @@
 }
 
 .project-evidence-list__item,
-.project-evidence-list__result {
+.project-evidence-list__result,
+.project-evidence-list__scope {
     min-width: 0;
 }
 
 .project-evidence-list__item > span,
 .project-evidence-list__result > span,
+.project-evidence-list__scope > span,
 .project-evidence-list dt {
     display: block;
     margin: 0 0 6px;
@@ -994,6 +996,7 @@
 
 .project-evidence-list__item strong,
 .project-evidence-list__result p,
+.project-evidence-list__scope p,
 .project-evidence-list dd {
     margin: 0;
     color: var(--ink, #1f2328);
@@ -1013,6 +1016,11 @@
 .project-evidence-list__result p {
     overflow-wrap: anywhere;
     word-break: keep-all;
+}
+
+.project-evidence-list__scope p {
+    color: var(--muted, #59636e);
+    overflow-wrap: anywhere;
 }
 
 .project-evidence-list__action {
@@ -1075,16 +1083,11 @@
 }
 
 .project-evidence-list__entry[open] dl {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.6fr);
+    display: block;
 }
 
 .project-evidence-list dl > div {
     padding: 14px 18px 16px;
-}
-
-.project-evidence-list dl > div + div {
-    border-left: 1px solid var(--line, #d0d7de);
 }
 
 .project-evidence-list dd p {
@@ -1095,11 +1098,6 @@
     color: var(--muted, #59636e);
     overflow-wrap: anywhere;
     word-break: keep-all;
-}
-
-.project-evidence-list__scope p {
-    color: var(--muted, #59636e);
-    overflow-wrap: anywhere;
 }
 
 @media (max-width: 800px) {
@@ -1121,6 +1119,13 @@
         border-top: 1px solid var(--line, #d0d7de);
     }
 
+    .project-evidence-list__scope {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        padding-top: 10px;
+        border-top: 1px solid var(--line, #d0d7de);
+    }
+
     .project-evidence-list__result > span {
         position: absolute;
         width: 1px;
@@ -1130,6 +1135,10 @@
         clip: rect(0, 0, 0, 0);
         white-space: nowrap;
         border: 0;
+    }
+
+    .project-evidence-list__scope > span {
+        margin-bottom: 4px;
     }
 
     .project-evidence-list__result p::before {
@@ -1160,15 +1169,6 @@
 
     .project-evidence-list dl > div {
         padding: 13px 12px 15px;
-    }
-
-    .project-evidence-list__entry[open] dl {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .project-evidence-list dl > div + div {
-        border-top: 1px solid var(--line, #d0d7de);
-        border-left: 0;
     }
 }
 

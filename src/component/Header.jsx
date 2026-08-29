@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
-import { portfolioProfile } from "../data/profile"
+import { careers, portfolioProfile } from "../data/profile"
 import { homeHeroContent } from "../data/homeHero"
 
 const Header = () => {
+    const currentCareer = careers[0]
+
     return (
         <header className="site-header">
             <nav className="site-nav" aria-label="주요 메뉴">
@@ -33,7 +35,7 @@ const Header = () => {
             <section className="hero" id="top">
                 <div className="hero__copy">
                     <p className="hero__name">
-                        {portfolioProfile.name} · {portfolioProfile.role}
+                        {currentCareer.organization} · {currentCareer.period}
                     </p>
                     <h1 data-route-heading="/">{homeHeroContent.headline}</h1>
                     <p className="hero__summary">{homeHeroContent.summary}</p>

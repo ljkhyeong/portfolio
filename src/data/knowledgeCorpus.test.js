@@ -69,8 +69,15 @@ describe("공개 지식 문서 목록", () => {
         expect(roundOverview.content).toContain(
             "저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개",
         )
-        expect(roundOverview.content).toContain("검증 요약: Chromium 전체 미디어 흐름 검증")
+        expect(roundOverview.content).toContain("검증 요약: Chromium 연결 흐름 확인")
         expect(roundOverview.content).toContain("입력 확인: 참여권의 서명")
+
+        const firstProblem = corpus.documents.find(
+            (document) => document.documentType === "problem_solution",
+        )
+
+        expect(firstProblem.content).toContain("해결 방법:")
+        expect(firstProblem.content).not.toContain("\n\n적용:")
     })
 
     it("같은 입력에는 같은 문서 ID와 해시를 생성한다", () => {

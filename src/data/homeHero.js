@@ -1,7 +1,7 @@
 export const homeHeroContent = {
-    headline: "기관 사이에서 요청과 자료를 주고받는 서버를 개발합니다.",
+    headline: "외부 시스템 연동과 장애 복구를 다뤄 온 백엔드 개발자 임정규입니다.",
     summary:
-        "공공 SI에서는 KICS 요청을 통신사와 전자영장 포털에 전달하고, 제출 자료를 KICS에 반영하는 서버와 배치를 개발합니다. 개인 프로젝트에서는 중복 요청을 막고, 서버 중단 뒤 남은 작업을 다시 처리합니다.",
+        "Java와 Spring으로 KICS와 통신사 및 전자영장 포털을 연동하는 서버와 배치를 개발합니다. 개인 프로젝트에서는 중복 요청 방지와 장애 복구를 구현했고, happyGallery를 AWS에 배포해 운영했습니다.",
     signals: [
         {
             label: "현재 업무",
@@ -10,15 +10,15 @@ export const homeHeroContent = {
             route: "/projects/e-warrant",
         },
         {
-            label: "마이크로서비스 개발",
+            label: "개인 프로젝트",
             title: "BATON",
             evidence: "조직 및 인수인계 관리 · 6개 마이크로서비스",
             route: "/projects/baton",
         },
         {
-            label: "개발 및 배포",
+            label: "개인 프로젝트",
             title: "happyGallery",
-            evidence: "AWS 운영 · 중복 결제 및 알림 유실 방지",
+            evidence: "AWS 배포 및 운영 이력 · 중복 결제 방지 및 미전송 알림 재처리",
             route: "/projects/happygallery",
         },
     ],

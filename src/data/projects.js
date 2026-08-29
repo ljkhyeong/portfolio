@@ -179,8 +179,9 @@ const projects = [
                     "Kubernetes / Kustomize",
                     "Testcontainers",
                 ],
-                detail: "UUID 중복 처리, HMAC-SHA256 코드와 허용 경로 검증",
-                evidence: "동시 링크 1건 생성과 HMAC 키 불일치 시 서버 기동 차단 검증",
+                detail: "같은 UUID와 조건은 링크 1건으로 유지하고, HMAC-SHA256 코드 및 허용 경로를 검증",
+                evidence:
+                    "같은 요청 8건을 동시에 보내도 링크 1건만 저장되고, HMAC 키 불일치 시 서버가 시작되지 않는지 검증",
                 input: "허용된 BATON 또는 ROUND 대상, 사용 목적, 활성 및 만료 시각과 UUID",
                 inputRule:
                     "대상 시스템, 경로, 사용 목적, 활성 및 만료 시각과 UUID가 허용 범위인지 확인합니다.",
@@ -205,7 +206,7 @@ const projects = [
                 route: "/projects/baton/watch",
                 role: "URL 상태 점검",
                 summary:
-                    "외부 URL의 사설망 연결을 차단해 상태를 점검하고, 변경 이벤트를 Core에 전달합니다.",
+                    "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
                 contribution:
                     "점검 작업마다 처리 서버와 기한을 기록한 뒤, 외부 요청 중에는 DB 연결을 반환했습니다. 상태 변경 이벤트 재전송과 Prometheus 운영 지표도 구현했습니다.",
                 stack: [
@@ -221,7 +222,8 @@ const projects = [
                     "Testcontainers",
                 ],
                 detail: "사설망 및 로컬 주소 접근 차단, 중단된 점검 재처리, 이전 점검 결과의 덮어쓰기 차단과 미전송 이벤트 보관",
-                evidence: "사설망 및 DNS 변경 차단과 이전 작업 결과 미저장 검증",
+                evidence:
+                    "사설망 및 DNS 재조회 중 IP 변경을 차단하고, 이전 URL 버전의 늦은 결과가 저장되지 않는지 검증",
                 input: "점검 대상 URL과 점검 요청 시점의 URL 버전",
                 inputRule:
                     "URL 형식과 통신 방식을 확인하고 사설망 및 로컬 주소로 해석되는 요청을 차단합니다.",
@@ -306,7 +308,7 @@ const projects = [
                 ],
                 detail: "중복 및 과거 이벤트 차단, 점검 목록 재생성, 생성 후 고정하는 주간 보고서",
                 evidence:
-                    "2.0.0-rc.1 실제 Core 실행 JAR과 BRIEF의 로컬 HTTP 연동을 확인했습니다. Caddy HTTPS 앞단은 실제 Core가 아닌 예시 JSON의 인증 및 수신만 확인했습니다.",
+                    "중복 및 과거 이벤트 차단, 저장 이벤트 기반 목록 재생성과 동일 주간 보고서 1건 저장을 PostgreSQL 통합 테스트로 확인했습니다. 2.0.0-rc.1 실제 Core 실행 JAR은 로컬 HTTP로 연동했습니다.",
                 input: "담당 공백, 책임 및 자료 부족, 반복 마감 지연과 미완료 인수인계 이벤트",
                 inputRule:
                     "이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.",
@@ -380,7 +382,7 @@ const projects = [
                 route: "/projects/baton/round",
                 role: "WebRTC 스터디룸",
                 summary:
-                    "Core 참여권을 검증해 최대 6명의 WebRTC 연결을 중계하고, 필요하면 TURN 접속 정보를 제공합니다.",
+                    "Core 참여권을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 TURN 접속 정보를 제공합니다.",
                 contribution:
                     "React 방 화면과 연결 모듈, 공통 메시지 규격, Spring WebSocket 시그널링 및 참여권 검증을 구현했습니다.",
                 stack: [
@@ -395,8 +397,7 @@ const projects = [
                     "Playwright",
                 ],
                 detail: "최대 6명 mesh WebRTC, 이전 연결 메시지 차단, RS256 참여권과 TURN 접속 정보",
-                evidence:
-                    "Chromium 전체 미디어 흐름 검증, WebKit 초대 및 장치 권한 동의까지만 확인",
+                evidence: "Chromium 연결 흐름 확인, WebKit은 직접 초대와 장치 권한 동의까지만 확인",
                 input: "Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 짧은 RS256 참여권",
                 inputRule:
                     "참여권의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.",
@@ -449,7 +450,7 @@ const projects = [
                 item: "BRIEF 운영 점검 목록 다시 생성과 주간 보고서 중복 생성 방지",
                 method: "PostgreSQL 통합 테스트와 2.0.0-rc.1 실제 Core 실행 JAR의 BRIEF 로컬 HTTP 연동. Caddy HTTPS 앞단에는 실제 Core가 아닌 예시 JSON 전송",
                 rule: "같은 이벤트 재전송, 낮거나 건너뛴 개정 번호, 저장 이벤트 기반 운영 점검 목록 다시 생성과 동일 주간 보고서 동시 생성 요청을 실행",
-                result: "중복 및 과거 이벤트를 무시하고 누락 개정을 기록했습니다. 저장 이벤트로 목록을 같은 결과로 다시 만들고 보고서는 1건만 저장했습니다. 2.0.0-rc.1 실제 Core 실행 JAR과 BRIEF의 로컬 HTTP 연동을 확인했습니다. Caddy HTTPS 앞단은 실제 Core가 아닌 예시 JSON의 인증 및 수신만 확인했습니다.",
+                result: "중복 및 과거 이벤트를 차단하고, 저장 이벤트로 목록을 같은 결과로 다시 만들며, 동일 조건의 주간 보고서는 1건만 저장되는지 PostgreSQL 통합 테스트로 확인했습니다. 2.0.0-rc.1 실제 Core 실행 JAR은 로컬 HTTP로 연동했습니다.",
                 scope: "2.0.0-rc.1 실제 Core 실행 JAR과 BRIEF의 로컬 HTTP 연동 · Caddy HTTPS 앞단은 실제 Core가 아닌 예시 JSON의 인증 및 수신만 확인 · 2.0.0-rc.2 실제 Core JSON, 실제 Core-Caddy HTTPS와 원격 배포는 미검증 · 2026.08.27",
             },
             {
@@ -597,7 +598,7 @@ const projects = [
             {
                 number: "10",
                 serviceIds: ["brief"],
-                title: "같은 이벤트에서 같은 주간 보고서 생성",
+                title: "동일 조건의 주간 보고서는 1건만 생성",
                 constraint:
                     "DB에 저장한 이벤트로 운영 점검 목록을 다시 만들 때 항목 순서나 결과가 달라지면 이전 주간 보고서를 신뢰하기 어렵습니다.",
                 decision:
@@ -725,7 +726,7 @@ const projects = [
             tradeoff:
                 "모듈 수는 늘지만 잘못된 의존을 빌드에서 찾을 수 있습니다. 일부 JPA 매핑은 도메인 모듈에 유지했습니다.",
         },
-        featuredProblemNumbers: ["02", "03", "09", "11"],
+        featuredProblemNumbers: ["02", "03", "04", "09"],
         documentGroups: [
             {
                 id: "prd",
@@ -854,7 +855,7 @@ const projects = [
             },
         ],
         category: "개인 프로젝트",
-        role: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 운영",
+        role: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영 이력",
         oneLine:
             "결제 및 환불 중복과 미전송 알림을 재처리하고, DB 잠금으로 예약 정원과 주문 재고 초과를 막았습니다.",
         status: {
@@ -1060,6 +1061,8 @@ const projects = [
                     "SeungIl 님이 개발한 원본 Hope의 저작권, MIT 라이선스와 포크 관계를 명시합니다.",
             },
         ],
+        documentsIntro:
+            "Commit Diff 실행 기준, 비공개 데이터 차단 정책과 원본 프로젝트 고지를 공개합니다.",
         documents: [
             {
                 type: "README",
@@ -1088,7 +1091,7 @@ const projects = [
         ],
         proofs: [
             {
-                item: "입력 커밋과 비교 대상 확정",
+                item: "선택한 커밋과 비교 기준 확정",
                 method: "테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트",
                 rule: "짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집",
                 result: "수집기는 커밋 ID와 비교 기준을 고정했습니다. textconv 및 색상을 꺼도 이름 변경과 줄 수를 유지했고, UTF-8이 아닌 경로는 거절했습니다.",
@@ -1117,7 +1120,7 @@ const projects = [
             },
         ],
         category: "오픈소스 및 개발 도구",
-        role: "Hope 3.0.3 포크, 로컬 커밋 비교 및 HTML 리뷰 기능과 자동화 테스트 추가",
+        role: "SeungIl 님의 Hope 3.0.3 포크에 로컬 커밋 비교, HTML 리뷰 및 자동화 테스트 추가",
         oneLine:
             "선택한 커밋과 확정한 비교 기준 사이의 변경만 검토하고, 파일과 줄 근거를 확인한 결과를 새 HTML로 저장합니다.",
         status: {
@@ -1424,7 +1427,7 @@ const projects = [
         category: "교육 프로젝트",
         role: "mediasoup RTP 출력의 HLS 변환 서버와 WebRTC 실시간 및 HLS 다시보기 React 화면 구현",
         oneLine:
-            "현재 강의는 mediasoup와 WebRTC로 실시간 재생하고, mediasoup의 RTP 출력은 HLS로 변환해 지난 구간을 다시 볼 수 있도록 구현했습니다.",
+            "현재 강의는 mediasoup와 WebRTC로 실시간 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환해 지난 구간 다시보기에 사용했습니다.",
         status: {
             label: "프로젝트 상태",
             text: "2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.",
@@ -1437,7 +1440,7 @@ const projects = [
                 constraint:
                     "현재 강의는 낮은 지연으로 재생하면서 수강자가 놓친 구간은 이전 시점으로 돌아가 볼 수 있어야 했습니다. WebRTC 실시간 경로와 저장 가능한 HLS 다시보기 경로를 별도로 구성해야 했습니다.",
                 decision:
-                    "현재 영상은 mediasoup와 WebRTC로 재생했습니다. RTP 출력은 FFmpeg와 GStreamer로 HLS로 변환해 지난 구간을 재생했습니다.",
+                    "현재 영상은 mediasoup와 WebRTC로 재생했습니다. mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환하고 지난 구간 다시보기에 사용했습니다.",
                 validation:
                     "팀 시연에서 React 화면으로 현재 강의를 WebRTC로 시청하면서, 지나간 구간을 선택하면 생성된 HLS 영상이 재생되는 것을 확인했습니다. HLS 서버와 React 기능은 각각 공개 저장소에 남겼습니다.",
                 boundary:

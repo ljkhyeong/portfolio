@@ -13,7 +13,15 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(screen.getAllByText("임정규 · 백엔드 개발자").length).toBeGreaterThan(0)
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
-    expect(heroHeading).toHaveTextContent(homeHeroContent.headline)
+    expect(heroHeading).toHaveTextContent(
+        "외부 시스템 연동과 장애 복구를 다뤄 온 백엔드 개발자 임정규입니다.",
+    )
+    expect(screen.getByText("BEINTECH · 2024.06 — 현재")).toBeInTheDocument()
+    expect(
+        screen.getByText(
+            "Java와 Spring으로 KICS와 통신사 및 전자영장 포털을 연동하는 서버와 배치를 개발합니다. 개인 프로젝트에서는 중복 요청 방지와 장애 복구를 구현했고, happyGallery를 AWS에 배포해 운영했습니다.",
+        ),
+    ).toBeInTheDocument()
     const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
 
     expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
@@ -21,7 +29,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(heroHighlights).toHaveTextContent("BATON")
     expect(heroHighlights).toHaveTextContent("조직 및 인수인계 관리 · 6개 마이크로서비스")
     expect(heroHighlights).toHaveTextContent("happyGallery")
-    expect(heroHighlights).toHaveTextContent("AWS 운영 · 중복 결제 및 알림 유실 방지")
+    expect(heroHighlights).toHaveTextContent(
+        "AWS 배포 및 운영 이력 · 중복 결제 방지 및 미전송 알림 재처리",
+    )
     expect(
         within(heroHighlights).getByRole("link", { name: /전송형 전자영장 시스템/ }),
     ).toHaveAttribute("href", "/projects/e-warrant")
@@ -149,7 +159,7 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
 
     expect(desktop.getByRole("heading", { name: "중복 방지 및 장애 복구" })).toBeInTheDocument()
     expect(desktop.getByText("중복 결제 및 환불 방지")).toBeInTheDocument()
-    expect(desktop.getByText("미전송 알림 재전송")).toBeInTheDocument()
+    expect(desktop.getByText("미전송 알림 재처리")).toBeInTheDocument()
     expect(desktop.getByText("정원 및 재고 초과 방지")).toBeInTheDocument()
     expect(
         desktop.getByText(
@@ -157,6 +167,23 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
         ),
     ).toBeInTheDocument()
     expect(desktop.getByText("중단 작업 재처리")).toBeInTheDocument()
+
+    const backendHeading = desktop.getByRole("heading", { name: "백엔드" })
+    const reliabilityHeading = desktop.getByRole("heading", {
+        name: "중복 방지 및 장애 복구",
+    })
+    const deliveryHeading = desktop.getByRole("heading", { name: "테스트 및 운영" })
+    const frontendHeading = desktop.getByRole("heading", { name: "프론트엔드" })
+
+    expect(backendHeading.compareDocumentPosition(reliabilityHeading)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(reliabilityHeading.compareDocumentPosition(deliveryHeading)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(deliveryHeading.compareDocumentPosition(frontendHeading)).toBe(
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    )
 
     expect(skills).not.toHaveTextContent("Java 21 / 11 / 8")
     expect(skills).not.toHaveTextContent("Spring JDBC")
@@ -229,7 +256,7 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
     const careerHeading = screen.getByRole("heading", { name: "경력", level: 3 })
     const educationSection = educationHeading.closest("section")
 
-    expect(educationHeading.compareDocumentPosition(careerHeading)).toBe(
+    expect(careerHeading.compareDocumentPosition(educationHeading)).toBe(
         Node.DOCUMENT_POSITION_FOLLOWING,
     )
     expect(
@@ -312,10 +339,10 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
         "요청 ID로 중복 결제 방지, 미전송 알림 재처리, DB 잠금으로 정원 및 재고 초과 방지",
     )
     expect(defenseFacts).toHaveTextContent(
-        "군교정 업무 화면과 수용자 인적정보 및 영장정보 검증 배치 개발",
+        "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
     )
     expect(galleryFacts).toHaveTextContent(
-        "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 운영",
+        "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 배포 및 운영 이력",
     )
 })
 
@@ -523,7 +550,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
     expect(
         screen.getByText(
-            "외부 URL의 사설망 연결을 차단해 상태를 점검하고, 변경 이벤트를 Core에 전달합니다.",
+            "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
         ),
     ).toBeInTheDocument()
     expect(

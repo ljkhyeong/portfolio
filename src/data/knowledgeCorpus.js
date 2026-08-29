@@ -159,7 +159,7 @@ const createProblemSolutions = (project) =>
                         singleServiceId ? findService(project, singleServiceId)?.name : null,
                     ),
                     labeledContent("문제", problem.constraint),
-                    labeledContent("적용", problem.decision),
+                    labeledContent("해결 방법", problem.decision),
                     labeledContent("확인", problem.validation),
                     labeledContent("제약과 남은 작업", problem.boundary),
                 ]),

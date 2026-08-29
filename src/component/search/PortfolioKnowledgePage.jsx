@@ -8,9 +8,9 @@ import "../../css/PortfolioKnowledge.css"
 
 const suggestionQuestions = [
     "결제와 환불 중복 처리를 어떻게 막았나요?",
-    "BATON의 중앙 서비스와 나머지 6개 서비스는 각각 어떤 데이터를 받고 무엇을 처리하나요?",
-    "독립망 사이의 자료 전송이 중단됐을 때 어떻게 원인을 찾고 다시 처리했나요?",
-    "서버가 중단돼도 미전송 알림을 다시 보내는 방법은 무엇인가요?",
+    "BATON Core와 6개 서비스는 각각 무엇을 담당하나요?",
+    "폐쇄망 배치가 중단되면 서버 로그와 DB에서 장애 지점을 어떻게 찾았나요?",
+    "서버 중단 뒤 미전송 알림을 어떻게 재처리했나요?",
 ]
 
 const documentTypes = [
@@ -23,6 +23,16 @@ const documentTypes = [
 ]
 
 const documentTypeLabels = Object.fromEntries(documentTypes)
+
+const getPrimaryLabel = (item) => item.title || item.heading
+
+const getSecondaryLabel = (item) => {
+    const documentTypeLabel = documentTypeLabels[item.documentType]
+
+    return item.heading && item.heading !== item.title && item.heading !== documentTypeLabel
+        ? item.heading
+        : null
+}
 
 const getRequestErrorMessage = (error, action) => {
     if (error.status === 429) {
@@ -114,8 +124,8 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
         return (
             <div className="knowledge-state knowledge-state--idle">
                 <span aria-hidden="true">⌕</span>
-                <h2>프로젝트 문서를 검색해 보세요.</h2>
-                <p>검색어를 입력하면 관련 공개 문서를 보여줍니다.</p>
+                <h2>검색 결과</h2>
+                <p>질문을 입력하거나 추천 질문을 선택하세요.</p>
             </div>
         )
     }
@@ -152,10 +162,7 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
     return (
         <section className="knowledge-results" aria-labelledby="knowledge-results-title">
             <div className="knowledge-results__heading">
-                <div>
-                    <span>검색 결과</span>
-                    <h2 id="knowledge-results-title">“{query}”</h2>
-                </div>
+                <h2 id="knowledge-results-title">“{query}” 검색 결과</h2>
                 <strong>{total}건</strong>
             </div>
             <ol>
@@ -169,9 +176,11 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
                                     {documentTypeLabels[result.documentType] || result.documentType}
                                 </span>
                             </div>
-                            <h3>{result.heading || result.title}</h3>
-                            {result.heading && result.title !== result.heading && (
-                                <p className="knowledge-result__document">{result.title}</p>
+                            <h3>{getPrimaryLabel(result)}</h3>
+                            {getSecondaryLabel(result) && (
+                                <p className="knowledge-result__document">
+                                    {getSecondaryLabel(result)}
+                                </p>
                             )}
                             <p className="knowledge-result__snippet">{result.snippet}</p>
                             <SourceLink item={result} className="knowledge-result__link">
@@ -232,11 +241,10 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
                                         {String(index + 1).padStart(2, "0")}
                                     </span>
                                     <span>
-                                        <strong>{citation.heading || citation.title}</strong>
-                                        {citation.heading &&
-                                            citation.title !== citation.heading && (
-                                                <small>{citation.title}</small>
-                                            )}
+                                        <strong>{getPrimaryLabel(citation)}</strong>
+                                        {getSecondaryLabel(citation) && (
+                                            <small>{getSecondaryLabel(citation)}</small>
+                                        )}
                                     </span>
                                     <span aria-hidden="true">↗</span>
                                 </SourceLink>
@@ -416,11 +424,11 @@ const PortfolioKnowledgePage = () => {
                 <section className="knowledge-hero" aria-labelledby="knowledge-title">
                     <div className="knowledge-hero__copy">
                         <h1 id="knowledge-title" data-route-heading="/search">
-                            프로젝트 문서를 검색해 보세요.
+                            백엔드 문제 해결 방법과 테스트 결과를 검색합니다.
                         </h1>
                         <p>
-                            담당 업무, 문제 해결 방법과 테스트 결과를 찾고, 필요하면 출처와 함께 AI
-                            답변을 만듭니다.
+                            기관 연계, 중복 처리 방지와 장애 복구 경험을 공개 프로젝트 문서에서
+                            확인할 수 있습니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">
