@@ -22,8 +22,8 @@ BEINTECH에서 수행한 전자영장 및 군사법 기관 연계 업무와, 결
 
 ## 실행
 
-Node.js 22를 사용합니다. Netlify 빌드도 저장소의 `.nvmrc`와 `netlify.toml`을 읽어
-같은 메이저 버전을 사용합니다.
+Node.js 22를 사용합니다. 로컬 개발과 GitHub Actions는 `.nvmrc`를 기준으로 실행하고,
+Netlify는 `netlify.toml`의 `NODE_VERSION`을 사용합니다.
 
 ```bash
 npm install
@@ -38,16 +38,26 @@ npm run preview
 
 Vite 빌드 결과는 `build/`에 생성됩니다. Netlify는 배포 전에 전체 테스트와 빌드를
 실행합니다. 빌드 후에는 프로젝트별 링크 미리보기 정보를 담은 정적 HTML과 404
-페이지를 만들고, 현재 코드에서 참조하지 않는 이전 포트폴리오 자산은 배포 결과에서만
-제외합니다. 원본 파일은 `public/`에 보존합니다.
+페이지를 만듭니다.
+
+공개 경로를 추가하거나 `noindex` 여부를 바꾼 뒤에는 `routeMeta`를 기준으로 sitemap을
+갱신하고 검사합니다. 프로덕션 빌드는 추적 중인 sitemap을 자동으로 고치지 않고 현재
+경로 목록과 같은지만 확인합니다.
+
+```bash
+npm run sitemap:generate
+npm run sitemap:check
+```
 
 ## 공개 문서 검색
 
 `/search`에서는 프로젝트 개요, 구현 방법과 선택 이유, 문제 해결 방법과 공개한 대표 문서를 검색할 수
-있습니다. 기본 설정은 API 키 없이 Elasticsearch BM25 검색만 실행합니다. OpenAI 또는
-Ollama 프로필에서는 키워드 검색과 벡터 검색의 순위를 Java로 구현한 RRF 방식으로 합쳐 정렬합니다. AI 답변은
-검색과 분리되어 있으며, 사용자가 요청할 때만 검색된 공개 문서를 LLM에 전달합니다.
-답변 생성이 중단되어도 검색 결과와 원문 링크는 그대로 유지됩니다.
+있습니다. 기본 설정은 API 키 없이 Elasticsearch의 단어 일치도 검색인 BM25만 실행합니다.
+OpenAI 또는 Ollama 실행 설정에서는 BM25 결과와 의미 유사도를 계산한 벡터 검색 결과를
+각 순위의 역수 점수로 합치는 RRF 방식으로 정렬합니다. 이 순위 결합 로직은 Java로
+구현했습니다. AI 답변은 검색과 분리되어 있으며, 사용자가 요청할 때만 검색된 공개 문서를
+대규모 언어 모델(LLM)에 전달합니다. 답변 생성이 중단되어도 검색 결과와 원문 링크는 그대로
+유지됩니다.
 
 -   프론트엔드: 현재 React 및 Netlify 애플리케이션
 -   검색 API: `knowledge-api/`의 별도 Spring Boot 애플리케이션
@@ -84,17 +94,20 @@ npm run pdf:generate:safari
 npm run pdf:check
 ```
 
-`pdf:generate`는 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트 로딩과 A4 페이지의
-overflow를 검사한 뒤 `public/임정규_포트폴리오.pdf`를 교체합니다. Edge가 설치된 환경에서는
-`pdf:generate:edge`로 같은 과정을 실행할 수 있습니다. 실행 파일을 자동으로 찾지 못하면
-`PDF_BROWSER_PATH`, `CHROME_PATH` 또는 `EDGE_PATH`로 경로를 지정합니다.
+`pdf:generate`는 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트가 모두 표시되는지와
+A4 페이지 밖으로 내용이 넘치는지 검사한 뒤 배포용 기준 파일인
+`public/임정규_포트폴리오.pdf`를 교체합니다. Edge 미리보기는
+`output/pdf-preview/임정규_포트폴리오-edge.pdf`에 따로 저장합니다. 실행 파일을 자동으로
+찾지 못하면 `PDF_BROWSER_PATH`, `CHROME_PATH` 또는 `EDGE_PATH`로 경로를 지정합니다.
 
 macOS에서는 `pdf:generate:safari`가 Safari와 같은 WebKit으로 인쇄 화면을 렌더링하고,
-인쇄 창을 열지 않은 채 PDF를 저장합니다. 이 명령은 Apple의 Swift, AppKit과 WebKit을
-사용하므로 Windows, Linux와 Netlify에서는 실행하지 않습니다. PDF를 갱신한 뒤
+인쇄 창을 열지 않은 채 `output/pdf-preview/임정규_포트폴리오-safari.pdf`에 저장합니다.
+Edge와 Safari 결과는 브라우저 호환성 확인용이며 배포용 PDF를 덮어쓰지 않습니다. Safari
+명령은 Apple의 Swift, AppKit과 WebKit을 사용하므로 Windows, Linux와 Netlify에서는 실행하지
+않습니다. PDF를 갱신한 뒤
 `npm run build`를 실행하면 최신 파일이 `build/`에도 포함됩니다.
-`pdf:check`는 인쇄 소스와 커밋된 PDF의 지문을 비교하며 프로덕션 빌드에서도 자동으로
-실행됩니다.
+`pdf:check`는 인쇄에 사용하는 파일 내용으로 계산한 SHA-256 값과 PDF 파일 자체의
+SHA-256 값을 생성 기록과 비교합니다. 이 검사는 프로덕션 빌드에서도 자동으로 실행됩니다.
 
 인쇄본과 홈 웹 화면은 `src/data/profile.js`, `src/data/projectSummaries.js`를 함께 사용하고,
 웹 프로젝트 상세는 `src/data/projects.js`의 근거와 문제 해결 내용을 추가로 사용합니다.
@@ -110,8 +123,8 @@ npm run og:generate
 npm run og:check
 ```
 
-`og:generate`는 홈 화면을 이미지로 저장한 뒤 관련 소스 지문을 함께 갱신합니다.
-`og:check`는 공유 이미지가 현재 홈 화면과 같은지 확인하며 프로덕션 빌드에서도 자동으로
-실행됩니다.
+`og:generate`는 홈 화면을 이미지로 저장한 뒤 렌더링에 사용하는 파일 내용과 생성된 PNG의
+SHA-256 값을 기록합니다. `og:check`는 두 값을 생성 기록과 비교해 공유 이미지가 현재 홈
+화면에서 만든 파일인지 확인합니다. 이 검사는 프로덕션 빌드에서도 자동으로 실행됩니다.
 
 배포: [ljkportfolio.netlify.app](https://ljkportfolio.netlify.app/)

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest"
 import {
+    assertCanonicalPdfRenderer,
     getPdfBrowserCandidates,
     getPdfBrowserLabel,
     readCliOption,
@@ -62,5 +63,24 @@ describe("PDF 생성 브라우저 선택", () => {
         expect(getPdfBrowserLabel("chrome")).toBe("Chrome 또는 Chromium")
         expect(getPdfBrowserLabel("edge")).toBe("Microsoft Edge")
         expect(getPdfBrowserLabel("webkit")).toBe("Safari WebKit")
+    })
+
+    test("Edge와 Safari가 배포용 PDF를 덮어쓰지 못하게 한다", () => {
+        const canonicalOutputPath = "/repository/public/임정규_포트폴리오.pdf"
+
+        expect(() =>
+            assertCanonicalPdfRenderer({
+                browser: "edge",
+                canonicalOutputPath,
+                outputPath: canonicalOutputPath,
+            }),
+        ).toThrow("배포용 PDF는 Chrome으로만 생성할 수 있습니다")
+        expect(() =>
+            assertCanonicalPdfRenderer({
+                browser: "webkit",
+                canonicalOutputPath,
+                outputPath: "/repository/output/pdf-preview/임정규_포트폴리오-safari.pdf",
+            }),
+        ).not.toThrow()
     })
 })

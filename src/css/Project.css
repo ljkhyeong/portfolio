@@ -58,10 +58,6 @@
     gap: 6px;
 }
 
-.case-study-nav__count {
-    color: var(--muted, #74736d);
-}
-
 .case-study {
     width: min(1240px, calc(100% - 64px));
     margin: 0 auto;
@@ -359,8 +355,7 @@
     border-left: 1px solid var(--line, #cbc8be);
 }
 
-.case-snapshot dt,
-.case-problem dt {
+.case-snapshot dt {
     margin-bottom: 12px;
     color: var(--muted, #74736d);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
@@ -422,160 +417,6 @@
     color: var(--muted, #74736d);
     font-size: 14px;
     line-height: 1.75;
-    text-align: right;
-}
-
-.case-visual__legend {
-    position: absolute;
-    top: 26px;
-    right: 30px;
-    left: 30px;
-    display: flex;
-    justify-content: space-between;
-    color: var(--paper, #f3f1ea);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    opacity: 0.55;
-    text-transform: uppercase;
-}
-
-.baton-map {
-    display: grid;
-    grid-template-columns: minmax(210px, 0.8fr) minmax(90px, 0.3fr) minmax(0, 1.7fr);
-    align-items: center;
-    min-height: 530px;
-    padding: 84px clamp(32px, 6vw, 82px) 44px;
-}
-
-.baton-map__services {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.baton-node {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 210px;
-    padding: 24px 20px;
-    border: 1px solid rgba(243, 241, 234, 0.35);
-}
-
-.baton-node--core {
-    min-height: 278px;
-    border-color: var(--accent, #d8ff45);
-    background: var(--accent, #d8ff45);
-    color: var(--ink, #171713);
-}
-
-.baton-node__index {
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-}
-
-.baton-node strong {
-    margin-top: auto;
-    font-size: clamp(17px, 1.7vw, 23px);
-    line-height: 1.25;
-    letter-spacing: -0.035em;
-}
-
-.baton-node small {
-    margin-top: 12px;
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
-    line-height: 1.5;
-    opacity: 0.62;
-}
-
-.baton-map__axis {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 1px;
-    margin: 0 16px;
-    background: rgba(243, 241, 234, 0.36);
-    color: transparent;
-}
-
-.baton-map__axis::before,
-.baton-map__axis::after {
-    position: absolute;
-    content: "";
-}
-
-.baton-map__axis::before {
-    right: -1px;
-    width: 7px;
-    height: 7px;
-    border-top: 1px solid var(--paper, #f3f1ea);
-    border-right: 1px solid var(--paper, #f3f1ea);
-    transform: rotate(45deg);
-}
-
-.baton-map__axis::after {
-    width: 28%;
-    height: 1px;
-    background: var(--accent, #d8ff45);
-    animation: case-scan 1800ms infinite ease-in-out;
-}
-
-.case-visual--gallery {
-    min-height: 0;
-    margin: 0;
-    background: #111;
-}
-
-.case-visual--gallery img {
-    display: block;
-    width: 100%;
-    height: clamp(460px, 61vw, 760px);
-    object-fit: cover;
-    object-position: center top;
-    filter: saturate(0.88) contrast(1.03);
-}
-
-.case-visual--gallery::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 42%;
-    background: linear-gradient(transparent, rgba(13, 13, 11, 0.86));
-    content: "";
-    pointer-events: none;
-}
-
-.case-visual--gallery figcaption {
-    position: absolute;
-    z-index: 1;
-    right: clamp(24px, 5vw, 64px);
-    bottom: clamp(24px, 5vw, 58px);
-    left: clamp(24px, 5vw, 64px);
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 30px;
-}
-
-.case-visual--gallery figcaption span {
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-.case-visual--gallery figcaption strong {
-    max-width: 520px;
-    font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(24px, 3vw, 42px);
-    font-weight: 500;
-    line-height: 1.08;
-    letter-spacing: -0.035em;
     text-align: right;
 }
 
@@ -1044,10 +885,6 @@
     color: rgba(243, 241, 234, 0.54);
 }
 
-.case-problems__list {
-    border-bottom: 1px solid var(--ink, #171713);
-}
-
 .case-problems__more {
     margin-top: 16px;
     overflow: hidden;
@@ -1099,78 +936,6 @@
 
 .case-problems__more[open] > summary span::before {
     content: "−";
-}
-
-.case-problems__list.case-problems__list--additional {
-    border: 0;
-    border-radius: 0;
-    background: var(--paper);
-}
-
-.case-problem {
-    display: grid;
-    grid-template-columns: minmax(220px, 0.62fr) minmax(0, 1.38fr);
-    gap: clamp(32px, 4.8vw, 64px);
-    padding: 30px 0 36px;
-    border-top: 1px solid var(--ink, #171713);
-}
-
-.case-problem__title {
-    display: grid;
-    grid-template-columns: 36px minmax(0, 1fr);
-    align-content: start;
-    gap: 16px;
-}
-
-.case-problem__title > span {
-    padding-top: 6px;
-    color: var(--muted, #74736d);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.case-problem h3 {
-    max-width: 390px;
-    margin: 0;
-    font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(24px, 2.1vw, 30px);
-    font-weight: 500;
-    line-height: 1.12;
-    letter-spacing: -0.04em;
-    text-wrap: balance;
-    word-break: keep-all;
-}
-
-.case-problem__story {
-    margin: 0;
-}
-
-.case-problem__story > div {
-    display: grid;
-    grid-template-columns: 120px minmax(0, 1fr);
-    gap: 20px;
-    padding: 12px 0 14px;
-    border-top: 1px solid var(--line, #cbc8be);
-}
-
-.case-problem__story > div:first-child {
-    padding-top: 0;
-    border-top: 0;
-}
-
-.case-problem__story dt {
-    margin: 0;
-    padding-top: 3px;
-    overflow-wrap: normal;
-    word-break: keep-all;
-}
-
-.case-problem__story dd {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.64;
-    letter-spacing: -0.01em;
 }
 
 .project-evidence-list {
@@ -1736,34 +1501,6 @@
         border-top: 1px solid var(--line, #cbc8be);
     }
 
-    .baton-map {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        padding-top: 82px;
-    }
-
-    .baton-map__axis {
-        width: 1px;
-        height: 44px;
-        margin: 0 auto;
-    }
-
-    .baton-map__axis::before {
-        right: -3px;
-        bottom: 0;
-        transform: rotate(135deg);
-    }
-
-    .baton-map__axis::after {
-        width: 1px;
-        height: 28%;
-        animation: none;
-    }
-
-    .baton-node--core {
-        min-height: 190px;
-    }
-
     .defense-map {
         grid-template-columns: 1fr;
         gap: 14px;
@@ -1830,15 +1567,6 @@
 
     .hope-commit-map li:not(:last-child)::after {
         display: none;
-    }
-
-    .case-problem {
-        grid-template-columns: 1fr;
-        gap: 28px;
-    }
-
-    .case-problem h3 {
-        max-width: 620px;
     }
 
     .case-meta {
@@ -2024,29 +1752,6 @@
         min-height: 0;
     }
 
-    .baton-map__services {
-        grid-template-columns: 1fr;
-    }
-
-    .baton-node,
-    .baton-node--core {
-        min-height: 150px;
-    }
-
-    .case-visual--gallery img {
-        height: 510px;
-    }
-
-    .case-visual--gallery figcaption {
-        align-items: start;
-        flex-direction: column;
-    }
-
-    .case-visual--gallery figcaption strong {
-        max-width: 320px;
-        text-align: left;
-    }
-
     .case-visual--defense {
         padding: 72px 22px 30px;
     }
@@ -2124,17 +1829,6 @@
         text-align: right;
     }
 
-    .case-problem__title {
-        grid-template-columns: 32px minmax(0, 1fr);
-        gap: 8px;
-    }
-
-    .case-problem__story > div {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 12px 0 14px;
-    }
-
     .case-meta__stack li {
         width: 50%;
         overflow-wrap: anywhere;
@@ -2166,7 +1860,6 @@
     .case-problems,
     .case-proof,
     .case-meta,
-    .baton-map__axis::after,
     .stream-map__pulse,
     .stream-lane__path::after {
         animation: none;
@@ -2180,84 +1873,11 @@
     }
 }
 
-/* Featured project evidence and architecture */
+/* 대표 프로젝트의 검증 근거와 구현 구조 */
 .case-architecture {
     padding: clamp(38px, 4.2vw, 52px) 0;
     border-top: 1px solid var(--line, #cbc8be);
     animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.case-visual--product {
-    min-height: 0;
-    margin: 0;
-    border: 1px solid var(--ink, #171713);
-    background: var(--ink, #171713);
-    box-shadow: 0 34px 86px rgba(17, 22, 18, 0.18);
-}
-
-.case-product__chrome {
-    display: flex;
-    height: 44px;
-    align-items: center;
-    gap: 7px;
-    padding: 0 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.case-product__chrome > span {
-    width: 8px;
-    height: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.34);
-    border-radius: 50%;
-}
-
-.case-product__chrome > span:first-child {
-    border-color: var(--accent, #ff5a36);
-    background: var(--accent, #ff5a36);
-}
-
-.case-product__chrome strong {
-    margin-left: auto;
-    color: rgba(255, 255, 255, 0.5);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-}
-
-.case-product__viewport {
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background: #e9e6df;
-}
-
-.case-product__viewport img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-}
-
-.case-visual--product figcaption {
-    display: flex;
-    min-height: 64px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 0 20px;
-}
-
-.case-visual--product figcaption span {
-    color: var(--accent, #ff5a36);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
-    font-weight: 750;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-.case-visual--product figcaption strong {
-    font-size: 12px;
-    font-weight: 680;
 }
 
 .case-service-map {
@@ -2407,8 +2027,7 @@
     border-top: 1px solid var(--ink, #171713);
 }
 
-.case-architecture__intro > span,
-.case-architecture__decisions article > span {
+.case-architecture__intro > span {
     color: var(--accent-on-light, #a9341c);
     font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
     font-size: 11px;
@@ -2455,75 +2074,7 @@
     letter-spacing: 0.06em;
 }
 
-.case-architecture__decisions {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--line, #cbc8be);
-    border-bottom: 1px solid var(--ink, #171713);
-}
-
-.case-architecture__decisions article {
-    min-width: 0;
-    padding: 22px 22px 24px;
-    border-left: 1px solid var(--line, #cbc8be);
-}
-
-.case-architecture__decisions article:first-child {
-    padding-left: 0;
-    border-left: 0;
-}
-
-.case-architecture__decisions h3 {
-    margin: 14px 0 0;
-    font-size: 19px;
-    font-weight: 720;
-    letter-spacing: -0.035em;
-    line-height: 1.35;
-    word-break: keep-all;
-}
-
-.case-architecture__decisions article > span b {
-    margin-right: 4px;
-    color: var(--muted, #74736d);
-}
-
-.case-architecture__decisions dl {
-    margin: 16px 0 0;
-}
-
-.case-architecture__decisions dl > div {
-    display: grid;
-    grid-template-columns: 72px 1fr;
-    gap: 10px;
-    padding: 10px 0;
-    border-top: 1px solid var(--line, #cbc8be);
-}
-
-.case-architecture__decisions dt,
-.case-architecture__decisions dd {
-    margin: 0;
-}
-
-.case-architecture__decisions dt {
-    color: var(--ink, #171713);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 9px;
-    font-weight: 750;
-}
-
-.case-architecture__decisions dd {
-    color: var(--muted, #74736d);
-    font-size: 12px;
-    line-height: 1.68;
-    word-break: keep-all;
-}
-
-.case-architecture__decisions .case-architecture__tradeoff {
-    padding-left: 10px;
-    border-left: 2px solid var(--accent, #ff5a36);
-}
-
-/* Compact education project retained below the main project hierarchy. */
+/* 교육 프로젝트 상세를 주요 프로젝트 다음에 간결하게 배치 */
 .case-study-page--prior {
     background: var(--paper, #f3f1ea);
     color: var(--ink, #171713);
@@ -2615,28 +2166,6 @@
     line-height: 1.6;
 }
 
-.prior-case__note {
-    max-width: 720px;
-    margin: 24px 0 0;
-    color: var(--muted, #74736d);
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-.prior-case__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 26px;
-}
-
-.prior-case__links a {
-    padding: 13px 17px;
-    border: 1px solid var(--line-strong, #aaa79d);
-    font-size: 14px;
-    font-weight: 700;
-}
-
 @media (max-width: 980px) {
     .case-service-map__core,
     .case-architecture__intro {
@@ -2671,14 +2200,6 @@
         padding: 42px 0;
     }
 
-    .case-visual--product figcaption {
-        min-height: 58px;
-        align-items: flex-start;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-    }
-
     .case-service-map__core {
         min-height: 0;
         gap: 16px;
@@ -2686,7 +2207,6 @@
     }
 
     .case-service-map__children,
-    .case-architecture__decisions,
     .case-representative-documents > ul {
         grid-template-columns: 1fr;
     }
@@ -2721,17 +2241,6 @@
         word-break: normal;
     }
 
-    .case-architecture__decisions article,
-    .case-architecture__decisions article:first-child {
-        padding: 18px 0;
-        border-top: 1px solid var(--line, #cbc8be);
-        border-left: 0;
-    }
-
-    .case-architecture__decisions article:first-child {
-        border-top: 0;
-    }
-
     .prior-case {
         width: min(100% - 36px, 980px);
         padding: 38px 0 46px;
@@ -2754,17 +2263,12 @@
     }
 }
 
-/* Readability floor for detail-page labels and supporting copy. */
+/* 상세 화면의 보조 설명과 표기 글자 크기를 읽을 수 있는 수준으로 유지 */
 .case-study-nav,
 .case-kicker,
 .case-section-heading > span,
 .case-snapshot dt,
-.case-problem dt,
 .case-status > span,
-.case-visual__legend,
-.baton-node__index,
-.baton-node small,
-.case-visual--gallery figcaption span,
 .hope-commit-map__label,
 .hope-commit-map span,
 .hope-commit-map small,
@@ -2776,14 +2280,11 @@
 .stream-map__source small,
 .stream-lane__label,
 .stream-lane small,
-.case-problem__title > span,
 .case-document-catalog code,
 .case-representative-documents h3 span,
 .case-documents a code,
 .case-meta__stack li,
 .case-next a > span:first-child,
-.case-product__chrome strong,
-.case-visual--product figcaption span,
 .case-service-map__core span,
 .case-service-map__children > a > span,
 .case-service-map__core em,
@@ -2791,15 +2292,11 @@
 .case-service-map__divider,
 .case-service-map__children > a > b,
 .case-architecture__intro > span,
-.case-architecture__decisions article > span,
 .case-architecture__intro blockquote strong,
-.case-architecture__decisions dt,
-.prior-case__facts dt,
-.prior-case__links a {
+.prior-case__facts dt {
     font-size: 14px;
 }
 
-.case-visual--product figcaption strong,
 .case-system__caption {
     font-size: 14px;
 }
@@ -2816,14 +2313,11 @@
 .case-service-map__children h3,
 .case-service-map__core p,
 .case-service-map__children p,
-.case-architecture__intro blockquote,
-.case-architecture__decisions dd,
-.prior-case__note {
+.case-architecture__intro blockquote {
     font-size: 16px;
 }
 
-/* Primer-aligned detail surfaces: preserve the editorial hierarchy while
-   making grouped content, links, and technical diagrams feel repository-like. */
+/* 상세 화면의 정보 묶음, 링크와 기술 흐름을 같은 표면 규칙으로 표시 */
 .case-study-nav {
     border-color: var(--line);
 }
@@ -2879,8 +2373,7 @@
 }
 
 .case-snapshot__grid,
-.case-document-catalog,
-.case-architecture__decisions {
+.case-document-catalog {
     overflow: hidden;
     border: 1px solid var(--line);
     border-radius: 6px;
@@ -2888,8 +2381,7 @@
 }
 
 .case-snapshot__grid > div + div,
-.case-document-catalog article + article,
-.case-architecture__decisions article {
+.case-document-catalog article + article {
     border-color: var(--line);
 }
 
@@ -2899,10 +2391,6 @@
 
 .case-document-catalog article {
     padding-left: 18px;
-}
-
-.case-architecture__decisions article:first-child {
-    padding-left: 22px;
 }
 
 .case-status {
@@ -2917,7 +2405,6 @@
 }
 
 .case-visual,
-.case-visual--product,
 .case-service-map__core,
 .case-next {
     background: #0d1117;
@@ -2925,14 +2412,12 @@
 }
 
 .case-visual,
-.case-visual--product,
 .case-service-map__core {
     overflow: hidden;
     border: 1px solid #30363d;
     border-radius: 6px;
 }
 
-.baton-node,
 .defense-map__sources span,
 .defense-map__batch,
 .defense-map__destination,
@@ -2945,22 +2430,18 @@
     border-radius: 6px;
 }
 
-.baton-node--core,
 .defense-map__destination {
     border-color: #1f6feb;
     background: #1f6feb;
     color: #ffffff;
 }
 
-.baton-map__axis,
 .defense-map__connector,
 .warrant-map__connector,
 .stream-lane__path {
     background: #30363d;
 }
 
-.baton-map__axis::after,
-.warrant-map__return i,
 .stream-map__pulse,
 .stream-lane__path::after {
     background: #2f81f7;
@@ -2971,33 +2452,8 @@
     border-color: #2f81f7;
 }
 
-.warrant-map__return i::before {
-    border-color: #2f81f7;
-}
-
-.warrant-map__return strong,
-.case-visual__legend {
-    color: #f0f6fc;
-}
-
 .stream-lane__label {
     color: #3fb950;
-}
-
-.case-problems__list {
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-}
-
-.case-problem {
-    padding-right: 22px;
-    padding-left: 22px;
-    border-color: var(--line);
-}
-
-.case-problem:first-child {
-    border-top: 0;
 }
 
 .case-representative-documents > ul,
@@ -3030,8 +2486,7 @@
 }
 
 .case-documents a,
-.case-meta__links a,
-.prior-case__links a {
+.case-meta__links a {
     color: var(--accent);
 }
 
@@ -3039,7 +2494,6 @@
 .case-documents a > span,
 .case-document-catalog code,
 .case-architecture__intro > span,
-.case-architecture__decisions article > span,
 .prior-case .case-kicker,
 .prior-case__facts dt {
     color: var(--accent);
@@ -3047,19 +2501,6 @@
 
 .case-meta__stack li {
     padding-left: 14px;
-}
-
-.case-product__chrome {
-    background: #0d1117;
-}
-
-.case-product__chrome > span:first-child {
-    border-color: #3fb950;
-    background: #3fb950;
-}
-
-.case-visual--product {
-    box-shadow: 0 8px 24px rgba(140, 149, 159, 0.18);
 }
 
 .case-service-map__children {
@@ -3115,20 +2556,8 @@
     border-color: var(--line);
 }
 
-.case-architecture__intro blockquote,
-.case-architecture__decisions .case-architecture__tradeoff {
+.case-architecture__intro blockquote {
     border-left-color: var(--accent);
-}
-
-.prior-case__links a {
-    border-color: var(--line);
-    border-radius: 6px;
-    background: var(--paper-raised);
-}
-
-.prior-case__links a:hover {
-    border-color: var(--accent);
-    background: #ddf4ff;
 }
 
 .case-next__arrow {
@@ -3159,11 +2588,6 @@
 }
 
 @media (max-width: 700px) {
-    .case-problem {
-        padding-right: 20px;
-        padding-left: 20px;
-    }
-
     .case-service-map__children > a,
     .case-service-map__children > a:nth-child(2),
     .case-service-map__children > a:nth-child(3) {
@@ -3207,9 +2631,7 @@
     .case-snapshot__grid > div:nth-child(4),
     .case-document-catalog article,
     .case-document-catalog article + article,
-    .case-document-catalog article:nth-child(odd),
-    .case-architecture__decisions article,
-    .case-architecture__decisions article:first-child {
+    .case-document-catalog article:nth-child(odd) {
         padding-right: 18px;
         padding-left: 18px;
     }

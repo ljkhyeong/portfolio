@@ -49,6 +49,14 @@ export const resolvePdfBrowser = (args, environment = process.env) => {
     return browser
 }
 
+export const assertCanonicalPdfRenderer = ({ browser, canonicalOutputPath, outputPath }) => {
+    if (outputPath === canonicalOutputPath && browser !== "chrome") {
+        throw new Error(
+            "배포용 PDF는 Chrome으로만 생성할 수 있습니다. Edge와 Safari는 브라우저별 미리보기 출력 경로를 사용해 주세요.",
+        )
+    }
+}
+
 const compactCandidates = (candidates) => [...new Set(candidates.filter(Boolean))]
 
 const windowsApplicationPath = (basePath, ...segments) =>

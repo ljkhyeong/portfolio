@@ -1,9 +1,12 @@
 import { spawn } from "node:child_process"
-import { access, rename, rm, stat, writeFile } from "node:fs/promises"
+import { access, mkdir, readFile, rename, rm, stat } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { createServer } from "vite"
+import { createArtifactManifest, writeArtifactManifest } from "./artifact-manifest.mjs"
+import { validatePdfArtifact } from "./artifact-validation.mjs"
 import {
+    assertCanonicalPdfRenderer,
     getPdfBrowserCandidates,
     getPdfBrowserLabel,
     readCliOption,
@@ -11,7 +14,7 @@ import {
 } from "./pdf-browser-support.mjs"
 import {
     createPortfolioPdfFingerprint,
-    portfolioPdfFingerprintPath,
+    portfolioPdfManifestPath,
 } from "./portfolio-pdf-fingerprint.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
@@ -23,7 +26,15 @@ const outputPath = requestedOutputPath
     ? path.resolve(repositoryRoot, requestedOutputPath)
     : canonicalOutputPath
 const temporaryOutputPath = path.join(path.dirname(outputPath), `.${path.basename(outputPath)}.tmp`)
+const outputManifestPath =
+    outputPath === canonicalOutputPath ? portfolioPdfManifestPath : `${outputPath}.manifest.json`
 const webKitScriptPath = path.join(repositoryRoot, "scripts", "generate-portfolio-pdf-webkit.swift")
+
+assertCanonicalPdfRenderer({
+    browser: selectedBrowser,
+    canonicalOutputPath,
+    outputPath,
+})
 
 const runProcess = (
     command,
@@ -177,6 +188,16 @@ const generateWithChromiumBrowser = async (browser, printUrl) => {
 
     process.stdout.write(`PDF 생성 브라우저: ${browserLabel}\n`)
 
+    const versionResult = await runProcess(browserPath, ["--version"], {
+        capture: true,
+        label: `${browserLabel} 버전 확인`,
+    })
+    const version = (versionResult.stdout || versionResult.stderr).trim()
+
+    if (!version) {
+        throw new Error(`${browserLabel} 버전을 확인하지 못했습니다.`)
+    }
+
     const { stdout: renderedHtml } = await runProcess(
         browserPath,
         [...commonArgs, "--dump-dom", printUrl],
@@ -196,6 +217,14 @@ const generateWithChromiumBrowser = async (browser, printUrl) => {
         ],
         { label: browserLabel },
     )
+
+    return {
+        id: browser,
+        name: browserLabel,
+        version,
+        platform: process.platform,
+        architecture: process.arch,
+    }
 }
 
 const generateWithWebKit = async (printUrl) => {
@@ -204,15 +233,29 @@ const generateWithWebKit = async (printUrl) => {
     }
 
     process.stdout.write("PDF 생성 브라우저: Safari WebKit\n")
-    await runProcess(
+    const { stdout } = await runProcess(
         "xcrun",
         ["swift", "-swift-version", "5", webKitScriptPath, printUrl, temporaryOutputPath],
         {
+            capture: true,
             label: "Safari WebKit PDF 생성기",
             timeoutMs: 45_000,
             monitoredFile: temporaryOutputPath,
         },
     )
+    const version = stdout.match(/^PDF_RENDERER_USER_AGENT=(.+)$/m)?.[1]?.trim()
+
+    if (!version) {
+        throw new Error("Safari WebKit 렌더러 버전을 확인하지 못했습니다.")
+    }
+
+    return {
+        id: "webkit",
+        name: "Safari WebKit",
+        version,
+        platform: process.platform,
+        architecture: process.arch,
+    }
 }
 
 const server = await createServer({
@@ -231,29 +274,28 @@ try {
     const port = typeof address === "object" && address ? address.port : 5173
     const printUrl = `http://127.0.0.1:${port}/portfolio/print`
 
+    await mkdir(path.dirname(outputPath), { recursive: true })
     await rm(temporaryOutputPath, { force: true })
 
-    if (selectedBrowser === "webkit") {
-        await generateWithWebKit(printUrl)
-    } else {
-        await generateWithChromiumBrowser(selectedBrowser, printUrl)
-    }
-
-    const generatedFile = await stat(temporaryOutputPath)
-
-    if (generatedFile.size < 100_000) {
-        throw new Error(`생성된 PDF 크기가 비정상적으로 작습니다: ${generatedFile.size} bytes`)
-    }
+    const renderer =
+        selectedBrowser === "webkit"
+            ? await generateWithWebKit(printUrl)
+            : await generateWithChromiumBrowser(selectedBrowser, printUrl)
+    const pdf = await readFile(temporaryOutputPath)
+    const { size } = validatePdfArtifact(pdf)
 
     await rename(temporaryOutputPath, outputPath)
-
-    if (outputPath === canonicalOutputPath) {
-        const fingerprint = await createPortfolioPdfFingerprint()
-        await writeFile(portfolioPdfFingerprintPath, `${fingerprint}\n`)
-    }
+    const sourceSha256 = await createPortfolioPdfFingerprint()
+    const manifest = createArtifactManifest({
+        artifact: pdf,
+        artifactPath: outputPath,
+        renderer,
+        sourceSha256,
+    })
+    await writeArtifactManifest(outputManifestPath, manifest)
 
     process.stdout.write(
-        `PDF 생성 완료: ${outputPath} (${generatedFile.size} bytes, ${getPdfBrowserLabel(selectedBrowser)})\n`,
+        `PDF 생성 완료: ${outputPath} (${size} bytes, ${getPdfBrowserLabel(selectedBrowser)})\n`,
     )
 } finally {
     await server.close()

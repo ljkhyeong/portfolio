@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:ecfb2d3fe74a",
+  "sourceRevision": "sha256:25eab46adfb6",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -110,7 +110,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e9c06f7ff7fb",
+      "sourceRevision": "sha256:28dc7e18e92d",
       "documentId": "knowledge_716cb839f83bf7376a2e9c78",
       "projectId": "baton",
       "projectName": "BATON",
@@ -118,13 +118,13 @@
       "documentType": "service_overview",
       "title": "BATON BRIEF 서비스 개요",
       "heading": "BRIEF 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 주간 운영 요약\n\nCore 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 BRIEF가 받으면 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록된 역할 중 책임 목록이 없거나 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나 역할 수행 자료가 없는 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계를 찾아 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간과 BRIEF가 마지막으로 받은 이벤트 순번, 포함 항목을 함께 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n담당 구현: 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않았습니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 기록했습니다. 저장한 이벤트로 운영 점검 목록을 다시 만드는 기능, 주간 보고서 중복 생성 방지와 서비스 간 요청 인증 토큰(Bearer) 무중단 교체를 Kotlin과 Spring JDBC로 구현했습니다.\n\n주요 기능: 이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서\n\n저장소 공개 범위: 공개 저장소 / 최신 구현은 원격 개발 브랜치\n\n검증 요약: 실제 Core와 BRIEF 실행 JAR를 JSON 계약 패키지 2.0.0-rc.1 기준으로 로컬 HTTP에서 연결하고, 별도로 Caddy 내부 인증서 HTTPS 앞단에 계약 예시 JSON을 전송해 인증과 수신 검증\n\n입력: 담당자 및 후임자 공백, 위험 요소가 있는 역할의 책임 목록, 인수인계할 업무 항목과 역할 수행 자료 부족, 반복 마감 지연, 교대 시점이 가까운 미완료 인수인계 이벤트 및 각 개정 번호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 운영 점검 목록, 수신 이벤트 이력과 생성 후 수정하지 않는 주간 보고서\n\n중복 및 실패 처리: 같은 이벤트와 과거 개정 번호는 다시 반영하지 않고 저장한 수신 이벤트 전체를 읽어 운영 점검 목록을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.3, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: JSON 계약 패키지 2.0.0-rc.1 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 하며, 실제 Core에서 Caddy로 보내는 HTTPS 전달도 아직 검증하지 않았습니다. 최신 구현은 원격 개발 브랜치에 있으며 공개 main 반영 전이고 원격 스테이징에도 배포하지 않았습니다.\n\n적용 범위와 제약: 각 항목이 선택된 이유를 이벤트 종류와 심각도로 확인할 수 있습니다. BRIEF는 Core가 판정한 다섯 가지 조직 연속성 신호를 담는 두 번째 이벤트 형식(v2)과 이전 형식(v1)을 함께 처리합니다. 이벤트 종류가 추가되면 Core가 보내는 JSON 형식, BRIEF의 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 두 버전에 맞춰 함께 변경해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 주간 운영 요약\n\nBRIEF는 Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 받아 운영 점검 목록을 만듭니다. 담당자가 없는 역할과 담당 종료가 임박했지만 후임자가 없는 역할을 찾습니다. 위험 요소가 기록된 역할에서는 책임 목록, 인수인계에 포함할 업무 항목과 역할 수행 자료가 빠졌는지, 끝나지 않은 인수인계 항목이 있는지 확인합니다. 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계도 목록에 포함합니다. 보고서 생성 요청을 받으면 해당 주간, BRIEF가 마지막으로 받은 이벤트 순번과 포함 항목을 함께 저장합니다. 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n담당 구현: 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않았습니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 기록했습니다. 저장한 이벤트로 운영 점검 목록을 다시 만드는 기능, 주간 보고서 중복 생성 방지와 서비스 간 요청 인증 토큰(Bearer) 무중단 교체를 Kotlin과 Spring JDBC로 구현했습니다.\n\n주요 기능: 이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서\n\n저장소 공개 범위: 공개 저장소 / 최신 구현은 원격 개발 브랜치\n\n검증 요약: 실제 Core와 BRIEF 실행 JAR를 JSON 계약 패키지 2.0.0-rc.1 기준으로 로컬 HTTP에서 연결하고, 별도로 Caddy 내부 인증서 HTTPS 앞단에 계약 예시 JSON을 전송해 인증과 수신 검증\n\n입력: 담당자 및 후임자 공백, 위험 요소가 있는 역할의 책임 목록, 인수인계할 업무 항목과 역할 수행 자료 부족, 반복 마감 지연, 교대 시점이 가까운 미완료 인수인계 이벤트 및 각 개정 번호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 운영 점검 목록, 수신 이벤트 이력과 생성 후 수정하지 않는 주간 보고서\n\n중복 및 실패 처리: 같은 이벤트와 과거 개정 번호는 다시 반영하지 않고 저장한 수신 이벤트 전체를 읽어 운영 점검 목록을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.3, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: JSON 계약 패키지 2.0.0-rc.1 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 하며, 실제 Core에서 Caddy로 보내는 HTTPS 전달도 아직 검증하지 않았습니다. 최신 구현은 원격 개발 브랜치에 있으며 공개 main 반영 전이고 원격 스테이징에도 배포하지 않았습니다.\n\n적용 범위와 제약: 각 항목이 선택된 이유를 이벤트 종류와 심각도로 확인할 수 있습니다. BRIEF는 Core가 판정한 다섯 가지 조직 연속성 신호를 담는 두 번째 이벤트 형식(v2)과 이전 형식(v1)을 함께 처리합니다. 이벤트 종류가 추가되면 Core가 보내는 JSON 형식, BRIEF의 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 두 버전에 맞춰 함께 변경해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e9c06f7ff7fba65fb0ab1117368bab398a90ccb3440b9a633d8a7d72b617051b",
-      "contentHash": "08c905a268a95612b05840c786f11419a95f7f05b9afe14d2ce7ead714bad1bd"
+      "sourceHash": "28dc7e18e92d150238a3700462719a8161abcfed90acb8e6dd7661a1143d8cfe",
+      "contentHash": "b7d9e133482b455ae69fcd7b62ca64c610e7f83784977be2e7da7247ec3fe2c2"
     },
     {
       "schemaVersion": "1.0",
@@ -578,7 +578,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:fa3aef2c30c1",
+      "sourceRevision": "sha256:bf49a717b909",
       "documentId": "knowledge_3d8c2c8c9429012036d6c861",
       "projectId": "baton",
       "projectName": "BATON",
@@ -586,13 +586,13 @@
       "documentType": "representative_document",
       "title": "GO 같은 요청에서 링크 1건만 생성",
       "heading": "ADR 요약",
-      "content": "# BATON GO 같은 요청에서 링크 1건만 생성\n\n## 문제 상황\n\n링크를 저장한 뒤 응답이 유실되거나 여러 서버가 같은 요청을 동시에 받으면 링크가 중복 생성될 수 있습니다.\n\n## 결정\n\n-   클라이언트가 링크 생성 요청마다 보내는 고유 ID(UUID)의 SHA-256 해시를 저장해 기존 링크 생성 처리 기록을 찾습니다.\n-   재요청이면 저장된 대상 시스템, 경로, 사용 목적, 활성 시각과 만료 시각을 직접 비교하고 하나라도 다르면 충돌로 거절합니다.\n-   같은 UUID와 서버 비밀 키로 HMAC-SHA256을 계산해 같은 링크 코드를 만듭니다.\n-   DB `UNIQUE` 제약으로 동시 요청의 중복 저장을 차단합니다.\n\n## 적용 시 제약\n\nUUID 처리 기록의 보관 기간과 정리 정책이 필요합니다. HMAC 키를 교체하거나 DB를 복구할 때 기존 링크가 유지되도록 별도 운영 절차도 필요합니다.\n\n## 확인\n\n같은 요청 8건을 동시에 보내 링크와 링크 생성 처리 기록이 각각 1건만 생성되는지 통합 테스트로 확인했습니다.",
+      "content": "# BATON GO 같은 요청에서 링크 1건만 생성\n\n## 문제 상황\n\n링크를 저장한 뒤 응답이 유실되거나 여러 서버가 같은 요청을 동시에 받으면 링크가 중복 생성될 수 있습니다.\n\n## 결정\n\n-   클라이언트가 링크 생성 요청마다 보내는 고유 ID(UUID)의 SHA-256 해시를 저장해 기존 링크 생성 처리 기록을 찾습니다.\n-   재요청이면 저장된 대상 시스템, 경로, 사용 목적, 활성 시각과 만료 시각을 직접 비교하고 하나라도 다르면 충돌로 거절합니다.\n-   같은 UUID와 서버 비밀 키로 HMAC-SHA256을 계산해 같은 링크 코드를 만듭니다.\n-   DB `UNIQUE` 제약으로 동시 요청의 중복 저장을 차단합니다.\n\n## 적용 시 제약\n\nUUID 처리 기록의 보관 기간과 정리 정책이 필요합니다. HMAC 키를 교체하거나 장애를 복구할 때 기존 링크가 바뀌지 않도록 DB 백업과 HMAC 키를 같은 시점 기준으로 보관하고 복원해야 합니다.\n\n## 확인\n\n같은 요청 8건을 동시에 보내 링크와 링크 생성 처리 기록이 각각 1건만 생성되는지 통합 테스트로 확인했습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/go-idempotent-link.md",
       "route": "/projects/baton/go",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "fa3aef2c30c14ebfee09a702fcab60b11da89f0dcd20151b66c2da3674c51021",
-      "contentHash": "227dd3db13e872b3ccdaba5ce276557e8015566b1a93cbb3a44fa080015383f0"
+      "sourceHash": "bf49a717b90993b679c1a6568db7856108d28a2e32a837856826cb7d4c426ac3",
+      "contentHash": "bc2835db25bd3d79b8214d6d59d987b3813dd18659a3172ee31ea6f4600769ea"
     },
     {
       "schemaVersion": "1.0",
@@ -1388,20 +1388,20 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c864748d2522",
+      "sourceRevision": "sha256:7f7e8c641577",
       "documentId": "knowledge_03aea57d7091d297985a5d29",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
       "serviceId": null,
       "documentType": "problem_solution",
-      "title": "Hope Commit - 현재 수정 파일을 제외하고 입력 커밋만 비교",
+      "title": "Hope Commit - 현재 수정 파일을 제외하고 입력 커밋의 변경만 비교",
       "heading": "문제와 해결 방법",
       "content": "프로젝트: Hope Commit\n\n문제: 스테이징한 파일, 수정 중인 파일과 추적하지 않는 파일을 함께 읽으면 특정 커밋에 없던 내용이 검토 결과에 섞일 수 있습니다.\n\n적용: 입력한 16진수 커밋 ID를 전체 ID로 확정했습니다. 일반 커밋은 첫 번째 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 삼았습니다. 파일 본문과 변경 내역은 현재 수정 중인 파일이 아니라 확정한 커밋과 비교 기준에 저장된 코드에서 읽습니다. 4.0.0 개발 브랜치에서는 사용자의 Git 외부 텍스트 변환 설정(textconv)과 색상 출력을 끄고, 파일 경로를 바이트 단위로 확인해 UTF-8이 아니면 분석 전에 거절합니다.\n\n확인: 짧은 커밋 ID, 최초 커밋, 병합 커밋의 부모 선택과 파일 이름 변경을 테스트용 Git 저장소로 확인했습니다. textconv가 설정돼도 실행되지 않는지, 색상 코드가 섞이지 않는지와 UTF-8이 아닌 파일 경로를 거절하는지도 검증했습니다.\n\n제약과 남은 작업: 로컬 저장소에 존재하는 한 커밋만 검토합니다. 원격 CI 결과, 이슈와 토론 내용은 자동으로 수집하지 않습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-problems",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c864748d252275944eae4527ea6a4d5063be8b969edf3c83b98ab23a724b5500",
+      "sourceHash": "7f7e8c64157774538bf7b389900e9efd75f6ccd3123ac583278880bce3cd625d",
       "contentHash": "1f2ff00f8f53d1ebca1b634793b9a165e7dc55a685e38584fc07cf2e91b99a37"
     },
     {

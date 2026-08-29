@@ -473,7 +473,17 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(screen.getAllByText(/SeungIl 님이 개발한 Hope 3\.0\.3/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/제가 추가한 Commit Diff/).length).toBeGreaterThan(0)
     expect(
-        screen.getByRole("heading", { name: "현재 수정 파일을 제외하고 입력 커밋만 비교" }),
+        screen.getByRole("heading", {
+            name: "현재 수정 파일을 제외하고 입력 커밋의 변경만 비교",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: /입력 커밋과 .* 확정한 비교 기준에 각각 저장된 코드를 대조하고/,
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByText("입력 커밋과 확정한 비교 기준에 저장된 코드만 사용"),
     ).toBeInTheDocument()
     expect(
         screen.getByText(
@@ -620,4 +630,23 @@ test("알 수 없는 경로는 주소를 숨기지 않고 404 안내를 제공�
         "href",
         "/",
     )
+})
+
+test("끝 슬래시가 붙은 미등록 주소로 이동하면 404 제목에 포커스를 둔다", async () => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    await act(async () => {
+        window.history.pushState({}, "", "/not-a-project/")
+        window.dispatchEvent(new PopStateEvent("popstate"))
+    })
+
+    const notFoundHeading = await screen.findByRole("heading", {
+        name: "요청한 페이지를 찾을 수 없습니다.",
+        level: 1,
+    })
+
+    await waitFor(() => expect(notFoundHeading).toHaveFocus())
+    expect(notFoundHeading).toHaveAttribute("data-route-heading", "/not-a-project")
 })

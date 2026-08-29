@@ -308,7 +308,13 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 BRIEF가 받으면 담당자가 없는 역할, 담당 종료가 임박했지만 후임자가 없는 역할, 위험 요소가 기록된 역할 중 책임 목록이 없거나 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나 역할 수행 자료가 없는 역할, 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계를 찾아 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간과 BRIEF가 마지막으로 받은 이벤트 순번, 포함 항목을 함께 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.",
+        [
+            "두 번째 이벤트 형식(v2)을 받아 운영 점검 목록",
+            "담당자가 없는 역할과 담당 종료가 임박했지만 후임자가 없는 역할",
+            "책임 목록, 인수인계에 포함할 업무 항목과 역할 수행 자료",
+            "마지막으로 받은 이벤트 순번과 포함 항목",
+            "이미 만든 보고서는 수정하지 않습니다",
+        ],
         "이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서",
     ],
     [
@@ -328,8 +334,13 @@ test.each([
 
     const heading = screen.getByRole("heading", { name, level: 1 })
     const hero = heading.closest("header")
+    const summaryParagraph = hero.querySelector("p")
 
-    expect(within(hero).getByText(summary)).toBeInTheDocument()
+    if (Array.isArray(summary)) {
+        summary.forEach((expected) => expect(summaryParagraph).toHaveTextContent(expected))
+    } else {
+        expect(within(hero).getByText(summary)).toBeInTheDocument()
+    }
     expect(within(hero).queryByText(detail)).not.toBeInTheDocument()
     expect(screen.getByText(detail)).toBeInTheDocument()
 })

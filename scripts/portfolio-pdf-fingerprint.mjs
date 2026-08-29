@@ -1,45 +1,15 @@
-import { createHash } from "node:crypto"
-import { readFile } from "node:fs/promises"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
+import {
+    createSourceFingerprint,
+    portfolioPdfSourceTargets,
+    repositoryRoot,
+} from "./artifact-inputs.mjs"
 
-const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-
-export const portfolioPdfFingerprintPath = path.join(
+export const portfolioPdfManifestPath = path.join(
     repositoryRoot,
     "scripts",
-    "portfolio-pdf-source.sha256",
+    "portfolio-pdf.manifest.json",
 )
 
-const sourceTargets = [
-    "src/component/Main.jsx",
-    "src/component/Header.jsx",
-    "src/component/Projects.jsx",
-    "src/component/About.jsx",
-    "src/component/print/PortfolioPrintPage.jsx",
-    "src/App.css",
-    "src/index.css",
-    "src/css/Main.css",
-    "src/css/Projects.css",
-    "src/css/PortfolioPrint.css",
-    "src/data/profile.js",
-    "src/data/homeHero.js",
-    "src/data/homeSkills.js",
-    "src/data/projectSummaries.js",
-    "src/utils/assetPath.js",
-    "public/ljkhyeong-avatar.png",
-]
-
-export const createPortfolioPdfFingerprint = async () => {
-    const files = sourceTargets.map((target) => path.join(repositoryRoot, target)).sort()
-    const hash = createHash("sha256")
-
-    for (const filePath of files) {
-        hash.update(path.relative(repositoryRoot, filePath))
-        hash.update("\0")
-        hash.update(await readFile(filePath))
-        hash.update("\0")
-    }
-
-    return hash.digest("hex")
-}
+export const createPortfolioPdfFingerprint = async () =>
+    createSourceFingerprint({ targets: portfolioPdfSourceTargets })

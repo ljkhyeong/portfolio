@@ -433,13 +433,9 @@
     }
 
     .project-index__fact dd {
-        display: -webkit-box;
-        overflow: hidden;
         font-size: 15px;
         line-height: 1.52;
         word-break: normal;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
     }
 
     .project-index__services > div {

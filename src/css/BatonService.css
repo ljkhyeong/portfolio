@@ -339,86 +339,12 @@
     font-size: 11px;
 }
 
-.baton-service-problems__list {
-    border-bottom: 1px solid var(--ink);
-}
-
 .baton-service-problems > .baton-service-section-heading {
     margin-bottom: 18px;
 }
 
 .baton-service-problems > .baton-service-section-heading h2 {
     font-size: clamp(28px, 2.6vw, 36px);
-}
-
-.service-problem {
-    display: grid;
-    grid-template-columns: minmax(220px, 0.62fr) minmax(0, 1.38fr);
-    gap: clamp(32px, 5vw, 64px);
-    padding: 28px 0 32px;
-    border-top: 1px solid var(--ink);
-}
-
-.service-problem__heading {
-    display: grid;
-    grid-template-columns: 38px 1fr;
-    gap: 16px;
-}
-
-.service-problem__heading code {
-    padding-top: 5px;
-    color: var(--accent-on-light);
-    font-family: var(--mono);
-    font-size: 11px;
-}
-
-.service-problem h3 {
-    margin: 0;
-    font-size: clamp(24px, 2.25vw, 31px);
-    letter-spacing: -0.05em;
-    line-height: 1.16;
-    word-break: keep-all;
-}
-
-.service-problem dl {
-    margin: 0;
-}
-
-.service-problem dl > div {
-    display: grid;
-    grid-template-columns: 118px 1fr;
-    gap: 18px;
-    padding: 14px 0;
-    border-top: 1px solid var(--line);
-}
-
-.service-problem dl > div:first-child {
-    padding-top: 0;
-    border-top: 0;
-}
-
-.service-problem dt,
-.service-problem dd {
-    margin: 0;
-}
-
-.service-problem dt {
-    color: var(--accent-on-light);
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 750;
-    overflow-wrap: normal;
-    word-break: keep-all;
-}
-
-.service-problem dd {
-    font-size: 16px;
-    line-height: 1.64;
-}
-
-.service-problem__tradeoff {
-    padding-left: 14px !important;
-    border-left: 3px solid var(--accent);
 }
 
 .service-document-counts {
@@ -528,8 +454,7 @@
 }
 
 @media (max-width: 840px) {
-    .baton-service-hero,
-    .service-problem {
+    .baton-service-hero {
         grid-template-columns: 1fr;
     }
 
@@ -593,8 +518,7 @@
     }
 
     .baton-service-status,
-    .baton-service-section-heading,
-    .service-problem dl > div {
+    .baton-service-section-heading {
         grid-template-columns: 1fr;
     }
 
@@ -629,7 +553,7 @@
     }
 }
 
-/* Readability floor for service labels and supporting copy. */
+/* 서비스 상세의 보조 설명과 표기 글자 크기를 읽을 수 있는 수준으로 유지 */
 .baton-service-nav,
 .baton-service-kicker,
 .baton-service-section-heading span,
@@ -640,8 +564,6 @@
 .service-document-counts code,
 .service-document-links code,
 .baton-service-boundary blockquote strong,
-.service-problem__heading code,
-.service-problem dt,
 .service-document-links h3 span,
 .baton-service-footer {
     font-size: 14px;
@@ -650,12 +572,11 @@
 .baton-service-status p,
 .service-boundary-flow p,
 .baton-service-boundary blockquote,
-.service-problem dd,
 .service-document-links article p {
     font-size: 16px;
 }
 
-/* Primer-aligned service detail: one grouped surface per information set. */
+/* 서비스 상세의 정보 묶음을 같은 표면 규칙으로 표시 */
 .baton-service-page a:focus-visible {
     border-radius: 3px;
     outline: 2px solid var(--accent);
@@ -713,7 +634,6 @@
 }
 
 .service-boundary-flow,
-.baton-service-problems__list,
 .service-document-counts {
     gap: 0;
     overflow: hidden;
@@ -744,19 +664,8 @@
     color: var(--muted);
 }
 
-.baton-service-boundary blockquote,
-.service-problem__tradeoff {
+.baton-service-boundary blockquote {
     border-left-color: var(--accent);
-}
-
-.service-problem {
-    padding-right: 22px;
-    padding-left: 22px;
-    border-color: var(--line);
-}
-
-.service-problem:first-child {
-    border-top: 0;
 }
 
 .service-document-counts article + article {
@@ -815,12 +724,6 @@
 
     .baton-service-index a {
         white-space: nowrap;
-    }
-
-    .service-problem {
-        padding-right: 18px;
-        padding-left: 18px;
-        gap: 24px;
     }
 
     .service-document-counts article,

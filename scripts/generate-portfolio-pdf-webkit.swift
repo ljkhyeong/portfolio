@@ -10,6 +10,7 @@ final class PortfolioPdfGenerator: NSObject, WKNavigationDelegate {
     private var printOperation: NSPrintOperation?
     private var window: NSWindow?
     private var webView: WKWebView?
+    private var rendererUserAgent = ""
 
     init(printUrl: URL, outputUrl: URL) {
         self.printUrl = printUrl
@@ -76,7 +77,8 @@ final class PortfolioPdfGenerator: NSObject, WKNavigationDelegate {
             state: document.documentElement.dataset.printReady || "loading",
             overflowCount: Number(document.documentElement.dataset.printOverflowCount || -1),
             overflowPages: document.documentElement.dataset.printOverflowPages || "확인 불가",
-            error: document.documentElement.dataset.printError || ""
+            error: document.documentElement.dataset.printError || "",
+            userAgent: navigator.userAgent
         })
         """
 
@@ -101,6 +103,7 @@ final class PortfolioPdfGenerator: NSObject, WKNavigationDelegate {
             if state == "true" {
                 let overflowCount = readiness["overflowCount"] as? Int ?? -1
                 let overflowPages = readiness["overflowPages"] as? String ?? "확인 불가"
+                self.rendererUserAgent = readiness["userAgent"] as? String ?? ""
 
                 if overflowCount != 0 {
                     self.fail("인쇄 원본에서 가로 영역을 벗어난 요소가 있습니다: \(overflowPages)")
@@ -179,6 +182,7 @@ final class PortfolioPdfGenerator: NSObject, WKNavigationDelegate {
         }
 
         print("WebKit PDF 저장 완료: \(outputUrl.path)")
+        print("PDF_RENDERER_USER_AGENT=\(rendererUserAgent)")
         exit(EXIT_SUCCESS)
     }
 

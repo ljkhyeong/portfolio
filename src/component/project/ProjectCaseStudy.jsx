@@ -247,9 +247,9 @@ const HopeCommitVisual = () => {
         <div
             className="case-visual case-visual--hope-commit"
             role="img"
-            aria-label="입력한 커밋을 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준과 대조하고 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
+            aria-label="입력 커밋과 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준에 각각 저장된 코드를 대조하고, 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
         >
-            <div className="hope-commit-map__label">COMMIT DIFF / 지정한 커밋만 검토</div>
+            <div className="hope-commit-map__label">COMMIT DIFF / 지정한 커밋의 변경만 검토</div>
             <ol className="hope-commit-map">
                 {steps.map(([label, title, description]) => (
                     <li key={label}>
@@ -263,7 +263,7 @@ const HopeCommitVisual = () => {
                 <span>현재 수정 중인 파일 제외</span>
                 <span>이전 대화 제외</span>
                 <span>원격 저장소 자동 검사 결과 제외</span>
-                <strong>입력 커밋에 저장된 코드만 사용</strong>
+                <strong>입력 커밋과 확정한 비교 기준에 저장된 코드만 사용</strong>
             </div>
         </div>
     )

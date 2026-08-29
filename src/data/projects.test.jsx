@@ -78,10 +78,6 @@ describe("project summary data", () => {
             period: "2024.06 — 현재",
             projectIds: ["warrant", "defense"],
         })
-        expect(careerCaseStudies.map(({ id, careerId }) => ({ id, careerId }))).toEqual([
-            { id: "warrant", careerId: "beintech" },
-            { id: "defense", careerId: "beintech" },
-        ])
     })
 
     it("gives every home project a concise responsibility, problem, and solution", () => {

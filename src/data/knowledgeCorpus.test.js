@@ -121,4 +121,20 @@ describe("공개 지식 문서 목록", () => {
         expect(changed.documents[0].sourceHash).not.toBe(baseline.documents[0].sourceHash)
         expect(changed.documents.slice(1)).toEqual(baseline.documents.slice(1))
     })
+
+    it.each([
+        ["제목", (source) => ({ ...source, title: `${source.title} 수정` })],
+        ["원문 링크", (source) => ({ ...source, sourceUrl: "https://example.com/updated" })],
+    ])("문서의 %s이 바뀌면 sourceHash만 바뀐다", (_, changeSource) => {
+        const sources = createKnowledgeSources(projectList, { localDocumentContentByHref })
+        const baseline = buildKnowledgeCorpus(sources)
+        const changed = buildKnowledgeCorpus(
+            sources.map((source, index) => (index === 0 ? changeSource(source) : source)),
+        )
+
+        expect(changed.documents[0].documentId).toBe(baseline.documents[0].documentId)
+        expect(changed.documents[0].contentHash).toBe(baseline.documents[0].contentHash)
+        expect(changed.documents[0].sourceHash).not.toBe(baseline.documents[0].sourceHash)
+        expect(changed.documents.slice(1)).toEqual(baseline.documents.slice(1))
+    })
 })

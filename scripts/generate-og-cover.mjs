@@ -1,9 +1,11 @@
 import { spawn } from "node:child_process"
-import { access, readFile, rename, rm, stat, writeFile } from "node:fs/promises"
+import { access, readFile, rename, rm } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { createServer } from "vite"
-import { createOgCoverFingerprint, ogCoverFingerprintPath } from "./og-cover-fingerprint.mjs"
+import { createArtifactManifest, writeArtifactManifest } from "./artifact-manifest.mjs"
+import { validatePngArtifact } from "./artifact-validation.mjs"
+import { createOgCoverFingerprint, ogCoverManifestPath } from "./og-cover-fingerprint.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const outputPath = path.join(repositoryRoot, "public", "og-cover.png")
@@ -52,6 +54,35 @@ const runChrome = (chromePath, args) =>
         })
     })
 
+const readChromeVersion = (chromePath) =>
+    new Promise((resolve, reject) => {
+        const child = spawn(chromePath, ["--version"], {
+            cwd: repositoryRoot,
+            stdio: ["ignore", "pipe", "pipe"],
+        })
+        let output = ""
+
+        child.stdout.setEncoding("utf8")
+        child.stderr.setEncoding("utf8")
+        child.stdout.on("data", (chunk) => {
+            output += chunk
+        })
+        child.stderr.on("data", (chunk) => {
+            output += chunk
+        })
+        child.on("error", reject)
+        child.on("exit", (code) => {
+            const version = output.trim()
+
+            if (code === 0 && version) {
+                resolve(version)
+                return
+            }
+
+            reject(new Error("Chrome 또는 Chromium 버전을 확인하지 못했습니다."))
+        })
+    })
+
 const server = await createServer({
     root: repositoryRoot,
     logLevel: "error",
@@ -68,6 +99,7 @@ try {
     const port = typeof address === "object" && address ? address.port : 5173
     const homeUrl = `http://127.0.0.1:${port}/`
     const chromePath = await findChrome()
+    const chromeVersion = await readChromeVersion(chromePath)
 
     await rm(temporaryOutputPath, { force: true })
     await runChrome(chromePath, [
@@ -87,22 +119,29 @@ try {
         homeUrl,
     ])
 
-    const generatedFile = await stat(temporaryOutputPath)
     const png = await readFile(temporaryOutputPath)
-    const width = png.readUInt32BE(16)
-    const height = png.readUInt32BE(20)
-
-    if (generatedFile.size < 50_000 || width !== expectedWidth || height !== expectedHeight) {
-        throw new Error(
-            `공유 이미지가 올바르지 않습니다: ${width}x${height}, ${generatedFile.size} bytes`,
-        )
-    }
+    const { height, size, width } = validatePngArtifact(png, {
+        expectedHeight,
+        expectedWidth,
+    })
 
     await rename(temporaryOutputPath, outputPath)
-    const fingerprint = await createOgCoverFingerprint()
-    await writeFile(ogCoverFingerprintPath, `${fingerprint}\n`)
+    const sourceSha256 = await createOgCoverFingerprint()
+    const manifest = createArtifactManifest({
+        artifact: png,
+        artifactPath: outputPath,
+        renderer: {
+            id: "chrome",
+            name: "Chrome 또는 Chromium",
+            version: chromeVersion,
+            platform: process.platform,
+            architecture: process.arch,
+        },
+        sourceSha256,
+    })
+    await writeArtifactManifest(ogCoverManifestPath, manifest)
     process.stdout.write(
-        `공유 이미지 생성 완료: ${outputPath} (${width}x${height}, ${generatedFile.size} bytes)\n`,
+        `공유 이미지 생성 완료: ${outputPath} (${width}x${height}, ${size} bytes)\n`,
     )
 } finally {
     await server.close()
