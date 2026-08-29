@@ -55,6 +55,18 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
 
     sectionIds.forEach((id) => expect(document.getElementById(id)).toBeInTheDocument())
 
+    expect(
+        screen.getByRole("img", {
+            name: /BATON 서비스 아키텍처.*BATON Core가 허용 경로, URL 버전, 운영 및 일정 이벤트와 RS256 참여권/,
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("region", { name: "BATON 서비스 아키텍처 가로 스크롤 영역" }),
+    ).toHaveAttribute("tabindex", "0")
+    expect(
+        screen.getByRole("heading", { name: "서비스별 책임과 검증 근거" }),
+    ).toBeInTheDocument()
+
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
@@ -136,6 +148,11 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
             "href",
             `/projects/baton/${service.toLowerCase()}`,
         )
+        expect(
+            screen.getByRole("link", {
+                name: `BATON ${service} 마이크로서비스 상세 보기`,
+            }),
+        ).toHaveAttribute("href", `/projects/baton/${service.toLowerCase()}`)
     })
 })
 
@@ -174,12 +191,13 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /해양경찰 사건수사시스템 KICS 업무망의 자료 제공 요청이 LG CNS가 주관하는 집행포털 인터넷망을 거쳐 금융기관 업무망과 통신사 전용망으로 전달/,
+            name: /전송형 전자영장 기관 연계 흐름.*해양경찰 KICS의 자료 제공 요청이 전자영장 집행포털에서 기관별 형식으로 변환/,
         }),
     ).toBeInTheDocument()
+    expect(screen.getByText("FIG 03 / BEINTECH × LG CNS")).toBeInTheDocument()
     expect(
-        screen.getByText("BEINTECH / LG CNS 컨소시엄 / KICS-통신사 및 집행포털 연계"),
-    ).toBeInTheDocument()
+        screen.getByRole("region", { name: "전자영장 기관 연계 흐름 가로 스크롤 영역" }),
+    ).toHaveAttribute("tabindex", "0")
     expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 공공 SI")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {

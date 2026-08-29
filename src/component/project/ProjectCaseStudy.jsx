@@ -6,7 +6,11 @@ import CaseMetaSection from "./CaseMetaSection"
 import ProblemSolutionList from "./ProblemSolutionList"
 import ProjectEvidenceList from "./ProjectEvidenceList"
 import ProjectSwitcher from "./ProjectSwitcher"
+import BatonArchitectureDiagram from "./diagrams/BatonArchitectureDiagram"
+import HopeCommitFlowDiagram from "./diagrams/HopeCommitFlowDiagram"
+import WarrantIntegrationDiagram from "./diagrams/WarrantIntegrationDiagram"
 import "../../css/Project.css"
+import "../../css/EditorialDiagram.css"
 
 const ProductVisual = ({ project }) => <ProjectScreenshotGallery project={project} context="case" />
 
@@ -84,41 +88,53 @@ const BatonServices = ({ services }) => {
     const supporting = services.filter((service) => !service.primary)
 
     return (
-        <div className="case-service-map" aria-label="BATON Core와 6개 서비스의 담당 업무">
-            <article className="case-service-map__core">
-                <div>
-                    <span>
-                        CORE / {core.kind} / {core.database}
-                    </span>
-                    <strong>{core.name}</strong>
-                    <h3>{core.role}</h3>
-                </div>
-                <p>{core.detail}</p>
-                <em>{core.evidence}</em>
-            </article>
-            <div className="case-service-map__divider">
-                <span>{supporting.length}개의 독립 마이크로서비스</span>
-            </div>
-            <div className="case-service-map__children">
-                {supporting.map((service) => (
-                    <Link
-                        key={service.name}
-                        to={service.route}
-                        aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
-                    >
-                        <span>
-                            {service.kind} / {service.database}
-                        </span>
-                        <strong>{service.name}</strong>
-                        <h3>{service.role}</h3>
-                        <p>{service.detail}</p>
-                        <em>{service.evidence}</em>
-                        <b>
-                            마이크로서비스 상세 보기 <span aria-hidden="true">↗</span>
-                        </b>
-                    </Link>
-                ))}
-            </div>
+        <div className="baton-service-overview">
+            <BatonArchitectureDiagram services={services} />
+            <section
+                className="baton-service-directory"
+                aria-labelledby="baton-service-directory-title"
+            >
+                <header className="baton-service-directory__header">
+                    <span>{supporting.length} MICROSERVICES</span>
+                    <h3 id="baton-service-directory-title">서비스별 책임과 검증 근거</h3>
+                    <p>
+                        Core와 분리한 책임, 저장소 경계와 자동화 테스트 근거를 서비스별로 확인할 수
+                        있습니다.
+                    </p>
+                </header>
+                <article className="baton-service-directory__core">
+                    <div>
+                        <span>CORE / {core.database}</span>
+                        <strong>{core.name}</strong>
+                    </div>
+                    <div>
+                        <h4>{core.role}</h4>
+                        <p>{core.detail}</p>
+                    </div>
+                    <em>{core.evidence}</em>
+                </article>
+                <ul className="baton-service-directory__list">
+                    {supporting.map((service) => (
+                        <li key={service.name}>
+                            <Link
+                                to={service.route}
+                                aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
+                            >
+                                <div className="baton-service-directory__identity">
+                                    <span>{service.database}</span>
+                                    <strong>{service.name}</strong>
+                                </div>
+                                <div className="baton-service-directory__description">
+                                    <h4>{service.role}</h4>
+                                    <p>{service.detail}</p>
+                                    <em>{service.evidence}</em>
+                                </div>
+                                <b aria-hidden="true">↗</b>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </section>
         </div>
     )
 }
@@ -156,119 +172,6 @@ const DefenseVisual = () => (
     </div>
 )
 
-const WarrantVisual = () => (
-    <div
-        className="case-visual case-visual--warrant"
-        role="img"
-        aria-label="해양경찰 사건수사시스템 KICS 업무망의 자료 제공 요청이 LG CNS가 주관하는 집행포털 인터넷망을 거쳐 금융기관 업무망과 통신사 전용망으로 전달되고, 금융기관 및 통신사의 제출 자료가 집행포털을 거쳐 KICS 업무망으로 전달되는 흐름"
-    >
-        <div className="warrant-map__label">
-            BEINTECH / LG CNS 컨소시엄 / KICS-통신사 및 집행포털 연계
-        </div>
-        <div className="warrant-map">
-            <div className="warrant-map__flow">
-                <div className="warrant-map__flow-title">
-                    <span>01</span>
-                    <strong>자료 제공 요청</strong>
-                </div>
-                <div className="warrant-map__lane">
-                    <div className="warrant-map__node warrant-map__node--requester">
-                        <small>행정망</small>
-                        <strong>해양경찰 사건수사시스템</strong>
-                        <span>KICS 업무망</span>
-                    </div>
-                    <div className="warrant-map__connector" aria-hidden="true">
-                        <span>자료 제공 요청</span>
-                    </div>
-                    <div className="warrant-map__node warrant-map__node--portal">
-                        <small>인터넷망 / LG CNS 주관</small>
-                        <strong>전자영장 집행포털</strong>
-                        <span>요청 수신 / 기관별 변환 / 상태 관리</span>
-                    </div>
-                    <div className="warrant-map__connector" aria-hidden="true">
-                        <span>기관별 전달</span>
-                    </div>
-                    <div className="warrant-map__responders">
-                        <small>기관 업무망</small>
-                        <strong>금융기관 업무망</strong>
-                        <strong>통신사 업무망 / 전용망</strong>
-                    </div>
-                </div>
-            </div>
-            <div className="warrant-map__flow">
-                <div className="warrant-map__flow-title warrant-map__flow-title--submission">
-                    <span>02</span>
-                    <strong>제출 자료</strong>
-                </div>
-                <div className="warrant-map__lane">
-                    <div className="warrant-map__responders">
-                        <small>기관 업무망</small>
-                        <strong>금융기관 업무망</strong>
-                        <strong>통신사 업무망 / 전용망</strong>
-                    </div>
-                    <div
-                        className="warrant-map__connector warrant-map__connector--submission"
-                        aria-hidden="true"
-                    >
-                        <span>제출 자료</span>
-                    </div>
-                    <div className="warrant-map__node warrant-map__node--portal">
-                        <small>인터넷망 / LG CNS 주관</small>
-                        <strong>전자영장 집행포털</strong>
-                        <span>자료 수신 / 연계 변환 / 전송 상태 관리</span>
-                    </div>
-                    <div
-                        className="warrant-map__connector warrant-map__connector--submission"
-                        aria-hidden="true"
-                    >
-                        <span>KICS 전달</span>
-                    </div>
-                    <div className="warrant-map__node warrant-map__node--requester">
-                        <small>행정망</small>
-                        <strong>해양경찰 사건수사시스템</strong>
-                        <span>KICS 업무 반영</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-)
-
-const HopeCommitVisual = () => {
-    const steps = [
-        ["01 / 대상 지정", "검토할 커밋 ID", "사용자가 입력한 로컬 커밋"],
-        ["02 / 비교 기준", "비교 기준 확정", "일반, 최초 및 병합 커밋별 규칙 적용"],
-        ["03 / 코드 수집", "변경 코드 수집", "현재 수정 중인 파일 제외"],
-        ["04 / 내용 확인", "설명과 실제 코드 연결", "변경 파일과 줄 번호 확인"],
-        ["05 / 결과 저장", "새 HTML 파일 생성", "검증을 통과한 경우에만 저장"],
-    ]
-
-    return (
-        <div
-            className="case-visual case-visual--hope-commit"
-            role="img"
-            aria-label="입력 커밋과 일반, 최초 및 병합 커밋별 규칙으로 확정한 비교 기준에 각각 저장된 코드를 대조하고, 현재 수정 중인 파일을 제외한 변경 코드를 수집한 뒤 설명이 실제 파일과 줄을 가리키는지 확인해 새 HTML 리뷰로 저장하는 흐름"
-        >
-            <div className="hope-commit-map__label">COMMIT DIFF / 지정한 커밋의 변경만 검토</div>
-            <ol className="hope-commit-map">
-                {steps.map(([label, title, description]) => (
-                    <li key={label}>
-                        <span>{label}</span>
-                        <strong>{title}</strong>
-                        <small>{description}</small>
-                    </li>
-                ))}
-            </ol>
-            <div className="hope-commit-map__boundaries">
-                <span>현재 수정 중인 파일 제외</span>
-                <span>이전 대화 제외</span>
-                <span>원격 저장소 자동 검사 결과 제외</span>
-                <strong>입력 커밋과 확정한 비교 기준에 저장된 코드만 사용</strong>
-            </div>
-        </div>
-    )
-}
-
 const EducationStreamingVisual = () => (
     <div
         className="case-visual case-visual--webrtc"
@@ -305,11 +208,11 @@ const ProjectVisual = ({ project }) => {
     }
 
     if (project.visual === "hope-commit") {
-        return <HopeCommitVisual />
+        return <HopeCommitFlowDiagram />
     }
 
     if (project.visual === "warrant") {
-        return <WarrantVisual />
+        return <WarrantIntegrationDiagram />
     }
 
     if (project.visual === "webrtc") {

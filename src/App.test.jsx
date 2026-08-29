@@ -479,12 +479,14 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /입력 커밋과 .* 확정한 비교 기준에 각각 저장된 코드를 대조하고/,
+            name: /Hope Commit의 커밋 검토 및 저장 흐름.*입력 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준/,
         }),
     ).toBeInTheDocument()
     expect(
-        screen.getByText("입력 커밋과 확정한 비교 기준에 저장된 코드만 사용"),
+        screen.getByText(/입력 커밋과 확정한 비교 기준에 저장된 코드만 읽고/),
     ).toBeInTheDocument()
+    expect(screen.getByText("사용자가 고른 부모")).toBeInTheDocument()
+    expect(screen.getByText("저장하지 않고 중단")).toBeInTheDocument()
     expect(
         screen.getByText(
             /공개 main 3\.1\.1은 245개, 원격 개발 브랜치 4\.0\.0 커밋 d6203de는 277개 통과/,

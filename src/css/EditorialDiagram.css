@@ -1,0 +1,649 @@
+.editorial-diagram {
+    --diagram-paper: #f6f8fa;
+    --diagram-node: #ffffff;
+    --diagram-ink: #1f2328;
+    --diagram-muted: #59636e;
+    --diagram-soft: #6e7781;
+    --diagram-rule: #d0d7de;
+    --diagram-rule-strong: #afb8c1;
+    --diagram-accent: #0969da;
+    --diagram-accent-tint: rgba(9, 105, 218, 0.08);
+    margin: 0;
+    color: var(--diagram-ink);
+}
+
+.editorial-diagram__header {
+    display: grid;
+    grid-template-columns: minmax(136px, 0.35fr) minmax(280px, 0.75fr) minmax(320px, 0.9fr);
+    gap: 24px;
+    align-items: baseline;
+    padding: 24px 0;
+    border-top: 1px solid var(--diagram-rule);
+}
+
+.editorial-diagram__eyebrow {
+    color: var(--diagram-accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.editorial-diagram__header > strong,
+.editorial-diagram__title {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(24px, 2.5vw, 36px);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    word-break: keep-all;
+}
+
+.editorial-diagram__header > p,
+.editorial-diagram__summary {
+    margin: 0;
+    color: var(--diagram-muted);
+    font-size: 14px;
+    line-height: 1.75;
+    word-break: keep-all;
+}
+
+.editorial-diagram__viewport {
+    position: relative;
+    overflow-x: auto;
+    border-top: 1px solid var(--diagram-rule);
+    border-bottom: 1px solid var(--diagram-rule);
+    background: var(--diagram-paper);
+    scrollbar-color: var(--diagram-rule-strong) var(--diagram-paper);
+    scrollbar-width: thin;
+}
+
+.editorial-diagram__viewport:focus-visible {
+    outline: 2px solid var(--diagram-accent);
+    outline-offset: 3px;
+}
+
+.editorial-diagram__canvas {
+    display: block;
+    width: 100%;
+    min-width: 840px;
+    height: auto;
+    background: var(--diagram-paper);
+}
+
+.editorial-diagram__paper {
+    fill: var(--diagram-paper);
+}
+
+.editorial-diagram__zone {
+    fill: rgba(31, 35, 40, 0.015);
+    stroke: rgba(31, 35, 40, 0.18);
+    stroke-dasharray: 4 4;
+    stroke-width: 1;
+}
+
+.editorial-diagram__label-mask {
+    fill: var(--diagram-paper);
+}
+
+.editorial-diagram__zone-label,
+.editorial-diagram__tag,
+.editorial-diagram__connector-label,
+.editorial-diagram__node-meta,
+.editorial-diagram__legend,
+.editorial-diagram__legend-title {
+    font-family: var(--mono);
+}
+
+.editorial-diagram__zone-label,
+.editorial-diagram__tag,
+.editorial-diagram__legend-title {
+    fill: var(--diagram-soft);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.editorial-diagram__connector {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.2;
+    vector-effect: non-scaling-stroke;
+}
+
+.editorial-diagram__connector--accent {
+    stroke: var(--diagram-accent);
+}
+
+.editorial-diagram__connector--ink {
+    stroke: var(--diagram-ink);
+}
+
+.editorial-diagram__connector--muted {
+    stroke: var(--diagram-muted);
+}
+
+.editorial-diagram__connector--soft {
+    stroke: var(--diagram-soft);
+}
+
+.editorial-diagram__connector--dashed {
+    stroke-dasharray: 5 4;
+    stroke-width: 1;
+}
+
+.editorial-diagram__connector-label {
+    fill: var(--diagram-muted);
+    font-size: 8px;
+    letter-spacing: 0.03em;
+}
+
+.editorial-diagram__marker--accent {
+    fill: var(--diagram-accent);
+}
+
+.editorial-diagram__marker--ink {
+    fill: var(--diagram-ink);
+}
+
+.editorial-diagram__marker--muted {
+    fill: var(--diagram-muted);
+}
+
+.editorial-diagram__node > rect {
+    fill: var(--diagram-node);
+    stroke: var(--diagram-ink);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+.editorial-diagram__node--focal > rect {
+    fill: var(--diagram-accent-tint);
+    stroke: var(--diagram-accent);
+    stroke-width: 1.2;
+}
+
+.editorial-diagram__node--external > rect {
+    fill: rgba(31, 35, 40, 0.025);
+    stroke: rgba(31, 35, 40, 0.34);
+}
+
+.editorial-diagram__node-title {
+    fill: var(--diagram-ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.editorial-diagram__node-meta {
+    fill: var(--diagram-muted);
+    font-size: 8px;
+}
+
+.editorial-diagram__node-rule {
+    stroke: var(--diagram-rule);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+.editorial-diagram__legend > line:first-child {
+    stroke: var(--diagram-rule);
+    stroke-width: 1;
+}
+
+.editorial-diagram__legend > text:not(.editorial-diagram__legend-title) {
+    fill: var(--diagram-muted);
+    font-family: var(--mono);
+    font-size: 8px;
+}
+
+.editorial-diagram__legend-zone {
+    fill: transparent;
+    stroke: rgba(31, 35, 40, 0.24);
+    stroke-dasharray: 4 4;
+    stroke-width: 1;
+}
+
+.warrant-integration__canvas {
+    min-width: 880px;
+}
+
+.baton-architecture__canvas,
+.hope-commit-flow__svg {
+    min-width: 880px;
+}
+
+.baton-architecture__connector {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.2;
+    vector-effect: non-scaling-stroke;
+}
+
+.baton-architecture__connector--default {
+    stroke: var(--diagram-ink);
+}
+
+.baton-architecture__connector--async {
+    stroke: var(--diagram-muted);
+    stroke-dasharray: 5 4;
+    stroke-width: 1;
+}
+
+.baton-architecture__connector--link {
+    stroke: var(--diagram-accent);
+}
+
+.baton-architecture__marker--default {
+    fill: var(--diagram-ink);
+}
+
+.baton-architecture__marker--accent,
+.baton-architecture__marker--link {
+    fill: var(--diagram-accent);
+}
+
+.baton-architecture__label-mask,
+.hope-commit-flow__connector-label rect {
+    fill: var(--diagram-paper);
+}
+
+.baton-architecture__label,
+.hope-commit-flow__connector-label text {
+    fill: var(--diagram-muted);
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.03em;
+}
+
+.baton-architecture__node-mask,
+.baton-architecture__node-surface {
+    fill: var(--diagram-node);
+}
+
+.baton-architecture__node-surface {
+    stroke: var(--diagram-ink);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+.baton-architecture__node--focal .baton-architecture__node-surface {
+    fill: var(--diagram-accent-tint);
+    stroke: var(--diagram-accent);
+    stroke-width: 1.2;
+}
+
+.baton-architecture__node-tag {
+    fill: transparent;
+    stroke: var(--diagram-rule-strong);
+    stroke-width: 0.8;
+}
+
+.baton-architecture__node--focal .baton-architecture__node-tag {
+    stroke: var(--diagram-accent);
+}
+
+.baton-architecture__node-kind,
+.baton-architecture__node-role {
+    fill: var(--diagram-muted);
+    font-family: var(--mono);
+    font-size: 8px;
+}
+
+.baton-architecture__node-kind {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.baton-architecture__node-name {
+    fill: var(--diagram-ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.baton-architecture__legend-focal {
+    fill: var(--diagram-accent-tint);
+    stroke: var(--diagram-accent);
+    stroke-width: 1;
+}
+
+.hope-commit-flow__connector {
+    fill: none;
+    stroke: var(--diagram-ink);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.2;
+    vector-effect: non-scaling-stroke;
+}
+
+.hope-commit-flow__connector--success {
+    stroke: var(--diagram-accent);
+}
+
+.hope-commit-flow__connector--failure {
+    stroke: var(--diagram-muted);
+    stroke-dasharray: 5 4;
+    stroke-width: 1;
+}
+
+.hope-commit-flow__arrow-head {
+    fill: var(--diagram-ink);
+}
+
+.hope-commit-flow__node rect,
+.hope-commit-flow__node path {
+    fill: var(--diagram-node);
+    stroke: var(--diagram-ink);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+.hope-commit-flow__node--decision path {
+    fill: var(--diagram-paper);
+}
+
+.hope-commit-flow__node--end-success rect {
+    fill: var(--diagram-accent-tint);
+    stroke: var(--diagram-accent);
+    stroke-width: 1.2;
+}
+
+.hope-commit-flow__node--end-failure rect {
+    fill: rgba(31, 35, 40, 0.025);
+    stroke: var(--diagram-muted);
+    stroke-dasharray: 5 4;
+}
+
+.hope-commit-flow__node-title {
+    fill: var(--diagram-ink);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 750;
+    text-anchor: middle;
+}
+
+.hope-commit-flow__node-detail,
+.hope-commit-flow__node-tag,
+.hope-commit-flow__scope-boundary text {
+    fill: var(--diagram-muted);
+    font-family: var(--mono);
+    font-size: 8px;
+    text-anchor: middle;
+}
+
+.hope-commit-flow__node-tag {
+    fill: var(--diagram-accent);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.hope-commit-flow__scope-boundary rect {
+    fill: rgba(31, 35, 40, 0.02);
+    stroke: var(--diagram-rule-strong);
+    stroke-dasharray: 4 4;
+    stroke-width: 1;
+}
+
+.hope-commit-flow__scope-boundary .hope-commit-flow__scope-title {
+    fill: var(--diagram-ink);
+    font-weight: 700;
+    text-anchor: start;
+}
+
+.hope-commit-flow__scope-boundary text:not(.hope-commit-flow__scope-title) {
+    text-anchor: start;
+}
+
+.baton-service-overview {
+    margin-top: 36px;
+}
+
+.baton-service-directory {
+    margin-top: 40px;
+}
+
+.baton-service-directory__header {
+    display: grid;
+    grid-template-columns: minmax(152px, 0.35fr) minmax(280px, 0.75fr) minmax(320px, 0.9fr);
+    gap: 24px;
+    align-items: baseline;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+}
+
+.baton-service-directory__header > span,
+.baton-service-directory__core span,
+.baton-service-directory__identity span {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.baton-service-directory__header h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(24px, 2.4vw, 34px);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+
+.baton-service-directory__header p,
+.baton-service-directory__core p,
+.baton-service-directory__description p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.baton-service-directory__core {
+    display: grid;
+    grid-template-columns: minmax(152px, 0.35fr) minmax(320px, 1fr) minmax(280px, 0.85fr);
+    gap: 24px;
+    align-items: start;
+    padding: 28px 24px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper-raised);
+}
+
+.baton-service-directory__core strong,
+.baton-service-directory__identity strong {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 550;
+    letter-spacing: -0.04em;
+}
+
+.baton-service-directory__core h4,
+.baton-service-directory__description h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.baton-service-directory__core em,
+.baton-service-directory__description em {
+    color: var(--muted);
+    font-size: 12px;
+    font-style: normal;
+    line-height: 1.6;
+}
+
+.baton-service-directory__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--line);
+    list-style: none;
+}
+
+.baton-service-directory__list li {
+    min-width: 0;
+    border-top: 1px solid var(--line);
+}
+
+.baton-service-directory__list li:nth-child(odd) {
+    border-right: 1px solid var(--line);
+}
+
+.baton-service-directory__list a {
+    display: grid;
+    min-height: 100%;
+    grid-template-columns: 100px minmax(0, 1fr) 20px;
+    gap: 20px;
+    padding: 24px;
+    transition: background-color 160ms ease;
+}
+
+.baton-service-directory__list a:hover,
+.baton-service-directory__list a:focus-visible {
+    background: var(--diagram-accent-tint);
+}
+
+.baton-service-directory__identity strong {
+    font-size: 24px;
+}
+
+.baton-service-directory__description em {
+    display: block;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.baton-service-directory__list b {
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 500;
+    text-align: right;
+}
+
+@media (max-width: 860px) {
+    .editorial-diagram__header {
+        grid-template-columns: 128px minmax(0, 1fr);
+    }
+
+    .editorial-diagram__header > p {
+        grid-column: 2;
+    }
+
+    .baton-service-directory__header {
+        grid-template-columns: 128px minmax(0, 1fr);
+    }
+
+    .baton-service-directory__header > p {
+        grid-column: 2;
+    }
+
+    .baton-service-directory__core {
+        grid-template-columns: 128px minmax(0, 1fr);
+    }
+
+    .baton-service-directory__core > em {
+        grid-column: 2;
+    }
+
+    .baton-service-directory__list {
+        grid-template-columns: 1fr;
+    }
+
+    .baton-service-directory__list li:nth-child(odd) {
+        border-right: 0;
+    }
+}
+
+@media (max-width: 620px) {
+    .editorial-diagram__header {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 20px 0;
+    }
+
+    .editorial-diagram__header > p {
+        grid-column: auto;
+    }
+
+    .editorial-diagram__eyebrow {
+        font-size: 11px;
+    }
+
+    .editorial-diagram__header > strong {
+        font-size: 26px;
+    }
+
+    .editorial-diagram__header > p {
+        font-size: 13px;
+    }
+
+    .baton-service-directory__header,
+    .baton-service-directory__core {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .baton-service-directory__header > p,
+    .baton-service-directory__core > em {
+        grid-column: auto;
+    }
+
+    .baton-service-directory__core {
+        padding: 22px 18px;
+    }
+
+    .baton-service-directory__list a {
+        grid-template-columns: 80px minmax(0, 1fr) 16px;
+        gap: 14px;
+        padding: 20px 4px;
+    }
+
+    .baton-service-directory__identity strong {
+        font-size: 20px;
+    }
+
+    .editorial-diagram__viewport::before {
+        position: sticky;
+        left: 12px;
+        z-index: 2;
+        display: block;
+        width: max-content;
+        margin: 12px 0 12px 12px;
+        padding: 6px 8px;
+        border: 1px solid var(--diagram-rule);
+        border-radius: 4px;
+        background: rgba(246, 248, 250, 0.94);
+        color: var(--diagram-muted);
+        content: "← 가로로 이동해 전체 흐름 보기 →";
+        font-family: var(--mono);
+        font-size: 10px;
+        pointer-events: none;
+    }
+}
+
+@media print {
+    .editorial-diagram__viewport {
+        overflow: visible;
+    }
+
+    .editorial-diagram__canvas,
+    .warrant-integration__canvas,
+    .baton-architecture__canvas,
+    .hope-commit-flow__svg {
+        min-width: 0;
+    }
+
+    .editorial-diagram__viewport::before {
+        content: none;
+    }
+}
