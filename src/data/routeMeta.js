@@ -12,13 +12,13 @@ export const routeMeta = {
     "/projects/baton": {
         title: "BATON | 임정규 포트폴리오",
         description:
-            "조직의 역할, 반복 업무, 의사결정과 인수인계를 관리하고 링크 생성, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더와 최대 6명 WebRTC 화상방을 별도 서비스로 구현한 BATON 프로젝트",
+            "조직의 역할, 반복 업무, 의사결정과 인수인계를 관리하고 링크 생성, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더와 최대 6명이 참여하는 WebRTC 스터디룸을 별도 서비스로 구현한 BATON 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/baton/go": {
         title: "BATON GO | 임정규 포트폴리오",
         description:
-            "BATON 조직 화면과 ROUND 화상방 중 허용된 주소에 짧은 링크를 발급하고 리다이렉트하며 실제 접근 권한은 대상 서비스가 직접 확인하도록 구현한 GO 마이크로서비스",
+            "BATON 조직 화면과 ROUND WebRTC 스터디룸으로 연결되는 허용된 주소에 짧은 링크를 발급하고 리다이렉트하며 실제 접근 권한은 대상 서비스가 직접 확인하도록 구현한 GO 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/watch": {
@@ -36,7 +36,7 @@ export const routeMeta = {
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "담당자 공백, 담당 종료가 임박한 역할의 후임자 미지정, 위험 역할의 책임 및 인수인계 자료 부족, 반복 지연 업무와 교대가 가까운 미완료 인수인계를 찾아 운영 점검 목록과 주간 보고서를 만드는 BRIEF 마이크로서비스",
+            "BRIEF는 담당자 및 후임자 공백, 위험 요소가 있는 역할의 책임과 인수인계 자료 부족, 반복 마감 지연과 교대가 가까운 미완료 인수인계를 찾습니다. 결과는 운영 점검 목록과 주간 보고서로 정리합니다.",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
@@ -48,7 +48,7 @@ export const routeMeta = {
     "/projects/baton/round": {
         title: "BATON ROUND | 임정규 포트폴리오",
         description:
-            "중앙 서비스가 발급한 방 참여 권한을 확인한 뒤 최대 6명의 화상 연결 메시지를 전달하고, 직접 연결이 어려울 때 중계 서버 접속 정보를 제공하는 ROUND 마이크로서비스",
+            "중앙 서비스가 발급한 WebRTC 스터디룸 참여권을 확인한 뒤 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려울 때 중계 서버 접속 정보를 제공하는 ROUND 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {
@@ -60,7 +60,7 @@ export const routeMeta = {
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "결제 및 환불의 중복 처리를 막고 미전송 알림을 복구하며, 옵션 재고 초과 차감을 방지하고 외부 배송조회 등록 실패를 배치로 다시 처리한 happyGallery 프로젝트",
+            "결제 및 환불의 중복 처리를 막고 미전송 알림을 복구하며, 예약 정원과 옵션 재고 초과를 방지하고 외부 배송조회 등록 실패를 배치로 다시 처리한 happyGallery 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {

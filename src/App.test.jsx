@@ -21,10 +21,10 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(heroHighlights).toHaveTextContent("KICS-통신사 및 집행포털 연계 · Spring Batch")
     expect(heroHighlights).toHaveTextContent("BATON")
     expect(heroHighlights).toHaveTextContent(
-        "중앙 서비스가 조직, 역할과 조직 작업 공간 접속용 공유 키 관리",
+        "중앙 서비스가 조직 데이터와 조직 구성원이 작업 공간에 접속할 때 함께 사용하는 공유 키를 관리하고",
     )
     expect(heroHighlights).toHaveTextContent(
-        "6개 서비스가 링크, URL 점검, 이벤트 전달, 보고서, 캘린더와 화상방 처리",
+        "6개 서비스가 링크, URL 점검, 이벤트 전달, 보고서, 캘린더와 WebRTC 스터디룸을 처리",
     )
     expect(heroHighlights).toHaveTextContent("happyGallery")
     expect(heroHighlights).toHaveTextContent(
@@ -102,7 +102,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(document.title).toBe("BATON | 임정규 포트폴리오")
     expect(
         screen.getByRole("heading", {
-            name: /중앙 서비스\(Core\)는 조직 정보와 조직 작업 공간 접속용 공유 키를 관리하고/,
+            name: /중앙 서비스\(Core\)는 조직 정보와 작업 공간 공유 키를 관리하고/,
         }),
     ).toBeInTheDocument()
 })
@@ -158,7 +158,12 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
     ).toBeInTheDocument()
     expect(desktop.getByText("중복 결제 및 환불 방지")).toBeInTheDocument()
     expect(desktop.getByText("서버 중단으로 남은 알림 재전송")).toBeInTheDocument()
-    expect(desktop.getByText("동시 예약 및 재고 초과 차감 방지")).toBeInTheDocument()
+    expect(desktop.getByText("동시 예약 정원 및 재고 초과 방지")).toBeInTheDocument()
+    expect(
+        desktop.getByText(
+            "예약할 클래스와 예약 시간 행을 잠근 뒤 현재 예약 인원과 새 요청 인원을 합산하고, 재고 행은 항상 같은 순서로 잠근 뒤 차감합니다. 요청이 동시에 들어와도 예약 정원이나 재고를 초과하지 않게 합니다.",
+        ),
+    ).toBeInTheDocument()
     expect(desktop.getByText("중단 작업 재처리")).toBeInTheDocument()
 
     expect(skills).not.toHaveTextContent("Java 21 / 11 / 8")
@@ -297,6 +302,7 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
 
     const warrantFacts = screen.getByLabelText("전송형 전자영장 시스템 담당, 문제와 해결")
     const galleryFacts = screen.getByLabelText("happyGallery 담당, 문제와 해결")
+    const defenseFacts = screen.getByLabelText("차세대 군사법 정보 시스템 담당, 문제와 해결")
 
     expect(within(warrantFacts).getByText("담당")).toBeInTheDocument()
     expect(within(warrantFacts).getByText("문제")).toBeInTheDocument()
@@ -312,10 +318,13 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
     )
 
     expect(galleryFacts).toHaveTextContent(
-        "결제 승인 결과 미수신, 주문 저장 직후 서버 중단으로 인한 알림 유실과 동시 주문 시 옵션 재고 초과 차감",
+        "결제 승인 결과 미수신, 주문 저장 직후 서버 중단으로 인한 알림 유실과 동시 예약 및 주문 시 정원이나 옵션 재고 초과",
     )
     expect(galleryFacts).toHaveTextContent(
-        "결제 요청 ID로 중복 승인을 막고, 미전송 알림은 DB에서 다시 처리하며, 옵션 재고 행은 항상 같은 순서로 잠근 뒤 차감",
+        "결제 요청 ID로 중복 승인을 막고, 미전송 알림은 DB에서 다시 처리했습니다. 클래스와 예약 시간 행을 잠근 뒤 정원을 확인했으며, 옵션 재고 행은 항상 같은 순서로 잠그고 차감했습니다.",
+    )
+    expect(defenseFacts).toHaveTextContent(
+        "군교정 업무 화면과 군사법원, 군검찰 및 군사경찰에서 받은 수용 대상자의 인적정보 및 영장정보 검증 배치",
     )
 })
 
@@ -628,10 +637,7 @@ test("알 수 없는 경로는 주소를 숨기지 않고 404 안내를 제공�
         "content",
         "noindex, nofollow",
     )
-    expect(screen.getByRole("link", { name: /프로젝트 목록으로 돌아가기/ })).toHaveAttribute(
-        "href",
-        "/",
-    )
+    expect(screen.getByRole("link", { name: /홈으로 돌아가기/ })).toHaveAttribute("href", "/")
 })
 
 test("끝 슬래시가 붙은 미등록 주소로 이동하면 404 제목에 포커스를 둔다", async () => {

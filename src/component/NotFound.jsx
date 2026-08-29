@@ -13,7 +13,7 @@ const NotFound = () => {
                 </h1>
                 <p>주소가 바뀌었거나 더 이상 제공하지 않는 페이지입니다.</p>
                 <Link to="/">
-                    프로젝트 목록으로 돌아가기 <span aria-hidden="true">→</span>
+                    홈으로 돌아가기 <span aria-hidden="true">→</span>
                 </Link>
             </div>
         </main>

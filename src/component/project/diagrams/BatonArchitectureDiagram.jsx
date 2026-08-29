@@ -4,28 +4,28 @@ const NODE_DEFINITIONS = [
     {
         id: "go",
         fallbackName: "GO",
-        shortRole: "정책형 짧은 링크",
+        shortRole: "허용 경로의 짧은 링크",
         x: 40,
         y: 48,
     },
     {
         id: "watch",
         fallbackName: "WATCH",
-        shortRole: "안전한 URL 점검",
+        shortRole: "외부 URL 상태 점검",
         x: 40,
         y: 232,
     },
     {
         id: "relay",
         fallbackName: "RELAY",
-        shortRole: "외부 이벤트 전달",
+        shortRole: "서비스 간 이벤트 전달",
         x: 40,
         y: 400,
     },
     {
         id: "core",
         fallbackName: "Core",
-        shortRole: "조직 운영 원본",
+        shortRole: "조직, 역할 및 인수인계",
         x: 380,
         y: 232,
         focal: true,
@@ -33,21 +33,21 @@ const NODE_DEFINITIONS = [
     {
         id: "brief",
         fallbackName: "BRIEF",
-        shortRole: "주간 운영 요약",
+        shortRole: "운영 점검 및 주간 보고서",
         x: 720,
         y: 48,
     },
     {
         id: "cal",
         fallbackName: "CAL",
-        shortRole: "읽기 전용 캘린더",
+        shortRole: "읽기 전용 캘린더 구독",
         x: 720,
         y: 232,
     },
     {
         id: "round",
         fallbackName: "ROUND",
-        shortRole: "WebRTC 화상방",
+        shortRole: "WebRTC 스터디룸",
         x: 720,
         y: 400,
     },
@@ -162,11 +162,13 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                     SYSTEM ARCHITECTURE
                 </span>
                 <h3 className="editorial-diagram__title baton-architecture__title">
-                    Core가 운영 데이터를 확정하고, 6개 서비스가 목적별 처리를 맡습니다.
+                    Core와 6개 서비스의 책임 및 연동 계약
                 </h3>
                 <p className="editorial-diagram__summary baton-architecture__summary">
-                    Core는 조직 운영 데이터와 참여 권한을 관리하고 각 서비스는 링크 생성, URL 점검,
-                    이벤트 전달, 운영 요약, 캘린더 및 화상 연결을 독립적으로 처리합니다.
+                    Core는 조직, 역할 및 인수인계를 관리하고 6개 서비스는 허용 경로의 짧은 링크,
+                    외부 URL 상태 점검, 서비스 간 이벤트 전달, 운영 점검과 주간 보고서, 읽기 전용
+                    캘린더 구독 및 WebRTC 스터디룸을 각각 담당합니다. 선은 서비스 사이의 요청과
+                    이벤트 계약을 나타내며 공개 환경 전체 연동 완료를 뜻하지 않습니다.
                 </p>
             </figcaption>
 
@@ -183,10 +185,14 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                     role="img"
                     aria-labelledby="baton-architecture-title baton-architecture-desc"
                 >
-                    <title id="baton-architecture-title">BATON 서비스 아키텍처</title>
+                    <title id="baton-architecture-title">
+                        Core와 6개 서비스의 책임 및 연동 계약
+                    </title>
                     <desc id="baton-architecture-desc">
-                        BATON Core가 허용 경로, URL 버전, 운영 및 일정 이벤트와 RS256 참여권을 여섯
-                        마이크로서비스와 주고받는 관계를 보여줍니다.
+                        Core가 조직, 역할 및 인수인계를 관리하고 6개 서비스가 허용 경로의 짧은 링크,
+                        외부 URL 상태 점검, 서비스 간 이벤트 전달, 운영 점검과 주간 보고서, 읽기
+                        전용 캘린더 구독 및 WebRTC 스터디룸을 맡는 구조입니다. 선은 서비스 사이의
+                        요청과 이벤트 계약이며 공개 환경 전체 연동 완료를 뜻하지 않습니다.
                     </desc>
                     <defs>
                         <marker
@@ -284,9 +290,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                     className={`baton-architecture__node${
                                         definition.focal ? " baton-architecture__node--focal" : ""
                                     }`}
-                                    aria-label={`${service.name}: ${
-                                        service.role ?? definition.shortRole
-                                    }`}
+                                    aria-label={`${service.name}: ${definition.shortRole}`}
                                 >
                                     <rect
                                         className="baton-architecture__node-mask"
@@ -355,7 +359,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             rx="4"
                         />
                         <text x="172" y="536">
-                            Core 원본
+                            Core 관리 데이터
                         </text>
                         <line
                             className="baton-architecture__connector baton-architecture__connector--default"
@@ -365,7 +369,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             y2="532"
                         />
                         <text x="344" y="536">
-                            동기 요청
+                            동기 요청 계약
                         </text>
                         <line
                             className="baton-architecture__connector baton-architecture__connector--async"
@@ -375,7 +379,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             y2="532"
                         />
                         <text x="512" y="536">
-                            이벤트 및 비동기 처리
+                            이벤트 및 비동기 계약
                         </text>
                         <line
                             className="baton-architecture__connector baton-architecture__connector--link"
@@ -385,7 +389,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                             y2="532"
                         />
                         <text x="760" y="536">
-                            요청 및 응답
+                            요청 및 응답 계약
                         </text>
                     </g>
                 </svg>

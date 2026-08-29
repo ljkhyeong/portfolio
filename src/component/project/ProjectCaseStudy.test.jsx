@@ -56,16 +56,25 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     sectionIds.forEach((id) => expect(document.getElementById(id)).toBeInTheDocument())
 
     expect(
-        screen.getByRole("img", {
-            name: /BATON 서비스 아키텍처.*BATON Core가 허용 경로, URL 버전, 운영 및 일정 이벤트와 RS256 참여권/,
+        screen.getByRole("heading", {
+            name: "Core와 6개 서비스의 책임 및 연동 계약",
         }),
     ).toBeInTheDocument()
     expect(
+        screen.getByRole("img", {
+            name: /Core와 6개 서비스의 책임 및 연동 계약.*선은 서비스 사이의 요청과 이벤트 계약이며 공개 환경 전체 연동 완료를 뜻하지 않습니다/,
+        }),
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText("Core: 조직, 역할 및 인수인계")).toBeInTheDocument()
+    expect(screen.getByLabelText("GO: 허용 경로의 짧은 링크")).toBeInTheDocument()
+    expect(screen.getByLabelText("WATCH: 외부 URL 상태 점검")).toBeInTheDocument()
+    expect(screen.getByLabelText("ROUND: WebRTC 스터디룸")).toBeInTheDocument()
+    expect(screen.getByText("동기 요청 계약")).toBeInTheDocument()
+    expect(screen.getByText("이벤트 및 비동기 계약")).toBeInTheDocument()
+    expect(
         screen.getByRole("region", { name: "BATON 서비스 아키텍처 가로 스크롤 영역" }),
     ).toHaveAttribute("tabindex", "0")
-    expect(
-        screen.getByRole("heading", { name: "서비스별 책임과 검증 근거" }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "서비스별 책임과 검증 근거" })).toBeInTheDocument()
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
@@ -189,12 +198,19 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(
         screen.getByRole("heading", { name: "독립망 간 업무 흐름 및 시스템 구성" }),
     ).toBeInTheDocument()
+    const integrationDiagram = screen.getByRole("img", {
+        name: /KICS 요청 변환 및 기관 연계 흐름.*KICS 연계 서버와 배치가 KICS 요청을 통신사용 형식으로 변환.*전자영장 포털을 거쳐 금융기관/,
+    })
+
+    expect(integrationDiagram).toBeInTheDocument()
+    expect(integrationDiagram.querySelectorAll(".editorial-diagram__zone")).toHaveLength(3)
     expect(
-        screen.getByRole("img", {
-            name: /전송형 전자영장 기관 연계 흐름.*해양경찰 KICS의 자료 제공 요청이 전자영장 집행포털에서 기관별 형식으로 변환/,
-        }),
-    ).toBeInTheDocument()
-    expect(screen.getByText("FIG 03 / BEINTECH × LG CNS")).toBeInTheDocument()
+        integrationDiagram.querySelectorAll(
+            ".warrant-integration__nodes > .editorial-diagram__node",
+        ),
+    ).toHaveLength(4)
+    expect(screen.getByText("FIG 03 / BEINTECH / LG CNS 컨소시엄")).toBeInTheDocument()
+    expect(screen.getByRole("group", { name: "KICS 연계 서버 및 배치" })).toBeInTheDocument()
     expect(
         screen.getByRole("region", { name: "전자영장 기관 연계 흐름 가로 스크롤 영역" }),
     ).toHaveAttribute("tabindex", "0")
@@ -204,10 +220,12 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
             name: "PDF 변환 요청 상태가 저장되기 전에 도착한 완료 응답 재처리",
         }),
     ).toBeInTheDocument()
-    expect(screen.getAllByText("자료 제공 요청").length).toBeGreaterThan(0)
-    expect(screen.getAllByText("제출 자료").length).toBeGreaterThan(0)
-    expect(screen.getAllByText("행정망").length).toBeGreaterThan(0)
-    expect(screen.getAllByText("인터넷망 / LG CNS 주관").length).toBeGreaterThan(0)
+    expect(screen.getByText("포털용 요청")).toBeInTheDocument()
+    expect(screen.getAllByText("금융기관 요청 중계").length).toBeGreaterThan(0)
+    expect(screen.getByText("통신사용 요청")).toBeInTheDocument()
+    expect(screen.getByText("통신사 제출 자료")).toBeInTheDocument()
+    expect(screen.getByText("KICS 행정망")).toBeInTheDocument()
+    expect(screen.getByText("인터넷망 / 전자영장 포털")).toBeInTheDocument()
     expect(
         screen.getByRole("list", { name: "전송형 전자영장 시스템 기술 스택" }),
     ).toHaveTextContent("Oracle DB")
@@ -225,7 +243,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
 })
 
-test("군사법 상세는 세 기관의 데이터 연계와 레거시 환경의 보안 및 장애 대응을 구체적으로 보여준다", () => {
+test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 연계와 레거시 환경의 보안 및 장애 대응을 구체적으로 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="defense" />)
 
     expect(

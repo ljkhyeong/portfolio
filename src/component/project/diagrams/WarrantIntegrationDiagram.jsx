@@ -1,11 +1,11 @@
 const WarrantIntegrationDiagram = () => (
     <figure className="editorial-diagram warrant-integration">
         <figcaption className="editorial-diagram__header">
-            <span className="editorial-diagram__eyebrow">FIG 03 / BEINTECH × LG CNS</span>
-            <strong>독립망 사이에서 요청과 제출 자료를 변환해 전달</strong>
+            <span className="editorial-diagram__eyebrow">FIG 03 / BEINTECH / LG CNS 컨소시엄</span>
+            <strong>KICS 연계 서버와 배치가 기관별 요청을 변환해 전달</strong>
             <p>
-                행정망, 인터넷망과 기관 업무망의 경계를 유지하면서 집행포털이 기관별 형식 변환과
-                전송 상태를 관리합니다.
+                KICS 요청을 통신사용 형식과 전자영장 포털용 형식으로 각각 변환했습니다. 전자영장
+                포털은 금융기관으로 요청을 전달하고 제출 자료를 KICS로 돌려보내는 경로를 중계합니다.
             </p>
         </figcaption>
         <div
@@ -20,11 +20,11 @@ const WarrantIntegrationDiagram = () => (
                 role="img"
                 aria-labelledby="warrant-integration-title warrant-integration-desc"
             >
-                <title id="warrant-integration-title">전송형 전자영장 기관 연계 흐름</title>
+                <title id="warrant-integration-title">KICS 요청 변환 및 기관 연계 흐름</title>
                 <desc id="warrant-integration-desc">
-                    해양경찰 KICS의 자료 제공 요청이 전자영장 집행포털에서 기관별 형식으로 변환되어
-                    금융기관과 통신사에 전달되고, 제출 자료가 포털을 거쳐 KICS에 반영되는
-                    흐름입니다.
+                    KICS 연계 서버와 배치가 KICS 요청을 통신사용 형식으로 변환해 통신사 경로로
+                    전달하고, 포털용 형식으로 변환한 요청은 전자영장 포털을 거쳐 금융기관에 전달한
+                    뒤 제출 자료를 KICS에 반영하는 흐름입니다.
                 </desc>
                 <defs>
                     <marker
@@ -80,33 +80,33 @@ const WarrantIntegrationDiagram = () => (
                         className="editorial-diagram__label-mask"
                         x="48"
                         y="44"
-                        width="72"
+                        width="96"
                         height="16"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__zone-label"
-                        x="84"
+                        x="96"
                         y="56"
                         textAnchor="middle"
                     >
-                        행정망
+                        KICS 행정망
                     </text>
                     <rect
                         className="editorial-diagram__label-mask"
                         x="372"
                         y="44"
-                        width="160"
+                        width="176"
                         height="16"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__zone-label"
-                        x="452"
+                        x="460"
                         y="56"
                         textAnchor="middle"
                     >
-                        인터넷망 / LG CNS 주관
+                        인터넷망 / 전자영장 포털
                     </text>
                     <rect
                         className="editorial-diagram__label-mask"
@@ -130,48 +130,48 @@ const WarrantIntegrationDiagram = () => (
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--accent"
                         x1="240"
-                        y1="224"
+                        y1="168"
                         x2="396"
-                        y2="224"
+                        y2="168"
                         markerEnd="url(#warrant-arrow-request)"
                     />
                     <rect
                         className="editorial-diagram__label-mask"
-                        x="252"
-                        y="196"
-                        width="132"
-                        height="16"
-                        rx="2"
-                    />
-                    <text
-                        className="editorial-diagram__connector-label"
-                        x="318"
-                        y="208"
-                        textAnchor="middle"
-                    >
-                        자료 제공 요청
-                    </text>
-
-                    <line
-                        className="editorial-diagram__connector editorial-diagram__connector--muted editorial-diagram__connector--dashed"
-                        x1="396"
-                        y1="304"
-                        x2="240"
-                        y2="304"
-                        markerEnd="url(#warrant-arrow-submission)"
-                    />
-                    <rect
-                        className="editorial-diagram__label-mask"
                         x="260"
-                        y="276"
+                        y="140"
                         width="116"
                         height="16"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__connector-label"
-                        x="318"
-                        y="288"
+                        x="320"
+                        y="152"
+                        textAnchor="middle"
+                    >
+                        포털용 요청
+                    </text>
+
+                    <line
+                        className="editorial-diagram__connector editorial-diagram__connector--muted editorial-diagram__connector--dashed"
+                        x1="396"
+                        y1="216"
+                        x2="240"
+                        y2="216"
+                        markerEnd="url(#warrant-arrow-submission)"
+                    />
+                    <rect
+                        className="editorial-diagram__label-mask"
+                        x="276"
+                        y="188"
+                        width="84"
+                        height="16"
+                        rx="2"
+                    />
+                    <text
+                        className="editorial-diagram__connector-label"
+                        x="320"
+                        y="200"
                         textAnchor="middle"
                     >
                         KICS 반영
@@ -187,19 +187,19 @@ const WarrantIntegrationDiagram = () => (
                     />
                     <rect
                         className="editorial-diagram__label-mask"
-                        x="576"
+                        x="568"
                         y="140"
-                        width="132"
+                        width="144"
                         height="16"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__connector-label"
-                        x="642"
+                        x="640"
                         y="152"
                         textAnchor="middle"
                     >
-                        기관별 요청 전달
+                        금융기관 요청 중계
                     </text>
 
                     <line
@@ -214,22 +214,22 @@ const WarrantIntegrationDiagram = () => (
                         className="editorial-diagram__label-mask"
                         x="584"
                         y="188"
-                        width="116"
+                        width="112"
                         height="16"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__connector-label"
-                        x="642"
+                        x="640"
                         y="200"
                         textAnchor="middle"
                     >
-                        제출 자료
+                        제출 자료 중계
                     </text>
 
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--accent"
-                        x1="564"
+                        x1="240"
                         y1="344"
                         x2="720"
                         y2="344"
@@ -237,115 +237,134 @@ const WarrantIntegrationDiagram = () => (
                     />
                     <rect
                         className="editorial-diagram__label-mask"
-                        x="576"
+                        x="416"
                         y="316"
-                        width="132"
+                        width="128"
                         height="16"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__connector-label"
-                        x="642"
+                        x="480"
                         y="328"
                         textAnchor="middle"
                     >
-                        기관별 요청 전달
+                        통신사용 요청
                     </text>
 
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--muted editorial-diagram__connector--dashed"
                         x1="720"
                         y1="392"
-                        x2="564"
+                        x2="240"
                         y2="392"
                         markerEnd="url(#warrant-arrow-submission)"
                     />
                     <rect
                         className="editorial-diagram__label-mask"
-                        x="584"
+                        x="412"
                         y="364"
-                        width="116"
+                        width="136"
                         height="16"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__connector-label"
-                        x="642"
+                        x="480"
                         y="376"
                         textAnchor="middle"
                     >
-                        제출 자료
+                        통신사 제출 자료
                     </text>
                 </g>
 
                 <g className="warrant-integration__nodes">
-                    <g className="editorial-diagram__node">
-                        <rect x="72" y="196" width="168" height="136" rx="8" />
-                        <text className="editorial-diagram__tag" x="88" y="220">
-                            KICS
+                    <g
+                        className="editorial-diagram__node editorial-diagram__node--focal"
+                        role="group"
+                        aria-label="KICS 연계 서버 및 배치"
+                    >
+                        <rect x="72" y="120" width="168" height="304" rx="8" />
+                        <text className="editorial-diagram__tag" x="88" y="144">
+                            KICS SERVER
                         </text>
-                        <text className="editorial-diagram__node-title" x="88" y="252">
+                        <text className="editorial-diagram__node-title" x="88" y="180">
                             <tspan x="88" dy="0">
-                                해양경찰
+                                KICS 연계 서버
                             </tspan>
                             <tspan x="88" dy="20">
-                                사건수사시스템
+                                및 배치
                             </tspan>
                         </text>
-                        <text className="editorial-diagram__node-meta" x="88" y="304">
-                            요청 생성 / 자료 반영
+                        <line
+                            className="editorial-diagram__node-rule"
+                            x1="88"
+                            y1="224"
+                            x2="224"
+                            y2="224"
+                        />
+                        <text className="editorial-diagram__node-meta" x="88" y="252">
+                            <tspan x="88" dy="0">
+                                KICS 요청 수신
+                            </tspan>
+                            <tspan x="88" dy="20">
+                                통신사용 요청 변환
+                            </tspan>
+                            <tspan x="88" dy="20">
+                                포털용 요청 변환
+                            </tspan>
+                            <tspan x="88" dy="20">
+                                전송 요청 생성
+                            </tspan>
+                        </text>
+                        <line
+                            className="editorial-diagram__node-rule"
+                            x1="88"
+                            y1="328"
+                            x2="224"
+                            y2="328"
+                        />
+                        <text className="editorial-diagram__node-meta" x="88" y="356">
+                            <tspan x="88" dy="0">
+                                제출 자료 수신
+                            </tspan>
+                            <tspan x="88" dy="20">
+                                KICS 제출 자료 반영
+                            </tspan>
+                            <tspan x="88" dy="20">
+                                Spring Batch
+                            </tspan>
                         </text>
                     </g>
 
-                    <g className="editorial-diagram__node editorial-diagram__node--focal">
-                        <rect x="396" y="120" width="168" height="304" rx="8" />
-                        <text className="editorial-diagram__tag" x="412" y="144">
+                    <g className="editorial-diagram__node" role="group" aria-label="전자영장 포털">
+                        <rect x="396" y="112" width="168" height="136" rx="8" />
+                        <text className="editorial-diagram__tag" x="412" y="136">
                             PORTAL
                         </text>
-                        <text className="editorial-diagram__node-title" x="412" y="180">
+                        <text className="editorial-diagram__node-title" x="412" y="168">
                             <tspan x="412" dy="0">
                                 전자영장
                             </tspan>
                             <tspan x="412" dy="20">
-                                집행포털
+                                포털
                             </tspan>
                         </text>
-                        <line
-                            className="editorial-diagram__node-rule"
-                            x1="412"
-                            y1="224"
-                            x2="548"
-                            y2="224"
-                        />
-                        <text className="editorial-diagram__node-meta" x="412" y="252">
+                        <text className="editorial-diagram__node-meta" x="412" y="216">
                             <tspan x="412" dy="0">
-                                요청 수신
+                                금융기관 요청 중계
                             </tspan>
-                            <tspan x="412" dy="20">
-                                기관별 형식 변환
-                            </tspan>
-                            <tspan x="412" dy="20">
-                                전송 상태 관리
-                            </tspan>
-                        </text>
-                        <line
-                            className="editorial-diagram__node-rule"
-                            x1="412"
-                            y1="328"
-                            x2="548"
-                            y2="328"
-                        />
-                        <text className="editorial-diagram__node-meta" x="412" y="356">
-                            <tspan x="412" dy="0">
-                                제출 자료 수신
-                            </tspan>
-                            <tspan x="412" dy="20">
-                                연계 변환 / KICS 반영
+                            <tspan x="412" dy="16">
+                                제출 자료 중계
                             </tspan>
                         </text>
                     </g>
 
-                    <g className="editorial-diagram__node editorial-diagram__node--external">
+                    <g
+                        className="editorial-diagram__node editorial-diagram__node--external"
+                        role="group"
+                        aria-label="금융기관 업무망"
+                    >
                         <rect x="720" y="120" width="168" height="120" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="144">
                             INSTITUTION
@@ -354,11 +373,15 @@ const WarrantIntegrationDiagram = () => (
                             금융기관 업무망
                         </text>
                         <text className="editorial-diagram__node-meta" x="736" y="208">
-                            요청 접수 / 자료 제출
+                            포털 경유 / 자료 제출
                         </text>
                     </g>
 
-                    <g className="editorial-diagram__node editorial-diagram__node--external">
+                    <g
+                        className="editorial-diagram__node editorial-diagram__node--external"
+                        role="group"
+                        aria-label="통신사 업무망"
+                    >
                         <rect x="720" y="304" width="168" height="120" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="328">
                             INSTITUTION
@@ -367,7 +390,7 @@ const WarrantIntegrationDiagram = () => (
                             통신사 업무망
                         </text>
                         <text className="editorial-diagram__node-meta" x="736" y="392">
-                            전용망 / 자료 제출
+                            요청 접수 / 자료 제출
                         </text>
                     </g>
                 </g>
@@ -385,7 +408,7 @@ const WarrantIntegrationDiagram = () => (
                         y2="516"
                     />
                     <text x="176" y="520">
-                        자료 제공 요청
+                        기관별 요청
                     </text>
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--muted editorial-diagram__connector--dashed"
@@ -395,17 +418,17 @@ const WarrantIntegrationDiagram = () => (
                         y2="516"
                     />
                     <text x="368" y="520">
-                        제출 자료
+                        제출 자료 및 KICS 반영
                     </text>
                     <rect
                         className="editorial-diagram__legend-zone"
-                        x="480"
+                        x="560"
                         y="504"
                         width="28"
                         height="20"
                         rx="4"
                     />
-                    <text x="520" y="520">
+                    <text x="600" y="520">
                         독립망 경계
                     </text>
                 </g>

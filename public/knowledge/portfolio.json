@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:25eab46adfb6",
+  "sourceRevision": "sha256:bb319bb61a8f",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -20,7 +20,7 @@
   "documents": [
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:0f177c3c230c",
+      "sourceRevision": "sha256:515bff80305a",
       "documentId": "knowledge_8912b20b35d7ee59c5fdbf08",
       "projectId": "baton",
       "projectName": "BATON",
@@ -28,17 +28,17 @@
       "documentType": "project_overview",
       "title": "BATON 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: BATON\n\n조직 운영 플랫폼\n\n조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 서비스입니다. 조직 데이터와 조직 작업 공간 접속용 공유 키는 중앙 서비스인 Core가 관리하고, 화상방 참여권을 발급할 때 계정과 연결된 활동 중인 스터디 구성원인지 확인합니다. 링크 생성, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더 구독과 화상 회의는 6개 마이크로서비스가 각각 처리합니다.\n\n기간: 2026.07.20 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 일부 저장소 공개\n\n담당: 중앙 서비스와 6개 서비스의 API, 서비스별 저장 방식, 이벤트 형식, 중복 및 실패 재처리 테스트와 배포 절차 설계 및 구현\n\n주요 구현 및 해결: Core는 조직 데이터, 조직 작업 공간 접속용 공유 키와 ROUND 방 참여 가능 여부를 관리합니다. GO, WATCH, RELAY, BRIEF, CAL, ROUND는 각각 짧은 링크, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더 구독과 WebRTC 스터디룸을 처리합니다.\n\n현재 상태: Core와 6개 서비스의 주요 기능을 구현했습니다. CAL은 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 컨테이너에서 처리했고, ROUND는 Core의 실제 참여권 서명 코드로 만든 참여권을 HTTPS 및 암호화된 WebSocket(WSS)에서 검증했습니다. BRIEF는 JSON 형식 2.0.0-rc.1 기준으로 실제 Core 실행 JAR와 로컬 HTTP에서 연동했고, Caddy HTTPS는 계약 예시 JSON으로 별도 확인했습니다. 현재 2.0.0-rc.2의 실제 Core JSON 재검증, 실제 Core-Caddy HTTPS 전달과 공개 main 반영이 남아 있습니다. 실제 운영 자격 증명과 외부 서비스를 사용하는 공개 환경의 전체 연동 검증도 아직 완료하지 않았습니다.\n\n사용 기술: Java 21 / 25, Kotlin, Spring Boot, Spring MVC / JdbcClient, Gradle, MySQL, PostgreSQL, Flyway, RabbitMQ / SQS, iCal4j, WebRTC / Raw WebSocket, Testcontainers, Docker",
+      "content": "프로젝트: BATON\n\n조직 운영 플랫폼\n\n조직의 역할, 반복 업무, 의사결정과 인수인계를 한곳에서 관리하는 서비스입니다. 중앙 서비스인 Core는 조직 데이터와 조직 구성원이 작업 공간에 접속할 때 함께 사용하는 공유 키를 관리합니다. WebRTC 스터디룸 참여권을 발급할 때는 계정과 연결된 활동 중인 스터디 구성원인지 확인합니다. 링크 생성, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더 구독과 WebRTC 스터디룸은 6개 마이크로서비스가 각각 처리합니다.\n\n기간: 2026.07.20 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 일부 저장소 공개\n\n담당: 중앙 서비스와 6개 서비스의 API, 서비스별 저장 방식, 이벤트 형식, 중복 및 실패 재처리 테스트와 배포 절차 설계 및 구현\n\n주요 구현 및 해결: Core는 조직 데이터, 작업 공간 공유 키와 ROUND 방 참여 가능 여부를 관리합니다. GO, WATCH, RELAY, BRIEF, CAL, ROUND는 각각 짧은 링크, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더 구독과 WebRTC 스터디룸을 처리합니다.\n\n현재 상태: Core와 6개 서비스의 주요 기능을 구현했습니다. CAL은 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 컨테이너에서 처리했고, ROUND는 Core의 실제 참여권 서명 코드로 만든 참여권을 HTTPS 및 암호화된 WebSocket(WSS)에서 검증했습니다. BRIEF는 JSON 형식 2.0.0-rc.1 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보내 연동했고, Caddy HTTPS는 계약 예시 JSON으로 별도 확인했습니다. 현재 2.0.0-rc.2의 실제 Core JSON 재검증, 실제 Core-Caddy HTTPS 전달과 공개 main 반영이 남아 있습니다. 실제 운영 자격 증명과 외부 서비스를 사용하는 공개 환경의 전체 연동 검증도 아직 완료하지 않았습니다.\n\n사용 기술: Java 21 / 25, Kotlin, Spring Boot, Spring MVC / JdbcClient, Gradle, MySQL, PostgreSQL, Flyway, RabbitMQ / SQS, iCal4j, WebRTC / Raw WebSocket, Testcontainers, Docker",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-overview",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "0f177c3c230c68860b0b9a4ab215f87995045f5594692aa2ed76c05fb72bc09b",
-      "contentHash": "b075e285f5718006ed9668e3fa84dd01c42eeaf46b9d6f1dfd00badaef719b24"
+      "sourceHash": "515bff80305addd47ad5c8281f98ed3df4820b53af95591860a8d13428ad97aa",
+      "contentHash": "a4afc707caf8fef3cfd554369409a0e444cefc1ecba761abb5f4de2f908773fc"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:8fd4d074057c",
+      "sourceRevision": "sha256:69e2febfa0b1",
       "documentId": "knowledge_1345683521435b6b285c2bb9",
       "projectId": "baton",
       "projectName": "BATON",
@@ -46,13 +46,13 @@
       "documentType": "service_overview",
       "title": "BATON Core 서비스 개요",
       "heading": "Core 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: Core\n\n역할: 조직, 역할 및 인수인계 관리\n\n팀, 역할, 반복 업무, 의사결정과 인수인계를 저장하고 일반 조직 운영 요청의 조직 작업 공간 접속용 공유 키를 확인합니다. ROUND 참여권 발급 때에는 계정과 연결된 활동 중인 스터디 구성원인지 추가로 확인합니다.\n\n주요 기능: 팀, 시즌, 역할, 운영 기록, 조직 작업 공간 접속용 공유 키, 계정과 스터디 구성원 연결 및 ROUND 참여권 발급\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: 인수인계 상태 변경과 역할별 진행 중인 인수인계 1건 제약 테스트 · PRD 6 · ADR 19 · OpenAPI · 서비스 간 이벤트 및 참여권 규격\n\n입력: 팀 및 시즌 생성, 역할과 반복 업무 등록, 의사결정 기록, 바통 전달 및 수락과 ROUND 방 참여 요청\n\n입력 확인: 일반 조직 운영 요청은 조직 작업 공간 접속용 공유 키와 대상 데이터의 팀 및 시즌 소속을 확인합니다. 계정 세션과 계정에 연결된 활동 중인 스터디 구성원은 멤버십 관리와 ROUND 참여권 발급 요청에만 추가로 확인합니다.\n\n출력: 팀, 시즌, 역할, 반복 업무와 인수인계 데이터 및 ROUND 참여권\n\n중복 및 실패 처리: 인수인계 수락과 역할 담당자 및 담당 기간 변경을 한 DB 트랜잭션에서 처리\n\n데이터베이스: MySQL\n\n구현 상태: 조직 운영 기능과 ROUND 참여권 발급, WATCH 상태 변경 이벤트 수신 및 CAL 일정 이벤트 생성을 구현했습니다. CAL 및 WATCH의 전달 대기, 실패, 처리 기한 만료와 마지막 성공 시각을 지표로 제공하고, 5분마다 지표 갱신 중단과 실패 항목을 검사해 로그를 남기는 운영 점검도 구현했습니다. 외부 알림과 실패 항목 자동 재처리는 연결하지 않았으며, 실제 OAuth 및 SMTP 계정과 운영용 자격 증명을 사용한 공개 HTTPS 환경 검증도 남아 있습니다.",
+      "content": "프로젝트: BATON\n\n서비스: Core\n\n역할: 조직, 역할 및 인수인계 관리\n\n팀, 역할, 반복 업무, 의사결정과 인수인계를 저장하고 일반 조직 운영 요청의 작업 공간 공유 키를 확인합니다. ROUND 참여권 발급 때에는 계정과 연결된 활동 중인 스터디 구성원인지 추가로 확인합니다.\n\n주요 기능: 팀, 시즌, 역할, 운영 기록, 작업 공간 공유 키, 계정과 스터디 구성원 연결 및 ROUND 참여권 발급\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: 준비 → 전달 → 수락 순서, 준비 및 전달 단계의 취소와 역할별 진행 중인 인수인계 1건 제약 테스트 · PRD 6 · ADR 19 · OpenAPI · 서비스 간 이벤트 및 참여권 규격\n\n입력: 팀 및 시즌 생성, 역할과 반복 업무 등록, 의사결정 기록, 바통 준비, 전달, 수락 및 취소와 ROUND 방 참여 요청\n\n입력 확인: 일반 조직 운영 요청은 작업 공간 공유 키와 대상 데이터의 팀 및 시즌 소속을 확인합니다. 계정 세션과 계정에 연결된 활동 중인 스터디 구성원은 멤버십 관리와 ROUND 참여권 발급 요청에만 추가로 확인합니다.\n\n출력: 팀, 시즌, 역할, 반복 업무와 인수인계 데이터 및 ROUND 참여권\n\n중복 및 실패 처리: 인수인계 수락과 역할 담당자 및 담당 기간 변경을 한 DB 트랜잭션에서 처리\n\n데이터베이스: MySQL\n\n구현 상태: 조직 운영 기능과 ROUND 참여권 발급, WATCH 상태 변경 이벤트 수신 및 CAL 일정 이벤트 생성을 구현했습니다. CAL 및 WATCH의 전달 대기, 실패, 처리 기한 만료와 마지막 성공 시각을 지표로 제공하고, 5분마다 지표 갱신 중단과 실패 항목을 검사해 로그를 남기는 운영 점검도 구현했습니다. 외부 알림과 실패 항목 자동 재처리는 연결하지 않았으며, 실제 OAuth 및 SMTP 계정과 운영용 자격 증명을 사용한 공개 HTTPS 환경 검증도 남아 있습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "8fd4d074057c3e608df28fbdbe53f1c36e2080cb785e129fb8be76ccb80780a6",
-      "contentHash": "52f535735e7ef7c54256677612ac299a4bdd067ddc001ce0ca2d75c7ae39ca1c"
+      "sourceHash": "69e2febfa0b19dac931795d9241d790db3bc26e05e1a4169911a2568b60879fa",
+      "contentHash": "461599f74acf14b4c6ff05095c7e4a566981e9f910d6987d8b5f69074b6a8fab"
     },
     {
       "schemaVersion": "1.0",
@@ -110,7 +110,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:28dc7e18e92d",
+      "sourceRevision": "sha256:d6d558f0d22d",
       "documentId": "knowledge_716cb839f83bf7376a2e9c78",
       "projectId": "baton",
       "projectName": "BATON",
@@ -118,13 +118,13 @@
       "documentType": "service_overview",
       "title": "BATON BRIEF 서비스 개요",
       "heading": "BRIEF 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 주간 운영 요약\n\nBRIEF는 Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 받아 운영 점검 목록을 만듭니다. 담당자가 없는 역할과 담당 종료가 임박했지만 후임자가 없는 역할을 찾습니다. 위험 요소가 기록된 역할에서는 책임 목록, 인수인계에 포함할 업무 항목과 역할 수행 자료가 빠졌는지, 끝나지 않은 인수인계 항목이 있는지 확인합니다. 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계도 목록에 포함합니다. 보고서 생성 요청을 받으면 해당 주간, BRIEF가 마지막으로 받은 이벤트 순번과 포함 항목을 함께 저장합니다. 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n담당 구현: 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않았습니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 기록했습니다. 저장한 이벤트로 운영 점검 목록을 다시 만드는 기능, 주간 보고서 중복 생성 방지와 서비스 간 요청 인증 토큰(Bearer) 무중단 교체를 Kotlin과 Spring JDBC로 구현했습니다.\n\n주요 기능: 이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서\n\n저장소 공개 범위: 공개 저장소 / 최신 구현은 원격 개발 브랜치\n\n검증 요약: 실제 Core와 BRIEF 실행 JAR를 JSON 계약 패키지 2.0.0-rc.1 기준으로 로컬 HTTP에서 연결하고, 별도로 Caddy 내부 인증서 HTTPS 앞단에 계약 예시 JSON을 전송해 인증과 수신 검증\n\n입력: 담당자 및 후임자 공백, 위험 요소가 있는 역할의 책임 목록, 인수인계할 업무 항목과 역할 수행 자료 부족, 반복 마감 지연, 교대 시점이 가까운 미완료 인수인계 이벤트 및 각 개정 번호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 운영 점검 목록, 수신 이벤트 이력과 생성 후 수정하지 않는 주간 보고서\n\n중복 및 실패 처리: 같은 이벤트와 과거 개정 번호는 다시 반영하지 않고 저장한 수신 이벤트 전체를 읽어 운영 점검 목록을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.3, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: JSON 계약 패키지 2.0.0-rc.1 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 하며, 실제 Core에서 Caddy로 보내는 HTTPS 전달도 아직 검증하지 않았습니다. 최신 구현은 원격 개발 브랜치에 있으며 공개 main 반영 전이고 원격 스테이징에도 배포하지 않았습니다.\n\n적용 범위와 제약: 각 항목이 선택된 이유를 이벤트 종류와 심각도로 확인할 수 있습니다. BRIEF는 Core가 판정한 다섯 가지 조직 연속성 신호를 담는 두 번째 이벤트 형식(v2)과 이전 형식(v1)을 함께 처리합니다. 이벤트 종류가 추가되면 Core가 보내는 JSON 형식, BRIEF의 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 두 버전에 맞춰 함께 변경해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 주간 운영 요약\n\nBRIEF는 Core 개발 브랜치가 생성하는 두 번째 이벤트 형식(v2)을 받아 운영 점검 목록을 만듭니다. 담당자가 없는 역할과 담당 종료가 임박했지만 후임자가 없는 역할을 찾습니다. 위험 요소가 기록된 역할에서는 책임 목록, 인수인계에 포함할 업무 항목과 역할 수행 자료가 빠졌는지, 끝나지 않은 인수인계 항목이 있는지 확인합니다. 반복해서 마감이 지난 업무와 담당 교대 시점이 가까운 미완료 인수인계도 목록에 포함합니다. 보고서 생성 요청을 받으면 해당 주간, BRIEF가 마지막으로 받은 이벤트 순번과 포함 항목을 함께 저장합니다. 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n담당 구현: 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않았습니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 기록했습니다. 저장한 이벤트로 운영 점검 목록을 다시 만드는 기능, 주간 보고서 중복 생성 방지와 서비스 간 요청 인증 토큰(Bearer) 무중단 교체를 Kotlin과 Spring JDBC로 구현했습니다.\n\n주요 기능: 이벤트 중복 및 구버전 차단, 저장 이벤트로 운영 점검 목록 다시 생성, 생성 후 수정하지 않는 주간 보고서\n\n저장소 공개 범위: 공개 저장소 / 최신 구현은 원격 개발 브랜치\n\n검증 요약: 실제 Core 실행 JAR와 BRIEF 실행 JAR는 JSON 계약 패키지 2.0.0-rc.1 기준의 로컬 HTTP로 연결해 검증했습니다. Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON만 전송해 인증과 수신을 별도로 검증했습니다.\n\n입력: 담당자 및 후임자 공백, 위험 요소가 있는 역할의 책임 목록, 인수인계할 업무 항목과 역할 수행 자료 부족, 반복 마감 지연, 교대 시점이 가까운 미완료 인수인계 이벤트 및 각 개정 번호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 운영 점검 목록, 수신 이벤트 이력과 생성 후 수정하지 않는 주간 보고서\n\n중복 및 실패 처리: 같은 이벤트와 과거 개정 번호는 다시 반영하지 않고 저장한 수신 이벤트 전체를 읽어 운영 점검 목록을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.3, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: JSON 계약 패키지 2.0.0-rc.1 기준으로 실제 Core 실행 JAR와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. Caddy 내부 인증서 HTTPS 앞단에는 실제 Core가 아닌 계약 예시 JSON을 전송해 인증과 수신만 별도로 확인했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 하며, 실제 Core에서 Caddy로 보내는 HTTPS 전달도 아직 검증하지 않았습니다. 최신 구현은 원격 개발 브랜치에 있으며 공개 main 반영 전이고 원격 스테이징에도 배포하지 않았습니다.\n\n적용 범위와 제약: 각 항목이 선택된 이유를 이벤트 종류와 심각도로 확인할 수 있습니다. BRIEF는 Core가 판정한 다섯 가지 조직 연속성 신호를 담는 두 번째 이벤트 형식(v2)과 이전 형식(v1)을 함께 처리합니다. 이벤트 종류가 추가되면 Core가 보내는 JSON 형식, BRIEF의 운영 점검 목록 생성 규칙과 주간 보고서 비교 규칙을 두 버전에 맞춰 함께 변경해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "28dc7e18e92d150238a3700462719a8161abcfed90acb8e6dd7661a1143d8cfe",
-      "contentHash": "b7d9e133482b455ae69fcd7b62ca64c610e7f83784977be2e7da7247ec3fe2c2"
+      "sourceHash": "d6d558f0d22d999478ef41ef7856bfe0990268acf1e4904cccc1e04cba6d2dbf",
+      "contentHash": "fe56115f54f203b884137c797bfac6f7ceb2166f37a965d33ae2f8c9de264fad"
     },
     {
       "schemaVersion": "1.0",
@@ -146,7 +146,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:ab5ed67a2a5a",
+      "sourceRevision": "sha256:a667092e707e",
       "documentId": "knowledge_ad06d759d736b76a0dfbbd8c",
       "projectId": "baton",
       "projectName": "BATON",
@@ -154,17 +154,17 @@
       "documentType": "service_overview",
       "title": "BATON ROUND 서비스 개요",
       "heading": "ROUND 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: ROUND\n\n역할: 실시간 스터디룸\n\nCore가 계정에 연결된 활동 중인 스터디 구성원인지 확인해 발급한 방 참여권을 검증합니다. 최대 6명의 브라우저가 영상 및 음성 연결을 만들 때 교환하는 연결 설명(offer 및 answer)과 네트워크 경로 후보(ICE)를 WebSocket으로 전달하고, 직접 연결할 수 없을 때 사용할 TURN 서버의 짧은 접속 정보도 발급합니다.\n\n담당 구현: React 방 화면, React와 분리한 WebRTC 연결 모듈, 프론트엔드와 Java 서버가 함께 사용하는 메시지 규격, Spring raw WebSocket 시그널링 서버와 Core 참여권 검증을 구현했습니다.\n\n주요 기능: 참가자마다 나머지 최대 5명과 직접 연결하는 mesh WebRTC, 이전 연결의 늦은 메시지 차단, DataChannel 채팅이 상대 브라우저 애플리케이션에 도착했는지 확인하는 응답, Core가 RSA 개인 키로 서명하고 ROUND가 공개 키로 검증하는 RS256 참여권과 짧은 TURN 접속 정보\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: Chromium에서는 가짜 카메라, 마이크와 화면으로 원격 미디어, 화면 공유, 채팅 수신 응답과 퇴장을 확인했고, WebKit에서는 직접 초대와 장치 권한 동의까지만 확인\n\n입력: Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 짧은 RS256 참여권\n\n입력 확인: 참여권의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.\n\n출력: 브라우저 사이의 WebRTC 연결 메시지 전달, DataChannel 채팅 수신 응답과 짧은 TURN 접속 정보\n\n중복 및 실패 처리: 연결을 새로 만들 때마다 순번을 올려 이전 연결에서 늦게 온 메시지는 버리고, 같은 참가자가 새 참여권으로 접속하면 이전 WebSocket 세션을 종료\n\n데이터베이스: DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장\n\n사용 기술: TypeScript, React 19, Vite 8, WebRTC / RTCDataChannel, Java 21, Spring Boot 4.1, Raw WebSocket, coturn / Caddy, Playwright\n\n구현 상태: 원격 개발 브랜치에서 Core의 실제 참여권 서명 코드로 만든 참여권을 ROUND가 로컬 HTTPS와 암호화된 WebSocket(WSS) 연결에서 검증한 뒤 방에 입장시키는 과정을 확인했습니다. 공인 DNS와 자동 발급 TLS 인증서, 외부 TURN 미디어 중계 서버(coturn)와 6명 장시간 접속 테스트는 아직 하지 않았습니다.\n\n적용 범위와 제약: 참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: ROUND\n\n역할: WebRTC 스터디룸\n\nCore가 계정에 연결된 활동 중인 스터디 구성원인지 확인해 발급한 방 참여권을 검증합니다. 최대 6명의 브라우저가 영상 및 음성 연결을 만들 때 교환하는 연결 설명(offer 및 answer)과 네트워크 경로 후보(ICE)를 WebSocket으로 전달하고, 직접 연결할 수 없을 때 사용할 TURN 서버의 짧은 접속 정보도 발급합니다.\n\n담당 구현: React 방 화면, React와 분리한 WebRTC 연결 모듈, 프론트엔드와 Java 서버가 함께 사용하는 메시지 규격, Spring raw WebSocket 시그널링 서버와 Core 참여권 검증을 구현했습니다.\n\n주요 기능: 참가자마다 나머지 최대 5명과 직접 연결하는 mesh WebRTC, 이전 연결의 늦은 메시지 차단, DataChannel 채팅이 상대 브라우저 애플리케이션에 도착했는지 확인하는 응답, Core가 RSA 개인 키로 서명하고 ROUND가 공개 키로 검증하는 RS256 참여권과 짧은 TURN 접속 정보\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: Chromium에서는 가짜 카메라, 마이크와 화면으로 원격 미디어, 화면 공유, 채팅 수신 응답과 퇴장을 확인했고, WebKit에서는 직접 초대와 장치 권한 동의까지만 확인\n\n입력: Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 짧은 RS256 참여권\n\n입력 확인: 참여권의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.\n\n출력: 브라우저 사이의 WebRTC 연결 메시지 전달, DataChannel 채팅 수신 응답과 짧은 TURN 접속 정보\n\n중복 및 실패 처리: 연결을 새로 만들 때마다 순번을 올려 이전 연결에서 늦게 온 메시지는 버리고, 같은 참가자가 새 참여권으로 접속하면 이전 WebSocket 세션을 종료\n\n데이터베이스: DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장\n\n사용 기술: TypeScript, React 19, Vite 8, WebRTC / RTCDataChannel, Java 21, Spring Boot 4.1, Raw WebSocket, coturn / Caddy, Playwright\n\n구현 상태: 원격 개발 브랜치에서 Core의 실제 참여권 서명 코드로 만든 참여권을 ROUND가 로컬 HTTPS와 암호화된 WebSocket(WSS) 연결에서 검증한 뒤 방에 입장시키는 과정을 확인했습니다. 공인 DNS와 자동 발급 TLS 인증서, 외부 TURN 미디어 중계 서버(coturn)와 6명 장시간 접속 테스트는 아직 하지 않았습니다.\n\n적용 범위와 제약: 참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/round",
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "ab5ed67a2a5a7f5cfe29833553a8aba93546ca20bed6eab3b78c687a35237926",
-      "contentHash": "46cdce4877b27a49b466e7ba7132a370914be4feb6f4d3b84f5bafc7a6cbd86a"
+      "sourceHash": "a667092e707e21a1d27bd167b60bebeb5ab7a1e849791e9cc729dab6889e788a",
+      "contentHash": "1ff1859679d72c7700bae0708dfc9117d0292c3e58353357aef0db256a841b57"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:2a0e0d8db1dd",
+      "sourceRevision": "sha256:a520d2a64de6",
       "documentId": "knowledge_ab5cc9dd1f4898e367ba4454",
       "projectId": "baton",
       "projectName": "BATON",
@@ -172,17 +172,17 @@
       "documentType": "architecture_decision",
       "title": "BATON 구현 방법과 선택 이유",
       "heading": "구현 방법과 선택 이유",
-      "content": "프로젝트: BATON\n\n구현 방법: 서비스 구성과 담당 업무\n\n중앙 서비스(Core)는 조직 정보와 조직 작업 공간 접속용 공유 키를 관리하고, 링크 생성, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 구독과 실시간 스터디룸은 6개 서비스가 나눠 처리합니다.\n\nCore는 팀, 시즌, 역할, 반복 업무, 의사결정과 인수인계를 저장하고 조직 작업 공간 접속용 공유 키를 확인합니다. 계정과 연결된 활동 중인 스터디 구성원 여부는 ROUND 참여권을 발급할 때 추가로 확인합니다. GO, WATCH, RELAY, BRIEF, CAL과 ROUND는 각각 별도 코드 저장소와 실행 환경으로 나눴습니다. DB가 필요한 서비스끼리 데이터를 공유하지 않으며, ROUND의 방과 연결 상태는 프로세스 메모리에 저장합니다.\n\n적용 범위와 제약: 한 서비스의 장애와 배포가 다른 서비스에 미치는 영향은 줄였지만, 7개 저장소를 각각 배포하고 모니터링해야 하며 서비스 사이의 이벤트가 빠짐없이 전달되도록 재전송과 재처리를 별도로 구현해야 합니다.",
+      "content": "프로젝트: BATON\n\n구현 방법: 서비스 구성과 담당 업무\n\n중앙 서비스(Core)는 조직 정보와 작업 공간 공유 키를 관리하고, 링크 생성, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 구독과 WebRTC 스터디룸은 6개 서비스가 나눠 처리합니다.\n\nCore는 팀, 시즌, 역할, 반복 업무, 의사결정과 인수인계를 저장하고 작업 공간 공유 키를 확인합니다. 계정과 연결된 활동 중인 스터디 구성원 여부는 ROUND 참여권을 발급할 때 추가로 확인합니다. GO, WATCH, RELAY, BRIEF, CAL과 ROUND는 각각 별도 코드 저장소와 실행 환경으로 나눴습니다. DB가 필요한 서비스끼리 데이터를 공유하지 않으며, ROUND의 방과 연결 상태는 프로세스 메모리에 저장합니다.\n\n적용 범위와 제약: 한 서비스의 장애와 배포가 다른 서비스에 미치는 영향은 줄였지만, 7개 저장소를 각각 배포하고 모니터링해야 하며 서비스 사이의 이벤트가 빠짐없이 전달되도록 재전송과 재처리를 별도로 구현해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-architecture",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "2a0e0d8db1dde9fb2ddb2302959d6435ddb287ab5e9cbb47ededdafab010deb9",
-      "contentHash": "884a691db6a4c9204fadfa1f5434e16e16d93f29c1b6ceee9538dc9148bea4e1"
+      "sourceHash": "a520d2a64de6fe0f7db52ca622e903c73bd9ea6faab056fc7d624ff08d11cfb3",
+      "contentHash": "844716781a63980b86a240a20a1f4ecd1c0343be038edc8067c935ce0229ce89"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:348aee52a75b",
+      "sourceRevision": "sha256:77cf6174fa1f",
       "documentId": "knowledge_aab8914ca1e5f879318e3f51",
       "projectId": "baton",
       "projectName": "BATON",
@@ -190,17 +190,17 @@
       "documentType": "problem_solution",
       "title": "BATON - Core와 6개 서비스의 담당 업무, 실행 환경과 데이터 저장 방식 분리",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n문제: 링크 생성, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더 구독과 실시간 통신은 받는 데이터, 보안 검사와 실패 후 처리 방식이 서로 다릅니다.\n\n적용: Core에는 조직, 역할, 인수인계와 조직 작업 공간 접속용 공유 키를 두고 GO, WATCH, RELAY, BRIEF, CAL과 ROUND는 각각 별도 코드 저장소와 실행 환경으로 분리했습니다. DB가 필요한 서비스끼리 데이터를 공유하지 않으며 ROUND의 방과 연결 상태는 프로세스 메모리에 저장합니다. 다른 서비스에 알려야 하는 상태 변경은 업무 데이터와 함께 전송 대기 이벤트로 DB에 저장하고, 업무 저장이 끝난 뒤 전송합니다.\n\n확인: GO는 같은 링크 요청 8건의 단일 저장, WATCH는 사설망 URL과 늦은 점검 결과 차단, RELAY는 RabbitMQ 재전달 중복 제거, BRIEF는 운영 점검 목록 다시 생성과 주간 보고서 중복 생성 방지, CAL은 중복 일정과 iCalendar 생성, ROUND는 잘못된 참여권과 지연 WebRTC 메시지 차단을 각각 확인했습니다.\n\n제약과 남은 작업: 서비스별로 기본 브랜치(main), 개발 브랜치와 로컬 구현 상태가 다릅니다. 위에 적은 기능별 테스트는 완료했지만 모든 서비스를 공개 환경에 배포해 실제 자격 증명과 외부 서비스를 사용하는 전체 흐름은 아직 확인하지 않았습니다.",
+      "content": "프로젝트: BATON\n\n문제: 링크 생성, URL 점검, 서비스 간 이벤트 전달, 주간 보고서, 캘린더 구독과 실시간 통신은 받는 데이터, 보안 검사와 실패 후 처리 방식이 서로 다릅니다.\n\n적용: Core에는 조직, 역할, 인수인계와 작업 공간 공유 키를 두고 GO, WATCH, RELAY, BRIEF, CAL과 ROUND는 각각 별도 코드 저장소와 실행 환경으로 분리했습니다. DB가 필요한 서비스끼리 데이터를 공유하지 않으며 ROUND의 방과 연결 상태는 프로세스 메모리에 저장합니다. 다른 서비스에 알려야 하는 상태 변경은 업무 데이터와 함께 전송 대기 이벤트로 DB에 저장하고, 업무 저장이 끝난 뒤 전송합니다.\n\n확인: GO는 같은 링크 요청 8건의 단일 저장, WATCH는 사설망 URL과 늦은 점검 결과 차단, RELAY는 RabbitMQ 재전달 중복 제거, BRIEF는 운영 점검 목록 다시 생성과 주간 보고서 중복 생성 방지, CAL은 중복 일정과 iCalendar 생성, ROUND는 잘못된 참여권과 지연 WebRTC 메시지 차단을 각각 확인했습니다.\n\n제약과 남은 작업: 서비스별로 기본 브랜치(main), 개발 브랜치와 로컬 구현 상태가 다릅니다. 위에 적은 기능별 테스트는 완료했지만 모든 서비스를 공개 환경에 배포해 실제 자격 증명과 외부 서비스를 사용하는 전체 흐름은 아직 확인하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-problems",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "348aee52a75bfab0f7487f77e177e605597482ea64f8bc90a3f9d865bd439b67",
-      "contentHash": "a913654f936dcf1aad1aa1da7b15e6a1917ee2a18a05fc77e5d3ba11c5553adf"
+      "sourceHash": "77cf6174fa1fb33ad519a6929a8d3a1bd0461c6094c350c01e843d54527a1900",
+      "contentHash": "5159c7af3b0f3da095e9d57be40f44646a4c3f002170045a8b56dc5eb57149d5"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:88861acdb64c",
+      "sourceRevision": "sha256:4d8f2551e7bb",
       "documentId": "knowledge_95575e629f07495db5b576fa",
       "projectId": "baton",
       "projectName": "BATON",
@@ -208,13 +208,13 @@
       "documentType": "problem_solution",
       "title": "BATON - 바통 인계 상태와 담당자 변경을 한 트랜잭션으로 처리",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: Core\n\n문제: 바통 수락과 담당자 변경이 따로 반영되면 같은 역할에 이전 담당자와 다음 담당자가 섞일 수 있었습니다.\n\n적용: 준비 단계에서 현재 담당자, 다음 담당자와 다음 담당 기간을 고정했습니다. 전달할 때 인수인계 업무 항목 수, 미완료 항목 수와 역할 자료 수를 저장하고, 업무 항목이 없거나 미완료 항목이 있거나 자료가 없으면 경고 확인을 요구했습니다. 전달 뒤에는 수락 또는 취소 전까지 역할, 인수인계 업무와 자료를 수정하지 못하게 했고, 수락할 때 담당자와 담당 기간을 한 트랜잭션에서 변경했습니다.\n\n확인: 역할별 열린 바통 1건 제약과 상태 전이 테스트로 중복 교대 및 전달 후 변경을 차단했습니다.\n\n제약과 남은 작업: 운영 화면에서 현재 상태와 수락 또는 취소 가능 여부를 보여주고, 준비 또는 전달 상태에서 멈춘 바통을 정리하는 절차가 필요합니다.",
+      "content": "프로젝트: BATON\n\n서비스: Core\n\n문제: 바통 수락과 담당자 변경이 따로 반영되면 같은 역할에 이전 담당자와 다음 담당자가 섞일 수 있었습니다.\n\n적용: 준비 단계에서 현재 담당자, 다음 담당자와 다음 담당 기간을 고정했습니다. 전달할 때 인수인계 업무 항목 수, 미완료 항목 수와 역할 자료 수를 저장하고, 업무 항목이 없거나 미완료 항목이 있거나 자료가 없으면 경고 확인을 요구했습니다. 준비 또는 전달 단계에서는 이전 담당자가 취소할 수 있게 했고, 취소하면 다음 담당자 예약을 해제했습니다. 전달 뒤에는 수락 또는 취소 전까지 역할, 인수인계 업무와 자료를 수정하지 못하게 했고, 수락할 때 담당자와 담당 기간을 한 트랜잭션에서 변경했습니다.\n\n확인: 역할별 열린 바통 1건 제약, 준비 → 전달 → 수락 순서와 준비 또는 전달 단계의 취소를 상태 전이 테스트로 확인했습니다. 중복 교대와 전달 후 변경도 차단했습니다.\n\n제약과 남은 작업: 운영 화면에서 현재 상태와 수락 또는 취소 가능 여부를 보여주고, 준비 또는 전달 상태에서 멈춘 바통을 정리하는 절차가 필요합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-problems",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "88861acdb64ca7170462cd5e56f0c2f2f8e12b0f2a41d04e9252509b671ca228",
-      "contentHash": "e1799031d371803d65374c414b1d73f89adc18f219c10be52317ff5d99dff970"
+      "sourceHash": "4d8f2551e7bbe95577d3483a25e092315ea8252ddd5592d6eae24592faaaccee",
+      "contentHash": "09673e9249cd2f2414a246d2630359967299901c370ec79c413c8211399dcea8"
     },
     {
       "schemaVersion": "1.0",
@@ -326,7 +326,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:fb7dd5e27c85",
+      "sourceRevision": "sha256:68cec447fb9a",
       "documentId": "knowledge_902d501545fd335b82d49980",
       "projectId": "baton",
       "projectName": "BATON",
@@ -334,13 +334,13 @@
       "documentType": "problem_solution",
       "title": "BATON - 중복되거나 순서가 바뀐 BATON 이벤트 차단",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n문제: 같은 이벤트가 다시 오거나 이전 개정 번호의 이벤트가 늦게 도착하면 운영 점검 항목이 잘못 바뀔 수 있습니다.\n\n적용: 이벤트 ID, 내용 해시와 개정 번호를 함께 저장했습니다. 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않고, 개정 번호가 건너뛴 최신 이벤트는 반영하되 누락된 개정 구간을 함께 기록했습니다. 수락한 이벤트 기록과 운영 점검 목록은 같은 PostgreSQL 트랜잭션에서 저장합니다.\n\n확인: PostgreSQL 통합 테스트와 JSON 계약 패키지 2.0.0-rc.1을 사용한 실제 Core-BRIEF 실행 JAR의 로컬 HTTP 전송으로 같은 이벤트와 과거 개정 번호를 반영하지 않고, 건너뛴 최신 개정은 누락 구간을 기록한 뒤 반영하는지 확인했습니다. 현재 Bearer와 직전 Bearer를 잠시 함께 허용해 전송 중단 없이 토큰을 교체하는 과정도 확인했습니다. Caddy 내부 인증서 HTTPS 앞단의 인증과 수신은 계약 예시 JSON으로 별도 확인했습니다.\n\n제약과 남은 작업: 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP로 연결해 검증했고, Caddy 내부 인증서 HTTPS에는 계약 예시 JSON만 전송했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다. 실제 Core에서 Caddy로 보내는 HTTPS 전달, 공개 main 반영과 공인 DNS를 사용한 원격 스테이징 전달도 아직 검증하지 않았습니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n문제: 같은 이벤트가 다시 오거나 이전 개정 번호의 이벤트가 늦게 도착하면 운영 점검 항목이 잘못 바뀔 수 있습니다.\n\n적용: 이벤트 ID, 내용 해시와 개정 번호를 함께 저장했습니다. 같은 이벤트와 과거 개정 번호는 운영 점검 목록에 다시 반영하지 않고, 개정 번호가 건너뛴 최신 이벤트는 반영하되 누락된 개정 구간을 함께 기록했습니다. 수락한 이벤트 기록과 운영 점검 목록은 같은 PostgreSQL 트랜잭션에서 저장합니다.\n\n확인: PostgreSQL 통합 테스트와 JSON 계약 패키지 2.0.0-rc.1을 사용해 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다. 같은 이벤트와 과거 개정 번호를 반영하지 않고, 건너뛴 최신 개정은 누락 구간을 기록한 뒤 반영하는지 확인했습니다. 현재 Bearer와 직전 Bearer를 잠시 함께 허용해 전송 중단 없이 토큰을 교체하는 과정도 확인했습니다. Caddy 내부 인증서 HTTPS 앞단의 인증과 수신은 계약 예시 JSON으로 별도 확인했습니다.\n\n제약과 남은 작업: 실제 Core 실행 JAR와 BRIEF 실행 JAR를 로컬 HTTP로 연결해 검증했고, Caddy 내부 인증서 HTTPS에는 계약 예시 JSON만 전송했습니다. 입력 규칙을 강화한 현재 2.0.0-rc.2는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다. 실제 Core에서 Caddy로 보내는 HTTPS 전달, 공개 main 반영과 공인 DNS를 사용한 원격 스테이징 전달도 아직 검증하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief#service-problems",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "fb7dd5e27c85596ab915236dedc6e3bd12296441e8c4fa0ce50a8d744f4e1913",
-      "contentHash": "0e1140038fc367884705a69b44364a6302169c3a864214942c978dd35dcc7ffb"
+      "sourceHash": "68cec447fb9aab41e0af6f5a88de27b0c6697af93d15cdceb6b0d4a523eddb91",
+      "contentHash": "0cccca76c67aeac6728cc3b0da999810ebb035e81a317c32f5337a188d6ad7f0"
     },
     {
       "schemaVersion": "1.0",
@@ -434,7 +434,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:430a1febd233",
+      "sourceRevision": "sha256:65e10a6ef881",
       "documentId": "knowledge_60adc74310d4fa2ce560eaf2",
       "projectId": "baton",
       "projectName": "BATON",
@@ -442,13 +442,13 @@
       "documentType": "implementation_evidence",
       "title": "BATON - Core 인수인계 상태 전이 및 중복 교대 차단",
       "heading": "검증 범위 및 현재 상태",
-      "content": "프로젝트: BATON\n\n확인 대상: Core 인수인계 상태 전이 및 중복 교대 차단\n\n확인 방법: 도메인 규칙 및 저장소 통합 테스트\n\n확인 조건: 정상 순서의 상태 변경, 이전 상태로 되돌리는 요청과 같은 역할에 열린 인수인계 2건을 동시에 생성하는 요청을 각각 실행\n\n결과: 준비 → 전달 → 수락 순서만 허용하고 역할별 진행 중인 인수인계를 1건으로 유지\n\n공개 범위: Core 비공개 저장소 · 상태 전이 및 DB 제약 확인 · 2026.08.27 커밋 상태 기준",
+      "content": "프로젝트: BATON\n\n확인 대상: Core 인수인계 상태 전이 및 중복 교대 차단\n\n확인 방법: 도메인 규칙 및 저장소 통합 테스트\n\n확인 조건: 준비 → 전달 → 수락 순서, 준비 또는 전달 단계의 취소, 이전 상태로 되돌리는 요청과 같은 역할에 열린 인수인계 2건을 동시에 생성하는 요청을 각각 실행\n\n결과: 준비 → 전달 → 수락 순서를 강제하고 준비 또는 전달 단계에서는 취소를 허용했으며, 역할별 진행 중인 인수인계를 1건으로 유지\n\n공개 범위: Core 비공개 저장소 · 상태 전이 및 DB 제약 확인 · 2026.08.27 커밋 상태 기준",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-proof",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "430a1febd2334a886c9326538ad27131624cda3823123e4bf946b657b6be45c5",
-      "contentHash": "f41976d99954ba9727c0916c2f68e6b4885644817a5350c41f1f472f9b1e3cbc"
+      "sourceHash": "65e10a6ef88166110605844c04e51a5ef8eebe45e671b2db327f7c2ae5f2ccbf",
+      "contentHash": "c653f7e4c71937f95f8be5426e16476e9995ab47e4ecf770bf7dd4afcd50d432"
     },
     {
       "schemaVersion": "1.0",
@@ -506,7 +506,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:18d83c94c2f4",
+      "sourceRevision": "sha256:2c428607c424",
       "documentId": "knowledge_8b9fccae6b53286e976c2837",
       "projectId": "baton",
       "projectName": "BATON",
@@ -514,13 +514,13 @@
       "documentType": "implementation_evidence",
       "title": "BATON - BRIEF 운영 점검 목록 다시 생성과 주간 보고서 중복 생성 방지",
       "heading": "검증 범위 및 현재 상태",
-      "content": "프로젝트: BATON\n\n확인 대상: BRIEF 운영 점검 목록 다시 생성과 주간 보고서 중복 생성 방지\n\n확인 방법: PostgreSQL 통합 테스트, Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 전송 및 Caddy 내부 인증서 HTTPS 앞단에 계약 예시 JSON 전송\n\n확인 조건: 같은 이벤트 재전송, 낮거나 건너뛴 개정 번호, 저장 이벤트 기반 운영 점검 목록 다시 생성과 동일 주간 보고서 동시 생성 요청을 실행\n\n결과: 중복 및 과거 이벤트는 반영하지 않고, 건너뛴 최신 개정은 누락 구간을 기록한 뒤 반영했습니다. 저장한 이벤트에서 같은 운영 점검 목록을 다시 만들고 동일 상태의 주간 보고서는 1건만 저장했습니다.\n\n공개 범위: 실제 Core와 BRIEF 실행 JAR 연결은 JSON 계약 패키지 2.0.0-rc.1 및 로컬 HTTP 기준 · Caddy HTTPS는 계약 예시 JSON만 검증 · 현재 2.0.0-rc.2의 실제 Core JSON, Core-Caddy HTTPS, 공개 main 및 원격 스테이징 반영 전 · 2026.08.27",
+      "content": "프로젝트: BATON\n\n확인 대상: BRIEF 운영 점검 목록 다시 생성과 주간 보고서 중복 생성 방지\n\n확인 방법: PostgreSQL 통합 테스트, 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 보낸 로컬 HTTP 이벤트와 Caddy 내부 인증서 HTTPS 앞단에 보낸 계약 예시 JSON을 구분해 확인\n\n확인 조건: 같은 이벤트 재전송, 낮거나 건너뛴 개정 번호, 저장 이벤트 기반 운영 점검 목록 다시 생성과 동일 주간 보고서 동시 생성 요청을 실행\n\n결과: 중복 및 과거 이벤트는 반영하지 않고, 건너뛴 최신 개정은 누락 구간을 기록한 뒤 반영했습니다. 저장한 이벤트에서 같은 운영 점검 목록을 다시 만들고 동일 상태의 주간 보고서는 1건만 저장했습니다.\n\n공개 범위: 실제 Core 실행 JAR와 BRIEF 실행 JAR 연결은 JSON 계약 패키지 2.0.0-rc.1 및 로컬 HTTP 기준 · Caddy HTTPS는 계약 예시 JSON만 검증 · 현재 2.0.0-rc.2의 실제 Core JSON, Core-Caddy HTTPS, 공개 main 및 원격 스테이징 반영 전 · 2026.08.27",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-proof",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "18d83c94c2f4ee2d91efcbcb10ea36912a561da9229e25cd3e1523eed0f37578",
-      "contentHash": "5da5266de353f662cb71c9117f58aa57d0d31a7bc96d4b93352780b689d25d26"
+      "sourceHash": "2c428607c424be16440b8e236fdfe862488adcb06c28fab14f38906435b53985",
+      "contentHash": "b3478cfde285a65c64d624671395e71dfccdcf57fa9d22008bfaf02e4d987b26"
     },
     {
       "schemaVersion": "1.0",
@@ -560,7 +560,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:3a7b4f86d558",
+      "sourceRevision": "sha256:767adc58f111",
       "documentId": "knowledge_622e512d0d23e37168ba7b21",
       "projectId": "baton",
       "projectName": "BATON",
@@ -568,13 +568,13 @@
       "documentType": "representative_document",
       "title": "Core 업무 규칙을 HTTP와 DB 코드에서 분리",
       "heading": "ADR 요약",
-      "content": "# BATON Core 업무 규칙을 HTTP와 DB 코드에서 분리한 구조\n\n## 문제 상황\n\n조직, 시즌, 조직 작업 공간 접속용 공유 키와 반복 업무처럼 서로 연결된 규칙이 HTTP 요청 처리와 DB 저장 코드에 직접 묶이면 기능을 바꿀 때 영향 범위를 확인하기 어려웠습니다.\n\n## 결정\n\n-   인수인계 상태 변경과 반복 업무 규칙은 애플리케이션 및 도메인 모듈에 둡니다.\n-   컨트롤러는 HTTP 요청을 변환한 뒤 해당 업무 기능만 호출하도록 분리합니다.\n-   DB 저장과 외부 연동처럼 교체할 필요가 있는 지점에만 인터페이스를 둡니다.\n-   업무 규칙 모듈이 웹 및 DB 구현 모듈을 참조하는지 의존성 테스트로 확인합니다.\n\n## 적용 시 제약\n\nHTTP 컨트롤러와 DB 저장 코드를 업무 규칙에서 분리하면서 인터페이스와 변환 타입은 늘어났습니다. 추가 변환 코드가 과도하게 늘지 않도록 현재 필요한 JPA 매핑은 도메인 모델에 유지했습니다. 이 구조는 교체 지점에만 인터페이스를 두는 헥사고날 아키텍처 방식으로 구현했습니다.\n\n## 확인\n\nGradle 빌드에서 모듈별 컴파일과 의존성 테스트를 실행해 업무 규칙 모듈이 웹 및 DB 구현 모듈을 참조하면 빌드를 실패하도록 했습니다.",
+      "content": "# BATON Core 업무 규칙을 HTTP와 DB 코드에서 분리한 구조\n\n## 문제 상황\n\n조직, 시즌, 작업 공간 공유 키와 반복 업무처럼 서로 연결된 규칙이 HTTP 요청 처리와 DB 저장 코드에 직접 묶이면 기능을 바꿀 때 영향 범위를 확인하기 어려웠습니다.\n\n## 결정\n\n-   인수인계 상태 변경과 반복 업무 규칙은 애플리케이션 및 도메인 모듈에 둡니다.\n-   컨트롤러는 HTTP 요청을 변환한 뒤 해당 업무 기능만 호출하도록 분리합니다.\n-   DB 저장과 외부 연동처럼 교체할 필요가 있는 지점에만 인터페이스를 둡니다.\n-   업무 규칙 모듈이 웹 및 DB 구현 모듈을 참조하지 않도록 의존성 테스트로 검사합니다.\n\n## 적용 시 제약\n\nHTTP 컨트롤러와 DB 저장 코드를 업무 규칙에서 분리하면서 인터페이스와 변환 타입은 늘어났습니다. 추가 변환 코드가 과도하게 늘지 않도록 현재 필요한 JPA 매핑은 도메인 모델에 유지했습니다. 이 구조는 교체 지점에만 인터페이스를 두는 헥사고날 아키텍처 방식으로 구현했습니다.\n\n## 확인\n\nGradle 빌드에서 모듈별 컴파일과 의존성 테스트를 실행해 업무 규칙 모듈이 웹 및 DB 구현 모듈을 참조하면 빌드가 실패하도록 했습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/core-hexagonal.md",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "3a7b4f86d5586fc81b64dc2c7f26cca2aac29c53ff70117b8390f74a912e9d4e",
-      "contentHash": "0147bff735876f510b04f94f0fea68b1518094928369dba15ff456aa7f1ed53f"
+      "sourceHash": "767adc58f111a37de4287dd3ee802a82413c1ad36d459e34bd9d874c417f3bee",
+      "contentHash": "09aca3dbfb70c9bdce1288ec65283b1dbb2137d5f8d5c8fa0117ae7655f3f2c9"
     },
     {
       "schemaVersion": "1.0",
@@ -650,7 +650,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:6f0306a3f876",
+      "sourceRevision": "sha256:38504129c55d",
       "documentId": "knowledge_b76304103fc2240fb8731289",
       "projectId": "baton",
       "projectName": "BATON",
@@ -658,13 +658,13 @@
       "documentType": "representative_document",
       "title": "BRIEF 중복 이벤트 처리와 주간 보고서 생성",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON BRIEF 이벤트 중복 처리와 주간 보고서 생성\n\n## 책임\n\nBRIEF는 Core 개발 브랜치가 생성한 BATON 이벤트를 받아 현재 운영자가 확인해야 할 항목을 찾습니다. 두 번째 이벤트 형식(v2)에는 다음 운영 위험이 담깁니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대 시점이 가까운데 인수인계를 시작하지 않았거나 전달 및 수락 조건이 남은 인수인계\n\n이 항목으로 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간과 BRIEF가 마지막으로 받은 이벤트 순번, 포함 항목을 함께 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 보고서를 반환합니다. 이후 상태가 바뀌었다가 같아진 경우에는 새 생성 번호로 별도 보고서를 저장합니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 이벤트 중복, ID 충돌, 지원하지 않는 버전, 과거 개정 번호 차단, 건너뛴 최신 개정 적용 및 누락 구간 기록, 운영 점검 목록 전체 다시 생성과 동일 보고서 중복 생성을 확인했습니다. JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core와 BRIEF 실행 JAR를 로컬 HTTP에서 연결해 Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다. 별도로 BRIEF의 Caddy 내부 인증서 HTTPS 앞단에는 계약 예시 JSON을 전송해 인증과 수신을 확인했습니다.\n\n## 현재 범위\n\n최신 구현은 원격 개발 브랜치에 있으며 공개 저장소의 `main`에는 아직 반영하지 않았습니다. Core 개발 브랜치와 BRIEF의 로컬 연동은 JSON 계약 패키지 `2.0.0-rc.1` 및 로컬 HTTP 기준으로 확인했습니다. 입력 규칙을 강화한 현재 `2.0.0-rc.2`는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다. v2는 Core가 판정한 다섯 가지 조직 연속성 신호를 담으며, 이전의 인수인계 진행 중단, 미완료 반복 업무와 결정 후속 조치 지연을 받는 첫 번째 이벤트 형식(v1)도 계속 처리합니다. 실제 Core에서 Caddy로 보내는 HTTPS 전달, 공인 DNS 및 자동 발급 TLS 인증서와 두 스테이징 호스트 사이의 원격 전달 및 장기 운영 배포도 아직 검증하지 않았습니다.",
+      "content": "# BATON BRIEF 이벤트 중복 처리와 주간 보고서 생성\n\n## 책임\n\nBRIEF는 Core 개발 브랜치가 생성한 BATON 이벤트를 받아 현재 운영자가 확인해야 할 항목을 찾습니다. 두 번째 이벤트 형식(v2)에는 다음 운영 위험이 담깁니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계에 포함할 업무 항목이 없거나 끝나지 않은 항목이 있거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대 시점이 가까운데 인수인계를 시작하지 않았거나 전달 및 수락 조건이 남은 인수인계\n\n이 항목으로 운영 점검 목록을 만듭니다. 보고서 생성 요청을 받으면 해당 주간과 BRIEF가 마지막으로 받은 이벤트 순번, 포함 항목을 함께 저장하며, 이후 이벤트가 바뀌어도 이미 만든 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 보고서를 반환합니다. 이후 상태가 바뀌었다가 같아진 경우에는 새 생성 번호로 별도 보고서를 저장합니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 이벤트 중복, ID 충돌, 지원하지 않는 버전, 과거 개정 번호 차단, 건너뛴 최신 개정 적용 및 누락 구간 기록, 운영 점검 목록 전체 다시 생성과 동일 보고서 중복 생성을 확인했습니다.\n\n실제 서비스 연동과 HTTPS 앞단 검증은 다음과 같이 나눠 확인했습니다.\n\n-   JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다. Core의 역할 및 인수인계 정보 변경이 BRIEF 운영 점검 목록에 반영되는지, 장애 재시도, 동일 이벤트 재전달과 현재 및 직전 Bearer 토큰을 함께 허용하는 교체 구간을 확인했습니다.\n-   Caddy 내부 인증서 HTTPS 앞단에는 실제 Core가 아닌 계약 예시 JSON을 전송했습니다. 이 검증에서는 Caddy의 인증과 BRIEF의 수신만 확인했습니다.\n\n## 현재 범위\n\n최신 구현은 원격 개발 브랜치에 있으며 공개 저장소의 `main`에는 아직 반영하지 않았습니다. 실제 Core 실행 JAR와 BRIEF 실행 JAR의 로컬 연동은 JSON 계약 패키지 `2.0.0-rc.1` 및 로컬 HTTP 기준으로 확인했습니다. 입력 규칙을 강화한 현재 `2.0.0-rc.2`는 Core의 실제 JSON 생성 코드와 다시 검증해야 합니다. v2는 Core가 판정한 다섯 가지 조직 연속성 신호를 담으며, 이전의 인수인계 진행 중단, 미완료 반복 업무와 결정 후속 조치 지연을 받는 첫 번째 이벤트 형식(v1)도 계속 처리합니다. 실제 Core에서 Caddy로 보내는 HTTPS 전달, 공인 DNS 및 자동 발급 TLS 인증서와 두 스테이징 호스트 사이의 원격 전달 및 장기 운영 배포도 아직 검증하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/brief-event-projection.md",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "6f0306a3f8764eb2314a35371ee6cc3d12761d5f9228397407d15eb51a5e9479",
-      "contentHash": "19eb960511cf88d48f778a682f339021d8ea1e9240b4c88cbfce479d58197b54"
+      "sourceHash": "38504129c55dc441169e70ea28d7be2f1c4bb109cb7add82519a16b2dcf5f6d9",
+      "contentHash": "974470d8bdb7815d81af73ce589fb6f29f7e43ac39733551e9f46c2fede6f2ca"
     },
     {
       "schemaVersion": "1.0",
@@ -866,7 +866,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:b8b5cb6c8423",
+      "sourceRevision": "sha256:7b884f8309ff",
       "documentId": "knowledge_e35aae37f4a24244d1c3cdc7",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -874,13 +874,13 @@
       "documentType": "project_overview",
       "title": "happyGallery 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: happyGallery\n\n공방 상품 판매 및 예약 서비스\n\n공방 고객이 작품을 주문하고 클래스를 예약하며, 관리자가 상품, 재고, 일정과 주문 상태를 처리하는 서비스입니다. 결제 및 환불 요청 ID로 중복 처리를 막고, 결과를 확인할 수 없으면 결제사에서 기존 처리 결과를 다시 조회한 뒤 복구 배치로 재처리합니다. 외부 배송조회 등록 실패는 배치로 다시 처리하고, 택배사 배송 완료와 관리자의 주문 완료를 분리했습니다. 옵션별 재고는 항상 같은 순서로 잠근 뒤 차감했으며 AWS 운영 이력이 있습니다.\n\n기간: 2026.02.21 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 요구사항 정리, 백엔드 및 프론트엔드 구현, 테스트와 설계 문서 작성\n\n주요 구현 및 해결: 결제 및 환불 요청 ID로 중복 처리를 막았습니다. 미전송 알림은 DB에서 다시 처리하고, 동시 주문과 예약은 재고 및 좌석을 잠근 뒤 확정했습니다.\n\n현재 상태: AWS 운영 환경에 배포했으나 상시 리소스 비용으로 운영을 종료했습니다. 현재 공개 URL은 없습니다. 최신 로컬 브랜치에는 공개 화면 서버 렌더링, 옵션 조합별 재고, 예약 캘린더와 클래스별 정원 및 배송조회를 구현했습니다. 취소 전 환불 안내와 미수령 주문의 관리자 예외 환불, 관리자 30분 예약 시간표도 구현했습니다. 홈 공지 및 이벤트, 이벤트 쿠폰, 카카오 로그인과 계정 연결까지 반영했습니다. 기준 커밋은 2026.08.27 b50a9ef0이며 아직 원격 개발 브랜치와 공개 main에는 반영하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, JPA, MyBatis, MySQL, Redis, React 19, React Router 8 Framework Mode, TypeScript, Testcontainers, Playwright, Spring REST Docs, Google / Naver / Kakao OAuth",
+      "content": "프로젝트: happyGallery\n\n공방 상품 판매 및 예약 서비스\n\n공방 고객이 작품을 주문하고 클래스를 예약하며, 관리자가 상품, 재고, 일정과 주문 상태를 처리하는 서비스입니다. 결제 및 환불 요청 ID로 중복 처리를 막고, 결과를 확인할 수 없으면 결제사에서 기존 처리 결과를 다시 조회한 뒤 복구 배치로 재처리합니다. 외부 배송조회 등록 실패는 배치로 다시 처리하고, 택배사 배송 완료와 관리자의 주문 완료를 분리했습니다. 예약은 클래스와 예약 시간 행을 잠근 뒤 정원을 확인했으며, 옵션별 재고는 재고 행을 항상 같은 순서로 잠그고 차감했습니다. AWS 배포 및 운영 이력이 있습니다.\n\n기간: 2026.02.21 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 요구사항 정리, 백엔드 및 프론트엔드 구현, 테스트와 설계 문서 작성\n\n주요 구현 및 해결: 결제 및 환불 요청 ID로 중복 처리를 막았습니다. 미전송 알림은 DB에서 다시 처리했습니다. 동시 예약은 클래스와 예약 시간 행을 잠근 뒤 정원을 확인했고, 동시 주문은 재고 행을 잠근 뒤 수량을 차감했습니다.\n\n현재 상태: AWS 운영 환경에 배포했으나 상시 리소스 비용으로 운영을 종료했습니다. 현재 공개 URL은 없습니다. 최신 로컬 브랜치에는 공개 화면 서버 렌더링, 옵션 조합별 재고, 예약 캘린더와 클래스별 정원 및 배송조회를 구현했습니다. 취소 전 환불 안내와 미수령 주문의 관리자 예외 환불, 관리자 30분 예약 시간표도 구현했습니다. 홈 공지 및 이벤트, 이벤트 쿠폰, 카카오 로그인과 계정 연결까지 반영했습니다. 기준 커밋은 2026.08.27 b50a9ef0이며 아직 원격 개발 브랜치와 공개 main에는 반영하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, JPA, MyBatis, MySQL, Redis, React 19, React Router 8 Framework Mode, TypeScript, Testcontainers, Playwright, Spring REST Docs, Google / Naver / Kakao OAuth",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-overview",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "b8b5cb6c8423cdd30b70f84d9b8f8cb8951ccbc0821c8f9a4ff234d81a5efbd0",
-      "contentHash": "63352c55e0bc5ad91bb8290ce2ad0b5dbda8018744eeb0298c4c03d46cf857a7"
+      "sourceHash": "7b884f8309fff3382e6dcbc18398995a95734f446840957745a3d11dbd6eb34b",
+      "contentHash": "a514a521bc34955dc0d43c402d37f860e0764afcdb7081a001d35540a1b13e30"
     },
     {
       "schemaVersion": "1.0",
@@ -956,21 +956,21 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:8d96bb75ad00",
+      "sourceRevision": "sha256:46f3892cb007",
       "documentId": "knowledge_7fa9498e1f2522cccbbfaa08",
       "projectId": "happygallery",
       "projectName": "happyGallery",
       "serviceId": null,
       "documentType": "problem_solution",
-      "title": "happyGallery - 동시 예약과 주문의 좌석 및 재고 초과 차감 방지",
+      "title": "happyGallery - 동시 예약 정원 및 주문 재고 초과 방지",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 클래스마다 예약 정원이 다르고 한 번에 여러 명을 예약할 수 있어, 현재 예약 인원과 새 요청 인원의 합을 잠금 없이 확인하면 정원을 넘길 수 있습니다. 마지막 재고에도 같은 문제가 있었습니다.\n\n적용: 클래스별 정원을 예약 시간에 저장하고, 예약은 클래스 행과 예약 시간 행을 잠근 뒤 현재 예약 인원과 요청 인원의 합을 확인했습니다. 일반 상품 재고는 상품 ID, 옵션별 재고는 SKU ID 오름차순으로 잠그고 수량 확인과 차감을 한 트랜잭션에서 처리했습니다.\n\n확인: 정원 3명인 예약 시간의 네 번째 요청과 남은 자리 1개에 대한 동시 예약을 거절하는지 확인했습니다. 마지막 재고에도 동시 주문을 보내 한 건만 성공하고 나머지는 같은 업무 오류를 반환하는지 검증했습니다.\n\n제약과 남은 작업: 단일 MySQL 기준 설계입니다. 같은 좌석이나 재고 행에 요청이 집중되면 대기 시간이 늘 수 있어 인기 클래스와 상품 재고를 더 작은 단위로 나누거나 처리 방식을 바꿔야 합니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 클래스마다 예약 정원이 다르고 한 번에 여러 명을 예약할 수 있어, 현재 예약 인원과 새 요청 인원의 합을 잠금 없이 확인하면 정원을 넘길 수 있습니다. 마지막 재고에도 같은 문제가 있었습니다.\n\n적용: 클래스별 정원을 예약 시간에 저장하고, 예약은 클래스 행과 예약 시간 행을 잠근 뒤 현재 예약 인원과 요청 인원의 합을 확인했습니다. 일반 상품 재고는 상품 ID, 옵션별 재고는 SKU ID 오름차순으로 잠그고 수량 확인과 차감을 한 트랜잭션에서 처리했습니다.\n\n확인: 정원 3명인 예약 시간의 네 번째 요청과 남은 자리 1개에 대한 동시 예약을 거절하는지 확인했습니다. 마지막 재고에도 동시 주문을 보내 한 건만 성공하고 나머지는 같은 업무 오류를 반환하는지 검증했습니다.\n\n제약과 남은 작업: 단일 MySQL 기준 설계입니다. 클래스 및 예약 시간 행이나 재고 행에 요청이 집중되면 대기 시간이 늘 수 있어 인기 클래스와 상품 재고를 더 작은 단위로 나누거나 처리 방식을 바꿔야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "8d96bb75ad002f1d7e8186e2474bd6e66a76c5268547be7ffd9779a272910145",
-      "contentHash": "cdcd2b8ae76304f4aa40a6f9fa56e32c2b146f89bdc2430039de9d56db9bf416"
+      "sourceHash": "46f3892cb007478e31a1c3c118d063b4eec72c7443e099248e0ff58dfbabb4e7",
+      "contentHash": "aadf2e71119b174581808238b20b1364c28e12cb0f3a4e62c66f57af4b26e9f5"
     },
     {
       "schemaVersion": "1.0",
@@ -1604,7 +1604,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:886deb788866",
+      "sourceRevision": "sha256:9492f5a81259",
       "documentId": "knowledge_2a22962d9934e4c7beb6a52e",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -1612,13 +1612,13 @@
       "documentType": "project_overview",
       "title": "차세대 군사법 정보 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 SI / 백엔드 개발 및 운영\n\n군 사법 업무와 군교정시설 수용 대상자의 정보를 폐쇄망에서 처리하는 국방부 시스템입니다. 세 기관의 수용자 인적정보 및 영장정보를 검증해 군교정 DB에 반영하는 배치를 개발했습니다. WebSquare 업무 화면의 상태 변경 요청 위조 차단, 대용량 파일 직접 업로드와 운영 장애 재처리도 담당했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면 개발, 기관별 수용자 정보 연계 배치와 Jenkins, JEUS 및 Tibero를 이용한 장애 분석\n\n주요 구현 및 해결: 세 기관의 수용자 자료를 검증해 군교정 DB에 반영하고, WebSquare 상태 변경 요청의 위조를 차단했으며, 대용량 파일은 업무 서버를 거치지 않고 저장소로 전송했습니다.\n\n현재 상태: BEINTECH 소속으로 수행한 보안이 필요한 국방부 SI입니다. 운영 데이터, 접속 환경과 세부 연계 규격은 공개하지 않고 직접 수행한 개발과 운영 업무만 정리했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 SI / 백엔드 개발 및 운영\n\n군 사법 업무와 군교정시설 수용 대상자의 정보를 폐쇄망에서 처리하는 국방부 시스템입니다. 군사법원, 군검찰 및 군사경찰에서 받은 수용 대상자의 인적정보와 영장정보를 검증해 군교정 DB에 반영하는 배치를 개발했습니다. WebSquare 업무 화면의 상태 변경 요청 위조 차단, 대용량 파일 직접 업로드와 운영 장애 재처리도 담당했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면 개발, 기관별 수용자 정보 연계 배치와 Jenkins, JEUS 및 Tibero를 이용한 장애 분석\n\n주요 구현 및 해결: 군사법원, 군검찰 및 군사경찰의 수용자 자료를 검증해 군교정 DB에 반영하고, WebSquare 상태 변경 요청의 위조를 차단했으며, 대용량 파일은 업무 서버를 거치지 않고 저장소로 전송했습니다.\n\n현재 상태: BEINTECH 소속으로 수행한 보안이 필요한 국방부 SI입니다. 운영 데이터, 접속 환경과 세부 연계 규격은 공개하지 않고 직접 수행한 개발과 운영 업무만 정리했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-overview",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "886deb788866691d4efc18effa0d50505fe9d7dca1307746f06151742ffd23d8",
-      "contentHash": "70b1f8dd0372f231f0d932124ea6101ca43312ad3739fd7234163eba48e4e3e3"
+      "sourceHash": "9492f5a81259de3dac642a9ca049f01452c40883b2f3601222bacb74179b133a",
+      "contentHash": "d7acca193b034c62154fb0ccb07595c4761719e39278084b956784bb67d7f03c"
     },
     {
       "schemaVersion": "1.0",

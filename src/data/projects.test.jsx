@@ -117,6 +117,8 @@ describe("project summary data", () => {
             method: "도메인 규칙 및 저장소 통합 테스트",
             result: expect.stringContaining("진행 중인 인수인계를 1건으로 유지"),
         })
+        expect(coreProof.result).toContain("준비 → 전달 → 수락 순서")
+        expect(coreProof.result).toContain("준비 또는 전달 단계에서는 취소")
 
         baton.services
             .filter((service) => !service.primary)
