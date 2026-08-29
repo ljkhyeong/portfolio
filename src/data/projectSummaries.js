@@ -16,7 +16,7 @@ export const projectSummaries = [
             },
             {
                 label: "문제",
-                value: "재요청과 장애 복구 과정에서 링크와 이벤트가 중복 처리될 수 있음",
+                value: "재요청과 장애 복구 때 링크와 이벤트가 중복 처리될 수 있음",
             },
             {
                 label: "해결",
@@ -59,7 +59,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "기관별 변환과 공통 배치를 분리하고, 커서 조회와 상태 재조회로 처리",
+                value: "기관별 변환과 공통 배치를 분리하고, 마지막 전송 ID 다음부터 조회하며 PDF 요청 상태를 다시 확인",
             },
         ],
         period: "2026.03.24 — 진행 중",
@@ -82,7 +82,7 @@ export const projectSummaries = [
         homeFacts: [
             {
                 label: "담당",
-                value: "요구사항, Spring 및 React 구현, 자동화 테스트와 AWS 운영",
+                value: "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 운영",
             },
             {
                 label: "문제",
@@ -109,7 +109,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 3.0.3 비공식 포크 / 커밋 검토 기능 추가 및 보완",
         summary:
-            "SeungIl 님의 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 작업 중인 파일과 이전 대화를 제외하고 지정한 커밋의 변경만 분석해 HTML 리뷰를 만듭니다.",
+            "SeungIl 님의 Hope 3.0.3을 포크해 Commit Diff를 추가했습니다. 선택한 커밋과 확정한 비교 기준 사이의 변경만 검토해 HTML 리뷰를 만듭니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -121,7 +121,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "Git에 저장된 비교 대상만 읽고, 설명이 실제 변경 줄을 가리킬 때만 HTML 생성",
+                value: "선택한 커밋과 확정한 비교 기준에 저장된 코드만 읽고, 설명이 실제 변경 줄을 가리킬 때만 HTML 생성",
             },
         ],
         period: "2026.08.22 — 진행 중",

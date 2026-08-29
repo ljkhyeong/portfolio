@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router-dom"
+import { projectsById } from "../../data/projects"
 import BatonServiceCaseStudy from "./BatonServiceCaseStudy"
 import ProjectCaseStudy from "./ProjectCaseStudy"
 
@@ -57,12 +58,12 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
 
     expect(
         screen.getByRole("heading", {
-            name: "Core와 6개 서비스의 책임 및 연동 계약",
+            name: "Core와 6개 서비스의 담당 기능 및 연동 흐름",
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /Core와 6개 서비스의 책임 및 연동 계약.*선은 서비스 사이의 요청과 이벤트 계약이며 공개 환경 전체 연동 완료를 뜻하지 않습니다/,
+            name: /Core와 6개 서비스의 담당 기능 및 연동 흐름.*선은 서비스 사이에서 주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지 않습니다/,
         }),
     ).toBeInTheDocument()
     expect(screen.getByLabelText("Core: 조직, 역할 및 인수인계")).toBeInTheDocument()
@@ -169,7 +170,8 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
     expect(screen.getByText(/공방 상품 주문과 클래스 예약을 관리/)).toBeInTheDocument()
-    expect(screen.getByText("주요 구현 및 해결")).toBeInTheDocument()
+    expect(screen.queryByText("주요 구현 및 해결")).not.toBeInTheDocument()
+    expect(screen.getByText(projectsById.happygallery.role)).toBeInTheDocument()
     expect(screen.getByText(/문서를 요구사항, 기술 선택, 테스트와 운영 절차로/)).toBeInTheDocument()
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
@@ -226,9 +228,8 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         screen.getByRole("list", { name: "전송형 전자영장 시스템 기술 스택" }),
     ).toHaveTextContent("Oracle DB")
     expect(screen.getByText(/KICS 요청과 기관 제출 자료가 독립망 사이/)).toBeInTheDocument()
-    expect(
-        screen.getByText(/KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고/),
-    ).toBeInTheDocument()
+    expect(screen.getByText(projectsById.warrant.role)).toBeInTheDocument()
+    expect(screen.queryByText(projectsById.warrant.oneLine)).not.toBeInTheDocument()
     expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
     expect(screen.getByText(/다중 서버에서는 분산 잠금이 필요/)).toBeInTheDocument()
     expect(screen.queryByText("군교정 업무")).not.toBeInTheDocument()
@@ -405,7 +406,7 @@ test.each([
         "중복 및 역순 BATON 이벤트 차단",
         "https://github.com/ljkhyeong/baton-brief/tree/61584199a5caaa15cdb65ab071977cde74029d08",
         /BRIEF 개발 브랜치 고정 커밋 보기/,
-        /2\.0\.0-rc\.1 로컬 HTTP 연동/,
+        /2\.0\.0-rc\.1 실제 Core 실행 JAR.*로컬 HTTP/,
         /최신 구현은 원격 개발 브랜치에 있으며 공개 main에는 아직 반영하지 않았습니다/,
     ],
     [

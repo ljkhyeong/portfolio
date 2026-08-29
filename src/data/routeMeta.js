@@ -65,7 +65,7 @@ export const routeMeta = {
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님의 Hope 3.0.3을 포크해 지정한 커밋의 변경만 분석하는 HTML 리뷰 기능을 추가한 프로젝트",
+            "SeungIl 님의 Hope 3.0.3을 포크해 선택한 커밋과 확정한 비교 기준 사이의 변경만 검토하는 HTML 리뷰 기능을 추가한 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/defense": {

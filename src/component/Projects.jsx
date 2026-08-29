@@ -115,7 +115,7 @@ const Projects = () => {
             <div className="project-index__intro">
                 <span className="section-kicker">주요 프로젝트</span>
                 <h2 id="projects-title">프로젝트</h2>
-                <p>프로젝트별 담당 업무, 문제 해결 방법과 검증 결과입니다.</p>
+                <p>프로젝트별 담당 업무와 문제 해결 방법입니다.</p>
             </div>
 
             <ProjectIndex projects={careerProjects} label="경력 프로젝트" type="career" />

@@ -33,14 +33,6 @@ const CareerGroup = ({ career }) => {
                                 {index === 0 ? <span>진행 중</span> : <span>완료</span>}
                             </div>
                             <h4>{project.title}</h4>
-                            <dl className="career-track__facts">
-                                {project.homeFacts.map((fact) => (
-                                    <div key={fact.label}>
-                                        <dt>{fact.label}</dt>
-                                        <dd>{fact.value}</dd>
-                                    </div>
-                                ))}
-                            </dl>
                             <Link to={project.route}>{project.title} 상세 보기 →</Link>
                         </article>
                     </li>

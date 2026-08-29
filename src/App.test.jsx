@@ -1,5 +1,9 @@
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react"
 import App from "./App"
+import { homeHeroContent } from "./data/homeHero"
+import { projectsById } from "./data/projects"
+
+const lazyRouteLoadOptions = { timeout: 30000 }
 
 test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다", async () => {
     window.history.pushState({}, "", "/")
@@ -9,22 +13,15 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(screen.getAllByText("임정규 · 백엔드 개발자").length).toBeGreaterThan(0)
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
-    expect(heroHeading).toHaveTextContent("기관 간 요청과 자료를 전달하고")
-    expect(heroHeading).toHaveTextContent("중복 요청을 막고 멈춘 작업을 다시 처리하는")
-    expect(heroHeading).toHaveTextContent("백엔드를 개발합니다")
+    expect(heroHeading).toHaveTextContent(homeHeroContent.headline)
     const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
 
     expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
-    expect(heroHighlights).toHaveTextContent("BEINTECH · LG CNS 컨소시엄")
-    expect(heroHighlights).toHaveTextContent("KICS-통신사 및 집행포털 연계 · Spring Batch")
+    expect(heroHighlights).toHaveTextContent("BEINTECH · KICS와 통신사 및 집행포털 연계")
     expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent(
-        "조직 및 인수인계 관리 · 6개 마이크로서비스 · WebRTC 스터디룸",
-    )
+    expect(heroHighlights).toHaveTextContent("조직 및 인수인계 관리 · 6개 마이크로서비스")
     expect(heroHighlights).toHaveTextContent("happyGallery")
-    expect(heroHighlights).toHaveTextContent(
-        "AWS 배포 및 운영 · 중복 결제 및 환불 방지 · 미전송 알림 재처리",
-    )
+    expect(heroHighlights).toHaveTextContent("AWS 운영 · 중복 결제 및 알림 유실 방지")
     expect(
         within(heroHighlights).getByRole("link", { name: /전송형 전자영장 시스템/ }),
     ).toHaveAttribute("href", "/projects/e-warrant")
@@ -88,14 +85,18 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     )
     fireEvent.click(screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" }))
 
-    const detailHeading = await screen.findByRole("heading", { name: "BATON", level: 1 })
+    const detailHeading = await screen.findByRole(
+        "heading",
+        { name: "BATON", level: 1 },
+        lazyRouteLoadOptions,
+    )
 
     expect(detailHeading).toBeInTheDocument()
     await waitFor(() => expect(document.activeElement).toBe(detailHeading))
     expect(document.title).toBe("BATON | 임정규 포트폴리오")
     expect(
         screen.getByRole("heading", {
-            name: "Core는 조직 운영, 6개 서비스는 링크, 점검, 이벤트, 보고서, 캘린더와 WebRTC를 담당합니다.",
+            name: projectsById.baton.architecture.title,
         }),
     ).toBeInTheDocument()
 })
@@ -148,8 +149,8 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
 
     expect(desktop.getByRole("heading", { name: "중복 방지 및 장애 복구" })).toBeInTheDocument()
     expect(desktop.getByText("중복 결제 및 환불 방지")).toBeInTheDocument()
-    expect(desktop.getByText("서버 중단으로 남은 알림 재전송")).toBeInTheDocument()
-    expect(desktop.getByText("동시 예약 정원 및 재고 초과 방지")).toBeInTheDocument()
+    expect(desktop.getByText("미전송 알림 재전송")).toBeInTheDocument()
+    expect(desktop.getByText("정원 및 재고 초과 방지")).toBeInTheDocument()
     expect(
         desktop.getByText(
             "클래스와 예약 시간, 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
@@ -277,7 +278,7 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     ])
     expect(within(careerProjects).getByText("2026.03.24 — 진행 중")).toBeInTheDocument()
     expect(within(careerProjects).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
-    expect(within(careerProjects).getAllByText("문제")).toHaveLength(2)
+    expect(within(careerProjects).queryByText("문제")).not.toBeInTheDocument()
     expect(within(careerSection).queryByText(/소속사 비공개/)).not.toBeInTheDocument()
     expect(screen.getByLabelText("프로젝트 상태: 진행 중, 담당 범위만 공개")).toBeInTheDocument()
 })
@@ -301,7 +302,7 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
         "기관별 형식 차이, 누적 이력 조회 지연과 PDF 완료 응답의 순서 역전",
     )
     expect(warrantFacts).toHaveTextContent(
-        "기관별 변환과 공통 배치를 분리하고, 커서 조회와 상태 재조회로 처리",
+        "기관별 변환과 공통 배치를 분리하고, 마지막 전송 ID 다음부터 조회하며 PDF 요청 상태를 다시 확인",
     )
 
     expect(galleryFacts).toHaveTextContent(
@@ -312,6 +313,9 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
     )
     expect(defenseFacts).toHaveTextContent(
         "군교정 업무 화면과 수용자 인적정보 및 영장정보 검증 배치 개발",
+    )
+    expect(galleryFacts).toHaveTextContent(
+        "요구사항 정리, Spring 백엔드 및 React 화면 구현, 자동화 테스트와 AWS 운영",
     )
 })
 
@@ -373,7 +377,11 @@ test.each(canonicalRouteCases)(
 
         render(<App />)
 
-        const detailHeading = await screen.findByRole("heading", { name: heading, level: 1 })
+        const detailHeading = await screen.findByRole(
+            "heading",
+            { name: heading, level: 1 },
+            lazyRouteLoadOptions,
+        )
 
         expect(detailHeading).toBeInTheDocument()
         expect(detailHeading).not.toHaveFocus()
@@ -387,7 +395,11 @@ test("끝 슬래시가 붙은 상세 주소도 정식 메타데이터와 canonic
     render(<App />)
 
     expect(
-        await screen.findByRole("heading", { name: "happyGallery", level: 1 }),
+        await screen.findByRole(
+            "heading",
+            { name: "happyGallery", level: 1 },
+            lazyRouteLoadOptions,
+        ),
     ).toBeInTheDocument()
     await waitFor(() => expect(document.title).toBe("happyGallery | 임정규 포트폴리오"))
     expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute(
@@ -428,7 +440,9 @@ test.each(legacyRouteCases)(
 
         render(<App />)
 
-        expect(await screen.findByRole("heading", { name: heading, level: 1 })).toBeInTheDocument()
+        expect(
+            await screen.findByRole("heading", { name: heading, level: 1 }, lazyRouteLoadOptions),
+        ).toBeInTheDocument()
         await waitFor(() => expect(window.location.pathname).toBe(canonicalPath))
         expect(document.title).toBe(title)
     },
@@ -440,7 +454,7 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
     render(<App />)
 
     expect(
-        await screen.findByRole("heading", { name: "구현 방법과 선택 이유" }),
+        await screen.findByRole("heading", { name: "구현 방법과 선택 이유" }, lazyRouteLoadOptions),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
@@ -464,22 +478,22 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     render(<App />)
 
     expect(
-        await screen.findByRole("heading", { name: "Hope Commit", level: 1 }),
+        await screen.findByRole("heading", { name: "Hope Commit", level: 1 }, lazyRouteLoadOptions),
     ).toBeInTheDocument()
     expect(screen.getAllByText(/SeungIl 님이 개발한 Hope 3\.0\.3/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/제가 추가한 Commit Diff/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("heading", {
-            name: "현재 작업 파일을 제외하고 선택한 커밋만 비교",
+            name: "선택한 커밋과 확정한 비교 기준 사이의 변경만 검토",
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /Hope Commit의 커밋 검토 및 저장 흐름.*입력 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준/,
+            name: /Hope Commit의 커밋 검토 및 저장 흐름.*선택한 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준/,
         }),
     ).toBeInTheDocument()
     expect(
-        screen.getByText(/입력 커밋과 확정한 비교 기준에 저장된 코드만 읽고/),
+        screen.getByText(/선택한 커밋과 확정한 비교 기준 사이의 변경만 읽고/),
     ).toBeInTheDocument()
     expect(screen.getByText("사용자가 고른 부모")).toBeInTheDocument()
     expect(screen.getByText("저장하지 않고 중단")).toBeInTheDocument()
@@ -503,7 +517,9 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
 
     render(<App />)
 
-    expect(await screen.findByRole("heading", { name: "WATCH", level: 1 })).toBeInTheDocument()
+    expect(
+        await screen.findByRole("heading", { name: "WATCH", level: 1 }, lazyRouteLoadOptions),
+    ).toBeInTheDocument()
     expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
     expect(
         screen.getByText(
@@ -531,7 +547,11 @@ test("WebRTC/HLS 상세는 담당 흐름, 문제 해결과 확인 결과를 보�
     render(<App />)
 
     expect(
-        await screen.findByRole("heading", { name: "WebRTC/HLS 현장강의 보조 서비스" }),
+        await screen.findByRole(
+            "heading",
+            { name: "WebRTC/HLS 현장강의 보조 서비스" },
+            lazyRouteLoadOptions,
+        ),
     ).toBeInTheDocument()
     expect(screen.getAllByText("교육 프로젝트").length).toBeGreaterThan(0)
     expect(screen.getByText("mediasoup → WebRTC")).toBeInTheDocument()
@@ -554,13 +574,13 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
         const element = document.querySelector(".portfolio-web-print__document .portfolio-page")
         expect(element).toBeInTheDocument()
         return element
-    })
+    }, lazyRouteLoadOptions)
 
     await waitFor(() => expect(document.title).toBe("인쇄용 포트폴리오 | 임정규"))
     expect(screen.getByText("웹 포트폴리오의 인쇄용 페이지")).toBeInTheDocument()
     expect(document.querySelectorAll("[data-print-page]")).toHaveLength(0)
     expect(within(printDocument).getByRole("heading", { level: 1 })).toHaveTextContent(
-        "기관 간 요청과 자료를 전달하고",
+        homeHeroContent.headline,
     )
     expect(within(printDocument).getByRole("heading", { name: "프로젝트" })).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "경력 및 학습" })).toBeInTheDocument()

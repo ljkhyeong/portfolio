@@ -132,16 +132,6 @@
     padding: clamp(52px, 6.5vw, 86px) 0 clamp(32px, 4vw, 50px);
 }
 
-.knowledge-kicker {
-    display: block;
-    margin-bottom: 18px;
-    color: var(--knowledge-blue);
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 750;
-    letter-spacing: 0.035em;
-}
-
 .knowledge-hero h1 {
     margin: 0;
     font-size: clamp(40px, 4.2vw, 58px);
@@ -149,12 +139,6 @@
     letter-spacing: -0.052em;
     line-height: 1.03;
     word-break: keep-all;
-}
-
-.knowledge-hero h1 em {
-    color: var(--knowledge-blue);
-    font-family: var(--serif);
-    font-weight: 500;
 }
 
 .knowledge-hero__copy > p {
@@ -594,16 +578,8 @@
     border-bottom: 1px solid #30363d;
 }
 
-.knowledge-answer__heading > div > span {
-    color: #58a6ff;
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.055em;
-}
-
 .knowledge-answer__heading h2 {
-    margin: 4px 0 0;
+    margin: 0;
     font-size: 18px;
     font-weight: 690;
     letter-spacing: -0.025em;

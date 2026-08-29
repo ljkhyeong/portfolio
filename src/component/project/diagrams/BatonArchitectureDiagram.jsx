@@ -162,11 +162,11 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                     SYSTEM ARCHITECTURE
                 </span>
                 <h3 className="editorial-diagram__title baton-architecture__title">
-                    Core와 6개 서비스의 책임 및 연동 계약
+                    Core와 6개 서비스의 담당 기능 및 연동 흐름
                 </h3>
                 <p className="editorial-diagram__summary baton-architecture__summary">
-                    Core와 6개 서비스의 담당 기능과 요청 및 이벤트 흐름입니다. 전체 연동 완료를
-                    뜻하지 않습니다.
+                    각 서비스가 맡은 기능과 주고받는 요청 및 이벤트를 보여줍니다. 공개 환경 전체
+                    연동 완료를 뜻하지 않습니다.
                 </p>
             </figcaption>
 
@@ -184,13 +184,13 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                     aria-labelledby="baton-architecture-title baton-architecture-desc"
                 >
                     <title id="baton-architecture-title">
-                        Core와 6개 서비스의 책임 및 연동 계약
+                        Core와 6개 서비스의 담당 기능 및 연동 흐름
                     </title>
                     <desc id="baton-architecture-desc">
                         Core가 조직, 역할 및 인수인계를 관리하고 6개 서비스가 허용 경로의 짧은 링크,
                         외부 URL 상태 점검, 서비스 간 이벤트 전달, 운영 점검과 주간 보고서, 읽기
-                        전용 캘린더 구독 및 WebRTC 스터디룸을 맡는 구조입니다. 선은 서비스 사이의
-                        요청과 이벤트 계약이며 공개 환경 전체 연동 완료를 뜻하지 않습니다.
+                        전용 캘린더 구독 및 WebRTC 스터디룸을 맡는 구조입니다. 선은 서비스 사이에서
+                        주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지 않습니다.
                     </desc>
                     <defs>
                         <marker

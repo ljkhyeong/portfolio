@@ -114,11 +114,8 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
         return (
             <div className="knowledge-state knowledge-state--idle">
                 <span aria-hidden="true">⌕</span>
-                <h2>프로젝트에서 확인하고 싶은 내용을 검색해 보세요.</h2>
-                <p>
-                    구현 방법과 선택 이유, 문제 해결 과정, 테스트 결과와 공개한 대표 문서를 함께
-                    찾습니다.
-                </p>
+                <h2>프로젝트 문서를 검색해 보세요.</h2>
+                <p>검색어를 입력하면 관련 공개 문서를 보여줍니다.</p>
             </div>
         )
     }
@@ -191,19 +188,13 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
 const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGenerate }) => (
     <aside className="knowledge-answer" aria-labelledby="knowledge-answer-title">
         <div className="knowledge-answer__heading">
-            <div>
-                <span>검색 문서 기반 답변</span>
-                <h2 id="knowledge-answer-title">AI 요약 답변</h2>
-            </div>
+            <h2 id="knowledge-answer-title">AI 요약 답변</h2>
             <span className="knowledge-answer__count">출처 {citations.length}</span>
         </div>
 
         {state === "idle" && (
             <div className="knowledge-answer__empty">
-                <p>
-                    먼저 문서를 검색한 뒤 답변을 생성할 수 있습니다. 답변에는 사용한 공개 자료를
-                    함께 표시합니다.
-                </p>
+                <p>문서를 검색한 뒤 답변을 생성할 수 있습니다.</p>
             </div>
         )}
 
@@ -265,9 +256,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
             {state === "loading" ? "답변 생성 중" : "검색 결과로 답변 생성"}
             <span aria-hidden="true">→</span>
         </button>
-        <p className="knowledge-answer__policy">
-            AI 답변은 공개 문서만 사용하며, 답변에 사용한 문서를 함께 표시합니다.
-        </p>
+        <p className="knowledge-answer__policy">공개 문서로만 답하고 출처를 표시합니다.</p>
     </aside>
 )
 
@@ -426,13 +415,12 @@ const PortfolioKnowledgePage = () => {
             <main id="knowledge-main" tabIndex="-1">
                 <section className="knowledge-hero" aria-labelledby="knowledge-title">
                     <div className="knowledge-hero__copy">
-                        <span className="knowledge-kicker">포트폴리오 문서 검색</span>
                         <h1 id="knowledge-title" data-route-heading="/search">
-                            프로젝트 <em>구현 내용과 공개 문서</em>를 검색해 보세요.
+                            프로젝트 문서를 검색해 보세요.
                         </h1>
                         <p>
-                            프로젝트별 담당 업무, 문제 해결 방법, 테스트 결과와 공개 문서를
-                            검색합니다. AI 답변에는 사용한 문서 링크를 함께 표시합니다.
+                            담당 업무, 문제 해결 방법과 테스트 결과를 찾고, 필요하면 출처와 함께 AI
+                            답변을 만듭니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">

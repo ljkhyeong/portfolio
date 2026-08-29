@@ -38,7 +38,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         </h1>
                     </div>
                     <div className="baton-service-hero__intro">
-                        <strong>{service.role}</strong>
                         <p>{service.summary ?? service.detail}</p>
                         <p className="baton-service-hero__contribution">{service.contribution}</p>
                         <dl className="baton-service-hero__facts" aria-label="서비스 정보">

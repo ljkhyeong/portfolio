@@ -35,12 +35,7 @@ const Header = () => {
                     <p className="hero__name">
                         {portfolioProfile.name} · {portfolioProfile.role}
                     </p>
-                    <h1 data-route-heading="/">
-                        {homeHeroContent.headline.lead}
-                        <br />
-                        <em>{homeHeroContent.headline.emphasis}</em>
-                        {homeHeroContent.headline.tail}
-                    </h1>
+                    <h1 data-route-heading="/">{homeHeroContent.headline}</h1>
                     <p className="hero__summary">{homeHeroContent.summary}</p>
                     <div className="hero__actions">
                         <a className="button button--primary" href="#work">

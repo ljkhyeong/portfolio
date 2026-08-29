@@ -142,6 +142,11 @@ body.portfolio-print-mode {
         padding: 48px 42px;
     }
 
+    .portfolio-web-print .experience-section {
+        padding-top: 36px;
+        padding-bottom: 36px;
+    }
+
     .portfolio-web-print .project-index__intro,
     .portfolio-web-print .experience-section__intro {
         margin-bottom: 28px;
@@ -149,6 +154,36 @@ body.portfolio-print-mode {
 
     .portfolio-web-print .project-index__group--separated {
         margin-top: 28px;
+    }
+
+    .portfolio-web-print .timeline--split {
+        gap: 16px;
+    }
+
+    .portfolio-web-print .timeline__item--compact {
+        padding: 16px 18px 18px;
+    }
+
+    .portfolio-web-print .career-company {
+        padding: 18px 20px 20px;
+    }
+
+    .portfolio-web-print .career-track__item article {
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+
+    .portfolio-web-print .timeline__group--activities {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .portfolio-web-print .timeline__group--activities > .timeline__group-title {
+        grid-column: 1 / -1;
+    }
+
+    .portfolio-web-print .timeline__group--activities > .timeline__item + .timeline__item {
+        border-left: 1px solid var(--line);
     }
 
     .portfolio-web-print .project-index__primary,

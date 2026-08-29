@@ -97,7 +97,7 @@ const BatonServices = ({ services }) => {
                 <header className="baton-service-directory__header">
                     <span>{supporting.length} MICROSERVICES</span>
                     <h3 id="baton-service-directory-title">서비스별 책임과 검증 근거</h3>
-                    <p>Core와 6개 서비스의 담당 기능, 저장소와 테스트 근거입니다.</p>
+                    <p>각 서비스의 입력, 저장소와 테스트 결과입니다.</p>
                 </header>
                 <article className="baton-service-directory__core">
                     <div>
@@ -531,10 +531,6 @@ const ProjectCaseStudy = ({ projectId }) => {
                         <div>
                             <dt>담당</dt>
                             <dd>{project.role}</dd>
-                        </div>
-                        <div>
-                            <dt>주요 구현 및 해결</dt>
-                            <dd>{project.oneLine}</dd>
                         </div>
                     </dl>
                     <aside className="case-status" aria-label={project.status.label}>

@@ -28,19 +28,18 @@ export const homeSkillGroups = [
     {
         id: "reliability",
         label: "중복 방지 및 장애 복구",
-        summary:
-            "결제 및 환불 중복과 예약 정원 및 재고 초과를 막고, 미전송 알림과 중단 작업을 복구합니다.",
+        summary: "같은 요청은 한 번만 처리하고, 서버가 멈추면 남은 작업을 다시 시작합니다.",
         items: [
             {
                 name: "중복 결제 및 환불 방지",
                 detail: "요청 ID와 처리 상태를 저장하고, 결과가 불확실하면 PG 처리 결과를 조회합니다.",
             },
             {
-                name: "서버 중단으로 남은 알림 재전송",
+                name: "미전송 알림 재전송",
                 detail: "주문 및 예약 상태와 알림을 함께 저장하고, 스케줄러가 미전송 알림을 다시 보냅니다.",
             },
             {
-                name: "동시 예약 정원 및 재고 초과 방지",
+                name: "정원 및 재고 초과 방지",
                 detail: "클래스와 예약 시간, 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
             },
             {
@@ -52,18 +51,18 @@ export const homeSkillGroups = [
     {
         id: "delivery",
         label: "테스트 및 운영",
-        summary: "통합 및 화면 테스트로 기능을 검증하고, 로그와 DB로 장애 지점을 찾습니다.",
+        summary: "통합 테스트와 화면 테스트로 기능을 확인하고, 로그와 DB에서 장애 지점을 찾습니다.",
         items: [
             {
                 name: "통합 테스트",
                 detail: "JUnit과 Testcontainers로 주문, 결제와 예약 규칙을 실제 DB에서 확인합니다.",
             },
             {
-                name: "API 요청 및 응답 문서 검증",
+                name: "API 문서 검증",
                 detail: "Spring REST Docs와 OpenAPI로 구현과 문서의 요청 및 응답 형식을 함께 검증합니다.",
             },
             {
-                name: "주요 화면 자동화 테스트",
+                name: "화면 자동화 테스트",
                 detail: "Playwright로 주문, 결제와 예약의 주요 흐름을 회귀 테스트합니다.",
             },
             {
