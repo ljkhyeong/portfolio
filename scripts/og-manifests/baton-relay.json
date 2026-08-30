@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "artifactPath": "public/og/baton-relay.png",
+    "sourceSha256": "86ab7ca056a2d95cf031d53fb195801737ec8637897ec9b8d9be4114e797999e",
+    "artifactSha256": "8192dc8a01586682895ef443a61c4ae820c98ce9b14bf6b07dfb3f9eb01fceed",
+    "renderer": {
+        "id": "chrome",
+        "name": "Chrome 또는 Chromium",
+        "version": "Google Chrome 151.0.7922.174",
+        "platform": "darwin",
+        "architecture": "arm64"
+    }
+}

@@ -1,0 +1,127 @@
+.case-section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    min-height: 64px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-size: 14px;
+}
+
+.case-section-nav__label {
+    flex: 0 0 auto;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.case-section-nav ul {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    justify-content: flex-end;
+    gap: 4px 24px;
+    margin: 0;
+    padding: 4px 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+    list-style: none;
+}
+
+.case-section-nav li {
+    flex: 0 0 auto;
+}
+
+.case-section-nav a {
+    position: relative;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-weight: 700;
+    white-space: nowrap;
+    transition: color 160ms ease;
+}
+
+.case-section-nav a::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    content: "";
+    transform: scaleX(0);
+    transition: transform 160ms ease;
+}
+
+.case-section-nav a:hover,
+.case-section-nav a:focus-visible,
+.case-section-nav a[aria-current="location"] {
+    color: var(--accent);
+}
+
+.case-section-nav a:hover::after,
+.case-section-nav a:focus-visible::after,
+.case-section-nav a[aria-current="location"]::after {
+    transform: scaleX(1);
+}
+
+.case-section-nav__short-label {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .case-section-nav ul {
+        justify-content: flex-start;
+        gap: 16px;
+    }
+
+    .case-section-nav__label {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .case-section-nav {
+        min-height: 58px;
+    }
+
+    .case-section-nav ul {
+        gap: 4px;
+    }
+
+    .case-section-nav a {
+        min-width: 44px;
+        padding: 0 6px;
+    }
+
+    .case-section-nav__full-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .case-section-nav__short-label {
+        display: inline;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .case-section-nav a,
+    .case-section-nav a::after {
+        transition: none;
+    }
+}

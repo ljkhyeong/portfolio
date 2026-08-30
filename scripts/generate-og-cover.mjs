@@ -1,15 +1,20 @@
 import { spawn } from "node:child_process"
-import { access, readFile, rename, rm } from "node:fs/promises"
+import { access, mkdir, mkdtemp, readFile, rename, rm } from "node:fs/promises"
+import os from "node:os"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { createServer } from "vite"
 import { createArtifactManifest, writeArtifactManifest } from "./artifact-manifest.mjs"
 import { validatePngArtifact } from "./artifact-validation.mjs"
-import { createOgCoverFingerprint, ogCoverManifestPath } from "./og-cover-fingerprint.mjs"
+import {
+    createOgCoverFingerprint,
+    createProjectOgFingerprint,
+    ogCoverManifestPath,
+    projectOgManifestPath,
+} from "./og-cover-fingerprint.mjs"
+import { projectOgCards } from "../src/data/projectOg.js"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const outputPath = path.join(repositoryRoot, "public", "og-cover.png")
-const temporaryOutputPath = path.join(repositoryRoot, "public", ".og-cover.tmp.png")
 const expectedWidth = 1200
 const expectedHeight = 630
 
@@ -93,6 +98,8 @@ const server = await createServer({
     },
 })
 
+let captureDirectory
+
 try {
     await server.listen()
     const address = server.httpServer.address()
@@ -100,50 +107,72 @@ try {
     const homeUrl = `http://127.0.0.1:${port}/`
     const chromePath = await findChrome()
     const chromeVersion = await readChromeVersion(chromePath)
-
-    await rm(temporaryOutputPath, { force: true })
-    await runChrome(chromePath, [
-        "--headless=new",
-        "--disable-dev-shm-usage",
-        "--disable-extensions",
-        "--disable-gpu",
-        "--force-device-scale-factor=1",
-        "--hide-scrollbars",
-        "--incognito",
-        "--no-default-browser-check",
-        "--no-first-run",
-        "--run-all-compositor-stages-before-draw",
-        "--virtual-time-budget=6000",
-        `--window-size=${expectedWidth},${expectedHeight}`,
-        `--screenshot=${temporaryOutputPath}`,
-        homeUrl,
-    ])
-
-    const png = await readFile(temporaryOutputPath)
-    const { height, size, width } = validatePngArtifact(png, {
-        expectedHeight,
-        expectedWidth,
-    })
-
-    await rename(temporaryOutputPath, outputPath)
-    const sourceSha256 = await createOgCoverFingerprint()
-    const manifest = createArtifactManifest({
-        artifact: png,
-        artifactPath: outputPath,
-        renderer: {
-            id: "chrome",
-            name: "Chrome 또는 Chromium",
-            version: chromeVersion,
-            platform: process.platform,
-            architecture: process.arch,
+    captureDirectory = await mkdtemp(path.join(os.tmpdir(), "portfolio-og-"))
+    await mkdir(path.join(repositoryRoot, "public", "og"), { recursive: true })
+    await mkdir(path.join(repositoryRoot, "scripts", "og-manifests"), { recursive: true })
+    const projectFingerprint = await createProjectOgFingerprint()
+    const targets = [
+        {
+            id: "cover",
+            image: "/og-cover.png",
+            url: homeUrl,
+            manifestPath: ogCoverManifestPath,
+            fingerprint: await createOgCoverFingerprint(),
         },
-        sourceSha256,
-    })
-    await writeArtifactManifest(ogCoverManifestPath, manifest)
-    process.stdout.write(
-        `공유 이미지 생성 완료: ${outputPath} (${width}x${height}, ${size} bytes)\n`,
-    )
+        ...projectOgCards.map((card) => ({
+            ...card,
+            url: `${homeUrl}og-preview.html?project=${card.id}`,
+            manifestPath: projectOgManifestPath(card.id),
+            fingerprint: projectFingerprint,
+        })),
+    ]
+
+    for (const target of targets) {
+        const outputPath = path.join(repositoryRoot, "public", target.image)
+        const temporaryOutputPath = path.join(captureDirectory, `${target.id}.png`)
+        await runChrome(chromePath, [
+            "--headless=new",
+            "--disable-dev-shm-usage",
+            "--disable-extensions",
+            "--disable-gpu",
+            "--force-device-scale-factor=1",
+            "--hide-scrollbars",
+            "--incognito",
+            "--no-default-browser-check",
+            "--no-first-run",
+            "--run-all-compositor-stages-before-draw",
+            "--virtual-time-budget=6000",
+            `--user-data-dir=${path.join(captureDirectory, "chrome-profile")}`,
+            `--window-size=${expectedWidth},${expectedHeight}`,
+            `--screenshot=${temporaryOutputPath}`,
+            target.url,
+        ])
+
+        const png = await readFile(temporaryOutputPath)
+        const { height, size, width } = validatePngArtifact(png, {
+            expectedHeight,
+            expectedWidth,
+        })
+
+        await rename(temporaryOutputPath, outputPath)
+        const manifest = createArtifactManifest({
+            artifact: png,
+            artifactPath: outputPath,
+            renderer: {
+                id: "chrome",
+                name: "Chrome 또는 Chromium",
+                version: chromeVersion,
+                platform: process.platform,
+                architecture: process.arch,
+            },
+            sourceSha256: target.fingerprint,
+        })
+        await writeArtifactManifest(target.manifestPath, manifest)
+        process.stdout.write(
+            `공유 이미지 생성 완료: ${outputPath} (${width}x${height}, ${size} bytes)\n`,
+        )
+    }
 } finally {
     await server.close()
-    await rm(temporaryOutputPath, { force: true })
+    if (captureDirectory) await rm(captureDirectory, { recursive: true, force: true })
 }

@@ -47,9 +47,11 @@ const renderRouteHtml = (pathname, meta) => {
     html = replaceMeta(html, "property", "og:description", meta.description)
     html = replaceMeta(html, "property", "og:url", canonicalUrl)
     html = replaceMeta(html, "property", "og:image", imageUrl)
+    html = replaceMeta(html, "property", "og:image:alt", meta.imageAlt ?? "임정규 포트폴리오")
     html = replaceMeta(html, "name", "twitter:title", meta.title)
     html = replaceMeta(html, "name", "twitter:description", meta.description)
     html = replaceMeta(html, "name", "twitter:image", imageUrl)
+    html = replaceMeta(html, "name", "twitter:image:alt", meta.imageAlt ?? "임정규 포트폴리오")
     html = replaceCanonical(html, canonicalUrl)
 
     return html

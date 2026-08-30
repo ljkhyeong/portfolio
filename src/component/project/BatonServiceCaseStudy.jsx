@@ -1,21 +1,41 @@
 import { Link } from "react-router-dom"
 import { batonServicesById, projectsById } from "../../data/projects"
+import { batonServicePresentations } from "../../data/batonServicePresentation"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
+import CaseKeySummary from "./CaseKeySummary"
+import CaseSectionNavigation from "./CaseSectionNavigation"
 import ProblemSolutionList from "./ProblemSolutionList"
+import BatonServiceFlowDiagram from "./diagrams/BatonServiceFlowDiagram"
 import "../../css/BatonService.css"
+
+const problemResults = {
+    "03": "동시 요청 8건에도 링크와 처리 기록 각 1건",
+    "04": "HMAC 키 불일치 시 기동과 링크 생성 차단",
+    "05": "사설망, 늦은 결과 차단과 중단 시도 회수 확인",
+    "06": "응답 유실과 미전송 이벤트 재처리 확인",
+    "07": "서버 중단 후 같은 시도 정보 유지와 상태 확정 확인",
+    "08": "RabbitMQ 재전달에도 수신 이력 1건",
+    "09": "실제 Core와 로컬 HTTP 및 내부 HTTPS 연동 확인",
+    10: "재생성 결과 일치, 동시 요청에도 보고서 1건",
+    11: "중복, 과거 개정과 같은 개정의 내용 충돌 차단",
+    12: "시간대, 취소 일정과 ETag 304 응답 확인",
+    13: "현재 연결 순번의 SDP 및 ICE만 반영",
+    14: "잘못된 참여권 차단과 공개 키 교체 확인",
+}
 
 const BatonServiceCaseStudy = ({ serviceId }) => {
     const project = projectsById.baton
     const service = batonServicesById[serviceId]
+    const presentation = batonServicePresentations[serviceId]
 
-    if (!service || service.primary) {
+    if (!service || service.primary || !presentation) {
         return null
     }
 
-    const problems = project.problems.filter(
-        (problem) => problem.serviceIds.includes(serviceId) && !problem.shared,
-    )
+    const problems = project.problems
+        .filter((problem) => problem.serviceIds.includes(serviceId) && !problem.shared)
+        .map((problem) => ({ ...problem, validationSummary: problemResults[problem.number] }))
     const documents = project.documents.filter((document) => document.serviceId === serviceId)
     const siblings = project.services.filter((candidate) => !candidate.primary)
 
@@ -39,7 +59,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     </div>
                     <div className="baton-service-hero__intro">
                         <p>{service.summary ?? service.detail}</p>
-                        <p className="baton-service-hero__contribution">{service.contribution}</p>
                         <dl className="baton-service-hero__facts" aria-label="서비스 정보">
                             <div>
                                 <dt>DB</dt>
@@ -49,38 +68,30 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                 <dt>공개 범위</dt>
                                 <dd>{service.visibility}</dd>
                             </div>
-                            <div>
-                                <dt>검증 요약</dt>
-                                <dd>{service.evidence}</dd>
-                            </div>
                         </dl>
                     </div>
                 </header>
 
-                <aside className="baton-service-status" aria-label="구현 상태">
-                    <code>[status]</code>
-                    <p>{service.status}</p>
-                </aside>
+                <CaseKeySummary
+                    items={[
+                        { label: "해결 대상", text: presentation.target },
+                        { label: "핵심 설계", text: presentation.decision },
+                        { label: "확인 결과", text: presentation.result },
+                    ]}
+                />
 
                 <BatonServiceSwitcher services={project.services} currentServiceId={serviceId} />
 
-                <nav className="baton-service-index" aria-label="서비스 상세 섹션 바로가기">
-                    <span aria-hidden="true">페이지 내 이동</span>
-                    <ul>
-                        <li>
-                            <a href="#service-boundary">책임</a>
-                        </li>
-                        <li>
-                            <a href="#service-problems">문제 해결</a>
-                        </li>
-                        <li>
-                            <a href="#service-documents">문서</a>
-                        </li>
-                        <li>
-                            <a href="#service-stack">사용 기술</a>
-                        </li>
-                    </ul>
-                </nav>
+                <CaseSectionNavigation
+                    label="서비스 상세 섹션 바로가기"
+                    sections={[
+                        { id: "service-boundary", label: "처리 흐름" },
+                        { id: "service-verification", label: "검증 상태" },
+                        { id: "service-problems", label: "문제 해결" },
+                        { id: "service-documents", label: "문서" },
+                        { id: "service-stack", label: "사용 기술" },
+                    ]}
+                />
 
                 <section
                     className="baton-service-boundary"
@@ -89,33 +100,68 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 >
                     <div className="baton-service-section-heading">
                         <span>## 01</span>
-                        <h2 id="boundary-title">이 서비스가 받는 데이터와 처리 결과</h2>
+                        <h2 id="boundary-title">처리 흐름</h2>
                     </div>
-                    <div className="service-boundary-flow">
-                        <article>
-                            <code>입력</code>
-                            <strong>{service.input}</strong>
-                            <p>{service.inputRule}</p>
-                        </article>
-                        <span aria-hidden="true">→</span>
-                        <article className="service-boundary-flow__current">
-                            <code>
-                                {service.name} / {service.kind}
-                            </code>
-                            <strong>{service.role}</strong>
-                            <p>{service.detail}</p>
-                        </article>
-                        <span aria-hidden="true">→</span>
-                        <article>
-                            <code>처리 결과</code>
-                            <strong>{service.output}</strong>
-                            <p>처리 기준: {service.recoveryBoundary}</p>
-                        </article>
+                    <BatonServiceFlowDiagram serviceId={serviceId} />
+                    <details className="baton-service-scope">
+                        <summary>구현 범위와 제약</summary>
+                        <div>
+                            <p>{service.contribution}</p>
+                            <dl>
+                                <div>
+                                    <dt>입력</dt>
+                                    <dd>{service.input}</dd>
+                                </div>
+                                <div>
+                                    <dt>입력 검증</dt>
+                                    <dd>{service.inputRule}</dd>
+                                </div>
+                                <div>
+                                    <dt>처리 결과</dt>
+                                    <dd>{service.output}</dd>
+                                </div>
+                                <div>
+                                    <dt>재처리 기준</dt>
+                                    <dd>{service.recoveryBoundary}</dd>
+                                </div>
+                            </dl>
+                            <blockquote>
+                                <strong>{service.name}의 적용 범위와 제약</strong>
+                                <p>{service.tradeoff}</p>
+                            </blockquote>
+                        </div>
+                    </details>
+                </section>
+
+                <section
+                    className="baton-service-verification"
+                    id="service-verification"
+                    aria-labelledby="service-verification-title"
+                >
+                    <div className="baton-service-section-heading">
+                        <span>## 02</span>
+                        <h2 id="service-verification-title">검증 결과와 남은 범위</h2>
                     </div>
-                    <blockquote>
-                        <strong>{service.name}의 적용 범위와 제약</strong>
-                        {service.tradeoff}
-                    </blockquote>
+                    <dl className="baton-service-status" aria-label="구현 상태">
+                        {presentation.verification.map((item) => (
+                            <div
+                                key={item.kind}
+                                className={`baton-service-status__item baton-service-status__item--${item.kind}`}
+                            >
+                                <dt>
+                                    <span aria-hidden="true">
+                                        {item.kind === "verified"
+                                            ? "✓"
+                                            : item.kind === "limited"
+                                              ? "!"
+                                              : "—"}
+                                    </span>
+                                    {item.label}
+                                </dt>
+                                <dd>{item.text}</dd>
+                            </div>
+                        ))}
+                    </dl>
                 </section>
 
                 <section
@@ -124,7 +170,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="service-problems-title"
                 >
                     <div className="baton-service-section-heading">
-                        <span>## 02</span>
+                        <span>## 03</span>
                         <h2 id="service-problems-title">문제와 해결 방법</h2>
                     </div>
                     <ProblemSolutionList
@@ -139,7 +185,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="service-documents-title"
                 >
                     <div className="baton-service-section-heading">
-                        <span>## 03</span>
+                        <span>## 04</span>
                         <h2 id="service-documents-title">문서 분류와 대표 문서</h2>
                     </div>
                     <div
@@ -173,7 +219,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 <CaseMetaSection
                     id="service-stack"
                     headingId="service-stack-title"
-                    sectionNumber="## 04"
+                    sectionNumber="## 05"
                     technologies={service.stack}
                     technologyLabel={`${service.name} 기술 스택`}
                     links={

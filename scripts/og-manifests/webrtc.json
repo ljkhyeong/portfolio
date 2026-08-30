@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "artifactPath": "public/og/webrtc.png",
+    "sourceSha256": "86ab7ca056a2d95cf031d53fb195801737ec8637897ec9b8d9be4114e797999e",
+    "artifactSha256": "7762426882a0331be6e315ea6ee050d3e6e7b7b6b79d122ef5e5c60683616c79",
+    "renderer": {
+        "id": "chrome",
+        "name": "Chrome 또는 Chromium",
+        "version": "Google Chrome 151.0.7922.174",
+        "platform": "darwin",
+        "architecture": "arm64"
+    }
+}

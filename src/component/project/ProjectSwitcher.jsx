@@ -1,11 +1,15 @@
 import { useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
-import { navigableCaseStudies, navigableCaseStudyGroups } from "../../data/projects"
+import { educationCaseStudies, navigableCaseStudyGroups } from "../../data/projects"
 import "../../css/ProjectSwitcher.css"
 
 const ProjectSwitcher = ({ currentProjectId, contextLabel }) => {
     const detailsRef = useRef(null)
-    const currentGroup = navigableCaseStudyGroups.find((group) =>
+    const menuGroups = [
+        ...navigableCaseStudyGroups,
+        { id: "education", label: "교육", title: "교육 프로젝트", projects: educationCaseStudies },
+    ]
+    const currentGroup = menuGroups.find((group) =>
         group.projects.some((project) => project.id === currentProjectId),
     )
     const currentProjectIndex = currentGroup?.projects.findIndex(
@@ -15,7 +19,7 @@ const ProjectSwitcher = ({ currentProjectId, contextLabel }) => {
         contextLabel ??
         (currentGroup && currentProjectIndex >= 0
             ? `${currentGroup.title} ${String(currentProjectIndex + 1).padStart(2, "0")} / ${String(currentGroup.projects.length).padStart(2, "0")}`
-            : `프로젝트 ${navigableCaseStudies.length}개`)
+            : `프로젝트 ${menuGroups.reduce((count, group) => count + group.projects.length, 0)}개`)
     const closeMenu = () => {
         if (detailsRef.current) {
             detailsRef.current.open = false
@@ -54,7 +58,7 @@ const ProjectSwitcher = ({ currentProjectId, contextLabel }) => {
                     <strong>프로젝트 이동</strong>
                 </summary>
                 <div className="project-switcher__panel">
-                    {navigableCaseStudyGroups.map((group) => (
+                    {menuGroups.map((group) => (
                         <div className="project-switcher__group" key={group.id}>
                             <span>{group.label}</span>
                             <ol aria-label={`${group.title} 바로가기`}>

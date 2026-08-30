@@ -576,9 +576,15 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
             "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
         ),
     ).toBeInTheDocument()
-    expect(
-        screen.getByRole("heading", { name: "이 서비스가 받는 데이터와 처리 결과" }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "처리 흐름", level: 2 })).toBeInTheDocument()
+    expect(document.querySelector('meta[property="og:image"]')).toHaveAttribute(
+        "content",
+        "https://ljkportfolio.netlify.app/og/baton-watch.png",
+    )
+    expect(document.querySelector('meta[property="og:image:alt"]')).toHaveAttribute(
+        "content",
+        "BATON WATCH의 핵심 처리 흐름",
+    )
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문서 분류와 대표 문서" })).toBeInTheDocument()
     expect(screen.getByText("공개 저장소")).toBeInTheDocument()

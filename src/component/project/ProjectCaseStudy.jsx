@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 import { navigableCaseStudies, projectsById } from "../../data/projects"
+import { caseHighlights, problemHighlights } from "../../data/caseHighlights"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
+import CaseKeySummary from "./CaseKeySummary"
+import CaseSectionNavigation from "./CaseSectionNavigation"
 import ProblemSolutionList from "./ProblemSolutionList"
 import ProjectEvidenceList from "./ProjectEvidenceList"
 import ProjectSwitcher from "./ProjectSwitcher"
@@ -77,9 +80,12 @@ const ProjectEvidenceLinks = ({ project }) => {
     )
 }
 
-const ProblemList = ({ problems, additional = false }) => (
+const ProblemList = ({ problems, projectId, additional = false }) => (
     <ProblemSolutionList
-        problems={problems}
+        problems={problems.map((problem) => ({
+            ...problem,
+            validationSummary: additional ? null : problemHighlights[projectId]?.[problem.number],
+        }))}
         label={additional ? "추가 문제와 해결 방법 목록" : "주요 문제와 해결 방법 목록"}
     />
 )
@@ -295,45 +301,21 @@ const CaseDocuments = ({ documentGroups, documents, intro, sectionNumber }) => (
     </section>
 )
 
-const CaseSectionNavigation = ({ hasArchitecture, hasDocuments, systemNavLabel }) => {
-    const sections = [
-        { href: "#project-overview", label: "개요", shortLabel: "개요" },
-        {
-            href: "#project-system",
-            label: systemNavLabel ?? "대표 화면",
-            shortLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
-        },
-        ...(hasArchitecture
-            ? [{ href: "#project-architecture", label: "구현 방법", shortLabel: "방법" }]
-            : []),
-        { href: "#project-problems", label: "문제 해결", shortLabel: "문제" },
-        { href: "#project-proof", label: "테스트 및 결과", shortLabel: "결과" },
-        ...(hasDocuments
-            ? [{ href: "#project-documents", label: "문서", shortLabel: "문서" }]
-            : []),
-        { href: "#project-stack", label: "사용 기술", shortLabel: "기술" },
-    ]
-
-    return (
-        <nav className="case-section-nav" aria-label="상세 섹션 바로가기">
-            <span className="case-section-nav__label" aria-hidden="true">
-                페이지 내 이동
-            </span>
-            <ul>
-                {sections.map((section) => (
-                    <li key={section.href}>
-                        <a href={section.href}>
-                            <span className="case-section-nav__full-label">{section.label}</span>
-                            <span className="case-section-nav__short-label" aria-hidden="true">
-                                {section.shortLabel}
-                            </span>
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </nav>
-    )
-}
+const projectSections = ({ hasArchitecture, hasDocuments, systemNavLabel }) => [
+    { id: "project-overview", label: "개요", mobileLabel: "개요" },
+    {
+        id: "project-system",
+        label: systemNavLabel ?? "대표 화면",
+        mobileLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
+    },
+    ...(hasArchitecture
+        ? [{ id: "project-architecture", label: "구현 방법", mobileLabel: "방법" }]
+        : []),
+    { id: "project-problems", label: "문제 해결", mobileLabel: "문제" },
+    { id: "project-proof", label: "테스트 및 결과", mobileLabel: "결과" },
+    ...(hasDocuments ? [{ id: "project-documents", label: "문서", mobileLabel: "문서" }] : []),
+    { id: "project-stack", label: "사용 기술", mobileLabel: "기술" },
+]
 
 const PriorExperienceCase = ({ project }) => {
     const [technology, ...subject] = project.title.split(" ")
@@ -348,7 +330,7 @@ const PriorExperienceCase = ({ project }) => {
                 <Link to="/" className="case-study-nav__home">
                     <span aria-hidden="true">←</span> 포트폴리오
                 </Link>
-                <ProjectSwitcher contextLabel="교육 프로젝트" />
+                <ProjectSwitcher currentProjectId={project.id} contextLabel="교육 프로젝트" />
             </nav>
             <article className="prior-case">
                 <header>
@@ -369,10 +351,9 @@ const PriorExperienceCase = ({ project }) => {
                     <p className="prior-case__summary">{project.summary}</p>
                 </header>
 
+                <CaseKeySummary items={caseHighlights[project.id]} />
                 <CaseSectionNavigation
-                    hasArchitecture={false}
-                    hasDocuments={false}
-                    systemNavLabel="미디어 처리 흐름"
+                    sections={projectSections({ systemNavLabel: "미디어 처리 흐름" })}
                 />
 
                 <section
@@ -426,7 +407,7 @@ const PriorExperienceCase = ({ project }) => {
                         <span>02</span>
                         <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
-                    <ProblemList problems={project.problems} />
+                    <ProblemList problems={project.problems} projectId={project.id} />
                 </section>
 
                 <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
@@ -511,12 +492,16 @@ const ProjectCaseStudy = ({ projectId }) => {
                     </div>
                 </header>
 
+                <CaseKeySummary items={caseHighlights[project.id]} />
+
                 {project.services ? <BatonServiceSwitcher services={project.services} /> : null}
 
                 <CaseSectionNavigation
-                    hasArchitecture={hasArchitecture}
-                    hasDocuments={hasDocuments}
-                    systemNavLabel={project.systemNavLabel}
+                    sections={projectSections({
+                        hasArchitecture,
+                        hasDocuments,
+                        systemNavLabel: project.systemNavLabel,
+                    })}
                 />
 
                 <section
@@ -569,7 +554,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                         <span>{problemSectionNumber}</span>
                         <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
-                    <ProblemList problems={featuredProblems} />
+                    <ProblemList problems={featuredProblems} projectId={project.id} />
                     {additionalProblems.length > 0 ? (
                         <details className="case-problems__more">
                             <summary>

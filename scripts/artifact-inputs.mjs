@@ -29,6 +29,7 @@ const commonRenderSourceTargets = [
     "src/data/homeSkills.js",
     "src/data/projectSummaries.js",
     "src/data/routeMeta.js",
+    "src/data/projectOg.js",
     "src/utils/assetPath.js",
     "public/ljkhyeong-avatar.png",
 ]
@@ -44,6 +45,17 @@ export const ogCoverSourceTargets = [
     ...artifactPipelineSourceTargets,
     "scripts/generate-og-cover.mjs",
     "scripts/og-cover-fingerprint.mjs",
+]
+
+export const projectOgSourceTargets = [
+    ...ogCoverSourceTargets,
+    "og-preview.html",
+    "src/component/share/og-entry.jsx",
+    "src/component/share/ProjectOgPreview.jsx",
+    "src/css/ProjectOg.css",
+    "src/component/project/diagrams/BatonServiceFlowDiagram.jsx",
+    "src/css/BatonServiceFlowDiagram.css",
+    "src/data/batonServicePresentation.js",
 ]
 
 export const portfolioPdfSourceTargets = [

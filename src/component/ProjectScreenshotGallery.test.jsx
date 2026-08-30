@@ -51,10 +51,12 @@ test("모든 대표 화면을 버튼으로 열고 좌우 키로 전환한다", (
     expect(dialog).toBeInTheDocument()
     expect(within(dialog).getByRole("img", { name: "상품 화면" })).toBeInTheDocument()
     expect(within(dialog).getByText("2 / 3")).toBeInTheDocument()
+    expect(dialog.querySelector('[aria-live="polite"]')).toHaveTextContent("상품")
 
     fireEvent.keyDown(window, { key: "ArrowRight" })
     expect(within(dialog).getByRole("img", { name: "결제 화면" })).toBeInTheDocument()
     expect(within(dialog).getByText("3 / 3")).toBeInTheDocument()
+    expect(dialog.querySelector('[aria-live="polite"]')).toHaveTextContent("결제")
 
     fireEvent.keyDown(window, { key: "ArrowRight" })
     expect(within(dialog).getByRole("img", { name: "홈 화면" })).toBeInTheDocument()

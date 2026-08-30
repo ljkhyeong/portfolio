@@ -38,3 +38,31 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
         )
     },
 )
+
+test("ROUND의 통과, 일부 실패와 미검증 범위를 나눠 표시한다", () => {
+    renderService("round")
+
+    const status = screen.getByLabelText("구현 상태")
+    const verified = within(status).getByText("확인됨").closest("div")
+    const limited = within(status).getByText("일부 실패 및 제한").closest("div")
+    const unverified = within(status).getByText("미검증").closest("div")
+
+    expect(verified).toHaveClass("baton-service-status__item--verified")
+    expect(verified).toHaveTextContent("Chromium 전체 미디어와 Core 연동")
+    expect(limited).toHaveClass("baton-service-status__item--limited")
+    expect(limited).toHaveTextContent("WebKit 채팅과 모바일 배치 시나리오 2건")
+    expect(limited).toHaveTextContent("restic 실행 파일 부재")
+    expect(unverified).toHaveClass("baton-service-status__item--unverified")
+    expect(unverified).toHaveTextContent("Safari 실기기")
+})
+
+test("GO의 동시 요청 검증을 전체 배포 검증으로 표시하지 않는다", () => {
+    renderService("go")
+
+    const status = screen.getByLabelText("구현 상태")
+    const verified = within(status).getByText("확인됨").closest("div")
+    const unverified = within(status).getByText("미검증").closest("div")
+
+    expect(verified).toHaveTextContent("같은 요청 8건의 동시 처리")
+    expect(unverified).toHaveTextContent("실제 클러스터와 공개 배포는 미검증")
+})

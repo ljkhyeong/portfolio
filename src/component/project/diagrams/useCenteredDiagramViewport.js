@@ -6,11 +6,31 @@ const useCenteredDiagramViewport = () => {
     useLayoutEffect(() => {
         const viewport = viewportRef.current
 
-        if (!viewport || viewport.scrollWidth <= viewport.clientWidth) {
+        if (!viewport) {
             return
         }
 
-        viewport.scrollLeft = (viewport.scrollWidth - viewport.clientWidth) / 2
+        let wasOverflowing = false
+        const centerWhenOverflowStarts = () => {
+            const isOverflowing = viewport.scrollWidth > viewport.clientWidth
+            if (isOverflowing && !wasOverflowing) {
+                viewport.scrollLeft = (viewport.scrollWidth - viewport.clientWidth) / 2
+            }
+            wasOverflowing = isOverflowing
+        }
+
+        centerWhenOverflowStarts()
+        const observer =
+            typeof ResizeObserver === "undefined"
+                ? null
+                : new ResizeObserver(centerWhenOverflowStarts)
+        observer?.observe(viewport)
+        window.addEventListener("resize", centerWhenOverflowStarts)
+
+        return () => {
+            observer?.disconnect()
+            window.removeEventListener("resize", centerWhenOverflowStarts)
+        }
     }, [])
 
     return viewportRef

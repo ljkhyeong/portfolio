@@ -45,7 +45,7 @@ const IntentTraceRecordPreview = () => (
             <header className="intent-trace-record__toolbar">
                 <div>
                     <span>INTENT TRACE</span>
-                    <strong>변경 기록</strong>
+                    <strong>예시 기록</strong>
                 </div>
                 <span className="intent-trace-record__status">PUBLISHED</span>
             </header>

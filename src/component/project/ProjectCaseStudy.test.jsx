@@ -8,6 +8,21 @@ import ProjectCaseStudy from "./ProjectCaseStudy"
 const renderWithRouter = (component) =>
     render(<MemoryRouter initialEntries={["/"]}>{component}</MemoryRouter>)
 
+test.each(["baton", "happygallery", "hope-commit", "intent-trace", "warrant", "defense", "webrtc"])(
+    "%s 상세는 해결 대상, 핵심 설계와 확인 결과를 상단에 요약한다",
+    (projectId) => {
+        renderWithRouter(<ProjectCaseStudy projectId={projectId} />)
+
+        const summary = screen.getByLabelText("프로젝트 핵심 요약")
+        expect(
+            within(summary)
+                .getAllByRole("term")
+                .map((term) => term.textContent),
+        ).toEqual(["해결 대상", "핵심 설계", "확인 결과"])
+        expect(within(summary).getAllByRole("definition")).toHaveLength(3)
+    },
+)
+
 test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 명확히 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="baton" />)
 
@@ -197,6 +212,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
     ).toBeInTheDocument()
     expect(screen.getByText("CODE ANCHOR")).toBeInTheDocument()
     expect(screen.getByText("VERIFICATION")).toBeInTheDocument()
+    expect(screen.getByText("예시 기록")).toBeInTheDocument()
     expect(screen.getAllByText("PUBLISHED").length).toBeGreaterThan(0)
     expect(screen.getByText("원문 대화 / 숨은 추론 / 검증 원문")).toBeInTheDocument()
     expect(
@@ -231,6 +247,9 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         ),
     ).toHaveLength(4)
     expect(screen.getByText("FIG 03 / BEINTECH / LG CNS 컨소시엄")).toBeInTheDocument()
+    expect(
+        screen.getByRole("heading", { name: "KICS 요청 변환 및 제출 자료 반영", level: 3 }),
+    ).toBeInTheDocument()
     expect(screen.getByRole("group", { name: "KICS 연계 서버 및 배치" })).toBeInTheDocument()
     expect(
         screen.getByRole("region", { name: "전자영장 기관 연계 흐름 가로 스크롤 영역" }),
@@ -308,7 +327,10 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
         screen.getByRole("navigation", { name: "서비스 상세 섹션 바로가기" }),
     ).toBeInTheDocument()
     expect(screen.getByRole("list", { name: "WATCH 문제와 해결 방법 목록" })).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "책임" })).toHaveAttribute("href", "#service-boundary")
+    expect(screen.getByRole("link", { name: "처리 흐름" })).toHaveAttribute(
+        "href",
+        "#service-boundary",
+    )
     expect(screen.getByRole("link", { name: "문제 해결" })).toHaveAttribute(
         "href",
         "#service-problems",
@@ -334,7 +356,10 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
     const serviceFacts = screen.getByLabelText("서비스 정보")
     expect(within(serviceFacts).getByText("DB")).toBeInTheDocument()
     expect(within(serviceFacts).getByText("공개 범위")).toBeInTheDocument()
-    expect(within(serviceFacts).getByText("검증 요약")).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "검증 상태" })).toHaveAttribute(
+        "href",
+        "#service-verification",
+    )
 })
 
 test.each([
@@ -387,7 +412,7 @@ test.each([
         expect(within(hero).getByText(summary)).toBeInTheDocument()
     }
     expect(within(hero).queryByText(detail)).not.toBeInTheDocument()
-    expect(screen.getByText(detail)).toBeInTheDocument()
+    expect(screen.getByRole("img", { name: new RegExp(`^${name} 처리 흐름`) })).toBeInTheDocument()
 })
 
 test.each([
@@ -477,6 +502,14 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     renderWithRouter(<ProjectCaseStudy projectId="webrtc" />)
 
     expect(screen.getAllByText("교육 프로젝트")).toHaveLength(2)
+    const projectMenu = screen.getByText("프로젝트 이동").closest("details")
+    fireEvent.click(screen.getByText("프로젝트 이동"))
+    expect(
+        within(projectMenu).getByRole("link", {
+            name: "WebRTC/HLS 현장강의 보조 서비스 프로젝트로 이동",
+        }),
+    ).toHaveAttribute("aria-current", "page")
+    fireEvent.click(screen.getByText("프로젝트 이동"))
     expect(
         screen.getByRole("heading", {
             level: 1,

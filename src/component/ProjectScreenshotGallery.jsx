@@ -193,8 +193,14 @@ const ProjectScreenshotGallery = ({ project, context = "showcase" }) => {
                                     <span
                                         className="screenshot-lightbox__status"
                                         aria-live="polite"
+                                        aria-atomic="true"
                                     >
-                                        {activeIndex + 1} / {screenshots.length}
+                                        <span>
+                                            {activeIndex + 1} / {screenshots.length}
+                                        </span>
+                                        <span className="screenshot-lightbox__announcement">
+                                            , {activeScreenshot.label}
+                                        </span>
                                     </span>
                                     <button
                                         type="button"

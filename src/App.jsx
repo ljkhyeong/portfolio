@@ -49,9 +49,11 @@ const RouteEffects = () => {
         updateMetaContent("property", "og:description", meta.description)
         updateMetaContent("property", "og:url", canonicalUrl)
         updateMetaContent("property", "og:image", toAbsoluteUrl(meta.image))
+        updateMetaContent("property", "og:image:alt", meta.imageAlt ?? "임정규 포트폴리오")
         updateMetaContent("name", "twitter:title", meta.title)
         updateMetaContent("name", "twitter:description", meta.description)
         updateMetaContent("name", "twitter:image", toAbsoluteUrl(meta.image))
+        updateMetaContent("name", "twitter:image:alt", meta.imageAlt ?? "임정규 포트폴리오")
         updateMetaContent("name", "robots", meta.noindex ? "noindex, nofollow" : "index, follow")
 
         let canonical = document.head.querySelector('link[rel="canonical"]')

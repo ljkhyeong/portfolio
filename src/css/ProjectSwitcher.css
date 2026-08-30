@@ -73,6 +73,10 @@
     grid-template-columns: repeat(2, minmax(190px, 1fr));
     gap: 8px;
     width: min(460px, calc(100vw - 36px));
+    max-height: calc(100vh - 92px);
+    max-height: calc(100dvh - 92px);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
     padding: 8px;
     border: 1px solid var(--line);
     border-radius: 6px;
@@ -135,6 +139,8 @@
 
 .project-switcher a > strong {
     font-weight: 700;
+    white-space: normal;
+    word-break: keep-all;
 }
 
 .project-switcher a:hover,

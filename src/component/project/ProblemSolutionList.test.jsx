@@ -9,6 +9,7 @@ const problems = [
         constraint: "같은 요청이 동시에 들어올 수 있습니다.",
         decision: "멱등 키로 처리 결과를 재사용합니다.",
         validation: "동시 요청 테스트에서 결과가 한 건만 생성됐습니다.",
+        validationSummary: "동시 요청에서도 결과 1건 유지",
         boundary: "멱등 키 보관 기간을 별도로 관리해야 합니다.",
     },
     {
@@ -30,6 +31,8 @@ test("문제를 접힌 목록으로 먼저 보여주고 선택한 근거를 펼�
 
     expect(items).toHaveLength(2)
     expect(firstDetails).not.toHaveAttribute("open")
+    expect(within(items[0]).getByText("동시 요청에서도 결과 1건 유지")).toBeVisible()
+    expect(within(items[0]).getByText(problems[0].validation)).not.toBeVisible()
     expect(
         within(items[0]).getByRole("heading", { name: "중복 요청을 한 번만 처리한다" }),
     ).toBeInTheDocument()

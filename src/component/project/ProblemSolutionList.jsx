@@ -22,6 +22,12 @@ const ProblemSolutionList = ({ problems, label }) => (
                                 <i />
                             </span>
                         </h3>
+                        {problem.validationSummary ? (
+                            <p className="problem-solution-list__result">
+                                <span>확인 결과</span>
+                                {problem.validationSummary}
+                            </p>
+                        ) : null}
                     </summary>
                     <dl>
                         {problemEvidence.map(([term, field]) => (

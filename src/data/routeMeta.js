@@ -1,3 +1,5 @@
+import { projectOgImagesByRoute } from "./projectOg.js"
+
 export const siteUrl = "https://ljkportfolio.netlify.app"
 
 export const defaultRouteMeta = {
@@ -7,7 +9,7 @@ export const defaultRouteMeta = {
     image: "/og-cover.png",
 }
 
-export const routeMeta = {
+const routeMetaContent = {
     "/": defaultRouteMeta,
     "/projects/baton": {
         title: "BATON | 임정규 포트폴리오",
@@ -100,6 +102,19 @@ export const routeMeta = {
         noindex: true,
     },
 }
+
+export const routeMeta = Object.fromEntries(
+    Object.entries(routeMetaContent).map(([route, meta]) => [
+        route,
+        {
+            ...meta,
+            image: projectOgImagesByRoute[route] ?? meta.image,
+            imageAlt: projectOgImagesByRoute[route]
+                ? `${meta.title.split(" | ")[0]}의 핵심 처리 흐름`
+                : "백엔드 개발자 임정규의 프로젝트 경험을 소개하는 포트폴리오 홈 화면",
+        },
+    ]),
+)
 
 export const notFoundRouteMeta = {
     title: "페이지를 찾을 수 없습니다 | 임정규 포트폴리오",

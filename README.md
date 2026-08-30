@@ -116,16 +116,19 @@ SHA-256 값을 생성 기록과 비교합니다. 이 검사는 프로덕션 빌�
 
 ## 공유 이미지
 
-메신저와 채용 플랫폼의 링크 미리보기에는 `public/og-cover.png`를 사용합니다. 화면 디자인을
-변경한 뒤 다음 명령으로 현재 홈 화면과 같은 1200×630 이미지를 다시 생성합니다.
+홈 링크는 `public/og-cover.png`, 프로젝트 상세 링크는 `public/og/`의 개별 이미지를
+사용합니다. BATON의 6개 서비스도 이름과 처리 흐름을 구분합니다. 공유 이미지 문구와 경로는
+`src/data/projectOg.js`, 카드 화면은 `src/component/share/ProjectOgPreview.jsx`에서 관리합니다.
+변경 후 다음 명령으로 1200×630 이미지와 생성 기록을 함께 갱신합니다.
 
 ```bash
 npm run og:generate
 npm run og:check
 ```
 
-`og:generate`는 홈 화면을 이미지로 저장한 뒤 렌더링에 사용하는 파일 내용과 생성된 PNG의
-SHA-256 값을 기록합니다. `og:check`는 두 값을 생성 기록과 비교해 공유 이미지가 현재 홈
-화면에서 만든 파일인지 확인합니다. 이 검사는 프로덕션 빌드에서도 자동으로 실행됩니다.
+`og:generate`는 홈 1개와 상세 13개를 생성하고 렌더링 원본 및 PNG의 SHA-256을 기록합니다.
+`og:check`는 전체 이미지의 크기, 파일 변경 여부와 원본 갱신 여부를 검사합니다.
+이 검사는 프로덕션 빌드에서도 자동으로 실행됩니다. 개발 서버에서
+`/og-preview.html?project=baton-relay`처럼 확인할 수 있으며, 미리보기 HTML은 배포에 포함하지 않습니다.
 
 배포: [ljkportfolio.netlify.app](https://ljkportfolio.netlify.app/)
