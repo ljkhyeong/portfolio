@@ -13,21 +13,28 @@
 }
 
 .site-header {
+    padding-top: 64px;
     border-bottom: 1px solid var(--line);
     background: var(--paper);
     color: var(--ink);
 }
 
 .site-nav {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    width: min(100%, 1480px);
+    width: 100%;
     height: 64px;
-    margin: 0 auto;
-    padding: 0 clamp(24px, 5vw, 80px);
+    margin: 0;
+    padding: 0 max(clamp(24px, 5vw, 80px), calc((100vw - 1480px) / 2 + 24px));
     border-bottom: 1px solid var(--line);
-    background: var(--paper-raised);
+    background: rgba(246, 248, 250, 0.97);
+    box-shadow: 0 4px 18px rgba(31, 35, 40, 0.055);
 }
 
 .site-nav__brand {
@@ -108,12 +115,14 @@
 
 .site-nav__links a:hover,
 .site-nav__links a:focus-visible,
+.site-nav__links a[aria-current="location"],
 .site-nav__contact:hover {
     color: var(--accent);
 }
 
 .site-nav__links a:hover::after,
-.site-nav__links a:focus-visible::after {
+.site-nav__links a:focus-visible::after,
+.site-nav__links a[aria-current="location"]::after {
     transform: scaleX(1);
 }
 
@@ -139,6 +148,12 @@
 .site-nav__contact:hover {
     border-color: #afb8c1;
     background: #eef1f4;
+}
+
+#work,
+#experience,
+#capabilities {
+    scroll-margin-top: 84px;
 }
 
 .section-kicker {
@@ -216,7 +231,7 @@
     margin: 0;
     font-size: clamp(38px, 3.7vw, 52px);
     font-weight: 710;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
     line-height: 1;
 }
 
@@ -326,59 +341,51 @@
 .timeline--split {
     display: grid;
     grid-template-columns: minmax(0, 1.48fr) minmax(300px, 0.72fr);
-    grid-template-areas:
-        "career education"
-        "career activities";
     gap: 20px;
+    align-items: start;
     overflow: visible;
     border: 0;
     border-radius: 0;
 }
 
-.timeline--split > .timeline__group {
+.timeline__supporting {
+    display: grid;
     min-width: 0;
-    overflow: hidden;
-    border: 1px solid #ced8e5;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.94);
-    box-shadow:
-        0 18px 44px rgba(31, 52, 75, 0.08),
-        0 2px 8px rgba(31, 52, 75, 0.04);
+    gap: 20px;
+    align-content: start;
 }
 
-.timeline--split > .timeline__group > .timeline__group-title {
+.timeline--split > .timeline__group,
+.timeline__supporting > .timeline__group {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #d4dde8;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 8px 24px rgba(31, 52, 75, 0.055);
+}
+
+.timeline--split > .timeline__group > .timeline__group-title,
+.timeline__supporting > .timeline__group > .timeline__group-title {
     border-top: 0;
     padding: 15px 20px;
 }
 
 .timeline__group--career > .timeline__group-title {
-    border-top: 4px solid var(--accent);
     background: #e9f2ff;
-    box-shadow: none;
+    box-shadow: inset 3px 0 0 var(--accent);
     color: #0757b4;
 }
 
-.timeline__group--education {
-    grid-area: education;
-}
-
 .timeline__group--education > .timeline__group-title {
-    border-top: 4px solid #e0ad00;
     background: #fff7cf;
+    box-shadow: inset 3px 0 0 #e0ad00;
     color: #725500;
 }
 
-.timeline__group--career {
-    grid-area: career;
-}
-
-.timeline__group--activities {
-    grid-area: activities;
-}
-
 .timeline__group--activities > .timeline__group-title {
-    border-top: 4px solid var(--success);
     background: #e9f7ee;
+    box-shadow: inset 3px 0 0 var(--success);
     color: #116329;
 }
 
@@ -554,7 +561,7 @@
     --capability-ink: #f3f7fb;
     --capability-muted: #b6c1cf;
     display: grid;
-    grid-template-columns: minmax(300px, 0.62fr) minmax(0, 1.38fr);
+    grid-template-columns: minmax(320px, 0.7fr) minmax(0, 1.3fr);
     gap: clamp(48px, 6vw, 88px);
     padding: clamp(64px, 5vw, 76px) max(clamp(24px, 6vw, 96px), calc((100vw - 1320px) / 2));
     border-top: 1px solid var(--capability-line);
@@ -588,7 +595,7 @@
     margin: 20px 0 0;
     font-size: clamp(40px, 3.7vw, 52px);
     font-weight: 710;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
     line-height: 0.98;
 }
 
@@ -601,14 +608,56 @@
     word-break: keep-all;
 }
 
+.capability-principles {
+    max-width: 400px;
+    margin-top: 34px;
+    border-top: 1px solid var(--capability-line);
+}
+
+.capability-principles h3 {
+    margin: 0;
+    padding: 16px 0 10px;
+    color: #92a4ba;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 720;
+    letter-spacing: 0.04em;
+}
+
+.capability-principles ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.capability-principles li {
+    padding: 15px 0 17px;
+    border-top: 1px solid rgba(83, 100, 122, 0.58);
+}
+
+.capability-principles strong {
+    display: block;
+    color: var(--capability-ink);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.45;
+    word-break: keep-all;
+}
+
+.capability-principles p {
+    max-width: none;
+    margin-top: 7px;
+    color: var(--capability-muted);
+    font-size: 13px;
+    line-height: 1.58;
+}
+
 .capability-list {
     overflow: hidden;
-    border: 1px solid var(--capability-line);
-    border-radius: 18px;
-    background: rgba(18, 28, 46, 0.94);
-    box-shadow:
-        0 24px 54px rgba(1, 4, 9, 0.34),
-        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    border-top: 1px solid var(--capability-line);
+    border-bottom: 1px solid var(--capability-line);
+    background: rgba(18, 28, 46, 0.58);
 }
 
 .capability-list--mobile {
@@ -631,7 +680,7 @@
     top: 22px;
     bottom: 24px;
     left: 0;
-    width: 3px;
+    width: 2px;
     background: var(--capability-accent);
     content: "";
 }
@@ -776,7 +825,7 @@
     margin: 22px 0 0;
     font-size: clamp(36px, 3.8vw, 52px);
     font-weight: 710;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
     line-height: 1.02;
 }
 
@@ -875,6 +924,10 @@
 }
 
 @media (max-width: 800px) {
+    .site-header {
+        padding-top: 124px;
+    }
+
     .site-nav {
         grid-template-columns: 1fr auto;
         height: auto;
@@ -882,6 +935,12 @@
         padding-top: 12px;
         padding-bottom: 10px;
         row-gap: 9px;
+    }
+
+    #work,
+    #experience,
+    #capabilities {
+        scroll-margin-top: 144px;
     }
 
     .site-nav__links {
@@ -941,10 +1000,6 @@
 @media (max-width: 900px) {
     .timeline--split {
         grid-template-columns: 1fr;
-        grid-template-areas:
-            "career"
-            "education"
-            "activities";
     }
 }
 
@@ -989,6 +1044,10 @@
 
     .capability-section__intro h2 {
         font-size: clamp(36px, 10.4vw, 44px);
+    }
+
+    .capability-principles {
+        display: none;
     }
 
     .site-footer__lead h2 {
@@ -1149,5 +1208,15 @@
         flex-direction: column;
         gap: 8px;
         margin-top: 52px;
+    }
+}
+
+@media print {
+    .timeline__supporting {
+        display: contents;
+    }
+
+    .capability-principles {
+        display: none;
     }
 }

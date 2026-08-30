@@ -321,17 +321,23 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     expect(within(careerProjects).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
     expect(within(careerProjects).queryByText("문제")).not.toBeInTheDocument()
     expect(within(careerSection).queryByText(/소속사 비공개/)).not.toBeInTheDocument()
-    expect(screen.getByLabelText("프로젝트 상태: 진행 중, 담당 범위만 공개")).toBeInTheDocument()
+    expect(screen.getByLabelText("전송형 전자영장 시스템 확인 근거")).toHaveTextContent(
+        "상태진행 중검증자료 변환 및 배치 단계 확인문서내부 문서 비공개공개담당 범위만 공개",
+    )
 })
 
-test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으로 보여준다", () => {
+test("대표 프로젝트는 담당, 문제와 해결을 보여주고 추가 프로젝트는 구현과 근거를 요약한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
     const warrantFacts = screen.getByLabelText("전송형 전자영장 시스템 담당, 문제와 해결")
     const galleryFacts = screen.getByLabelText("happyGallery 담당, 문제와 해결")
-    const defenseFacts = screen.getByLabelText("차세대 군사법 정보 시스템 담당, 문제와 해결")
+    const defenseProject = screen
+        .getByRole("link", {
+            name: "차세대 군사법 정보 시스템 프로젝트 상세 보기",
+        })
+        .closest("article")
 
     expect(within(warrantFacts).getByText("담당")).toBeInTheDocument()
     expect(within(warrantFacts).getByText("문제")).toBeInTheDocument()
@@ -351,9 +357,12 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
     )
     expect(galleryFacts).toHaveTextContent("결제 orderId와 환불 UUID를 재사용")
     expect(galleryFacts).toHaveTextContent("행 잠금으로 정원과 재고 초과를 차단")
-    expect(defenseFacts).toHaveTextContent(
+    expect(defenseProject).toHaveTextContent(
         "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
     )
+    expect(defenseProject).toHaveTextContent("기관별 배치 결과, JEUS 로그 및 Tibero 상태 확인")
+    expect(defenseProject).not.toHaveTextContent("문제")
+    expect(defenseProject).not.toHaveTextContent("해결")
     expect(galleryFacts).toHaveTextContent(
         "요구사항 정리, Java 및 Spring Boot API, React 화면, 자동화 테스트, AWS 운영과 k3s 배포 준비",
     )

@@ -3,6 +3,9 @@ import { careers, education, personalActivities } from "../data/profile"
 import { homeSkillGroups } from "../data/homeSkills"
 import { projectSummariesById } from "../data/projectSummaries"
 
+const reliabilityHighlights =
+    homeSkillGroups.find((group) => group.id === "reliability")?.items.slice(0, 3) ?? []
+
 const CareerGroup = ({ career }) => {
     const projects = career.projectIds.map((projectId) => projectSummariesById[projectId])
 
@@ -98,61 +101,63 @@ const About = () => {
                         <CareerGroup career={career} key={career.id} />
                     ))}
 
-                    <section
-                        className="timeline__group timeline__group--education"
-                        aria-labelledby="education-title"
-                    >
-                        <h3 className="timeline__group-title" id="education-title">
-                            교육
-                        </h3>
-                        <article className="timeline__item timeline__item--compact">
-                            <div className="timeline__period">{education.period}</div>
-                            <div className="timeline__content">
-                                <span>
-                                    {education.organization} · {education.meta}
-                                </span>
-                                <h4>{projectSummariesById[education.projectId].title}</h4>
-                                <p>{education.description}</p>
-                                <Link to="/projects/webrtc">교육 프로젝트 상세 보기 →</Link>
-                            </div>
-                        </article>
-                    </section>
-
-                    <section
-                        className="timeline__group timeline__group--activities"
-                        aria-labelledby="activities-title"
-                    >
-                        <h3 className="timeline__group-title" id="activities-title">
-                            개인 활동
-                        </h3>
-                        {personalActivities.map((activity) => (
-                            <article
-                                className="timeline__item timeline__item--compact"
-                                key={activity.id}
-                            >
-                                <div className="timeline__period">그룹 스터디</div>
+                    <div className="timeline__supporting">
+                        <section
+                            className="timeline__group timeline__group--education"
+                            aria-labelledby="education-title"
+                        >
+                            <h3 className="timeline__group-title" id="education-title">
+                                교육
+                            </h3>
+                            <article className="timeline__item timeline__item--compact">
+                                <div className="timeline__period">{education.period}</div>
                                 <div className="timeline__content">
                                     <span>
-                                        {activity.type} · {activity.role}
+                                        {education.organization} · {education.meta}
                                     </span>
-                                    <h4>{activity.title}</h4>
-                                    <p>{activity.summary}</p>
-                                    <div className="timeline__links">
-                                        {activity.links.map((link) => (
-                                            <a
-                                                href={link.href}
-                                                key={link.href}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                {link.label} ↗
-                                            </a>
-                                        ))}
-                                    </div>
+                                    <h4>{projectSummariesById[education.projectId].title}</h4>
+                                    <p>{education.description}</p>
+                                    <Link to="/projects/webrtc">교육 프로젝트 상세 보기 →</Link>
                                 </div>
                             </article>
-                        ))}
-                    </section>
+                        </section>
+
+                        <section
+                            className="timeline__group timeline__group--activities"
+                            aria-labelledby="activities-title"
+                        >
+                            <h3 className="timeline__group-title" id="activities-title">
+                                개인 활동
+                            </h3>
+                            {personalActivities.map((activity) => (
+                                <article
+                                    className="timeline__item timeline__item--compact"
+                                    key={activity.id}
+                                >
+                                    <div className="timeline__period">그룹 스터디</div>
+                                    <div className="timeline__content">
+                                        <span>
+                                            {activity.type} · {activity.role}
+                                        </span>
+                                        <h4>{activity.title}</h4>
+                                        <p>{activity.summary}</p>
+                                        <div className="timeline__links">
+                                            {activity.links.map((link) => (
+                                                <a
+                                                    href={link.href}
+                                                    key={link.href}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    {link.label} ↗
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </section>
+                    </div>
                 </div>
             </section>
 
@@ -170,6 +175,20 @@ const About = () => {
                     </div>
                     <h2 id="capability-title">기술</h2>
                     <p>백엔드 개발을 중심으로 사용 기술과 적용 사례를 정리했습니다.</p>
+                    <section
+                        className="capability-principles"
+                        aria-labelledby="capability-principles-title"
+                    >
+                        <h3 id="capability-principles-title">설계 기준</h3>
+                        <ul>
+                            {reliabilityHighlights.map((item) => (
+                                <li key={item.name}>
+                                    <strong>{item.name}</strong>
+                                    <p>{item.detail}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
                 </div>
                 <div className="capability-list capability-list--desktop">
                     {homeSkillGroups.map((group) => (

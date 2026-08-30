@@ -28,37 +28,35 @@ const PROJECT_VISUALS = {
     },
 }
 
-const SUPPORTING_VISUALS = {
-    defense: ["SI", "BATCH"],
-    "hope-commit": ["DIFF", "REVIEW"],
-    "intent-trace": ["AI", "TRACE"],
-    webrtc: ["RTC", "HLS"],
-}
-
 const getProjectsInOrder = (ids) =>
     ids.map((id) => projectSummaries.find((project) => project.id === id)).filter(Boolean)
 
-const ProjectLabels = ({ project }) => {
-    const labels = [project.stage, project.visibility].filter(Boolean).slice(0, 2)
+const ProjectEvidence = ({ project }) => {
+    const evidence = [
+        { label: "상태", value: project.stage },
+        { label: "검증", value: project.homeEvidence?.validation },
+        { label: "문서", value: project.homeEvidence?.documents },
+        { label: "공개", value: project.visibility },
+    ].filter((item) => item.value)
 
-    if (labels.length === 0) {
+    if (evidence.length === 0) {
         return null
     }
 
     return (
-        <ul className="project-card__labels" aria-label={`프로젝트 상태: ${labels.join(", ")}`}>
-            {labels.map((label) => (
-                <li key={label}>{label}</li>
+        <dl className="project-card__evidence" aria-label={`${project.title} 확인 근거`}>
+            {evidence.map((item) => (
+                <div key={item.label}>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                </div>
             ))}
-        </ul>
+        </dl>
     )
 }
 
-const ProjectFacts = ({ project, compact = false }) => (
-    <dl
-        className={`project-card__facts${compact ? " project-card__facts--compact" : ""}`}
-        aria-label={`${project.title} 담당, 문제와 해결`}
-    >
+const ProjectFacts = ({ project }) => (
+    <dl className="project-card__facts" aria-label={`${project.title} 담당, 문제와 해결`}>
         {project.homeFacts.map((fact) => (
             <div className="project-card__fact" key={fact.label}>
                 <dt>{fact.label}</dt>
@@ -85,21 +83,25 @@ const ProjectServices = ({ project }) => {
     }
 
     return (
-        <div className="project-card__services" aria-label="BATON 마이크로서비스 상세">
-            <span>6개 서비스 상세</span>
-            <div>
-                {project.serviceLinks.map((service) => (
-                    <Link
-                        key={service.id}
-                        to={service.route}
-                        aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
-                    >
-                        {service.name}
-                        <span aria-hidden="true">↗</span>
-                    </Link>
-                ))}
+        <nav className="project-card__services" aria-label="BATON 마이크로서비스 상세">
+            <span>서비스 맵</span>
+            <div className="project-card__service-map">
+                <strong>CORE</strong>
+                <span aria-hidden="true">→</span>
+                <ul>
+                    {project.serviceLinks.map((service) => (
+                        <li key={service.id}>
+                            <Link
+                                to={service.route}
+                                aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
+                            >
+                                {service.name}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
             </div>
-        </div>
+        </nav>
     )
 }
 
@@ -181,10 +183,10 @@ const FeaturedProjectCard = ({ project, position }) => (
                         </Link>
                     </h4>
                     <p className="project-card__eyebrow-copy">{project.eyebrow}</p>
-                    <ProjectLabels project={project} />
                     <p className="project-card__summary">{project.summary}</p>
                 </header>
 
+                <ProjectEvidence project={project} />
                 <ProjectFacts project={project} />
                 <ProjectMeta project={project} />
                 <ProjectServices project={project} />
@@ -194,36 +196,56 @@ const FeaturedProjectCard = ({ project, position }) => (
 )
 
 const SupportingProjectCard = ({ project, position }) => {
-    const visualLabels = SUPPORTING_VISUALS[project.visual] ?? ["CODE", "CASE"]
+    const implementation = project.homeFacts.find((fact) => fact.label === "담당")?.value
 
     return (
         <li
             className={`project-support__item project-support__item--${project.visual} project-support__item--${project.presentation}`}
         >
             <article>
-                <div className="project-support__visual" aria-hidden="true">
-                    <span>{visualLabels[0]}</span>
-                    <i />
-                    <span>{visualLabels[1]}</span>
-                </div>
+                <span className="project-support__index" aria-hidden="true">
+                    {String(position + 4).padStart(2, "0")}
+                </span>
 
-                <header className="project-card__header">
-                    <div className="project-card__eyebrow">
-                        <span>{String(position + 4).padStart(2, "0")}</span>
-                        <span>{PROJECT_TYPE_LABELS[project.projectType]}</span>
-                    </div>
-                    <h4>
-                        <Link to={project.route} aria-label={`${project.title} 프로젝트 상세 보기`}>
-                            {project.title}
-                            <span aria-hidden="true">↗</span>
-                        </Link>
-                    </h4>
-                    <p className="project-card__eyebrow-copy">{project.eyebrow}</p>
-                    <ProjectLabels project={project} />
+                <header className="project-support__identity">
+                    <span>{PROJECT_TYPE_LABELS[project.projectType]}</span>
+                    <h4>{project.title}</h4>
+                    <p>{project.eyebrow}</p>
+                    <time>{project.period}</time>
                 </header>
 
-                <ProjectFacts project={project} compact />
-                <ProjectMeta project={project} />
+                <div className="project-support__summary">
+                    {project.homeFlow?.length > 0 && (
+                        <ol
+                            className="project-support__flow"
+                            aria-label={`${project.title} 처리 흐름`}
+                        >
+                            {project.homeFlow.map((step) => (
+                                <li key={step}>{step}</li>
+                            ))}
+                        </ol>
+                    )}
+
+                    <dl className="project-support__details">
+                        <div>
+                            <dt>구현</dt>
+                            <dd>{implementation}</dd>
+                        </div>
+                        <div>
+                            <dt>확인</dt>
+                            <dd>{project.homeProof}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <Link
+                    className="project-support__link"
+                    to={project.route}
+                    aria-label={`${project.title} 프로젝트 상세 보기`}
+                >
+                    상세 보기
+                    <span aria-hidden="true">↗</span>
+                </Link>
             </article>
         </li>
     )

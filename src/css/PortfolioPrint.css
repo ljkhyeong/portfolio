@@ -136,10 +136,14 @@ body.portfolio-print-mode {
 
     .portfolio-web-print .site-header {
         min-height: 0;
+        padding-top: 0;
     }
 
     .portfolio-web-print .site-nav {
+        position: static;
         grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+        box-shadow: none;
         padding-right: 42px;
         padding-left: 42px;
     }
@@ -263,7 +267,7 @@ body.portfolio-print-mode {
         padding: 7px 9px;
     }
 
-    .portfolio-web-print :is(.work-section, .experience-section, .capability-section) {
+    .portfolio-web-print :is(.work-section, .capability-section) {
         break-before: page;
         page-break-before: always;
     }
@@ -274,8 +278,8 @@ body.portfolio-print-mode {
         grid-template-columns: minmax(0, 1fr);
         gap: 24px;
         padding: 48px 42px 28px;
-        break-before: page;
-        page-break-before: always;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
     }
 
     .portfolio-web-print .site-footer__lead h2 {

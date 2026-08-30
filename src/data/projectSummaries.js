@@ -29,6 +29,10 @@ export const projectSummaries = [
         visual: "baton",
         stage: "개발 중",
         visibility: "일부 저장소 공개",
+        homeEvidence: {
+            validation: "서비스별 자동화 및 연동 테스트",
+            documents: "PRD 44 / ADR 63 / Runbook 7",
+        },
         serviceLinks: [
             { id: "go", name: "GO", route: "/projects/baton/go" },
             { id: "watch", name: "WATCH", route: "/projects/baton/watch" },
@@ -68,6 +72,10 @@ export const projectSummaries = [
         visual: "warrant",
         stage: "진행 중",
         visibility: "담당 범위만 공개",
+        homeEvidence: {
+            validation: "자료 변환 및 배치 단계 확인",
+            documents: "내부 문서 비공개",
+        },
     },
     {
         id: "happygallery",
@@ -99,6 +107,10 @@ export const projectSummaries = [
         visual: "gallery",
         stage: "개발 중",
         visibility: "공개 저장소",
+        homeEvidence: {
+            validation: "통합 및 화면 자동화 테스트",
+            documents: "PRD 4 / ADR 48 / Runbook 1",
+        },
     },
     {
         id: "hope-commit",
@@ -130,6 +142,8 @@ export const projectSummaries = [
         visual: "hope-commit",
         stage: "개발 중",
         visibility: "공개 저장소",
+        homeProof: "공개 main 4.0.0 자동화 테스트 275개 통과",
+        homeFlow: ["대상 커밋", "변경 줄", "HTML 리뷰"],
     },
     {
         id: "intent-trace",
@@ -166,6 +180,8 @@ export const projectSummaries = [
         visual: "intent-trace",
         stage: "개발 중",
         visibility: "공개 저장소",
+        homeProof: "공개 main의 서버, IntelliJ 및 릴리스 자동화 검증",
+        homeFlow: ["커밋", "코드 줄 해시", "공개 판단"],
     },
     {
         id: "defense",
@@ -197,6 +213,8 @@ export const projectSummaries = [
         visual: "defense",
         stage: "종료",
         visibility: "담당 범위만 공개",
+        homeProof: "기관별 배치 결과, JEUS 로그 및 Tibero 상태 확인",
+        homeFlow: ["기관 자료", "검증 배치", "업무 반영"],
     },
     {
         id: "webrtc",
@@ -227,6 +245,8 @@ export const projectSummaries = [
         visual: "webrtc",
         stage: "종료",
         visibility: "공개 저장소",
+        homeProof: "공개 저장소 구현과 6인 팀 시연으로 확인",
+        homeFlow: ["RTP", "HLS 변환", "다시보기"],
     },
 ]
 
