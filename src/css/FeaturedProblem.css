@@ -1,0 +1,236 @@
+.featured-problem {
+    margin-bottom: 24px;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent);
+    border-radius: 6px;
+    background: var(--paper);
+}
+
+.featured-problem__header {
+    padding: 24px 28px 0;
+}
+
+.featured-problem__eyebrow,
+.featured-problem__flow-label,
+.featured-problem__evidence-label {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.featured-problem__header h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-size: clamp(22px, 2.2vw, 28px);
+    line-height: 1.4;
+    letter-spacing: -0.035em;
+    word-break: keep-all;
+}
+
+.featured-problem__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 36px;
+    padding: 24px 28px;
+}
+
+.featured-problem__explanation > p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.featured-problem__explanation > p + p {
+    margin-top: 20px;
+}
+
+.featured-problem__explanation > p > strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.featured-problem__flow {
+    min-width: 0;
+    padding-left: 28px;
+    border-left: 1px solid var(--line);
+}
+
+.featured-problem__flow ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.featured-problem__flow li {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 20px;
+}
+
+.featured-problem__flow li:last-child {
+    padding-bottom: 0;
+}
+
+.featured-problem__flow li:not(:last-child)::after {
+    position: absolute;
+    top: 32px;
+    bottom: 4px;
+    left: 12px;
+    border-left: 1px solid var(--line);
+    content: "";
+}
+
+.featured-problem__step-number {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper-raised);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+}
+
+.featured-problem__flow li:last-child .featured-problem__step-number {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.featured-problem__flow li strong {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.featured-problem__flow li p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.featured-problem__evidence {
+    padding: 20px 28px;
+    border-top: 1px solid var(--line);
+    background: var(--paper-raised);
+}
+
+.featured-problem__evidence-label {
+    margin-bottom: 8px;
+}
+
+.featured-problem__result {
+    margin: 0;
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.featured-problem__limitation {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.65;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.featured-problem__limitation strong {
+    margin-right: 8px;
+    font-weight: 750;
+}
+
+.featured-problem__details {
+    border-top: 1px solid var(--line);
+}
+
+.featured-problem__details > summary {
+    padding: 16px 28px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.featured-problem__details > summary:hover,
+.featured-problem__details > summary:focus-visible {
+    background: var(--paper-raised);
+}
+
+.featured-problem__details dl {
+    margin: 0;
+    padding: 0 28px 24px;
+}
+
+.featured-problem__details dl > div {
+    display: grid;
+    grid-template-columns: 128px minmax(0, 1fr);
+    gap: 20px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+}
+
+.featured-problem__details dt,
+.featured-problem__details dd {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.featured-problem__details dt {
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.featured-problem__details dd {
+    color: var(--ink);
+}
+
+@media (max-width: 700px) {
+    .featured-problem__header {
+        padding: 20px 16px 0;
+    }
+    .featured-problem__body {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 20px 16px;
+    }
+    .featured-problem__flow {
+        padding: 20px 0 0;
+        border-top: 1px solid var(--line);
+        border-left: 0;
+    }
+    .featured-problem__evidence {
+        padding: 20px 16px;
+    }
+    .featured-problem__details > summary {
+        padding: 16px;
+    }
+    .featured-problem__details dl {
+        padding: 0 16px 16px;
+    }
+    .featured-problem__details dl > div {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}

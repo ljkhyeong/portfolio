@@ -22,7 +22,13 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
             name: `${service.name} 문제와 해결 방법 목록`,
         })
 
-        expect(within(problems).getAllByRole("listitem")).toHaveLength(2)
+        expect(within(problems).getAllByRole("listitem")).toHaveLength(1)
+        expect(screen.getByText("대표 사례")).toBeVisible()
+        const problemSection = problems.closest("section")
+        const flowSection = document.getElementById("service-boundary")
+        expect(
+            problemSection.compareDocumentPosition(flowSection) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy()
         expect(
             screen.queryByRole("heading", {
                 name: "Core와 6개 서비스의 담당 업무, 실행 환경과 데이터 저장 방식 분리",

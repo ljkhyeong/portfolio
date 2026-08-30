@@ -1,8 +1,7 @@
 import { render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { MemoryRouter } from "react-router-dom"
 import ProjectEvidenceList from "./ProjectEvidenceList"
-import ProjectCaseStudy from "./ProjectCaseStudy"
+import { projectsById } from "../../data/projects"
 
 const proofs = [
     {
@@ -31,9 +30,10 @@ test("확인 항목과 결과를 먼저 보여주고 방법 및 조건은 펼쳐
     const firstSummary = rows[0].querySelector("summary")
 
     expect(firstEvidence).not.toHaveAttribute("open")
-    expect(firstSummary).toHaveTextContent("확인 항목")
+    expect(firstSummary).toHaveTextContent("확인 방법")
     expect(firstSummary).toHaveTextContent("링크 생성 멱등성")
-    expect(firstSummary).toHaveTextContent("확인 결과")
+    expect(firstSummary).not.toHaveTextContent("확인 항목")
+    expect(firstSummary).not.toHaveTextContent("확인 결과")
     expect(firstSummary).toHaveTextContent("동시 요청 8건에서 링크 1건 생성 확인")
     expect(firstSummary).not.toHaveTextContent("확인 범위")
     expect(firstSummary).not.toHaveTextContent("BATON GO")
@@ -51,16 +51,12 @@ test("확인 항목과 결과를 먼저 보여주고 방법 및 조건은 펼쳐
     expect(rows[0]).toHaveTextContent("BATON GO")
 })
 
-test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를 보여준다", () => {
+test("BATON 서비스의 테스트와 CI 근거를 구분하고 미검증 조건을 바로 보여준다", () => {
     render(
-        <MemoryRouter>
-            <ProjectCaseStudy projectId="baton" />
-        </MemoryRouter>,
-    )
-
-    expect(screen.getByRole("link", { name: "테스트 및 결과" })).toHaveAttribute(
-        "href",
-        "#project-proof",
+        <ProjectEvidenceList
+            proofs={projectsById.baton.proofs}
+            label="검증 범위 및 현재 상태 목록"
+        />,
     )
 
     const list = screen.getByRole("list", { name: "검증 범위 및 현재 상태 목록" })
@@ -76,4 +72,28 @@ test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를
     expect(rows[4]).toHaveTextContent("BRIEF 운영 신호 반영과 발행 보고서 수정 방지")
     expect(rows[5]).toHaveTextContent("CAL 일정 JSON 수신과 캘린더 구독")
     expect(rows[6]).toHaveTextContent("ROUND 참여권 검증과 브라우저 연결")
+    expect(rows[1].querySelector("summary")).toHaveTextContent("통합 테스트")
+    expect(rows[6].querySelector("summary")).toHaveTextContent("CI 확인")
+    expect(rows[6].querySelector("summary")).toHaveTextContent("Safari 실기기")
+    expect(rows[6].querySelector("summary")).toHaveTextContent("미검증")
+})
+
+test("코드 대조와 기존 테스트 산출물을 구분하고 미검증 조건을 접기 전에 표시한다", () => {
+    const selectedProofs = projectsById.happygallery.proofs.filter((proof) =>
+        ["백엔드 테스트 산출물 집계", "스마트스토어 주문과 공유 재고 반영"].includes(proof.item),
+    )
+    render(<ProjectEvidenceList proofs={selectedProofs} label="근거 구분" />)
+
+    const rows = within(screen.getByRole("list", { name: "근거 구분" })).getAllByRole("listitem")
+    const artifactSummary = rows[0].querySelector("summary")
+    const codeSummary = rows[1].querySelector("summary")
+
+    expect(rows[0].querySelector("details")).not.toHaveAttribute("open")
+    expect(artifactSummary).toHaveTextContent("기존 테스트 산출물")
+    expect(artifactSummary).toHaveTextContent("전체 테스트나 CI를 다시 통과시켰다는 뜻은 아님")
+    expect(codeSummary).toHaveTextContent("코드 대조")
+    expect(codeSummary).toHaveTextContent("네이버 실제 자격 증명을 사용한 운영 연동은 미검증")
+    expect(codeSummary).not.toHaveTextContent("통합 테스트")
+    expect(rows[1]).toHaveTextContent(selectedProofs[1].method)
+    expect(rows[1]).toHaveTextContent(selectedProofs[1].scope)
 })

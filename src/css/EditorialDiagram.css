@@ -558,7 +558,7 @@
 
 .baton-service-directory__header {
     display: grid;
-    grid-template-columns: minmax(152px, 0.35fr) minmax(280px, 0.75fr) minmax(320px, 0.9fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 24px;
     align-items: baseline;
     padding: 24px 0;
@@ -649,10 +649,11 @@
 
 .baton-service-directory__list a {
     display: grid;
-    min-height: 100%;
+    min-height: 88px;
     grid-template-columns: 100px minmax(0, 1fr) 20px;
-    gap: 20px;
-    padding: 24px;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
     transition: background-color 160ms ease;
 }
 
@@ -662,7 +663,13 @@
 }
 
 .baton-service-directory__identity strong {
+    margin-top: 0;
     font-size: 24px;
+}
+
+.baton-service-directory__description h4 {
+    margin: 0;
+    font-weight: 500;
 }
 
 .baton-service-directory__description em {
@@ -689,11 +696,12 @@
     }
 
     .baton-service-directory__header {
-        grid-template-columns: 128px minmax(0, 1fr);
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
     .baton-service-directory__header > p {
-        grid-column: 2;
+        grid-column: auto;
     }
 
     .baton-service-directory__core {

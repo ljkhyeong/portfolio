@@ -1,0 +1,78 @@
+.project-evidence-list--classified .project-evidence-list__entry > summary {
+    grid-template-columns: minmax(180px, 0.85fr) minmax(0, 1.15fr) auto;
+    gap: 18px 24px;
+    padding: 22px 24px;
+}
+
+.project-evidence-list--classified .project-evidence-list__subject,
+.project-evidence-list--classified .project-evidence-list__outcome {
+    min-width: 0;
+}
+
+.project-evidence-list--classified .project-evidence-list__type {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--accent, #0969da);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.4;
+}
+
+.project-evidence-list--classified .project-evidence-list__subject strong {
+    display: block;
+    color: var(--ink, #1f2328);
+    font-size: 16px;
+    font-weight: 750;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+}
+
+.project-evidence-list--classified .project-evidence-list__outcome p {
+    margin: 0;
+    color: var(--ink, #1f2328);
+    font-size: 15px;
+    line-height: 1.65;
+    letter-spacing: -0.012em;
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+}
+
+.project-evidence-list--classified
+    .project-evidence-list__outcome
+    .project-evidence-list__limitation {
+    margin-top: 9px;
+    padding-left: 10px;
+    border-left: 2px solid var(--line, #d0d7de);
+    color: var(--muted, #59636e);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.project-evidence-list--classified .project-evidence-list__entry > summary:focus-visible {
+    outline: 2px solid var(--accent, #0969da);
+    outline-offset: -3px;
+}
+
+@media (max-width: 800px) {
+    .project-evidence-list--classified .project-evidence-list__entry > summary {
+        grid-template-columns: minmax(0, 1fr) 32px;
+        gap: 10px 12px;
+        padding: 18px 16px;
+    }
+
+    .project-evidence-list--classified .project-evidence-list__outcome {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .project-evidence-list--classified .project-evidence-list__action {
+        align-self: start;
+        min-width: 32px;
+    }
+
+    .project-evidence-list--classified .project-evidence-list__outcome p {
+        font-size: 14px;
+    }
+}

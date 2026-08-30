@@ -38,7 +38,7 @@
 .problem-solution-list__item > summary h3 {
     display: grid;
     min-height: 40px;
-    grid-template-columns: 34px minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 14px;
     margin: 0;
@@ -50,13 +50,6 @@
     letter-spacing: -0.025em;
     text-wrap: pretty;
     word-break: keep-all;
-}
-
-.problem-solution-list__item > summary code {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 700;
 }
 
 .problem-solution-list__action {
@@ -75,7 +68,7 @@
     display: flex;
     align-items: baseline;
     gap: 10px;
-    margin: 6px 94px 4px 48px;
+    margin: 6px 94px 4px 0;
     color: var(--muted);
     font-size: 14px;
     line-height: 1.6;
@@ -138,7 +131,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0;
-    padding-left: 48px;
+    padding-left: 0;
 }
 
 .problem-solution-list__item dl > div {
@@ -184,7 +177,7 @@
 
     .problem-solution-list__item > summary h3 {
         min-height: 42px;
-        grid-template-columns: 28px minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: 8px;
         font-size: 16px;
         line-height: 1.42;
@@ -196,7 +189,7 @@
 
     .problem-solution-list__result {
         display: block;
-        margin: 6px 22px 4px 36px;
+        margin: 6px 22px 4px 0;
         font-size: 13px;
     }
 
@@ -217,7 +210,7 @@
 
     .problem-solution-list__item dl {
         grid-template-columns: 1fr;
-        padding-left: 36px;
+        padding-left: 0;
     }
 
     .problem-solution-list__item dl > div,

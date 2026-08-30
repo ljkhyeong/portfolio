@@ -20,6 +20,16 @@ test.each(["baton", "happygallery", "hope-commit", "intent-trace", "warrant", "d
                 .map((term) => term.textContent),
         ).toEqual(["해결 대상", "핵심 설계", "확인 결과"])
         expect(within(summary).getAllByRole("definition")).toHaveLength(3)
+
+        const hero = screen.getByRole("heading", { level: 1 }).closest("header")
+        expect(within(hero).getByText(projectsById[projectId].period)).toBeVisible()
+        expect(within(hero).getByText(projectsById[projectId].role)).toBeVisible()
+        const problems = document.getElementById("project-problems")
+        const system = document.getElementById("project-system")
+        expect(within(problems).getByText("대표 사례")).toBeVisible()
+        expect(
+            problems.compareDocumentPosition(system) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy()
     },
 )
 
@@ -90,7 +100,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     expect(
         screen.getByRole("region", { name: "BATON 서비스 아키텍처 가로 스크롤 영역" }),
     ).toHaveAttribute("tabindex", "0")
-    expect(screen.getByRole("heading", { name: "서비스별 책임과 검증 근거" })).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "마이크로서비스별 담당 기능" })).toBeInTheDocument()
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
@@ -106,7 +116,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     const featuredProblemList = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
 
     expect(additionalProblems).not.toHaveAttribute("open")
-    expect(within(featuredProblemList).getAllByRole("listitem")).toHaveLength(4)
+    expect(within(featuredProblemList).getAllByRole("listitem")).toHaveLength(3)
 
     fireEvent.click(screen.getByText("추가 문제 해결 10건 보기"))
 
@@ -199,6 +209,14 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
         "href",
         "#project-system",
     )
+
+    const documents = document.getElementById("project-documents")
+    const documentLinks = within(documents).getByRole("list")
+    const inventory = within(documents).getByText("문서 분류와 작성 수").closest("details")
+    expect(inventory).not.toHaveAttribute("open")
+    expect(
+        documentLinks.compareDocumentPosition(inventory) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
 })
 
 test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록으로 보여준다", () => {
@@ -540,9 +558,13 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
     const [mediaFlowProblem] = within(problems).getAllByRole("listitem")
 
-    expect(within(problems).getAllByRole("listitem")).toHaveLength(2)
+    expect(within(problems).getAllByRole("listitem")).toHaveLength(1)
     expect(problems).toHaveTextContent("WebRTC 실시간 재생과 HLS 지난 구간 다시보기")
-    expect(problems).toHaveTextContent("HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축")
+    expect(
+        screen.getByRole("article", {
+            name: "HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축",
+        }),
+    ).toBeInTheDocument()
 
     await userEvent.click(
         within(mediaFlowProblem).getByText("WebRTC 실시간 재생과 HLS 지난 구간 다시보기"),

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { navigableCaseStudies, projectsById } from "../../data/projects"
-import { caseHighlights, problemHighlights } from "../../data/caseHighlights"
+import { caseHighlights, caseIntroductions, problemHighlights } from "../../data/caseHighlights"
+import featuredCasePresentations from "../../data/featuredProblems"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
@@ -80,8 +81,29 @@ const ProjectEvidenceLinks = ({ project }) => {
     )
 }
 
+const ProjectHeroFacts = ({ project }) => (
+    <dl className="case-hero-facts" aria-label="프로젝트 기간과 담당 범위">
+        <div>
+            <dt>기간</dt>
+            <dd>{project.period}</dd>
+        </div>
+        <div>
+            <dt>담당</dt>
+            <dd>{project.role}</dd>
+        </div>
+    </dl>
+)
+
+const ProjectStatus = ({ project }) => (
+    <aside className="case-status" aria-label={project.status.label}>
+        <span>{project.status.label}</span>
+        <p>{project.status.text}</p>
+    </aside>
+)
+
 const ProblemList = ({ problems, projectId, additional = false }) => (
     <ProblemSolutionList
+        featured={additional ? undefined : featuredCasePresentations[projectId]}
         problems={problems.map((problem) => ({
             ...problem,
             validationSummary: additional ? null : problemHighlights[projectId]?.[problem.number],
@@ -91,7 +113,6 @@ const ProblemList = ({ problems, projectId, additional = false }) => (
 )
 
 const BatonServices = ({ services }) => {
-    const core = services.find((service) => service.primary)
     const supporting = services.filter((service) => !service.primary)
 
     return (
@@ -102,21 +123,9 @@ const BatonServices = ({ services }) => {
                 aria-labelledby="baton-service-directory-title"
             >
                 <header className="baton-service-directory__header">
-                    <span>{supporting.length} MICROSERVICES</span>
-                    <h3 id="baton-service-directory-title">서비스별 책임과 검증 근거</h3>
-                    <p>각 서비스의 입력, 저장소와 테스트 결과입니다.</p>
+                    <h3 id="baton-service-directory-title">마이크로서비스별 담당 기능</h3>
+                    <p>처리 흐름과 검증 결과는 각 서비스 상세에서 확인할 수 있습니다.</p>
                 </header>
-                <article className="baton-service-directory__core">
-                    <div>
-                        <span>CORE / {core.database}</span>
-                        <strong>{core.name}</strong>
-                    </div>
-                    <div>
-                        <h4>{core.role}</h4>
-                        <p>{core.detail}</p>
-                    </div>
-                    <em>{core.evidence}</em>
-                </article>
                 <ul className="baton-service-directory__list">
                     {supporting.map((service) => (
                         <li key={service.name}>
@@ -125,15 +134,12 @@ const BatonServices = ({ services }) => {
                                 aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
                             >
                                 <div className="baton-service-directory__identity">
-                                    <span>{service.database}</span>
                                     <strong>{service.name}</strong>
                                 </div>
                                 <div className="baton-service-directory__description">
                                     <h4>{service.role}</h4>
-                                    <p>{service.detail}</p>
-                                    <em>{service.evidence}</em>
                                 </div>
-                                <b aria-hidden="true">↗</b>
+                                <b aria-hidden="true">→</b>
                             </Link>
                         </li>
                     ))}
@@ -241,7 +247,6 @@ const ArchitectureSection = ({ project }) => (
         aria-labelledby="architecture-title"
     >
         <div className="case-section-heading">
-            <span aria-hidden="true">## 02</span>
             <h2 id="architecture-title">구현 방법과 선택 이유</h2>
         </div>
         <div className="case-architecture__intro">
@@ -258,28 +263,15 @@ const ArchitectureSection = ({ project }) => (
     </section>
 )
 
-const CaseDocuments = ({ documentGroups, documents, intro, sectionNumber }) => (
+const CaseDocuments = ({ documentGroups, documents, intro }) => (
     <section className="case-documents" id="project-documents" aria-labelledby="documents-title">
         <div className="case-section-heading">
-            <span>{sectionNumber}</span>
             <h2 id="documents-title">문서 분류와 대표 문서</h2>
         </div>
         <p className="case-documents__intro">
             {intro ?? "문서를 요구사항, 기술 선택, 테스트와 운영 절차로 나눴습니다."}
         </p>
-        <div className="case-document-catalog" aria-label="문서 분류">
-            {documentGroups.map((group) => (
-                <article key={group.id}>
-                    <code>{group.label}</code>
-                    <strong>{group.count}</strong>
-                    <p>{group.summary}</p>
-                </article>
-            ))}
-        </div>
         <div className="case-representative-documents">
-            <h3>
-                <span aria-hidden="true">###</span> 대표 문서
-            </h3>
             <ul>
                 {documents.map((doc) => (
                     <li key={doc.href}>
@@ -298,11 +290,25 @@ const CaseDocuments = ({ documentGroups, documents, intro, sectionNumber }) => (
                 ))}
             </ul>
         </div>
+        <details className="case-document-inventory">
+            <summary>문서 분류와 작성 수</summary>
+            <dl>
+                {documentGroups.map((group) => (
+                    <div key={group.id}>
+                        <dt>
+                            {group.label} <span>{group.count}</span>
+                        </dt>
+                        <dd>{group.summary}</dd>
+                    </div>
+                ))}
+            </dl>
+        </details>
     </section>
 )
 
 const projectSections = ({ hasArchitecture, hasDocuments, systemNavLabel }) => [
     { id: "project-overview", label: "개요", mobileLabel: "개요" },
+    { id: "project-problems", label: "문제 해결", mobileLabel: "문제" },
     {
         id: "project-system",
         label: systemNavLabel ?? "대표 화면",
@@ -311,7 +317,6 @@ const projectSections = ({ hasArchitecture, hasDocuments, systemNavLabel }) => [
     ...(hasArchitecture
         ? [{ id: "project-architecture", label: "구현 방법", mobileLabel: "방법" }]
         : []),
-    { id: "project-problems", label: "문제 해결", mobileLabel: "문제" },
     { id: "project-proof", label: "테스트 및 결과", mobileLabel: "결과" },
     ...(hasDocuments ? [{ id: "project-documents", label: "문서", mobileLabel: "문서" }] : []),
     { id: "project-stack", label: "사용 기술", mobileLabel: "기술" },
@@ -333,7 +338,7 @@ const PriorExperienceCase = ({ project }) => {
                 <ProjectSwitcher currentProjectId={project.id} contextLabel="교육 프로젝트" />
             </nav>
             <article className="prior-case">
-                <header>
+                <header id="project-overview">
                     <div className="case-kicker prior-case__kicker">
                         <span>교육 프로젝트</span>
                         <span>{project.eyebrow}</span>
@@ -348,7 +353,8 @@ const PriorExperienceCase = ({ project }) => {
                         <span>{subject.join(" ")}</span>
                     </h1>
                     <ProjectLabels project={project} />
-                    <p className="prior-case__summary">{project.summary}</p>
+                    <p className="prior-case__summary">{caseIntroductions[project.id]}</p>
+                    <ProjectHeroFacts project={project} />
                 </header>
 
                 <CaseKeySummary items={caseHighlights[project.id]} />
@@ -357,71 +363,35 @@ const PriorExperienceCase = ({ project }) => {
                 />
 
                 <section
-                    className="case-snapshot"
-                    id="project-overview"
-                    aria-labelledby="snapshot-title"
+                    className="case-problems"
+                    id="project-problems"
+                    aria-labelledby="problems-title"
                 >
                     <div className="case-section-heading">
-                        <span>00</span>
-                        <h2 id="snapshot-title">프로젝트 개요</h2>
+                        <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
-                    <dl className="prior-case__facts">
-                        <div>
-                            <dt>기간</dt>
-                            <dd>{project.period}</dd>
-                        </div>
-                        <div>
-                            <dt>담당</dt>
-                            <dd>{project.role}</dd>
-                        </div>
-                        <div>
-                            <dt>입력 및 변환</dt>
-                            <dd>mediasoup RTP 입력 / FFmpeg 및 GStreamer HLS 변환</dd>
-                        </div>
-                        <div>
-                            <dt>제공 기능</dt>
-                            <dd>React WebRTC 실시간 시청 / HLS 지난 구간 다시보기</dd>
-                        </div>
-                    </dl>
-                    <aside className="case-status" aria-label={project.status.label}>
-                        <span>{project.status.label}</span>
-                        <p>{project.status.text}</p>
-                    </aside>
+                    <ProblemList problems={project.problems} projectId={project.id} />
                 </section>
 
                 <section className="case-system" id="project-system" aria-labelledby="system-title">
                     <div className="case-section-heading">
-                        <span>01</span>
                         <h2 id="system-title">WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 흐름</h2>
                     </div>
                     <ProjectVisual project={project} />
                     <p className="case-system__caption">{project.visualCaption}</p>
                 </section>
 
-                <section
-                    className="case-problems"
-                    id="project-problems"
-                    aria-labelledby="problems-title"
-                >
-                    <div className="case-section-heading">
-                        <span>02</span>
-                        <h2 id="problems-title">문제와 해결 방법</h2>
-                    </div>
-                    <ProblemList problems={project.problems} projectId={project.id} />
-                </section>
-
                 <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
                     <div className="case-section-heading">
-                        <span>03</span>
                         <h2 id="proof-title">{evidenceTitle}</h2>
                     </div>
+                    <ProjectStatus project={project} />
                     <ProjectEvidenceList proofs={project.proofs} label={`${evidenceTitle} 목록`} />
                 </section>
 
                 <CaseMetaSection
                     id="project-stack"
                     headingId="stack-title"
-                    sectionNumber="04"
                     technologies={project.stack}
                     technologyLabel={`${project.title} 기술 스택`}
                     links={project.links}
@@ -449,10 +419,6 @@ const ProjectCaseStudy = ({ projectId }) => {
     const evidenceTitle =
         project.evidenceTitle ??
         (project.projectType === "career" ? "주요 구현 및 확인 결과" : "테스트 범위 및 운영 이력")
-    const problemSectionNumber = hasArchitecture ? "03" : "02"
-    const proofSectionNumber = hasArchitecture ? "04" : "03"
-    const documentSectionNumber = hasArchitecture ? "05" : "04"
-    const metaSectionNumber = hasArchitecture ? (hasDocuments ? "06" : "05") : "04"
     const featuredProblemNumbers =
         project.featuredProblemNumbers ?? project.problems.map((problem) => problem.number)
     const featuredProblems = featuredProblemNumbers
@@ -476,20 +442,23 @@ const ProjectCaseStudy = ({ projectId }) => {
             </nav>
 
             <article className="case-study">
-                <header className="case-hero">
+                <header className="case-hero" id="project-overview">
                     <div className="case-hero__heading">
-                        <span className="case-kicker">{project.eyebrow}</span>
+                        <span className="case-kicker">
+                            {project.projectType === "career" ? project.category : project.eyebrow}
+                        </span>
                         <h1 id="project-title" data-route-heading={project.route} tabIndex={-1}>
                             {project.title}
                         </h1>
                     </div>
                     <div className="case-hero__intro">
-                        <p>{project.summary}</p>
+                        <p>{caseIntroductions[project.id] ?? project.summary}</p>
                         <div className="case-hero__support">
                             <ProjectLabels project={project} />
                             <ProjectEvidenceLinks project={project} />
                         </div>
                     </div>
+                    <ProjectHeroFacts project={project} />
                 </header>
 
                 <CaseKeySummary items={caseHighlights[project.id]} />
@@ -505,53 +474,11 @@ const ProjectCaseStudy = ({ projectId }) => {
                 />
 
                 <section
-                    className="case-snapshot"
-                    id="project-overview"
-                    aria-labelledby="snapshot-title"
-                >
-                    <div className="case-section-heading">
-                        <span>00</span>
-                        <h2 id="snapshot-title">프로젝트 개요</h2>
-                    </div>
-                    <dl className="case-snapshot__grid">
-                        <div>
-                            <dt>구분</dt>
-                            <dd>{project.category}</dd>
-                        </div>
-                        <div>
-                            <dt>기간</dt>
-                            <dd>{project.period}</dd>
-                        </div>
-                        <div>
-                            <dt>담당</dt>
-                            <dd>{project.role}</dd>
-                        </div>
-                    </dl>
-                    <aside className="case-status" aria-label={project.status.label}>
-                        <span>{project.status.label}</span>
-                        <p>{project.status.text}</p>
-                    </aside>
-                </section>
-
-                <section className="case-system" id="project-system" aria-labelledby="system-title">
-                    <div className="case-section-heading">
-                        <span>01</span>
-                        <h2 id="system-title">{project.systemTitle ?? "대표 화면"}</h2>
-                    </div>
-                    <ProjectVisual project={project} />
-                    {project.services ? <BatonServices services={project.services} /> : null}
-                    <p className="case-system__caption">{project.visualCaption}</p>
-                </section>
-
-                {hasArchitecture ? <ArchitectureSection project={project} /> : null}
-
-                <section
                     className="case-problems"
                     id="project-problems"
                     aria-labelledby="problems-title"
                 >
                     <div className="case-section-heading">
-                        <span>{problemSectionNumber}</span>
                         <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
                     <ProblemList problems={featuredProblems} projectId={project.id} />
@@ -566,11 +493,22 @@ const ProjectCaseStudy = ({ projectId }) => {
                     ) : null}
                 </section>
 
+                <section className="case-system" id="project-system" aria-labelledby="system-title">
+                    <div className="case-section-heading">
+                        <h2 id="system-title">{project.systemTitle ?? "대표 화면"}</h2>
+                    </div>
+                    <ProjectVisual project={project} />
+                    {project.services ? <BatonServices services={project.services} /> : null}
+                    <p className="case-system__caption">{project.visualCaption}</p>
+                </section>
+
+                {hasArchitecture ? <ArchitectureSection project={project} /> : null}
+
                 <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
                     <div className="case-section-heading">
-                        <span>{proofSectionNumber}</span>
                         <h2 id="proof-title">{evidenceTitle}</h2>
                     </div>
+                    <ProjectStatus project={project} />
                     <ProjectEvidenceList proofs={project.proofs} label={`${evidenceTitle} 목록`} />
                 </section>
 
@@ -579,14 +517,12 @@ const ProjectCaseStudy = ({ projectId }) => {
                         documentGroups={project.documentGroups}
                         documents={project.documents}
                         intro={project.documentsIntro}
-                        sectionNumber={documentSectionNumber}
                     />
                 ) : null}
 
                 <CaseMetaSection
                     id="project-stack"
                     headingId="stack-title"
-                    sectionNumber={metaSectionNumber}
                     technologies={project.stack}
                     technologyLabel={`${project.title} 기술 스택`}
                     links={project.links}

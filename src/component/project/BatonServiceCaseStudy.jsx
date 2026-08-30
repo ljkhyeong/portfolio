@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { batonServicesById, projectsById } from "../../data/projects"
 import { batonServicePresentations } from "../../data/batonServicePresentation"
+import featuredCasePresentations from "../../data/featuredProblems"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
 import CaseKeySummary from "./CaseKeySummary"
@@ -46,7 +47,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
             </a>
             <nav className="baton-service-nav" aria-label="BATON 서비스 상세 탐색">
                 <Link to="/projects/baton">← BATON 전체 보기</Link>
-                <span>services/{serviceId}.md</span>
+                <span>BATON / {service.name}</span>
             </nav>
 
             <article className="baton-service-case">
@@ -85,13 +86,28 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 <CaseSectionNavigation
                     label="서비스 상세 섹션 바로가기"
                     sections={[
+                        { id: "service-problems", label: "문제 해결" },
                         { id: "service-boundary", label: "처리 흐름" },
                         { id: "service-verification", label: "검증 상태" },
-                        { id: "service-problems", label: "문제 해결" },
                         { id: "service-documents", label: "문서" },
                         { id: "service-stack", label: "사용 기술" },
                     ]}
                 />
+
+                <section
+                    className="baton-service-problems"
+                    id="service-problems"
+                    aria-labelledby="service-problems-title"
+                >
+                    <div className="baton-service-section-heading">
+                        <h2 id="service-problems-title">문제와 해결 방법</h2>
+                    </div>
+                    <ProblemSolutionList
+                        problems={problems}
+                        featured={featuredCasePresentations[`baton-${serviceId}`]}
+                        label={`${service.name} 문제와 해결 방법 목록`}
+                    />
+                </section>
 
                 <section
                     className="baton-service-boundary"
@@ -99,7 +115,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="boundary-title"
                 >
                     <div className="baton-service-section-heading">
-                        <span>## 01</span>
                         <h2 id="boundary-title">처리 흐름</h2>
                     </div>
                     <BatonServiceFlowDiagram serviceId={serviceId} />
@@ -139,7 +154,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="service-verification-title"
                 >
                     <div className="baton-service-section-heading">
-                        <span>## 02</span>
                         <h2 id="service-verification-title">검증 결과와 남은 범위</h2>
                     </div>
                     <dl className="baton-service-status" aria-label="구현 상태">
@@ -165,44 +179,14 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 </section>
 
                 <section
-                    className="baton-service-problems"
-                    id="service-problems"
-                    aria-labelledby="service-problems-title"
-                >
-                    <div className="baton-service-section-heading">
-                        <span>## 03</span>
-                        <h2 id="service-problems-title">문제와 해결 방법</h2>
-                    </div>
-                    <ProblemSolutionList
-                        problems={problems}
-                        label={`${service.name} 문제와 해결 방법 목록`}
-                    />
-                </section>
-
-                <section
                     className="baton-service-documents"
                     id="service-documents"
                     aria-labelledby="service-documents-title"
                 >
                     <div className="baton-service-section-heading">
-                        <span>## 04</span>
                         <h2 id="service-documents-title">문서 분류와 대표 문서</h2>
                     </div>
-                    <div
-                        className="service-document-counts"
-                        aria-label={`${service.name} 문서 분류`}
-                    >
-                        {service.documentation.map((item) => (
-                            <article key={item.label}>
-                                <code>{item.label}</code>
-                                <strong>{item.count}</strong>
-                            </article>
-                        ))}
-                    </div>
                     <div className="service-document-links">
-                        <h3>
-                            <span aria-hidden="true">###</span> 대표 문서
-                        </h3>
                         {documents.map((document) => (
                             <article key={document.href}>
                                 <a href={document.href} target="_blank" rel="noreferrer">
@@ -214,12 +198,22 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                             </article>
                         ))}
                     </div>
+                    <details className="service-document-inventory">
+                        <summary>문서 분류와 작성 수</summary>
+                        <dl aria-label={`${service.name} 문서 분류`}>
+                            {service.documentation.map((item) => (
+                                <div key={item.label}>
+                                    <dt>{item.label}</dt>
+                                    <dd>{item.count}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </details>
                 </section>
 
                 <CaseMetaSection
                     id="service-stack"
                     headingId="service-stack-title"
-                    sectionNumber="## 05"
                     technologies={service.stack}
                     technologyLabel={`${service.name} 기술 스택`}
                     links={

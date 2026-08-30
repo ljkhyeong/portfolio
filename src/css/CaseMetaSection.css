@@ -13,9 +13,7 @@
 }
 
 .case-meta .case-section-heading {
-    display: grid;
-    grid-template-columns: 54px minmax(0, 1fr);
-    align-items: baseline;
+    display: block;
     margin-bottom: clamp(20px, 2.4vw, 28px);
 }
 

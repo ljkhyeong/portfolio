@@ -64,8 +64,7 @@
     grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
     gap: clamp(36px, 5vw, 72px);
     align-items: end;
-    min-height: 280px;
-    padding: clamp(36px, 4.5vw, 52px) 0 30px;
+    padding: 36px 0 24px;
 }
 
 .baton-service-kicker,
@@ -212,10 +211,38 @@
 }
 
 .baton-service-section-heading {
-    display: grid;
-    grid-template-columns: 68px 1fr;
-    align-items: baseline;
+    display: block;
     margin-bottom: 24px;
+}
+
+.service-document-inventory {
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.service-document-inventory > summary {
+    width: fit-content;
+    min-height: 44px;
+    align-content: center;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.service-document-inventory dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    margin: 12px 0 0;
+}
+
+.service-document-inventory dl > div {
+    display: flex;
+    gap: 8px;
+}
+
+.service-document-inventory dd {
+    margin: 0;
 }
 
 .baton-service-section-heading span {
@@ -660,7 +687,7 @@
     color: var(--accent);
 }
 
-.baton-service-case > .case-section-nav + .baton-service-boundary {
+.baton-service-case > .case-section-nav + .baton-service-problems {
     border-top: 0;
 }
 
