@@ -682,6 +682,7 @@ const projects = [
         links: [
             {
                 label: "BATON WATCH GitHub 저장소",
+                shortLabel: "WATCH 저장소",
                 href: "https://github.com/ljkhyeong/baton-watch",
                 note: "안전한 URL 점검과 상태 변경 이벤트",
             },

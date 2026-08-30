@@ -1260,22 +1260,25 @@
 
 .case-documents a {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 14px;
     align-items: baseline;
     color: var(--ink, #171713);
 }
 
-.case-documents a code {
-    color: var(--accent-on-light, #a9341c);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 11px;
-    font-weight: 750;
+.case-documents .case-document-type {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
 }
 
 .case-documents a strong {
     font-size: 17px;
     letter-spacing: -0.025em;
+    word-break: keep-all;
 }
 
 .case-documents a > span {
@@ -2227,7 +2230,6 @@
 .stream-lane small,
 .case-document-catalog code,
 .case-representative-documents h3 span,
-.case-documents a code,
 .case-meta__stack li,
 .case-next a > span:first-child,
 .case-service-map__core span,
@@ -2420,7 +2422,6 @@
     color: var(--accent);
 }
 
-.case-documents a code,
 .case-documents a > span,
 .case-document-catalog code,
 .case-architecture__intro > span,

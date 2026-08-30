@@ -11,7 +11,7 @@ const EvidenceField = ({ label, children, className = "" }) => (
 const ProjectEvidenceList = ({ proofs, label }) => (
     <ol className="project-evidence-list project-evidence-list--classified" aria-label={label}>
         {proofs.map((proof) => {
-            const { methodLabel, scopeNote } = getEvidencePresentation(proof)
+            const { methodLabel, resultSummary, scopeNote } = getEvidencePresentation(proof)
 
             return (
                 <li key={`${proof.item}-${proof.scope ?? "all"}`}>
@@ -22,18 +22,23 @@ const ProjectEvidenceList = ({ proofs, label }) => (
                                 <strong>{proof.item}</strong>
                             </div>
                             <div className="project-evidence-list__outcome">
-                                <p>{proof.result}</p>
+                                <p>{resultSummary ?? proof.result}</p>
                                 {scopeNote ? (
                                     <p className="project-evidence-list__limitation">{scopeNote}</p>
                                 ) : null}
                             </div>
                             <span className="project-evidence-list__action" aria-hidden="true">
-                                <span>방법 보기</span>
+                                <span>{resultSummary ? "근거 보기" : "방법 보기"}</span>
                                 <span>접기</span>
                                 <i />
                             </span>
                         </summary>
                         <dl>
+                            {resultSummary ? (
+                                <EvidenceField label="상세 결과">
+                                    <p>{proof.result}</p>
+                                </EvidenceField>
+                            ) : null}
                             <EvidenceField
                                 label="확인 방법 및 조건"
                                 className="project-evidence-list__method"

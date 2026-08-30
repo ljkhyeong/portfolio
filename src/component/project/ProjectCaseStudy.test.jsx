@@ -104,7 +104,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
-    expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
+    expect(evidenceLinks).toHaveTextContent("WATCH 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
     expect(
         within(evidenceLinks).getByRole("link", {
@@ -216,6 +216,17 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     expect(inventory).not.toHaveAttribute("open")
     expect(
         documentLinks.compareDocumentPosition(inventory) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
+
+    const firstDocument = projectsById.happygallery.documents[0]
+    const documentLink = within(documents).getByRole("link", {
+        name: `${firstDocument.label} 대표 문서 새 창에서 보기`,
+    })
+    const documentType = within(documentLink.closest("li")).getByText(firstDocument.type)
+    expect(documentLink).toHaveTextContent(firstDocument.label)
+    expect(documentLink).not.toHaveTextContent(firstDocument.type)
+    expect(
+        documentLink.compareDocumentPosition(documentType) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy()
 })
 

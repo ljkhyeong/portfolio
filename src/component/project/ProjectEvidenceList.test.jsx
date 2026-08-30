@@ -41,6 +41,8 @@ test("확인 항목과 결과를 먼저 보여주고 방법 및 조건은 펼쳐
     expect(firstSummary).not.toHaveTextContent(
         "같은 멱등 키로 동시에 요청해도 링크는 하나만 생성되어야 함",
     )
+    expect(within(rows[0]).queryByText("상세 결과")).not.toBeInTheDocument()
+    expect(within(rows[0]).getAllByText(proofs[0].result)).toHaveLength(1)
 
     await userEvent.click(firstSummary)
 
@@ -51,7 +53,7 @@ test("확인 항목과 결과를 먼저 보여주고 방법 및 조건은 펼쳐
     expect(rows[0]).toHaveTextContent("BATON GO")
 })
 
-test("BATON 서비스의 테스트와 CI 근거를 구분하고 미검증 조건을 바로 보여준다", () => {
+test("긴 결과는 성공과 실패를 함께 요약하고 원문 및 실행 조건은 펼쳐서 확인한다", async () => {
     render(
         <ProjectEvidenceList
             proofs={projectsById.baton.proofs}
@@ -76,6 +78,20 @@ test("BATON 서비스의 테스트와 CI 근거를 구분하고 미검증 조건
     expect(rows[6].querySelector("summary")).toHaveTextContent("CI 확인")
     expect(rows[6].querySelector("summary")).toHaveTextContent("Safari 실기기")
     expect(rows[6].querySelector("summary")).toHaveTextContent("미검증")
+    const roundSummary = rows[6].querySelector("summary")
+    const roundResult = within(rows[6]).getByText(projectsById.baton.proofs[6].result)
+
+    expect(roundSummary).toHaveTextContent(
+        "Chromium 및 Core 연동 통과, WebKit 1건 통과 및 2건 실패, 배포 검증 실패",
+    )
+    expect(roundSummary).not.toHaveTextContent("restic")
+    expect(roundResult).not.toBeVisible()
+
+    await userEvent.click(roundSummary)
+
+    expect(roundResult).toBeVisible()
+    expect(rows[6]).toHaveTextContent("상세 결과")
+    expect(rows[6]).toHaveTextContent("restic 실행 파일 부재로 실패")
 })
 
 test("코드 대조와 기존 테스트 산출물을 구분하고 미검증 조건을 접기 전에 표시한다", () => {

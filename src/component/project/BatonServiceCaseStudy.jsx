@@ -190,11 +190,11 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         {documents.map((document) => (
                             <article key={document.href}>
                                 <a href={document.href} target="_blank" rel="noreferrer">
-                                    <code>[{document.type}]</code>
                                     <strong>{document.label}</strong>
                                     <span aria-hidden="true">↗</span>
                                 </a>
                                 <p>{document.note}</p>
+                                <span className="service-document-type">{document.type}</span>
                             </article>
                         ))}
                     </div>

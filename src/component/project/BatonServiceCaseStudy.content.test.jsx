@@ -42,6 +42,18 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
             "href",
             "#service-stack",
         )
+
+        const documents = document.getElementById("service-documents")
+        project.documents
+            .filter((entry) => entry.serviceId === serviceId)
+            .forEach((entry) => {
+                const link = within(documents).getByRole("link", { name: entry.label })
+                const type = within(link.closest("article")).getByText(entry.type)
+                expect(link).not.toHaveTextContent(entry.type)
+                expect(
+                    link.compareDocumentPosition(type) & Node.DOCUMENT_POSITION_FOLLOWING,
+                ).toBeTruthy()
+            })
     },
 )
 

@@ -40,9 +40,11 @@ const ProjectEvidenceLinks = ({ project }) => {
         project.links?.[0]
             ? {
                   ...project.links[0],
-                  shortLabel: project.links[0].href.includes("github.com")
-                      ? "GitHub 저장소"
-                      : project.links[0].label,
+                  shortLabel:
+                      project.links[0].shortLabel ??
+                      (project.links[0].href.includes("github.com")
+                          ? "GitHub 저장소"
+                          : project.links[0].label),
               }
             : null,
         project.documents?.[0]
@@ -281,11 +283,11 @@ const CaseDocuments = ({ documentGroups, documents, intro }) => (
                             rel="noreferrer"
                             aria-label={`${doc.label} 대표 문서 새 창에서 보기`}
                         >
-                            <code>[{doc.type}]</code>
                             <strong>{doc.label}</strong>
                             <span aria-hidden="true">↗</span>
                         </a>
                         <p>{doc.note}</p>
+                        <span className="case-document-type">{doc.type}</span>
                     </li>
                 ))}
             </ul>

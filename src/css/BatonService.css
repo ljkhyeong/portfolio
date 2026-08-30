@@ -402,20 +402,30 @@
 
 .service-document-links article a {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 14px;
     align-items: baseline;
 }
 
 .service-document-links article a strong {
     font-size: 17px;
+    word-break: keep-all;
 }
 
 .service-document-links article p {
-    margin: 8px 0 0 74px;
+    margin: 8px 0 0;
     color: var(--muted);
     font-size: 16px;
     line-height: 1.65;
+}
+
+.service-document-links .service-document-type {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
 }
 
 .baton-service-footer {

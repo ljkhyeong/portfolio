@@ -7,7 +7,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "링크 생성, 폐기와 리다이렉트 및 관리 JWT 검증을 구현했습니다. 같은 요청 8건의 동시 처리와 HMAC 키 불일치 시 기동 차단을 테스트했습니다.",
+                text: "같은 요청 8건의 동시 처리와 HMAC 키 불일치 시 기동 차단을 테스트했습니다.",
             },
             {
                 kind: "unverified",
@@ -39,7 +39,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "URL 점검, 상태 변경 전달과 지표를 구현했습니다. 사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 회수와 이전 URL 버전의 늦은 결과 차단을 테스트했습니다.",
+                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 회수와 이전 URL 버전의 늦은 결과 차단을 테스트했습니다.",
             },
             {
                 kind: "unverified",
@@ -70,7 +70,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "Webhook, AWS SQS FIFO 전송과 RabbitMQ 수신 및 제한 재시도를 구현했습니다. 이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단을 확인했습니다.",
+                text: "이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단을 확인했습니다.",
             },
             {
                 kind: "limited",
