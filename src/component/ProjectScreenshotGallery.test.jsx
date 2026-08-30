@@ -66,6 +66,26 @@ test("모든 대표 화면을 버튼으로 열고 좌우 키로 전환한다", (
     expect(within(dialog).getByRole("img", { name: "결제 화면" })).toBeInTheDocument()
 })
 
+test("소개에 한 화면만 보여줘도 확대 창에서는 전체 화면을 순서대로 탐색한다", () => {
+    render(
+        <ProjectScreenshotGallery
+            project={project}
+            context="case-cover"
+            visibleScreenshotIds={["home"]}
+        />,
+    )
+
+    const gallery = screen.getByRole("group", { name: "테스트 프로젝트 대표 화면" })
+    expect(within(gallery).getAllByRole("button")).toHaveLength(1)
+    expect(within(gallery).getByRole("img")).toHaveAttribute("loading", "eager")
+    fireEvent.click(within(gallery).getByRole("button"))
+    fireEvent.keyDown(window, { key: "ArrowRight" })
+
+    const dialog = screen.getByRole("dialog", { name: "상품" })
+    expect(within(dialog).getByRole("img", { name: "상품 화면" })).toBeInTheDocument()
+    expect(within(dialog).getByText("2 / 3")).toBeInTheDocument()
+})
+
 test("닫을 때 body 스크롤과 썸네일 포커스를 복원한다", async () => {
     document.body.style.overflow = "scroll"
     render(<ProjectScreenshotGallery project={project} />)

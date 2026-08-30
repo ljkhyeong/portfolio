@@ -1,0 +1,993 @@
+/* 승인된 Hamish 참고 시안: 상세페이지만 어두운 배경과 넓은 대표 화면을 사용한다.
+   main을 함께 지정해 배포용 CSS의 로딩 순서가 달라져도 상세 스타일을 유지한다. */
+main.case-showcase.case-study-page,
+main.case-showcase.baton-service-page {
+    --paper: #171a19;
+    --paper-raised: #222925;
+    --ink: #f4f6f4;
+    --muted: #b2beb6;
+    --line: #39433d;
+    --line-strong: #65756a;
+    --accent: #a6d9bd;
+    --accent-on-light: #a6d9bd;
+    --success: #a6d9bd;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 18px;
+    color-scheme: dark;
+}
+
+main.case-showcase .case-study,
+main.case-showcase .prior-case,
+main.case-showcase .baton-service-case,
+main.case-showcase .baton-service-footer,
+main.case-showcase .case-design-credit {
+    width: min(1040px, calc(100% - 64px));
+    margin-inline: auto;
+}
+
+main.case-showcase .prior-case {
+    padding: 0;
+}
+
+main.case-showcase .case-study-nav,
+main.case-showcase .baton-service-nav {
+    width: calc(100% - 112px);
+    min-height: 82px;
+    border: 0;
+    font-family: var(--sans);
+    font-size: 16px;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+main.case-showcase .case-study-nav__home {
+    font-weight: 600;
+}
+
+main.case-showcase .case-hero,
+main.case-showcase .baton-service-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 96px;
+    padding: 65px 0 60px;
+}
+
+main.case-showcase .case-kicker,
+main.case-showcase .baton-service-kicker {
+    display: block;
+    margin: 0 0 16px;
+    color: var(--accent);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+main.case-showcase .case-hero h1,
+main.case-showcase .baton-service-hero h1 {
+    margin: 0 0 24px;
+    max-width: none;
+    font-family: var(--sans);
+    font-size: clamp(52px, 6vw, 82px);
+    font-weight: 650;
+    line-height: 1.07;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+}
+
+main.case-showcase.case-study-page--warrant .case-hero h1,
+main.case-showcase.case-study-page--defense .case-hero h1,
+main.case-showcase.case-study-page--prior .case-hero h1 {
+    font-size: clamp(38px, 4.1vw, 56px);
+    line-height: 1.2;
+}
+
+main.case-showcase .case-hero__intro > p,
+main.case-showcase .prior-case__summary,
+main.case-showcase .baton-service-hero__intro > p {
+    margin: 0;
+    max-width: 480px;
+    color: #c1c9c4;
+    font-size: 22px;
+    line-height: 1.65;
+    letter-spacing: -0.025em;
+}
+
+main.case-showcase .case-hero__support {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 0;
+    border: 0;
+}
+
+main.case-showcase .case-hero__evidence {
+    margin: 0;
+    gap: 8px 26px;
+}
+
+main.case-showcase .case-hero__evidence a {
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+main.case-showcase .case-project-labels li {
+    min-height: 0;
+    padding: 0;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+main.case-showcase .prior-case .case-project-labels {
+    margin: 0 0 18px;
+}
+
+main.case-showcase .case-hero-facts,
+main.case-showcase .baton-service-hero__facts {
+    display: block;
+    grid-column: auto;
+    margin: 4px 0 0;
+    padding: 0;
+    border: 0;
+}
+
+main.case-showcase .case-hero-facts > div,
+main.case-showcase .baton-service-hero__facts > div {
+    display: block;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+main.case-showcase .case-hero-facts > div:first-child,
+main.case-showcase .baton-service-hero__facts > div:first-child {
+    padding-top: 0;
+}
+
+main.case-showcase .case-hero-facts dt,
+main.case-showcase .baton-service-hero__facts dt {
+    margin: 0 0 6px;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+main.case-showcase .baton-service-hero__facts dt::after {
+    content: none;
+}
+
+main.case-showcase .case-hero-facts dd,
+main.case-showcase .baton-service-hero__facts dd {
+    margin: 0;
+    color: #d7ded9;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.65;
+}
+
+main.case-showcase .case-cover {
+    padding: 0 0 38px;
+    border: 0;
+    animation: none;
+}
+
+main.case-showcase .case-cover__heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+
+main.case-showcase .case-system__caption {
+    max-width: none;
+    margin: 16px 0 0;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+main.case-showcase .screenshot-gallery--case-cover {
+    display: block;
+    height: auto;
+}
+
+main.case-showcase .screenshot-gallery__item {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+main.case-showcase .screenshot-gallery__chrome {
+    display: none;
+}
+
+main.case-showcase .screenshot-gallery__viewport {
+    height: auto;
+    border-radius: 0;
+}
+
+main.case-showcase .screenshot-gallery--case-cover .screenshot-gallery__viewport img {
+    height: auto;
+}
+
+main.case-showcase .screenshot-gallery__item figcaption {
+    justify-content: flex-start;
+    min-height: 0;
+    gap: 12px;
+    padding: 16px 0 0;
+    color: var(--muted);
+}
+
+main.case-showcase .screenshot-gallery__item figcaption span {
+    color: var(--accent);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+main.case-showcase .screenshot-gallery__item figcaption strong {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: left;
+}
+
+main.case-showcase .case-section-nav {
+    min-height: 60px;
+    margin: 0;
+    border-color: var(--line);
+    background: var(--paper);
+    font-family: var(--sans);
+}
+
+main.case-showcase .case-section-nav ul {
+    justify-content: flex-start;
+    gap: 24px;
+}
+
+main.case-showcase .case-section-nav__label {
+    display: none;
+}
+
+main.case-showcase .case-section-nav a {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+main.case-showcase .baton-service-switcher {
+    width: 100%;
+    margin: 0 0 10px;
+    border: 0;
+    font-family: var(--sans);
+}
+
+main.case-showcase .baton-service-switcher a,
+main.case-showcase .baton-service-switcher > span {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+main.case-showcase .case-problems,
+main.case-showcase .case-architecture,
+main.case-showcase .case-proof,
+main.case-showcase .case-documents,
+main.case-showcase .case-meta,
+main.case-showcase .baton-service-problems,
+main.case-showcase .baton-service-verification,
+main.case-showcase .baton-service-documents {
+    padding: 88px 0;
+    border: 0;
+    animation: none;
+}
+
+main.case-showcase .case-section-heading,
+main.case-showcase .baton-service-section-heading {
+    margin: 0 0 36px;
+}
+
+main.case-showcase .case-section-heading h2,
+main.case-showcase .baton-service-section-heading h2 {
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: clamp(26px, 2.4vw, 32px);
+    font-weight: 550;
+    line-height: 1.4;
+    letter-spacing: -0.035em;
+}
+
+main.case-showcase .featured-problem {
+    margin: 0 0 64px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+main.case-showcase .featured-problem--visual {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 72px;
+}
+
+main.case-showcase .featured-problem__header {
+    padding: 0;
+}
+
+main.case-showcase .featured-problem__header h3 {
+    max-width: 740px;
+    font-size: clamp(26px, 2.6vw, 36px);
+    font-weight: 550;
+    line-height: 1.4;
+}
+
+main.case-showcase .featured-problem__eyebrow {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+main.case-showcase .featured-problem__body {
+    gap: 60px;
+    padding: 26px 0;
+}
+
+main.case-showcase .featured-problem--visual .featured-problem__body {
+    display: block;
+}
+
+main.case-showcase .featured-problem__explanation > p {
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+main.case-showcase .featured-problem__explanation > p > strong {
+    display: inline;
+    margin-right: 10px;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+main.case-showcase .featured-problem__flow {
+    padding-left: 32px;
+}
+
+main.case-showcase .featured-problem__evidence {
+    max-width: 760px;
+    padding: 4px 0 26px;
+    border: 0;
+    background: transparent;
+}
+
+main.case-showcase .featured-problem__result {
+    color: #d9eddf;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.8;
+}
+
+main.case-showcase .featured-problem__limitation {
+    margin-top: 14px;
+    font-size: 16px;
+}
+
+main.case-showcase .featured-problem__details > summary {
+    min-height: 44px;
+    padding: 16px 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+main.case-showcase .featured-problem__details dl {
+    padding: 0;
+}
+
+main.case-showcase .featured-problem__details .featured-problem__flow {
+    margin: 16px 0 28px;
+    padding-left: 0;
+    border: 0;
+}
+
+main.case-showcase .featured-problem__details dl > div {
+    grid-template-columns: 1fr;
+    gap: 6px;
+}
+
+main.case-showcase .screenshot-gallery--case-story {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 32px;
+    padding: 30px;
+    background: var(--paper-raised);
+}
+
+main.case-showcase .screenshot-gallery--case-story .screenshot-gallery__viewport {
+    max-height: 380px;
+    overflow: hidden;
+}
+
+main.case-showcase .screenshot-gallery--case-story .screenshot-gallery__viewport img {
+    height: auto;
+}
+
+main.case-showcase .screenshot-gallery--case-story.screenshot-gallery--baton {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 26px 22px;
+}
+
+main.case-showcase
+    .screenshot-gallery--case-story.screenshot-gallery--baton
+    .screenshot-gallery__item
+    .screenshot-gallery__viewport {
+    max-height: none;
+    aspect-ratio: auto;
+}
+
+main.case-showcase .screenshot-gallery--case-story figcaption {
+    display: block;
+}
+
+main.case-showcase .screenshot-gallery--case-story figcaption strong {
+    display: block;
+    margin-top: 6px;
+}
+
+main.case-showcase .problem-solution-list,
+main.case-showcase .project-evidence-list,
+main.case-showcase .case-problems__more,
+main.case-showcase .case-meta__stack > ul,
+main.case-showcase .case-meta__links > ul,
+main.case-showcase .case-meta__link-note {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+main.case-showcase .problem-solution-list > li,
+main.case-showcase .project-evidence-list > li {
+    border-top: 1px solid var(--line);
+}
+
+main.case-showcase .problem-solution-list__item > summary,
+main.case-showcase .project-evidence-list__entry > summary {
+    padding: 24px 0;
+}
+
+main.case-showcase .problem-solution-list__item > summary h3,
+main.case-showcase .project-evidence-list__subject strong {
+    font-weight: 550;
+}
+
+main.case-showcase .project-evidence-list__entry > summary {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) auto;
+}
+
+main.case-showcase .project-evidence-list__outcome p {
+    color: var(--muted);
+}
+
+main.case-showcase .case-status {
+    margin: 0 0 32px;
+    padding: 0 0 0 20px;
+    border: 0;
+    border-left: 2px solid var(--accent);
+    border-radius: 0;
+    background: transparent;
+}
+
+main.case-showcase .case-status p {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+main.case-showcase .case-architecture__intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px 72px;
+    padding: 0;
+    border: 0;
+}
+
+main.case-showcase .case-architecture__intro > span {
+    grid-column: 1 / -1;
+    font-family: var(--sans);
+    font-size: 15px;
+}
+
+main.case-showcase .case-architecture__intro h3 {
+    font-family: var(--sans);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.55;
+}
+
+main.case-showcase .case-documents__intro {
+    margin-left: 0;
+}
+
+main.case-showcase .case-representative-documents > ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 52px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+main.case-showcase .case-representative-documents > ul li {
+    padding: 25px 0;
+    border-left: 0;
+}
+
+main.case-showcase .case-representative-documents > ul li:nth-child(even) {
+    border-left: 0;
+}
+
+main.case-showcase .case-representative-documents a strong,
+main.case-showcase .service-document-links a strong {
+    color: var(--ink);
+    font-weight: 550;
+}
+
+main.case-showcase .case-representative-documents li p,
+main.case-showcase .service-document-links article p {
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+main.case-showcase .case-meta__links {
+    padding-left: 0;
+    border: 0;
+}
+
+main.case-showcase .case-meta__stack li {
+    font-family: var(--sans);
+    padding: 14px 12px 14px 0;
+    line-height: 1.6;
+    letter-spacing: 0;
+}
+
+main.case-showcase .case-meta__links li,
+main.case-showcase .case-meta__link-note {
+    padding: 14px 0;
+}
+
+main.case-showcase .case-meta__links a {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+/* 도면은 밝은 종이 색을 유지해 기존 선과 상태 표시의 대비를 보존한다. */
+main.case-showcase .editorial-diagram,
+main.case-showcase .baton-service-flow {
+    --paper: #f1f5f2;
+    --paper-raised: #e5eee8;
+    --ink: #22352b;
+    --muted: #50665a;
+    --line: #c8d6cd;
+    --line-strong: #95ad9f;
+    --accent: #286e52;
+    --diagram-paper: #f1f5f2;
+    --diagram-node: #ffffff;
+    --diagram-ink: #22352b;
+    --diagram-muted: #50665a;
+    --diagram-soft: #63796c;
+    --diagram-rule: #c8d6cd;
+    --diagram-rule-strong: #95ad9f;
+    --diagram-accent: #286e52;
+    --diagram-accent-tint: #e5eee8;
+    padding: 32px;
+    background: var(--paper);
+    color: var(--ink);
+    color-scheme: light;
+}
+
+main.case-showcase .service-flow-node--focal rect,
+main.case-showcase .service-flow-node--decision polygon,
+main.case-showcase .baton-service-flow__legend > span:nth-child(2)::before {
+    fill: #dbece1;
+    background: #dbece1;
+}
+
+main.case-showcase .editorial-diagram__title,
+main.case-showcase .editorial-diagram__header > strong {
+    font-family: var(--sans);
+    font-size: 26px;
+    font-weight: 550;
+    line-height: 1.4;
+}
+
+main.case-showcase .editorial-diagram__header {
+    border-top: 0;
+    padding-top: 0;
+}
+
+main.case-showcase .baton-service-directory__header h3,
+main.case-showcase .baton-service-directory__identity strong {
+    font-family: var(--sans);
+    font-weight: 550;
+}
+
+main.case-showcase .baton-service-directory__list {
+    gap: 0 40px;
+}
+
+main.case-showcase .baton-service-directory__list li:nth-child(odd) {
+    border-right: 0;
+}
+
+main.case-showcase .baton-service-directory__list a {
+    padding: 24px 0;
+}
+
+main.case-showcase .baton-service-scope {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+}
+
+main.case-showcase .baton-service-scope summary {
+    padding-left: 0;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+main.case-showcase .baton-service-status__item--limited dt {
+    color: #e5ba82;
+}
+
+main.case-showcase .project-switcher a.is-current,
+main.case-showcase .baton-service-footer a.is-current {
+    background: var(--paper-raised);
+    color: var(--accent);
+}
+
+main.case-showcase .project-switcher__panel {
+    box-shadow: 0 12px 36px #0005;
+}
+
+main.case-showcase .case-next {
+    width: min(1040px, calc(100% - 64px));
+    margin: 0 auto;
+    padding: 56px 0;
+    border-top: 1px solid var(--line);
+    background: transparent;
+}
+
+main.case-showcase .case-next a {
+    padding: 0;
+}
+
+main.case-showcase .case-next strong {
+    font-family: var(--sans);
+    font-weight: 550;
+    color: var(--ink);
+}
+
+main.case-showcase .case-design-credit {
+    padding: 24px 0 36px;
+    color: var(--muted);
+    font-size: 14px;
+    text-align: right;
+}
+
+main.case-showcase .case-design-credit a {
+    color: var(--accent);
+}
+
+/* 데스크톱 읽기 기준: 본문 18px, 보조 설명 16px, 짧은 분류명 14~15px. */
+main.case-showcase .skip-link,
+main.case-showcase .project-switcher__details > summary,
+main.case-showcase .project-switcher__count,
+main.case-showcase .project-switcher a,
+main.case-showcase .case-meta__stack li,
+main.case-showcase .case-meta__links a,
+main.case-showcase .case-meta__links span,
+main.case-showcase .case-meta__link-note,
+main.case-showcase .case-document-inventory,
+main.case-showcase .service-document-inventory,
+main.case-showcase .case-problems__more > summary,
+main.case-showcase .baton-service-scope summary,
+main.case-showcase .case-next a > span:first-child,
+main.case-showcase .baton-service-footer {
+    font-size: 16px;
+}
+
+main.case-showcase .project-switcher__group > span,
+main.case-showcase .project-switcher a > span,
+main.case-showcase .case-section-heading > span,
+main.case-showcase .baton-service-section-heading > span,
+main.case-showcase .featured-problem__eyebrow,
+main.case-showcase .featured-problem__flow-label,
+main.case-showcase .featured-problem__evidence-label,
+main.case-showcase .featured-problem__step-number,
+main.case-showcase .project-evidence-list__type,
+main.case-showcase .project-evidence-list__action,
+main.case-showcase .problem-solution-list__action,
+main.case-showcase .problem-solution-list__result > span,
+main.case-showcase .editorial-diagram__eyebrow,
+main.case-showcase .case-representative-documents h3 span,
+main.case-showcase .case-representative-documents li > span,
+main.case-showcase .case-documents .case-document-type,
+main.case-showcase .service-document-links h3 span,
+main.case-showcase .service-document-links .service-document-type,
+main.case-showcase .baton-service-directory__header > span,
+main.case-showcase .baton-service-directory__core span,
+main.case-showcase .baton-service-directory__identity span {
+    font-size: 14px;
+}
+
+main.case-showcase .featured-problem__flow li strong,
+main.case-showcase .problem-solution-list__item > summary h3,
+main.case-showcase .project-evidence-list__subject strong,
+main.case-showcase .case-representative-documents a strong,
+main.case-showcase .service-document-links article a strong,
+main.case-showcase .baton-service-directory__core h4,
+main.case-showcase .baton-service-directory__description h4 {
+    font-size: 20px;
+}
+
+main.case-showcase .featured-problem__flow li p,
+main.case-showcase .featured-problem__details dt,
+main.case-showcase .problem-solution-list__item dt,
+main.case-showcase .problem-solution-list__result,
+main.case-showcase .project-evidence-list__entry dt,
+main.case-showcase .case-status strong,
+main.case-showcase .baton-service-status dt,
+main.case-showcase .baton-service-flow__legend,
+main.case-showcase .baton-service-directory__header p,
+main.case-showcase .baton-service-directory__core p,
+main.case-showcase .baton-service-directory__description p,
+main.case-showcase .baton-service-directory__core em,
+main.case-showcase .baton-service-directory__description em,
+main.case-showcase .editorial-diagram__header > p,
+main.case-showcase .editorial-diagram__summary {
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+main.case-showcase .featured-problem__details dd,
+main.case-showcase .problem-solution-list__item dd,
+main.case-showcase .project-evidence-list__entry dd,
+main.case-showcase .project-evidence-list__outcome p,
+main.case-showcase .case-status p,
+main.case-showcase .case-architecture__intro > p,
+main.case-showcase .case-documents__intro,
+main.case-showcase .baton-service-status dd,
+main.case-showcase .baton-service-scope > div,
+main.case-showcase .baton-service-scope blockquote,
+main.case-showcase .baton-service-flow figcaption p {
+    font-size: 18px;
+    line-height: 1.75;
+}
+
+main.case-showcase .project-evidence-list__outcome .project-evidence-list__limitation {
+    font-size: 16px;
+}
+
+main.case-showcase .intent-trace-record__toolbar span,
+main.case-showcase .intent-trace-record__fields span,
+main.case-showcase .intent-trace-record__evidence span,
+main.case-showcase .intent-trace-record__aside-label,
+main.case-showcase .intent-trace-record__boundary span,
+main.case-showcase .intent-trace-record__body aside li > span {
+    font-size: 14px;
+}
+
+main.case-showcase .intent-trace-record__fields strong,
+main.case-showcase .intent-trace-record__evidence p,
+main.case-showcase .intent-trace-record__boundary strong,
+main.case-showcase .intent-trace-record__body aside li > strong {
+    font-size: 16px;
+}
+
+main.case-showcase .intent-trace-record__toolbar strong {
+    font-size: 20px;
+}
+
+/* SVG도 페이지와 비슷한 배율로 표시되므로 작은 원본 글자를 그대로 사용하지 않는다. */
+main.case-showcase .editorial-diagram__zone-label,
+main.case-showcase .editorial-diagram__tag,
+main.case-showcase .editorial-diagram__legend-title,
+main.case-showcase .editorial-diagram__legend > text:not(.editorial-diagram__legend-title),
+main.case-showcase .editorial-diagram__connector-label,
+main.case-showcase .editorial-diagram__node-meta,
+main.case-showcase .baton-architecture__label,
+main.case-showcase .baton-architecture__node-kind,
+main.case-showcase .baton-architecture__node-role,
+main.case-showcase .hope-commit-flow__connector-label text,
+main.case-showcase .hope-commit-flow__node-detail,
+main.case-showcase .hope-commit-flow__node-tag,
+main.case-showcase .hope-commit-flow__scope-boundary text {
+    font-family: var(--sans);
+    font-size: 16px;
+    letter-spacing: 0;
+}
+
+main.case-showcase .editorial-diagram__node-title,
+main.case-showcase .baton-architecture__node-name {
+    font-size: 24px;
+}
+
+main.case-showcase .hope-commit-flow__node-title {
+    font-size: 20px;
+}
+
+main.case-showcase .service-flow-node__title {
+    font-size: 20px;
+}
+
+main.case-showcase .service-flow-node__detail,
+main.case-showcase .service-flow-edge__label text {
+    font-size: 16px;
+}
+
+main.case-showcase .screenshot-gallery__zoom,
+.screenshot-lightbox--case .screenshot-lightbox__eyebrow,
+.screenshot-lightbox--case .screenshot-lightbox__close,
+.screenshot-lightbox--case .screenshot-lightbox__status,
+.screenshot-lightbox--case .screenshot-lightbox__footer p {
+    font-size: 16px;
+}
+
+main.case-showcase :is(a, button, summary):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+main.case-showcase ::selection {
+    background: #a6d9bd;
+    color: #171a19;
+}
+
+@media (max-width: 800px) {
+    main.case-showcase .case-study-nav,
+    main.case-showcase .baton-service-nav {
+        width: calc(100% - 48px);
+        min-height: 68px;
+    }
+
+    main.case-showcase .case-hero,
+    main.case-showcase .baton-service-hero {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 44px 0;
+    }
+
+    main.case-showcase .case-hero-facts,
+    main.case-showcase .baton-service-hero__facts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 0;
+    }
+
+    main.case-showcase .case-hero-facts > div,
+    main.case-showcase .baton-service-hero__facts > div {
+        padding: 0 0 16px;
+    }
+
+    main.case-showcase .case-hero-facts > div:first-child {
+        grid-column: 1 / -1;
+    }
+
+    main.case-showcase .featured-problem--visual,
+    main.case-showcase .case-architecture__intro {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    main.case-showcase .featured-problem__visual {
+        max-width: 560px;
+    }
+
+    main.case-showcase .project-evidence-list__entry > summary {
+        grid-template-columns: minmax(0, 1fr) 32px;
+    }
+
+    main.case-showcase .case-meta {
+        gap: 48px;
+    }
+}
+
+@media (max-width: 560px) {
+    main.case-showcase .case-study,
+    main.case-showcase .prior-case,
+    main.case-showcase .baton-service-case,
+    main.case-showcase .baton-service-footer,
+    main.case-showcase .case-next,
+    main.case-showcase .case-design-credit {
+        width: calc(100% - 40px);
+    }
+
+    main.case-showcase .case-hero h1,
+    main.case-showcase .baton-service-hero h1 {
+        font-size: clamp(42px, 12vw, 64px);
+    }
+
+    main.case-showcase.case-study-page--warrant .case-hero h1,
+    main.case-showcase.case-study-page--defense .case-hero h1,
+    main.case-showcase.case-study-page--prior .case-hero h1 {
+        font-size: 38px;
+    }
+
+    main.case-showcase .case-hero__intro > p,
+    main.case-showcase .prior-case__summary,
+    main.case-showcase .baton-service-hero__intro > p {
+        font-size: 18px;
+    }
+
+    main.case-showcase .case-cover {
+        padding-bottom: 28px;
+    }
+
+    main.case-showcase .case-section-nav ul {
+        gap: 8px;
+    }
+
+    main.case-showcase .case-problems,
+    main.case-showcase .case-architecture,
+    main.case-showcase .case-proof,
+    main.case-showcase .case-documents,
+    main.case-showcase .case-meta,
+    main.case-showcase .baton-service-problems,
+    main.case-showcase .baton-service-verification,
+    main.case-showcase .baton-service-documents {
+        padding: 56px 0;
+    }
+
+    main.case-showcase .featured-problem__body {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    main.case-showcase .featured-problem__flow {
+        padding: 24px 0 0;
+    }
+
+    main.case-showcase .case-representative-documents > ul {
+        grid-template-columns: 1fr;
+    }
+
+    main.case-showcase .editorial-diagram,
+    main.case-showcase .baton-service-flow {
+        padding: 20px 14px;
+    }
+
+    main.case-showcase .screenshot-gallery__item figcaption {
+        flex-wrap: wrap;
+        gap: 4px 10px;
+    }
+
+    main.case-showcase .screenshot-gallery--case-story,
+    main.case-showcase .screenshot-gallery--case-story.screenshot-gallery--baton {
+        padding: 20px 14px;
+        gap: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    main.case-showcase *,
+    main.case-showcase *::before,
+    main.case-showcase *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto;
+    }
+}

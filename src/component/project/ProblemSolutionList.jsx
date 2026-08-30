@@ -8,7 +8,7 @@ const problemEvidence = [
     ["제약과 남은 작업", "boundary"],
 ]
 
-const ProblemSolutionList = ({ problems, label, featured }) => {
+const ProblemSolutionList = ({ problems, label, featured, featuredVisual }) => {
     const featuredProblem = featured
         ? problems.find((problem) => problem.number === featured.problemNumber)
         : null
@@ -19,7 +19,11 @@ const ProblemSolutionList = ({ problems, label, featured }) => {
     return (
         <>
             {featuredProblem ? (
-                <FeaturedProblem problem={featuredProblem} featured={featured} />
+                <FeaturedProblem
+                    problem={featuredProblem}
+                    featured={featured}
+                    visual={featuredVisual}
+                />
             ) : null}
             {remainingProblems.length > 0 ? (
                 <ol className="problem-solution-list" aria-label={label}>

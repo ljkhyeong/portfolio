@@ -75,9 +75,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="48"
-                        y="44"
+                        y="36"
                         width="96"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -91,9 +91,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="372"
-                        y="44"
+                        y="36"
                         width="176"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -107,9 +107,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="696"
-                        y="44"
+                        y="36"
                         width="112"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -134,9 +134,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="260"
-                        y="140"
+                        y="132"
                         width="116"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -159,9 +159,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="276"
-                        y="188"
+                        y="180"
                         width="84"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -184,9 +184,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="568"
-                        y="140"
+                        y="132"
                         width="144"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -208,10 +208,10 @@ const WarrantIntegrationDiagram = () => (
                     />
                     <rect
                         className="editorial-diagram__label-mask"
-                        x="584"
-                        y="188"
-                        width="112"
-                        height="16"
+                        x="568"
+                        y="180"
+                        width="144"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -234,9 +234,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="416"
-                        y="316"
+                        y="308"
                         width="128"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -259,9 +259,9 @@ const WarrantIntegrationDiagram = () => (
                     <rect
                         className="editorial-diagram__label-mask"
                         x="412"
-                        y="364"
+                        y="356"
                         width="136"
-                        height="16"
+                        height="24"
                         rx="2"
                     />
                     <text
@@ -286,18 +286,18 @@ const WarrantIntegrationDiagram = () => (
                         </text>
                         <text className="editorial-diagram__node-title" x="88" y="180">
                             <tspan x="88" dy="0">
-                                KICS 연계 서버
+                                KICS 연계
                             </tspan>
-                            <tspan x="88" dy="20">
-                                및 배치
+                            <tspan x="88" dy="28">
+                                서버 및 배치
                             </tspan>
                         </text>
                         <line
                             className="editorial-diagram__node-rule"
                             x1="88"
-                            y1="224"
+                            y1="232"
                             x2="224"
-                            y2="224"
+                            y2="232"
                         />
                         <text className="editorial-diagram__node-meta" x="88" y="252">
                             <tspan x="88" dy="0">
@@ -331,7 +331,7 @@ const WarrantIntegrationDiagram = () => (
                     </g>
 
                     <g className="editorial-diagram__node" role="group" aria-label="전자영장 포털">
-                        <rect x="396" y="112" width="168" height="136" rx="8" />
+                        <rect x="396" y="112" width="168" height="152" rx="8" />
                         <text className="editorial-diagram__tag" x="412" y="136">
                             PORTAL
                         </text>
@@ -339,13 +339,16 @@ const WarrantIntegrationDiagram = () => (
                             <tspan x="412" dy="0">
                                 전자영장
                             </tspan>
-                            <tspan x="412" dy="20">
+                            <tspan x="412" dy="28">
                                 포털
                             </tspan>
                         </text>
-                        <text className="editorial-diagram__node-meta" x="412" y="216">
+                        <text className="editorial-diagram__node-meta" x="412" y="224">
                             <tspan x="412" dy="0">
-                                요청 및 제출 자료 중계
+                                요청 및 제출 자료
+                            </tspan>
+                            <tspan x="412" dy="20">
+                                중계
                             </tspan>
                         </text>
                     </g>
@@ -355,15 +358,25 @@ const WarrantIntegrationDiagram = () => (
                         role="group"
                         aria-label="금융기관 업무망"
                     >
-                        <rect x="720" y="120" width="168" height="120" rx="8" />
+                        <rect x="720" y="120" width="168" height="152" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="144">
                             INSTITUTION
                         </text>
-                        <text className="editorial-diagram__node-title" x="736" y="180">
-                            금융기관 업무망
+                        <text className="editorial-diagram__node-title" x="736" y="176">
+                            <tspan x="736" dy="0">
+                                금융기관
+                            </tspan>
+                            <tspan x="736" dy="28">
+                                업무망
+                            </tspan>
                         </text>
-                        <text className="editorial-diagram__node-meta" x="736" y="208">
-                            포털 경유 / 자료 제출
+                        <text className="editorial-diagram__node-meta" x="736" y="228">
+                            <tspan x="736" dy="0">
+                                포털 경유
+                            </tspan>
+                            <tspan x="736" dy="20">
+                                자료 제출
+                            </tspan>
                         </text>
                     </g>
 
@@ -372,15 +385,25 @@ const WarrantIntegrationDiagram = () => (
                         role="group"
                         aria-label="통신사 업무망"
                     >
-                        <rect x="720" y="304" width="168" height="120" rx="8" />
+                        <rect x="720" y="304" width="168" height="144" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="328">
                             INSTITUTION
                         </text>
-                        <text className="editorial-diagram__node-title" x="736" y="364">
-                            통신사 업무망
+                        <text className="editorial-diagram__node-title" x="736" y="356">
+                            <tspan x="736" dy="0">
+                                통신사
+                            </tspan>
+                            <tspan x="736" dy="28">
+                                업무망
+                            </tspan>
                         </text>
-                        <text className="editorial-diagram__node-meta" x="736" y="392">
-                            요청 접수 / 자료 제출
+                        <text className="editorial-diagram__node-meta" x="736" y="412">
+                            <tspan x="736" dy="0">
+                                요청 접수
+                            </tspan>
+                            <tspan x="736" dy="20">
+                                자료 제출
+                            </tspan>
                         </text>
                     </g>
                 </g>

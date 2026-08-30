@@ -27,7 +27,7 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
         const problemSection = problems.closest("section")
         const flowSection = document.getElementById("service-boundary")
         expect(
-            problemSection.compareDocumentPosition(flowSection) & Node.DOCUMENT_POSITION_FOLLOWING,
+            flowSection.compareDocumentPosition(problemSection) & Node.DOCUMENT_POSITION_FOLLOWING,
         ).toBeTruthy()
         expect(
             screen.queryByRole("heading", {

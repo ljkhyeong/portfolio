@@ -5,7 +5,7 @@ import featuredCasePresentations from "../../data/featuredProblems"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
-import CaseKeySummary from "./CaseKeySummary"
+import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 import ProblemSolutionList from "./ProblemSolutionList"
 import ProjectEvidenceList from "./ProjectEvidenceList"
@@ -16,8 +16,15 @@ import WarrantIntegrationDiagram from "./diagrams/WarrantIntegrationDiagram"
 import IntentTraceRecordPreview from "./IntentTraceRecordPreview"
 import "../../css/Project.css"
 import "../../css/EditorialDiagram.css"
+import "../../css/CaseShowcase.css"
 
-const ProductVisual = ({ project }) => <ProjectScreenshotGallery project={project} context="case" />
+const ProductVisual = ({ project }) => (
+    <ProjectScreenshotGallery
+        project={project}
+        context="case-cover"
+        visibleScreenshotIds={[project.screenshots[0].id]}
+    />
+)
 
 const ProjectLabels = ({ project }) => {
     const labels = [project.stage, project.visibility].filter(Boolean).slice(0, 2)
@@ -86,12 +93,16 @@ const ProjectEvidenceLinks = ({ project }) => {
 const ProjectHeroFacts = ({ project }) => (
     <dl className="case-hero-facts" aria-label="프로젝트 기간과 담당 범위">
         <div>
+            <dt>담당</dt>
+            <dd>{project.role}</dd>
+        </div>
+        <div>
             <dt>기간</dt>
             <dd>{project.period}</dd>
         </div>
         <div>
-            <dt>담당</dt>
-            <dd>{project.role}</dd>
+            <dt>확인 결과</dt>
+            <dd>{caseHighlights[project.id]?.[2].text}</dd>
         </div>
     </dl>
 )
@@ -106,6 +117,17 @@ const ProjectStatus = ({ project }) => (
 const ProblemList = ({ problems, projectId, additional = false }) => (
     <ProblemSolutionList
         featured={additional ? undefined : featuredCasePresentations[projectId]}
+        featuredVisual={
+            !additional && projectsById[projectId]?.screenshots ? (
+                <ProjectScreenshotGallery
+                    project={projectsById[projectId]}
+                    context="case-story"
+                    visibleScreenshotIds={projectsById[projectId].screenshots
+                        .slice(1)
+                        .map((item) => item.id)}
+                />
+            ) : undefined
+        }
         problems={problems.map((problem) => ({
             ...problem,
             validationSummary: additional ? null : problemHighlights[projectId]?.[problem.number],
@@ -262,6 +284,12 @@ const ArchitectureSection = ({ project }) => (
                 </blockquote>
             </div>
         </div>
+        {project.services ? (
+            <>
+                <BatonServices services={project.services} />
+                <p className="case-system__caption">{project.visualCaption}</p>
+            </>
+        ) : null}
     </section>
 )
 
@@ -310,12 +338,12 @@ const CaseDocuments = ({ documentGroups, documents, intro }) => (
 
 const projectSections = ({ hasArchitecture, hasDocuments, systemNavLabel }) => [
     { id: "project-overview", label: "개요", mobileLabel: "개요" },
-    { id: "project-problems", label: "문제 해결", mobileLabel: "문제" },
     {
         id: "project-system",
         label: systemNavLabel ?? "대표 화면",
         mobileLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
     },
+    { id: "project-problems", label: "문제 해결", mobileLabel: "문제" },
     ...(hasArchitecture
         ? [{ id: "project-architecture", label: "구현 방법", mobileLabel: "방법" }]
         : []),
@@ -329,7 +357,7 @@ const PriorExperienceCase = ({ project }) => {
     const evidenceTitle = project.evidenceTitle ?? "구현 범위 및 확인 결과"
 
     return (
-        <main className="case-study-page case-study-page--prior" id="main-content">
+        <main className="case-study-page case-study-page--prior case-showcase" id="main-content">
             <a className="skip-link" href="#prior-project-title">
                 본문으로 건너뛰기
             </a>
@@ -340,26 +368,39 @@ const PriorExperienceCase = ({ project }) => {
                 <ProjectSwitcher currentProjectId={project.id} contextLabel="교육 프로젝트" />
             </nav>
             <article className="prior-case">
-                <header id="project-overview">
-                    <div className="case-kicker prior-case__kicker">
-                        <span>교육 프로젝트</span>
-                        <span>{project.eyebrow}</span>
+                <header className="case-hero" id="project-overview">
+                    <div className="case-hero__heading">
+                        <div className="case-kicker prior-case__kicker">
+                            <span>교육 프로젝트</span>
+                            <span>{project.eyebrow}</span>
+                        </div>
+                        <h1
+                            id="prior-project-title"
+                            aria-label={project.title}
+                            data-route-heading={project.route}
+                            tabIndex={-1}
+                        >
+                            <span>{technology}</span>
+                            <span>{subject.join(" ")}</span>
+                        </h1>
+                        <ProjectLabels project={project} />
+                        <p className="prior-case__summary">{caseIntroductions[project.id]}</p>
                     </div>
-                    <h1
-                        id="prior-project-title"
-                        aria-label={project.title}
-                        data-route-heading={project.route}
-                        tabIndex={-1}
-                    >
-                        <span>{technology}</span>
-                        <span>{subject.join(" ")}</span>
-                    </h1>
-                    <ProjectLabels project={project} />
-                    <p className="prior-case__summary">{caseIntroductions[project.id]}</p>
                     <ProjectHeroFacts project={project} />
                 </header>
 
-                <CaseKeySummary items={caseHighlights[project.id]} />
+                <section
+                    className="case-system case-cover"
+                    id="project-system"
+                    aria-labelledby="system-title"
+                >
+                    <div className="case-section-heading case-cover__heading">
+                        <h2 id="system-title">WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 흐름</h2>
+                    </div>
+                    <ProjectVisual project={project} />
+                    <p className="case-system__caption">{project.visualCaption}</p>
+                </section>
+
                 <CaseSectionNavigation
                     sections={projectSections({ systemNavLabel: "미디어 처리 흐름" })}
                 />
@@ -373,14 +414,6 @@ const PriorExperienceCase = ({ project }) => {
                         <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
                     <ProblemList problems={project.problems} projectId={project.id} />
-                </section>
-
-                <section className="case-system" id="project-system" aria-labelledby="system-title">
-                    <div className="case-section-heading">
-                        <h2 id="system-title">WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 흐름</h2>
-                    </div>
-                    <ProjectVisual project={project} />
-                    <p className="case-system__caption">{project.visualCaption}</p>
                 </section>
 
                 <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
@@ -399,6 +432,7 @@ const PriorExperienceCase = ({ project }) => {
                     links={project.links}
                 />
             </article>
+            <CaseDesignCredit />
         </main>
     )
 }
@@ -432,7 +466,10 @@ const ProjectCaseStudy = ({ projectId }) => {
     )
 
     return (
-        <main className={`case-study-page case-study-page--${project.visual}`} id="main-content">
+        <main
+            className={`case-study-page case-study-page--${project.visual} case-showcase`}
+            id="main-content"
+        >
             <a className="skip-link" href="#project-title">
                 본문으로 건너뛰기
             </a>
@@ -452,18 +489,30 @@ const ProjectCaseStudy = ({ projectId }) => {
                         <h1 id="project-title" data-route-heading={project.route} tabIndex={-1}>
                             {project.title}
                         </h1>
-                    </div>
-                    <div className="case-hero__intro">
-                        <p>{caseIntroductions[project.id] ?? project.summary}</p>
-                        <div className="case-hero__support">
-                            <ProjectLabels project={project} />
-                            <ProjectEvidenceLinks project={project} />
+                        <div className="case-hero__intro">
+                            <p>{caseIntroductions[project.id] ?? project.summary}</p>
+                            <div className="case-hero__support">
+                                <ProjectLabels project={project} />
+                                <ProjectEvidenceLinks project={project} />
+                            </div>
                         </div>
                     </div>
                     <ProjectHeroFacts project={project} />
                 </header>
 
-                <CaseKeySummary items={caseHighlights[project.id]} />
+                <section
+                    className="case-system case-cover"
+                    id="project-system"
+                    aria-labelledby="system-title"
+                >
+                    <div className="case-section-heading case-cover__heading">
+                        <h2 id="system-title">{project.systemTitle ?? "대표 화면"}</h2>
+                    </div>
+                    <ProjectVisual project={project} />
+                    {!project.screenshots ? (
+                        <p className="case-system__caption">{project.visualCaption}</p>
+                    ) : null}
+                </section>
 
                 {project.services ? <BatonServiceSwitcher services={project.services} /> : null}
 
@@ -493,15 +542,6 @@ const ProjectCaseStudy = ({ projectId }) => {
                             <ProblemList problems={additionalProblems} additional />
                         </details>
                     ) : null}
-                </section>
-
-                <section className="case-system" id="project-system" aria-labelledby="system-title">
-                    <div className="case-section-heading">
-                        <h2 id="system-title">{project.systemTitle ?? "대표 화면"}</h2>
-                    </div>
-                    <ProjectVisual project={project} />
-                    {project.services ? <BatonServices services={project.services} /> : null}
-                    <p className="case-system__caption">{project.visualCaption}</p>
                 </section>
 
                 {hasArchitecture ? <ArchitectureSection project={project} /> : null}
@@ -549,6 +589,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                     </span>
                 </Link>
             </footer>
+            <CaseDesignCredit />
         </main>
     )
 }

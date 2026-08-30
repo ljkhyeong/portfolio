@@ -3,7 +3,7 @@ import { createPortal } from "react-dom"
 import { assetPath } from "../utils/assetPath"
 import "../css/ScreenshotGallery.css"
 
-const ProjectScreenshotGallery = ({ project, context = "showcase" }) => {
+const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreenshotIds }) => {
     const [activeIndex, setActiveIndex] = useState(null)
     const dialogId = useId()
     const dialogTitleId = `${dialogId}-title`
@@ -107,48 +107,52 @@ const ProjectScreenshotGallery = ({ project, context = "showcase" }) => {
                 role="group"
                 aria-label={`${project.title} 대표 화면`}
             >
-                {screenshots.map((screenshot, index) => (
-                    <figure
-                        className={`screenshot-gallery__item screenshot-gallery__item--${index + 1}`}
-                        key={screenshot.id}
-                    >
-                        <div className="screenshot-gallery__chrome" aria-hidden="true">
-                            <span />
-                            <span />
-                            <span />
-                            <code>[screen.{String(index + 1).padStart(2, "0")}]</code>
-                        </div>
-                        <button
-                            className={`screenshot-gallery__viewport screenshot-gallery__viewport--${screenshot.fit ?? "cover"}`}
-                            type="button"
-                            aria-haspopup="dialog"
-                            aria-label={`${project.title} ${screenshot.label} 화면 확대해서 보기`}
-                            onClick={(event) => openLightbox(index, event.currentTarget)}
+                {screenshots.map((screenshot, index) =>
+                    visibleScreenshotIds && !visibleScreenshotIds.includes(screenshot.id) ? null : (
+                        <figure
+                            className={`screenshot-gallery__item screenshot-gallery__item--${index + 1}`}
+                            key={screenshot.id}
                         >
-                            <img
-                                src={assetPath(screenshot.src)}
-                                width={screenshot.width}
-                                height={screenshot.height}
-                                loading={index === 0 && context === "case" ? "eager" : "lazy"}
-                                decoding="async"
-                                alt={screenshot.alt}
-                            />
-                            <span className="screenshot-gallery__zoom" aria-hidden="true">
-                                크게 보기
-                            </span>
-                        </button>
-                        <figcaption>
-                            <span>{screenshot.label}</span>
-                            <strong>{screenshot.caption}</strong>
-                        </figcaption>
-                    </figure>
-                ))}
+                            <div className="screenshot-gallery__chrome" aria-hidden="true">
+                                <span />
+                                <span />
+                                <span />
+                                <code>[screen.{String(index + 1).padStart(2, "0")}]</code>
+                            </div>
+                            <button
+                                className={`screenshot-gallery__viewport screenshot-gallery__viewport--${screenshot.fit ?? "cover"}`}
+                                type="button"
+                                aria-haspopup="dialog"
+                                aria-label={`${project.title} ${screenshot.label} 화면 확대해서 보기`}
+                                onClick={(event) => openLightbox(index, event.currentTarget)}
+                            >
+                                <img
+                                    src={assetPath(screenshot.src)}
+                                    width={screenshot.width}
+                                    height={screenshot.height}
+                                    loading={
+                                        index === 0 && context.startsWith("case") ? "eager" : "lazy"
+                                    }
+                                    decoding="async"
+                                    alt={screenshot.alt}
+                                />
+                                <span className="screenshot-gallery__zoom" aria-hidden="true">
+                                    크게 보기
+                                </span>
+                            </button>
+                            <figcaption>
+                                <span>{screenshot.label}</span>
+                                <strong>{screenshot.caption}</strong>
+                            </figcaption>
+                        </figure>
+                    ),
+                )}
             </div>
 
             {isOpen &&
                 createPortal(
                     <div
-                        className="screenshot-lightbox"
+                        className={`screenshot-lightbox${context.startsWith("case") ? " screenshot-lightbox--case" : ""}`}
                         id={dialogId}
                         role="dialog"
                         aria-modal="true"

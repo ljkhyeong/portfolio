@@ -9,27 +9,22 @@ const renderWithRouter = (component) =>
     render(<MemoryRouter initialEntries={["/"]}>{component}</MemoryRouter>)
 
 test.each(["baton", "happygallery", "hope-commit", "intent-trace", "warrant", "defense", "webrtc"])(
-    "%s 상세는 해결 대상, 핵심 설계와 확인 결과를 상단에 요약한다",
+    "%s 상세는 담당과 확인 결과를 소개하고 대표 화면 다음에 문제 해결을 보여준다",
     (projectId) => {
         renderWithRouter(<ProjectCaseStudy projectId={projectId} />)
-
-        const summary = screen.getByLabelText("프로젝트 핵심 요약")
-        expect(
-            within(summary)
-                .getAllByRole("term")
-                .map((term) => term.textContent),
-        ).toEqual(["해결 대상", "핵심 설계", "확인 결과"])
-        expect(within(summary).getAllByRole("definition")).toHaveLength(3)
 
         const hero = screen.getByRole("heading", { level: 1 }).closest("header")
         expect(within(hero).getByText(projectsById[projectId].period)).toBeVisible()
         expect(within(hero).getByText(projectsById[projectId].role)).toBeVisible()
+        expect(within(hero).getByText("확인 결과")).toBeVisible()
+        expect(screen.queryByLabelText("프로젝트 핵심 요약")).not.toBeInTheDocument()
         const problems = document.getElementById("project-problems")
         const system = document.getElementById("project-system")
         expect(within(problems).getByText("대표 사례")).toBeVisible()
         expect(
-            problems.compareDocumentPosition(system) & Node.DOCUMENT_POSITION_FOLLOWING,
+            system.compareDocumentPosition(problems) & Node.DOCUMENT_POSITION_FOLLOWING,
         ).toBeTruthy()
+        expect(screen.getByRole("main")).toHaveClass("case-showcase")
     },
 )
 

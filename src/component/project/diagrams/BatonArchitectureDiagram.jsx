@@ -58,11 +58,11 @@ const CONNECTIONS = [
         id: "go",
         path: "M380 244 H332 Q324 244 324 236 V104 Q324 96 316 96 H240",
         label: "허용 경로 / 링크 코드",
-        labelX: 390,
+        labelX: 408,
         labelY: 180,
         maskX: 332,
-        maskY: 164,
-        maskWidth: 116,
+        maskY: 160,
+        maskWidth: 152,
         maskHeight: 24,
         markerStart: "url(#baton-arrow-link)",
         markerEnd: "url(#baton-arrow-link)",
@@ -70,27 +70,27 @@ const CONNECTIONS = [
     },
     {
         id: "watch-request",
-        path: "M380 264 H240",
+        path: "M380 260 H240",
         label: "URL 버전",
         labelX: 310,
         labelY: 248,
         maskX: 272,
-        maskY: 240,
+        maskY: 228,
         maskWidth: 76,
-        maskHeight: 12,
+        maskHeight: 24,
         markerEnd: "url(#baton-arrow)",
         variant: "default",
     },
     {
         id: "watch-event",
-        path: "M240 296 H380",
+        path: "M240 304 H380",
         label: "상태 이벤트",
         labelX: 310,
-        labelY: 284,
-        maskX: 272,
-        maskY: 276,
-        maskWidth: 76,
-        maskHeight: 12,
+        labelY: 292,
+        maskX: 262,
+        maskY: 272,
+        maskWidth: 96,
+        maskHeight: 24,
         markerEnd: "url(#baton-arrow)",
         variant: "async",
     },
@@ -126,10 +126,10 @@ const CONNECTIONS = [
         label: "일정 스냅샷",
         labelX: 650,
         labelY: 264,
-        maskX: 608,
-        maskY: 256,
-        maskWidth: 84,
-        maskHeight: 12,
+        maskX: 602,
+        maskY: 244,
+        maskWidth: 96,
+        maskHeight: 24,
         markerEnd: "url(#baton-arrow)",
         variant: "async",
     },
@@ -309,14 +309,14 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                     <rect
                                         className="baton-architecture__node-tag"
                                         x={definition.x + 12}
-                                        y={definition.y + 12}
-                                        width="68"
-                                        height="16"
+                                        y={definition.y + 8}
+                                        width="84"
+                                        height="24"
                                         rx="4"
                                     />
                                     <text
                                         className="baton-architecture__node-kind"
-                                        x={definition.x + 46}
+                                        x={definition.x + 54}
                                         y={definition.y + 24}
                                         textAnchor="middle"
                                     >
@@ -325,7 +325,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                     <text
                                         className="baton-architecture__node-name"
                                         x={definition.x + 100}
-                                        y={definition.y + 52}
+                                        y={definition.y + 56}
                                         textAnchor="middle"
                                     >
                                         {service.name}
@@ -333,7 +333,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                     <text
                                         className="baton-architecture__node-role"
                                         x={definition.x + 100}
-                                        y={definition.y + 76}
+                                        y={definition.y + 80}
                                         textAnchor="middle"
                                     >
                                         {definition.shortRole}

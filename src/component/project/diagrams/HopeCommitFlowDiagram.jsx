@@ -59,37 +59,37 @@ const HopeCommitFlowDiagram = () => {
                         />
                         <path
                             className="hope-commit-flow__connector"
-                            d="M 360 144 H 200 Q 192 144 192 152 V 244"
+                            d="M 360 144 H 200 Q 192 144 192 152 V 236"
                             markerEnd="url(#hope-commit-flow-arrow)"
                         />
                         <path
                             className="hope-commit-flow__connector"
-                            d="M 480 184 V 244"
+                            d="M 480 184 V 236"
                             markerEnd="url(#hope-commit-flow-arrow)"
                         />
                         <path
                             className="hope-commit-flow__connector"
-                            d="M 600 144 H 760 Q 768 144 768 152 V 244"
+                            d="M 600 144 H 760 Q 768 144 768 152 V 236"
                             markerEnd="url(#hope-commit-flow-arrow)"
                         />
                         <path
                             className="hope-commit-flow__connector"
-                            d="M 192 308 V 332 Q 192 340 200 340 H 412 Q 420 340 420 348 V 364"
+                            d="M 192 316 V 332 Q 192 340 200 340 H 412 Q 420 340 420 348 V 356"
                             markerEnd="url(#hope-commit-flow-arrow)"
                         />
                         <path
                             className="hope-commit-flow__connector"
-                            d="M 480 308 V 364"
+                            d="M 480 316 V 356"
                             markerEnd="url(#hope-commit-flow-arrow)"
                         />
                         <path
                             className="hope-commit-flow__connector"
-                            d="M 768 308 V 332 Q 768 340 760 340 H 548 Q 540 340 540 348 V 364"
+                            d="M 768 316 V 332 Q 768 340 760 340 H 548 Q 540 340 540 348 V 356"
                             markerEnd="url(#hope-commit-flow-arrow)"
                         />
                         <path
                             className="hope-commit-flow__connector"
-                            d="M 480 428 V 452"
+                            d="M 480 436 V 452"
                             markerEnd="url(#hope-commit-flow-arrow)"
                         />
                         <path
@@ -104,31 +104,31 @@ const HopeCommitFlowDiagram = () => {
                         />
 
                         <g className="hope-commit-flow__connector-label">
-                            <rect x="264" y="116" width="48" height="12" rx="2" />
+                            <rect x="264" y="104" width="48" height="24" rx="2" />
                             <text x="288" y="124">
                                 일반
                             </text>
                         </g>
                         <g className="hope-commit-flow__connector-label">
-                            <rect x="500" y="200" width="48" height="16" rx="2" />
+                            <rect x="500" y="192" width="48" height="24" rx="2" />
                             <text x="524" y="212">
                                 최초
                             </text>
                         </g>
                         <g className="hope-commit-flow__connector-label">
-                            <rect x="648" y="116" width="48" height="12" rx="2" />
+                            <rect x="648" y="104" width="48" height="24" rx="2" />
                             <text x="672" y="124">
                                 병합
                             </text>
                         </g>
                         <g className="hope-commit-flow__connector-label">
-                            <rect x="636" y="468" width="40" height="12" rx="2" />
+                            <rect x="636" y="456" width="40" height="24" rx="2" />
                             <text x="656" y="476">
                                 통과
                             </text>
                         </g>
                         <g className="hope-commit-flow__connector-label">
-                            <rect x="500" y="548" width="40" height="16" rx="2" />
+                            <rect x="500" y="540" width="40" height="24" rx="2" />
                             <text x="520" y="560">
                                 실패
                             </text>
@@ -148,62 +148,62 @@ const HopeCommitFlowDiagram = () => {
 
                         <g className="hope-commit-flow__node hope-commit-flow__node--decision">
                             <path d="M 480 104 L 600 144 L 480 184 L 360 144 Z" />
-                            <text className="hope-commit-flow__node-title" x="480" y="140">
+                            <text className="hope-commit-flow__node-title" x="480" y="136">
                                 커밋 종류
                             </text>
-                            <text className="hope-commit-flow__node-detail" x="480" y="156">
+                            <text className="hope-commit-flow__node-detail" x="480" y="160">
                                 부모 수 확인
                             </text>
                         </g>
 
                         <g className="hope-commit-flow__node hope-commit-flow__node--action">
-                            <rect x="72" y="244" width="240" height="64" rx="6" />
-                            <text className="hope-commit-flow__node-tag" x="192" y="264">
+                            <rect x="72" y="236" width="240" height="80" rx="6" />
+                            <text className="hope-commit-flow__node-tag" x="192" y="256">
                                 일반 커밋
                             </text>
-                            <text className="hope-commit-flow__node-title" x="192" y="288">
+                            <text className="hope-commit-flow__node-title" x="192" y="280">
                                 첫 번째 부모
                             </text>
-                            <text className="hope-commit-flow__node-detail" x="192" y="300">
+                            <text className="hope-commit-flow__node-detail" x="192" y="304">
                                 비교 기준
                             </text>
                         </g>
 
                         <g className="hope-commit-flow__node hope-commit-flow__node--action">
-                            <rect x="360" y="244" width="240" height="64" rx="6" />
-                            <text className="hope-commit-flow__node-tag" x="480" y="264">
+                            <rect x="360" y="236" width="240" height="80" rx="6" />
+                            <text className="hope-commit-flow__node-tag" x="480" y="256">
                                 최초 커밋
                             </text>
-                            <text className="hope-commit-flow__node-title" x="480" y="288">
+                            <text className="hope-commit-flow__node-title" x="480" y="280">
                                 Git 빈 상태
                             </text>
-                            <text className="hope-commit-flow__node-detail" x="480" y="300">
+                            <text className="hope-commit-flow__node-detail" x="480" y="304">
                                 비교 기준
                             </text>
                         </g>
 
                         <g className="hope-commit-flow__node hope-commit-flow__node--action">
-                            <rect x="648" y="244" width="240" height="64" rx="6" />
-                            <text className="hope-commit-flow__node-tag" x="768" y="264">
+                            <rect x="648" y="236" width="240" height="80" rx="6" />
+                            <text className="hope-commit-flow__node-tag" x="768" y="256">
                                 병합 커밋
                             </text>
-                            <text className="hope-commit-flow__node-title" x="768" y="288">
+                            <text className="hope-commit-flow__node-title" x="768" y="280">
                                 사용자가 고른 부모
                             </text>
-                            <text className="hope-commit-flow__node-detail" x="768" y="300">
+                            <text className="hope-commit-flow__node-detail" x="768" y="304">
                                 비교 기준
                             </text>
                         </g>
 
                         <g className="hope-commit-flow__node hope-commit-flow__node--action">
-                            <rect x="360" y="364" width="240" height="64" rx="6" />
-                            <text className="hope-commit-flow__node-tag" x="480" y="384">
+                            <rect x="360" y="356" width="240" height="80" rx="6" />
+                            <text className="hope-commit-flow__node-tag" x="480" y="376">
                                 GIT OBJECTS
                             </text>
-                            <text className="hope-commit-flow__node-title" x="480" y="404">
+                            <text className="hope-commit-flow__node-title" x="480" y="400">
                                 변경 코드 수집
                             </text>
-                            <text className="hope-commit-flow__node-detail" x="480" y="420">
+                            <text className="hope-commit-flow__node-detail" x="480" y="424">
                                 커밋에 저장된 파일만 읽기
                             </text>
                         </g>
@@ -213,8 +213,8 @@ const HopeCommitFlowDiagram = () => {
                             <text className="hope-commit-flow__node-title" x="480" y="492">
                                 근거가 유효한가?
                             </text>
-                            <text className="hope-commit-flow__node-detail" x="480" y="508">
-                                파일·줄 및 JSON 형식 확인
+                            <text className="hope-commit-flow__node-detail" x="480" y="516">
+                                파일, 줄, JSON 검증
                             </text>
                         </g>
 
@@ -240,7 +240,7 @@ const HopeCommitFlowDiagram = () => {
                     </g>
 
                     <g className="hope-commit-flow__scope-boundary" aria-hidden="true">
-                        <rect x="48" y="648" width="864" height="24" rx="4" />
+                        <rect x="48" y="644" width="864" height="32" rx="4" />
                         <text className="hope-commit-flow__scope-title" x="64" y="664">
                             검토 범위 밖
                         </text>

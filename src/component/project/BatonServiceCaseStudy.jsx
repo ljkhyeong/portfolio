@@ -4,11 +4,12 @@ import { batonServicePresentations } from "../../data/batonServicePresentation"
 import featuredCasePresentations from "../../data/featuredProblems"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
-import CaseKeySummary from "./CaseKeySummary"
+import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 import ProblemSolutionList from "./ProblemSolutionList"
 import BatonServiceFlowDiagram from "./diagrams/BatonServiceFlowDiagram"
 import "../../css/BatonService.css"
+import "../../css/CaseShowcase.css"
 
 const problemResults = {
     "03": "동시 요청 8건에도 링크와 처리 기록 각 1건",
@@ -41,7 +42,10 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
     const siblings = project.services.filter((candidate) => !candidate.primary)
 
     return (
-        <main className={`baton-service-page baton-service-page--${serviceId}`} id="main-content">
+        <main
+            className={`baton-service-page baton-service-page--${serviceId} case-showcase`}
+            id="main-content"
+        >
             <a className="skip-link" href="#service-title">
                 본문으로 건너뛰기
             </a>
@@ -57,64 +61,28 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                         <h1 id="service-title" data-route-heading={service.route} tabIndex={-1}>
                             {service.name}
                         </h1>
+                        <div className="baton-service-hero__intro">
+                            <p>{service.summary ?? service.detail}</p>
+                        </div>
                     </div>
-                    <div className="baton-service-hero__intro">
-                        <p>{service.summary ?? service.detail}</p>
-                        <dl className="baton-service-hero__facts" aria-label="서비스 정보">
-                            <div>
-                                <dt>DB</dt>
-                                <dd>{service.database}</dd>
-                            </div>
-                            <div>
-                                <dt>공개 범위</dt>
-                                <dd>{service.visibility}</dd>
-                            </div>
-                        </dl>
-                    </div>
+                    <dl className="baton-service-hero__facts" aria-label="서비스 정보">
+                        <div>
+                            <dt>DB</dt>
+                            <dd>{service.database}</dd>
+                        </div>
+                        <div>
+                            <dt>공개 범위</dt>
+                            <dd>{service.visibility}</dd>
+                        </div>
+                    </dl>
                 </header>
 
-                <CaseKeySummary
-                    items={[
-                        { label: "해결 대상", text: presentation.target },
-                        { label: "핵심 설계", text: presentation.decision },
-                        { label: "확인 결과", text: presentation.result },
-                    ]}
-                />
-
-                <BatonServiceSwitcher services={project.services} currentServiceId={serviceId} />
-
-                <CaseSectionNavigation
-                    label="서비스 상세 섹션 바로가기"
-                    sections={[
-                        { id: "service-problems", label: "문제 해결" },
-                        { id: "service-boundary", label: "처리 흐름" },
-                        { id: "service-verification", label: "검증 상태" },
-                        { id: "service-documents", label: "문서" },
-                        { id: "service-stack", label: "사용 기술" },
-                    ]}
-                />
-
                 <section
-                    className="baton-service-problems"
-                    id="service-problems"
-                    aria-labelledby="service-problems-title"
-                >
-                    <div className="baton-service-section-heading">
-                        <h2 id="service-problems-title">문제와 해결 방법</h2>
-                    </div>
-                    <ProblemSolutionList
-                        problems={problems}
-                        featured={featuredCasePresentations[`baton-${serviceId}`]}
-                        label={`${service.name} 문제와 해결 방법 목록`}
-                    />
-                </section>
-
-                <section
-                    className="baton-service-boundary"
+                    className="baton-service-boundary case-cover"
                     id="service-boundary"
                     aria-labelledby="boundary-title"
                 >
-                    <div className="baton-service-section-heading">
+                    <div className="baton-service-section-heading case-cover__heading">
                         <h2 id="boundary-title">처리 흐름</h2>
                     </div>
                     <BatonServiceFlowDiagram serviceId={serviceId} />
@@ -146,6 +114,34 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                             </blockquote>
                         </div>
                     </details>
+                </section>
+
+                <BatonServiceSwitcher services={project.services} currentServiceId={serviceId} />
+
+                <CaseSectionNavigation
+                    label="서비스 상세 섹션 바로가기"
+                    sections={[
+                        { id: "service-boundary", label: "처리 흐름" },
+                        { id: "service-problems", label: "문제 해결" },
+                        { id: "service-verification", label: "검증 상태" },
+                        { id: "service-documents", label: "문서" },
+                        { id: "service-stack", label: "사용 기술" },
+                    ]}
+                />
+
+                <section
+                    className="baton-service-problems"
+                    id="service-problems"
+                    aria-labelledby="service-problems-title"
+                >
+                    <div className="baton-service-section-heading">
+                        <h2 id="service-problems-title">문제와 해결 방법</h2>
+                    </div>
+                    <ProblemSolutionList
+                        problems={problems}
+                        featured={featuredCasePresentations[`baton-${serviceId}`]}
+                        label={`${service.name} 문제와 해결 방법 목록`}
+                    />
                 </section>
 
                 <section
@@ -252,6 +248,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     ))}
                 </div>
             </footer>
+            <CaseDesignCredit />
         </main>
     )
 }
