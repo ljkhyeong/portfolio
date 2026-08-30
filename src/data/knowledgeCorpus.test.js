@@ -79,7 +79,7 @@ describe("공개 지식 문서 목록", () => {
                 document.documentType === "project_overview",
         )
 
-        expect(intentTraceOverview.content).toContain("원문 대화와 숨은 추론은 저장하지 않고")
+        expect(intentTraceOverview.content).toContain("원문 대화나 숨은 추론은 저장하지 않으며")
         expect(intentTraceOverview.content).toContain("공개 main은 0.7.0-SNAPSHOT")
 
         const firstProblem = corpus.documents.find(

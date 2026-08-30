@@ -73,7 +73,7 @@ test("BATON 상세에서 서비스별 테스트 조건과 결과 바로가기를
     expect(rows[1]).toHaveTextContent(
         "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
     )
-    expect(rows[4]).toHaveTextContent("BRIEF 관심 항목 투영과 불변 보고서 생성")
+    expect(rows[4]).toHaveTextContent("BRIEF 운영 신호 반영과 발행 보고서 수정 방지")
     expect(rows[5]).toHaveTextContent("CAL 일정 JSON 수신과 캘린더 구독")
     expect(rows[6]).toHaveTextContent("ROUND 참여권 검증과 브라우저 연결")
 })

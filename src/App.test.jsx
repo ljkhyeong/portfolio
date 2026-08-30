@@ -14,12 +14,12 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
     expect(heroHeading).toHaveTextContent(
-        "재요청에도 결과가 중복되지 않고, 서버가 중단돼도 작업이 이어지는 백엔드를 만듭니다.",
+        "재요청으로 인한 중복 실행을 막고, 서버 중단 후에도 작업을 이어가는 백엔드를 설계합니다.",
     )
     expect(screen.getByText("BEINTECH · 2024.06 — 현재")).toBeInTheDocument()
     expect(
         screen.getByText(
-            "공공 SI에서는 기관별 요청 변환과 제출 자료 반영을 처리하는 서버 및 배치를 개발했습니다. 개인 프로젝트에서는 결제 orderId와 환불 UUID를 재사용해 중복 실행을 막고, DB에 남은 알림 작업을 스케줄러가 다시 처리하도록 구현했습니다.",
+            "공공 SI에서는 기관 연계 서버와 배치를 개발하고, 중단된 배치를 찾아 필요한 작업만 재실행했습니다. 개인 프로젝트에서는 결제와 환불의 중복 실행을 막고, DB에 저장한 알림을 서버 중단 후 다시 처리하도록 구현했습니다.",
         ),
     ).toBeInTheDocument()
     const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
@@ -29,7 +29,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         "KICS 요청을 기관별 규격으로 변환하고 제출 자료를 KICS에 반영",
     )
     expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent("같은 링크 요청과 이벤트는 새 작업을 만들지 않고")
+    expect(heroHighlights).toHaveTextContent("같은 링크 요청과 이벤트는 기존 작업을 재사용하고")
     expect(heroHighlights).toHaveTextContent("happyGallery")
     expect(heroHighlights).toHaveTextContent("결제 orderId와 환불 UUID를 재사용")
     expect(
@@ -154,29 +154,27 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
     expect(desktop.getByText("Spring Boot / Spring MVC")).toBeInTheDocument()
     expect(desktop.getByText("Spring Batch")).toBeInTheDocument()
     expect(desktop.getByText("JPA / MyBatis")).toBeInTheDocument()
-    expect(desktop.getByText("RabbitMQ / SQS")).toBeInTheDocument()
+    expect(desktop.getByText("RabbitMQ / AWS SQS FIFO")).toBeInTheDocument()
     expect(desktop.getByRole("heading", { name: "프론트엔드" })).toBeInTheDocument()
     expect(desktop.getByText("JavaScript")).toBeInTheDocument()
     expect(desktop.getByText("TypeScript")).toBeInTheDocument()
     expect(desktop.getByText("React")).toBeInTheDocument()
     expect(desktop.getByText("WebSquare")).toBeInTheDocument()
 
-    expect(
-        desktop.getByRole("heading", { name: "결제 및 환불 재요청, 서버 중단 처리" }),
-    ).toBeInTheDocument()
-    expect(desktop.getByText("같은 결제 승인과 환불 1건 유지")).toBeInTheDocument()
-    expect(desktop.getByText("서버 중단 뒤 알림 작업 인계")).toBeInTheDocument()
+    expect(desktop.getByRole("heading", { name: "안정성 설계" })).toBeInTheDocument()
+    expect(desktop.getByText("결제 및 환불 중복 실행 방지")).toBeInTheDocument()
+    expect(desktop.getByText("서버 중단 후 알림 재처리")).toBeInTheDocument()
     expect(desktop.getByText("정원 및 재고 초과 방지")).toBeInTheDocument()
     expect(
         desktop.getByText(
             "클래스와 예약 시간, 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
         ),
     ).toBeInTheDocument()
-    expect(desktop.getByText("중단된 URL 점검 및 이벤트 전달 인계")).toBeInTheDocument()
+    expect(desktop.getByText("서버 중단 후 URL 점검 및 이벤트 전달 재개")).toBeInTheDocument()
 
     const backendHeading = desktop.getByRole("heading", { name: "백엔드" })
     const reliabilityHeading = desktop.getByRole("heading", {
-        name: "결제 및 환불 재요청, 서버 중단 처리",
+        name: "안정성 설계",
     })
     const deliveryHeading = desktop.getByRole("heading", { name: "테스트 및 운영" })
     const frontendHeading = desktop.getByRole("heading", { name: "프론트엔드" })
@@ -342,12 +340,12 @@ test("프로젝트 목록은 담당, 문제와 해결을 구체적인 문장으�
         "결제사 응답 유실, 서버 중단에 따른 알림 유실과 동시 요청의 정원 및 재고 초과",
     )
     expect(galleryFacts).toHaveTextContent("결제 orderId와 환불 UUID를 재사용")
-    expect(galleryFacts).toHaveTextContent("클래스와 예약 시간 및 재고 행을 잠가 초과 차단")
+    expect(galleryFacts).toHaveTextContent("행 잠금으로 정원과 재고 초과를 차단")
     expect(defenseFacts).toHaveTextContent(
         "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
     )
     expect(galleryFacts).toHaveTextContent(
-        "요구사항 정리, Java 25 및 Spring Boot 백엔드, React SSR/CSR 화면, 자동화 테스트, AWS 운영과 k3s 재배포 준비",
+        "요구사항 정리, Java 및 Spring Boot API, React 화면, 자동화 테스트, AWS 운영과 k3s 배포 준비",
     )
 })
 

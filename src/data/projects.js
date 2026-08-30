@@ -4,7 +4,7 @@ const projects = [
     {
         ...projectSummariesById.baton,
         evidenceTitle: "검증 범위 및 현재 상태",
-        systemTitle: "대표 화면 및 마이크로서비스 구성",
+        systemTitle: "대표 화면과 서비스 구성",
         systemNavLabel: "화면 및 서비스",
         screenshots: [
             {
@@ -39,11 +39,11 @@ const projects = [
         ],
         architecture: {
             label: "서비스 구성과 담당 업무",
-            title: "Core와 6개 서비스를 기능과 저장소 기준으로 분리했습니다.",
+            title: "조직과 인수인계는 Core에 두고, 6개 기능은 독립 서비스와 저장소로 분리했습니다.",
             description:
-                "Core는 조직과 인수인계를 관리합니다. 6개 서비스는 링크, 점검, 이벤트, 보고서, 캘린더와 WebRTC를 담당하며 DB를 공유하지 않습니다.",
+                "GO, WATCH, RELAY, BRIEF, CAL과 ROUND는 독립 실행하며 저장소를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.",
             tradeoff:
-                "한 서비스의 중단이나 배포가 다른 서비스에 미치는 영향은 줄였지만, 7개 서비스를 따로 운영하고 전달되지 않은 이벤트를 다시 보내는 경로를 관리해야 합니다.",
+                "장애와 배포 영향은 줄었지만, 서비스별 배포와 미전송 이벤트 재처리를 함께 운영해야 합니다.",
         },
         featuredProblemNumbers: ["02", "03", "05", "07"],
         documentGroups: [
@@ -113,9 +113,9 @@ const projects = [
             {
                 serviceId: "brief",
                 type: "PRD / ADR 요약",
-                label: "BRIEF 관심 항목 투영과 불변 보고서 에디션",
+                label: "BRIEF 운영 신호 반영과 발행 보고서 수정 방지",
                 href: "/docs/baton/brief-event-projection.md",
-                note: "Core의 5개 운영 신호를 ACTIVE 또는 RESOLVED로 투영하고 발행한 보고서 에디션은 수정하지 않는 방식",
+                note: "Core의 5개 운영 신호를 ACTIVE 또는 RESOLVED로 반영하고, 발행한 주간 보고서는 수정하지 않는 방식",
             },
             {
                 serviceId: "cal",
@@ -252,9 +252,9 @@ const projects = [
                 name: "RELAY",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/relay",
-                role: "BATON 이벤트를 Webhook 및 SQS FIFO 대상으로 전달",
+                role: "BATON 이벤트를 Webhook 및 AWS SQS FIFO 대상으로 전달",
                 summary:
-                    "Core 이벤트를 Webhook 또는 SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
+                    "Core 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
                 contribution:
                     "이벤트 ID를 저장해 재수신 시 새 전송 작업을 만들지 않습니다. 중단 뒤에도 같은 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 인계합니다.",
                 stack: [
@@ -274,12 +274,12 @@ const projects = [
                     "이벤트 재수신에도 전달 작업이 늘지 않고, 서버 중단 뒤 같은 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 다른 서버로 넘기는지 검증",
                 input: "이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각",
                 inputRule: "수신 값이 정해 둔 이벤트 형식과 데이터 형식 버전에 맞는지 확인합니다.",
-                output: "Webhook 또는 SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태",
+                output: "Webhook 또는 AWS SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태",
                 recoveryBoundary:
                     "전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.",
                 database: "PostgreSQL",
                 visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "Webhook, SQS FIFO 전송과 RabbitMQ 수신 및 제한 재시도를 구현했습니다. 최신 구현과 ADR 20건은 비공개 작업 브랜치 3c504a6 기준이며, 실제 AWS 전송과 큐 적체 및 실패 알림은 미검증입니다.",
+                status: "Webhook, AWS SQS FIFO 전송과 RabbitMQ 수신 및 제한 재시도를 구현했습니다. 최신 구현과 ADR 20건은 비공개 작업 브랜치 3c504a6 기준이며, 실제 AWS 전송과 큐 적체 및 실패 알림은 미검증입니다.",
                 tradeoff:
                     "결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
                 documentation: [
@@ -292,11 +292,10 @@ const projects = [
                 name: "BRIEF",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/brief",
-                role: "운영 점검 및 주간 보고서",
-                summary:
-                    "Core가 판정한 5개 운영 신호를 받아 현재 관심 항목과 주간 보고서로 투영합니다.",
+                role: "Core 운영 신호 반영 및 주간 보고서",
+                summary: "Core가 판정한 5개 운영 신호를 현재 관심 항목과 주간 보고서에 반영합니다.",
                 contribution:
-                    "Core가 보낸 신호를 그대로 ACTIVE 또는 RESOLVED 관심 항목에 반영했습니다. 같은 이벤트와 과거 개정을 차단하고, 한 번 발행한 보고서 에디션은 수정하지 않습니다.",
+                    "Core가 보낸 상태를 그대로 ACTIVE 또는 RESOLVED 관심 항목에 저장했습니다. 같은 이벤트와 과거 개정을 차단하고, 한 번 발행한 주간 보고서는 수정하지 않습니다.",
                 stack: [
                     "Kotlin 2.3",
                     "Java 21",
@@ -307,24 +306,24 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "5개 Core 운영 신호의 ACTIVE 및 RESOLVED 투영, 저장 이벤트 전체로 목록 재생성, 발행 후 수정하지 않는 보고서 에디션",
+                detail: "5개 Core 운영 신호의 ACTIVE 및 RESOLVED 반영, 저장 이벤트 기반 목록 재생성, 발행한 주간 보고서 수정 차단",
                 evidence:
-                    "중복 및 과거 이벤트 차단, ACTIVE 및 RESOLVED 투영과 불변 보고서를 PostgreSQL 통합 테스트로 확인했습니다. 2.0.0-rc.1 실제 Core 실행 JAR은 로컬 HTTP로 연동했습니다.",
+                    "중복 및 과거 이벤트 차단, ACTIVE 및 RESOLVED 반영과 발행 보고서 수정 방지를 PostgreSQL 통합 테스트로 확인했습니다. 2.0.0-rc.1 실제 Core 실행 JAR은 로컬 HTTP로 연동했습니다.",
                 input: "Core가 판정한 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연 및 미완료 인수인계 신호",
                 inputRule:
                     "이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.",
-                output: "ACTIVE 및 RESOLVED 관심 항목, 수신 이벤트 이력과 발행 후 수정하지 않는 주간 보고서 에디션",
+                output: "ACTIVE 및 RESOLVED 관심 항목, 수신 이벤트 이력과 발행 후 수정하지 않는 주간 보고서",
                 recoveryBoundary:
                     "같은 이벤트와 과거 개정은 반영하지 않고 저장한 이벤트 전체를 읽어 같은 관심 항목을 다시 생성",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 구현은 공개 main",
-                status: "2.0.0-rc.1 실제 Core JAR과 로컬 HTTP로 연동했습니다. 내부 service Caddy HTTPS도 실제 Core와 확인했습니다. 공개 2.0.0-rc.2 event Caddy, 공인 DNS 및 원격 배포는 미검증입니다.",
+                status: "2.0.0-rc.1 실제 Core JAR과 로컬 HTTP로 연동했습니다. 내부 서비스용 Caddy HTTPS도 실제 Core와 확인했습니다. 공개 2.0.0-rc.2 이벤트 경로용 Caddy, 공인 DNS 및 원격 배포는 미검증입니다.",
                 tradeoff:
-                    "v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 투영 및 에디션 비교 규칙을 함께 변경해야 합니다.",
+                    "v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 반영 및 보고서 비교 규칙을 함께 변경해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-brief/tree/a2c5fb9bf04dbd7d805b613713c0d1b88e8deb13",
                     label: "BRIEF 공개 main 고정 커밋",
-                    note: "Core 연동, 관심 항목 투영과 주간 에디션 구현이 공개 main에 반영돼 있습니다.",
+                    note: "Core 연동, 관심 항목 반영과 주간 보고서 구현이 공개 main에 반영돼 있습니다.",
                 },
                 documentation: [
                     { label: "PRD", count: "25" },
@@ -363,7 +362,7 @@ const projects = [
                     "중복 및 과거 개정 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 안정 계약 1.0.0 / 미게시 후보 1.1.0-rc.1",
-                status: "Core의 stable 1.0.0 일정 JSON과 CAL 컨테이너의 호환성을 확인했습니다. 공개 main의 1.1.0-rc.1 후보는 입력 제한, HTTP 캐시, 동시성과 대표 OCI 복구에서 이전 작업의 늦은 결과 차단을 로컬로 검증했지만 아직 릴리스하지 않았습니다. 공개 구독과 전체 시즌 재동기화는 미검증입니다.",
+                status: "Core 1.0.0 일정 JSON과 CAL 컨테이너의 호환성을 확인했습니다. 공개 main의 미출시 1.1.0-rc.1은 입력 제한, HTTP 캐시, 동시 요청, 대표 OCI 백업 및 복구와 이전 복구 작업의 늦은 결과 차단을 로컬에서 검증했습니다. 공개 구독과 전체 시즌 재동기화는 미검증입니다.",
                 tradeoff:
                     "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
                 repository: {
@@ -394,13 +393,13 @@ const projects = [
                     "WebRTC / RTCDataChannel",
                     "Java 21",
                     "Spring Boot 4.1",
-                    "Raw WebSocket",
+                    "Spring WebSocket",
                     "Cloudflare TURN / Caddy",
                     "Playwright",
                 ],
                 detail: "최대 6명 mesh WebRTC, 이전 연결 메시지 차단, RS256 참여권과 TURN 접속 정보",
                 evidence:
-                    "Chromium 전체 미디어와 BATON edge 통과. WebKit 채팅 및 모바일 배치 2건과 restic 실행 파일 확인 실패로 전체 CI 실패",
+                    "Chromium 전체 미디어와 Core 연동 시나리오 통과. WebKit 채팅과 모바일 배치 시나리오 2건, restic 실행 파일 부재로 전체 CI 실패",
                 input: "Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 짧은 RS256 참여권",
                 inputRule:
                     "참여권의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.",
@@ -409,7 +408,7 @@ const projects = [
                     "연결을 새로 만들 때마다 순번을 올리고 이전 연결에서 늦게 온 메시지는 버립니다. 같은 참가자가 새 참여권으로 접속하면 이전 WebSocket 세션을 종료합니다.",
                 database: "DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장",
                 visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "비공개 main의 일반 검사, Chromium 전체 미디어와 BATON edge는 통과했습니다. 현재 전체 CI는 WebKit 채팅 및 모바일 배치 2건과 restic 실행 파일 확인이 실패했습니다. 실제 Cloudflare relay-only, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.",
+                status: "일반 검사, Chromium 전체 미디어와 Core 연동 시나리오는 통과했습니다. 전체 CI는 WebKit 채팅과 모바일 배치 시나리오 2건, restic 실행 파일 부재로 통과하지 못했습니다. 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.",
                 tradeoff:
                     "참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
                 documentation: [
@@ -450,11 +449,11 @@ const projects = [
                 scope: "RELAY 비공개 저장소 origin/main b87eb49 · RabbitMQ 4.3.4 및 PostgreSQL 일회성 Compose 시나리오 · 2026.08.08 CI 성공",
             },
             {
-                item: "BRIEF 관심 항목 투영과 불변 보고서 생성",
+                item: "BRIEF 운영 신호 반영과 발행 보고서 수정 방지",
                 method: "PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동",
                 rule: "Core의 5개 운영 신호를 ACTIVE 및 RESOLVED로 전환하고, 같은 이벤트와 과거 개정 및 같은 조건의 보고서 동시 생성 요청을 실행",
-                result: "신호를 다시 판정하지 않고 현재 관심 항목으로 투영했으며, 저장 이벤트로 같은 목록을 재생성하고 동일 보고서 에디션을 1건만 저장했습니다.",
-                scope: "2.0.0-rc.1 실제 Core와 로컬 HTTP 연동 및 내부 service Caddy HTTPS 확인 · 공개 2.0.0-rc.2 event Caddy, 공인 DNS와 원격 배포는 미검증 · 2026.08.30",
+                result: "신호를 다시 판정하지 않고 현재 관심 항목에 반영했으며, 저장 이벤트로 같은 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.",
+                scope: "2.0.0-rc.1 실제 Core와 로컬 HTTP 연동 및 내부 서비스용 Caddy HTTPS 확인 · 공개 2.0.0-rc.2 이벤트 경로용 Caddy, 공인 DNS와 원격 배포는 미검증 · 2026.08.30",
             },
             {
                 item: "CAL 일정 JSON 수신과 캘린더 구독",
@@ -465,19 +464,19 @@ const projects = [
             },
             {
                 item: "ROUND 참여권 검증과 브라우저 연결",
-                method: "비공개 main GitHub Actions의 Chromium, WebKit, BATON edge 및 배포 파일 검증",
+                method: "비공개 main GitHub Actions의 Chromium, WebKit, Core 연동 및 배포 파일 검증",
                 rule: "RS256 참여권으로 최대 6명 mesh 연결, 전체 미디어와 재연결 및 WebKit 장치 동의, 채팅과 모바일 배치 시나리오를 실행",
-                result: "일반 검사, Chromium 전체 미디어와 BATON edge는 통과했습니다. WebKit은 장치 동의 1건만 통과하고 채팅 및 모바일 배치 2건이 실패했으며, 배포 검증은 restic 실행 파일이 없어 실패했습니다.",
-                scope: "비공개 main 2a43f38 및 GitHub Actions run 33262368167 기준 전체 CI 실패 · 실제 Cloudflare relay-only, Safari 실기기, 외부망과 6명 장시간 접속은 미검증 · 2026.08.30",
+                result: "일반 검사, Chromium 전체 미디어와 Core 연동은 통과했습니다. WebKit은 장치 동의 1건만 통과하고 채팅과 모바일 배치 시나리오 2건이 실패했으며, 배포 검증은 restic 실행 파일 부재로 실패했습니다.",
+                scope: "비공개 main 2a43f38 및 GitHub Actions run 33262368167 기준 전체 CI 실패 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증 · 2026.08.30",
             },
         ],
         category: "개인 프로젝트",
-        role: "Core와 6개 서비스의 API, 자체 저장소, 이벤트 저장 및 전달, 중단된 URL 점검과 전달 작업 인계, 배포 설계 및 구현",
+        role: "Core와 6개 서비스의 API, 개별 저장소, 이벤트 전달 및 중단 작업 재처리 흐름 설계와 구현",
         oneLine:
-            "Core는 조직과 인수인계를 관리하고, 6개 서비스는 링크, URL 점검, 이벤트, 보고서, 캘린더와 WebRTC를 담당합니다.",
+            "인수인계 업무를 중심으로 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 구독과 WebRTC를 독립 서비스로 구현했습니다.",
         status: {
             label: "현재 상태",
-            text: "Core와 6개 서비스의 주요 기능을 구현했습니다. Core-CAL, Core-ROUND와 Core-BRIEF 내부 HTTPS는 로컬에서 확인했습니다. Core-GO 및 Core-RELAY 런타임 연결, WATCH 공개 callback, BRIEF 공개 2.0.0-rc.2 event Caddy, 공인 DNS와 TLS 및 원격 장기 운영은 미검증입니다.",
+            text: "Core와 6개 서비스의 주요 기능을 구현했습니다. Core와 CAL, ROUND, BRIEF의 내부 HTTPS 연동은 로컬에서 확인했습니다. Core와 GO 및 RELAY의 런타임 연결, WATCH 공개 콜백, BRIEF 공개 2.0.0-rc.2 이벤트 경로용 Caddy, 공인 DNS와 TLS 및 원격 장기 운영은 미검증입니다.",
         },
         visualCaption:
             "Core만 조직 데이터를 저장하며 각 서비스는 자체 저장소를 사용합니다. ROUND 방 상태는 메모리에 둡니다.",
@@ -491,7 +490,7 @@ const projects = [
                 decision:
                     "Core는 조직 운영을 맡고 6개 서비스를 저장소와 실행 환경별로 분리했습니다. 상태 변경 이벤트는 업무 데이터와 함께 저장한 뒤 전송합니다.",
                 validation:
-                    "GO는 같은 UUID의 링크 1건, WATCH는 사설망 URL 차단, RELAY는 같은 이벤트 ID의 수신 이력 1건, BRIEF는 ACTIVE 및 RESOLVED 투영, CAL은 과거 개정 미반영을 확인했습니다. ROUND의 현재 CI는 일부 WebKit 시나리오가 실패합니다.",
+                    "GO는 같은 UUID의 링크 1건, WATCH는 사설망 URL 차단, RELAY는 같은 이벤트 ID의 수신 이력 1건, BRIEF는 ACTIVE 및 RESOLVED 반영, CAL은 과거 개정 미반영을 확인했습니다. ROUND의 현재 CI는 일부 WebKit 시나리오가 실패합니다.",
                 boundary:
                     "서비스별 구현과 일부 Core 교차 검증만 완료했으며, 실제 자격 증명을 쓴 Core와 6개 서비스의 공개 환경 종단 간 연결은 확인하지 않았습니다.",
             },
@@ -588,27 +587,28 @@ const projects = [
             {
                 number: "09",
                 serviceIds: ["brief"],
-                title: "Core 운영 신호를 그대로 관심 항목에 투영",
+                title: "Core 운영 신호를 그대로 관심 항목에 반영",
                 constraint:
                     "BRIEF가 Core의 판정 규칙을 다시 구현하면 두 서비스가 같은 조직 상태를 다르게 판단할 수 있습니다.",
                 decision:
-                    "Core가 판정한 5개 신호를 그대로 ACTIVE 또는 RESOLVED 관심 항목으로 투영했습니다. 이벤트 ID, 해시와 개정 번호로 중복 및 과거 이벤트도 차단했습니다.",
+                    "Core가 판정한 5개 신호를 그대로 ACTIVE 또는 RESOLVED 관심 항목에 반영했습니다. 이벤트 ID, 해시와 개정 번호로 중복 및 과거 이벤트도 차단했습니다.",
                 validation:
-                    "2.0.0-rc.1 실제 Core와 로컬 HTTP로 연동하고 내부 service Caddy HTTPS까지 확인했습니다.",
-                boundary: "공개 2.0.0-rc.2 event Caddy, 공인 DNS와 원격 배포는 미검증입니다.",
+                    "2.0.0-rc.1 실제 Core와 로컬 HTTP로 연동하고 내부 서비스용 Caddy HTTPS까지 확인했습니다.",
+                boundary:
+                    "공개 2.0.0-rc.2 이벤트 경로용 Caddy, 공인 DNS와 원격 배포는 미검증입니다.",
             },
             {
                 number: "10",
                 serviceIds: ["brief"],
-                title: "발행한 주간 보고서 에디션은 수정하지 않음",
+                title: "발행한 주간 보고서는 수정하지 않음",
                 constraint:
                     "DB에 저장한 이벤트로 운영 점검 목록을 다시 만들 때 항목 순서나 결과가 달라지면 이전 주간 보고서를 신뢰하기 어렵습니다.",
                 decision:
-                    "수신 이벤트 전체로 목록을 다시 만들고 주간, 마지막 이벤트 순번과 항목이 같으면 기존 에디션을 반환했습니다. 변경이 있으면 새 에디션을 만들고 이전 에디션은 수정하지 않았습니다.",
+                    "수신 이벤트 전체로 목록을 다시 만들고 주간, 마지막 이벤트 순번과 항목이 같으면 기존 보고서를 반환했습니다. 변경이 있으면 새 보고서를 만들고 이전 보고서는 수정하지 않았습니다.",
                 validation:
                     "재생성 전후 목록이 같고 동시 요청에도 보고서 1건만 저장되는지 확인했습니다.",
                 boundary:
-                    "v1과 v2 이벤트를 함께 지원하므로 신호가 늘면 Core JSON과 BRIEF 투영 규칙을 함께 바꿔야 합니다.",
+                    "v1과 v2 이벤트를 함께 지원하므로 신호가 늘면 Core JSON과 BRIEF 반영 규칙을 함께 바꿔야 합니다.",
             },
             {
                 number: "11",
@@ -660,23 +660,24 @@ const projects = [
                 validation:
                     "잘못된 참여권 차단, 공개 키 교체와 같은 참가자의 이전 세션 종료를 확인했습니다.",
                 boundary:
-                    "권한 회수는 참여권 만료까지 늦어질 수 있습니다. 실제 Cloudflare relay-only, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.",
+                    "권한 회수는 참여권 만료까지 늦어질 수 있습니다. 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.",
             },
         ],
         stack: [
             "Java 21 / 25",
-            "Kotlin",
+            "Kotlin 2.3",
+            "TypeScript",
             "Spring Boot",
-            "Spring MVC / JdbcClient",
-            "Gradle",
-            "MySQL",
-            "PostgreSQL",
+            "Spring MVC",
+            "Spring Data JPA / Spring JDBC",
+            "React 19 / Vite",
+            "MySQL 8.4 / PostgreSQL 18",
             "Flyway",
-            "RabbitMQ / SQS",
-            "iCal4j",
-            "WebRTC / Raw WebSocket",
-            "Testcontainers",
-            "Docker",
+            "RabbitMQ 4.3 / AWS SQS FIFO",
+            "iCal4j 4.3",
+            "WebRTC / Spring WebSocket",
+            "Testcontainers / Playwright",
+            "Docker / Kubernetes / Caddy",
         ],
         links: [
             {
@@ -883,9 +884,9 @@ const projects = [
             },
         ],
         category: "개인 프로젝트",
-        role: "요구사항 정리, Java 25 및 Spring Boot 백엔드, React SSR/CSR 화면, 결제 및 외부 채널 연동, 자동화 테스트, AWS 운영과 k3s 재배포 준비",
+        role: "요구사항 정리, Java 및 Spring Boot API, React 화면, 결제 및 외부 채널 연동, 자동화 테스트, AWS 운영과 k3s 배포 준비",
         oneLine:
-            "결제와 알림 재처리, 예약 및 재고 동시성 제어에 이어 스마트스토어 주문과 정산, Toss 대사, 빈자리 알림과 다인 예약 부분취소를 구현했습니다.",
+            "결제 및 알림 재처리, 예약 및 재고 동시성 제어, 스마트스토어 주문과 정산을 포함한 공방 운영 기능을 구현했습니다.",
         status: {
             label: "운영 상태",
             text: "AWS 주요 리소스는 2026년 5월 3일 종료했습니다. 최신 기능은 원격 작업 브랜치 ba3ec0a2에 있으며 공개 main에는 아직 반영하지 않았습니다. k3s 구성은 준비했지만 실제 노트북 운영은 시작하지 않았습니다.",
@@ -1065,17 +1066,18 @@ const projects = [
             "Java 25",
             "Spring Boot 4.1",
             "Gradle",
-            "JPA",
-            "MyBatis",
-            "MySQL",
-            "Redis",
+            "Spring MVC",
+            "Spring Data JPA",
+            "MyBatis 4.1",
+            "MySQL 8.4",
+            "Redis 7.4",
             "React 19",
-            "React Router 8 Framework Mode",
+            "React Router 8",
             "TypeScript",
             "Testcontainers",
             "Playwright",
             "Spring REST Docs",
-            "Google / Naver / Kakao OAuth",
+            "Spring Security / OAuth2",
         ],
         links: [
             {
@@ -1245,12 +1247,11 @@ const projects = [
         stack: [
             "JavaScript",
             "Node.js 22 이상",
-            "Git 객체 조회",
+            "Git CLI",
             "JSON Schema",
             "HTML / CSS",
             "Node Test Runner",
-            "Codex Plugin",
-            "Claude Code Plugin",
+            "Playwright",
         ],
         links: [
             {
@@ -1279,7 +1280,7 @@ const projects = [
         systemNavLabel: "기록 흐름",
         architecture: {
             label: "공개 기준",
-            title: "전체 길이 커밋 ID와 코드 위치를 기록하고, 작성자 확인 뒤 코드가 바뀌면 공개하지 않습니다.",
+            title: "요청과 판단 출처를 전체 길이 커밋 ID 및 코드 위치에 묶고, 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
             description:
                 "사용자 요청, 판단 출처, 전체 길이 커밋 ID, 저장소 스냅샷과 파일 및 줄의 내용 해시를 한 기록에 저장합니다. 검증은 실행한 명령과 종료 코드, 실행 시간, 출력 해시 및 요약으로 남깁니다.",
             tradeoff:
@@ -1409,7 +1410,7 @@ const projects = [
             },
         ],
         category: "오픈소스 및 개발 도구",
-        role: "Kotlin 및 Spring 서버, GitHub OAuth 및 App, Check Run, Codex MCP 연동과 IntelliJ 플러그인 구현",
+        role: "Kotlin 및 Spring 서버, GitHub OAuth, GitHub App 및 Check Run, Codex MCP 연동, IntelliJ 플러그인 구현",
         oneLine:
             "사용자 요청과 판단 출처를 전체 길이 커밋 ID, 코드 위치와 실제 검증에 연결하고 작성자 확인 뒤 코드가 바뀌지 않은 기록만 팀에 공개합니다.",
         status: {
@@ -1482,12 +1483,13 @@ const projects = [
         ],
         stack: [
             "Kotlin 2.3.21",
-            "Java 21",
+            "JDK 21",
             "Spring Boot 4.1.1",
-            "Spring AI 2.0.1",
-            "Spring Data JDBC / Flyway",
+            "Spring AI MCP 2.0.1",
+            "Spring MVC",
+            "Spring Data JDBC",
+            "Flyway",
             "PostgreSQL 17 / H2",
-            "GitHub OAuth / App / Check Run",
             "Docker Compose / Caddy",
             "IntelliJ Platform 2025.3.2",
         ],
@@ -1545,7 +1547,7 @@ const projects = [
             label: "공개 범위",
             text: "BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조와 역할만 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.",
         },
-        systemTitle: "독립망 간 업무 흐름 및 시스템 구성",
+        systemTitle: "KICS와 기관 간 요청 및 자료 연계 흐름",
         systemNavLabel: "업무 흐름",
         visualCaption: "KICS 요청과 기관 제출 자료가 독립망 사이를 오가는 흐름입니다.",
         architecture: {
@@ -1606,7 +1608,14 @@ const projects = [
                     "ReentrantLock은 한 서버 프로세스 안에서만 유효합니다. 서버를 여러 대로 확장하면 DB 잠금이나 분산 잠금 등 별도의 조정 수단이 필요합니다.",
             },
         ],
-        stack: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle DB", "WebSquare", "Maven"],
+        stack: [
+            "Java 11",
+            "Spring Boot 2.6",
+            "Spring Batch",
+            "Oracle Database",
+            "WebSquare",
+            "Maven",
+        ],
         links: [],
         linkNote:
             "보안 및 기밀 유지 기준에 따라 소스 코드, 운영 화면과 내부 설계 문서는 공개하지 않습니다.",
@@ -1640,7 +1649,7 @@ const projects = [
             },
         ],
         category: "BEINTECH / 국방부 SI",
-        role: "군교정 업무 화면과 기관별 수용자 정보 반영 배치 개발, Jenkins 실행 이력과 JEUS 로그 및 Tibero 상태를 이용한 중단 배치 확인 및 재실행",
+        role: "군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 중단 배치 재실행",
         oneLine:
             "군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 차단과 대용량 파일 직접 업로드를 구현했습니다.",
         status: {
@@ -1733,7 +1742,7 @@ const projects = [
             },
         ],
         category: "교육 프로젝트",
-        role: "mediasoup RTP 출력의 HLS 변환 서버와 WebRTC 실시간 및 HLS 다시보기 React 화면 구현",
+        role: "mediasoup RTP-HLS 변환 서버와 WebRTC 및 HLS React 재생 화면 구현",
         oneLine:
             "현재 강의는 mediasoup와 WebRTC로 실시간 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환해 지난 구간 다시보기에 사용했습니다.",
         status: {

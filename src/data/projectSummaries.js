@@ -12,7 +12,7 @@ export const projectSummaries = [
         homeFacts: [
             {
                 label: "담당",
-                value: "Core와 6개 마이크로서비스의 API, 저장소, 서비스 간 계약, 테스트 및 배포 설계",
+                value: "Core와 6개 서비스의 API, 개별 저장소, 이벤트 전달 및 중단 작업 재처리 흐름 설계와 구현",
             },
             {
                 label: "문제",
@@ -25,7 +25,7 @@ export const projectSummaries = [
         ],
         period: "2026.07.20 — 진행 중",
         route: "/projects/baton",
-        tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "WebRTC / Messaging"],
+        tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / AWS SQS FIFO"],
         visual: "baton",
         stage: "개발 중",
         visibility: "일부 저장소 공개",
@@ -47,7 +47,7 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 해양경찰 사건수사시스템, 통신사 및 집행포털 연계",
         summary:
-            "KICS의 자료 요청을 기관별 규격으로 변환해 전달하고, 제출 자료를 KICS에 반영하는 공공 시스템입니다. 해당 서버와 Spring Batch를 개발합니다.",
+            "KICS 요청을 기관별 규격으로 변환해 전달하고, 기관이 제출한 자료를 KICS에 반영하는 공공 시스템입니다. 연계 서버와 Spring Batch를 개발합니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -64,7 +64,7 @@ export const projectSummaries = [
         ],
         period: "2026.03.24 — 진행 중",
         route: "/projects/e-warrant",
-        tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle DB", "WebSquare"],
+        tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
         visual: "warrant",
         stage: "진행 중",
         visibility: "담당 범위만 공개",
@@ -78,11 +78,11 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         summary:
-            "공방 상품 주문과 클래스 예약을 관리하는 서비스입니다. 결제와 알림 재처리, 예약 및 재고 동시성 제어에 이어 스마트스토어 주문, Toss 결제 대사, 빈자리 알림과 다인 예약 부분취소까지 구현했습니다.",
+            "공방 상품 주문과 클래스 예약 서비스입니다. 결제 및 환불 중복 실행 방지, 알림 재처리, 예약 및 재고 동시성 제어, 스마트스토어 주문과 Toss 결제 대사를 구현했습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "요구사항 정리, Java 25 및 Spring Boot 백엔드, React SSR/CSR 화면, 자동화 테스트, AWS 운영과 k3s 재배포 준비",
+                value: "요구사항 정리, Java 및 Spring Boot API, React 화면, 자동화 테스트, AWS 운영과 k3s 배포 준비",
             },
             {
                 label: "문제",
@@ -90,12 +90,12 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "결제 orderId와 환불 UUID를 재사용하고 DB 알림 작업을 다시 처리하며, 클래스와 예약 시간 및 재고 행을 잠가 초과 차단",
+                value: "결제 orderId와 환불 UUID를 재사용해 중복 실행을 막고, DB 알림을 재처리하며 행 잠금으로 정원과 재고 초과를 차단",
             },
         ],
         period: "2026.02.21 — 진행 중",
         route: "/projects/happygallery",
-        tags: ["Java 25", "Spring Boot 4.1", "React 19 / SSR", "MySQL / Redis"],
+        tags: ["Java 25", "Spring Boot 4.1", "React 19", "MySQL / Redis"],
         visual: "gallery",
         stage: "개발 중",
         visibility: "공개 저장소",
@@ -109,7 +109,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 3.0.3 비공식 포크 / 로컬 커밋 HTML 리뷰",
         summary:
-            "SeungIl 님의 Hope 3.0.3에서 파생한 비공식 포크입니다. 입력한 커밋과 확정한 비교 기준 사이의 변경만 검토하고, 실제 변경 줄이 근거인 결과만 HTML로 저장합니다.",
+            "SeungIl 님의 Hope 3.0.3을 포크해 만든 비공식 도구입니다. 지정한 커밋 범위만 검토하고, 각 설명이 실제 변경 줄을 가리키는 HTML 리뷰를 생성합니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -126,7 +126,7 @@ export const projectSummaries = [
         ],
         period: "2026.08.22 — 진행 중",
         route: "/projects/hope-commit",
-        tags: ["JavaScript", "Node.js 22", "Git 객체 조회", "JSON Schema"],
+        tags: ["JavaScript", "Node.js 22", "Git CLI", "Playwright"],
         visual: "hope-commit",
         stage: "개발 중",
         visibility: "공개 저장소",
@@ -140,15 +140,15 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 의도 및 검증 기록",
         summary:
-            "AI가 만든 코드에 사용자 요청, 판단 근거, 코드 위치와 실제 검증 결과를 연결해 남기는 개발 도구입니다. 원문 대화와 숨은 추론은 저장하지 않고, 작성자가 확인한 뒤 코드가 바뀌지 않은 기록만 팀에 공개합니다.",
+            "AI 코드 변경의 요청, 판단 출처, 코드 위치와 검증 결과를 함께 남기는 도구입니다. 원문 대화나 숨은 추론은 저장하지 않으며, 작성자가 확인한 뒤 코드가 바뀌지 않은 기록만 공개합니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "Kotlin 및 Spring 서버, GitHub 인증과 Check Run, Codex 연동 및 IntelliJ 플러그인 구현",
+                value: "Kotlin 및 Spring 서버, GitHub 인증과 Check Run, Codex 연동, IntelliJ 플러그인 구현",
             },
             {
                 label: "문제",
-                value: "AI가 바꾼 코드의 요청과 판단 근거가 커밋 및 실제 검증 결과와 분리됨",
+                value: "AI가 코드를 바꾼 이유와 검증 결과를 커밋만 보고 확인하기 어려움",
             },
             {
                 label: "해결",
@@ -158,9 +158,9 @@ export const projectSummaries = [
         period: "2026.08.27 — 진행 중",
         route: "/projects/intent-trace",
         tags: [
-            "Kotlin / Java 21",
+            "Kotlin / JDK 21",
             "Spring Boot / Spring AI",
-            "GitHub App / Check Run",
+            "PostgreSQL / H2",
             "IntelliJ Platform",
         ],
         visual: "intent-trace",

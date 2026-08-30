@@ -3,7 +3,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "KICS 요청을 기관별 규격으로 변환하고 제출 자료를 KICS에 반영하며, 결제 orderId와 환불 UUID를 재사용하고 DB 알림 작업을 다시 처리한 백엔드 개발자 임정규의 포트폴리오",
+        "공공기관 연계 서버와 배치를 개발하고, 중복 실행 방지와 서버 중단 후 재처리를 구현한 백엔드 개발자 임정규의 포트폴리오",
     image: "/og-cover.png",
 }
 
@@ -36,7 +36,7 @@ export const routeMeta = {
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "Core가 판정한 5개 운영 신호를 ACTIVE 또는 RESOLVED 관심 항목으로 투영하고 불변 주간 에디션을 만드는 BRIEF 마이크로서비스",
+            "Core가 판정한 5개 운영 신호를 ACTIVE 또는 RESOLVED 관심 항목에 반영하고, 발행한 주간 보고서의 수정을 막는 BRIEF 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
@@ -48,7 +48,7 @@ export const routeMeta = {
     "/projects/baton/round": {
         title: "BATON ROUND | 임정규 포트폴리오",
         description:
-            "RS256 Core 참여권을 검증해 최대 6명의 mesh WebRTC 연결 메시지를 전달하고 Cloudflare TURN 접속 정보를 제공하는 ROUND 마이크로서비스",
+            "RS256 Core 참여권을 검증해 최대 6명의 참가자 간 WebRTC 연결 메시지를 전달하고 Cloudflare TURN 접속 정보를 제공하는 ROUND 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {
@@ -60,19 +60,19 @@ export const routeMeta = {
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "결제 및 알림 재처리, 예약과 재고 동시성 제어 및 스마트스토어 주문과 정산, Toss 대사와 빈자리 알림을 구현한 서비스",
+            "결제 및 환불 중복 실행 방지, 알림 재처리, 예약 및 재고 동시성 제어, 스마트스토어 주문과 Toss 결제 대사를 구현한 서비스",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님의 Hope 3.0.3에서 파생한 비공식 포크로, 입력한 커밋과 비교 기준 사이의 변경만 검토해 줄 근거를 확인한 HTML을 저장하는 프로젝트",
+            "SeungIl 님의 Hope 3.0.3을 포크해 지정한 커밋 범위만 검토하고, 설명이 실제 변경 줄을 가리키는 HTML 리뷰를 생성하는 비공식 도구",
         image: "/og-cover.png",
     },
     "/projects/intent-trace": {
         title: "IntentTrace | 임정규 포트폴리오",
         description:
-            "AI 코드 변경의 사용자 요청과 판단 출처를 전체 길이 커밋 ID, 코드 위치 및 실제 검증에 연결하고 작성자 확인 뒤 코드가 바뀌면 공개를 차단하는 개발 도구",
+            "AI 코드 변경의 요청, 판단 출처, 코드 위치와 검증 결과를 연결하고, 작성자 확인 후 코드가 바뀌면 공개를 차단하는 개발 도구",
         image: "/og-cover.png",
     },
     "/projects/defense": {
@@ -90,7 +90,7 @@ export const routeMeta = {
     "/search": {
         title: "백엔드 프로젝트 문서 검색 | 임정규",
         description:
-            "KICS 요청 변환과 제출 자료의 KICS 반영, 결제 및 환불 ID 재사용과 서버 중단 뒤 알림 작업 처리 경험을 공개 문서와 출처로 확인할 수 있습니다.",
+            "공공기관 연계, 결제 및 환불 중복 실행 방지, 서버 중단 후 작업 재처리 경험을 프로젝트 문서와 출처로 확인할 수 있습니다.",
         image: "/og-cover.png",
     },
     "/portfolio/print": {

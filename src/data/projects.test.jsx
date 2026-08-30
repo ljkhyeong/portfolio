@@ -132,18 +132,43 @@ describe("project summary data", () => {
         })
     })
 
-    it("keeps architecture patterns out of technology tags and names Spring Batch exactly", () => {
+    it("기술 스택에는 실제 사용 기술만 표시한다", () => {
         expect(projectsById.warrant.stack).toEqual([
             "Java 11",
             "Spring Boot 2.6",
             "Spring Batch",
-            "Oracle DB",
+            "Oracle Database",
             "WebSquare",
             "Maven",
         ])
         expect(projectsById.warrant.stack).not.toContain("Spring Retry")
-        expect(projectSummariesById.baton.tags).not.toContain("Outbox")
-        expect(projectSummariesById.happygallery.tags).not.toContain("헥사고날 아키텍처")
+        expect(projectSummariesById.baton.tags).toEqual([
+            "Java / Kotlin",
+            "Spring Boot",
+            "MySQL / PostgreSQL",
+            "RabbitMQ / AWS SQS FIFO",
+        ])
+        expect(projectSummariesById.happygallery.tags).toEqual([
+            "Java 25",
+            "Spring Boot 4.1",
+            "React 19",
+            "MySQL / Redis",
+        ])
+        expect(projectSummariesById["hope-commit"].tags).toEqual([
+            "JavaScript",
+            "Node.js 22",
+            "Git CLI",
+            "Playwright",
+        ])
+        expect(projectSummariesById["intent-trace"].tags).toEqual([
+            "Kotlin / JDK 21",
+            "Spring Boot / Spring AI",
+            "PostgreSQL / H2",
+            "IntelliJ Platform",
+        ])
+        expect(projectSummaries.flatMap((project) => project.tags).join(" | ")).not.toMatch(
+            /SSR|Messaging|Git 객체 조회|GitHub App|Check Run/,
+        )
         expect(projectSummariesById.warrant.tags).toContain("Spring Batch")
     })
 

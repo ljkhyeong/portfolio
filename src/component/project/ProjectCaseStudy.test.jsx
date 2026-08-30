@@ -169,7 +169,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
-    expect(screen.getByText(/공방 상품 주문과 클래스 예약을 관리/)).toBeInTheDocument()
+    expect(screen.getByText(/공방 상품 주문과 클래스 예약 서비스/)).toBeInTheDocument()
     expect(screen.queryByText("주요 구현 및 해결")).not.toBeInTheDocument()
     expect(screen.getByText(projectsById.happygallery.role)).toBeInTheDocument()
     expect(screen.getByText(/문서를 요구사항, 기술 선택, 테스트와 운영 절차로/)).toBeInTheDocument()
@@ -201,7 +201,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
     expect(screen.getByText("원문 대화 / 숨은 추론 / 검증 원문")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "전체 길이 커밋 ID와 코드 위치를 기록하고, 작성자 확인 뒤 코드가 바뀌면 공개하지 않습니다.",
+            name: "요청과 판단 출처를 전체 길이 커밋 ID 및 코드 위치에 묶고, 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
         }),
     ).toBeInTheDocument()
     expect(
@@ -217,7 +217,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         screen.getByRole("heading", { name: "전송형 전자영장 시스템", level: 1 }),
     ).toBeInTheDocument()
     expect(
-        screen.getByRole("heading", { name: "독립망 간 업무 흐름 및 시스템 구성" }),
+        screen.getByRole("heading", { name: "KICS와 기관 간 요청 및 자료 연계 흐름" }),
     ).toBeInTheDocument()
     const integrationDiagram = screen.getByRole("img", {
         name: /KICS 요청 변환 및 기관 연계 흐름.*요청을 통신사용 또는 포털용 형식으로 변환.*제출 자료를 KICS에 반영/,
@@ -249,7 +249,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.getByText("인터넷망 / 전자영장 포털")).toBeInTheDocument()
     expect(
         screen.getByRole("list", { name: "전송형 전자영장 시스템 기술 스택" }),
-    ).toHaveTextContent("Oracle DB")
+    ).toHaveTextContent("Oracle Database")
     expect(screen.getByText(/KICS 요청과 기관 제출 자료가 독립망 사이/)).toBeInTheDocument()
     expect(screen.getByText(projectsById.warrant.role)).toBeInTheDocument()
     expect(screen.queryByText(projectsById.warrant.oneLine)).not.toBeInTheDocument()
@@ -353,14 +353,14 @@ test.each([
     [
         "relay",
         "RELAY",
-        "Core 이벤트를 Webhook 또는 SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
+        "Core 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
         /이전 서버의 늦은 결과 차단/,
     ],
     [
         "brief",
         "BRIEF",
-        "Core가 판정한 5개 운영 신호를 받아 현재 관심 항목과 주간 보고서로 투영합니다.",
-        /ACTIVE 및 RESOLVED 투영.*발행 후 수정하지 않는 보고서 에디션/,
+        "Core가 판정한 5개 운영 신호를 현재 관심 항목과 주간 보고서에 반영합니다.",
+        /ACTIVE 및 RESOLVED 반영.*발행한 주간 보고서 수정 차단/,
     ],
     [
         "cal",
@@ -396,7 +396,7 @@ test.each([
     ["relay", "RELAY", ["RabbitMQ / Spring AMQP", "AWS SQS FIFO", "PostgreSQL 18"]],
     ["brief", "BRIEF", ["Kotlin 2.3", "Java 21", "Spring JDBC"]],
     ["cal", "CAL", ["Kotlin 2.3", "Java 25", "iCal4j 4.3.0"]],
-    ["round", "ROUND", ["React 19", "WebRTC / RTCDataChannel", "Raw WebSocket"]],
+    ["round", "ROUND", ["React 19", "WebRTC / RTCDataChannel", "Spring WebSocket"]],
 ])(
     "BATON %s 상세는 %s 구현에 실제 사용한 기술을 Core와 같은 위치에 보여준다",
     (id, name, stack) => {
@@ -426,11 +426,11 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "Core 운영 신호를 그대로 관심 항목에 투영",
+        "Core 운영 신호를 그대로 관심 항목에 반영",
         "https://github.com/ljkhyeong/baton-brief/tree/a2c5fb9bf04dbd7d805b613713c0d1b88e8deb13",
         /BRIEF 공개 main 고정 커밋 보기/,
         /2\.0\.0-rc\.1 실제 Core JAR.*로컬 HTTP/,
-        /Core 연동, 관심 항목 투영과 주간 에디션 구현이 공개 main에 반영돼 있습니다/,
+        /Core 연동, 관심 항목 반영과 주간 보고서 구현이 공개 main에 반영돼 있습니다/,
     ],
     [
         "cal",
@@ -438,7 +438,7 @@ test.each([
         "중복 및 과거 일정 JSON 차단",
         "https://github.com/ljkhyeong/baton-cal/tree/39b916d01dd597c0a1903bedde71bc3c27ef368f",
         /CAL 공개 main 고정 커밋 보기/,
-        /Core의 stable 1\.0\.0 일정 JSON.*CAL 컨테이너.*호환성을 확인/,
+        /Core 1\.0\.0 일정 JSON.*CAL 컨테이너.*호환성을 확인/,
         /안정 계약 1.0.0의 Core 호환성 근거와 공개 main의 미게시 후보 1.1.0-rc.1/,
     ],
 ])(
@@ -467,7 +467,7 @@ test("BATON ROUND 상세는 Core의 방 입장 확인과 ROUND의 WebRTC 처리�
         }),
     ).toBeInTheDocument()
     expect(
-        screen.getAllByText(/실제 Cloudflare relay-only.*6명 장시간 접속/).length,
+        screen.getAllByText(/실제 Cloudflare TURN 중계 전용 연결.*6명 장시간 접속/).length,
     ).toBeGreaterThan(0)
     expect(screen.getByText("비공개 저장소 / 설계와 테스트 요약 공개")).toBeInTheDocument()
     expect(screen.queryByRole("link", { name: /ROUND.*저장소/ })).not.toBeInTheDocument()

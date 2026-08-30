@@ -3,37 +3,37 @@ export const homeSkillGroups = [
         id: "backend",
         label: "백엔드",
         summary:
-            "Java와 Spring으로 KICS 요청을 기관별 형식으로 바꾸고 제출 자료를 KICS에 반영하는 API와 배치를 개발합니다. RabbitMQ와 SQS로 BATON 이벤트를 전달합니다.",
+            "Java와 Spring으로 공공기관 연계 API와 배치, 개인 프로젝트의 주문, 예약 및 이벤트 처리 서버를 개발했습니다.",
         items: [
             { name: "Java" },
             { name: "Spring Boot / Spring MVC" },
             { name: "Spring Batch" },
             { name: "JPA / MyBatis" },
             { name: "MySQL / PostgreSQL" },
-            { name: "RabbitMQ / SQS" },
+            { name: "RabbitMQ / AWS SQS FIFO" },
         ],
     },
     {
         id: "reliability",
-        label: "결제 및 환불 재요청, 서버 중단 처리",
+        label: "안정성 설계",
         summary:
-            "결제 승인 orderId와 환불 UUID를 재사용하고, DB에 남은 알림과 처리 기한이 지난 URL 점검을 다른 실행이 이어받게 했습니다.",
+            "같은 요청에는 기존 식별자를 재사용해 중복 실행을 막고, DB에 저장한 작업은 서버 중단 후 다시 처리하도록 구현했습니다.",
         items: [
             {
-                name: "같은 결제 승인과 환불 1건 유지",
-                detail: "결제 승인에는 orderId, 환불에는 생성할 때 저장한 UUID를 모든 재시도에 재사용합니다. 결과가 불확실하면 PG 처리 결과를 조회합니다.",
+                name: "결제 및 환불 중복 실행 방지",
+                detail: "결제 승인에는 orderId를, 환불에는 최초 생성 시 저장한 UUID를 모든 재시도에 재사용합니다. 결과가 불확실하면 PG 처리 결과를 조회합니다.",
             },
             {
-                name: "서버 중단 뒤 알림 작업 인계",
-                detail: "주문 또는 예약과 알림 작업을 같은 트랜잭션에 저장하고, 대기 중이거나 처리 기한이 지난 작업은 스케줄러가 가져갑니다.",
+                name: "서버 중단 후 알림 재처리",
+                detail: "주문 또는 예약과 알림 작업을 같은 트랜잭션에 저장합니다. 대기 중이거나 처리 기한이 지난 작업은 스케줄러가 다시 처리합니다.",
             },
             {
                 name: "정원 및 재고 초과 방지",
                 detail: "클래스와 예약 시간, 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
             },
             {
-                name: "중단된 URL 점검 및 이벤트 전달 인계",
-                detail: "WATCH는 처리 기한이 지난 URL 점검을 다른 서버가 새 시도로 실행합니다. RELAY는 중단 전 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 넘기고 이전 서버의 늦은 결과를 버립니다.",
+                name: "서버 중단 후 URL 점검 및 이벤트 전달 재개",
+                detail: "WATCH는 처리 기한이 지난 URL 점검을 새 시도로 다시 실행합니다. RELAY는 중단 전 시도 UUID와 외부 서비스 중복 방지 키를 유지한 채 다른 서버가 이어받고, 이전 서버의 늦은 결과는 반영하지 않습니다.",
             },
         ],
     },

@@ -22,9 +22,9 @@ Core는 활동 중인 스터디 구성원에게 방 참여권을 발급합니다
 ## 검증과 현재 범위
 
 -   구현 기준: 비공개 `main` 커밋 `2a43f38`
--   통과: Chromium 전체 미디어와 BATON edge 시나리오
+-   통과: Chromium 전체 미디어와 Core 연동 시나리오
 -   일부 통과: WebKit 3개 시나리오 중 장치 동의 1건
--   현재 실패: WebKit 채팅 및 모바일 배치 2건, restic 실행 파일 부재로 배포 검증 실패
--   CI 기준: GitHub Actions run `33262368167`, 일반 검사와 Chromium 및 BATON edge 성공, 전체 결과 실패
--   미검증: 실제 Cloudflare relay-only, Safari 실기기, 외부망, 6명 장시간 접속과 실제 소셜 로그인
+-   현재 실패: WebKit 채팅과 모바일 배치 시나리오 2건, restic 실행 파일 부재로 배포 검증 실패
+-   CI 기준: GitHub Actions run `33262368167`, 일반 검사와 Chromium 및 Core 연동 성공, 전체 결과 실패
+-   미검증: 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망, 6명 장시간 접속과 실제 소셜 로그인
 -   운영 제약: 방과 참가자 상태를 메모리에 저장하므로 한 인스턴스로 실행
