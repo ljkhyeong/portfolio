@@ -2,9 +2,13 @@ import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
 import { careers, portfolioProfile } from "../data/profile"
 import { homeHeroContent } from "../data/homeHero"
+import "../css/HomeHero.css"
 
 const Header = () => {
     const currentCareer = careers[0]
+    const headlineRemainder = homeHeroContent.headline.slice(
+        homeHeroContent.headlineHighlight.length,
+    )
 
     return (
         <header className="site-header">
@@ -32,20 +36,24 @@ const Header = () => {
                 </a>
             </nav>
 
-            <section className="hero" id="top">
-                <div className="hero__copy">
-                    <p className="hero__name">
+            <section className="home-hero" id="top" aria-labelledby="home-hero-title">
+                <div className="home-hero__copy">
+                    <p className="home-hero__career">
+                        <span aria-hidden="true" />
                         {currentCareer.organization} · {currentCareer.period}
                     </p>
-                    <h1 data-route-heading="/">{homeHeroContent.headline}</h1>
-                    <p className="hero__summary">{homeHeroContent.summary}</p>
-                    <div className="hero__actions">
-                        <a className="button button--primary" href="#work">
+                    <h1 id="home-hero-title" data-route-heading="/">
+                        <mark>{homeHeroContent.headlineHighlight}</mark>
+                        {headlineRemainder}
+                    </h1>
+                    <p className="home-hero__summary">{homeHeroContent.summary}</p>
+                    <div className="home-hero__actions">
+                        <a className="home-hero__button home-hero__button--primary" href="#work">
                             프로젝트 보기
-                            <span aria-hidden="true">↓</span>
+                            <span aria-hidden="true">↘</span>
                         </a>
                         <a
-                            className="button button--ghost"
+                            className="home-hero__button home-hero__button--secondary"
                             href={assetPath("임정규_포트폴리오.pdf")}
                             target="_blank"
                             rel="noreferrer"
@@ -56,23 +64,53 @@ const Header = () => {
                         </a>
                     </div>
                 </div>
-                <div className="hero__signals">
-                    <p className="hero__signals-label">대표 경험</p>
-                    <ul aria-label="대표 경험 프로젝트">
-                        {homeHeroContent.signals.map((signal) => (
-                            <li key={signal.route}>
-                                <Link to={signal.route}>
-                                    <span className="hero__signal-label">{signal.label}</span>
-                                    <strong>{signal.title}</strong>
-                                    <span className="hero__signal-evidence">{signal.evidence}</span>
-                                    <span className="hero__signal-action" aria-hidden="true">
-                                        →
-                                    </span>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+
+                <aside className="home-flow" aria-labelledby="home-flow-title">
+                    <div className="home-flow__heading">
+                        <div>
+                            <p>RELIABILITY FLOW</p>
+                            <h2 id="home-flow-title">중복 방지 및 재처리 흐름</h2>
+                            <span>BATON과 happyGallery에 적용한 요청 처리 방식</span>
+                        </div>
+                        <span className="home-flow__status">
+                            <i aria-hidden="true" />
+                            구현 원칙
+                        </span>
+                    </div>
+
+                    <div className="home-flow__map">
+                        <ol aria-label="안정적인 요청 처리 흐름">
+                            {homeHeroContent.flow.map((item) => (
+                                <li key={item.step}>
+                                    <span className="home-flow__step">{item.step}</span>
+                                    <div>
+                                        <strong>{item.title}</strong>
+                                        <p>{item.description}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+                        <span className="home-flow__packet" aria-hidden="true">
+                            REQ
+                        </span>
+                    </div>
+
+                    <div className="home-flow__cases">
+                        <p>적용 사례</p>
+                        <ul aria-label="대표 경험 프로젝트">
+                            {homeHeroContent.signals.map((signal) => (
+                                <li key={signal.route}>
+                                    <Link to={signal.route}>
+                                        <span>{signal.label}</span>
+                                        <strong>{signal.title}</strong>
+                                        <small>{signal.shortEvidence}</small>
+                                        <i aria-hidden="true">↗</i>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </aside>
             </section>
         </header>
     )

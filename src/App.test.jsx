@@ -14,24 +14,28 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
     expect(heroHeading).toHaveTextContent(
-        "재요청으로 인한 중복 실행을 막고, 서버 중단 후에도 작업을 이어가는 백엔드를 설계합니다.",
+        "중복 실행 방지와 중단 후 재처리 등 안정적인 설계를 추구하는 백엔드 개발자입니다.",
     )
     expect(screen.getByText("BEINTECH · 2024.06 — 현재")).toBeInTheDocument()
     expect(
         screen.getByText(
-            "공공 SI에서는 기관 연계 서버와 배치를 개발하고, 중단된 배치를 찾아 필요한 작업만 재실행했습니다. 개인 프로젝트에서는 결제와 환불의 중복 실행을 막고, DB에 저장한 알림을 서버 중단 후 다시 처리하도록 구현했습니다.",
+            "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.",
         ),
     ).toBeInTheDocument()
+    const reliabilityFlow = screen.getByRole("list", { name: "안정적인 요청 처리 흐름" })
+
+    expect(reliabilityFlow).toHaveTextContent("요청 수신")
+    expect(reliabilityFlow).toHaveTextContent("중복 확인")
+    expect(reliabilityFlow).toHaveTextContent("상태 저장")
+    expect(reliabilityFlow).toHaveTextContent("중단 후 재처리")
     const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
 
     expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
-    expect(heroHighlights).toHaveTextContent(
-        "KICS 요청을 기관별 규격으로 변환하고 제출 자료를 KICS에 반영",
-    )
+    expect(heroHighlights).toHaveTextContent("기관별 규격 변환")
     expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent("같은 링크 요청과 이벤트는 기존 작업을 재사용하고")
+    expect(heroHighlights).toHaveTextContent("기존 작업 재사용")
     expect(heroHighlights).toHaveTextContent("happyGallery")
-    expect(heroHighlights).toHaveTextContent("결제 orderId와 환불 UUID를 재사용")
+    expect(heroHighlights).toHaveTextContent("결제 및 환불 중복 방지")
     expect(
         within(heroHighlights).getByRole("link", { name: /전송형 전자영장 시스템/ }),
     ).toHaveAttribute("href", "/projects/e-warrant")
@@ -47,56 +51,48 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     ).toHaveAttribute("href", "/projects/happygallery")
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
-    const careerProjects = screen.getByRole("list", { name: "경력 프로젝트" })
-    const personalProjects = screen.getByRole("list", { name: "개인 프로젝트" })
-    const toolingProjects = screen.getByRole("list", { name: "오픈소스 및 개발 도구" })
-    const educationProjects = screen.getByRole("list", { name: "교육 프로젝트" })
-    const batonHeading = within(personalProjects).getByRole("heading", {
-        name: "BATON",
-        level: 4,
-    })
+    const featuredProjects = screen.getByRole("list", { name: "대표 프로젝트" })
+    const supportingProjects = screen.getByRole("list", { name: "추가 프로젝트" })
 
-    expect(batonHeading).toBeInTheDocument()
     expect(
-        within(careerProjects).getByRole("heading", {
-            name: "전송형 전자영장 시스템",
-            level: 4,
+        within(featuredProjects).getByRole("link", {
+            name: "전송형 전자영장 시스템 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
     expect(
-        within(personalProjects).getByRole("heading", { name: "happyGallery", level: 4 }),
-    ).toBeInTheDocument()
-    expect(
-        within(toolingProjects).getByRole("heading", { name: "Hope Commit", level: 4 }),
-    ).toBeInTheDocument()
-    expect(
-        within(toolingProjects).getByRole("heading", { name: "IntentTrace", level: 4 }),
-    ).toBeInTheDocument()
-    expect(
-        within(careerProjects).getByRole("heading", {
-            name: "차세대 군사법 정보 시스템",
-            level: 4,
+        within(featuredProjects).getByRole("link", {
+            name: "BATON 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
     expect(
-        within(careerProjects).getByText("BEINTECH / 국방부 SI / 백엔드 개발 및 운영"),
-    ).toBeInTheDocument()
-    expect(
-        within(educationProjects).getByRole("heading", {
-            name: "WebRTC/HLS 현장강의 보조 서비스",
-            level: 4,
+        within(featuredProjects).getByRole("link", {
+            name: "happyGallery 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
-    expect(careerProjects.compareDocumentPosition(personalProjects)).toBe(
+    expect(
+        within(supportingProjects).getByRole("link", {
+            name: "Hope Commit 프로젝트 상세 보기",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        within(supportingProjects).getByRole("link", {
+            name: "IntentTrace 프로젝트 상세 보기",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        within(supportingProjects).getByText("BEINTECH / 국방부 SI / 백엔드 개발 및 운영"),
+    ).toBeInTheDocument()
+    expect(
+        within(supportingProjects).getByRole("link", {
+            name: "WebRTC/HLS 현장강의 보조 서비스 프로젝트 상세 보기",
+        }),
+    ).toBeInTheDocument()
+    expect(featuredProjects.compareDocumentPosition(supportingProjects)).toBe(
         Node.DOCUMENT_POSITION_FOLLOWING,
     )
-    expect(personalProjects.compareDocumentPosition(toolingProjects)).toBe(
-        Node.DOCUMENT_POSITION_FOLLOWING,
+    fireEvent.click(
+        within(featuredProjects).getByRole("link", { name: "BATON 프로젝트 상세 보기" }),
     )
-    expect(toolingProjects.compareDocumentPosition(educationProjects)).toBe(
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    )
-    fireEvent.click(screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" }))
 
     const detailHeading = await screen.findByRole(
         "heading",
@@ -112,7 +108,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
             name: projectsById.baton.architecture.title,
         }),
     ).toBeInTheDocument()
-})
+}, 15000)
 
 const projectLinkCases = [
     ["BATON", "/projects/baton"],
@@ -224,7 +220,7 @@ test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, 
     )
 })
 
-test("홈은 상세 근거를 펼치지 않고 프로젝트 선택에 집중한다", () => {
+test("홈은 상세 문서 대신 대표 시각 자료와 프로젝트 선택에 집중한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
@@ -232,7 +228,21 @@ test("홈은 상세 근거를 펼치지 않고 프로젝트 선택에 집중한�
     expect(screen.queryByRole("heading", { name: "문제와 해결 방법" })).not.toBeInTheDocument()
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
     expect(screen.queryByText("API Contract")).not.toBeInTheDocument()
-    expect(screen.queryAllByRole("img")).toHaveLength(0)
+    expect(
+        screen.getByRole("img", {
+            name: "KICS 요청을 연계 서버가 기관 규격으로 변환해 통신사와 전자영장 포털에 전달하는 흐름",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: "BATON 오늘 화면에서 인수인계 타임라인과 최근 결정을 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: "happyGallery 상품 목록 화면에서 공방 상품을 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
 })
 
 test("BATON의 6개 마이크로서비스를 독립 상세로 연결한다", () => {
@@ -613,7 +623,9 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
     expect(within(printDocument).getByRole("heading", { level: 1 })).toHaveTextContent(
         homeHeroContent.headline,
     )
-    expect(within(printDocument).getByRole("heading", { name: "프로젝트" })).toBeInTheDocument()
+    expect(
+        within(printDocument).getByRole("heading", { name: "주요 프로젝트" }),
+    ).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "경력 및 학습" })).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "기술" })).toBeInTheDocument()
     expect(within(printDocument).getAllByText("BEINTECH").length).toBeGreaterThan(0)

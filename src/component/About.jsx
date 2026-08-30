@@ -83,7 +83,12 @@ const About = () => {
                 aria-labelledby="experience-title"
             >
                 <div className="experience-section__intro">
-                    <span className="section-kicker">경력과 학습</span>
+                    <div className="section-heading-meta">
+                        <span className="section-kicker">경력과 학습</span>
+                        <span className="section-index" aria-hidden="true">
+                            02
+                        </span>
+                    </div>
                     <h2 id="experience-title">경력 및 학습</h2>
                     <p>경력, 교육 프로젝트와 개발 서적 스터디를 정리했습니다.</p>
                 </div>
@@ -157,7 +162,12 @@ const About = () => {
                 aria-labelledby="capability-title"
             >
                 <div className="capability-section__intro">
-                    <span className="section-kicker">사용 기술과 적용 경험</span>
+                    <div className="section-heading-meta">
+                        <span className="section-kicker">사용 기술과 적용 경험</span>
+                        <span className="section-index" aria-hidden="true">
+                            03
+                        </span>
+                    </div>
                     <h2 id="capability-title">기술</h2>
                     <p>백엔드 개발을 중심으로 사용 기술과 적용 사례를 정리했습니다.</p>
                 </div>

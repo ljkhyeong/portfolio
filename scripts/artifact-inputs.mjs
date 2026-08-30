@@ -20,6 +20,7 @@ const commonRenderSourceTargets = [
     "src/component/About.jsx",
     "src/component/NotFound.jsx",
     "src/component/ScrollToTopButton.jsx",
+    "src/css/HomeHero.css",
     "src/css/Main.css",
     "src/css/Projects.css",
     "src/css/ScrollToTopButton.css",

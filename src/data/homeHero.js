@@ -1,27 +1,47 @@
 export const homeHeroContent = {
-    headline:
-        "재요청으로 인한 중복 실행을 막고, 서버 중단 후에도 작업을 이어가는 백엔드를 설계합니다.",
+    headline: "중복 실행 방지와 중단 후 재처리 등 안정적인 설계를 추구하는 백엔드 개발자입니다.",
+    headlineHighlight: "중복 실행 방지와 중단 후 재처리",
     summary:
-        "공공 SI에서는 기관 연계 서버와 배치를 개발하고, 중단된 배치를 찾아 필요한 작업만 재실행했습니다. 개인 프로젝트에서는 결제와 환불의 중복 실행을 막고, DB에 저장한 알림을 서버 중단 후 다시 처리하도록 구현했습니다.",
+        "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.",
+    flow: [
+        {
+            step: "01",
+            title: "요청 수신",
+            description: "요청 식별값과 처리 대상을 확인",
+        },
+        {
+            step: "02",
+            title: "중복 확인",
+            description: "처리한 요청은 기존 결과를 재사용",
+        },
+        {
+            step: "03",
+            title: "상태 저장",
+            description: "처리 상태와 재처리 기준을 DB에 기록",
+        },
+        {
+            step: "04",
+            title: "중단 후 재처리",
+            description: "완료되지 않은 작업만 이어서 실행",
+        },
+    ],
     signals: [
         {
             label: "현재 업무",
             title: "전송형 전자영장 시스템",
-            evidence: "KICS 요청을 기관별 규격으로 변환하고 제출 자료를 KICS에 반영",
+            shortEvidence: "기관별 규격 변환",
             route: "/projects/e-warrant",
         },
         {
             label: "개인 프로젝트",
             title: "BATON",
-            evidence:
-                "같은 링크 요청과 이벤트는 기존 작업을 재사용하고, 중단된 전달은 시도 UUID와 외부 서비스 중복 방지 키를 유지해 재개",
+            shortEvidence: "기존 작업 재사용",
             route: "/projects/baton",
         },
         {
             label: "개인 프로젝트",
             title: "happyGallery",
-            evidence:
-                "결제 orderId와 환불 UUID를 재사용해 중복 실행을 막고, 미전송 알림은 스케줄러가 재처리",
+            shortEvidence: "결제 및 환불 중복 방지",
             route: "/projects/happygallery",
         },
     ],
