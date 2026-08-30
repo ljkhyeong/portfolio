@@ -79,17 +79,22 @@ const Header = () => {
                     ))}
                     <Link to="/search">문서 검색</Link>
                 </div>
-                <a
-                    className="site-nav__contact"
-                    href={assetPath("임정규_포트폴리오.pdf")}
-                    aria-label="포트폴리오 PDF 내려받기"
-                    target="_blank"
-                    rel="noreferrer"
-                    download
-                >
-                    PDF
-                    <span aria-hidden="true">↓</span>
-                </a>
+                <div className="site-nav__actions">
+                    <a className="site-nav__contact-link" href="#contact">
+                        연락처
+                    </a>
+                    <a
+                        className="site-nav__contact"
+                        href={assetPath("임정규_포트폴리오.pdf")}
+                        aria-label="포트폴리오 PDF 내려받기"
+                        target="_blank"
+                        rel="noreferrer"
+                        download
+                    >
+                        PDF
+                        <span aria-hidden="true">↓</span>
+                    </a>
+                </div>
             </nav>
 
             <section className="home-hero" id="top" aria-labelledby="home-hero-title">

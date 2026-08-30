@@ -26,6 +26,11 @@ export const careers = [
         position: "백엔드 개발자",
         description:
             "차세대 군사법 정보 시스템에서 세 기관의 수용자 자료를 검증해 군교정 DB에 반영하는 배치를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 필요한 배치만 재실행했습니다. 현재는 KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
+        homeDescription: "공공 SI 연계 서버와 배치 개발 및 운영",
+        projectResponsibilities: {
+            warrant: "기관별 요청 변환 및 제출 자료 반영 서버 개발",
+            defense: "기관 자료 검증 배치 개발 및 중단 배치 재실행",
+        },
         projectIds: ["warrant", "defense"],
     },
 ]

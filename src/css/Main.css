@@ -92,6 +92,28 @@
         border-color 180ms ease;
 }
 
+.site-nav__actions {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 18px;
+}
+
+.site-nav__contact-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.site-nav__contact-link:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
 .site-nav__links a {
     position: relative;
     display: inline-flex;
@@ -150,9 +172,11 @@
     background: #eef1f4;
 }
 
+#top,
 #work,
 #experience,
-#capabilities {
+#capabilities,
+#contact {
     scroll-margin-top: 84px;
 }
 
@@ -530,7 +554,7 @@
 }
 
 .career-track__item h4 {
-    margin: 10px 0 14px;
+    margin: 10px 0 8px;
     color: var(--ink);
     font-size: clamp(24px, 2.25vw, 32px);
     letter-spacing: -0.045em;
@@ -538,11 +562,20 @@
     word-break: keep-all;
 }
 
+.career-track__item p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+    word-break: keep-all;
+}
+
 .career-track__item a {
     display: inline-flex;
     min-height: 44px;
     align-items: center;
-    margin-top: 10px;
+    gap: 6px;
+    margin-top: 6px;
     color: var(--accent);
     font-size: 15px;
     font-weight: 700;
@@ -606,51 +639,6 @@
     font-size: 16px;
     line-height: 1.72;
     word-break: keep-all;
-}
-
-.capability-principles {
-    max-width: 400px;
-    margin-top: 34px;
-    border-top: 1px solid var(--capability-line);
-}
-
-.capability-principles h3 {
-    margin: 0;
-    padding: 16px 0 10px;
-    color: #92a4ba;
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 720;
-    letter-spacing: 0.04em;
-}
-
-.capability-principles ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.capability-principles li {
-    padding: 15px 0 17px;
-    border-top: 1px solid rgba(83, 100, 122, 0.58);
-}
-
-.capability-principles strong {
-    display: block;
-    color: var(--capability-ink);
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.45;
-    word-break: keep-all;
-}
-
-.capability-principles p {
-    max-width: none;
-    margin-top: 7px;
-    color: var(--capability-muted);
-    font-size: 13px;
-    line-height: 1.58;
 }
 
 .capability-list {
@@ -745,11 +733,43 @@
     word-break: keep-all;
 }
 
-.capability li span {
+.capability li > span {
     color: var(--capability-muted);
     font-size: 14px;
     line-height: 1.58;
     word-break: keep-all;
+}
+
+.capability__examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 16px;
+    margin-top: auto;
+}
+
+.capability__examples a {
+    display: inline-flex;
+    min-height: 32px;
+    align-items: center;
+    gap: 5px;
+    color: #79c0ff;
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.4;
+    text-decoration: underline;
+    text-decoration-color: rgba(121, 192, 255, 0.45);
+    text-underline-offset: 4px;
+}
+
+.capability__examples a:hover {
+    color: #b6dcff;
+    text-decoration-color: currentColor;
+}
+
+.capability__examples a:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid #79c0ff;
+    outline-offset: 3px;
 }
 
 .capability--backend ul {
@@ -925,7 +945,7 @@
 
 @media (max-width: 800px) {
     .site-header {
-        padding-top: 124px;
+        padding-top: 132px;
     }
 
     .site-nav {
@@ -937,9 +957,11 @@
         row-gap: 9px;
     }
 
+    #top,
     #work,
     #experience,
-    #capabilities {
+    #capabilities,
+    #contact {
         scroll-margin-top: 144px;
     }
 
@@ -955,7 +977,7 @@
         white-space: nowrap;
     }
 
-    .site-nav__contact {
+    .site-nav__actions {
         grid-column: 2;
         grid-row: 1;
     }
@@ -1015,6 +1037,10 @@
         font-size: 14px;
     }
 
+    .site-nav__actions {
+        gap: 12px;
+    }
+
     .site-nav__contact {
         font-size: 14px;
     }
@@ -1044,10 +1070,6 @@
 
     .capability-section__intro h2 {
         font-size: clamp(36px, 10.4vw, 44px);
-    }
-
-    .capability-principles {
-        display: none;
     }
 
     .site-footer__lead h2 {
@@ -1204,6 +1226,10 @@
         gap: 8px;
     }
 
+    .capability__examples a {
+        min-height: 44px;
+    }
+
     .site-footer__meta {
         flex-direction: column;
         gap: 8px;
@@ -1214,9 +1240,5 @@
 @media print {
     .timeline__supporting {
         display: contents;
-    }
-
-    .capability-principles {
-        display: none;
     }
 }

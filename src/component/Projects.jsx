@@ -17,63 +17,65 @@ const PROJECT_VISUALS = {
     baton: {
         src: "baton-workspace.png",
         alt: "BATON 오늘 화면에서 인수인계 타임라인과 최근 결정을 확인하는 모습",
-        eyebrow: "ORGANIZATION FLOW",
-        caption: "역할, 반복 업무와 인수인계를 한 흐름에서 관리",
+        width: 1280,
+        height: 720,
+        caption: "인수인계 진행 상황과 최근 결정",
     },
     gallery: {
-        src: "happygallery-products.jpg",
-        alt: "happyGallery 상품 목록 화면에서 공방 상품을 확인하는 모습",
-        eyebrow: "COMMERCE & BOOKING",
-        caption: "상품 주문과 클래스 예약을 함께 운영",
+        src: "happygallery-product-detail.jpg",
+        alt: "happyGallery 상품 주문 화면에서 수량과 결제 금액을 확인하는 모습",
+        width: 1600,
+        height: 1000,
+        caption: "상품 수량과 결제 금액 확인",
     },
 }
 
 const getProjectsInOrder = (ids) =>
     ids.map((id) => projectSummaries.find((project) => project.id === id)).filter(Boolean)
 
-const ProjectEvidence = ({ project }) => {
-    const evidence = [
-        { label: "상태", value: project.stage },
-        { label: "검증", value: project.homeEvidence?.validation },
-        { label: "문서", value: project.homeEvidence?.documents },
-        { label: "공개", value: project.visibility },
-    ].filter((item) => item.value)
-
-    if (evidence.length === 0) {
-        return null
-    }
-
-    return (
-        <dl className="project-card__evidence" aria-label={`${project.title} 확인 근거`}>
-            {evidence.map((item) => (
-                <div key={item.label}>
-                    <dt>{item.label}</dt>
-                    <dd>{item.value}</dd>
-                </div>
-            ))}
-        </dl>
-    )
-}
-
-const ProjectFacts = ({ project }) => (
-    <dl className="project-card__facts" aria-label={`${project.title} 담당, 문제와 해결`}>
-        {project.homeFacts.map((fact) => (
-            <div className="project-card__fact" key={fact.label}>
-                <dt>{fact.label}</dt>
-                <dd>{fact.value}</dd>
-            </div>
+const ProjectHighlights = ({ project }) => (
+    <ul className="project-card__highlights" aria-label={`${project.title} 핵심 구현`}>
+        {project.homeHighlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
         ))}
-    </dl>
+    </ul>
 )
 
 const ProjectMeta = ({ project }) => (
     <div className="project-card__meta">
-        <time>{project.period}</time>
+        <div className="project-card__status" aria-label={`${project.title} 진행 및 공개 상태`}>
+            <span>{project.stage}</span>
+            <span>{project.visibility}</span>
+            <time>{project.period}</time>
+        </div>
         <ul aria-label={`${project.title} 기술 스택`}>
             {project.tags.slice(0, 4).map((tag) => (
                 <li key={tag}>{tag}</li>
             ))}
         </ul>
+    </div>
+)
+
+const ProjectLinks = ({ project, supporting = false }) => (
+    <div className={supporting ? "project-support__actions" : "project-card__actions"}>
+        <Link
+            className={supporting ? "project-support__link" : "project-card__detail-link"}
+            to={project.route}
+            aria-label={`${project.title} 프로젝트 상세 보기`}
+        >
+            상세 보기 <span aria-hidden="true">↗</span>
+        </Link>
+        {project.homeRepository && (
+            <a
+                className="project-repository-link"
+                href={project.homeRepository.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${project.title} ${project.homeRepository.label} 저장소 새 창에서 보기`}
+            >
+                {project.homeRepository.label} <span aria-hidden="true">↗</span>
+            </a>
+        )}
     </div>
 )
 
@@ -150,11 +152,17 @@ const ScreenshotVisual = ({ project }) => {
         <figure
             className={`project-card__visual project-card__visual--image project-card__visual--${project.visual}`}
         >
-            <img src={assetPath(visual.src)} alt={visual.alt} loading="lazy" decoding="async" />
-            <figcaption>
-                <span>{visual.eyebrow}</span>
-                <strong>{visual.caption}</strong>
-            </figcaption>
+            <div className="project-card__preview">
+                <img
+                    src={assetPath(visual.src)}
+                    alt={visual.alt}
+                    width={visual.width}
+                    height={visual.height}
+                    loading="lazy"
+                    decoding="async"
+                />
+            </div>
+            <figcaption>{visual.caption}</figcaption>
         </figure>
     )
 }
@@ -176,19 +184,16 @@ const FeaturedProjectCard = ({ project, position }) => (
                         <span>{String(position + 1).padStart(2, "0")}</span>
                         <span>{PROJECT_TYPE_LABELS[project.projectType]}</span>
                     </div>
-                    <h4>
-                        <Link to={project.route} aria-label={`${project.title} 프로젝트 상세 보기`}>
-                            {project.title}
-                            <span aria-hidden="true">↗</span>
-                        </Link>
-                    </h4>
-                    <p className="project-card__eyebrow-copy">{project.eyebrow}</p>
-                    <p className="project-card__summary">{project.summary}</p>
+                    <h4>{project.title}</h4>
+                    {project.projectType === "career" && (
+                        <p className="project-card__eyebrow-copy">BEINTECH / LG CNS 컨소시엄</p>
+                    )}
+                    <p className="project-card__summary">{project.homeSummary}</p>
                 </header>
 
-                <ProjectEvidence project={project} />
-                <ProjectFacts project={project} />
+                <ProjectHighlights project={project} />
                 <ProjectMeta project={project} />
+                <ProjectLinks project={project} />
                 <ProjectServices project={project} />
             </div>
         </article>
@@ -238,14 +243,7 @@ const SupportingProjectCard = ({ project, position }) => {
                     </dl>
                 </div>
 
-                <Link
-                    className="project-support__link"
-                    to={project.route}
-                    aria-label={`${project.title} 프로젝트 상세 보기`}
-                >
-                    상세 보기
-                    <span aria-hidden="true">↗</span>
-                </Link>
+                <ProjectLinks project={project} supporting />
             </article>
         </li>
     )

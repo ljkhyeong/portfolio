@@ -7,6 +7,15 @@ export const projectSummaries = [
         title: "BATON",
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
+        homeSummary: "조직의 역할, 반복 업무와 인수인계를 관리하는 플랫폼입니다.",
+        homeHighlights: [
+            "Core와 6개 마이크로서비스의 API 및 데이터 분리",
+            "링크와 전달 작업 중복 생성 방지, 중단된 전달 재개",
+        ],
+        homeRepository: {
+            label: "WATCH GitHub",
+            href: "https://github.com/ljkhyeong/baton-watch",
+        },
         summary:
             "조직의 역할, 반복 업무, 의사결정과 인수인계를 관리하는 플랫폼입니다. Core와 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC를 맡는 6개 마이크로서비스로 구성했습니다.",
         homeFacts: [
@@ -50,6 +59,12 @@ export const projectSummaries = [
         title: "전송형 전자영장 시스템",
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 해양경찰 사건수사시스템, 통신사 및 집행포털 연계",
+        homeSummary:
+            "KICS와 통신사 및 전자영장 포털 사이에서 요청과 제출 자료를 전달하는 시스템입니다.",
+        homeHighlights: [
+            "기관별 요청 규격 변환 및 전송 서버 개발",
+            "제출 자료의 KICS 반영 서버와 Spring Batch 개발",
+        ],
         summary:
             "KICS 요청을 기관별 규격으로 변환해 전달하고, 기관이 제출한 자료를 KICS에 반영하는 공공 시스템입니다. 연계 서버와 Spring Batch를 개발합니다.",
         homeFacts: [
@@ -85,6 +100,15 @@ export const projectSummaries = [
         title: "happyGallery",
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
+        homeSummary: "공방 상품 주문과 클래스 예약 서비스입니다.",
+        homeHighlights: [
+            "결제 및 환불 중복 실행 방지, 중단된 알림 재처리",
+            "동시 예약과 주문의 정원 및 재고 초과 방지",
+        ],
+        homeRepository: {
+            label: "GitHub",
+            href: "https://github.com/ljkhyeong/happyGallery",
+        },
         summary:
             "공방 상품 주문과 클래스 예약 서비스입니다. 결제 및 환불 중복 실행 방지, 알림 재처리, 예약 및 재고 동시성 제어, 스마트스토어 주문과 Toss 결제 대사를 구현했습니다.",
         homeFacts: [
@@ -118,6 +142,10 @@ export const projectSummaries = [
         projectType: "tooling",
         presentation: "tooling-case",
         title: "Hope Commit",
+        homeRepository: {
+            label: "GitHub",
+            href: "https://github.com/ljkhyeong/hope-commit",
+        },
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 3.0.3 비공식 포크 / 로컬 커밋 HTML 리뷰",
         summary:
@@ -151,6 +179,10 @@ export const projectSummaries = [
         projectType: "tooling",
         presentation: "tooling-case",
         title: "IntentTrace",
+        homeRepository: {
+            label: "GitHub",
+            href: "https://github.com/ljkhyeong/intent-trace",
+        },
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 의도 및 검증 기록",
         summary:
@@ -222,6 +254,10 @@ export const projectSummaries = [
         projectType: "education",
         presentation: "prior-experience",
         title: "WebRTC/HLS 현장강의 보조 서비스",
+        homeRepository: {
+            label: "HLS GitHub",
+            href: "https://github.com/TeamyRoom/TMeRoom-HLSServer",
+        },
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
         summary:
             "WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡아 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
@@ -245,7 +281,7 @@ export const projectSummaries = [
         visual: "webrtc",
         stage: "종료",
         visibility: "공개 저장소",
-        homeProof: "공개 저장소 구현과 6인 팀 시연으로 확인",
+        homeProof: "HLS 지연 약 35초 → 약 17초 (팀 시연 환경)",
         homeFlow: ["RTP", "HLS 변환", "다시보기"],
     },
 ]

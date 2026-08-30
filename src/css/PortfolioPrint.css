@@ -65,6 +65,14 @@ body.portfolio-print-mode {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
+.portfolio-web-print .project-card__visual--image img {
+    position: static;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
 @media (max-width: 760px) {
     body.portfolio-print-mode {
         padding: 0;
@@ -149,7 +157,7 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .site-nav__links,
-    .portfolio-web-print .site-nav__contact,
+    .portfolio-web-print .site-nav__actions,
     .portfolio-web-print .home-flow__status {
         display: none !important;
     }

@@ -3,9 +3,6 @@ import { careers, education, personalActivities } from "../data/profile"
 import { homeSkillGroups } from "../data/homeSkills"
 import { projectSummariesById } from "../data/projectSummaries"
 
-const reliabilityHighlights =
-    homeSkillGroups.find((group) => group.id === "reliability")?.items.slice(0, 3) ?? []
-
 const CareerGroup = ({ career }) => {
     const projects = career.projectIds.map((projectId) => projectSummariesById[projectId])
 
@@ -20,7 +17,7 @@ const CareerGroup = ({ career }) => {
                     <strong>{career.organization}</strong>
                 </div>
                 <time>{career.period}</time>
-                <p>{career.description}</p>
+                <p>{career.homeDescription}</p>
             </header>
             <ol className="career-track" aria-label={`${career.organization} 수행 프로젝트`}>
                 {projects.map((project, index) => (
@@ -36,7 +33,13 @@ const CareerGroup = ({ career }) => {
                                 {index === 0 ? <span>진행 중</span> : <span>완료</span>}
                             </div>
                             <h4>{project.title}</h4>
-                            <Link to={project.route}>{project.title} 상세 보기 →</Link>
+                            <p>{career.projectResponsibilities[project.id]}</p>
+                            <Link
+                                to={project.route}
+                                aria-label={`${project.title} 담당 업무 상세 보기`}
+                            >
+                                상세 보기 <span aria-hidden="true">→</span>
+                            </Link>
                         </article>
                     </li>
                 ))}
@@ -51,6 +54,19 @@ const CapabilityItems = ({ group }) => (
             <li className={item.detail ? undefined : "capability__stack-item"} key={item.name}>
                 <strong>{item.name}</strong>
                 {item.detail ? <span>{item.detail}</span> : null}
+                {item.examples ? (
+                    <div className="capability__examples">
+                        {item.examples.map((example) => (
+                            <Link
+                                to={example.route}
+                                aria-label={`${item.name} 적용 사례: ${example.label}`}
+                                key={example.route}
+                            >
+                                {example.label} <span aria-hidden="true">→</span>
+                            </Link>
+                        ))}
+                    </div>
+                ) : null}
             </li>
         ))}
     </ul>
@@ -175,20 +191,6 @@ const About = () => {
                     </div>
                     <h2 id="capability-title">기술</h2>
                     <p>백엔드 개발을 중심으로 사용 기술과 적용 사례를 정리했습니다.</p>
-                    <section
-                        className="capability-principles"
-                        aria-labelledby="capability-principles-title"
-                    >
-                        <h3 id="capability-principles-title">설계 기준</h3>
-                        <ul>
-                            {reliabilityHighlights.map((item) => (
-                                <li key={item.name}>
-                                    <strong>{item.name}</strong>
-                                    <p>{item.detail}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
                 </div>
                 <div className="capability-list capability-list--desktop">
                     {homeSkillGroups.map((group) => (

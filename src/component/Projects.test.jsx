@@ -9,20 +9,45 @@ const renderProjects = () =>
         </MemoryRouter>,
     )
 
-test("대표 프로젝트는 상태, 검증, 문서와 공개 범위를 같은 순서로 보여준다", () => {
+test("대표 프로젝트는 서비스 소개와 핵심 구현 두 가지를 먼저 보여준다", () => {
     renderProjects()
 
-    const batonEvidence = screen.getByLabelText("BATON 확인 근거")
+    const batonHighlights = screen.getByRole("list", { name: "BATON 핵심 구현" })
+    expect(within(batonHighlights).getAllByRole("listitem")).toHaveLength(2)
+    expect(batonHighlights).toHaveTextContent("Core와 6개 마이크로서비스의 API 및 데이터 분리")
+    expect(batonHighlights).toHaveTextContent("링크와 전달 작업 중복 생성 방지")
+    expect(
+        screen.getByText("조직의 역할, 반복 업무와 인수인계를 관리하는 플랫폼입니다."),
+    ).toBeInTheDocument()
 
-    expect(batonEvidence).toHaveTextContent("상태개발 중")
-    expect(batonEvidence).toHaveTextContent("검증서비스별 자동화 및 연동 테스트")
-    expect(batonEvidence).toHaveTextContent("문서PRD 44 / ADR 63 / Runbook 7")
-    expect(batonEvidence).toHaveTextContent("공개일부 저장소 공개")
+    const batonStatus = screen.getByLabelText("BATON 진행 및 공개 상태")
+    expect(batonStatus).toHaveTextContent("개발 중")
+    expect(batonStatus).toHaveTextContent("일부 저장소 공개")
+    expect(screen.queryByText("PRD 44 / ADR 63 / Runbook 7")).not.toBeInTheDocument()
+    expect(screen.queryByLabelText("BATON 담당, 문제와 해결")).not.toBeInTheDocument()
+    expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
+        "담당 범위만 공개",
+    )
+})
 
-    const warrantEvidence = screen.getByLabelText("전송형 전자영장 시스템 확인 근거")
+test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
+    renderProjects()
 
-    expect(warrantEvidence).toHaveTextContent("자료 변환 및 배치 단계 확인")
-    expect(warrantEvidence).toHaveTextContent("내부 문서 비공개")
+    expect(screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" })).toHaveAttribute(
+        "href",
+        "/projects/baton",
+    )
+    expect(
+        screen.getByRole("link", { name: "BATON WATCH GitHub 저장소 새 창에서 보기" }),
+    ).toHaveAttribute("href", "https://github.com/ljkhyeong/baton-watch")
+    expect(
+        screen.getByRole("link", { name: "happyGallery GitHub 저장소 새 창에서 보기" }),
+    ).toHaveAttribute("href", "https://github.com/ljkhyeong/happyGallery")
+    expect(
+        screen.getByRole("link", { name: "Hope Commit GitHub 저장소 새 창에서 보기" }),
+    ).toHaveAttribute("href", "https://github.com/ljkhyeong/hope-commit")
+    expect(screen.queryByRole("link", { name: /전자영장.*GitHub/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole("link", { name: /군사법.*GitHub/ })).not.toBeInTheDocument()
 })
 
 test("추가 프로젝트는 관계, 구현, 확인 근거와 상세 링크로 압축한다", () => {
@@ -44,6 +69,8 @@ test("추가 프로젝트는 관계, 구현, 확인 근거와 상세 링크로 �
     expect(defenseProject).toHaveTextContent("상세 보기")
     expect(defenseProject).not.toHaveTextContent("문제")
     expect(defenseProject).not.toHaveTextContent("해결")
+    expect(supportingProjects).toHaveTextContent("SeungIl 님의 Hope 3.0.3 포크")
+    expect(supportingProjects).toHaveTextContent("HLS 지연 약 35초 → 약 17초 (팀 시연 환경)")
 
     const flowCases = [
         ["차세대 군사법 정보 시스템", "기관 자료검증 배치업무 반영"],

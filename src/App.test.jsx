@@ -240,7 +240,7 @@ test("홈은 상세 문서 대신 대표 시각 자료와 프로젝트 선택에
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 상품 목록 화면에서 공방 상품을 확인하는 모습",
+            name: "happyGallery 상품 주문 화면에서 수량과 결제 금액을 확인하는 모습",
         }),
     ).toBeInTheDocument()
 })
@@ -321,51 +321,36 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     expect(within(careerProjects).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
     expect(within(careerProjects).queryByText("문제")).not.toBeInTheDocument()
     expect(within(careerSection).queryByText(/소속사 비공개/)).not.toBeInTheDocument()
-    expect(screen.getByLabelText("전송형 전자영장 시스템 확인 근거")).toHaveTextContent(
-        "상태진행 중검증자료 변환 및 배치 단계 확인문서내부 문서 비공개공개담당 범위만 공개",
+    expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
+        "담당 범위만 공개",
     )
 })
 
-test("대표 프로젝트는 담당, 문제와 해결을 보여주고 추가 프로젝트는 구현과 근거를 요약한다", () => {
+test("대표 프로젝트는 핵심 구현을 보여주고 추가 프로젝트는 구현과 근거를 요약한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    const warrantFacts = screen.getByLabelText("전송형 전자영장 시스템 담당, 문제와 해결")
-    const galleryFacts = screen.getByLabelText("happyGallery 담당, 문제와 해결")
+    const warrantFacts = screen.getByRole("list", { name: "전송형 전자영장 시스템 핵심 구현" })
+    const galleryFacts = screen.getByRole("list", { name: "happyGallery 핵심 구현" })
     const defenseProject = screen
         .getByRole("link", {
             name: "차세대 군사법 정보 시스템 프로젝트 상세 보기",
         })
         .closest("article")
 
-    expect(within(warrantFacts).getByText("담당")).toBeInTheDocument()
-    expect(within(warrantFacts).getByText("문제")).toBeInTheDocument()
-    expect(within(warrantFacts).getByText("해결")).toBeInTheDocument()
-    expect(warrantFacts).toHaveTextContent(
-        "KICS 요청 변환 및 전송, 제출 자료의 KICS 반영 서버와 Spring Batch 개발",
-    )
-    expect(warrantFacts).toHaveTextContent(
-        "기관별 요청 및 제출 형식이 다르고, PDF 완료 응답이 요청 상태 저장보다 먼저 도착할 수 있음",
-    )
-    expect(warrantFacts).toHaveTextContent(
-        "기관별 변환 코드를 분리하고, 먼저 도착한 PDF 완료 응답은 요청 상태를 다시 조회해 반영",
-    )
+    expect(within(warrantFacts).getAllByRole("listitem")).toHaveLength(2)
+    expect(warrantFacts).toHaveTextContent("기관별 요청 규격 변환 및 전송 서버 개발")
+    expect(warrantFacts).toHaveTextContent("제출 자료의 KICS 반영 서버와 Spring Batch 개발")
 
-    expect(galleryFacts).toHaveTextContent(
-        "결제사 응답 유실, 서버 중단에 따른 알림 유실과 동시 요청의 정원 및 재고 초과",
-    )
-    expect(galleryFacts).toHaveTextContent("결제 orderId와 환불 UUID를 재사용")
-    expect(galleryFacts).toHaveTextContent("행 잠금으로 정원과 재고 초과를 차단")
+    expect(galleryFacts).toHaveTextContent("결제 및 환불 중복 실행 방지, 중단된 알림 재처리")
+    expect(galleryFacts).toHaveTextContent("동시 예약과 주문의 정원 및 재고 초과 방지")
     expect(defenseProject).toHaveTextContent(
         "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
     )
     expect(defenseProject).toHaveTextContent("기관별 배치 결과, JEUS 로그 및 Tibero 상태 확인")
     expect(defenseProject).not.toHaveTextContent("문제")
     expect(defenseProject).not.toHaveTextContent("해결")
-    expect(galleryFacts).toHaveTextContent(
-        "요구사항 정리, Java 및 Spring Boot API, React 화면, 자동화 테스트, AWS 운영과 k3s 배포 준비",
-    )
 })
 
 test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록을 연결한다", () => {
