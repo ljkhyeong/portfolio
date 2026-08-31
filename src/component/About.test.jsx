@@ -19,6 +19,8 @@ test("경력은 회사 소개를 줄이고 각 프로젝트의 담당 업무와 
 
     expect(careerSection).toHaveTextContent(careers[0].homeDescription)
     expect(careerSection).not.toHaveTextContent(careers[0].description)
+    expect(screen.queryByText("경력과 학습")).not.toBeInTheDocument()
+    expect(screen.getByRole("heading", { level: 2, name: "경력 및 학습" })).toBeInTheDocument()
     expect(projects[0]).toHaveTextContent("기관별 요청 변환 및 제출 자료 반영 서버 개발")
     expect(projects[1]).toHaveTextContent("기관 자료 검증 배치 개발 및 중단 배치 재실행")
     expect(
@@ -33,6 +35,8 @@ test("기술 영역은 중복 설계 기준 없이 실제 프로젝트 사례로
     const { container } = renderAbout()
 
     expect(screen.queryByText("설계 기준")).not.toBeInTheDocument()
+    expect(screen.getByRole("heading", { level: 2, name: "기술" })).toBeInTheDocument()
+    expect(screen.queryByText("사용 기술과 적용 경험")).not.toBeInTheDocument()
 
     const examples = [
         ["Spring Batch 적용 사례: 전자영장", "/projects/e-warrant"],

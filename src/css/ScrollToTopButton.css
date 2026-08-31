@@ -38,6 +38,18 @@
     outline-offset: 3px;
 }
 
+body:has(.portfolio-page, main.case-showcase) .scroll-to-top {
+    border-color: var(--portfolio-line);
+    background: var(--portfolio-surface);
+    color: var(--portfolio-text);
+    box-shadow: none;
+}
+
+body:has(.portfolio-page, main.case-showcase) .scroll-to-top:hover {
+    border-color: var(--portfolio-accent);
+    color: var(--portfolio-accent);
+}
+
 @keyframes scroll-to-top-enter {
     from {
         opacity: 0;

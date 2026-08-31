@@ -1,20 +1,11 @@
-/* 승인된 Hamish 참고 시안: 상세페이지만 어두운 배경과 넓은 대표 화면을 사용한다.
-   main을 함께 지정해 배포용 CSS의 로딩 순서가 달라져도 상세 스타일을 유지한다. */
+/* 메인과 같은 색상, 글자 크기와 본문 폭을 사용한다.
+   main을 함께 지정해 CSS 로딩 순서가 달라도 상세 스타일을 유지한다. */
 main.case-showcase.case-study-page,
 main.case-showcase.baton-service-page {
-    --paper: #171a19;
-    --paper-raised: #222925;
-    --ink: #f4f6f4;
-    --muted: #b2beb6;
-    --line: #39433d;
-    --line-strong: #65756a;
-    --accent: #a6d9bd;
-    --accent-on-light: #a6d9bd;
-    --success: #a6d9bd;
     background: var(--paper);
     color: var(--ink);
     font-family: var(--sans);
-    font-size: 18px;
+    font-size: var(--portfolio-body);
     color-scheme: dark;
 }
 
@@ -23,7 +14,7 @@ main.case-showcase .prior-case,
 main.case-showcase .baton-service-case,
 main.case-showcase .baton-service-footer,
 main.case-showcase .case-design-credit {
-    width: min(1040px, calc(100% - 64px));
+    width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
     margin-inline: auto;
 }
 
@@ -33,11 +24,11 @@ main.case-showcase .prior-case {
 
 main.case-showcase .case-study-nav,
 main.case-showcase .baton-service-nav {
-    width: calc(100% - 112px);
+    width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
     min-height: 82px;
     border: 0;
     font-family: var(--sans);
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     letter-spacing: 0;
     text-transform: none;
 }
@@ -61,7 +52,7 @@ main.case-showcase .baton-service-kicker {
     margin: 0 0 16px;
     color: var(--accent);
     font-family: var(--sans);
-    font-size: 15px;
+    font-size: var(--portfolio-caption);
     font-weight: 500;
     line-height: 1.6;
     letter-spacing: 0;
@@ -73,7 +64,7 @@ main.case-showcase .baton-service-hero h1 {
     margin: 0 0 24px;
     max-width: none;
     font-family: var(--sans);
-    font-size: clamp(52px, 6vw, 82px);
+    font-size: var(--portfolio-display);
     font-weight: 650;
     line-height: 1.07;
     letter-spacing: -0.055em;
@@ -84,7 +75,7 @@ main.case-showcase .baton-service-hero h1 {
 main.case-showcase.case-study-page--warrant .case-hero h1,
 main.case-showcase.case-study-page--defense .case-hero h1,
 main.case-showcase.case-study-page--prior .case-hero h1 {
-    font-size: clamp(38px, 4.1vw, 56px);
+    font-size: var(--portfolio-title);
     line-height: 1.2;
 }
 
@@ -93,8 +84,8 @@ main.case-showcase .prior-case__summary,
 main.case-showcase .baton-service-hero__intro > p {
     margin: 0;
     max-width: 480px;
-    color: #c1c9c4;
-    font-size: 22px;
+    color: var(--muted);
+    font-size: var(--portfolio-lead);
     line-height: 1.65;
     letter-spacing: -0.025em;
 }
@@ -116,7 +107,7 @@ main.case-showcase .case-hero__evidence {
 
 main.case-showcase .case-hero__evidence a {
     color: var(--accent);
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     font-weight: 500;
 }
 
@@ -125,7 +116,7 @@ main.case-showcase .case-project-labels li {
     padding: 0;
     color: var(--muted);
     font-family: var(--sans);
-    font-size: 15px;
+    font-size: var(--portfolio-caption);
     font-weight: 400;
 }
 
@@ -159,7 +150,7 @@ main.case-showcase .baton-service-hero__facts dt {
     margin: 0 0 6px;
     color: var(--muted);
     font-family: var(--sans);
-    font-size: 15px;
+    font-size: var(--portfolio-caption);
     font-weight: 400;
 }
 
@@ -170,9 +161,9 @@ main.case-showcase .baton-service-hero__facts dt::after {
 main.case-showcase .case-hero-facts dd,
 main.case-showcase .baton-service-hero__facts dd {
     margin: 0;
-    color: #d7ded9;
+    color: var(--ink);
     font-family: var(--sans);
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     font-weight: 400;
     line-height: 1.65;
 }
@@ -196,7 +187,7 @@ main.case-showcase .case-system__caption {
     max-width: none;
     margin: 16px 0 0;
     color: var(--muted);
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     line-height: 1.7;
 }
 
@@ -237,12 +228,12 @@ main.case-showcase .screenshot-gallery__item figcaption {
 main.case-showcase .screenshot-gallery__item figcaption span {
     color: var(--accent);
     font-family: var(--sans);
-    font-size: 14px;
+    font-size: var(--portfolio-caption);
     font-weight: 500;
 }
 
 main.case-showcase .screenshot-gallery__item figcaption strong {
-    font-size: 15px;
+    font-size: var(--portfolio-small);
     font-weight: 400;
     line-height: 1.6;
     text-align: left;
@@ -266,7 +257,7 @@ main.case-showcase .case-section-nav__label {
 }
 
 main.case-showcase .case-section-nav a {
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     font-weight: 500;
 }
 
@@ -279,7 +270,7 @@ main.case-showcase .baton-service-switcher {
 
 main.case-showcase .baton-service-switcher a,
 main.case-showcase .baton-service-switcher > span {
-    font-size: 15px;
+    font-size: var(--portfolio-small);
     font-weight: 500;
 }
 
@@ -305,7 +296,7 @@ main.case-showcase .case-section-heading h2,
 main.case-showcase .baton-service-section-heading h2 {
     color: var(--ink);
     font-family: var(--sans);
-    font-size: clamp(26px, 2.4vw, 32px);
+    font-size: var(--portfolio-section-title);
     font-weight: 550;
     line-height: 1.4;
     letter-spacing: -0.035em;
@@ -331,7 +322,7 @@ main.case-showcase .featured-problem__header {
 
 main.case-showcase .featured-problem__header h3 {
     max-width: 740px;
-    font-size: clamp(26px, 2.6vw, 36px);
+    font-size: var(--portfolio-subtitle);
     font-weight: 550;
     line-height: 1.4;
 }
@@ -352,7 +343,7 @@ main.case-showcase .featured-problem--visual .featured-problem__body {
 
 main.case-showcase .featured-problem__explanation > p {
     color: var(--muted);
-    font-size: 18px;
+    font-size: var(--portfolio-body);
     line-height: 1.8;
 }
 
@@ -360,7 +351,7 @@ main.case-showcase .featured-problem__explanation > p > strong {
     display: inline;
     margin-right: 10px;
     color: var(--ink);
-    font-size: 15px;
+    font-size: var(--portfolio-caption);
     font-weight: 500;
 }
 
@@ -376,21 +367,21 @@ main.case-showcase .featured-problem__evidence {
 }
 
 main.case-showcase .featured-problem__result {
-    color: #d9eddf;
-    font-size: 18px;
+    color: var(--ink);
+    font-size: var(--portfolio-body);
     font-weight: 500;
     line-height: 1.8;
 }
 
 main.case-showcase .featured-problem__limitation {
     margin-top: 14px;
-    font-size: 16px;
+    font-size: var(--portfolio-small);
 }
 
 main.case-showcase .featured-problem__details > summary {
     min-height: 44px;
     padding: 16px 0;
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     font-weight: 500;
 }
 
@@ -507,12 +498,12 @@ main.case-showcase .case-architecture__intro {
 main.case-showcase .case-architecture__intro > span {
     grid-column: 1 / -1;
     font-family: var(--sans);
-    font-size: 15px;
+    font-size: var(--portfolio-caption);
 }
 
 main.case-showcase .case-architecture__intro h3 {
     font-family: var(--sans);
-    font-size: 28px;
+    font-size: var(--portfolio-subtitle);
     font-weight: 500;
     line-height: 1.55;
 }
@@ -547,7 +538,7 @@ main.case-showcase .service-document-links a strong {
 
 main.case-showcase .case-representative-documents li p,
 main.case-showcase .service-document-links article p {
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     line-height: 1.75;
 }
 
@@ -608,7 +599,7 @@ main.case-showcase .baton-service-flow__legend > span:nth-child(2)::before {
 main.case-showcase .editorial-diagram__title,
 main.case-showcase .editorial-diagram__header > strong {
     font-family: var(--sans);
-    font-size: 26px;
+    font-size: var(--portfolio-subtitle);
     font-weight: 550;
     line-height: 1.4;
 }
@@ -621,6 +612,7 @@ main.case-showcase .editorial-diagram__header {
 main.case-showcase .baton-service-directory__header h3,
 main.case-showcase .baton-service-directory__identity strong {
     font-family: var(--sans);
+    font-size: var(--portfolio-subtitle);
     font-weight: 550;
 }
 
@@ -634,6 +626,11 @@ main.case-showcase .baton-service-directory__list li:nth-child(odd) {
 
 main.case-showcase .baton-service-directory__list a {
     padding: 24px 0;
+}
+
+main.case-showcase .baton-service-directory__list a:hover,
+main.case-showcase .baton-service-directory__list a:focus-visible {
+    background: var(--accent-soft);
 }
 
 main.case-showcase .baton-service-scope {
@@ -663,7 +660,7 @@ main.case-showcase .project-switcher__panel {
 }
 
 main.case-showcase .case-next {
-    width: min(1040px, calc(100% - 64px));
+    width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
     margin: 0 auto;
     padding: 56px 0;
     border-top: 1px solid var(--line);
@@ -676,6 +673,7 @@ main.case-showcase .case-next a {
 
 main.case-showcase .case-next strong {
     font-family: var(--sans);
+    font-size: var(--portfolio-project-title);
     font-weight: 550;
     color: var(--ink);
 }
@@ -683,7 +681,7 @@ main.case-showcase .case-next strong {
 main.case-showcase .case-design-credit {
     padding: 24px 0 36px;
     color: var(--muted);
-    font-size: 14px;
+    font-size: var(--portfolio-caption);
     text-align: right;
 }
 
@@ -691,7 +689,7 @@ main.case-showcase .case-design-credit a {
     color: var(--accent);
 }
 
-/* 데스크톱 읽기 기준: 본문 18px, 보조 설명 16px, 짧은 분류명 14~15px. */
+/* 상세의 공용 목록과 보조 UI도 같은 글자 크기를 따른다. */
 main.case-showcase .skip-link,
 main.case-showcase .project-switcher__details > summary,
 main.case-showcase .project-switcher__count,
@@ -699,14 +697,17 @@ main.case-showcase .project-switcher a,
 main.case-showcase .case-meta__stack li,
 main.case-showcase .case-meta__links a,
 main.case-showcase .case-meta__links span,
+main.case-showcase .case-meta__links li p,
 main.case-showcase .case-meta__link-note,
 main.case-showcase .case-document-inventory,
 main.case-showcase .service-document-inventory,
 main.case-showcase .case-problems__more > summary,
 main.case-showcase .baton-service-scope summary,
 main.case-showcase .case-next a > span:first-child,
-main.case-showcase .baton-service-footer {
-    font-size: 16px;
+main.case-showcase .baton-service-footer,
+main.case-showcase .project-evidence-list__action,
+main.case-showcase .problem-solution-list__action {
+    font-size: var(--portfolio-small);
 }
 
 main.case-showcase .project-switcher__group > span,
@@ -718,9 +719,10 @@ main.case-showcase .featured-problem__flow-label,
 main.case-showcase .featured-problem__evidence-label,
 main.case-showcase .featured-problem__step-number,
 main.case-showcase .project-evidence-list__type,
-main.case-showcase .project-evidence-list__action,
-main.case-showcase .problem-solution-list__action,
 main.case-showcase .problem-solution-list__result > span,
+main.case-showcase .case-status > span,
+main.case-showcase .case-architecture__intro blockquote strong,
+main.case-showcase .baton-service-scope dt,
 main.case-showcase .editorial-diagram__eyebrow,
 main.case-showcase .case-representative-documents h3 span,
 main.case-showcase .case-representative-documents li > span,
@@ -730,7 +732,7 @@ main.case-showcase .service-document-links .service-document-type,
 main.case-showcase .baton-service-directory__header > span,
 main.case-showcase .baton-service-directory__core span,
 main.case-showcase .baton-service-directory__identity span {
-    font-size: 14px;
+    font-size: var(--portfolio-caption);
 }
 
 main.case-showcase .featured-problem__flow li strong,
@@ -740,7 +742,7 @@ main.case-showcase .case-representative-documents a strong,
 main.case-showcase .service-document-links article a strong,
 main.case-showcase .baton-service-directory__core h4,
 main.case-showcase .baton-service-directory__description h4 {
-    font-size: 20px;
+    font-size: var(--portfolio-subtitle);
 }
 
 main.case-showcase .featured-problem__flow li p,
@@ -758,27 +760,31 @@ main.case-showcase .baton-service-directory__core em,
 main.case-showcase .baton-service-directory__description em,
 main.case-showcase .editorial-diagram__header > p,
 main.case-showcase .editorial-diagram__summary {
-    font-size: 16px;
+    font-size: var(--portfolio-small);
     line-height: 1.75;
 }
 
 main.case-showcase .featured-problem__details dd,
 main.case-showcase .problem-solution-list__item dd,
 main.case-showcase .project-evidence-list__entry dd,
+main.case-showcase .project-evidence-list__entry dd p,
+main.case-showcase .project-evidence-list__entry dd strong,
 main.case-showcase .project-evidence-list__outcome p,
 main.case-showcase .case-status p,
-main.case-showcase .case-architecture__intro > p,
+main.case-showcase .case-architecture__intro p,
+main.case-showcase .case-architecture__intro blockquote,
 main.case-showcase .case-documents__intro,
+main.case-showcase .case-document-inventory dd,
 main.case-showcase .baton-service-status dd,
 main.case-showcase .baton-service-scope > div,
 main.case-showcase .baton-service-scope blockquote,
 main.case-showcase .baton-service-flow figcaption p {
-    font-size: 18px;
+    font-size: var(--portfolio-body);
     line-height: 1.75;
 }
 
 main.case-showcase .project-evidence-list__outcome .project-evidence-list__limitation {
-    font-size: 16px;
+    font-size: var(--portfolio-small);
 }
 
 main.case-showcase .intent-trace-record__toolbar span,
@@ -787,18 +793,18 @@ main.case-showcase .intent-trace-record__evidence span,
 main.case-showcase .intent-trace-record__aside-label,
 main.case-showcase .intent-trace-record__boundary span,
 main.case-showcase .intent-trace-record__body aside li > span {
-    font-size: 14px;
+    font-size: var(--portfolio-caption);
 }
 
 main.case-showcase .intent-trace-record__fields strong,
 main.case-showcase .intent-trace-record__evidence p,
 main.case-showcase .intent-trace-record__boundary strong,
 main.case-showcase .intent-trace-record__body aside li > strong {
-    font-size: 16px;
+    font-size: var(--portfolio-small);
 }
 
 main.case-showcase .intent-trace-record__toolbar strong {
-    font-size: 20px;
+    font-size: var(--portfolio-subtitle);
 }
 
 /* SVG도 페이지와 비슷한 배율로 표시되므로 작은 원본 글자를 그대로 사용하지 않는다. */
@@ -843,7 +849,51 @@ main.case-showcase .screenshot-gallery__zoom,
 .screenshot-lightbox--case .screenshot-lightbox__close,
 .screenshot-lightbox--case .screenshot-lightbox__status,
 .screenshot-lightbox--case .screenshot-lightbox__footer p {
-    font-size: 16px;
+    font-size: var(--portfolio-small);
+}
+
+.screenshot-lightbox--case {
+    color-scheme: dark;
+}
+
+.screenshot-lightbox--case .screenshot-lightbox__panel {
+    border-color: var(--portfolio-line);
+    background: var(--portfolio-bg);
+}
+
+.screenshot-lightbox--case .screenshot-lightbox__header,
+.screenshot-lightbox--case .screenshot-lightbox__footer {
+    border-color: var(--portfolio-line);
+    color: var(--portfolio-text);
+}
+
+.screenshot-lightbox--case .screenshot-lightbox__eyebrow {
+    color: var(--portfolio-accent);
+}
+
+.screenshot-lightbox--case .screenshot-lightbox__footer p,
+.screenshot-lightbox--case .screenshot-lightbox__status {
+    color: var(--portfolio-muted);
+}
+
+.screenshot-lightbox--case button {
+    border-color: var(--portfolio-line);
+    background: var(--portfolio-surface);
+    color: var(--portfolio-text);
+}
+
+.screenshot-lightbox--case button:hover {
+    border-color: var(--portfolio-accent);
+    background: var(--portfolio-accent);
+    color: var(--portfolio-bg);
+}
+
+.screenshot-lightbox--case button:focus-visible {
+    outline-color: var(--portfolio-accent);
+}
+
+.screenshot-lightbox--case .screenshot-lightbox__header h2 {
+    font-size: var(--portfolio-subtitle);
 }
 
 main.case-showcase :is(a, button, summary):focus-visible {
@@ -852,8 +902,8 @@ main.case-showcase :is(a, button, summary):focus-visible {
 }
 
 main.case-showcase ::selection {
-    background: #a6d9bd;
-    color: #171a19;
+    background: var(--portfolio-accent);
+    color: var(--portfolio-bg);
 }
 
 @media (max-width: 800px) {
@@ -930,7 +980,7 @@ main.case-showcase ::selection {
     main.case-showcase .case-hero__intro > p,
     main.case-showcase .prior-case__summary,
     main.case-showcase .baton-service-hero__intro > p {
-        font-size: 18px;
+        font-size: var(--portfolio-body);
     }
 
     main.case-showcase .case-cover {

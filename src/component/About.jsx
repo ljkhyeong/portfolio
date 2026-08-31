@@ -13,7 +13,7 @@ const CareerGroup = ({ career }) => {
             </h3>
             <header className="career-company">
                 <div>
-                    <span>{career.position} · 재직 중</span>
+                    <span>{career.position}, 재직 중</span>
                     <strong>{career.organization}</strong>
                 </div>
                 <time>{career.period}</time>
@@ -102,14 +102,7 @@ const About = () => {
                 aria-labelledby="experience-title"
             >
                 <div className="experience-section__intro">
-                    <div className="section-heading-meta">
-                        <span className="section-kicker">경력과 학습</span>
-                        <span className="section-index" aria-hidden="true">
-                            02
-                        </span>
-                    </div>
                     <h2 id="experience-title">경력 및 학습</h2>
-                    <p>경력, 교육 프로젝트와 개발 서적 스터디를 정리했습니다.</p>
                 </div>
 
                 <div className="timeline timeline--split" aria-label="경력, 교육 및 개인 활동">
@@ -129,7 +122,7 @@ const About = () => {
                                 <div className="timeline__period">{education.period}</div>
                                 <div className="timeline__content">
                                     <span>
-                                        {education.organization} · {education.meta}
+                                        {education.organization}, {education.meta}
                                     </span>
                                     <h4>{projectSummariesById[education.projectId].title}</h4>
                                     <p>{education.description}</p>
@@ -153,7 +146,7 @@ const About = () => {
                                     <div className="timeline__period">그룹 스터디</div>
                                     <div className="timeline__content">
                                         <span>
-                                            {activity.type} · {activity.role}
+                                            {activity.type}, {activity.role}
                                         </span>
                                         <h4>{activity.title}</h4>
                                         <p>{activity.summary}</p>
@@ -183,14 +176,7 @@ const About = () => {
                 aria-labelledby="capability-title"
             >
                 <div className="capability-section__intro">
-                    <div className="section-heading-meta">
-                        <span className="section-kicker">사용 기술과 적용 경험</span>
-                        <span className="section-index" aria-hidden="true">
-                            03
-                        </span>
-                    </div>
                     <h2 id="capability-title">기술</h2>
-                    <p>백엔드 개발을 중심으로 사용 기술과 적용 사례를 정리했습니다.</p>
                 </div>
                 <div className="capability-list capability-list--desktop">
                     {homeSkillGroups.map((group) => (

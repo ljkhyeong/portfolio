@@ -14,6 +14,7 @@ const commonRenderSourceTargets = [
     "src/App.jsx",
     "src/App.css",
     "src/index.css",
+    "src/css/PortfolioTheme.css",
     "src/component/Main.jsx",
     "src/component/Header.jsx",
     "src/component/Projects.jsx",

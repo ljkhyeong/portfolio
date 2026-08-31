@@ -10,7 +10,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     render(<App />)
 
-    expect(screen.getAllByText("임정규 · 백엔드 개발자").length).toBeGreaterThan(0)
+    expect(screen.getByRole("contentinfo")).toHaveTextContent("임정규, 백엔드 개발자")
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
     expect(heroHeading).toHaveTextContent(
@@ -28,27 +28,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(reliabilityFlow).toHaveTextContent("중복 확인")
     expect(reliabilityFlow).toHaveTextContent("상태 저장")
     expect(reliabilityFlow).toHaveTextContent("중단 후 재처리")
-    const heroHighlights = screen.getByRole("list", { name: "대표 경험 프로젝트" })
-
-    expect(heroHighlights).toHaveTextContent("전송형 전자영장 시스템")
-    expect(heroHighlights).toHaveTextContent("기관별 규격 변환")
-    expect(heroHighlights).toHaveTextContent("BATON")
-    expect(heroHighlights).toHaveTextContent("기존 작업 재사용")
-    expect(heroHighlights).toHaveTextContent("happyGallery")
-    expect(heroHighlights).toHaveTextContent("결제 및 환불 중복 방지")
-    expect(
-        within(heroHighlights).getByRole("link", { name: /전송형 전자영장 시스템/ }),
-    ).toHaveAttribute("href", "/projects/e-warrant")
-    expect(
-        within(heroHighlights).getByRole("link", {
-            name: /BATON/,
-        }),
-    ).toHaveAttribute("href", "/projects/baton")
-    expect(
-        within(heroHighlights).getByRole("link", {
-            name: /happyGallery/,
-        }),
-    ).toHaveAttribute("href", "/projects/happygallery")
+    expect(screen.queryByRole("list", { name: "대표 경험 프로젝트" })).not.toBeInTheDocument()
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
     const featuredProjects = screen.getByRole("list", { name: "대표 프로젝트" })
@@ -307,7 +287,7 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     })
     const careerLinks = within(careerProjects).getAllByRole("link")
 
-    expect(within(careerSection).getByText("백엔드 개발자 · 재직 중")).toBeInTheDocument()
+    expect(within(careerSection).getByText("백엔드 개발자, 재직 중")).toBeInTheDocument()
     expect(within(careerSection).getByText("BEINTECH")).toBeInTheDocument()
     expect(within(careerSection).getByText("2024.06 — 현재")).toBeInTheDocument()
     expect(currentCareer.compareDocumentPosition(previousCareer)).toBe(
@@ -624,7 +604,7 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
         homeHeroContent.headline,
     )
     expect(
-        within(printDocument).getByRole("heading", { name: "주요 프로젝트" }),
+        within(printDocument).getByRole("heading", { name: "대표 프로젝트" }),
     ).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "경력 및 학습" })).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "기술" })).toBeInTheDocument()

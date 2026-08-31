@@ -172,11 +172,17 @@ const FeaturedProjectCard = ({ project, position }) => (
         className={`project-showcase__item project-showcase__item--${project.visual} project-showcase__item--${project.presentation}`}
     >
         <article>
-            {project.visual === "warrant" ? (
-                <WarrantVisual />
-            ) : (
-                <ScreenshotVisual project={project} />
-            )}
+            <Link
+                className="project-card__visual-link"
+                to={project.route}
+                aria-label={`${project.title} 미리보기에서 상세 보기`}
+            >
+                {project.visual === "warrant" ? (
+                    <WarrantVisual />
+                ) : (
+                    <ScreenshotVisual project={project} />
+                )}
+            </Link>
 
             <div className="project-card__content">
                 <header className="project-card__header">
@@ -184,7 +190,9 @@ const FeaturedProjectCard = ({ project, position }) => (
                         <span>{String(position + 1).padStart(2, "0")}</span>
                         <span>{PROJECT_TYPE_LABELS[project.projectType]}</span>
                     </div>
-                    <h4>{project.title}</h4>
+                    <h3>
+                        <Link to={project.route}>{project.title}</Link>
+                    </h3>
                     {project.projectType === "career" && (
                         <p className="project-card__eyebrow-copy">BEINTECH / LG CNS 컨소시엄</p>
                     )}
@@ -214,23 +222,14 @@ const SupportingProjectCard = ({ project, position }) => {
 
                 <header className="project-support__identity">
                     <span>{PROJECT_TYPE_LABELS[project.projectType]}</span>
-                    <h4>{project.title}</h4>
+                    <h4>
+                        <Link to={project.route}>{project.title}</Link>
+                    </h4>
                     <p>{project.eyebrow}</p>
                     <time>{project.period}</time>
                 </header>
 
                 <div className="project-support__summary">
-                    {project.homeFlow?.length > 0 && (
-                        <ol
-                            className="project-support__flow"
-                            aria-label={`${project.title} 처리 흐름`}
-                        >
-                            {project.homeFlow.map((step) => (
-                                <li key={step}>{step}</li>
-                            ))}
-                        </ol>
-                    )}
-
                     <dl className="project-support__details">
                         <div>
                             <dt>구현</dt>
@@ -266,21 +265,10 @@ const Projects = () => {
                     </span>
                     <span className="section-kicker">프로젝트</span>
                 </div>
-                <h2 id="projects-title">주요 프로젝트</h2>
-                <p>
-                    현재 업무와 개인 프로젝트에서 맡은 문제, 해결 방법과 확인 가능한 범위를
-                    정리했습니다.
-                </p>
+                <h2 id="projects-title">대표 프로젝트</h2>
             </div>
 
-            <section className="project-showcase" aria-labelledby="featured-projects-title">
-                <div className="project-section-heading">
-                    <div>
-                        <span>SELECTED CASES</span>
-                        <h3 id="featured-projects-title">대표 사례</h3>
-                    </div>
-                    <p>기관 연계, 중복 실행 방지와 중단 작업 재처리를 실제 구현으로 보여줍니다.</p>
-                </div>
+            <div className="project-showcase">
                 <ol className="project-showcase__grid" aria-label="대표 프로젝트">
                     {featuredProjects.map((project, position) => (
                         <FeaturedProjectCard
@@ -290,7 +278,7 @@ const Projects = () => {
                         />
                     ))}
                 </ol>
-            </section>
+            </div>
 
             <section className="project-support" aria-labelledby="supporting-projects-title">
                 <div className="project-section-heading project-section-heading--compact">

@@ -18,6 +18,28 @@ body.portfolio-print-mode {
     min-width: 0;
 }
 
+/* 웹 테마와 분리해 인쇄 미리보기와 PDF를 밝은 색상으로 유지한다. */
+.portfolio-web-print .portfolio-page {
+    --portfolio-bg: #ffffff;
+    --portfolio-surface: #f6f8fa;
+    --portfolio-text: #1f2328;
+    --portfolio-muted: #59636e;
+    --portfolio-line: #d0d7de;
+    --portfolio-accent: #0969da;
+    --paper: var(--portfolio-bg);
+    --paper-raised: var(--portfolio-surface);
+    --ink: var(--portfolio-text);
+    --ink-soft: #25292e;
+    --muted: var(--portfolio-muted);
+    --line: var(--portfolio-line);
+    --line-strong: #afb8c1;
+    --accent: var(--portfolio-accent);
+    --accent-on-light: var(--portfolio-accent);
+    --accent-soft: #ddf4ff;
+    --success: #1a7f37;
+    color-scheme: light;
+}
+
 .print-toolbar {
     position: sticky;
     z-index: 20;
@@ -76,6 +98,17 @@ body.portfolio-print-mode {
 @media (max-width: 760px) {
     body.portfolio-print-mode {
         padding: 0;
+    }
+
+    .portfolio-web-print .portfolio-page {
+        --portfolio-title: 38px;
+        --portfolio-project-title: 30px;
+        --portfolio-section-title: 32px;
+        --portfolio-subtitle: 22px;
+        --portfolio-lead: 18px;
+        --portfolio-body: 16px;
+        --portfolio-small: 14px;
+        --portfolio-caption: 12px;
     }
 
     .print-toolbar {
@@ -158,8 +191,53 @@ body.portfolio-print-mode {
 
     .portfolio-web-print .site-nav__links,
     .portfolio-web-print .site-nav__actions,
-    .portfolio-web-print .home-flow__status {
+    .portfolio-web-print .home-hero__button--secondary,
+    .portfolio-web-print .home-flow__packet {
         display: none !important;
+    }
+
+    .portfolio-web-print .home-hero {
+        isolation: auto;
+        width: 100%;
+        overflow: visible;
+        min-height: 0;
+        padding: 34px 42px;
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+        gap: 24px;
+        background: #f7f8fb;
+    }
+
+    .portfolio-web-print .home-hero h1 {
+        font-size: 38px;
+    }
+
+    .portfolio-web-print .home-hero__example {
+        margin-bottom: 12px;
+        font-size: 18px;
+    }
+
+    .portfolio-web-print .home-hero__statement {
+        max-width: none;
+    }
+
+    .portfolio-web-print .home-hero__career {
+        margin-bottom: 20px;
+    }
+
+    .portfolio-web-print .home-hero__summary,
+    .portfolio-web-print .home-hero__actions {
+        margin-top: 24px;
+    }
+
+    .portfolio-web-print .home-flow {
+        padding-left: 20px;
+        box-shadow: none;
+    }
+
+    .portfolio-web-print .home-flow__map li {
+        min-height: 72px;
+        gap: 12px;
+        break-inside: avoid;
     }
 
     .portfolio-web-print .work-section,
@@ -185,6 +263,76 @@ body.portfolio-print-mode {
     .portfolio-web-print .experience-section__intro p {
         grid-column: auto;
         max-width: none;
+    }
+
+    .portfolio-web-print .project-card__visual-link {
+        display: none;
+    }
+
+    .portfolio-web-print .project-showcase__grid,
+    .portfolio-web-print .project-support__grid,
+    .portfolio-web-print .project-showcase__item > article,
+    .portfolio-web-print .project-support__item > article {
+        display: block;
+    }
+
+    .portfolio-web-print .project-showcase__item,
+    .portfolio-web-print .project-support__item {
+        padding: 0;
+        margin-bottom: 14px;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+
+    .portfolio-web-print .project-showcase__item > article,
+    .portfolio-web-print .project-support__item > article {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .portfolio-web-print .project-card__content,
+    .portfolio-web-print .project-support__item > article {
+        padding: 18px;
+    }
+
+    .portfolio-web-print .project-card__header h3 {
+        font-size: var(--portfolio-project-title);
+    }
+
+    .portfolio-web-print .project-card__summary,
+    .portfolio-web-print .project-card__highlights {
+        margin-top: 14px;
+    }
+
+    .portfolio-web-print .project-card__services {
+        margin: 14px -18px -18px;
+        padding: 10px 18px;
+    }
+
+    .portfolio-web-print .project-support {
+        margin-top: 32px;
+    }
+
+    .portfolio-web-print .project-section-heading {
+        display: block;
+        margin-bottom: 20px;
+        break-inside: avoid;
+        break-after: avoid-page;
+    }
+
+    .portfolio-web-print .project-section-heading p {
+        max-width: none;
+        margin-top: 12px;
+    }
+
+    .portfolio-web-print .project-support__summary {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+    }
+
+    .portfolio-web-print .project-support__actions {
+        margin-top: 12px;
     }
 
     .portfolio-web-print .timeline--split {
@@ -240,6 +388,14 @@ body.portfolio-print-mode {
         overflow: visible;
     }
 
+    .portfolio-web-print .capability-list--desktop {
+        display: block;
+    }
+
+    .portfolio-web-print .capability-list--mobile {
+        display: none;
+    }
+
     .portfolio-web-print .capability-section__intro h2 {
         margin-top: 12px;
         font-size: 42px;
@@ -250,6 +406,8 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .capability {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
         padding: 7px 18px 8px;
     }
 
@@ -263,6 +421,8 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .capability ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 24px;
         margin-top: 6px;
     }
 

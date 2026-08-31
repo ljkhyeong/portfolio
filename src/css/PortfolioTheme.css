@@ -1,0 +1,52 @@
+/* 메인과 프로젝트 상세가 함께 사용하는 데스크톱 디자인 기준이다. */
+:root {
+    --portfolio-bg: #171a19;
+    --portfolio-surface: #222925;
+    --portfolio-text: #f4f6f4;
+    --portfolio-muted: #b2beb6;
+    --portfolio-line: #39433d;
+    --portfolio-accent: #a6d9bd;
+    --portfolio-signature: #f4d35e;
+    --portfolio-content-width: 1200px;
+    --portfolio-gutter: 48px;
+    --portfolio-display: 72px;
+    --portfolio-title: 52px;
+    --portfolio-section-title: 36px;
+    --portfolio-project-title: 42px;
+    --portfolio-subtitle: 24px;
+    --portfolio-lead: 22px;
+    --portfolio-body: 18px;
+    --portfolio-small: 16px;
+    --portfolio-caption: 14px;
+}
+
+:is(.portfolio-page, main.case-showcase) {
+    --paper: var(--portfolio-bg);
+    --paper-raised: var(--portfolio-surface);
+    --ink: var(--portfolio-text);
+    --ink-soft: #d7ded9;
+    --muted: var(--portfolio-muted);
+    --line: var(--portfolio-line);
+    --line-strong: #65756a;
+    --accent: var(--portfolio-accent);
+    --accent-on-light: var(--portfolio-accent);
+    --accent-soft: #32483b;
+    --success: var(--portfolio-accent);
+    font-family: var(--sans);
+    font-size: var(--portfolio-body);
+    color-scheme: dark;
+}
+
+body:has(.portfolio-page, main.case-showcase) {
+    background: var(--portfolio-bg);
+}
+
+@media (max-width: 700px) {
+    :root {
+        --portfolio-gutter: 24px;
+        --portfolio-display: 48px;
+        --portfolio-title: 38px;
+        --portfolio-section-title: 30px;
+        --portfolio-project-title: 32px;
+    }
+}

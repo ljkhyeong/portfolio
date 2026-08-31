@@ -14,9 +14,8 @@ const HOME_SECTIONS = [
 const Header = () => {
     const currentCareer = careers[0]
     const [activeSection, setActiveSection] = useState("")
-    const headlineRemainder = homeHeroContent.headline.slice(
-        homeHeroContent.headlineHighlight.length,
-    )
+    const headlineExample = `${homeHeroContent.headlineHighlight} 등 `
+    const headlineRemainder = homeHeroContent.headline.slice(headlineExample.length)
 
     useEffect(() => {
         const sections = HOME_SECTIONS.map(({ id }) => document.getElementById(id)).filter(Boolean)
@@ -104,8 +103,8 @@ const Header = () => {
                         {currentCareer.organization} · {currentCareer.period}
                     </p>
                     <h1 id="home-hero-title" data-route-heading="/">
-                        <mark>{homeHeroContent.headlineHighlight}</mark>
-                        {headlineRemainder}
+                        <span className="home-hero__example">{headlineExample}</span>
+                        <span className="home-hero__statement">{headlineRemainder}</span>
                     </h1>
                     <p className="home-hero__summary">{homeHeroContent.summary}</p>
                     <div className="home-hero__actions">
@@ -129,14 +128,9 @@ const Header = () => {
                 <aside className="home-flow" aria-labelledby="home-flow-title">
                     <div className="home-flow__heading">
                         <div>
-                            <p>RELIABILITY FLOW</p>
-                            <h2 id="home-flow-title">중복 방지 및 재처리 흐름</h2>
+                            <h2 id="home-flow-title">요청 처리 흐름</h2>
                             <span>BATON과 happyGallery에 적용한 요청 처리 방식</span>
                         </div>
-                        <span className="home-flow__status">
-                            <i aria-hidden="true" />
-                            구현 원칙
-                        </span>
                     </div>
 
                     <div className="home-flow__map">
@@ -154,22 +148,6 @@ const Header = () => {
                         <span className="home-flow__packet" aria-hidden="true">
                             REQ
                         </span>
-                    </div>
-
-                    <div className="home-flow__cases">
-                        <p>적용 사례</p>
-                        <ul aria-label="대표 경험 프로젝트">
-                            {homeHeroContent.signals.map((signal) => (
-                                <li key={signal.route}>
-                                    <Link to={signal.route}>
-                                        <span>{signal.label}</span>
-                                        <strong>{signal.title}</strong>
-                                        <small>{signal.shortEvidence}</small>
-                                        <i aria-hidden="true">↗</i>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
                     </div>
                 </aside>
             </section>

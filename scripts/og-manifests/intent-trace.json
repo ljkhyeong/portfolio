@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/intent-trace.png",
-    "sourceSha256": "61064e89fc7a1b605d293dd03237a99776c894832561a2f80944590d7aac03b5",
+    "sourceSha256": "6c1d953fa49169f7e1d96b281214df39998ddd1d9e0b5cacde8c75a042ba4d57",
     "artifactSha256": "32105d4a15fb1d23cc0e49aeda2a5e1fa82a7010a1c86ea01fe2dd8e37b33e10",
     "renderer": {
         "id": "chrome",

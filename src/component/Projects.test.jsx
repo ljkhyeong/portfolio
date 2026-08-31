@@ -50,7 +50,7 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     expect(screen.queryByRole("link", { name: /군사법.*GitHub/ })).not.toBeInTheDocument()
 })
 
-test("추가 프로젝트는 관계, 구현, 확인 근거와 상세 링크로 압축한다", () => {
+test("추가 프로젝트는 구현, 확인 근거와 상세 링크로 표시한다", () => {
     renderProjects()
 
     const supportingProjects = screen.getByRole("list", { name: "추가 프로젝트" })
@@ -72,16 +72,27 @@ test("추가 프로젝트는 관계, 구현, 확인 근거와 상세 링크로 �
     expect(supportingProjects).toHaveTextContent("SeungIl 님의 Hope 3.0.3 포크")
     expect(supportingProjects).toHaveTextContent("HLS 지연 약 35초 → 약 17초 (팀 시연 환경)")
 
-    const flowCases = [
-        ["차세대 군사법 정보 시스템", "기관 자료검증 배치업무 반영"],
-        ["Hope Commit", "대상 커밋변경 줄HTML 리뷰"],
-        ["IntentTrace", "커밋코드 줄 해시공개 판단"],
-        ["WebRTC/HLS 현장강의 보조 서비스", "RTPHLS 변환다시보기"],
-    ]
+    expect(
+        within(supportingProjects).queryByRole("list", { name: /처리 흐름/ }),
+    ).not.toBeInTheDocument()
+})
 
-    flowCases.forEach(([title, flow]) => {
-        expect(screen.getByRole("list", { name: `${title} 처리 흐름` })).toHaveTextContent(flow)
-    })
+test("대표 프로젝트 순서를 유지하고 제목과 미리보기에서 상세로 이동한다", () => {
+    renderProjects()
+
+    expect(screen.getByRole("heading", { name: "대표 프로젝트", level: 2 })).toBeInTheDocument()
+    const projects = within(screen.getByRole("list", { name: "대표 프로젝트" }))
+    const headings = projects.getAllByRole("heading", { level: 3 })
+    expect(headings.map((heading) => heading.textContent)).toEqual([
+        "전송형 전자영장 시스템",
+        "BATON",
+        "happyGallery",
+    ])
+    expect(within(headings[1]).getByRole("link")).toHaveAttribute("href", "/projects/baton")
+    expect(projects.getByRole("link", { name: "BATON 미리보기에서 상세 보기" })).toHaveAttribute(
+        "href",
+        "/projects/baton",
+    )
 })
 
 test("BATON 서비스는 Core에서 분리된 하나의 서비스 맵으로 연결한다", () => {
