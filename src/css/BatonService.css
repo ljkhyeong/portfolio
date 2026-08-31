@@ -25,7 +25,6 @@
     word-break: keep-all;
 }
 
-.baton-service-nav,
 .baton-service-case,
 .baton-service-footer {
     width: min(1180px, calc(100% - 64px));
@@ -34,29 +33,6 @@
 
 .baton-service-page .baton-service-switcher {
     width: min(1180px, calc(100% - 64px));
-}
-
-.baton-service-nav {
-    display: flex;
-    min-height: 68px;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-}
-
-.baton-service-nav span {
-    color: var(--muted);
-}
-
-.baton-service-nav > a {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
 }
 
 .baton-service-hero {
@@ -491,7 +467,6 @@
 }
 
 @media (max-width: 560px) {
-    .baton-service-nav,
     .baton-service-case,
     .baton-service-footer {
         width: min(100% - 36px, 1180px);
@@ -499,10 +474,6 @@
 
     .baton-service-page .baton-service-switcher {
         width: min(100% - 36px, 1180px);
-    }
-
-    .baton-service-nav span {
-        display: none;
     }
 
     .baton-service-hero h1 {
@@ -566,7 +537,6 @@
 }
 
 /* 서비스 상세의 보조 설명과 표기 글자 크기를 읽을 수 있는 수준으로 유지 */
-.baton-service-nav,
 .baton-service-kicker,
 .baton-service-section-heading span,
 .baton-service-status code,
@@ -595,8 +565,6 @@
     outline-offset: 2px;
 }
 
-.baton-service-nav a:hover,
-.baton-service-nav a:focus-visible,
 .baton-service-index a:hover,
 .baton-service-index a:focus-visible {
     color: var(--accent);

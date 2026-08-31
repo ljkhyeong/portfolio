@@ -27,37 +27,6 @@
     word-break: keep-all;
 }
 
-.case-study-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: min(1240px, calc(100% - 64px));
-    min-height: 68px;
-    margin: 0 auto;
-    border-bottom: 1px solid var(--line, #cbc8be);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.case-study-nav > .project-switcher {
-    margin-left: auto;
-}
-
-.case-study-nav__home {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    transition: gap 180ms ease;
-}
-
-.case-study-nav__home:hover {
-    gap: 6px;
-}
-
 .case-study {
     width: min(1240px, calc(100% - 64px));
     margin: 0 auto;
@@ -813,8 +782,9 @@
     z-index: 1;
     padding: 24px 18px;
     border: 1px solid rgba(243, 241, 234, 0.36);
-    background: var(--ink, #171713);
-    font-size: clamp(14px, 1.5vw, 18px);
+    background: var(--paper-raised, #222925);
+    color: var(--ink, #f4f6f4);
+    font-size: var(--portfolio-body, 18px);
     font-weight: 650;
     letter-spacing: -0.02em;
     text-align: center;
@@ -1383,8 +1353,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: min(1240px, calc(100% - 64px));
-    min-height: clamp(240px, 29vw, 340px);
+    width: 100%;
+    min-height: 0;
     margin: 0 auto;
     padding: 50px 110px 50px 0;
 }
@@ -1581,29 +1551,10 @@
     }
 }
 
-@media (max-width: 860px) {
-    .case-study-nav {
-        min-height: 68px;
-        align-items: center;
-        flex-direction: row;
-        gap: 16px;
-        padding: 0;
-    }
-
-    .case-study-nav > .project-switcher {
-        margin-left: auto;
-    }
-}
-
 @media (max-width: 700px) {
-    .case-study-nav,
     .case-study,
     .case-next a {
         width: min(100% - 36px, 1240px);
-    }
-
-    .case-study-nav {
-        min-height: 0;
     }
 
     .case-hero {
@@ -2028,10 +1979,6 @@
     color: var(--ink, #171713);
 }
 
-.case-study-page--prior .case-study-nav {
-    border-color: var(--line, #cbc8be);
-}
-
 .prior-case {
     width: min(980px, calc(100% - 64px));
     margin: 0 auto;
@@ -2212,7 +2159,6 @@
 }
 
 /* 상세 화면의 보조 설명과 표기 글자 크기를 읽을 수 있는 수준으로 유지 */
-.case-study-nav,
 .case-kicker,
 .case-section-heading > span,
 .case-snapshot dt,
@@ -2265,15 +2211,6 @@
 }
 
 /* 상세 화면의 정보 묶음, 링크와 기술 흐름을 같은 표면 규칙으로 표시 */
-.case-study-nav {
-    border-color: var(--line);
-}
-
-.case-study-nav__home:hover,
-.case-study-nav__home:focus-visible {
-    color: var(--accent);
-}
-
 .case-study-page a:focus-visible {
     border-radius: 3px;
     outline: 2px solid var(--accent);

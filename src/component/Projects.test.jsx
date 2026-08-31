@@ -33,13 +33,15 @@ test("대표 프로젝트는 서비스 소개와 핵심 구현 두 가지를 먼
 test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     renderProjects()
 
-    expect(screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" })).toHaveAttribute(
-        "href",
-        "/projects/baton",
-    )
-    expect(
-        screen.getByRole("link", { name: "BATON WATCH GitHub 저장소 새 창에서 보기" }),
-    ).toHaveAttribute("href", "https://github.com/ljkhyeong/baton-watch")
+    const detailLink = screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" })
+    const repositoryLink = screen.getByRole("link", {
+        name: "BATON WATCH GitHub 저장소 새 창에서 보기",
+    })
+    expect(detailLink).toHaveAttribute("href", "/projects/baton")
+    expect(detailLink).not.toHaveAttribute("target")
+    expect(repositoryLink).toHaveAttribute("href", "https://github.com/ljkhyeong/baton-watch")
+    expect(repositoryLink).toHaveAttribute("target", "_blank")
+    expect(repositoryLink).toHaveAttribute("rel", "noreferrer")
     expect(
         screen.getByRole("link", { name: "happyGallery GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/happyGallery")
@@ -81,6 +83,7 @@ test("대표 프로젝트 순서를 유지하고 제목과 미리보기에서 �
     renderProjects()
 
     expect(screen.getByRole("heading", { name: "대표 프로젝트", level: 2 })).toBeInTheDocument()
+    expect(screen.queryByText("프로젝트", { exact: true })).not.toBeInTheDocument()
     const projects = within(screen.getByRole("list", { name: "대표 프로젝트" }))
     const headings = projects.getAllByRole("heading", { level: 3 })
     expect(headings.map((heading) => heading.textContent)).toEqual([

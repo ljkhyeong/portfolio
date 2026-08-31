@@ -3,6 +3,7 @@ import { navigableCaseStudies, projectsById } from "../../data/projects"
 import { caseHighlights, caseIntroductions, problemHighlights } from "../../data/caseHighlights"
 import featuredCasePresentations from "../../data/featuredProblems"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
+import PortfolioNavigation from "../PortfolioNavigation"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
@@ -361,12 +362,17 @@ const PriorExperienceCase = ({ project }) => {
             <a className="skip-link" href="#prior-project-title">
                 본문으로 건너뛰기
             </a>
-            <nav className="case-study-nav" aria-label="프로젝트 상세 탐색">
-                <Link to="/" className="case-study-nav__home">
-                    <span aria-hidden="true">←</span> 포트폴리오
-                </Link>
-                <ProjectSwitcher currentProjectId={project.id} contextLabel="교육 프로젝트" />
-            </nav>
+            <PortfolioNavigation
+                label="프로젝트 상세 탐색"
+                links={
+                    <Link to="/#work">
+                        <span aria-hidden="true">←</span> 프로젝트 목록
+                    </Link>
+                }
+                actions={
+                    <ProjectSwitcher currentProjectId={project.id} contextLabel="교육 프로젝트" />
+                }
+            />
             <article className="prior-case">
                 <header className="case-hero" id="project-overview">
                     <div className="case-hero__heading">
@@ -473,12 +479,15 @@ const ProjectCaseStudy = ({ projectId }) => {
             <a className="skip-link" href="#project-title">
                 본문으로 건너뛰기
             </a>
-            <nav className="case-study-nav" aria-label="프로젝트 상세 탐색">
-                <Link to="/" className="case-study-nav__home">
-                    <span aria-hidden="true">←</span> 포트폴리오
-                </Link>
-                <ProjectSwitcher currentProjectId={projectId} />
-            </nav>
+            <PortfolioNavigation
+                label="프로젝트 상세 탐색"
+                links={
+                    <Link to="/#work">
+                        <span aria-hidden="true">←</span> 프로젝트 목록
+                    </Link>
+                }
+                actions={<ProjectSwitcher currentProjectId={projectId} />}
+            />
 
             <article className="case-study">
                 <header className="case-hero" id="project-overview">

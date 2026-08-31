@@ -100,6 +100,33 @@ const projectLinkCases = [
     ["WebRTC/HLS 현장강의 보조 서비스", "/projects/webrtc"],
 ]
 
+test("상세에서 프로젝트 목록으로 돌아가면 해당 섹션으로 스크롤하고 포커스를 옮긴다", async () => {
+    window.history.pushState({}, "", "/projects/baton")
+    const originalScrollIntoView = HTMLElement.prototype.scrollIntoView
+    const scrollIntoView = vi.fn()
+    HTMLElement.prototype.scrollIntoView = scrollIntoView
+
+    try {
+        render(<App />)
+        await screen.findByRole("heading", { name: "BATON", level: 1 }, lazyRouteLoadOptions)
+
+        fireEvent.click(screen.getByRole("link", { name: "프로젝트 목록" }))
+
+        const work = await screen.findByRole("region", { name: "대표 프로젝트" })
+        await waitFor(() => expect(work).toHaveFocus())
+        expect(window.location.pathname).toBe("/")
+        expect(window.location.hash).toBe("#work")
+        expect(scrollIntoView).toHaveBeenCalledWith({ block: "start" })
+        expect(scrollIntoView.mock.contexts).toContain(work)
+    } finally {
+        if (originalScrollIntoView) {
+            HTMLElement.prototype.scrollIntoView = originalScrollIntoView
+        } else {
+            delete HTMLElement.prototype.scrollIntoView
+        }
+    }
+})
+
 test("GitHub 프로필 이미지와 아이디를 포트폴리오 식별 정보로 사용한다", () => {
     window.history.pushState({}, "", "/")
 
@@ -113,6 +140,20 @@ test("GitHub 프로필 이미지와 아이디를 포트폴리오 식별 정보�
     expect(avatar).toHaveAttribute("src", expect.stringContaining("ljkhyeong-avatar.png"))
     expect(avatar).toHaveAttribute("alt", "")
     expect(decodeURI(pdfDownload.getAttribute("href"))).toBe("/임정규_포트폴리오.pdf")
+    const navigation = screen.getByRole("navigation", { name: "주요 메뉴" })
+
+    expect(brand).toHaveAttribute("href", "#top")
+    expect(within(navigation).getByRole("link", { name: "프로젝트" })).toHaveAttribute(
+        "href",
+        "#work",
+    )
+    expect(within(navigation).getByRole("link", { name: "문서 검색" })).toHaveAttribute(
+        "href",
+        "/search",
+    )
+    expect(
+        within(navigation).getByRole("link", { name: "포트폴리오 PDF 내려받기" }),
+    ).toHaveAttribute("download")
 })
 
 test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으로 보여준다", () => {

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { batonServicesById, projectsById } from "../../data/projects"
 import { batonServicePresentations } from "../../data/batonServicePresentation"
 import featuredCasePresentations from "../../data/featuredProblems"
+import PortfolioNavigation from "../PortfolioNavigation"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
@@ -49,10 +50,18 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
             <a className="skip-link" href="#service-title">
                 본문으로 건너뛰기
             </a>
-            <nav className="baton-service-nav" aria-label="BATON 서비스 상세 탐색">
-                <Link to="/projects/baton">← BATON 전체 보기</Link>
-                <span>BATON / {service.name}</span>
-            </nav>
+            <PortfolioNavigation
+                label="BATON 서비스 상세 탐색"
+                links={
+                    <>
+                        <Link to="/#work">프로젝트 목록</Link>
+                        <Link to="/projects/baton">
+                            <span aria-hidden="true">←</span> BATON 전체 보기
+                        </Link>
+                    </>
+                }
+                actions={<span className="site-nav__context">BATON / {service.name}</span>}
+            />
 
             <article className="baton-service-case">
                 <header className="baton-service-hero">

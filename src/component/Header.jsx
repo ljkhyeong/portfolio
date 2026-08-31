@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
 import { careers } from "../data/profile"
 import { homeHeroContent } from "../data/homeHero"
+import PortfolioNavigation from "./PortfolioNavigation"
 import "../css/HomeHero.css"
 
 const HOME_SECTIONS = [
@@ -53,48 +54,43 @@ const Header = () => {
 
     return (
         <header className="site-header">
-            <nav className="site-nav" aria-label="주요 메뉴">
-                <a className="site-nav__brand" href="#top" aria-label="ljkhyeong 포트폴리오 홈">
-                    <span className="site-nav__avatar" aria-hidden="true">
-                        <img
-                            src={assetPath("ljkhyeong-avatar.png")}
-                            alt=""
-                            width="160"
-                            height="160"
-                        />
-                    </span>
-                    <strong>ljkhyeong</strong>
-                </a>
-                <div className="site-nav__links">
-                    {HOME_SECTIONS.map((section) => (
-                        <a
-                            href={`#${section.id}`}
-                            aria-current={activeSection === section.id ? "location" : undefined}
-                            key={section.id}
-                            onClick={() => setActiveSection(section.id)}
-                        >
-                            {section.label}
+            <PortfolioNavigation
+                isHome
+                label="주요 메뉴"
+                links={
+                    <>
+                        {HOME_SECTIONS.map((section) => (
+                            <a
+                                href={`#${section.id}`}
+                                aria-current={activeSection === section.id ? "location" : undefined}
+                                key={section.id}
+                                onClick={() => setActiveSection(section.id)}
+                            >
+                                {section.label}
+                            </a>
+                        ))}
+                        <Link to="/search">문서 검색</Link>
+                    </>
+                }
+                actions={
+                    <>
+                        <a className="site-nav__contact-link" href="#contact">
+                            연락처
                         </a>
-                    ))}
-                    <Link to="/search">문서 검색</Link>
-                </div>
-                <div className="site-nav__actions">
-                    <a className="site-nav__contact-link" href="#contact">
-                        연락처
-                    </a>
-                    <a
-                        className="site-nav__contact"
-                        href={assetPath("임정규_포트폴리오.pdf")}
-                        aria-label="포트폴리오 PDF 내려받기"
-                        target="_blank"
-                        rel="noreferrer"
-                        download
-                    >
-                        PDF
-                        <span aria-hidden="true">↓</span>
-                    </a>
-                </div>
-            </nav>
+                        <a
+                            className="site-nav__contact"
+                            href={assetPath("임정규_포트폴리오.pdf")}
+                            aria-label="포트폴리오 PDF 내려받기"
+                            target="_blank"
+                            rel="noreferrer"
+                            download
+                        >
+                            PDF
+                            <span aria-hidden="true">↓</span>
+                        </a>
+                    </>
+                }
+            />
 
             <section className="home-hero" id="top" aria-labelledby="home-hero-title">
                 <div className="home-hero__copy">

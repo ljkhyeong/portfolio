@@ -22,21 +22,6 @@ main.case-showcase .prior-case {
     padding: 0;
 }
 
-main.case-showcase .case-study-nav,
-main.case-showcase .baton-service-nav {
-    width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
-    min-height: 82px;
-    border: 0;
-    font-family: var(--sans);
-    font-size: var(--portfolio-small);
-    letter-spacing: 0;
-    text-transform: none;
-}
-
-main.case-showcase .case-study-nav__home {
-    font-weight: 600;
-}
-
 main.case-showcase .case-hero,
 main.case-showcase .baton-service-hero {
     display: grid;
@@ -247,6 +232,40 @@ main.case-showcase .case-section-nav {
     font-family: var(--sans);
 }
 
+/* 도면의 배경과 글자색을 함께 지정해 테마 변경 시 대비를 유지한다. */
+main.case-showcase .case-visual--webrtc {
+    border-color: var(--line);
+    background: var(--paper);
+    color: var(--ink);
+}
+
+main.case-showcase .stream-map__source {
+    border-color: var(--accent);
+    background: var(--paper-raised);
+}
+
+main.case-showcase .stream-lane__node {
+    border-color: var(--line);
+}
+
+main.case-showcase .stream-map__pulse,
+main.case-showcase .stream-lane__path::after {
+    background: var(--accent);
+}
+
+main.case-showcase .stream-lane__path {
+    background: var(--line);
+}
+
+main.case-showcase .stream-lane__label {
+    color: var(--accent);
+}
+
+main.case-showcase .stream-map__source small,
+main.case-showcase .stream-lane small {
+    color: var(--muted);
+}
+
 main.case-showcase .case-section-nav ul {
     justify-content: flex-start;
     gap: 24px;
@@ -297,9 +316,9 @@ main.case-showcase .baton-service-section-heading h2 {
     color: var(--ink);
     font-family: var(--sans);
     font-size: var(--portfolio-section-title);
-    font-weight: 550;
-    line-height: 1.4;
-    letter-spacing: -0.035em;
+    font-weight: var(--portfolio-section-weight);
+    line-height: var(--portfolio-section-leading);
+    letter-spacing: var(--portfolio-section-tracking);
 }
 
 main.case-showcase .featured-problem {
@@ -668,14 +687,35 @@ main.case-showcase .case-next {
 }
 
 main.case-showcase .case-next a {
-    padding: 0;
+    width: 100%;
+    min-height: 0;
+    padding: 0 96px 0 0;
+}
+
+main.case-showcase .case-next a > span:first-child {
+    color: var(--muted);
 }
 
 main.case-showcase .case-next strong {
     font-family: var(--sans);
     font-size: var(--portfolio-project-title);
     font-weight: 550;
+    line-height: 1.2;
     color: var(--ink);
+}
+
+main.case-showcase .case-next__arrow {
+    right: 0;
+    bottom: auto;
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+main.case-showcase .case-next a:is(:hover, :focus-visible) .case-next__arrow {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+    transform: translateX(4px);
 }
 
 main.case-showcase .case-design-credit {
@@ -907,12 +947,6 @@ main.case-showcase ::selection {
 }
 
 @media (max-width: 800px) {
-    main.case-showcase .case-study-nav,
-    main.case-showcase .baton-service-nav {
-        width: calc(100% - 48px);
-        min-height: 68px;
-    }
-
     main.case-showcase .case-hero,
     main.case-showcase .baton-service-hero {
         grid-template-columns: 1fr;

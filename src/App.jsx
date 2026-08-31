@@ -36,13 +36,17 @@ const RouteEffects = () => {
     const previousPathname = useRef(normalizedPathname)
 
     useEffect(() => {
-        const shouldFocusHeading = previousPathname.current !== normalizedPathname
+        const shouldFocusTarget = previousPathname.current !== normalizedPathname
         previousPathname.current = normalizedPathname
+        // 경로가 바뀔 때만 해시를 읽어 같은 페이지의 기본 앵커 스크롤을 유지한다.
+        const hash = window.location.hash
         const meta = routeMeta[normalizedPathname] ?? notFoundRouteMeta
         const canonicalUrl = toCanonicalUrl(normalizedPathname)
 
-        document.documentElement.scrollTop = 0
-        document.body.scrollTop = 0
+        if (!hash) {
+            document.documentElement.scrollTop = 0
+            document.body.scrollTop = 0
+        }
         document.title = meta.title ?? defaultRouteMeta.title
         updateMetaContent("name", "description", meta.description)
         updateMetaContent("property", "og:title", meta.title)
@@ -66,30 +70,39 @@ const RouteEffects = () => {
 
         canonical.setAttribute("href", canonicalUrl)
 
-        if (!shouldFocusHeading) {
+        if (!shouldFocusTarget && !hash) {
             return
         }
 
-        const focusRouteHeading = () => {
-            const pageHeading = Array.from(
-                document.querySelectorAll("h1[data-route-heading]"),
-            ).find((heading) => heading.dataset.routeHeading === normalizedPathname)
+        const positionRouteTarget = () => {
+            const target = hash
+                ? document.getElementById(hash.slice(1))
+                : Array.from(document.querySelectorAll("h1[data-route-heading]")).find(
+                      (heading) => heading.dataset.routeHeading === normalizedPathname,
+                  )
 
-            if (!pageHeading) {
+            if (!target) {
                 return false
             }
 
-            pageHeading.setAttribute("tabindex", "-1")
-            pageHeading.focus({ preventScroll: true })
+            if (hash) {
+                target.scrollIntoView({ block: "start" })
+            }
+
+            if (shouldFocusTarget) {
+                target.setAttribute("tabindex", "-1")
+                target.focus({ preventScroll: true })
+            }
+
             return true
         }
 
-        if (focusRouteHeading()) {
+        if (positionRouteTarget()) {
             return
         }
 
         const headingObserver = new MutationObserver(() => {
-            if (focusRouteHeading()) {
+            if (positionRouteTarget()) {
                 headingObserver.disconnect()
             }
         })

@@ -12,6 +12,9 @@
     --portfolio-display: 72px;
     --portfolio-title: 52px;
     --portfolio-section-title: 36px;
+    --portfolio-section-weight: 550;
+    --portfolio-section-leading: 1.3;
+    --portfolio-section-tracking: -0.035em;
     --portfolio-project-title: 42px;
     --portfolio-subtitle: 24px;
     --portfolio-lead: 22px;

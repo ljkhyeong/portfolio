@@ -14,21 +14,12 @@
 .project-index__intro {
     margin-bottom: 56px;
 }
-.work-section .section-heading-meta {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-}
-.work-section .section-kicker,
-.work-section .section-index {
-    color: var(--portfolio-muted, #b2beb6);
-    font-size: var(--portfolio-caption, 14px);
-}
 .project-index__intro h2 {
-    margin: 20px 0 0;
+    margin: 0;
     font-size: var(--portfolio-section-title, 36px);
-    font-weight: 550;
-    letter-spacing: -0.045em;
+    font-weight: var(--portfolio-section-weight);
+    line-height: var(--portfolio-section-leading);
+    letter-spacing: var(--portfolio-section-tracking);
 }
 .project-showcase__grid,
 .project-support__grid {
@@ -199,6 +190,7 @@
 .project-support__actions {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px 24px;
     margin-top: 24px;
 }
@@ -211,6 +203,23 @@
     min-height: 44px;
     color: var(--portfolio-accent, #a6d9bd);
     font-size: var(--portfolio-small, 16px);
+}
+.project-card__detail-link {
+    min-height: 48px;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 0 20px;
+    border: 1px solid var(--portfolio-accent, #a6d9bd);
+    border-radius: 4px;
+    background: var(--portfolio-accent, #a6d9bd);
+    color: var(--portfolio-bg, #171a19);
+    font-weight: 600;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease;
+}
+.project-card__detail-link span {
+    transition: transform 180ms ease;
 }
 .project-card__services {
     margin-top: 24px;
@@ -260,8 +269,9 @@
 .project-section-heading h3 {
     margin: 12px 0 0;
     font-size: var(--portfolio-section-title, 36px);
-    font-weight: 550;
-    letter-spacing: -0.035em;
+    font-weight: var(--portfolio-section-weight);
+    line-height: var(--portfolio-section-leading);
+    letter-spacing: var(--portfolio-section-tracking);
 }
 .project-section-heading p {
     max-width: 420px;
@@ -341,6 +351,24 @@
 .work-section a:focus-visible {
     outline: 2px solid var(--portfolio-accent, #a6d9bd);
     outline-offset: 5px;
+}
+.work-section .project-card__detail-link:hover {
+    background: var(--portfolio-surface, #222925);
+    color: var(--portfolio-accent, #a6d9bd);
+    text-decoration: none;
+}
+.project-card__detail-link:hover span {
+    transform: translate(2px, -2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-card__detail-link,
+    .project-card__detail-link span {
+        transition: none;
+    }
+    .project-card__detail-link:hover span {
+        transform: none;
+    }
 }
 
 @media (max-width: 900px) {

@@ -259,12 +259,6 @@ const Projects = () => {
     return (
         <section className="work-section" id="work" aria-labelledby="projects-title">
             <div className="project-index__intro">
-                <div className="section-heading-meta">
-                    <span className="section-index" aria-hidden="true">
-                        01
-                    </span>
-                    <span className="section-kicker">프로젝트</span>
-                </div>
                 <h2 id="projects-title">대표 프로젝트</h2>
             </div>
 

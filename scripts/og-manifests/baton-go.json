@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-go.png",
-    "sourceSha256": "6c1d953fa49169f7e1d96b281214df39998ddd1d9e0b5cacde8c75a042ba4d57",
+    "sourceSha256": "a75742ff5bc3b44ba8d8c17176e5acc454b29d2db2daa9294316601e7c961d79",
     "artifactSha256": "d9c67956d2091413008c0d96594783e4034c0442c5ae4192f310904b629cb37d",
     "renderer": {
         "id": "chrome",

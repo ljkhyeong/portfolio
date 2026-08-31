@@ -25,6 +25,21 @@ test.each(["baton", "happygallery", "hope-commit", "intent-trace", "warrant", "d
             system.compareDocumentPosition(problems) & Node.DOCUMENT_POSITION_FOLLOWING,
         ).toBeTruthy()
         expect(screen.getByRole("main")).toHaveClass("case-showcase")
+        const navigation = screen.getByRole("navigation", { name: "프로젝트 상세 탐색" })
+        const brand = within(navigation).getByRole("link", {
+            name: "ljkhyeong 포트폴리오 홈",
+        })
+
+        expect(brand).toHaveAttribute("href", "/")
+        expect(brand.querySelector("img")).toHaveAttribute(
+            "src",
+            expect.stringContaining("ljkhyeong-avatar.png"),
+        )
+        expect(within(navigation).getByRole("link", { name: "프로젝트 목록" })).toHaveAttribute(
+            "href",
+            "/#work",
+        )
+        expect(within(navigation).getByLabelText("다른 프로젝트 보기")).toBeInTheDocument()
     },
 )
 
@@ -426,6 +441,22 @@ test.each([
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
     renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
 
+    const navigation = screen.getByRole("navigation", { name: "BATON 서비스 상세 탐색" })
+    const brand = within(navigation).getByRole("link", { name: "ljkhyeong 포트폴리오 홈" })
+
+    expect(brand).toHaveAttribute("href", "/")
+    expect(brand.querySelector("img")).toHaveAttribute(
+        "src",
+        expect.stringContaining("ljkhyeong-avatar.png"),
+    )
+    expect(within(navigation).getByRole("link", { name: "프로젝트 목록" })).toHaveAttribute(
+        "href",
+        "/#work",
+    )
+    expect(within(navigation).getByRole("link", { name: "BATON 전체 보기" })).toHaveAttribute(
+        "href",
+        "/projects/baton",
+    )
     const heading = screen.getByRole("heading", { name, level: 1 })
     const hero = heading.closest("header")
     const summaryParagraph = hero.querySelector("p")
