@@ -10,6 +10,12 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
     const closeButtonRef = useRef(null)
     const triggerRef = useRef(null)
     const screenshots = project.screenshots
+    const displayedScreenshots = screenshots
+        .map((screenshot, index) => ({ screenshot, index }))
+        .filter(
+            ({ screenshot }) =>
+                !visibleScreenshotIds || visibleScreenshotIds.includes(screenshot.id),
+        )
     const isOpen = activeIndex !== null
     const activeScreenshot = isOpen ? screenshots[activeIndex] : null
 
@@ -103,50 +109,51 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
     return (
         <>
             <div
-                className={`screenshot-gallery screenshot-gallery--${context} screenshot-gallery--${project.visual}`}
+                className={`screenshot-gallery screenshot-gallery--${context} screenshot-gallery--${project.visual} screenshot-gallery--count-${displayedScreenshots.length}`}
                 role="group"
                 aria-label={`${project.title} 대표 화면`}
             >
-                {screenshots.map((screenshot, index) =>
-                    visibleScreenshotIds && !visibleScreenshotIds.includes(screenshot.id) ? null : (
-                        <figure
-                            className={`screenshot-gallery__item screenshot-gallery__item--${index + 1}`}
-                            key={screenshot.id}
+                {displayedScreenshots.map(({ screenshot, index }, displayIndex) => (
+                    <figure
+                        className={`screenshot-gallery__item screenshot-gallery__item--${displayIndex + 1}`}
+                        key={screenshot.id}
+                        style={{
+                            "--screenshot-ratio": `${screenshot.width} / ${screenshot.height}`,
+                        }}
+                    >
+                        <div className="screenshot-gallery__chrome" aria-hidden="true">
+                            <span />
+                            <span />
+                            <span />
+                            <code>[screen.{String(displayIndex + 1).padStart(2, "0")}]</code>
+                        </div>
+                        <button
+                            className={`screenshot-gallery__viewport screenshot-gallery__viewport--${screenshot.fit ?? "cover"}`}
+                            type="button"
+                            aria-haspopup="dialog"
+                            aria-label={`${project.title} ${screenshot.label} 화면 확대해서 보기`}
+                            onClick={(event) => openLightbox(index, event.currentTarget)}
                         >
-                            <div className="screenshot-gallery__chrome" aria-hidden="true">
-                                <span />
-                                <span />
-                                <span />
-                                <code>[screen.{String(index + 1).padStart(2, "0")}]</code>
-                            </div>
-                            <button
-                                className={`screenshot-gallery__viewport screenshot-gallery__viewport--${screenshot.fit ?? "cover"}`}
-                                type="button"
-                                aria-haspopup="dialog"
-                                aria-label={`${project.title} ${screenshot.label} 화면 확대해서 보기`}
-                                onClick={(event) => openLightbox(index, event.currentTarget)}
-                            >
-                                <img
-                                    src={assetPath(screenshot.src)}
-                                    width={screenshot.width}
-                                    height={screenshot.height}
-                                    loading={
-                                        index === 0 && context.startsWith("case") ? "eager" : "lazy"
-                                    }
-                                    decoding="async"
-                                    alt={screenshot.alt}
-                                />
-                                <span className="screenshot-gallery__zoom" aria-hidden="true">
-                                    크게 보기
-                                </span>
-                            </button>
-                            <figcaption>
-                                <span>{screenshot.label}</span>
-                                <strong>{screenshot.caption}</strong>
-                            </figcaption>
-                        </figure>
-                    ),
-                )}
+                            <img
+                                src={assetPath(screenshot.src)}
+                                width={screenshot.width}
+                                height={screenshot.height}
+                                loading={
+                                    index === 0 && context.startsWith("case") ? "eager" : "lazy"
+                                }
+                                decoding="async"
+                                alt={screenshot.alt}
+                            />
+                            <span className="screenshot-gallery__zoom" aria-hidden="true">
+                                크게 보기
+                            </span>
+                        </button>
+                        <figcaption>
+                            <span>{screenshot.label}</span>
+                            <strong>{screenshot.caption}</strong>
+                        </figcaption>
+                    </figure>
+                ))}
             </div>
 
             {isOpen &&

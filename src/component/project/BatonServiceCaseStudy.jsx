@@ -3,6 +3,7 @@ import { batonServicesById, projectsById } from "../../data/projects"
 import { batonServicePresentations } from "../../data/batonServicePresentation"
 import featuredCasePresentations from "../../data/featuredProblems"
 import PortfolioNavigation from "../PortfolioNavigation"
+import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
@@ -41,6 +42,13 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
         .map((problem) => ({ ...problem, validationSummary: problemResults[problem.number] }))
     const documents = project.documents.filter((document) => document.serviceId === serviceId)
     const siblings = project.services.filter((candidate) => !candidate.primary)
+    const serviceGalleryProject = service.screenshots?.length
+        ? {
+              title: `BATON ${service.name}`,
+              visual: `baton-${serviceId}`,
+              screenshots: service.screenshots,
+          }
+        : null
 
     return (
         <main
@@ -92,8 +100,18 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="boundary-title"
                 >
                     <div className="baton-service-section-heading case-cover__heading">
-                        <h2 id="boundary-title">처리 흐름</h2>
+                        <h2 id="boundary-title">
+                            {serviceGalleryProject ? "대표 화면과 처리 흐름" : "처리 흐름"}
+                        </h2>
                     </div>
+                    {serviceGalleryProject ? (
+                        <div className="baton-service-boundary__screens">
+                            <ProjectScreenshotGallery
+                                project={serviceGalleryProject}
+                                context="service"
+                            />
+                        </div>
+                    ) : null}
                     <BatonServiceFlowDiagram serviceId={serviceId} />
                     <details className="baton-service-scope">
                         <summary>구현 범위와 제약</summary>
@@ -130,7 +148,10 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                 <CaseSectionNavigation
                     label="서비스 상세 섹션 바로가기"
                     sections={[
-                        { id: "service-boundary", label: "처리 흐름" },
+                        {
+                            id: "service-boundary",
+                            label: serviceGalleryProject ? "화면 및 흐름" : "처리 흐름",
+                        },
                         { id: "service-problems", label: "문제 해결" },
                         { id: "service-verification", label: "검증 상태" },
                         { id: "service-documents", label: "문서" },

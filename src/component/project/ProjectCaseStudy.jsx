@@ -13,18 +13,22 @@ import ProjectEvidenceList from "./ProjectEvidenceList"
 import ProjectSwitcher from "./ProjectSwitcher"
 import BatonArchitectureDiagram from "./diagrams/BatonArchitectureDiagram"
 import HopeCommitFlowDiagram from "./diagrams/HopeCommitFlowDiagram"
+import PortfolioFlowDiagram from "./diagrams/PortfolioFlowDiagram"
 import WarrantIntegrationDiagram from "./diagrams/WarrantIntegrationDiagram"
-import IntentTraceRecordPreview from "./IntentTraceRecordPreview"
 import "../../css/Project.css"
 import "../../css/EditorialDiagram.css"
 import "../../css/CaseShowcase.css"
 
+const projectTypeShortLabels = {
+    career: "경력",
+    personal: "개인",
+    tooling: "도구",
+    webapp: "웹앱",
+    education: "교육",
+}
+
 const ProductVisual = ({ project }) => (
-    <ProjectScreenshotGallery
-        project={project}
-        context="case-cover"
-        visibleScreenshotIds={[project.screenshots[0].id]}
-    />
+    <ProjectScreenshotGallery project={project} context="case-overview" />
 )
 
 const ProjectLabels = ({ project }) => {
@@ -118,17 +122,6 @@ const ProjectStatus = ({ project }) => (
 const ProblemList = ({ problems, projectId, additional = false }) => (
     <ProblemSolutionList
         featured={additional ? undefined : featuredCasePresentations[projectId]}
-        featuredVisual={
-            !additional && projectsById[projectId]?.screenshots ? (
-                <ProjectScreenshotGallery
-                    project={projectsById[projectId]}
-                    context="case-story"
-                    visibleScreenshotIds={projectsById[projectId].screenshots
-                        .slice(1)
-                        .map((item) => item.id)}
-                />
-            ) : undefined
-        }
         problems={problems.map((problem) => ({
             ...problem,
             validationSummary: additional ? null : problemHighlights[projectId]?.[problem.number],
@@ -174,71 +167,8 @@ const BatonServices = ({ services }) => {
     )
 }
 
-const DefenseVisual = () => (
-    <div
-        className="case-visual case-visual--defense"
-        role="img"
-        aria-label="군사법원, 군검찰 및 군사경찰에서 수용 대상자의 인적정보와 영장정보를 전달하고, 기관별 배치가 필수값과 형식을 검증한 뒤 군교정 DB에 반영하는 흐름"
-    >
-        <div className="defense-map__label">국방부 SI / 폐쇄망 기관 연계</div>
-        <div className="defense-map">
-            <div className="defense-map__sources">
-                <span>군사법원</span>
-                <span>군검찰</span>
-                <span>군사경찰</span>
-            </div>
-            <span className="defense-map__connector" aria-hidden="true" />
-            <div className="defense-map__batch">
-                <small>중단 단계 확인 및 해당 배치 재실행</small>
-                <strong>수용자 정보 검증 배치</strong>
-                <ol className="defense-map__steps" aria-label="배치 처리 단계">
-                    <li>기관별 데이터 수신</li>
-                    <li>인적정보 및 영장정보 검증</li>
-                    <li>군교정 DB 반영</li>
-                </ol>
-            </div>
-            <span className="defense-map__connector" aria-hidden="true" />
-            <div className="defense-map__destination">
-                <small>군교정 업무 시스템</small>
-                <strong>수용자 정보 반영</strong>
-                <span>수용 및 후속 업무 처리</span>
-            </div>
-        </div>
-    </div>
-)
-
-const EducationStreamingVisual = () => (
-    <div
-        className="case-visual case-visual--webrtc"
-        role="img"
-        aria-label="강의 영상을 mediasoup에서 WebRTC로 React 실시간 화면에 전달하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer에서 HLS로 변환해 React 다시보기 화면에 제공하는 흐름"
-    >
-        <div className="stream-map__source">
-            <span className="stream-map__pulse" aria-hidden="true" />
-            <small>강의 영상 입력</small>
-            <strong>mediasoup</strong>
-        </div>
-        <div className="stream-map__lanes">
-            <div className="stream-lane">
-                <span className="stream-lane__label">LIVE</span>
-                <span className="stream-lane__path" aria-hidden="true" />
-                <div className="stream-lane__node">mediasoup → WebRTC</div>
-                <div className="stream-lane__node">React 실시간 시청</div>
-                <small>현재 강의 영상을 낮은 지연으로 재생</small>
-            </div>
-            <div className="stream-lane">
-                <span className="stream-lane__label">REPLAY</span>
-                <span className="stream-lane__path" aria-hidden="true" />
-                <div className="stream-lane__node">RTP 출력 → FFmpeg / GStreamer</div>
-                <div className="stream-lane__node">React 지난 구간 재생</div>
-                <small>HLS 세그먼트와 재생 목록으로 다시보기 제공</small>
-            </div>
-        </div>
-    </div>
-)
-
 const ProjectVisual = ({ project }) => {
-    if (project.presentation === "featured") {
+    if (project.screenshots?.length) {
         return <ProductVisual project={project} />
     }
 
@@ -246,20 +176,24 @@ const ProjectVisual = ({ project }) => {
         return <HopeCommitFlowDiagram />
     }
 
-    if (project.visual === "intent-trace") {
-        return <IntentTraceRecordPreview />
-    }
-
     if (project.visual === "warrant") {
         return <WarrantIntegrationDiagram />
     }
 
-    if (project.visual === "webrtc") {
-        return <EducationStreamingVisual />
+    if (["intent-trace", "webrtc", "defense"].includes(project.id)) {
+        return <PortfolioFlowDiagram variant={project.id} />
     }
 
-    if (project.visual === "defense") {
-        return <DefenseVisual />
+    return null
+}
+
+const ArchitectureVisual = ({ project }) => {
+    if (project.id === "hope-commit" && project.screenshots?.length) {
+        return <HopeCommitFlowDiagram />
+    }
+
+    if (project.id === "youth-policy-mate") {
+        return <PortfolioFlowDiagram variant="youth-policy-mate" />
     }
 
     return null
@@ -290,7 +224,9 @@ const ArchitectureSection = ({ project }) => (
                 <BatonServices services={project.services} />
                 <p className="case-system__caption">{project.visualCaption}</p>
             </>
-        ) : null}
+        ) : (
+            <ArchitectureVisual project={project} />
+        )}
     </section>
 )
 
@@ -584,12 +520,7 @@ const ProjectCaseStudy = ({ projectId }) => {
             <footer className="case-next">
                 <Link to={nextProject.route}>
                     <span>
-                        다음 프로젝트 /{" "}
-                        {nextProject.projectType === "career"
-                            ? "경력"
-                            : nextProject.projectType === "tooling"
-                              ? "도구"
-                              : "개인"}{" "}
+                        다음 프로젝트 / {projectTypeShortLabels[nextProject.projectType]}{" "}
                         {nextProject.index}
                     </span>
                     <strong>{nextProject.title}</strong>

@@ -60,6 +60,11 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         }),
     ).toBeInTheDocument()
     expect(
+        within(supportingProjects).getByRole("link", {
+            name: "청년정책메이트 프로젝트 상세 보기",
+        }),
+    ).toHaveAttribute("href", "/projects/youth-policy-mate")
+    expect(
         within(supportingProjects).getByText("BEINTECH / 국방부 SI / 백엔드 개발 및 운영"),
     ).toBeInTheDocument()
     expect(
@@ -96,6 +101,7 @@ const projectLinkCases = [
     ["happyGallery", "/projects/happygallery"],
     ["Hope Commit", "/projects/hope-commit"],
     ["IntentTrace", "/projects/intent-trace"],
+    ["청년정책메이트", "/projects/youth-policy-mate"],
     ["차세대 군사법 정보 시스템", "/projects/defense"],
     ["WebRTC/HLS 현장강의 보조 서비스", "/projects/webrtc"],
 ]
@@ -256,12 +262,12 @@ test("홈은 상세 문서 대신 대표 시각 자료와 프로젝트 선택에
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "BATON 오늘 화면에서 인수인계 타임라인과 최근 결정을 확인하는 모습",
+            name: "BATON 오늘 화면에서 운영 회차와 미완료 업무 및 수락 대기 바통을 확인하는 모습",
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 상품 주문 화면에서 수량과 결제 금액을 확인하는 모습",
+            name: "happyGallery 상품 상세에서 색상과 각인 옵션 및 조합별 가격과 재고를 선택하는 모습",
         }),
     ).toBeInTheDocument()
 })
@@ -359,13 +365,25 @@ test("대표 프로젝트는 핵심 구현을 보여주고 추가 프로젝트�
             name: "차세대 군사법 정보 시스템 프로젝트 상세 보기",
         })
         .closest("article")
+    const youthPolicyProject = screen
+        .getByRole("link", {
+            name: "청년정책메이트 프로젝트 상세 보기",
+        })
+        .closest("article")
 
     expect(within(warrantFacts).getAllByRole("listitem")).toHaveLength(2)
     expect(warrantFacts).toHaveTextContent("기관별 요청 규격 변환 및 전송 서버 개발")
     expect(warrantFacts).toHaveTextContent("제출 자료의 KICS 반영 서버와 Spring Batch 개발")
 
-    expect(galleryFacts).toHaveTextContent("결제 및 환불 중복 실행 방지, 중단된 알림 재처리")
-    expect(galleryFacts).toHaveTextContent("동시 예약과 주문의 정원 및 재고 초과 방지")
+    expect(galleryFacts).toHaveTextContent("카드와 네이버페이 및 카카오페이 결제 흐름")
+    expect(galleryFacts).toHaveTextContent("스마트스토어 상품, 재고, 주문, 문의 및 정산 운영")
+    expect(youthPolicyProject).toHaveTextContent("웹앱")
+    expect(youthPolicyProject).toHaveTextContent(
+        "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버",
+    )
+    expect(youthPolicyProject).toHaveTextContent(
+        "공개 main CI 통과 및 서버 자동화 테스트 341개 통과",
+    )
     expect(defenseProject).toHaveTextContent(
         "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
     )
@@ -413,6 +431,11 @@ const canonicalRouteCases = [
     ["/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
     ["/projects/hope-commit", "Hope Commit", "Hope Commit | 임정규 포트폴리오"],
     ["/projects/intent-trace", "IntentTrace", "IntentTrace | 임정규 포트폴리오"],
+    [
+        "/projects/youth-policy-mate",
+        "청년정책메이트",
+        "청년정책메이트 | 임정규 포트폴리오",
+    ],
     ["/projects/e-warrant", "전송형 전자영장 시스템", "전송형 전자영장 시스템 | 임정규 포트폴리오"],
     [
         "/projects/defense",
@@ -504,7 +527,7 @@ test.each(legacyRouteCases)(
     },
 )
 
-test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인할 수 있다", async () => {
+test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결정을 확인할 수 있다", async () => {
     window.history.pushState({}, "", "/projects/happygallery")
 
     render(<App />)
@@ -519,6 +542,31 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
     ).toBeInTheDocument()
     expect(screen.getAllByText(/NHN 접수 ID로 최종 수신 결과/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/미전송 알림/).length).toBeGreaterThan(0)
+    expect(
+        screen.getByRole("img", {
+            name: "happyGallery 상품 상세에서 색상과 각인 옵션 및 조합별 가격과 재고를 선택하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: "happyGallery 장바구니에서 카드와 네이버페이 및 카카오페이 결제수단을 선택하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: "happyGallery 관리자 화면에서 결과가 확정되지 않은 스마트스토어 요청을 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: "happyGallery 관리자 화면에서 스마트스토어 원상품 연결과 변경 이력을 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: "happyGallery 클래스 목록에서 수업과 예약 회차를 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
     expect(screen.getByText(/AWS 주요 리소스는 2026년 5월 3일 종료/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
@@ -526,6 +574,50 @@ test("대표 프로젝트 상세에서 아키텍처와 복구 결정을 확인�
         }),
     ).toHaveAttribute("href", expect.stringContaining("ADR/0021"))
     expect(screen.getAllByText("적용 범위와 제약").length).toBeGreaterThan(0)
+})
+
+test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 기능을 구분한다", async () => {
+    window.history.pushState({}, "", "/projects/youth-policy-mate")
+
+    render(<App />)
+
+    expect(
+        await screen.findByRole(
+            "heading",
+            { name: "청년정책메이트", level: 1 },
+            lazyRouteLoadOptions,
+        ),
+    ).toBeInTheDocument()
+
+    const screenshots = screen.getByRole("group", { name: "청년정책메이트 대표 화면" })
+    expect(within(screenshots).getAllByRole("img")).toHaveLength(4)
+    expect(
+        within(screenshots).getByRole("img", {
+            name: "청년정책메이트 홈에서 서비스 범위와 조건 입력 시작 버튼을 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        within(screenshots).getByRole("img", {
+            name: "청년정책메이트 조건 화면에서 인공 생년월일과 거주지 및 취업 상태를 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        within(screenshots).getByRole("img", {
+            name: "청년정책메이트 개발 화면에서 인공 정책의 자격 상태와 항목별 근거를 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(
+        within(screenshots).getByRole("img", {
+            name: "청년정책메이트 개발 화면에서 인공 정책의 마감 상태와 알림 후보 날짜를 확인하는 모습",
+        }),
+    ).toBeInTheDocument()
+    expect(screenshots).toHaveTextContent("실제 정책 추천 결과가 아닙니다")
+    expect(screenshots).toHaveTextContent("실제 알림 발송 화면이 아닙니다")
+    expect(
+        screen.getByText(
+            /실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다/,
+        ),
+    ).toBeInTheDocument()
 })
 
 test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범위를 구분한다", async () => {
@@ -536,7 +628,7 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(
         await screen.findByRole("heading", { name: "Hope Commit", level: 1 }, lazyRouteLoadOptions),
     ).toBeInTheDocument()
-    expect(screen.getAllByText(/SeungIl 님이 개발한 Hope 3\.0\.3/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/SeungIl 님이 개발한 Hope 6\.0\.0/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/제가 추가한 Commit Diff/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("heading", {
@@ -555,7 +647,7 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(screen.getByText("저장하지 않고 중단")).toBeInTheDocument()
     expect(
         screen.getByText(
-            /공개 main 4\.0\.0의 GitHub Actions Node\.js 22 환경에서 275개 통과, 실패 및 건너뜀 0개/,
+            /공개 v5\.0\.2의 GitHub Actions Node\.js 22 환경에서 자동화 테스트 343개가 통과/,
         ),
     ).toBeInTheDocument()
     expect(
@@ -593,7 +685,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     )
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문서 분류와 대표 문서" })).toBeInTheDocument()
-    expect(screen.getByText("공개 저장소")).toBeInTheDocument()
+    expect(screen.getByText("공개 원격 개발 브랜치")).toBeInTheDocument()
     expect(screen.getByText("URL 점검 중 DB 연결 반환과 늦은 결과 차단")).toBeInTheDocument()
     expect(screen.queryByText("HMAC 키와 링크 데이터의 복구 시점 일치")).not.toBeInTheDocument()
     expect(screen.queryByText("전송 결과 미확인 시 중복 발송 방지")).not.toBeInTheDocument()
@@ -616,8 +708,11 @@ test("WebRTC/HLS 상세는 담당 흐름, 문제 해결과 확인 결과를 보�
         ),
     ).toBeInTheDocument()
     expect(screen.getAllByText("교육 프로젝트").length).toBeGreaterThan(0)
-    expect(screen.getByText("mediasoup → WebRTC")).toBeInTheDocument()
-    expect(screen.getByText("RTP 출력 → FFmpeg / GStreamer")).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: /실시간 WebRTC와 HLS 다시보기를 한 입력에서 분리.*mediasoup.*RTP.*FFmpeg.*GStreamer/,
+        }),
+    ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
@@ -654,6 +749,7 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
     expect(within(printDocument).getAllByText("happyGallery").length).toBeGreaterThan(0)
     expect(within(printDocument).getAllByText("Hope Commit").length).toBeGreaterThan(0)
     expect(within(printDocument).getAllByText("IntentTrace").length).toBeGreaterThan(0)
+    expect(within(printDocument).getAllByText("청년정책메이트").length).toBeGreaterThan(0)
     expect(
         within(printDocument).getByRole("heading", {
             name: /백엔드 개발자 포지션이나/,

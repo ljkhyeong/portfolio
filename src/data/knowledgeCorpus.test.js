@@ -40,6 +40,7 @@ describe("공개 지식 문서 목록", () => {
             "baton",
             "warrant",
             "happygallery",
+            "youth-policy-mate",
             "hope-commit",
             "intent-trace",
             "defense",
@@ -80,7 +81,17 @@ describe("공개 지식 문서 목록", () => {
         )
 
         expect(intentTraceOverview.content).toContain("원문 대화나 숨은 추론은 저장하지 않으며")
-        expect(intentTraceOverview.content).toContain("공개 main은 0.7.0-SNAPSHOT")
+        expect(intentTraceOverview.content).toContain("공개 main은 0.8.0-SNAPSHOT")
+
+        const youthPolicyOverview = corpus.documents.find(
+            (document) =>
+                document.projectId === "youth-policy-mate" &&
+                document.documentType === "project_overview",
+        )
+
+        expect(youthPolicyOverview.content).toContain("구분: 개인 웹앱 프로젝트")
+        expect(youthPolicyOverview.content).toContain("실제 정책 수집 및 추천")
+        expect(youthPolicyOverview.content).toContain("아직 구현하지 않았습니다")
 
         const firstProblem = corpus.documents.find(
             (document) => document.documentType === "problem_solution",

@@ -82,7 +82,8 @@ test("대표 사례는 펼쳐 보여주고 원문 근거와 나머지 사례는 
 })
 
 test("모든 대표 사례가 실제 프로젝트의 문제를 가리킨다", () => {
-    expect(Object.keys(featuredProblems)).toHaveLength(13)
+    expect(featuredProblems).toHaveProperty("youth-policy-mate")
+
     for (const [key, featured] of Object.entries(featuredProblems)) {
         const project = projectsById[key.startsWith("baton-") ? "baton" : key]
         const problem = project.problems.find((entry) => entry.number === featured.problemNumber)

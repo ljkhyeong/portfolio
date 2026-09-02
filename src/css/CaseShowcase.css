@@ -176,9 +176,23 @@ main.case-showcase .case-system__caption {
     line-height: 1.7;
 }
 
-main.case-showcase .screenshot-gallery--case-cover {
-    display: block;
+main.case-showcase .screenshot-gallery--case-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    gap: 38px 20px;
     height: auto;
+}
+
+main.case-showcase
+    .screenshot-gallery--case-overview:not(.screenshot-gallery--count-2)
+    .screenshot-gallery__item:first-child {
+    grid-column: 1 / -1;
+}
+
+main.case-showcase
+    .screenshot-gallery--case-overview.screenshot-gallery--count-4
+    .screenshot-gallery__item:last-child {
+    grid-column: 1 / -1;
 }
 
 main.case-showcase .screenshot-gallery__item {
@@ -198,8 +212,16 @@ main.case-showcase .screenshot-gallery__viewport {
     border-radius: 0;
 }
 
-main.case-showcase .screenshot-gallery--case-cover .screenshot-gallery__viewport img {
+main.case-showcase .screenshot-gallery--case-overview .screenshot-gallery__viewport,
+main.case-showcase .screenshot-gallery--service .screenshot-gallery__viewport {
     height: auto;
+    aspect-ratio: var(--screenshot-ratio);
+}
+
+main.case-showcase .screenshot-gallery--case-overview .screenshot-gallery__viewport img,
+main.case-showcase .screenshot-gallery--service .screenshot-gallery__viewport img {
+    height: 100%;
+    object-fit: contain;
 }
 
 main.case-showcase .screenshot-gallery__item figcaption {
@@ -222,6 +244,38 @@ main.case-showcase .screenshot-gallery__item figcaption strong {
     font-weight: 400;
     line-height: 1.6;
     text-align: left;
+}
+
+main.case-showcase .baton-service-boundary__screens {
+    margin-bottom: 40px;
+}
+
+main.case-showcase .screenshot-gallery--service {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    gap: 20px;
+    height: auto;
+}
+
+main.case-showcase .screenshot-gallery--service.screenshot-gallery--count-1 {
+    display: block;
+}
+
+main.case-showcase
+    .screenshot-gallery--service:not(.screenshot-gallery--count-1):not(.screenshot-gallery--count-2)
+    .screenshot-gallery__item:first-child {
+    grid-column: 1 / -1;
+}
+
+main.case-showcase .screenshot-gallery--service .screenshot-gallery__item {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+}
+
+main.case-showcase .screenshot-gallery--service .screenshot-gallery__item figcaption {
+    min-height: 62px;
+    padding: 10px 14px;
 }
 
 main.case-showcase .case-section-nav {
@@ -419,46 +473,6 @@ main.case-showcase .featured-problem__details dl > div {
     gap: 6px;
 }
 
-main.case-showcase .screenshot-gallery--case-story {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 32px;
-    padding: 30px;
-    background: var(--paper-raised);
-}
-
-main.case-showcase .screenshot-gallery--case-story .screenshot-gallery__viewport {
-    max-height: 380px;
-    overflow: hidden;
-}
-
-main.case-showcase .screenshot-gallery--case-story .screenshot-gallery__viewport img {
-    height: auto;
-}
-
-main.case-showcase .screenshot-gallery--case-story.screenshot-gallery--baton {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    padding: 26px 22px;
-}
-
-main.case-showcase
-    .screenshot-gallery--case-story.screenshot-gallery--baton
-    .screenshot-gallery__item
-    .screenshot-gallery__viewport {
-    max-height: none;
-    aspect-ratio: auto;
-}
-
-main.case-showcase .screenshot-gallery--case-story figcaption {
-    display: block;
-}
-
-main.case-showcase .screenshot-gallery--case-story figcaption strong {
-    display: block;
-    margin-top: 6px;
-}
-
 main.case-showcase .problem-solution-list,
 main.case-showcase .project-evidence-list,
 main.case-showcase .case-problems__more,
@@ -583,36 +597,39 @@ main.case-showcase .case-meta__links a {
     font-weight: 500;
 }
 
-/* 도면은 밝은 종이 색을 유지해 기존 선과 상태 표시의 대비를 보존한다. */
+/* 도면도 메인과 같은 배경, 표면, 초록 강조색을 사용한다. */
 main.case-showcase .editorial-diagram,
 main.case-showcase .baton-service-flow {
-    --paper: #f1f5f2;
-    --paper-raised: #e5eee8;
-    --ink: #22352b;
-    --muted: #50665a;
-    --line: #c8d6cd;
-    --line-strong: #95ad9f;
-    --accent: #286e52;
-    --diagram-paper: #f1f5f2;
-    --diagram-node: #ffffff;
-    --diagram-ink: #22352b;
-    --diagram-muted: #50665a;
-    --diagram-soft: #63796c;
-    --diagram-rule: #c8d6cd;
-    --diagram-rule-strong: #95ad9f;
-    --diagram-accent: #286e52;
-    --diagram-accent-tint: #e5eee8;
+    --paper: var(--portfolio-bg);
+    --paper-raised: var(--portfolio-surface);
+    --ink: var(--portfolio-text);
+    --muted: var(--portfolio-muted);
+    --line: var(--portfolio-line);
+    --line-strong: #65756a;
+    --accent: var(--portfolio-accent);
+    --diagram-paper: var(--portfolio-bg);
+    --diagram-node: var(--portfolio-surface);
+    --diagram-ink: var(--portfolio-text);
+    --diagram-muted: var(--portfolio-muted);
+    --diagram-soft: #85958b;
+    --diagram-rule: var(--portfolio-line);
+    --diagram-rule-strong: #65756a;
+    --diagram-accent: var(--portfolio-accent);
+    --diagram-accent-tint: #2b4034;
+    --diagram-zone-fill: rgba(244, 246, 244, 0.018);
+    --diagram-zone-stroke: rgba(244, 246, 244, 0.18);
+    --diagram-external-fill: rgba(244, 246, 244, 0.025);
+    --diagram-external-stroke: rgba(244, 246, 244, 0.34);
     padding: 32px;
     background: var(--paper);
     color: var(--ink);
-    color-scheme: light;
+    color-scheme: dark;
 }
 
 main.case-showcase .service-flow-node--focal rect,
-main.case-showcase .service-flow-node--decision polygon,
 main.case-showcase .baton-service-flow__legend > span:nth-child(2)::before {
-    fill: #dbece1;
-    background: #dbece1;
+    fill: var(--accent-soft);
+    background: var(--accent-soft);
 }
 
 main.case-showcase .editorial-diagram__title,
@@ -827,26 +844,6 @@ main.case-showcase .project-evidence-list__outcome .project-evidence-list__limit
     font-size: var(--portfolio-small);
 }
 
-main.case-showcase .intent-trace-record__toolbar span,
-main.case-showcase .intent-trace-record__fields span,
-main.case-showcase .intent-trace-record__evidence span,
-main.case-showcase .intent-trace-record__aside-label,
-main.case-showcase .intent-trace-record__boundary span,
-main.case-showcase .intent-trace-record__body aside li > span {
-    font-size: var(--portfolio-caption);
-}
-
-main.case-showcase .intent-trace-record__fields strong,
-main.case-showcase .intent-trace-record__evidence p,
-main.case-showcase .intent-trace-record__boundary strong,
-main.case-showcase .intent-trace-record__body aside li > strong {
-    font-size: var(--portfolio-small);
-}
-
-main.case-showcase .intent-trace-record__toolbar strong {
-    font-size: var(--portfolio-subtitle);
-}
-
 /* SVG도 페이지와 비슷한 배율로 표시되므로 작은 원본 글자를 그대로 사용하지 않는다. */
 main.case-showcase .editorial-diagram__zone-label,
 main.case-showcase .editorial-diagram__tag,
@@ -868,20 +865,36 @@ main.case-showcase .hope-commit-flow__scope-boundary text {
 
 main.case-showcase .editorial-diagram__node-title,
 main.case-showcase .baton-architecture__node-name {
-    font-size: 24px;
+    font-size: 18px;
+}
+
+main.case-showcase .portfolio-flow .editorial-diagram__zone-label,
+main.case-showcase .portfolio-flow .editorial-diagram__tag,
+main.case-showcase .portfolio-flow .editorial-diagram__connector-label,
+main.case-showcase .portfolio-flow .editorial-diagram__node-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+}
+
+main.case-showcase .portfolio-flow .editorial-diagram__node-title {
+    font-size: 18px;
+}
+
+main.case-showcase .portfolio-flow__note {
+    font-size: var(--portfolio-small);
 }
 
 main.case-showcase .hope-commit-flow__node-title {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 main.case-showcase .service-flow-node__title {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 main.case-showcase .service-flow-node__detail,
 main.case-showcase .service-flow-edge__label text {
-    font-size: 16px;
+    font-size: 11px;
 }
 
 main.case-showcase .screenshot-gallery__zoom,
@@ -1059,10 +1072,15 @@ main.case-showcase ::selection {
         gap: 4px 10px;
     }
 
-    main.case-showcase .screenshot-gallery--case-story,
-    main.case-showcase .screenshot-gallery--case-story.screenshot-gallery--baton {
-        padding: 20px 14px;
-        gap: 14px;
+    main.case-showcase .screenshot-gallery--case-overview,
+    main.case-showcase .screenshot-gallery--service {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    main.case-showcase .screenshot-gallery--case-overview .screenshot-gallery__item:first-child,
+    main.case-showcase .screenshot-gallery--service .screenshot-gallery__item:first-child {
+        grid-column: auto;
     }
 }
 

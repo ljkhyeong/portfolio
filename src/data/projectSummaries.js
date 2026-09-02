@@ -7,21 +7,21 @@ export const projectSummaries = [
         title: "BATON",
         navigationLabel: "BATON",
         eyebrow: "조직 운영 플랫폼",
-        homeSummary: "조직의 역할, 반복 업무와 인수인계를 관리하는 플랫폼입니다.",
+        homeSummary: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
         homeHighlights: [
-            "Core와 6개 마이크로서비스의 API 및 데이터 분리",
-            "링크와 전달 작업 중복 생성 방지, 중단된 전달 재개",
+            "오늘 할 일, 조직 연속성, 통합 검색과 바통북 구현",
+            "Core와 6개 마이크로서비스의 API 및 저장소 분리",
         ],
         homeRepository: {
             label: "WATCH GitHub",
             href: "https://github.com/ljkhyeong/baton-watch",
         },
         summary:
-            "조직의 역할, 반복 업무, 의사결정과 인수인계를 관리하는 플랫폼입니다. Core와 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC를 맡는 6개 마이크로서비스로 구성했습니다.",
+            "조직의 역할, 반복 업무, 결정과 인수인계를 관리합니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC는 6개 마이크로서비스로 분리했습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "Core와 6개 서비스의 API, 개별 저장소, 이벤트 전달 및 중단 작업 재처리 흐름 설계와 구현",
+                value: "Core와 6개 서비스의 API, 개별 저장소, 이벤트 전달과 중단 작업 재처리 흐름 설계 및 구현",
             },
             {
                 label: "문제",
@@ -39,8 +39,8 @@ export const projectSummaries = [
         stage: "개발 중",
         visibility: "일부 저장소 공개",
         homeEvidence: {
-            validation: "서비스별 자동화 및 연동 테스트",
-            documents: "PRD 44 / ADR 63 / Runbook 7",
+            validation: "서비스별 자동화 및 로컬 교차 서비스 테스트",
+            documents: "PRD 47 / ADR 70 / Runbook 17",
         },
         serviceLinks: [
             { id: "go", name: "GO", route: "/projects/baton/go" },
@@ -100,29 +100,30 @@ export const projectSummaries = [
         title: "happyGallery",
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
-        homeSummary: "공방 상품 주문과 클래스 예약 서비스입니다.",
+        homeSummary:
+            "상품 주문, 클래스 예약과 스마트스토어 운영을 한 곳에서 처리하는 공방 서비스입니다.",
         homeHighlights: [
-            "결제 및 환불 중복 실행 방지, 중단된 알림 재처리",
-            "동시 예약과 주문의 정원 및 재고 초과 방지",
+            "카드와 네이버페이 및 카카오페이 결제 흐름",
+            "스마트스토어 상품, 재고, 주문, 문의 및 정산 운영",
         ],
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/happyGallery",
         },
         summary:
-            "공방 상품 주문과 클래스 예약 서비스입니다. 결제 및 환불 중복 실행 방지, 알림 재처리, 예약 및 재고 동시성 제어, 스마트스토어 주문과 Toss 결제 대사를 구현했습니다.",
+            "공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 상품 및 주문 운영, 결제 및 알림 재처리와 재고 동시성 제어를 구현했습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "요구사항 정리, Java 및 Spring Boot API, React 화면, 자동화 테스트, AWS 운영과 k3s 배포 준비",
+                value: "요구사항 정리, Java 및 Spring Boot API, React 화면, 결제 및 외부 채널 연동과 자동화 테스트",
             },
             {
                 label: "문제",
-                value: "결제사 응답 유실, 서버 중단에 따른 알림 유실과 동시 요청의 정원 및 재고 초과",
+                value: "결제사 응답 유실, 서버 중단에 따른 알림 유실과 외부 주문 재수신에 따른 재고 중복 반영",
             },
             {
                 label: "해결",
-                value: "결제 orderId와 환불 UUID를 재사용해 중복 실행을 막고, DB 알림을 재처리하며 행 잠금으로 정원과 재고 초과를 차단",
+                value: "결제 orderId와 환불 UUID를 재사용하고, DB 알림을 재처리하며 스마트스토어 주문은 적용 수량 차이만 재고에 반영",
             },
         ],
         period: "2026.02.21 — 진행 중",
@@ -132,9 +133,51 @@ export const projectSummaries = [
         stage: "개발 중",
         visibility: "공개 저장소",
         homeEvidence: {
-            validation: "통합 및 화면 자동화 테스트",
+            validation: "공개 main 통합 테스트 및 화면 자동화 19개 통과",
             documents: "PRD 4 / ADR 48 / Runbook 1",
         },
+    },
+    {
+        id: "youth-policy-mate",
+        index: "01",
+        projectType: "webapp",
+        presentation: "webapp-case",
+        title: "청년정책메이트",
+        navigationLabel: "청년정책메이트",
+        eyebrow: "서울 청년 정책 탐색 및 일정 관리 웹앱",
+        homeSummary: "청년 정책 자격 근거와 신청 일정을 확인하는 웹앱을 개발하고 있습니다.",
+        homeHighlights: [
+            "연령, 지역, 취업과 소득 조건의 3단계 자격 판정",
+            "정책 개정과 마감일을 반영한 알림 후보 계산",
+        ],
+        homeRepository: {
+            label: "GitHub",
+            href: "https://github.com/ljkhyeong/youth-policy-mate",
+        },
+        summary:
+            "서울 청년이 정책 자격 근거와 신청 일정을 확인하는 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.",
+        homeFacts: [
+            {
+                label: "담당",
+                value: "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트",
+            },
+            {
+                label: "문제",
+                value: "정책 조건이나 모집 기간을 확인할 수 없을 때도 신청 가능 여부와 마감일이 확정된 것처럼 보일 수 있음",
+            },
+            {
+                label: "해결",
+                value: "가능, 불가, 추가 확인 필요로 판정을 나누고 근거와 기준일을 함께 표시하며 확인되지 않은 마감일은 만들지 않음",
+            },
+        ],
+        period: "2026.08.30 — 진행 중",
+        route: "/projects/youth-policy-mate",
+        tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
+        visual: "youth-policy-mate",
+        stage: "개발 중",
+        visibility: "공개 저장소",
+        homeProof: "공개 main CI 통과 및 서버 자동화 테스트 341개 통과",
+        homeFlow: ["조건 입력", "근거별 판정", "일정 및 알림 후보"],
     },
     {
         id: "hope-commit",
@@ -147,13 +190,13 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/hope-commit",
         },
         navigationLabel: "Hope Commit",
-        eyebrow: "Hope 3.0.3 비공식 포크 / 로컬 커밋 HTML 리뷰",
+        eyebrow: "Hope 6.0.0 비공식 포크 / 로컬 커밋 HTML 리뷰",
         summary:
-            "SeungIl 님의 Hope 3.0.3을 포크해 만든 비공식 도구입니다. 지정한 커밋 범위만 검토하고, 각 설명이 실제 변경 줄을 가리키는 HTML 리뷰를 생성합니다.",
+            "SeungIl 님의 Hope 6.0.0을 포크한 비공식 도구입니다. 지정한 커밋만 검토하고 각 설명을 실제 변경 줄에 연결한 오프라인 HTML 리뷰를 생성합니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "SeungIl 님의 Hope 3.0.3 포크에 로컬 커밋 비교, HTML 리뷰 및 자동화 테스트 추가",
+                value: "SeungIl 님의 Hope 6.0.0 포크에 로컬 커밋 비교, 근거 연결 HTML 리뷰와 자동화 테스트 추가",
             },
             {
                 label: "문제",
@@ -161,7 +204,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "입력한 커밋과 확정한 비교 기준에 저장된 코드만 읽고, 설명이 실제 변경 줄을 가리킬 때만 HTML 생성",
+                value: "작업 파일이 아닌 Git 커밋 객체만 읽고, 설명이 실제 변경 줄을 가리킬 때만 HTML 생성",
             },
         ],
         period: "2026.08.22 — 진행 중",
@@ -170,7 +213,7 @@ export const projectSummaries = [
         visual: "hope-commit",
         stage: "개발 중",
         visibility: "공개 저장소",
-        homeProof: "공개 main 4.0.0 자동화 테스트 275개 통과",
+        homeProof: "v5.0.2 공개 및 자동화 테스트 343개 통과",
         homeFlow: ["대상 커밋", "변경 줄", "HTML 리뷰"],
     },
     {
@@ -186,11 +229,11 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 의도 및 검증 기록",
         summary:
-            "AI 코드 변경의 요청, 판단 출처, 코드 위치와 검증 결과를 함께 남기는 도구입니다. 원문 대화나 숨은 추론은 저장하지 않으며, 작성자가 확인한 뒤 코드가 바뀌지 않은 기록만 공개합니다.",
+            "AI 코드 변경의 요청, 판단 출처, 코드 위치와 검증 결과를 함께 남기는 도구입니다. 원문 대화나 숨은 추론은 저장하지 않으며 작성자가 확인한 기록을 GitHub와 IntelliJ에서 조회합니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "Kotlin 및 Spring 서버, GitHub 인증과 Check Run, Codex 연동, IntelliJ 플러그인 구현",
+                value: "Kotlin 및 Spring 서버, GitHub 인증과 Check Run, Codex MCP 연동 및 IntelliJ 플러그인 구현",
             },
             {
                 label: "문제",
@@ -212,7 +255,7 @@ export const projectSummaries = [
         visual: "intent-trace",
         stage: "개발 중",
         visibility: "공개 저장소",
-        homeProof: "공개 main의 서버, IntelliJ 및 릴리스 자동화 검증",
+        homeProof: "v0.7.0 공개 및 최신 main의 서버, IntelliJ와 릴리스 자동화 검증",
         homeFlow: ["커밋", "코드 줄 해시", "공개 판단"],
     },
     {

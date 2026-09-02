@@ -62,13 +62,19 @@ const routeMetaContent = {
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "결제 및 환불 중복 실행 방지, 알림 재처리, 예약 및 재고 동시성 제어, 스마트스토어 주문과 Toss 결제 대사를 구현한 서비스",
+            "카드와 간편결제, 스마트스토어 상품 및 주문 운영, 결제와 알림 재처리를 구현한 공방 주문 및 예약 서비스",
+        image: "/og-cover.png",
+    },
+    "/projects/youth-policy-mate": {
+        title: "청년정책메이트 | 임정규 포트폴리오",
+        description:
+            "정책 조건을 3단계로 판정해 근거와 기준일을 표시하고 확인한 마감만 알림 후보로 계산하는 서울 청년정책 웹앱",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님의 Hope 3.0.3을 포크해 지정한 커밋 범위만 검토하고, 설명이 실제 변경 줄을 가리키는 HTML 리뷰를 생성하는 비공식 도구",
+            "SeungIl 님의 Hope 6.0.0을 포크해 지정한 커밋만 검토하고 설명을 실제 변경 줄에 연결한 HTML 리뷰를 생성하는 비공식 도구",
         image: "/og-cover.png",
     },
     "/projects/intent-trace": {

@@ -173,6 +173,10 @@ const App = () => {
                         element={<ProjectCaseStudy projectId="intent-trace" />}
                     />
                     <Route
+                        path="/projects/youth-policy-mate"
+                        element={<ProjectCaseStudy projectId="youth-policy-mate" />}
+                    />
+                    <Route
                         path="/projects/e-warrant"
                         element={<ProjectCaseStudy projectId="warrant" />}
                     />

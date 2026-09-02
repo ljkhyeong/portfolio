@@ -2,8 +2,24 @@
     margin: 0;
 }
 
+.baton-service-flow__header {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: baseline;
+    margin: 0 0 24px;
+}
+
+.baton-service-flow__header > span {
+    color: var(--accent, #0969da);
+    font-family: var(--mono, monospace);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
 .baton-service-flow h3 {
-    margin: 0 0 20px;
+    margin: 0;
     color: var(--ink, #1f2328);
     font-size: clamp(20px, 2vw, 26px);
     letter-spacing: -0.035em;
@@ -30,13 +46,17 @@
     color: var(--ink, #1f2328);
 }
 
+.service-flow-paper {
+    fill: var(--paper, #fff);
+}
+
 .service-flow-svg--compact {
     min-width: 0;
 }
 
 .service-flow-node rect,
 .service-flow-node polygon {
-    fill: var(--paper, #fff);
+    fill: var(--paper-raised, #f6f8fa);
     stroke: var(--line-strong, #afb8c1);
     stroke-width: 1.2;
 }
@@ -46,10 +66,26 @@
     fill: var(--paper-raised, #f6f8fa);
 }
 
-.service-flow-node--focal rect,
-.service-flow-node--decision polygon {
-    fill: #ddf4ff;
+.service-flow-node--focal rect {
+    fill: var(--accent-soft, #ddf4ff);
     stroke: var(--accent, #0969da);
+}
+
+.service-flow-node--decision polygon {
+    fill: var(--paper-raised, #f6f8fa);
+    stroke: var(--line-strong, #afb8c1);
+}
+
+.service-flow-node__tag {
+    fill: var(--muted, #59636e);
+    font-family: var(--mono, monospace);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.service-flow-node--focal .service-flow-node__tag {
+    fill: var(--accent, #0969da);
 }
 
 .service-flow-node__title {
@@ -69,6 +105,11 @@
     fill: none;
     stroke: var(--muted, #59636e);
     stroke-width: 1.2;
+}
+
+.service-flow-edge--accent {
+    stroke: var(--accent, #0969da);
+    stroke-width: 1.4;
 }
 
 .service-flow-edge--dashed {
@@ -120,7 +161,7 @@
 
 .baton-service-flow__legend > span:nth-child(2)::before {
     border-color: var(--accent, #0969da);
-    background: #ddf4ff;
+    background: var(--accent-soft, #ddf4ff);
 }
 
 .baton-service-flow__legend > span:nth-child(3)::before {
@@ -141,4 +182,11 @@
     color: var(--muted, #59636e);
     font-size: 15px;
     line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+    .baton-service-flow__header {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
 }

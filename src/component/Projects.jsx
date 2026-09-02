@@ -4,29 +4,36 @@ import { assetPath } from "../utils/assetPath"
 import "../css/Projects.css"
 
 const FEATURED_PROJECT_IDS = ["warrant", "baton", "happygallery"]
-const SUPPORTING_PROJECT_IDS = ["defense", "hope-commit", "intent-trace", "webrtc"]
+const SUPPORTING_PROJECT_IDS = [
+    "youth-policy-mate",
+    "defense",
+    "hope-commit",
+    "intent-trace",
+    "webrtc",
+]
 
 const PROJECT_TYPE_LABELS = {
     career: "경력 프로젝트",
     personal: "개인 프로젝트",
     tooling: "오픈소스 및 개발 도구",
+    webapp: "웹앱",
     education: "교육 프로젝트",
 }
 
 const PROJECT_VISUALS = {
     baton: {
-        src: "baton-workspace.png",
-        alt: "BATON 오늘 화면에서 인수인계 타임라인과 최근 결정을 확인하는 모습",
-        width: 1280,
-        height: 720,
-        caption: "인수인계 진행 상황과 최근 결정",
+        src: "baton-core-today.webp",
+        alt: "BATON 오늘 화면에서 운영 회차와 미완료 업무 및 수락 대기 바통을 확인하는 모습",
+        width: 1440,
+        height: 900,
+        caption: "운영 회차, 미완료 업무와 수락 대기 바통",
     },
     gallery: {
-        src: "happygallery-product-detail.jpg",
-        alt: "happyGallery 상품 주문 화면에서 수량과 결제 금액을 확인하는 모습",
-        width: 1600,
-        height: 1000,
-        caption: "상품 수량과 결제 금액 확인",
+        src: "happygallery-product-options.webp",
+        alt: "happyGallery 상품 상세에서 색상과 각인 옵션 및 조합별 가격과 재고를 선택하는 모습",
+        width: 1440,
+        height: 960,
+        caption: "상품 옵션, 조합별 가격과 재고 확인",
     },
 }
 
@@ -280,7 +287,7 @@ const Projects = () => {
                         <span>MORE WORK</span>
                         <h3 id="supporting-projects-title">추가 프로젝트</h3>
                     </div>
-                    <p>운영 경험, 개발 도구와 실시간 미디어 구현 사례입니다.</p>
+                    <p>웹앱, 운영 경험, 개발 도구와 실시간 미디어 구현 사례입니다.</p>
                 </div>
                 <ol className="project-support__grid" aria-label="추가 프로젝트">
                     {supportingProjects.map((project, position) => (

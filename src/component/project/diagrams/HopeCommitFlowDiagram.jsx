@@ -6,7 +6,9 @@ const HopeCommitFlowDiagram = () => {
     return (
         <figure className="editorial-diagram hope-commit-flow">
             <figcaption className="editorial-diagram__header">
-                <span className="editorial-diagram__eyebrow">COMMIT DIFF / LOCAL GIT OBJECTS</span>
+                <span className="editorial-diagram__eyebrow">
+                    FLOWCHART / COMMIT DIFF / LOCAL GIT OBJECTS
+                </span>
                 <h3 className="editorial-diagram__title">검증을 통과한 커밋 리뷰만 저장</h3>
                 <p className="editorial-diagram__summary">
                     입력한 커밋과 확정한 비교 기준 사이의 변경만 읽고, 실제 변경 파일과 줄에 연결된

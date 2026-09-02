@@ -7,6 +7,7 @@ import {
     personalCaseStudies,
     projectsById,
     toolingCaseStudies,
+    webappCaseStudies,
 } from "./projects"
 
 describe("project summary data", () => {
@@ -35,9 +36,10 @@ describe("project summary data", () => {
         ])
     })
 
-    it("separates career, personal, tooling, and education projects in recruiter-first order", () => {
+    it("separates career, personal, webapp, tooling, and education projects in recruiter-first order", () => {
         expect(careerCaseStudies.map((project) => project.id)).toEqual(["warrant", "defense"])
         expect(personalCaseStudies.map((project) => project.id)).toEqual(["baton", "happygallery"])
+        expect(webappCaseStudies.map((project) => project.id)).toEqual(["youth-policy-mate"])
         expect(toolingCaseStudies.map((project) => project.id)).toEqual([
             "hope-commit",
             "intent-trace",
@@ -49,12 +51,10 @@ describe("project summary data", () => {
         const hopeCommit = projectsById["hope-commit"]
 
         expect(hopeCommit.category).toBe("오픈소스 및 개발 도구")
-        expect(hopeCommit.status.text).toContain("SeungIl 님의 Hope 3.0.3")
+        expect(hopeCommit.status.text).toContain("SeungIl 님의 Hope 6.0.0")
         expect(hopeCommit.status.text).toContain("제가 추가한 Commit Diff")
         expect(hopeCommit.status.text).toContain("README와 NOTICE에 구분")
-        expect(hopeCommit.status.text).toContain(
-            "최신 릴리스와 공개 main의 패키지 및 플러그인 버전은 모두 4.0.0",
-        )
+        expect(hopeCommit.status.text).toContain("공개 릴리스와 main은 v5.0.2")
         expect(hopeCommit.status.text).toContain("Commit Diff")
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
@@ -65,7 +65,7 @@ describe("project summary data", () => {
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    href: "https://github.com/ljkhyeong/hope-commit/actions/runs/33240828599/job/99069772102",
+                    href: "https://github.com/ljkhyeong/hope-commit/actions/runs/33632058777",
                 }),
                 expect.objectContaining({
                     href: "https://github.com/dkstm95/hope",
@@ -77,9 +77,7 @@ describe("project summary data", () => {
             expect.arrayContaining([
                 expect.objectContaining({
                     item: "저장소 자동화 테스트",
-                    result: expect.stringMatching(
-                        /공개 main 4\.0\.0의 GitHub Actions Node\.js 22 환경에서 275개 통과.*실패 및 건너뜀 0개/,
-                    ),
+                    result: expect.stringContaining("자동화 테스트 343개가 통과"),
                 }),
             ]),
         )
@@ -89,9 +87,8 @@ describe("project summary data", () => {
         const intentTrace = projectsById["intent-trace"]
 
         expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
-        expect(intentTrace.status.text).toContain("v0.6.0")
-        expect(intentTrace.status.text).toContain("0.7.0-SNAPSHOT")
-        expect(intentTrace.status.text).toContain("v0.7.0 릴리스")
+        expect(intentTrace.status.text).toContain("v0.7.0")
+        expect(intentTrace.status.text).toContain("0.8.0-SNAPSHOT")
         expect(intentTrace.architecture.tradeoff).toContain(
             "서버는 Git 객체를 직접 다시 읽지 않고 클라이언트가 제출한 증거를 신뢰",
         )
@@ -99,7 +96,7 @@ describe("project summary data", () => {
             expect.arrayContaining([
                 expect.objectContaining({
                     item: "공개 main 자동화 검증",
-                    result: expect.stringContaining("총 94개"),
+                    result: expect.stringContaining("서버 테스트 126개"),
                 }),
             ]),
         )
@@ -107,7 +104,35 @@ describe("project summary data", () => {
             expect.arrayContaining([
                 expect.objectContaining({ label: "변경 의도 기록 MVP" }),
                 expect.objectContaining({ label: "IntelliJ 현재 줄 의도 조회" }),
+                expect.objectContaining({ label: "IntelliJ 변경 기록 탐색" }),
                 expect.objectContaining({ label: "릴리스 생성과 검증" }),
+            ]),
+        )
+    })
+
+    it("청년정책메이트의 구현 화면과 미구현 외부 기능을 구분한다", () => {
+        const youthPolicyMate = projectsById["youth-policy-mate"]
+
+        expect(youthPolicyMate.projectType).toBe("webapp")
+        expect(youthPolicyMate.screenshots.map((screenshot) => screenshot.src)).toEqual([
+            "youth-policy-mate-home.webp",
+            "youth-policy-mate-conditions.webp",
+            "youth-policy-mate-eligibility.webp",
+            "youth-policy-mate-reminders.webp",
+        ])
+        expect(
+            youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
+        ).toEqual(["1440x960", "1440x960", "1440x960", "1440x960"])
+        expect(youthPolicyMate.screenshots[2].caption).toContain("실제 정책 추천 결과가 아닙니다")
+        expect(youthPolicyMate.status.text).toContain("온통청년 인증키는 승인 대기 중")
+        expect(youthPolicyMate.status.text).toContain("실제 정책 수집 및 추천")
+        expect(youthPolicyMate.status.text).toContain("아직 구현하지 않았습니다")
+        expect(youthPolicyMate.proofs).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    item: "웹과 서버 자동화 검증",
+                    result: expect.stringContaining("서버 자동화 테스트 341개"),
+                }),
             ]),
         )
     })
@@ -165,6 +190,12 @@ describe("project summary data", () => {
             "Spring Boot / Spring AI",
             "PostgreSQL / H2",
             "IntelliJ Platform",
+        ])
+        expect(projectSummariesById["youth-policy-mate"].tags).toEqual([
+            "Java 25 / Spring Boot 4.1",
+            "Next.js 16 / React 19",
+            "TypeScript",
+            "PostgreSQL 18",
         ])
         expect(projectSummaries.flatMap((project) => project.tags).join(" | ")).not.toMatch(
             /SSR|Messaging|Git 객체 조회|GitHub App|Check Run/,
@@ -230,6 +261,13 @@ describe("project summary data", () => {
                 expect.objectContaining({ label: "8회권 사용, 취소 및 환불 정책" }),
             ]),
         )
+        expect(happyGallery.screenshots.map(({ width, height }) => `${width}x${height}`)).toEqual([
+            "1440x960",
+            "1440x1200",
+            "1440x960",
+            "1440x960",
+            "1440x960",
+        ])
     })
 
     it("describes defense integration, security, and legacy incident response without placeholder terms", () => {

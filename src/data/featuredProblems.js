@@ -27,6 +27,22 @@ const featuredProblems = {
         result: "실패 이력 보존, 같은 키의 결과 재사용, 늦은 응답 차단과 결과 재조회를 확인했습니다.",
         limitation: "실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
     },
+    "youth-policy-mate": {
+        problemNumber: "01",
+        problem:
+            "조건을 확인할 수 없을 때도 신청 가능 또는 불가로 단정하면 잘못된 정책 안내가 됩니다.",
+        approach:
+            "연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계합니다.",
+        steps: [
+            { title: "정책 조건 확인", description: "정의, 범위와 기준일 구분" },
+            { title: "사용자 답변 비교", description: "조건별 충족, 불충족과 미확인 판단" },
+            { title: "근거와 함께 표시", description: "3단계 결과와 추가 확인 이유 제공" },
+        ],
+        evidenceLabel: "서버 단위 테스트",
+        result: "조건 충족 및 불충족, 정책 미해석, 사용자 정보 누락과 일부 구간 중첩을 구분했습니다.",
+        limitation:
+            "현재는 인공 규칙과 답변만 사용하며 실제 정책 수집과 추천은 연결하지 않았습니다.",
+    },
     "hope-commit": {
         problemNumber: "03",
         problem: "실제 변경 코드에 없는 설명이나 지적이 리뷰에 섞일 수 있습니다.",
@@ -158,7 +174,8 @@ const featuredProblems = {
         ],
         evidenceLabel: "로컬 연동 확인",
         result: "2.0.0-rc.1 실제 Core와 로컬 HTTP 및 내부 서비스용 Caddy HTTPS 연동을 확인했습니다.",
-        limitation: "공개 2.0.0-rc.2 이벤트 경로용 Caddy, 공인 DNS와 원격 배포는 미검증입니다.",
+        limitation:
+            "BRIEF의 최신 2.0.0-rc.4 후보 계약은 Core에 아직 반영하지 않았고, 공인 DNS와 원격 배포는 미검증입니다.",
     },
     "baton-cal": {
         problemNumber: "11",
@@ -188,7 +205,7 @@ const featuredProblems = {
         evidenceLabel: "연결 모듈 자동화 테스트",
         result: "연결 중단과 재시작 후 이전 순번의 answer 및 ICE를 전달해도 현재 연결의 메시지만 반영됐습니다.",
         limitation:
-            "일부 WebKit CI 시나리오는 실패합니다. Safari 실기기와 외부망 및 6명 장시간 접속은 미검증입니다.",
+            "WebKit CI 호환성은 보완했지만 Safari 실기기와 외부망 및 6명 장시간 접속은 미검증입니다.",
     },
 }
 

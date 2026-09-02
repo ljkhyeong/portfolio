@@ -57,21 +57,65 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
     },
 )
 
-test("ROUND의 통과, 일부 실패와 미검증 범위를 나눠 표시한다", () => {
+test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표시한다", () => {
     renderService("round")
 
     const status = screen.getByLabelText("구현 상태")
     const verified = within(status).getByText("확인됨").closest("div")
-    const limited = within(status).getByText("일부 실패 및 제한").closest("div")
+    const limited = within(status).getByText("설계상 제한").closest("div")
     const unverified = within(status).getByText("미검증").closest("div")
 
     expect(verified).toHaveClass("baton-service-status__item--verified")
-    expect(verified).toHaveTextContent("Chromium 전체 미디어와 Core 연동")
+    expect(verified).toHaveTextContent("Chromium 전체 미디어")
+    expect(verified).toHaveTextContent("Core 연동")
+    expect(verified).toHaveTextContent("WebKit 호환성")
+    expect(verified).toHaveTextContent("배포 검사 시나리오")
     expect(limited).toHaveClass("baton-service-status__item--limited")
-    expect(limited).toHaveTextContent("WebKit 채팅과 모바일 배치 시나리오 2건")
-    expect(limited).toHaveTextContent("restic 실행 파일 부재")
+    expect(limited).toHaveTextContent("방과 참가자 연결 상태는 프로세스 메모리")
+    expect(limited).toHaveTextContent("단일 시그널링 인스턴스")
     expect(unverified).toHaveClass("baton-service-status__item--unverified")
+    expect(unverified).toHaveTextContent("Cloudflare TURN 중계 전용 연결")
     expect(unverified).toHaveTextContent("Safari 실기기")
+    expect(unverified).toHaveTextContent("외부망과 6명 장시간 접속")
+    expect(status).not.toHaveTextContent("restic 실행 파일 부재")
+})
+
+test("ROUND의 입장 확인, 통화와 화면 공유를 현재 대표 화면으로 연다", () => {
+    renderService("round")
+
+    const gallery = screen.getByRole("group", { name: "BATON ROUND 대표 화면" })
+    const expectedScreens = [
+        {
+            label: "입장 전 장치 확인",
+            src: "baton-round-prejoin.webp",
+            alt: "BATON ROUND 입장 전 화면에서 카메라와 마이크를 확인하는 모습",
+        },
+        {
+            label: "통화와 채팅",
+            src: "baton-round-call-chat.webp",
+            alt: "BATON ROUND 통화 화면에서 참가자 영상과 채팅을 확인하는 모습",
+        },
+        {
+            label: "화면 공유",
+            src: "baton-round-screen-share.webp",
+            alt: "BATON ROUND 통화 화면에서 공유 화면과 통화 제어를 확인하는 모습",
+        },
+    ]
+
+    expect(within(gallery).getAllByRole("button")).toHaveLength(expectedScreens.length)
+
+    expectedScreens.forEach(({ label, src, alt }) => {
+        expect(
+            within(gallery).getByRole("button", {
+                name: `BATON ROUND ${label} 화면 확대해서 보기`,
+            }),
+        ).toBeVisible()
+
+        const image = within(gallery).getByRole("img", { name: alt })
+        expect(image).toHaveAttribute("src", expect.stringContaining(src))
+        expect(image).toHaveAttribute("width", "1440")
+        expect(image).toHaveAttribute("height", "900")
+    })
 })
 
 test("GO의 동시 요청 검증을 전체 배포 검증으로 표시하지 않는다", () => {

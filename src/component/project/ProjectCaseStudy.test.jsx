@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, within } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router-dom"
 import { projectsById } from "../../data/projects"
 import BatonServiceCaseStudy from "./BatonServiceCaseStudy"
@@ -8,40 +7,44 @@ import ProjectCaseStudy from "./ProjectCaseStudy"
 const renderWithRouter = (component) =>
     render(<MemoryRouter initialEntries={["/"]}>{component}</MemoryRouter>)
 
-test.each(["baton", "happygallery", "hope-commit", "intent-trace", "warrant", "defense", "webrtc"])(
-    "%s 상세는 담당과 확인 결과를 소개하고 대표 화면 다음에 문제 해결을 보여준다",
-    (projectId) => {
-        renderWithRouter(<ProjectCaseStudy projectId={projectId} />)
+test.each([
+    "baton",
+    "happygallery",
+    "youth-policy-mate",
+    "hope-commit",
+    "intent-trace",
+    "warrant",
+    "defense",
+    "webrtc",
+])("%s 상세는 담당과 확인 결과를 소개하고 대표 화면 다음에 문제 해결을 보여준다", (projectId) => {
+    renderWithRouter(<ProjectCaseStudy projectId={projectId} />)
 
-        const hero = screen.getByRole("heading", { level: 1 }).closest("header")
-        expect(within(hero).getByText(projectsById[projectId].period)).toBeVisible()
-        expect(within(hero).getByText(projectsById[projectId].role)).toBeVisible()
-        expect(within(hero).getByText("확인 결과")).toBeVisible()
-        expect(screen.queryByLabelText("프로젝트 핵심 요약")).not.toBeInTheDocument()
-        const problems = document.getElementById("project-problems")
-        const system = document.getElementById("project-system")
-        expect(within(problems).getByText("대표 사례")).toBeVisible()
-        expect(
-            system.compareDocumentPosition(problems) & Node.DOCUMENT_POSITION_FOLLOWING,
-        ).toBeTruthy()
-        expect(screen.getByRole("main")).toHaveClass("case-showcase")
-        const navigation = screen.getByRole("navigation", { name: "프로젝트 상세 탐색" })
-        const brand = within(navigation).getByRole("link", {
-            name: "ljkhyeong 포트폴리오 홈",
-        })
+    const hero = screen.getByRole("heading", { level: 1 }).closest("header")
+    expect(within(hero).getByText(projectsById[projectId].period)).toBeVisible()
+    expect(within(hero).getByText(projectsById[projectId].role)).toBeVisible()
+    expect(within(hero).getByText("확인 결과")).toBeVisible()
+    expect(screen.queryByLabelText("프로젝트 핵심 요약")).not.toBeInTheDocument()
+    const problems = document.getElementById("project-problems")
+    const system = document.getElementById("project-system")
+    expect(within(problems).getByText("대표 사례")).toBeVisible()
+    expect(system.compareDocumentPosition(problems) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(screen.getByRole("main")).toHaveClass("case-showcase")
+    const navigation = screen.getByRole("navigation", { name: "프로젝트 상세 탐색" })
+    const brand = within(navigation).getByRole("link", {
+        name: "ljkhyeong 포트폴리오 홈",
+    })
 
-        expect(brand).toHaveAttribute("href", "/")
-        expect(brand.querySelector("img")).toHaveAttribute(
-            "src",
-            expect.stringContaining("ljkhyeong-avatar.png"),
-        )
-        expect(within(navigation).getByRole("link", { name: "프로젝트 목록" })).toHaveAttribute(
-            "href",
-            "/#work",
-        )
-        expect(within(navigation).getByLabelText("다른 프로젝트 보기")).toBeInTheDocument()
-    },
-)
+    expect(brand).toHaveAttribute("href", "/")
+    expect(brand.querySelector("img")).toHaveAttribute(
+        "src",
+        expect.stringContaining("ljkhyeong-avatar.png"),
+    )
+    expect(within(navigation).getByRole("link", { name: "프로젝트 목록" })).toHaveAttribute(
+        "href",
+        "/#work",
+    )
+    expect(within(navigation).getByLabelText("다른 프로젝트 보기")).toBeInTheDocument()
+})
 
 test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 명확히 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="baton" />)
@@ -199,14 +202,19 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     })
 })
 
-test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제를 접어 둔다", () => {
+test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근거를 연결한다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="happygallery" />)
 
+    const project = projectsById.happygallery
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
 
-    expect(screen.getByText(/공방 상품 주문과 클래스 예약 서비스/)).toBeInTheDocument()
+    expect(
+        screen.getByText(
+            "상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.",
+        ),
+    ).toBeInTheDocument()
     expect(screen.queryByText("주요 구현 및 해결")).not.toBeInTheDocument()
-    expect(screen.getByText(projectsById.happygallery.role)).toBeInTheDocument()
+    expect(screen.getByText(project.role)).toBeInTheDocument()
     expect(screen.getByText(/문서를 요구사항, 기술 선택, 테스트와 운영 절차로/)).toBeInTheDocument()
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
@@ -220,6 +228,37 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
         "#project-system",
     )
 
+    const gallery = screen.getByRole("group", { name: "happyGallery 대표 화면" })
+    const zoomButtons = within(gallery).getAllByRole("button")
+
+    expect(zoomButtons).toHaveLength(project.screenshots.length)
+    project.screenshots.forEach((screenshot) => {
+        expect(
+            within(gallery).getByRole("button", {
+                name: `happyGallery ${screenshot.label} 화면 확대해서 보기`,
+            }),
+        ).toBeInTheDocument()
+        expect(within(gallery).getByRole("img", { name: screenshot.alt })).toHaveAttribute(
+            "src",
+            expect.stringContaining(screenshot.src),
+        )
+    })
+
+    const paymentTrigger = within(gallery).getByRole("button", {
+        name: "happyGallery 결제수단 선택 화면 확대해서 보기",
+    })
+    fireEvent.click(paymentTrigger)
+
+    const dialog = screen.getByRole("dialog", { name: "결제수단 선택" })
+    expect(
+        within(dialog).getByRole("img", { name: project.screenshots[1].alt }),
+    ).toBeInTheDocument()
+    expect(within(dialog).getByText(/2 \/ 5/)).toBeInTheDocument()
+
+    fireEvent.click(within(dialog).getByRole("button", { name: "확대 화면 닫기" }))
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
+    expect(paymentTrigger).toHaveFocus()
+
     const documents = document.getElementById("project-documents")
     const documentLinks = within(documents).getByRole("list")
     const inventory = within(documents).getByText("문서 분류와 작성 수").closest("details")
@@ -228,7 +267,7 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
         documentLinks.compareDocumentPosition(inventory) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy()
 
-    const firstDocument = projectsById.happygallery.documents[0]
+    const firstDocument = project.documents[0]
     const documentLink = within(documents).getByRole("link", {
         name: `${firstDocument.label} 대표 문서 새 창에서 보기`,
     })
@@ -240,25 +279,92 @@ test("happyGallery는 공개 근거를 상단에서 연결하고 보조 문제�
     ).toBeTruthy()
 })
 
+test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구현 범위를 함께 보여준다", () => {
+    renderWithRouter(<ProjectCaseStudy projectId="youth-policy-mate" />)
+
+    const project = projectsById["youth-policy-mate"]
+    expect(screen.getByText("웹앱 프로젝트 01 / 01")).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
+    expect(
+        screen.getByText("조건에 맞는 청년 정책의 판단 근거와 신청 일정을 관리하는 웹앱입니다."),
+    ).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
+
+    const gallery = screen.getByRole("group", { name: "청년정책메이트 대표 화면" })
+    expect(within(gallery).getAllByRole("button")).toHaveLength(project.screenshots.length)
+    project.screenshots.forEach((screenshot) => {
+        expect(
+            within(gallery).getByRole("button", {
+                name: `청년정책메이트 ${screenshot.label} 화면 확대해서 보기`,
+            }),
+        ).toBeInTheDocument()
+        expect(within(gallery).getByRole("img", { name: screenshot.alt })).toBeInTheDocument()
+    })
+
+    expect(
+        screen.getByRole("heading", { name: "조건 입력부터 자격 근거와 일정까지 연결" }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("img", {
+            name: /조건 입력부터 자격 근거와 일정까지 연결.*실제 정책 수집, 회원 저장, 알림 예약과 외부 발송은 연결하지 않았습니다/,
+        }),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole("region", {
+            name: "조건 입력부터 자격 근거와 일정까지 연결 가로 스크롤 영역",
+        }),
+    ).toHaveAttribute("tabindex", "0")
+    expect(screen.getByText("자격 판정")).toBeInTheDocument()
+    expect(screen.getByText("알림 후보 계산")).toBeInTheDocument()
+    expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
+        /공개 main 7311d9e.*실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다/,
+    )
+    expect(
+        within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(
+            "listitem",
+        ),
+    ).toHaveLength(3)
+    expect(
+        screen.getByRole("article", {
+            name: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
+        }),
+    ).toBeInTheDocument()
+    expect(screen.getByText("추가 문제 해결 1건 보기").closest("details")).not.toHaveAttribute(
+        "open",
+    )
+    const stack = screen.getByRole("list", { name: "청년정책메이트 기술 스택" })
+    const expectedStack = ["Spring Boot 4.1.1", "Next.js 16.3", "React 19.2", "OpenAPI"]
+    expectedStack.forEach((technology) =>
+        expect(within(stack).getByText(technology)).toBeInTheDocument(),
+    )
+})
+
 test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록으로 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="intent-trace" />)
 
     expect(screen.getByRole("heading", { name: "IntentTrace", level: 1 })).toBeInTheDocument()
+    const lifecycleDiagram = screen.getByRole("img", {
+        name: /요청과 코드 변경을 검증 가능한 기록으로 연결.*작성자 확인과 현재 코드 상태 일치를 확인해 공개하고.*기존 기록을 차단/,
+    })
+    expect(lifecycleDiagram).toBeInTheDocument()
     expect(
-        screen.getByRole("group", {
-            name: /사용자 요청과 판단 출처, 전체 길이 커밋 ID, 코드 위치 및 검증 결과를 저장하고 작성자 확인 뒤 코드가 바뀌면 공개를 차단/,
+        screen.getByRole("region", {
+            name: "요청과 코드 변경을 검증 가능한 기록으로 연결 가로 스크롤 영역",
         }),
-    ).toBeInTheDocument()
-    expect(screen.getByText("CODE ANCHOR")).toBeInTheDocument()
-    expect(screen.getByText("VERIFICATION")).toBeInTheDocument()
-    expect(screen.getByText("예시 기록")).toBeInTheDocument()
-    expect(screen.getAllByText("PUBLISHED").length).toBeGreaterThan(0)
-    expect(screen.getByText("원문 대화 / 숨은 추론 / 검증 원문")).toBeInTheDocument()
+    ).toHaveAttribute("tabindex", "0")
+    expect(within(lifecycleDiagram).getByText("사용자 요청")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("작성자 확인")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("공개 상태 재검증")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("GitHub / IntelliJ")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("SUPERSEDED")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
             name: "요청과 판단 출처를 전체 길이 커밋 ID 및 코드 위치에 묶고, 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
         }),
     ).toBeInTheDocument()
+    expect(screen.getByLabelText("공개 상태")).toHaveTextContent(
+        /v0\.7\.0.*0\.8\.0-SNAPSHOT.*Marketplace 배포와 공개 운영은 미검증/,
+    )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/intent-trace")
@@ -285,11 +391,11 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
             ".warrant-integration__nodes > .editorial-diagram__node",
         ),
     ).toHaveLength(4)
-    expect(screen.getByText("FIG 03 / BEINTECH / LG CNS 컨소시엄")).toBeInTheDocument()
+    expect(screen.getByText("DATA FLOW / BEINTECH / LG CNS 컨소시엄")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", { name: "KICS 요청 변환 및 제출 자료 반영", level: 3 }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("group", { name: "KICS 연계 서버 및 배치" })).toBeInTheDocument()
+    expect(integrationDiagram.querySelector(".warrant-integration__nodes")).toBeInTheDocument()
     expect(
         screen.getByRole("region", { name: "전자영장 기관 연계 흐름 가로 스크롤 영역" }),
     ).toHaveAttribute("tabindex", "0")
@@ -327,16 +433,21 @@ test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /군사법원, 군검찰 및 군사경찰에서 수용 대상자의 인적정보와 영장정보를 전달하고, 기관별 배치가 필수값과 형식을 검증한 뒤 군교정 DB에 반영/,
+            name: /기관별 수용자 정보를 검증해 군교정 DB에 반영.*세 기관에서 수신한 인적정보와 영장정보를 연계 배치가 검증해.*중단된 경우 확인한 단계부터 다시 실행/,
         }),
     ).toBeInTheDocument()
     expect(screen.getAllByText("군사법원").length).toBeGreaterThan(0)
     expect(screen.getAllByText("군검찰").length).toBeGreaterThan(0)
     expect(screen.getAllByText("군사경찰").length).toBeGreaterThan(0)
-    expect(screen.getByText("수용자 정보 검증 배치")).toBeInTheDocument()
-    expect(screen.getByRole("list", { name: "배치 처리 단계" })).toHaveTextContent(
-        "기관별 데이터 수신인적정보 및 영장정보 검증군교정 DB 반영",
-    )
+    expect(screen.getByText("수용자 정보")).toBeInTheDocument()
+    expect(screen.getByText("검증 배치")).toBeInTheDocument()
+    expect(screen.getByText("군교정 DB")).toBeInTheDocument()
+    expect(screen.getByText("중단 단계 확인 후 재실행")).toBeInTheDocument()
+    expect(
+        screen.getByRole("region", {
+            name: "기관별 수용자 정보를 검증해 군교정 DB에 반영 가로 스크롤 영역",
+        }),
+    ).toHaveAttribute("tabindex", "0")
 
     const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
 
@@ -474,8 +585,8 @@ test.each([
     ["go", "GO", ["Java 21", "Spring Data JPA", "MySQL 8.4"]],
     ["watch", "WATCH", ["Spring JDBC", "PostgreSQL 18", "Apache HttpClient 5"]],
     ["relay", "RELAY", ["RabbitMQ / Spring AMQP", "AWS SQS FIFO", "PostgreSQL 18"]],
-    ["brief", "BRIEF", ["Kotlin 2.3", "Java 21", "Spring JDBC"]],
-    ["cal", "CAL", ["Kotlin 2.3", "Java 25", "iCal4j 4.3.0"]],
+    ["brief", "BRIEF", ["Kotlin 2.4.10", "Java 21", "Spring JDBC"]],
+    ["cal", "CAL", ["Kotlin 2.4.10", "Java 25", "iCal4j 4.3.0"]],
     ["round", "ROUND", ["React 19", "WebRTC / RTCDataChannel", "Spring WebSocket"]],
 ])(
     "BATON %s 상세는 %s 구현에 실제 사용한 기술을 Core와 같은 위치에 보여준다",
@@ -507,33 +618,50 @@ test.each([
         "brief",
         "BRIEF",
         "Core 운영 신호를 그대로 관심 항목에 반영",
-        "https://github.com/ljkhyeong/baton-brief/tree/a2c5fb9bf04dbd7d805b613713c0d1b88e8deb13",
-        /BRIEF 공개 main 고정 커밋 보기/,
-        /2\.0\.0-rc\.1 실제 Core JAR.*로컬 HTTP/,
-        /Core 연동, 관심 항목 반영과 주간 보고서 구현이 공개 main에 반영돼 있습니다/,
+        "https://github.com/ljkhyeong/baton-brief",
+        /BRIEF 공개 저장소 보기/,
+        [
+            /Core 2\.0\.0-rc\.1과 로컬 HTTP 및 내부 HTTPS 연동도 검증/,
+            /BRIEF 원격 개발 브랜치는 2\.0\.0-rc\.4.*최신 후보 계약의 Core 반영은 아직 완료되지 않았습니다/,
+            /공인 DNS와 원격 환경의 전체 서비스 연결은 미검증/,
+        ],
+        /공개 main과 최신 로컬 main의 차이는 현재 상태 설명에 구분/,
     ],
     [
         "cal",
         "CAL",
         "중복 및 과거 일정 JSON 차단",
-        "https://github.com/ljkhyeong/baton-cal/tree/39b916d01dd597c0a1903bedde71bc3c27ef368f",
+        "https://github.com/ljkhyeong/baton-cal/tree/978f0d4",
         /CAL 공개 main 고정 커밋 보기/,
-        /Core 1\.0\.0 일정 JSON.*CAL 컨테이너.*호환성을 확인/,
-        /안정 계약 1.0.0의 Core 호환성 근거와 공개 main의 미게시 후보 1.1.0-rc.1/,
+        [
+            /공개 main에서 Core 일정 JSON 호환성.*OCI 백업 및 복구.*이전 복구 작업의 늦은 결과 차단/,
+            /공개 구독과 전체 시즌 재동기화는 미검증/,
+        ],
+        /안정 계약 1.0.0과 공개 후보 계약 1.1.0-rc.1의 BATON 호환성 근거/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",
-    (id, name, problem, repository, repositoryLinkName, status, repositoryNote) => {
+    (id, name, problem, repository, repositoryLinkName, statuses, repositoryNote) => {
         renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
 
         expect(screen.getByRole("heading", { name, level: 1 })).toBeInTheDocument()
         expect(screen.getByRole("heading", { name: problem })).toBeInTheDocument()
-        expect(screen.getByLabelText("구현 상태")).toHaveTextContent(status)
+        const verification = screen.getByLabelText("구현 상태")
+        statuses.forEach((status) => expect(verification).toHaveTextContent(status))
         expect(screen.getByRole("link", { name: repositoryLinkName })).toHaveAttribute(
             "href",
             repository,
         )
         expect(screen.getByText(repositoryNote)).toBeInTheDocument()
+
+        if (id === "brief") {
+            const gallery = screen.getByRole("group", { name: "BATON BRIEF 대표 화면" })
+            expect(
+                within(gallery).getByRole("button", {
+                    name: "BATON BRIEF 주간 운영 요약 화면 확대해서 보기",
+                }),
+            ).toBeInTheDocument()
+        }
     },
 )
 
@@ -582,15 +710,22 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
             name: "WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 흐름",
         }),
     ).toBeInTheDocument()
+    const mediaDiagram = screen.getByRole("img", {
+        name: /실시간 WebRTC와 HLS 다시보기를 한 입력에서 분리.*강의 영상 입력을 mediasoup에서 WebRTC 실시간 전송과 RTP 출력으로 나누고.*React 다시보기 화면에 제공/,
+    })
+    expect(mediaDiagram).toBeInTheDocument()
     expect(
-        screen.getByRole("img", {
-            name: /강의 영상을 mediasoup에서 WebRTC로 React 실시간 화면에 전달하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer에서 HLS로 변환/,
+        screen.getByRole("region", {
+            name: "실시간 WebRTC와 HLS 다시보기를 한 입력에서 분리 가로 스크롤 영역",
         }),
-    ).toBeInTheDocument()
-    expect(screen.getByText("mediasoup → WebRTC")).toBeInTheDocument()
-    expect(screen.getByText("RTP 출력 → FFmpeg / GStreamer")).toBeInTheDocument()
-    expect(screen.getByText("React 실시간 시청")).toBeInTheDocument()
-    expect(screen.getByText("React 지난 구간 재생")).toBeInTheDocument()
+    ).toHaveAttribute("tabindex", "0")
+    expect(within(mediaDiagram).getByText("mediasoup")).toBeInTheDocument()
+    expect(within(mediaDiagram).getByText("WebRTC 전송")).toBeInTheDocument()
+    expect(within(mediaDiagram).getByText("RTP 출력")).toBeInTheDocument()
+    expect(within(mediaDiagram).getByText("FFmpeg /")).toBeInTheDocument()
+    expect(within(mediaDiagram).getByText("GStreamer")).toBeInTheDocument()
+    expect(within(mediaDiagram).getByText("실시간 시청")).toBeInTheDocument()
+    expect(within(mediaDiagram).getByText("지난 구간 재생")).toBeInTheDocument()
 
     const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
     const [mediaFlowProblem] = within(problems).getAllByRole("listitem")
@@ -603,7 +738,7 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
         }),
     ).toBeInTheDocument()
 
-    await userEvent.click(
+    fireEvent.click(
         within(mediaFlowProblem).getByText("WebRTC 실시간 재생과 HLS 지난 구간 다시보기"),
     )
 

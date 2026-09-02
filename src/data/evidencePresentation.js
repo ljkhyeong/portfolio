@@ -16,7 +16,8 @@ const evidencePresentation = {
     "BRIEF 운영 신호 반영과 발행 보고서 수정 방지": {
         methodLabel: "통합 테스트 및 Core 연동",
         resultSummary: "Core 신호 반영, 저장 이벤트로 목록 재생성, 같은 주간 보고서 1건 저장",
-        scopeNote: "공개 2.0.0-rc.2 이벤트 경로용 Caddy, 공인 DNS와 원격 배포는 미검증",
+        scopeNote:
+            "최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 기준, 공개 main보다 16개 커밋 앞섬, 공인 DNS와 원격 배포는 미검증",
     },
     "CAL 일정 JSON 수신과 캘린더 구독": {
         methodLabel: "통합 테스트",
@@ -24,18 +25,13 @@ const evidencePresentation = {
     },
     "ROUND 참여권 검증과 브라우저 연결": {
         methodLabel: "CI 확인",
-        resultSummary: "Chromium 및 Core 연동 통과, WebKit 1건 통과 및 2건 실패, 배포 검증 실패",
+        resultSummary: "Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 통과",
         scopeNote:
             "실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
     },
     "AWS 운영 이력": { methodLabel: "운영 내역", scopeNote: "실운영 후 비용 문제로 종료" },
     "8회권 환불, 미래 예약과 잔여 횟수 일치": { methodLabel: "통합 테스트" },
     "OpenAPI 문서화 범위": { methodLabel: "산출물 집계" },
-    "백엔드 테스트 산출물 집계": {
-        methodLabel: "기존 테스트 산출물",
-        resultSummary: "기존 테스트 XML에서 총 1,141개 성공 확인",
-        scopeNote: "이번 갱신에서 전체 테스트나 CI를 다시 통과시켰다는 뜻은 아님",
-    },
     "스마트스토어 주문과 공유 재고 반영": {
         methodLabel: "코드 대조",
         resultSummary:
@@ -49,11 +45,11 @@ const evidencePresentation = {
     },
     "공개 페이지는 서버 렌더링하고 회원 및 결제 화면은 검색 제외": {
         methodLabel: "HTTP 응답 확인",
-        scopeNote: "공개 main 반영 전",
+        scopeNote: "공개 main 2e831500 기준, 실제 Node SSR 운영은 미검증",
     },
     "주문제작 옵션, 가격과 재고 일치": {
         methodLabel: "통합 시나리오",
-        scopeNote: "공개 main 반영 전",
+        scopeNote: "공개 main 2e831500 기준",
     },
     "외부 배송조회 등록 실패 재처리와 서명된 배송 상태 수신": {
         methodLabel: "통합 테스트",
@@ -88,11 +84,12 @@ const evidencePresentation = {
     },
     "공개 main 자동화 검증": {
         methodLabel: "CI 확인",
-        resultSummary: "공개 main CI 통과, 명시적 테스트 메서드 총 94개",
+        resultSummary:
+            "공개 main CI 통과, 서버 테스트 126개와 IntelliJ 테스트 32개 통과, PostgreSQL 필요 테스트 4개는 조건부 제외",
     },
     "실행 JAR과 체크섬 공개": {
         methodLabel: "릴리스 확인",
-        scopeNote: "공개 릴리스 v0.6.0 기준, v0.7.0 릴리스는 미확인",
+        scopeNote: "공개 릴리스 v0.7.0 기준",
     },
     "해양경찰 KICS 독립망 연계": {
         methodLabel: "업무 확인",

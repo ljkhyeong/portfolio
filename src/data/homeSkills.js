@@ -3,10 +3,13 @@ export const homeSkillGroups = [
         id: "backend",
         label: "백엔드",
         summary:
-            "Java와 Spring으로 공공기관 연계 API와 배치, 개인 프로젝트의 주문, 예약 및 이벤트 처리 서버를 개발했습니다.",
+            "Java와 Spring으로 공공기관 연계 API와 배치, 주문 및 예약 서버와 정책 판정 모델을 개발했습니다.",
         items: [
             { name: "Java" },
-            { name: "Spring Boot / Spring MVC" },
+            {
+                name: "Spring Boot / Spring MVC",
+                examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
+            },
             {
                 name: "Spring Batch",
                 examples: [{ label: "전자영장", route: "/projects/e-warrant" }],
@@ -48,6 +51,11 @@ export const homeSkillGroups = [
                     { label: "BATON RELAY", route: "/projects/baton/relay" },
                 ],
             },
+            {
+                name: "미확인 조건과 늦은 결과 차단",
+                detail: "정책 조건을 확인할 수 없으면 추가 확인 필요로 남깁니다. 정책 개정과 요청 순번이 맞지 않는 AI 결과는 현재 후보에 반영하지 않습니다.",
+                examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
+            },
         ],
     },
     {
@@ -58,8 +66,11 @@ export const homeSkillGroups = [
         items: [
             {
                 name: "통합 테스트",
-                detail: "JUnit과 Testcontainers로 주문, 결제와 예약 규칙을 실제 DB에서 확인합니다.",
-                examples: [{ label: "happyGallery", route: "/projects/happygallery" }],
+                detail: "JUnit과 Testcontainers로 주문, 결제, 예약과 작업 복구 규칙을 실제 DB에서 확인합니다.",
+                examples: [
+                    { label: "happyGallery", route: "/projects/happygallery" },
+                    { label: "청년정책메이트", route: "/projects/youth-policy-mate" },
+                ],
             },
             {
                 name: "API 문서 검증",
@@ -91,7 +102,14 @@ export const homeSkillGroups = [
             { name: "TypeScript" },
             {
                 name: "React",
-                examples: [{ label: "happyGallery", route: "/projects/happygallery" }],
+                examples: [
+                    { label: "happyGallery", route: "/projects/happygallery" },
+                    { label: "청년정책메이트", route: "/projects/youth-policy-mate" },
+                ],
+            },
+            {
+                name: "Next.js",
+                examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
             },
             {
                 name: "WebSquare",

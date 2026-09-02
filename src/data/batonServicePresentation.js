@@ -7,7 +7,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "같은 요청 8건의 동시 처리와 HMAC 키 불일치 시 기동 차단을 테스트했습니다.",
+                text: "최신 로컬 main에서 같은 요청 8건의 동시 처리, HMAC 키 불일치 시 기동 차단, 한글 오류 화면과 요청률 제한을 테스트했습니다.",
+            },
+            {
+                kind: "limited",
+                label: "공개 상태",
+                text: "최신 로컬 main은 공개 main보다 18개 커밋 앞서 있습니다. 화면과 기능 설명은 로컬 구현 기준입니다.",
             },
             {
                 kind: "unverified",
@@ -42,6 +47,11 @@ export const batonServicePresentations = {
                 text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 회수와 이전 URL 버전의 늦은 결과 차단을 테스트했습니다.",
             },
             {
+                kind: "limited",
+                label: "공개 상태",
+                text: "복구 도구와 운영 대시보드는 공개 원격 개발 브랜치에 있으며 공개 main에는 아직 병합되지 않았습니다.",
+            },
+            {
                 kind: "unverified",
                 label: "미검증",
                 text: "공개 callback으로 Core까지 연결하는 스테이징 흐름과 외부 대시보드 및 알림은 미검증입니다.",
@@ -70,12 +80,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단을 확인했습니다.",
-            },
-            {
-                kind: "limited",
-                label: "설계상 제한",
-                text: "최신 구현과 ADR 20건은 비공개 작업 브랜치 3c504a6 기준입니다. 결과 미확인은 재전송하지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.",
+                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단과 결과 미확인 조정 원장을 확인했습니다.",
             },
             {
                 kind: "unverified",
@@ -107,12 +112,17 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "중복 및 과거 이벤트 차단, ACTIVE 및 RESOLVED 반영과 발행 보고서 수정 방지를 PostgreSQL 통합 테스트로 확인했습니다. 2.0.0-rc.1 실제 Core JAR과 로컬 HTTP로 연동했습니다. 내부 서비스용 Caddy HTTPS도 실제 Core와 확인했습니다.",
+                text: "원격 개발 브랜치에서 개정 공백 감지, 관심 항목의 상태 전이, 발행 보고서 이력 및 비교를 확인했습니다. Core 2.0.0-rc.1과 로컬 HTTP 및 내부 HTTPS 연동도 검증했습니다.",
+            },
+            {
+                kind: "limited",
+                label: "공개 상태",
+                text: "BRIEF 원격 개발 브랜치는 2.0.0-rc.4이며 Core 공개 main은 2.0.0-rc.1을 사용합니다. 최신 후보 계약의 Core 반영은 아직 완료되지 않았습니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "공개 2.0.0-rc.2 이벤트 경로용 Caddy, 공인 DNS 및 원격 배포는 미검증입니다.",
+                text: "공인 DNS와 원격 환경의 전체 서비스 연결은 미검증입니다.",
             },
         ],
         flow: {
@@ -138,7 +148,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "Core 1.0.0 일정 JSON과 CAL 컨테이너의 호환성을 확인했습니다. 공개 main의 미출시 1.1.0-rc.1은 입력 제한, HTTP 캐시, 동시 요청, 대표 OCI 백업 및 복구와 이전 복구 작업의 늦은 결과 차단을 로컬에서 검증했습니다.",
+                text: "공개 main에서 Core 일정 JSON 호환성, 입력 제한, HTTP 캐시, 동시 요청, OCI 백업 및 복구와 이전 복구 작업의 늦은 결과 차단을 확인했습니다.",
             },
             {
                 kind: "unverified",
@@ -164,17 +174,17 @@ export const batonServicePresentations = {
     round: {
         target: "스터디 입장 권한과 WebRTC 연결 처리 분리",
         decision: "Core 참여권 검증 후 시그널링, 필요하면 TURN",
-        result: "Chromium과 Core 연동 통과, 일부 WebKit 실패",
+        result: "Chromium, WebKit 호환성과 Core 연동 검사 통과",
         verification: [
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "일반 검사, Chromium 전체 미디어와 Core 연동 시나리오는 통과했습니다.",
+                text: "현재 main에서 Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 시나리오를 통과했습니다.",
             },
             {
                 kind: "limited",
-                label: "일부 실패 및 제한",
-                text: "전체 CI는 WebKit 채팅과 모바일 배치 시나리오 2건, restic 실행 파일 부재로 통과하지 못했습니다. 방 상태는 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
+                label: "설계상 제한",
+                text: "방과 참가자 연결 상태는 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
             },
             {
                 kind: "unverified",

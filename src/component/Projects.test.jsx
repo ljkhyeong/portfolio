@@ -14,10 +14,10 @@ test("대표 프로젝트는 서비스 소개와 핵심 구현 두 가지를 먼
 
     const batonHighlights = screen.getByRole("list", { name: "BATON 핵심 구현" })
     expect(within(batonHighlights).getAllByRole("listitem")).toHaveLength(2)
-    expect(batonHighlights).toHaveTextContent("Core와 6개 마이크로서비스의 API 및 데이터 분리")
-    expect(batonHighlights).toHaveTextContent("링크와 전달 작업 중복 생성 방지")
+    expect(batonHighlights).toHaveTextContent("오늘 할 일, 조직 연속성, 통합 검색과 바통북 구현")
+    expect(batonHighlights).toHaveTextContent("Core와 6개 마이크로서비스의 API 및 저장소 분리")
     expect(
-        screen.getByText("조직의 역할, 반복 업무와 인수인계를 관리하는 플랫폼입니다."),
+        screen.getByText("조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다."),
     ).toBeInTheDocument()
 
     const batonStatus = screen.getByLabelText("BATON 진행 및 공개 상태")
@@ -60,6 +60,10 @@ test("추가 프로젝트는 구현, 확인 근거와 상세 링크로 표시한
         name: "차세대 군사법 정보 시스템 프로젝트 상세 보기",
     })
     const defenseProject = defenseLink.closest("article")
+    const youthPolicyLink = within(supportingProjects).getByRole("link", {
+        name: "청년정책메이트 프로젝트 상세 보기",
+    })
+    const youthPolicyProject = youthPolicyLink.closest("article")
 
     expect(defenseProject).toHaveTextContent("경력 프로젝트")
     expect(defenseProject).toHaveTextContent("BEINTECH / 국방부 SI / 백엔드 개발 및 운영")
@@ -71,7 +75,16 @@ test("추가 프로젝트는 구현, 확인 근거와 상세 링크로 표시한
     expect(defenseProject).toHaveTextContent("상세 보기")
     expect(defenseProject).not.toHaveTextContent("문제")
     expect(defenseProject).not.toHaveTextContent("해결")
-    expect(supportingProjects).toHaveTextContent("SeungIl 님의 Hope 3.0.3 포크")
+    expect(youthPolicyProject).toHaveTextContent("웹앱")
+    expect(youthPolicyProject).toHaveTextContent(
+        "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버",
+    )
+    expect(youthPolicyProject).toHaveTextContent(
+        "공개 main CI 통과 및 서버 자동화 테스트 341개 통과",
+    )
+    expect(youthPolicyLink).toHaveAttribute("href", "/projects/youth-policy-mate")
+    expect(supportingProjects).toHaveTextContent("SeungIl 님의 Hope 6.0.0 포크")
+    expect(supportingProjects).toHaveTextContent("v5.0.2 공개 및 자동화 테스트 343개 통과")
     expect(supportingProjects).toHaveTextContent("HLS 지연 약 35초 → 약 17초 (팀 시연 환경)")
 
     expect(

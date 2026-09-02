@@ -1,7 +1,9 @@
 const WarrantIntegrationDiagram = () => (
     <figure className="editorial-diagram warrant-integration">
         <figcaption className="editorial-diagram__header">
-            <span className="editorial-diagram__eyebrow">FIG 03 / BEINTECH / LG CNS 컨소시엄</span>
+            <span className="editorial-diagram__eyebrow">
+                DATA FLOW / BEINTECH / LG CNS 컨소시엄
+            </span>
             <h3 className="editorial-diagram__title">KICS 요청 변환 및 제출 자료 반영</h3>
             <p>요청은 통신사 및 포털 형식으로 전달하고, 제출 자료는 KICS에 반영합니다.</p>
         </figcaption>
@@ -275,11 +277,7 @@ const WarrantIntegrationDiagram = () => (
                 </g>
 
                 <g className="warrant-integration__nodes">
-                    <g
-                        className="editorial-diagram__node editorial-diagram__node--focal"
-                        role="group"
-                        aria-label="KICS 연계 서버 및 배치"
-                    >
+                    <g className="editorial-diagram__node editorial-diagram__node--focal">
                         <rect x="72" y="120" width="168" height="304" rx="8" />
                         <text className="editorial-diagram__tag" x="88" y="144">
                             KICS SERVER
@@ -330,7 +328,7 @@ const WarrantIntegrationDiagram = () => (
                         </text>
                     </g>
 
-                    <g className="editorial-diagram__node" role="group" aria-label="전자영장 포털">
+                    <g className="editorial-diagram__node">
                         <rect x="396" y="112" width="168" height="152" rx="8" />
                         <text className="editorial-diagram__tag" x="412" y="136">
                             PORTAL
@@ -353,11 +351,7 @@ const WarrantIntegrationDiagram = () => (
                         </text>
                     </g>
 
-                    <g
-                        className="editorial-diagram__node editorial-diagram__node--external"
-                        role="group"
-                        aria-label="금융기관 업무망"
-                    >
+                    <g className="editorial-diagram__node editorial-diagram__node--external">
                         <rect x="720" y="120" width="168" height="152" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="144">
                             INSTITUTION
@@ -380,11 +374,7 @@ const WarrantIntegrationDiagram = () => (
                         </text>
                     </g>
 
-                    <g
-                        className="editorial-diagram__node editorial-diagram__node--external"
-                        role="group"
-                        aria-label="통신사 업무망"
-                    >
+                    <g className="editorial-diagram__node editorial-diagram__node--external">
                         <rect x="720" y="304" width="168" height="144" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="328">
                             INSTITUTION
