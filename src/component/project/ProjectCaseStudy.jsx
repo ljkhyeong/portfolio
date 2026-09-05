@@ -23,7 +23,7 @@ const projectTypeShortLabels = {
     career: "경력",
     personal: "개인",
     tooling: "도구",
-    webapp: "웹앱",
+    webapp: "모바일 웹앱",
     education: "교육",
 }
 

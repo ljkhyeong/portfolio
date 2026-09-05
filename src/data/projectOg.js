@@ -38,7 +38,7 @@ export const projectOgCards = [
         id: "youth-policy-mate",
         route: "/projects/youth-policy-mate",
         title: ["청년정책메이트"],
-        category: "웹앱 프로젝트 / 서울 청년정책",
+        category: "모바일 웹앱 / 서울 청년정책",
         description: "테스트 정책으로 자격을 판정하고\n마감 알림 후보 날짜를 계산합니다.",
         caption: "3단계 자격 판정과 마감 알림 후보",
         steps: [

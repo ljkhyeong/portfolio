@@ -279,15 +279,15 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     ).toBeTruthy()
 })
 
-test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구현 범위를 함께 보여준다", () => {
+test("청년정책메이트는 모바일 웹앱으로 구분하고 현재 화면과 미구현 범위를 함께 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="youth-policy-mate" />)
 
     const project = projectsById["youth-policy-mate"]
-    expect(screen.getByText("웹앱 프로젝트 01 / 01")).toBeInTheDocument()
+    expect(screen.getByText("모바일 웹앱 프로젝트 01 / 01")).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByText(
-            "청년 정책의 신청 자격과 판단 근거, 신청 일정을 확인하는 웹앱을 개발합니다.",
+            "청년 정책의 신청 자격과 판단 근거, 신청 일정을 확인하는 모바일 웹앱을 개발합니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")

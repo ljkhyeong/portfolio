@@ -1340,7 +1340,7 @@ const projects = [
             },
             {
                 type: "PRD",
-                label: "서울 청년정책 웹앱 MVP",
+                label: "서울 청년정책 모바일 웹앱 MVP",
                 href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/PRD/0001_product-baseline/spec.md",
                 note: "대상 사용자, 정책 범위, 자격 판정, 일정과 알림의 완료 기준 및 제외 항목",
             },
@@ -1406,10 +1406,10 @@ const projects = [
                 scope: "공개 main 7311d9e · GitHub Actions run 33639454878",
             },
         ],
-        category: "개인 웹앱 프로젝트",
+        category: "개인 모바일 웹앱 프로젝트",
         role: "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현",
         oneLine:
-            "확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.",
+            "확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 모바일 웹앱을 개발합니다.",
         status: {
             label: "현재 상태",
             text: "공개 main 7311d9e에 조건 입력 화면, 개발 전용 자격 및 마감 화면, 서버 판정과 AI 비용 복구 모델 및 CI를 반영했습니다. 온통청년 인증키는 승인 대기 중이며 실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다.",
@@ -2264,7 +2264,12 @@ export const educationCaseStudies = projectList.filter(
 export const navigableCaseStudyGroups = [
     { id: "career", label: "경력", title: "경력 프로젝트", projects: careerCaseStudies },
     { id: "personal", label: "개인", title: "개인 프로젝트", projects: personalCaseStudies },
-    { id: "webapp", label: "웹앱", title: "웹앱 프로젝트", projects: webappCaseStudies },
+    {
+        id: "webapp",
+        label: "모바일 웹앱",
+        title: "모바일 웹앱 프로젝트",
+        projects: webappCaseStudies,
+    },
     {
         id: "tooling",
         label: "도구",

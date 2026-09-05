@@ -10,7 +10,7 @@ const PROJECT_TYPE_LABELS = {
     career: "경력 프로젝트",
     personal: "개인 프로젝트",
     tooling: "오픈소스 및 개발 도구",
-    webapp: "웹앱",
+    webapp: "모바일 웹앱",
     education: "교육 프로젝트",
 }
 

@@ -91,7 +91,7 @@ describe("공개 지식 문서 목록", () => {
                 document.documentType === "project_overview",
         )
 
-        expect(youthPolicyOverview.content).toContain("구분: 개인 웹앱 프로젝트")
+        expect(youthPolicyOverview.content).toContain("구분: 개인 모바일 웹앱 프로젝트")
         expect(youthPolicyOverview.content).toContain("실제 정책 수집 및 추천")
         expect(youthPolicyOverview.content).toContain("아직 구현하지 않았습니다")
 

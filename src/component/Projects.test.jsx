@@ -53,11 +53,8 @@ test("프로젝트 유형별로 빠짐없이 한 번씩 표시하고 바로가�
 
     const categories = [
         ["career", "경력 프로젝트", ["전송형 전자영장 시스템", "차세대 군사법 정보 시스템"]],
-        [
-            "webapp",
-            "웹앱",
-            ["BATON", "happyGallery", "청년정책메이트", "WebRTC/HLS 현장강의 보조 서비스"],
-        ],
+        ["web", "웹", ["BATON", "happyGallery", "WebRTC/HLS 현장강의 보조 서비스"]],
+        ["mobile-webapp", "모바일 웹앱", ["청년정책메이트"]],
         ["plugin", "플러그인", ["IntentTrace"]],
         ["ai-skill", "AI 스킬", ["Hope Commit"]],
     ]
@@ -86,7 +83,7 @@ test("간단한 소개에도 진행 상태와 원작 포크 출처를 표시한�
     const youth = screen.getByRole("link", { name: "청년정책메이트 프로젝트 상세 보기" })
     expect(youth).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(youth.closest("article")).toHaveTextContent("개발 중")
-    expect(youth.closest("article")).toHaveTextContent("웹앱을 개발합니다")
+    expect(youth.closest("article")).toHaveTextContent("모바일 웹앱을 개발합니다")
     expect(
         screen.getByRole("link", { name: "Hope Commit 프로젝트 상세 보기" }).closest("article"),
     ).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")

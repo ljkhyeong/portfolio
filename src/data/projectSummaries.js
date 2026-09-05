@@ -1,7 +1,7 @@
 export const projectSummaries = [
     {
         id: "baton",
-        homeCategory: "webapp",
+        homeCategory: "web",
         index: "01",
         projectType: "personal",
         presentation: "featured",
@@ -99,7 +99,7 @@ export const projectSummaries = [
     },
     {
         id: "happygallery",
-        homeCategory: "webapp",
+        homeCategory: "web",
         index: "02",
         projectType: "personal",
         presentation: "featured",
@@ -145,15 +145,15 @@ export const projectSummaries = [
     },
     {
         id: "youth-policy-mate",
-        homeCategory: "webapp",
+        homeCategory: "mobile-webapp",
         homeTypeLabel: "개인 프로젝트",
         index: "01",
         projectType: "webapp",
         presentation: "webapp-case",
         title: "청년정책메이트",
         navigationLabel: "청년정책메이트",
-        eyebrow: "서울 청년 정책 탐색 및 일정 관리 웹앱",
-        homeSummary: "청년 정책 자격 근거와 신청 일정을 확인하는 웹앱을 개발하고 있습니다.",
+        eyebrow: "서울 청년 정책 탐색 및 일정 관리 모바일 웹앱",
+        homeSummary: "청년 정책 자격 근거와 신청 일정을 확인하는 모바일 웹앱을 개발하고 있습니다.",
         homeHighlights: [
             "연령, 지역, 취업과 소득 조건의 3단계 자격 판정",
             "정책 개정과 마감일을 반영한 알림 후보 계산",
@@ -163,7 +163,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
         summary:
-            "서울 청년이 정책 자격 근거와 신청 일정을 확인하는 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.",
+            "서울 청년이 정책 자격 근거와 신청 일정을 확인하는 모바일 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -308,7 +308,7 @@ export const projectSummaries = [
     },
     {
         id: "webrtc",
-        homeCategory: "webapp",
+        homeCategory: "web",
         index: "2023 교육 프로젝트",
         projectType: "education",
         presentation: "prior-experience",
@@ -347,7 +347,8 @@ export const projectSummaries = [
 
 export const homeProjectCategories = [
     { id: "career", label: "경력 프로젝트" },
-    { id: "webapp", label: "웹앱" },
+    { id: "web", label: "웹" },
+    { id: "mobile-webapp", label: "모바일 웹앱" },
     { id: "plugin", label: "플러그인" },
     { id: "ai-skill", label: "AI 스킬" },
 ]

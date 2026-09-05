@@ -315,11 +315,11 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .project-group + .project-group {
-        margin-top: 32px;
+        margin-top: 20px;
     }
 
     .portfolio-web-print .project-section-heading {
-        margin-bottom: 20px;
+        margin-bottom: 12px;
         break-inside: avoid;
         break-after: avoid-page;
     }

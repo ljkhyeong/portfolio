@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:a2c27147a9e5",
+  "sourceRevision": "sha256:2a6c9081b73b",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -1498,7 +1498,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c8dfa421759d",
+      "sourceRevision": "sha256:0be8b9d15134",
       "documentId": "knowledge_fd9930085b2ae766b2b1253e",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1506,13 +1506,13 @@
       "documentType": "project_overview",
       "title": "청년정책메이트 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색 및 일정 관리 웹앱\n\n서울 청년이 정책 자격 근거와 신청 일정을 확인하는 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.\n\n기간: 2026.08.30 — 진행 중\n\n구분: 개인 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.\n\n현재 상태: 공개 main 7311d9e에 조건 입력 화면, 개발 전용 자격 및 마감 화면, 서버 판정과 AI 비용 복구 모델 및 CI를 반영했습니다. 온통청년 인증키는 승인 대기 중이며 실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring Data JPA, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
+      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색 및 일정 관리 모바일 웹앱\n\n서울 청년이 정책 자격 근거와 신청 일정을 확인하는 모바일 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.\n\n기간: 2026.08.30 — 진행 중\n\n구분: 개인 모바일 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 모바일 웹앱을 개발합니다.\n\n현재 상태: 공개 main 7311d9e에 조건 입력 화면, 개발 전용 자격 및 마감 화면, 서버 판정과 AI 비용 복구 모델 및 CI를 반영했습니다. 온통청년 인증키는 승인 대기 중이며 실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring Data JPA, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-overview",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "c8dfa421759d840587c63821d86150607a38663a3f70d4568109fadacdb1964b",
-      "contentHash": "8ff4dac5978d15c43427809e19f4a56b422672de51184f5237804fd4446e2db2"
+      "sourceHash": "0be8b9d1513445191e44b8355a7aa3e9771701e03970330ee9a719da6e90675b",
+      "contentHash": "daca42cc35b11220a3f329183cd0afb375e3d425ad4dde206f6d9a84a79a0ceb"
     },
     {
       "schemaVersion": "1.0",
@@ -1732,20 +1732,20 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:da7358bcfc16",
+      "sourceRevision": "sha256:adc054478f78",
       "documentId": "knowledge_742da377ee9bf4587592f14d",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
       "serviceId": null,
       "documentType": "representative_document",
-      "title": "서울 청년정책 웹앱 MVP",
+      "title": "서울 청년정책 모바일 웹앱 MVP",
       "heading": "PRD",
       "content": "프로젝트: 청년정책메이트\n\n문서 종류: PRD\n\n대상 사용자, 정책 범위, 자격 판정, 일정과 알림의 완료 기준 및 제외 항목",
       "sourceUrl": "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/PRD/0001_product-baseline/spec.md",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "da7358bcfc16c9b1314f43ad7aa06b224abef9186bfb92277f8990263c2c5950",
+      "sourceHash": "adc054478f786bc8d4b97635afc5456b79ee441a2fbe6401e67d4a4b8813de42",
       "contentHash": "56dfb25a20ac0ebe246cd919209fb0e204c49bbb9f21d77c0963a5fab16368f7"
     },
     {
