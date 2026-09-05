@@ -82,7 +82,7 @@ export const projectOgCards = [
         description: "군사법 기관의 자료 검증 배치와\n대용량 파일 업로드를 개발했습니다.",
         caption: "수용자 자료 검증과 군교정 DB 반영",
         steps: [
-            ["군사법원, 검찰 및 경찰", "기관별 자료 수신"],
+            ["군사법원, 군검찰 및 군사경찰", "기관별 자료 수신"],
             ["자료 검증 배치", "인적정보와 영장정보 검증"],
             ["군교정 DB 반영", "검증한 수용자 정보 저장"],
         ],
@@ -92,7 +92,7 @@ export const projectOgCards = [
         route: "/projects/webrtc",
         title: ["WebRTC / HLS", "현장강의 보조"],
         category: "교육 프로젝트 / 6인 팀 시연 환경",
-        description: "실시간 강의와 다시보기를 연결하고\n재생 시작 대기를 줄였습니다.",
+        description: "실시간 강의와 다시보기를 제공하고\nHLS 재생 지연을 줄였습니다.",
         caption: "RTP 출력의 HLS 변환과 지난 구간 다시보기",
         steps: [
             ["mediasoup RTP 출력", "강의 영상 전달"],

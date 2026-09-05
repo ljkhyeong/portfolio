@@ -303,7 +303,7 @@ export const projectSummaries = [
         },
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
         summary:
-            "WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡아 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
+            "WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
         homeFacts: [
             {
                 label: "담당",

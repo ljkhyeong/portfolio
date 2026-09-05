@@ -47,9 +47,9 @@ const featuredProblems = {
         problemNumber: "03",
         problem: "실제 변경 코드에 없는 설명이나 지적이 리뷰에 섞일 수 있습니다.",
         approach:
-            "독립된 분석 결과를 변경 파일과 줄에 연결하고, 수집 범위와 JSON 형식을 검사합니다.",
+            "이전 대화를 전달하지 않은 별도 AI 분석 결과를 변경 파일과 줄에 연결하고, 수집 범위와 JSON 형식을 검사합니다.",
         steps: [
-            { title: "독립된 코드 분석", description: "변경에 대한 설명과 지적 수신" },
+            { title: "이전 대화 없이 코드 분석", description: "변경에 대한 설명과 지적 수신" },
             { title: "파일과 줄 연결", description: "실제 수집한 코드 범위인지 검사" },
             { title: "형식 및 길이 검증", description: "잘못된 근거와 형식 거절" },
         ],
@@ -81,7 +81,7 @@ const featuredProblems = {
             "Spring Retry로 요청 상태를 다시 조회하고, 재시도 간격 증가와 무작위 지연을 적용했습니다.",
         steps: [
             { title: "PDF 완료 응답 수신", description: "요청 상태를 DB에서 조회" },
-            { title: "미조회 시 재시도", description: "간격을 늘려 요청 상태 재조회" },
+            { title: "요청 상태가 없으면 재조회", description: "간격을 늘려 요청 상태 재조회" },
             { title: "완료 결과 반영", description: "요청 상태가 확인되면 결과 저장" },
         ],
         evidenceLabel: "동작 확인",
@@ -143,7 +143,7 @@ const featuredProblems = {
             { title: "현재 결과만 저장", description: "만료된 시도와 과거 URL 결과 차단" },
         ],
         evidenceLabel: "자동화 테스트",
-        result: "사설망 및 과도한 응답 차단, DNS 변경과 서버 중단 및 늦은 결과 처리를 확인했습니다.",
+        result: "사설망 및 과도한 응답 차단, DNS 재조회 시 IP 변경과 서버 중단 및 늦은 결과 처리를 확인했습니다.",
         limitation: "처리 기한이 짧으면 중복 점검이 늘고, 길면 중단된 점검 재실행이 늦어집니다.",
     },
     "baton-relay": {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:730349e9164f",
+  "sourceRevision": "sha256:e129b627bb26",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -256,7 +256,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:9ad0e04a65cb",
+      "sourceRevision": "sha256:1976fa617e8b",
       "documentId": "knowledge_4721bb981218d13bba621315",
       "projectId": "baton",
       "projectName": "BATON",
@@ -264,13 +264,13 @@
       "documentType": "problem_solution",
       "title": "URL 점검 중 DB 연결 반환과 늦은 결과 차단",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: WATCH\n\n문제: 느린 URL 점검이 DB 연결을 오래 잡고 늦은 결과가 최신 상태를 덮을 수 있었습니다.\n\n해결 방법: 점검 시도마다 처리 서버와 기한을 기록한 뒤 DB 연결을 반환하고, 확인한 공인 IP로만 요청했습니다. 기한이 지나면 기존 시도를 종료하고 새로 점검하며 이전 시도나 URL 버전의 결과는 저장하지 않았습니다.\n\n확인: 사설망, DNS 변경, 과도한 응답, 서버 중단과 늦은 결과를 테스트했습니다.\n\n제약과 남은 작업: 한 서버가 가져간 점검의 처리 기한이 짧으면 중복 실행이 늘고, 길면 중단된 점검을 다시 실행하는 시점이 늦어집니다.",
+      "content": "프로젝트: BATON\n\n서비스: WATCH\n\n문제: 느린 URL 점검이 DB 연결을 오래 잡고 늦은 결과가 최신 상태를 덮을 수 있었습니다.\n\n해결 방법: 점검 시도마다 처리 서버와 기한을 기록한 뒤 DB 연결을 반환하고, 확인한 공인 IP로만 요청했습니다. 기한이 지나면 기존 시도를 종료하고 새로 점검하며 이전 시도나 URL 버전의 결과는 저장하지 않았습니다.\n\n확인: 사설망 접근, DNS 재조회 시 IP 변경, 과도한 응답, 서버 중단과 늦은 결과를 테스트했습니다.\n\n제약과 남은 작업: 한 서버가 가져간 점검의 처리 기한이 짧으면 중복 실행이 늘고, 길면 중단된 점검을 다시 실행하는 시점이 늦어집니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/watch#service-problems",
       "route": "/projects/baton/watch",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "9ad0e04a65cbaeab71b48fe34c182f9ad01c02ff53f90310412f85cefca9e8b1",
-      "contentHash": "da7301018a8e49bc4c571d0c790f43afbd7065dda3ebcca5a781ea139df70c0e"
+      "sourceHash": "1976fa617e8b5baf95774d0e57ea7409a358ac746665f2ccfbe9e993255d57e6",
+      "contentHash": "9561d43ae9161c0bee63f23710e395b6d2d732371c6f76f996929266474eee20"
     },
     {
       "schemaVersion": "1.0",
@@ -382,20 +382,20 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:9ff3d902f2fd",
+      "sourceRevision": "sha256:e70469ad37bc",
       "documentId": "knowledge_67a668815d28d496e7d26ebf",
       "projectId": "baton",
       "projectName": "BATON",
       "serviceId": "cal",
       "documentType": "problem_solution",
-      "title": "시간대, 취소와 HTTP 캐시를 iCalendar에 반영",
+      "title": "iCalendar 시간대 및 취소 처리와 HTTP 캐시 적용",
       "heading": "문제와 해결 방법",
       "content": "프로젝트: BATON\n\n서비스: CAL\n\n문제: 캘린더 앱마다 시간대와 취소 일정 및 캐시 처리 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.\n\n해결 방법: 일정 ID는 UID로 고정하고 개정 번호는 SEQUENCE로 사용했습니다. 일정이 같으면 ETag와 304 응답으로 본문을 생략했습니다.\n\n확인: UTC, 서머타임 전환(DST), 자정 경계, 취소 일정, UTF-8 줄 접기와 변경 없음 응답(304 Not Modified)을 iCalendar 기대값 파일 및 자동화 테스트로 확인했습니다.\n\n제약과 남은 작업: iCal4j 또는 시간대 데이터 버전을 바꾸면 iCalendar 기대값 파일과 캐시 검증값이 함께 바뀌는지 확인해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/cal#service-problems",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "9ff3d902f2fdbc9b97758916a19fd4a2ed19c8d1a60ed8638ea1f8d3c30a36b8",
+      "sourceHash": "e70469ad37bc09ee58a8289991529f8e898ca0bb914546b6702c426f504944cd",
       "contentHash": "031c2f9bc28077534ca7c9ece3e1bb3cbff199832b3eec3e4b935ecd2427e9fc"
     },
     {
@@ -1894,7 +1894,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:09a8b1168357",
+      "sourceRevision": "sha256:eb1d7b371dc9",
       "documentId": "knowledge_f59d8e680171ef831ef855e5",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1902,13 +1902,13 @@
       "documentType": "problem_solution",
       "title": "리뷰가 참조한 파일과 코드 줄 검증",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: Hope Commit\n\n문제: 분석 모델이 이전 대화나 추측을 섞으면 실제 변경 코드가 뒷받침하지 않는 설명과 지적이 생성될 수 있습니다.\n\n해결 방법: 리뷰 설명은 독립된 분석에서 받고, 각 설명을 실제 변경 파일과 줄에 연결해 JSON Schema와 수집 범위로 검증합니다.\n\n확인: 수집하지 않은 파일 및 줄, 잘못된 범위와 형식, 과도하게 긴 설명을 거절하는지 테스트했습니다.\n\n제약과 남은 작업: 리뷰 설명을 독립된 분석에서 받을 수 없으면 검토를 중단합니다. 코드 줄 연결 여부는 확인할 수 있지만 리뷰 판단이 반드시 옳다는 뜻은 아니므로 사용자가 최종 확인해야 합니다.",
+      "content": "프로젝트: Hope Commit\n\n문제: 분석 모델이 이전 대화나 추측을 섞으면 실제 변경 코드가 뒷받침하지 않는 설명과 지적이 생성될 수 있습니다.\n\n해결 방법: 이전 대화를 전달하지 않은 별도 AI 분석에서 리뷰 설명을 받습니다. 각 설명을 실제 변경 파일과 줄에 연결해 JSON Schema와 수집 범위로 검증합니다.\n\n확인: 수집하지 않은 파일 및 줄, 잘못된 범위와 형식, 과도하게 긴 설명을 거절하는지 테스트했습니다.\n\n제약과 남은 작업: 이전 대화 없이 별도 AI 분석을 실행할 수 없으면 검토를 중단합니다. 코드 줄 연결 여부는 확인할 수 있지만 리뷰 판단이 반드시 옳다는 뜻은 아니므로 사용자가 최종 확인해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-problems",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "09a8b1168357ba2868879eba70bab87175cde9184ba5463096085f79e2c7d3b2",
-      "contentHash": "f90c0d7d6c93ddf6430bc0c97cf5ca629aa857538ce3a18733243bcec60c1fbb"
+      "sourceHash": "eb1d7b371dc949a8280b356da4f8efb3d3dd24bdc5a1b2c1be3c99cec7cf4033",
+      "contentHash": "3458c9fedff9408596038bb8ebc6e0a977618b0361167816f45be011a332ec9d"
     },
     {
       "schemaVersion": "1.0",
@@ -2632,7 +2632,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:7bf71d19af17",
+      "sourceRevision": "sha256:33f23d78bde7",
       "documentId": "knowledge_68b8aae29a61744155ed95d8",
       "projectId": "webrtc",
       "projectName": "WebRTC/HLS 현장강의 보조 서비스",
@@ -2640,13 +2640,13 @@
       "documentType": "project_overview",
       "title": "WebRTC/HLS 현장강의 보조 서비스 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n카카오 클라우드 스쿨 3기 / 6인 팀\n\nWebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡아 재생 지연을 약 35초에서 약 17초로 줄였습니다.\n\n기간: 2023.09.01 — 2023.11.10\n\n구분: 교육 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: mediasoup RTP-HLS 변환 서버와 WebRTC 및 HLS React 재생 화면 구현\n\n주요 구현 및 해결: 현재 강의는 mediasoup와 WebRTC로 실시간 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환해 지난 구간 다시보기에 사용했습니다.\n\n현재 상태: 2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.\n\n사용 기술: React, WebRTC, HLS, mediasoup, FFmpeg, GStreamer, Node.js",
+      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n카카오 클라우드 스쿨 3기 / 6인 팀\n\nWebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.\n\n기간: 2023.09.01 — 2023.11.10\n\n구분: 교육 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: mediasoup RTP-HLS 변환 서버와 WebRTC 및 HLS React 재생 화면 구현\n\n주요 구현 및 해결: 현재 강의는 mediasoup와 WebRTC로 실시간 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환해 지난 구간 다시보기에 사용했습니다.\n\n현재 상태: 2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.\n\n사용 기술: React, WebRTC, HLS, mediasoup, FFmpeg, GStreamer, Node.js",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/webrtc#project-overview",
       "route": "/projects/webrtc",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "7bf71d19af17f71e7ad2210e6059d38e1740aa0f095c33ed12f797eda984f144",
-      "contentHash": "4cb262f6a9f278a95ecb65ffcf0ce68867facfa8bc38956652ca0b729ec80743"
+      "sourceHash": "33f23d78bde7e3b2c6cf787407ff2908f48d3ae9da9fb0a0756a4b4ed0ba1155",
+      "contentHash": "539b83ce0144b6b43c1cafe5ce418d71b0a7acd9d9c06f2caf04001b3ee27aa4"
     },
     {
       "schemaVersion": "1.0",

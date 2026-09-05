@@ -15,7 +15,7 @@ export const education = {
     meta: "6인 팀",
     projectId: "webrtc",
     description:
-        "WebRTC 실시간 강의와 HLS 다시보기 화면을 구현했습니다. mediasoup RTP를 HLS로 변환하고 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
+        "WebRTC 실시간 강의와 HLS 다시보기 화면을 구현했습니다. mediasoup RTP를 HLS로 변환했습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
 }
 
 export const careers = [

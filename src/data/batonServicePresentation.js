@@ -39,7 +39,7 @@ export const batonServicePresentations = {
     watch: {
         target: "위험한 URL 접근과 중단된 점검 작업",
         decision: "공인 IP만 점검하고 기한이 지난 점검 재실행",
-        result: "사설망과 DNS 변경 차단, 이전 결과 미저장 확인",
+        result: "사설망 접근과 DNS 재조회 시 IP 변경 차단, 이전 결과 저장 방지 확인",
         verification: [
             {
                 kind: "verified",

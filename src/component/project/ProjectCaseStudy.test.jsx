@@ -304,16 +304,16 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     })
 
     expect(
-        screen.getByRole("heading", { name: "조건 입력부터 자격 근거와 일정까지 연결" }),
+        screen.getByRole("heading", { name: "조건 입력 화면과 개발용 자격 및 일정 계산" }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /조건 입력부터 자격 근거와 일정까지 연결.*실제 정책 수집, 회원 저장, 알림 예약과 외부 발송은 연결하지 않았습니다/,
+            name: /조건 입력 화면과 개발용 자격 및 일정 계산.*일반 조건 입력값은 서버로 보내거나 저장하지 않고 화면에서 확인.*별도 개발용 API.*실제 정책 수집, 회원 저장, 알림 예약과 외부 발송은 연결하지 않았습니다/,
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("region", {
-            name: "조건 입력부터 자격 근거와 일정까지 연결 가로 스크롤 영역",
+            name: "조건 입력 화면과 개발용 자격 및 일정 계산 가로 스크롤 영역",
         }),
     ).toHaveAttribute("tabindex", "0")
     expect(screen.getByText("자격 판정")).toBeInTheDocument()
@@ -346,19 +346,22 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
 
     expect(screen.getByRole("heading", { name: "IntentTrace", level: 1 })).toBeInTheDocument()
     const lifecycleDiagram = screen.getByRole("img", {
-        name: /요청과 코드 변경을 검증 가능한 기록으로 연결.*작성자 확인과 현재 코드 상태 일치를 확인해 공개하고.*기존 기록을 차단/,
+        name: /변경 기록 공개와 기존 기록 대체.*공개 요청 때 제출된 코드 상태를 비교해 일치하면 공개하고 다르면 거절.*새 기록으로 대체한 기존 기록/,
     })
     expect(lifecycleDiagram).toBeInTheDocument()
     expect(
         screen.getByRole("region", {
-            name: "요청과 코드 변경을 검증 가능한 기록으로 연결 가로 스크롤 영역",
+            name: "변경 기록 공개와 기존 기록 대체 가로 스크롤 영역",
         }),
     ).toHaveAttribute("tabindex", "0")
-    expect(within(lifecycleDiagram).getByText("사용자 요청")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("사용자 요청 및 코드 위치")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("작성자 확인")).toBeInTheDocument()
-    expect(within(lifecycleDiagram).getByText("공개 상태 재검증")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("공개 요청 검증")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("GitHub / IntelliJ")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("공개 거절")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("기존 기록 대체 요청")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("SUPERSEDED")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("기존 기록 조회 가능")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
             name: "변경 근거를 커밋과 코드 위치에 연결하고, 확인 후 코드가 바뀌면 기록 공개를 차단합니다.",

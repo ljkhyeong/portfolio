@@ -92,7 +92,7 @@ const routeMetaContent = {
     "/projects/webrtc": {
         title: "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
         description:
-            "2023년 6인 팀 시연 환경에서 WebRTC 실시간 강의와 HLS 다시보기를 구현하고 재생 시작 시간을 약 35초에서 약 17초로 줄인 교육 프로젝트",
+            "2023년 6인 팀 시연 환경에서 WebRTC 실시간 강의와 HLS 다시보기를 구현하고 HLS 재생 지연을 약 35초에서 약 17초로 줄인 교육 프로젝트",
         image: "/og-cover.png",
     },
     "/search": {

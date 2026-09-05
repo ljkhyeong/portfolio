@@ -307,7 +307,9 @@ test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여�
         }),
     ).toBeInTheDocument()
     expect(
-        within(educationSection).getByText(/mediasoup RTP를 HLS로 변환하고 재생 지연을/),
+        within(educationSection).getByText(
+            /mediasoup RTP를 HLS로 변환했습니다.*팀 시연에서 HLS 재생 지연을/,
+        ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "교육 프로젝트 상세 보기 →" })).toHaveAttribute(
         "href",
