@@ -262,12 +262,12 @@ body.portfolio-print-mode {
         max-width: none;
     }
 
-    .portfolio-web-print .project-card__visual-link {
+    .portfolio-web-print .project-card__visual-link,
+    .portfolio-web-print .project-categories {
         display: none;
     }
 
-    .portfolio-web-print .project-showcase__grid,
-    .portfolio-web-print .project-support__grid,
+    .portfolio-web-print .project-group__list,
     .portfolio-web-print .project-showcase__item > article,
     .portfolio-web-print .project-support__item > article {
         display: block;
@@ -292,7 +292,7 @@ body.portfolio-print-mode {
         padding: 18px;
     }
 
-    .portfolio-web-print .project-card__header h3 {
+    .portfolio-web-print .project-card__title {
         font-size: var(--portfolio-project-title);
     }
 
@@ -314,12 +314,11 @@ body.portfolio-print-mode {
         padding: 10px 18px;
     }
 
-    .portfolio-web-print .project-support {
+    .portfolio-web-print .project-group + .project-group {
         margin-top: 32px;
     }
 
     .portfolio-web-print .project-section-heading {
-        display: block;
         margin-bottom: 20px;
         break-inside: avoid;
         break-after: avoid-page;

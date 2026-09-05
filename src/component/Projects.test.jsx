@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
 import Projects from "./Projects"
+import { projectSummaries } from "../data/projectSummaries"
 
 const renderProjects = () =>
     render(
@@ -47,34 +48,61 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     expect(screen.queryByRole("link", { name: /군사법.*GitHub/ })).not.toBeInTheDocument()
 })
 
-test("추가 프로젝트는 짧은 소개와 진행 상태 및 상세 링크로 표시한다", () => {
+test("프로젝트 유형별로 빠짐없이 한 번씩 표시하고 바로가기를 연결한다", () => {
     renderProjects()
 
-    const projects = within(screen.getByRole("list", { name: "추가 프로젝트" }))
-    const youth = projects.getByRole("link", { name: "청년정책메이트 프로젝트 상세 보기" })
+    const categories = [
+        ["career", "경력 프로젝트", ["전송형 전자영장 시스템", "차세대 군사법 정보 시스템"]],
+        [
+            "webapp",
+            "웹앱",
+            ["BATON", "happyGallery", "청년정책메이트", "WebRTC/HLS 현장강의 보조 서비스"],
+        ],
+        ["plugin", "플러그인", ["IntentTrace"]],
+        ["ai-skill", "AI 스킬", ["Hope Commit"]],
+    ]
+    const navigation = within(screen.getByRole("navigation", { name: "프로젝트 유형 바로가기" }))
+    categories.forEach(([id, label, titles]) => {
+        const group = screen.getByRole("region", { name: label })
+        expect(group).toHaveAttribute("id", `projects-${id}`)
+        expect(
+            navigation.getByRole("link", { name: `${label} ${titles.length}개` }),
+        ).toHaveAttribute("href", `#projects-${id}`)
+        expect(
+            within(group)
+                .getAllByRole("heading", { level: 4 })
+                .map((heading) => heading.textContent),
+        ).toEqual(titles)
+    })
+    const detailLinks = screen.getAllByRole("link", { name: /프로젝트 상세 보기$/ })
+    expect(detailLinks.map((link) => link.getAttribute("href")).sort()).toEqual(
+        projectSummaries.map((project) => project.route).sort(),
+    )
+})
+
+test("간단한 소개에도 진행 상태와 원작 포크 출처를 표시한다", () => {
+    renderProjects()
+
+    const youth = screen.getByRole("link", { name: "청년정책메이트 프로젝트 상세 보기" })
     expect(youth).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(youth.closest("article")).toHaveTextContent("개발 중")
     expect(youth.closest("article")).toHaveTextContent("웹앱을 개발합니다")
     expect(
-        projects.getByRole("link", { name: "Hope Commit 프로젝트 상세 보기" }).closest("article"),
+        screen.getByRole("link", { name: "Hope Commit 프로젝트 상세 보기" }).closest("article"),
     ).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
-    expect(projects.getAllByRole("heading", { level: 4 })).toHaveLength(5)
 })
 
-test("대표 프로젝트 순서를 유지하고 제목과 미리보기에서 상세로 이동한다", () => {
+test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제목과 미리보기를 연결한다", () => {
     renderProjects()
 
-    expect(screen.getByRole("heading", { name: "대표 프로젝트", level: 2 })).toBeInTheDocument()
-    expect(screen.queryByText("프로젝트", { exact: true })).not.toBeInTheDocument()
-    const projects = within(screen.getByRole("list", { name: "대표 프로젝트" }))
-    const headings = projects.getAllByRole("heading", { level: 3 })
-    expect(headings.map((heading) => heading.textContent)).toEqual([
-        "전송형 전자영장 시스템",
-        "BATON",
-        "happyGallery",
-    ])
-    expect(within(headings[1]).getByRole("link")).toHaveAttribute("href", "/projects/baton")
-    expect(projects.getByRole("link", { name: "BATON 미리보기에서 상세 보기" })).toHaveAttribute(
+    const warrant = screen
+        .getByRole("heading", { name: "전송형 전자영장 시스템", level: 4 })
+        .closest("article")
+    expect(warrant).toHaveTextContent("BEINTECH / 공공 SI")
+    expect(warrant).toHaveTextContent("LG CNS 컨소시엄 참여")
+    const baton = screen.getByRole("heading", { name: "BATON", level: 4 })
+    expect(within(baton).getByRole("link")).toHaveAttribute("href", "/projects/baton")
+    expect(screen.getByRole("link", { name: "BATON 미리보기에서 상세 보기" })).toHaveAttribute(
         "href",
         "/projects/baton",
     )

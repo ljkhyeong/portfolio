@@ -20,6 +20,9 @@ const CareerSummary = () => {
                     <div key={id}>
                         <span>{index === 0 ? "현재 업무" : "이전 업무"}</span>
                         <h3>{project.title}</h3>
+                        {project.collaboration && (
+                            <p className="home-career__collaboration">{project.collaboration}</p>
+                        )}
                         <p>{career.projectResponsibilities[id]}</p>
                     </div>
                 )

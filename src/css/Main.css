@@ -45,6 +45,11 @@
     word-break: keep-all;
 }
 
+.home-career .home-career__collaboration {
+    color: var(--accent);
+    font-weight: 600;
+}
+
 .home-career a {
     display: inline-flex;
     min-height: 44px;

@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/webrtc.png",
-    "sourceSha256": "fc2bed0c048e275b15e79bf36fe4392ee33a64a0227c2f250aed6d6b5b766f80",
+    "sourceSha256": "8ee1f9d6d1360cdaad363e2124dca5577551a0d8ce09f9e7922adfaac22660b8",
     "artifactSha256": "4e1882f48655038e73f19757506a1a3b4f2c0e30021c5747477d707f5ec3ac94",
     "renderer": {
         "id": "chrome",

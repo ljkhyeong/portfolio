@@ -33,55 +33,49 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(screen.queryByRole("list", { name: "대표 경험 프로젝트" })).not.toBeInTheDocument()
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
-    const featuredProjects = screen.getByRole("list", { name: "대표 프로젝트" })
-    const supportingProjects = screen.getByRole("list", { name: "추가 프로젝트" })
+    const projects = screen.getByRole("region", { name: "프로젝트" })
 
     expect(
-        within(featuredProjects).getByRole("link", {
+        within(projects).getByRole("link", {
             name: "전송형 전자영장 시스템 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
     expect(
-        within(featuredProjects).getByRole("link", {
+        within(projects).getByRole("link", {
             name: "BATON 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
     expect(
-        within(featuredProjects).getByRole("link", {
+        within(projects).getByRole("link", {
             name: "happyGallery 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
     expect(
-        within(supportingProjects).getByRole("link", {
+        within(projects).getByRole("link", {
             name: "Hope Commit 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
     expect(
-        within(supportingProjects).getByRole("link", {
+        within(projects).getByRole("link", {
             name: "IntentTrace 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
     expect(
-        within(supportingProjects).getByRole("link", {
+        within(projects).getByRole("link", {
             name: "청년정책메이트 프로젝트 상세 보기",
         }),
     ).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(
-        within(supportingProjects).getByText(
+        within(projects).getByText(
             "군교정 업무와 군사법원, 군검찰 및 군사경찰의 수용자 정보 연계를 담당했습니다.",
         ),
     ).toBeInTheDocument()
     expect(
-        within(supportingProjects).getByRole("link", {
+        within(projects).getByRole("link", {
             name: "WebRTC/HLS 현장강의 보조 서비스 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
-    expect(featuredProjects.compareDocumentPosition(supportingProjects)).toBe(
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    )
-    fireEvent.click(
-        within(featuredProjects).getByRole("link", { name: "BATON 프로젝트 상세 보기" }),
-    )
+    fireEvent.click(within(projects).getByRole("link", { name: "BATON 프로젝트 상세 보기" }))
 
     const detailHeading = await screen.findByRole(
         "heading",
@@ -122,7 +116,7 @@ test("상세에서 프로젝트 목록으로 돌아가면 해당 섹션으로 �
 
         fireEvent.click(screen.getByRole("link", { name: "프로젝트 목록" }))
 
-        const work = await screen.findByRole("region", { name: "대표 프로젝트" })
+        const work = await screen.findByRole("region", { name: "프로젝트" })
         await waitFor(() => expect(work).toHaveFocus())
         expect(window.location.pathname).toBe("/")
         expect(window.location.hash).toBe("#work")
@@ -357,16 +351,17 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     )
 })
 
-test("경력 요약을 대표 프로젝트 앞에 두고 경력 상세로 연결한다", () => {
+test("경력 요약에 컨소시엄 참여를 표시하고 경력 상세로 연결한다", () => {
     window.history.pushState({}, "", "/")
     render(<App />)
 
     const summary = screen.getByRole("region", { name: "현재 경력 요약" })
-    const projects = screen.getByRole("region", { name: "대표 프로젝트" })
+    const projects = screen.getByRole("region", { name: "프로젝트" })
     expect(summary.compareDocumentPosition(projects)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
     expect(summary).toHaveTextContent("BEINTECH")
     expect(summary).toHaveTextContent("현재 업무")
     expect(summary).toHaveTextContent("전송형 전자영장 시스템")
+    expect(summary).toHaveTextContent("LG CNS 컨소시엄 참여")
     expect(summary).toHaveTextContent("이전 업무")
     expect(summary).toHaveTextContent("차세대 군사법 정보 시스템")
     expect(within(summary).getByRole("link", { name: "경력 상세 보기" })).toHaveAttribute(
@@ -720,7 +715,7 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
         homeHeroContent.headline,
     )
     expect(
-        within(printDocument).getByRole("heading", { name: "대표 프로젝트" }),
+        within(printDocument).getByRole("heading", { name: "프로젝트", level: 2 }),
     ).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "경력 및 학습" })).toBeInTheDocument()
     expect(within(printDocument).getByRole("heading", { name: "기술" })).toBeInTheDocument()

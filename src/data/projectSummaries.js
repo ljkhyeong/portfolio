@@ -1,6 +1,7 @@
 export const projectSummaries = [
     {
         id: "baton",
+        homeCategory: "webapp",
         index: "01",
         projectType: "personal",
         presentation: "featured",
@@ -53,6 +54,9 @@ export const projectSummaries = [
     },
     {
         id: "warrant",
+        homeCategory: "career",
+        homeTypeLabel: "BEINTECH / 공공 SI",
+        collaboration: "LG CNS 컨소시엄 참여",
         index: "01",
         projectType: "career",
         presentation: "career-case",
@@ -94,6 +98,7 @@ export const projectSummaries = [
     },
     {
         id: "happygallery",
+        homeCategory: "webapp",
         index: "02",
         projectType: "personal",
         presentation: "featured",
@@ -139,6 +144,8 @@ export const projectSummaries = [
     },
     {
         id: "youth-policy-mate",
+        homeCategory: "webapp",
+        homeTypeLabel: "개인 프로젝트",
         index: "01",
         projectType: "webapp",
         presentation: "webapp-case",
@@ -181,6 +188,8 @@ export const projectSummaries = [
     },
     {
         id: "hope-commit",
+        homeCategory: "ai-skill",
+        homeTypeLabel: "Codex / Claude Code 스킬",
         index: "01",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -218,6 +227,8 @@ export const projectSummaries = [
     },
     {
         id: "intent-trace",
+        homeCategory: "plugin",
+        homeTypeLabel: "IntelliJ 플러그인 / MCP 연동",
         index: "02",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -260,6 +271,8 @@ export const projectSummaries = [
     },
     {
         id: "defense",
+        homeCategory: "career",
+        homeTypeLabel: "BEINTECH / 국방부 SI",
         index: "02",
         projectType: "career",
         presentation: "career-case",
@@ -293,6 +306,7 @@ export const projectSummaries = [
     },
     {
         id: "webrtc",
+        homeCategory: "webapp",
         index: "2023 교육 프로젝트",
         projectType: "education",
         presentation: "prior-experience",
@@ -327,6 +341,13 @@ export const projectSummaries = [
         homeProof: "HLS 지연 약 35초 → 약 17초 (팀 시연 환경)",
         homeFlow: ["RTP", "HLS 변환", "다시보기"],
     },
+]
+
+export const homeProjectCategories = [
+    { id: "career", label: "경력 프로젝트" },
+    { id: "webapp", label: "웹앱" },
+    { id: "plugin", label: "플러그인" },
+    { id: "ai-skill", label: "AI 스킬" },
 ]
 
 export const projectSummariesById = Object.fromEntries(

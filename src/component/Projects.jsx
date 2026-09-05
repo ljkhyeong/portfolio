@@ -1,17 +1,10 @@
 import { Link } from "react-router-dom"
-import { projectSummaries } from "../data/projectSummaries"
+import { homeProjectCategories, projectSummaries } from "../data/projectSummaries"
 import { caseHighlights, caseIntroductions } from "../data/caseHighlights"
 import { assetPath } from "../utils/assetPath"
 import "../css/Projects.css"
 
 const FEATURED_PROJECT_IDS = ["warrant", "baton", "happygallery"]
-const SUPPORTING_PROJECT_IDS = [
-    "youth-policy-mate",
-    "defense",
-    "hope-commit",
-    "intent-trace",
-    "webrtc",
-]
 
 const PROJECT_TYPE_LABELS = {
     career: "경력 프로젝트",
@@ -37,9 +30,6 @@ const PROJECT_VISUALS = {
         caption: "상품 옵션, 조합별 가격과 재고 확인",
     },
 }
-
-const getProjectsInOrder = (ids) =>
-    ids.map((id) => projectSummaries.find((project) => project.id === id)).filter(Boolean)
 
 const ProjectFacts = ({ project }) => (
     <dl className="project-card__facts" aria-label={`${project.title} 문제, 구현과 검증`}>
@@ -155,11 +145,14 @@ const FeaturedProjectCard = ({ project }) => (
         <article>
             <header className="project-card__header">
                 <span className="project-card__eyebrow">
-                    {PROJECT_TYPE_LABELS[project.projectType]}
+                    {project.homeTypeLabel || PROJECT_TYPE_LABELS[project.projectType]}
                 </span>
-                <h3>
+                <h4 className="project-card__title">
                     <Link to={project.route}>{project.title}</Link>
-                </h3>
+                </h4>
+                {project.collaboration && (
+                    <p className="project-card__collaboration">{project.collaboration}</p>
+                )}
                 <p className="project-card__summary">{project.homeSummary}</p>
                 {PROJECT_VISUALS[project.visual] && (
                     <Link
@@ -186,7 +179,8 @@ const SupportingProjectCard = ({ project }) => (
         <article>
             <header className="project-support__identity">
                 <span>
-                    {PROJECT_TYPE_LABELS[project.projectType]} / {project.stage}
+                    {project.homeTypeLabel || PROJECT_TYPE_LABELS[project.projectType]} /{" "}
+                    {project.stage}
                 </span>
                 <h4>
                     <Link to={project.route}>{project.title}</Link>
@@ -201,39 +195,49 @@ const SupportingProjectCard = ({ project }) => (
 )
 
 const Projects = () => {
-    const featuredProjects = getProjectsInOrder(FEATURED_PROJECT_IDS)
-    const listedProjectIds = new Set([...FEATURED_PROJECT_IDS, ...SUPPORTING_PROJECT_IDS])
-    const supportingProjects = [
-        ...getProjectsInOrder(SUPPORTING_PROJECT_IDS),
-        ...projectSummaries.filter((project) => !listedProjectIds.has(project.id)),
-    ]
+    const groups = homeProjectCategories.map((category) => ({
+        ...category,
+        projects: projectSummaries.filter((project) => project.homeCategory === category.id),
+    }))
 
     return (
         <section className="work-section" id="work" aria-labelledby="projects-title">
             <div className="project-index__intro">
-                <h2 id="projects-title">대표 프로젝트</h2>
+                <h2 id="projects-title">프로젝트</h2>
             </div>
 
-            <div className="project-showcase">
-                <ol className="project-showcase__grid" aria-label="대표 프로젝트">
-                    {featuredProjects.map((project) => (
-                        <FeaturedProjectCard key={project.id} project={project} />
-                    ))}
-                </ol>
-            </div>
+            <nav className="project-categories" aria-label="프로젝트 유형 바로가기">
+                {groups.map((group) => (
+                    <a key={group.id} href={`#projects-${group.id}`}>
+                        <span>{group.label}</span>
+                        <span className="project-categories__count">{group.projects.length}개</span>
+                        <span aria-hidden="true">↓</span>
+                    </a>
+                ))}
+            </nav>
 
-            <section className="project-support" aria-labelledby="supporting-projects-title">
-                <div className="project-section-heading project-section-heading--compact">
-                    <div>
-                        <h3 id="supporting-projects-title">추가 프로젝트</h3>
+            {groups.map((group) => (
+                <section
+                    key={group.id}
+                    className="project-group"
+                    id={`projects-${group.id}`}
+                    aria-labelledby={`projects-${group.id}-title`}
+                >
+                    <div className="project-section-heading">
+                        <h3 id={`projects-${group.id}-title`}>{group.label}</h3>
+                        <span>{group.projects.length}개</span>
                     </div>
-                </div>
-                <ol className="project-support__grid" aria-label="추가 프로젝트">
-                    {supportingProjects.map((project) => (
-                        <SupportingProjectCard key={project.id} project={project} />
-                    ))}
-                </ol>
-            </section>
+                    <ol className="project-group__list" aria-label={`${group.label} 목록`}>
+                        {group.projects.map((project) =>
+                            FEATURED_PROJECT_IDS.includes(project.id) ? (
+                                <FeaturedProjectCard key={project.id} project={project} />
+                            ) : (
+                                <SupportingProjectCard key={project.id} project={project} />
+                            ),
+                        )}
+                    </ol>
+                </section>
+            ))}
         </section>
     )
 }
