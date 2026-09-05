@@ -71,8 +71,7 @@ const projects = [
                 id: "runbook",
                 label: "Runbook",
                 count: "17",
-                summary:
-                    "배포, DB에 남은 URL 점검 및 이벤트 전달 작업을 다른 실행이 이어받는 절차와 공개 스테이징 전송 테스트를 정리합니다.",
+                summary: "배포, 중단 작업 복구와 공개 스테이징 전송 테스트 절차를 정리합니다.",
             },
             {
                 id: "api",
@@ -293,7 +292,7 @@ const projects = [
                 visibility: "공개 원격 개발 브랜치",
                 status: "원격 개발 브랜치에 URL 점검, 상태 변경 전달, 자원 상한, Prometheus 대시보드와 복구 도구가 반영돼 있습니다. 공개 callback으로 Core까지 연결하는 스테이징 흐름과 외부 대시보드 및 알림은 미검증입니다.",
                 tradeoff:
-                    "점검 처리 기한이 짧으면 같은 URL 점검이 겹치고, 길면 중단한 서버의 기존 시도를 닫고 새 시도를 만들기까지 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
+                    "처리 기한이 짧으면 중복 점검이 늘고, 길면 중단 작업의 재실행이 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-watch/tree/5a683430267590f7c30af6d267beb3a675b844a8",
                     label: "WATCH 개발 브랜치 고정 커밋",
@@ -310,7 +309,7 @@ const projects = [
                 name: "RELAY",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/relay",
-                role: "BATON 이벤트를 Webhook 및 AWS SQS FIFO 대상으로 전달",
+                role: "Webhook 및 AWS SQS FIFO 이벤트 전달",
                 summary:
                     "Core 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
                 contribution:
@@ -427,7 +426,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "읽기 전용 .ics 피드, 구독 토큰 교체 및 폐기, 304 캐시",
+                detail: "읽기 전용 .ics 피드, 구독 토큰 교체 및 폐기, ETag와 변경 없음 응답(304)",
                 evidence:
                     "Core 1.0.0 생성 코드의 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증",
                 input: "Core 일정의 최신 전체 데이터와 개정 번호, 구독 생성, 토큰 교체 및 구독 폐기 요청",
@@ -438,7 +437,7 @@ const projects = [
                     "중복 및 과거 개정 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1",
-                status: "릴리스 후보 JSON 규격 1.1.0-rc.1을 공개하고 BATON Core가 보내는 일정, 시즌 이름과 복구 요청 형식을 고정해 CAL 컨테이너와 교차 검증했습니다. 안정 버전 승격, 실제 캘린더 앱과 공개 구독은 미검증입니다.",
+                status: "JSON 규격 1.1.0-rc.1은 2026년 9월 2일 사전 릴리스로 게시했습니다. Core의 요청 형식을 고정하고 CAL 컨테이너와 연동을 검증했습니다. 정식 규격은 1.0.0이며 운영 활성화와 공개 배포는 아직 완료하지 않았습니다.",
                 tradeoff:
                     "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
                 repository: {
@@ -685,8 +684,7 @@ const projects = [
                     "이벤트 ID를 저장해 재전달돼도 새 작업을 만들지 않았습니다. 처리할 수 없는 메시지는 실패 큐로 분리했습니다.",
                 validation:
                     "RabbitMQ와 RELAY를 강제로 중단한 뒤 같은 이벤트가 재전달돼도 수신 이력이 1건인지 Docker Compose 통합 테스트로 확인했습니다.",
-                boundary:
-                    "메시지 보존과 별도 실패 큐 운영 지점이 늘어 RabbitMQ 모니터링과 재처리 Runbook이 필요합니다.",
+                boundary: "RabbitMQ 메시지 보관 및 실패 큐 모니터링, 재처리 절차가 필요합니다.",
             },
             {
                 number: "09",
@@ -815,14 +813,14 @@ const projects = [
         systemTitle: "대표 화면",
         systemNavLabel: "대표 화면",
         screenshotNote:
-            "E2E 테스트용 모의 API 응답으로 확인한 화면입니다. 실제 결제 및 네이버 계정 연동은 미검증입니다. 대사는 외부 처리 내역과 내부 기록을 비교하는 작업입니다.",
+            "E2E 테스트용 모의 API 응답으로 확인한 화면입니다. 실제 결제 및 네이버 계정 연동은 미검증입니다.",
         screenshots: [
             {
                 id: "product-options",
                 src: "happygallery-product-options.webp",
                 label: "상품 옵션",
-                caption: "색상, 각인과 조합별 가격 및 재고 선택",
-                alt: "happyGallery 상품 상세에서 색상과 각인 옵션 및 조합별 가격과 재고를 선택하는 모습",
+                caption: "색상과 각인 선택, 옵션 조합별 가격 및 재고 확인",
+                alt: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
                 width: 1440,
                 height: 960,
             },
@@ -839,7 +837,7 @@ const projects = [
                 id: "smartstore-reconciliation",
                 src: "happygallery-smartstore-reconciliation.webp",
                 label: "스마트스토어 대사",
-                caption: "처리 결과가 불확실한 주문 조회와 수동 대사",
+                caption: "결과 미확인 주문의 외부 내역 조회와 내부 기록 대조",
                 alt: "happyGallery 관리자 화면에서 결과가 확정되지 않은 스마트스토어 요청을 확인하는 모습",
                 width: 1440,
                 height: 960,
@@ -1122,7 +1120,7 @@ const projects = [
                 decision:
                     "환불 횟수를 잔여 이용 횟수와 취소한 미래 예약 수의 합으로 계산했습니다. 이용권과 예약을 순서대로 잠그고 취소, 이용 횟수 차감과 사용 이력을 함께 저장했습니다.",
                 validation:
-                    "미래 예약 2건과 잔여 6회를 합쳐 8회분 환불이 생성되고 동시 예약에도 원장이 일치하는지 확인했습니다.",
+                    "미래 예약 2건과 잔여 6회를 합쳐 8회분 환불이 생성되고 동시 예약에도 이용 횟수와 사용 이력이 일치하는지 확인했습니다.",
                 boundary:
                     "결제사 환불 완료 전에도 예약 취소와 이용 횟수 차감이 먼저 끝날 수 있습니다. 환불 상태를 DB에 보존하고 자동 복구와 관리자 재처리로 금전 환불을 이어가야 합니다.",
             },
@@ -1169,7 +1167,7 @@ const projects = [
                 decision:
                     "배송조회 등록 실패는 DB 상태를 기준으로 배치가 재처리합니다. 서명을 검증한 웹훅은 배송 상태만 갱신하고 주문 완료는 관리자가 확정합니다.",
                 validation:
-                    "배송 전 과정을 통합 테스트하고 서명된 웹훅만 반영하며 주문 완료는 관리자 확인 전까지 유지되는지 검증했습니다.",
+                    "배송 전 과정을 통합 테스트했습니다. 서명된 웹훅만 반영하고 관리자 확인 전에는 주문을 완료 처리하지 않는지 검증했습니다.",
                 boundary:
                     "Delivery API 한 곳만 지원하며 운영 자격 증명, 장시간 장애와 웹훅 재전달은 미검증입니다.",
             },
@@ -1201,9 +1199,9 @@ const projects = [
                 number: "14",
                 title: "예약 부분취소 시 환불액 및 잔여석 반영과 빈자리 알림",
                 constraint:
-                    "만석 회차의 취소로 자리가 생겨도 고객이 알기 어렵고, 여러 명 예약의 일부만 취소할 때 환불액과 정원을 함께 맞춰야 했습니다.",
+                    "만석 회차의 취소로 자리가 생겨도 고객이 알기 어렵고, 여러 명 예약의 일부만 취소할 때 취소 인원에 맞춰 환불액과 잔여석을 계산해야 했습니다.",
                 decision:
-                    "빈자리가 실제로 생긴 순간 대기 신청을 종료하고 알림 작업을 함께 저장했습니다. 다인 예약은 남은 인원 비율로 예약금과 잔금을 다시 계산하고 줄인 인원만큼 정원을 반환합니다.",
+                    "빈자리가 실제로 생긴 순간 대기 신청을 종료하고 알림 작업을 함께 저장했습니다. 다인 예약은 남은 인원 비율로 예약금과 잔금을 다시 계산하고 취소한 인원만큼 잔여석을 늘립니다.",
                 validation:
                     "전체취소, 부분취소와 예약 변경의 빈자리 전환 및 최소 1명을 남기는 부분취소 흐름을 통합 테스트 코드와 PRD에서 확인했습니다.",
                 boundary:
@@ -1315,13 +1313,14 @@ const projects = [
                 id: "adr",
                 label: "ADR",
                 count: "2",
-                summary: "기술 책임 분리와 서버 DTO 기반 API 타입 생성 방식을 기록합니다.",
+                summary:
+                    "웹, 서버와 DB의 역할 분리 및 서버 DTO 기반 API 타입 생성 방식을 기록합니다.",
             },
             {
                 id: "design",
                 label: "설계",
                 count: "13",
-                summary: "조건 의미, 정책 개정, AI 비용과 복구 및 웹 화면 상태를 설계합니다.",
+                summary: "자격 판정 기준, 정책 개정, AI 비용과 복구 및 웹 화면 상태를 설계합니다.",
             },
             {
                 id: "development",
@@ -1410,7 +1409,7 @@ const projects = [
         category: "개인 웹앱 프로젝트",
         role: "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현",
         oneLine:
-            "확인되지 않은 조건과 마감일을 확정하지 않고, 정책 개정과 늦은 AI 결과를 현재 상태에 덮어쓰지 않는 웹앱을 개발합니다.",
+            "확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.",
         status: {
             label: "현재 상태",
             text: "공개 main 7311d9e에 조건 입력 화면, 개발 전용 자격 및 마감 화면, 서버 판정과 AI 비용 복구 모델 및 CI를 반영했습니다. 온통청년 인증키는 승인 대기 중이며 실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다.",
@@ -1428,7 +1427,7 @@ const projects = [
                 validation:
                     "조건 충족 및 불충족, 정책 미해석, 예외, 사용자 정보 누락과 소득 구간 일부 중첩을 서버 단위 테스트로 확인했습니다.",
                 boundary:
-                    "현재는 고정 테스트 규칙과 답변만 사용합니다. 온통청년 원천 매핑과 실제 정책 추천은 아직 연결하지 않았습니다.",
+                    "현재는 고정 테스트 규칙과 답변만 사용합니다. 온통청년 데이터의 내부 형식 변환과 실제 정책 추천은 아직 연결하지 않았습니다.",
             },
             {
                 number: "02",
@@ -1532,7 +1531,7 @@ const projects = [
                 src: "hope-commit-review-evidence.webp",
                 label: "참조한 변경 코드",
                 caption: "리뷰 설명과 참조한 파일 및 코드 줄",
-                alt: "Hope Commit HTML에서 리뷰 설명과 실제 변경 파일과 코드 줄를 확인하는 모습",
+                alt: "Hope Commit HTML에서 리뷰 설명과 참조한 파일 및 코드 줄을 확인하는 모습",
                 width: 1440,
                 height: 900,
             },
@@ -1543,7 +1542,7 @@ const projects = [
             description:
                 "일반 커밋은 첫 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 확정합니다. 작업 파일이 바뀌어도 입력한 커밋과 비교 기준에 저장된 코드만 사용합니다.",
             tradeoff:
-                "결과는 재현할 수 있지만 대상 커밋이 로컬에 있어야 합니다. CI, 이슈와 토론은 자동으로 가져오지 않습니다.",
+                "같은 커밋의 변경 내용을 다시 수집하려면 해당 커밋이 로컬에 있어야 합니다. CI, 이슈와 토론은 자동으로 가져오지 않습니다.",
         },
         featuredProblemNumbers: ["01", "02", "03", "04"],
         documentGroups: [
@@ -1739,7 +1738,7 @@ const projects = [
                 id: "adr",
                 label: "ADR",
                 count: "7",
-                summary: "기록 형식, 게시, 인증, 배포와 클라이언트 역할를 기록합니다.",
+                summary: "기록 형식, 게시, 인증, 배포와 클라이언트 역할을 기록합니다.",
             },
             {
                 id: "operations",
@@ -2122,7 +2121,7 @@ const projects = [
                 number: "02",
                 title: "WebSquare 상태 변경 요청에 CSRF 토큰 적용",
                 constraint:
-                    "사용자가 열어 둔 WebSquare 업무 화면을 악용한 위조 요청이 저장 및 변경 기능을 실행하지 못하도록 Spring Security의 위조 방지 토큰(CSRF)을 모든 상태 변경 요청에 포함해야 했습니다.",
+                    "위조 요청으로 WebSquare의 저장 및 변경 기능이 실행되는 것을 막아야 했습니다. 모든 상태 변경 요청에 CSRF 토큰이 필요했습니다.",
                 decision:
                     "CSRF 토큰을 WebSquare 공통 요청에 포함하고 누락되거나 일치하지 않는 요청은 필터에서 차단했습니다.",
                 validation:

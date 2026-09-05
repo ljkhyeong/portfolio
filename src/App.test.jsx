@@ -267,7 +267,7 @@ test("홈은 상세 문서 대신 대표 시각 자료와 프로젝트 선택에
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 상품 상세에서 색상과 각인 옵션 및 조합별 가격과 재고를 선택하는 모습",
+            name: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
         }),
     ).toBeInTheDocument()
 })
@@ -540,7 +540,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
     expect(screen.getAllByText(/미전송 알림/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 상품 상세에서 색상과 각인 옵션 및 조합별 가격과 재고를 선택하는 모습",
+            name: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
         }),
     ).toBeInTheDocument()
     expect(

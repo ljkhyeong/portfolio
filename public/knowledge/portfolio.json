@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:39a9e89bfad4",
+  "sourceRevision": "sha256:730349e9164f",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -76,7 +76,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:4accd0b0939a",
+      "sourceRevision": "sha256:e27aaa0ebec5",
       "documentId": "knowledge_7a7d80751d535d6f054dab18",
       "projectId": "baton",
       "projectName": "BATON",
@@ -84,31 +84,31 @@
       "documentType": "service_overview",
       "title": "WATCH - URL 상태 점검",
       "heading": "WATCH 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: WATCH\n\n역할: URL 상태 점검\n\nURL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.\n\n담당 구현: 점검 시도마다 처리 서버와 기한을 기록한 뒤 외부 HTTP 요청 중에는 DB 연결을 반환했습니다. 중단된 점검은 다시 실행하고, Core 응답을 받지 못한 상태 변경 이벤트는 DB에 남겨 다시 보냅니다.\n\n주요 기능: 사설망 및 로컬 주소 접근 차단, 서버 중단 뒤 처리 기한이 지난 URL 점검을 다시 실행, 이전 URL 버전 결과 미저장과 미전송 이벤트 보관\n\n저장소 공개 범위: 공개 원격 개발 브랜치\n\n검증 요약: 일반 JUnit 431개와 부하 및 복구 시나리오로 사설망 차단, 중단 점검 재실행과 늦은 결과 차단을 검증\n\n입력: 점검 대상 URL과 점검 요청 시점의 URL 버전\n\n입력 확인: URL 형식과 통신 방식을 확인하고 사설망 및 로컬 주소로 해석되는 요청을 차단합니다.\n\n출력: URL 상태와 상태 변경 이벤트\n\n처리 기준: 한 서버의 처리 기한이 지나면 기존 시도를 닫고 새 점검 시도를 만들어 다른 서버가 처리\n\n데이터베이스: PostgreSQL\n\n사용 기술: Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, Spring Security, PostgreSQL 18, Apache HttpClient 5, Micrometer / Prometheus, Flyway, Testcontainers\n\n구현 상태: 원격 개발 브랜치에 URL 점검, 상태 변경 전달, 자원 상한, Prometheus 대시보드와 복구 도구가 반영돼 있습니다. 공개 callback으로 Core까지 연결하는 스테이징 흐름과 외부 대시보드 및 알림은 미검증입니다.\n\n적용 범위와 제약: 점검 처리 기한이 짧으면 같은 URL 점검이 겹치고, 길면 중단한 서버의 기존 시도를 닫고 새 시도를 만들기까지 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: WATCH\n\n역할: URL 상태 점검\n\nURL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.\n\n담당 구현: 점검 시도마다 처리 서버와 기한을 기록한 뒤 외부 HTTP 요청 중에는 DB 연결을 반환했습니다. 중단된 점검은 다시 실행하고, Core 응답을 받지 못한 상태 변경 이벤트는 DB에 남겨 다시 보냅니다.\n\n주요 기능: 사설망 및 로컬 주소 접근 차단, 서버 중단 뒤 처리 기한이 지난 URL 점검을 다시 실행, 이전 URL 버전 결과 미저장과 미전송 이벤트 보관\n\n저장소 공개 범위: 공개 원격 개발 브랜치\n\n검증 요약: 일반 JUnit 431개와 부하 및 복구 시나리오로 사설망 차단, 중단 점검 재실행과 늦은 결과 차단을 검증\n\n입력: 점검 대상 URL과 점검 요청 시점의 URL 버전\n\n입력 확인: URL 형식과 통신 방식을 확인하고 사설망 및 로컬 주소로 해석되는 요청을 차단합니다.\n\n출력: URL 상태와 상태 변경 이벤트\n\n처리 기준: 한 서버의 처리 기한이 지나면 기존 시도를 닫고 새 점검 시도를 만들어 다른 서버가 처리\n\n데이터베이스: PostgreSQL\n\n사용 기술: Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, Spring Security, PostgreSQL 18, Apache HttpClient 5, Micrometer / Prometheus, Flyway, Testcontainers\n\n구현 상태: 원격 개발 브랜치에 URL 점검, 상태 변경 전달, 자원 상한, Prometheus 대시보드와 복구 도구가 반영돼 있습니다. 공개 callback으로 Core까지 연결하는 스테이징 흐름과 외부 대시보드 및 알림은 미검증입니다.\n\n적용 범위와 제약: 처리 기한이 짧으면 중복 점검이 늘고, 길면 중단 작업의 재실행이 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/watch",
       "route": "/projects/baton/watch",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "4accd0b0939a99e6ca5bcdd187fd4a4fbaa37af1e89618bcca929d0d05838794",
-      "contentHash": "900a933ccda313166d8e4a83d0e77a9d83ae68c2436213a3cb6e684115b3c969"
+      "sourceHash": "e27aaa0ebec5a3b8ea1f971b99db6888ec80d2a5cef66aa44729938dace168b2",
+      "contentHash": "99c434ad3d9bd6937637a3042f911a87c0da4b44efd198f105efdd4ae5b95842"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:b927808d3686",
+      "sourceRevision": "sha256:93201e164817",
       "documentId": "knowledge_9397daa69cbe667e46650e87",
       "projectId": "baton",
       "projectName": "BATON",
       "serviceId": "relay",
       "documentType": "service_overview",
-      "title": "RELAY - BATON 이벤트를 Webhook 및 AWS SQS FIFO 대상으로 전달",
+      "title": "RELAY - Webhook 및 AWS SQS FIFO 이벤트 전달",
       "heading": "RELAY 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n역할: BATON 이벤트를 Webhook 및 AWS SQS FIFO 대상으로 전달\n\nCore 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.\n\n담당 구현: 이벤트 ID를 저장해 재수신 시 새 전송 작업을 만들지 않습니다. 중단 뒤에도 같은 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 인계합니다.\n\n주요 기능: 같은 이벤트 ID의 전달 작업 재생성 차단, 서버 중단 뒤 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단과 결과 미확인 작업 분리\n\n저장소 공개 범위: 공개 저장소 / 최신 구현 공개 main\n\n검증 요약: 이벤트 재수신에도 전달 작업이 늘지 않고, 서버 중단 뒤 같은 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 다른 서버로 넘기는지 검증\n\n입력: 이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각\n\n입력 확인: 수신 값이 정해 둔 이벤트 형식과 데이터 형식 버전에 맞는지 확인합니다.\n\n출력: Webhook 또는 AWS SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태\n\n처리 기준: 전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.\n\n데이터베이스: PostgreSQL\n\n사용 기술: Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, Spring Security, PostgreSQL 18, RabbitMQ / Spring AMQP, AWS SQS FIFO, Flyway, Testcontainers\n\n구현 상태: 공개 main에 RabbitMQ 수신, Webhook 및 AWS SQS FIFO 어댑터, 제한 재시도, 미확인 전송 결과 수동 확정과 운영 조회가 반영돼 있습니다. 실제 AWS 자격 증명과 운영 큐, 외부 알림 연결은 미검증입니다.\n\n적용 범위와 제약: 결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n역할: Webhook 및 AWS SQS FIFO 이벤트 전달\n\nCore 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.\n\n담당 구현: 이벤트 ID를 저장해 재수신 시 새 전송 작업을 만들지 않습니다. 중단 뒤에도 같은 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 인계합니다.\n\n주요 기능: 같은 이벤트 ID의 전달 작업 재생성 차단, 서버 중단 뒤 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단과 결과 미확인 작업 분리\n\n저장소 공개 범위: 공개 저장소 / 최신 구현 공개 main\n\n검증 요약: 이벤트 재수신에도 전달 작업이 늘지 않고, 서버 중단 뒤 같은 시도 UUID와 제공자 멱등 키를 유지한 채 처리 권한만 다른 서버로 넘기는지 검증\n\n입력: 이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각\n\n입력 확인: 수신 값이 정해 둔 이벤트 형식과 데이터 형식 버전에 맞는지 확인합니다.\n\n출력: Webhook 또는 AWS SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태\n\n처리 기준: 전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.\n\n데이터베이스: PostgreSQL\n\n사용 기술: Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, Spring Security, PostgreSQL 18, RabbitMQ / Spring AMQP, AWS SQS FIFO, Flyway, Testcontainers\n\n구현 상태: 공개 main에 RabbitMQ 수신, Webhook 및 AWS SQS FIFO 어댑터, 제한 재시도, 미확인 전송 결과 수동 확정과 운영 조회가 반영돼 있습니다. 실제 AWS 자격 증명과 운영 큐, 외부 알림 연결은 미검증입니다.\n\n적용 범위와 제약: 결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/relay",
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "b927808d3686e6ac6a6c74c8efa9bf093dd2c6e5d16e0421e081efea51d04623",
-      "contentHash": "ca4136ca083458d4349942f0a365de6c894766be108532f4e5c0ad4369df99a7"
+      "sourceHash": "93201e1648176e30fb1bb171cf7392090538b478bc2d7c2f1be36b3b8ab3dab3",
+      "contentHash": "f3daf2e1719534eebbae74b713059332c2cf81617487edd0c19a2150d9b217d0"
     },
     {
       "schemaVersion": "1.0",
@@ -130,7 +130,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:1a45f0184448",
+      "sourceRevision": "sha256:281c05a54565",
       "documentId": "knowledge_cd7f9f985bdeb3863d3bb8ca",
       "projectId": "baton",
       "projectName": "BATON",
@@ -138,13 +138,13 @@
       "documentType": "service_overview",
       "title": "CAL - 외부 캘린더 구독",
       "heading": "CAL 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: CAL\n\n역할: 외부 캘린더 구독\n\nCore 일정과 마감을 외부 캘린더가 구독하는 읽기 전용 피드로 제공합니다.\n\n담당 구현: Core 일정과 개정 번호를 저장해 iCalendar로 변환합니다. 구독 토큰 교체 및 폐기와 HTTP 캐시 응답도 구현했습니다.\n\n주요 기능: 읽기 전용 .ics 피드, 구독 토큰 교체 및 폐기, 304 캐시\n\n저장소 공개 범위: 공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1\n\n검증 요약: Core 1.0.0 생성 코드의 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증\n\n입력: Core 일정의 최신 전체 데이터와 개정 번호, 구독 생성, 토큰 교체 및 구독 폐기 요청\n\n입력 확인: 일정 ID, 이벤트 ID, 개정 번호와 시간대 값이 공개한 일정 JSON 형식에 맞는지 확인합니다.\n\n출력: 읽기 전용 iCalendar 피드와 일정이 바뀌지 않았음을 알리는 304 응답\n\n처리 기준: 중복 및 과거 개정 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 25, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, iCal4j 4.3.0, Flyway, Testcontainers\n\n구현 상태: 릴리스 후보 JSON 규격 1.1.0-rc.1을 공개하고 BATON Core가 보내는 일정, 시즌 이름과 복구 요청 형식을 고정해 CAL 컨테이너와 교차 검증했습니다. 안정 버전 승격, 실제 캘린더 앱과 공개 구독은 미검증입니다.\n\n적용 범위와 제약: 읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: CAL\n\n역할: 외부 캘린더 구독\n\nCore 일정과 마감을 외부 캘린더가 구독하는 읽기 전용 피드로 제공합니다.\n\n담당 구현: Core 일정과 개정 번호를 저장해 iCalendar로 변환합니다. 구독 토큰 교체 및 폐기와 HTTP 캐시 응답도 구현했습니다.\n\n주요 기능: 읽기 전용 .ics 피드, 구독 토큰 교체 및 폐기, ETag와 변경 없음 응답(304)\n\n저장소 공개 범위: 공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1\n\n검증 요약: Core 1.0.0 생성 코드의 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증\n\n입력: Core 일정의 최신 전체 데이터와 개정 번호, 구독 생성, 토큰 교체 및 구독 폐기 요청\n\n입력 확인: 일정 ID, 이벤트 ID, 개정 번호와 시간대 값이 공개한 일정 JSON 형식에 맞는지 확인합니다.\n\n출력: 읽기 전용 iCalendar 피드와 일정이 바뀌지 않았음을 알리는 304 응답\n\n처리 기준: 중복 및 과거 개정 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 25, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, iCal4j 4.3.0, Flyway, Testcontainers\n\n구현 상태: JSON 규격 1.1.0-rc.1은 2026년 9월 2일 사전 릴리스로 게시했습니다. Core의 요청 형식을 고정하고 CAL 컨테이너와 연동을 검증했습니다. 정식 규격은 1.0.0이며 운영 활성화와 공개 배포는 아직 완료하지 않았습니다.\n\n적용 범위와 제약: 읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/cal",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "1a45f01844488f35cd6f6894ea527544afa379e834af6b1df5e76f24ebcde202",
-      "contentHash": "c6d0c04921f02bae7ee48aa703e97dad2e9050783fcea96eb40717a89b25e12e"
+      "sourceHash": "281c05a54565b3bbd4f9833e59f4de592cf1f3bbba5f545d98aeb5c7b2eed1c0",
+      "contentHash": "9b1fe26996bbabe4af93f06724f72120c40ba42844b15ed9f245ccd832a5e667"
     },
     {
       "schemaVersion": "1.0",
@@ -310,7 +310,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e58b86c28289",
+      "sourceRevision": "sha256:76c088aff13d",
       "documentId": "knowledge_92c17f3458b5b09bd605e77e",
       "projectId": "baton",
       "projectName": "BATON",
@@ -318,13 +318,13 @@
       "documentType": "problem_solution",
       "title": "RabbitMQ 메시지 재전달 시 중복 처리 방지",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n문제: PostgreSQL 저장이 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 프로세스가 멈추면 같은 이벤트가 다시 전달됩니다.\n\n해결 방법: 이벤트 ID를 저장해 재전달돼도 새 작업을 만들지 않았습니다. 처리할 수 없는 메시지는 실패 큐로 분리했습니다.\n\n확인: RabbitMQ와 RELAY를 강제로 중단한 뒤 같은 이벤트가 재전달돼도 수신 이력이 1건인지 Docker Compose 통합 테스트로 확인했습니다.\n\n제약과 남은 작업: 메시지 보존과 별도 실패 큐 운영 지점이 늘어 RabbitMQ 모니터링과 재처리 Runbook이 필요합니다.",
+      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n문제: PostgreSQL 저장이 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 프로세스가 멈추면 같은 이벤트가 다시 전달됩니다.\n\n해결 방법: 이벤트 ID를 저장해 재전달돼도 새 작업을 만들지 않았습니다. 처리할 수 없는 메시지는 실패 큐로 분리했습니다.\n\n확인: RabbitMQ와 RELAY를 강제로 중단한 뒤 같은 이벤트가 재전달돼도 수신 이력이 1건인지 Docker Compose 통합 테스트로 확인했습니다.\n\n제약과 남은 작업: RabbitMQ 메시지 보관 및 실패 큐 모니터링, 재처리 절차가 필요합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/relay#service-problems",
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e58b86c28289f29186977c96195b25a4a6e74497715f56042de665ba9b3fe1e2",
-      "contentHash": "875a5d7b8f8020c85abad4d9d59afdadd77991a0ec6fdb2c5d9620b8be2e7b14"
+      "sourceHash": "76c088aff13d1179b2bdf25c377c46b64f7059e616a588f88959c39568820a19",
+      "contentHash": "7f4971071922ea8db9064781a266668a5342fcddf9c011316c31082a0ceba6d0"
     },
     {
       "schemaVersion": "1.0",
@@ -652,7 +652,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:87cb13fa8e4a",
+      "sourceRevision": "sha256:c12066872dbf",
       "documentId": "knowledge_b76304103fc2240fb8731289",
       "projectId": "baton",
       "projectName": "BATON",
@@ -660,17 +660,17 @@
       "documentType": "representative_document",
       "title": "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n## 책임\n\nCore는 조직 데이터를 기준으로 다음 5개 운영 신호를 판정합니다. BRIEF는 이 신호를 다시 판정하지 않고 현재 점검 항목과 주간 보고서에 반영합니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계할 업무가 없거나 끝나지 않았거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대가 가까운데 인수인계를 시작하지 않았거나 전달 및 수락이 끝나지 않은 인수인계\n\nCore 이벤트의 활성 상태는 `ACTIVE`, 해소 상태는 `RESOLVED` 점검 항목으로 그대로 저장합니다. 원본 심각도도 다시 계산하지 않고 `CRITICAL`과 `WARNING`을 각각 `HIGH`와 `MEDIUM`으로 표시합니다. 주간 보고서에는 해당 주간, 마지막 이벤트 순번과 포함 항목을 저장하며 한 번 발행한 주간 보고서은 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 주간 보고서을 반환합니다. 이후 상태가 바뀌었다가 같은 항목으로 돌아와도 새 생성 번호의 주간 보고서을 저장하고 이전 주간 보고서은 그대로 둡니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 5개 신호의 `ACTIVE` 및 `RESOLVED` 반영, 이벤트 중복, ID 충돌, 과거 개정 차단, 저장 이벤트 기반 목록 재생성과 같은 주간 보고서의 중복 생성을 확인했습니다.\n\n실제 서비스 연동과 HTTPS 앞단 검증은 다음과 같이 나눠 확인했습니다.\n\n-   JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다.\n-   내부 서비스용 Caddy에서는 실제 Core와 BRIEF JAR, MySQL과 PostgreSQL을 실행해 로그인, 멤버십 및 접근 키 확인, HTTPS 보고서 생성과 조회, ETag, 재시도와 토큰 교체를 확인했습니다.\n-   BRIEF 원격 개발 브랜치는 `2.0.0-rc.4` 릴리스 후보 JSON 규격을 사용하지만 Core 공개 `main`은 `2.0.0-rc.1`을 사용합니다.\n\n## 현재 범위\n\n최신 로컬 `main`은 공개 `main`보다 16개 커밋 앞서 있습니다. 공개 상태와 최신 로컬 구현을 다음과 같이 구분합니다.\n\n-   확인 완료: 실제 Core와 BRIEF JAR의 `2.0.0-rc.1` 로컬 HTTP 연동\n-   확인 완료: 실제 Core와 내부 서비스용 Caddy HTTPS 연동\n-   최신 로컬 구현: 점검 항목 요약 및 필터 API와 BATON 오늘 화면 연결\n-   호환 유지: v2 담당자 공백 및 업무 지연 신호 5종과 기존 v1 이벤트\n-   미반영: BRIEF `2.0.0-rc.4` 릴리스 후보 JSON 규격의 Core 반영\n-   미검증: 공인 DNS 및 TLS, 원격 전달과 장기 운영 배포",
+      "content": "# BATON BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n## 책임\n\nCore는 조직 데이터를 기준으로 다음 5개 운영 신호를 판정합니다. BRIEF는 이 신호를 다시 판정하지 않고 현재 점검 항목과 주간 보고서에 반영합니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계할 업무가 없거나 끝나지 않았거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대가 가까운데 인수인계를 시작하지 않았거나 전달 및 수락이 끝나지 않은 인수인계\n\nCore 이벤트의 활성 상태는 `ACTIVE`, 해소 상태는 `RESOLVED` 점검 항목으로 그대로 저장합니다. 원본 심각도도 다시 계산하지 않고 `CRITICAL`과 `WARNING`을 각각 `HIGH`와 `MEDIUM`으로 표시합니다. 주간 보고서에는 해당 주간, 마지막 이벤트 순번과 포함 항목을 저장하며 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 주간 보고서를 반환합니다. 이후 상태가 바뀌었다가 같은 항목으로 돌아와도 새 생성 번호의 주간 보고서를 저장하고 이전 주간 보고서는 그대로 둡니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 5개 신호의 `ACTIVE` 및 `RESOLVED` 반영, 이벤트 중복, ID 충돌, 과거 개정 차단, 저장 이벤트 기반 목록 재생성과 같은 주간 보고서의 중복 생성을 확인했습니다.\n\n실제 서비스 연동과 HTTPS 앞단 검증은 다음과 같이 나눠 확인했습니다.\n\n-   JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다.\n-   내부 서비스용 Caddy에서는 실제 Core와 BRIEF JAR, MySQL과 PostgreSQL을 실행해 로그인, 멤버십 및 접근 키 확인, HTTPS 보고서 생성과 조회, ETag, 재시도와 토큰 교체를 확인했습니다.\n-   BRIEF 원격 개발 브랜치는 `2.0.0-rc.4` 릴리스 후보 JSON 규격을 사용하지만 Core 공개 `main`은 `2.0.0-rc.1`을 사용합니다.\n\n## 현재 범위\n\n최신 로컬 `main`은 공개 `main`보다 16개 커밋 앞서 있습니다. 공개 상태와 최신 로컬 구현을 다음과 같이 구분합니다.\n\n-   확인 완료: 실제 Core와 BRIEF JAR의 `2.0.0-rc.1` 로컬 HTTP 연동\n-   확인 완료: 실제 Core와 내부 서비스용 Caddy HTTPS 연동\n-   최신 로컬 구현: 점검 항목 요약 및 필터 API와 BATON 오늘 화면 연결\n-   호환 유지: v2 담당자 공백 및 업무 지연 신호 5종과 기존 v1 이벤트\n-   미반영: BRIEF `2.0.0-rc.4` 릴리스 후보 JSON 규격의 Core 반영\n-   미검증: 공인 DNS 및 TLS, 원격 전달과 장기 운영 배포",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/brief-event-projection.md",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "87cb13fa8e4a8afb27c39a555a982c72b10d4b96ebefdb801b68a890acfbfb43",
-      "contentHash": "8e94e1d7814bb36e35bc322c1d5d76fecea4defc9cb454f5bdaadd6d85520985"
+      "sourceHash": "c12066872dbf0615b73c9039951b0465e0ee2abe732d83ba470859e6d86b5f4b",
+      "contentHash": "2720fe9d9bc5f6a6fdc258c5f96189269ed94718f7c0decffbd80a48ef442403"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:42d2a4f77d85",
+      "sourceRevision": "sha256:1f64f2e0475b",
       "documentId": "knowledge_8c0d38184b09944107fa2210",
       "projectId": "baton",
       "projectName": "BATON",
@@ -678,17 +678,17 @@
       "documentType": "representative_document",
       "title": "CAL 일정 JSON 수신과 캘린더 구독",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON CAL 일정 JSON 수신과 캘린더 구독\n\n## 책임\n\nCAL은 Core가 확정한 시즌 일정과 마감을 읽기 전용 iCalendar(`.ics`) 피드로 제공합니다. Core는 공개한 일정 JSON 형식 1.0.0에 맞춰 일정 한 건의 최신 전체 데이터과 개정 번호를 보내고, CAL은 같은 일정과 이전 번호가 다시 들어오는지 확인한 뒤 캘린더 형식으로 변환합니다. 어떤 일정을 포함하고 누가 구독할 수 있는지는 Core가 결정합니다.\n\n## 일정 및 구독 처리\n\n-   이벤트 ID, 일정 ID, 개정 번호와 내용 해시를 비교해 적용, 중복, 이전 버전과 충돌을 구분합니다.\n-   일정 식별값(`UID`)은 고정하고 원본 개정 번호를 캘린더 변경 순번(`SEQUENCE`)으로 사용해 변경 및 취소를 구분합니다.\n-   같은 일정에서는 같은 `.ics`, 캐시 확인값(`ETag`)과 최종 변경 시각(`Last-Modified`)을 생성합니다. 캘린더 앱이 이전 ETag를 보내고 일정이 바뀌지 않았으면 본문 대신 `304 Not Modified`를 반환합니다.\n-   구독 토큰은 한 번만 반환하고 DB에는 SHA-256 해시만 저장합니다.\n-   토큰을 교체하거나 폐기하면 이전 구독 URL은 더 이상 피드를 반환하지 않습니다.\n\n## 검증 기준\n\nPostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일정 재전송, 과거 및 충돌 개정 번호, 저장 데이터 기반 재생성, 서머타임 전환(DST)과 자정 경계, 취소 일정, UTF-8 줄 접기, 변경 없음 응답(`304 Not Modified`)과 구독 토큰 동시 교체를 확인했습니다. 1.1.0-rc.1에서는 대표 OCI 백업 및 복구, 복구 세대 번호를 이용한 이전 작업의 늦은 결과 차단도 로컬에서 검증했습니다.\n\n일정 JSON 형식 1.0.0 기준으로 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 생성, 변경, 취소와 순서가 바뀐 전달이 올바르게 처리되는지도 별도로 확인했습니다.\n\n## 현재 범위\n\n-   정식 JSON 규격 `1.0.0`: Core 일정 JSON 생성 코드로 만든 데이터와 CAL 컨테이너의 호환성 검증 완료\n-   공개 `main`의 미게시 후보 `1.1.0-rc.1`: 입력 제한, HTTP 캐시, DB timeout, 구독 및 시즌 동시성, iCal4j 4.3.0과 대표 OCI 복구 검증 완료, 공개 릴리스와 Core 적용 전\n-   운영 미검증: 운영 자격 증명, 공개 캘린더 구독과 DB 복구 후 전체 일정 재전송\n\n`1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.",
+      "content": "# BATON CAL 일정 JSON 수신과 캘린더 구독\n\n## 책임\n\nCAL은 Core가 확정한 시즌 일정과 마감을 읽기 전용 iCalendar(`.ics`) 피드로 제공합니다. Core는 일정 한 건의 최신 전체 데이터와 개정 번호를 보내고, CAL은 같은 일정과 이전 번호가 다시 들어오는지 확인한 뒤 캘린더 형식으로 변환합니다. 어떤 일정을 포함하고 누가 구독할 수 있는지는 Core가 결정합니다.\n\n## 일정 및 구독 처리\n\n-   이벤트 ID, 일정 ID, 개정 번호와 내용 해시를 비교해 적용, 중복, 이전 버전과 충돌을 구분합니다.\n-   일정 식별값(`UID`)은 고정하고 원본 개정 번호를 캘린더 변경 순번(`SEQUENCE`)으로 사용해 변경 및 취소를 구분합니다.\n-   같은 일정에서는 같은 `.ics`, 캐시 확인값(`ETag`)과 최종 변경 시각(`Last-Modified`)을 생성합니다. 캘린더 앱이 이전 ETag를 보내고 일정이 바뀌지 않았으면 본문 대신 `304 Not Modified`를 반환합니다.\n-   구독 토큰은 한 번만 반환하고 DB에는 SHA-256 해시만 저장합니다.\n-   토큰을 교체하거나 폐기하면 이전 구독 URL은 더 이상 피드를 반환하지 않습니다.\n\n## 검증 기준\n\nPostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일정 재전송, 과거 및 충돌 개정 번호, 저장 데이터 기반 재생성, 서머타임 전환(DST)과 자정 경계, 취소 일정, UTF-8 줄 접기, 변경 없음 응답(`304 Not Modified`)과 구독 토큰 동시 교체를 확인했습니다.\n\n1.1.0-rc.1에서는 입력 제한, HTTP 캐시, DB 제한 시간과 구독 및 시즌 동시성을 확인했습니다. OCI 백업 및 복구, 복구 세대 번호를 이용한 이전 작업의 늦은 결과 차단도 로컬에서 검증했습니다.\n\n일정 JSON 형식 1.0.0 기준으로 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 생성, 변경, 취소와 순서가 바뀐 전달이 올바르게 처리되는지도 별도로 확인했습니다.\n\n## 현재 범위\n\n-   정식 JSON 규격 `1.0.0`: 정식 버전 기준이며 Core 일정 JSON과 CAL 컨테이너의 호환성 검증 완료\n-   사전 릴리스 `1.1.0-rc.1`: 2026년 9월 2일 태그 `contracts-v1.1.0-rc.1`과 규격 ZIP 게시 완료. 정식 버전 전환 전\n-   Core 연동: `1.1.0-rc.1`의 일정, 시즌 이름과 복구 요청 형식 및 ZIP 해시를 고정하고 CAL 컨테이너와 연동 검증 완료\n-   운영 상태: 운영 활성화와 공개 배포 전. 실제 캘린더 앱, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증\n\n게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.\n\n`1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/cal-calendar-contract.md",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "42d2a4f77d85a48087b1818027532c037baf84bb5832ff1212481f1a866c0294",
-      "contentHash": "efbf3212504933a3add560c97d04eb1afc224272a69db595e9196780512474c2"
+      "sourceHash": "1f64f2e0475b1f53f0dbb5418870572e866c2f63b9b8dd7a5832e92078b9005e",
+      "contentHash": "1232c673d91cec6271f1e26f45daca32c9d9ec12136e12ee150f60f327e1916b"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e04d22485015",
+      "sourceRevision": "sha256:d9274eea7126",
       "documentId": "knowledge_6ad26b46f6b4377339282b8b",
       "projectId": "baton",
       "projectName": "BATON",
@@ -696,13 +696,13 @@
       "documentType": "representative_document",
       "title": "ROUND 방 입장 토큰 검증과 WebRTC 연결 관리",
       "heading": "ADR / 아키텍처 요약",
-      "content": "# BATON ROUND 입장 토큰 검증과 WebRTC 연결 관리\n\n## 책임\n\nCore는 활동 중인 스터디 구성원에게 방 입장 토큰을 발급합니다. ROUND는 입장 토큰을 검증하고 최대 6명의 mesh WebRTC 연결 메시지를 전달합니다. 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 발급합니다. 두 서비스는 DB를 공유하지 않으며 ROUND의 방과 참가자 상태는 프로세스 메모리에 저장합니다.\n\n## 방 입장 권한 확인 방식\n\n-   Core가 계정에 연결된 활동 중인 스터디 구성원인지 확인한 뒤 RSA 개인 키와 SHA-256을 사용하는 `RS256` 방식으로 서명한 짧은 입장 토큰을 발급합니다. 입장 토큰 쿠키는 방 경로로 범위를 제한하고, JavaScript에서 읽을 수 없으며 HTTPS 요청에만 전송되도록 `HttpOnly`, `Secure`, `SameSite=Strict`를 적용합니다.\n-   ROUND는 Core의 공개 키 목록(`JWKS`)으로 서명, 발급자, 단일 수신자, 만료와 방 식별자를 로컬에서 검증합니다.\n-   입장 토큰 갱신은 Core가 처리하고 WebSocket 및 TURN 요청만 ROUND로 전달합니다.\n-   ROUND가 입장 토큰을 한 번 검증한 뒤에는 WebRTC 연결 설명과 네트워크 경로 후보를 전달할 때마다 Core를 다시 호출하지 않습니다. 따라서 Core 응답이 느리거나 일시적으로 실패해도 이미 입장한 참가자의 연결은 계속 처리할 수 있습니다.\n-   같은 참가자가 새 입장 토큰으로 다시 입장하면 서버가 이전 WebSocket 세션을 종료하고 새 연결만 유지합니다.\n\n## 연결 복구\n\n-   연결마다 먼저 연결 설명을 만드는 브라우저를 하나로 고정해 동시에 offer를 만드는 충돌을 피합니다.\n-   새 연결을 만들 때마다 순번을 올리고 연결 설명과 네트워크 경로 후보에 같은 순번을 넣습니다. 이전 연결 순번으로 늦게 도착한 메시지는 버립니다.\n-   ICE 재시작으로 복구되지 않으면 피어 연결을 다시 만들되, 제한된 시그널링 재연결 동안 로컬 미디어는 유지합니다.\n-   DataChannel 채팅은 메시지별 중복 제거와 애플리케이션 수신 응답을 적용합니다. 상대 브라우저 애플리케이션이 메시지를 받았다는 응답 수에 따라 전체 성공, 일부 성공과 실패를 구분하며, 사용자가 내용을 읽었다는 뜻은 아닙니다. 송신 대기 버퍼의 최대 크기도 제한합니다.\n\n## 검증과 현재 범위\n\n-   구현 기준: 비공개 `main` 커밋 `7c9218c`\n-   통과: Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 시나리오\n-   보완 완료: WebKit 직접 연결용 mDNS와 배포 검증용 restic 누락\n-   미검증: 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속\n-   운영 제약: 방과 참가자 상태를 메모리에 저장하므로 한 인스턴스로 실행",
+      "content": "# BATON ROUND 입장 토큰 검증과 WebRTC 연결 관리\n\n## 책임\n\nCore는 활동 중인 스터디 구성원에게 방 입장 토큰을 발급합니다. ROUND는 입장 토큰을 검증하고 최대 6명의 mesh WebRTC 연결 메시지를 전달합니다. 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 발급합니다. 두 서비스는 DB를 공유하지 않으며 ROUND의 방과 참가자 상태는 프로세스 메모리에 저장합니다.\n\n## 방 입장 권한 확인 방식\n\n-   Core가 계정에 연결된 활동 중인 스터디 구성원인지 확인한 뒤 RSA 개인 키와 SHA-256을 사용하는 `RS256` 방식으로 서명한 만료 시간이 짧은 입장 토큰을 발급합니다. 입장 토큰 쿠키는 방 경로로 범위를 제한하고, JavaScript에서 읽을 수 없으며 HTTPS 요청에만 전송되도록 `HttpOnly`, `Secure`, `SameSite=Strict`를 적용합니다.\n-   ROUND는 Core의 공개 키 목록(`JWKS`)으로 서명, 발급자, 단일 수신자, 만료와 방 식별자를 로컬에서 검증합니다.\n-   입장 토큰 갱신은 Core가 처리하고 WebSocket 및 TURN 요청만 ROUND로 전달합니다.\n-   ROUND가 입장 토큰을 한 번 검증한 뒤에는 WebRTC 연결 설명과 네트워크 경로 후보를 전달할 때마다 Core를 다시 호출하지 않습니다. 따라서 Core 응답이 느리거나 일시적으로 실패해도 이미 입장한 참가자의 연결은 계속 처리할 수 있습니다.\n-   같은 참가자가 새 입장 토큰으로 다시 입장하면 서버가 이전 WebSocket 세션을 종료하고 새 연결만 유지합니다.\n\n## 연결 복구\n\n-   연결마다 먼저 연결 설명을 만드는 브라우저를 하나로 고정해 동시에 offer를 만드는 충돌을 피합니다.\n-   새 연결을 만들 때마다 순번을 올리고 연결 설명과 네트워크 경로 후보에 같은 순번을 넣습니다. 이전 연결 순번으로 늦게 도착한 메시지는 버립니다.\n-   ICE 재시작으로 복구되지 않으면 피어 연결을 다시 만들되, 제한된 시그널링 재연결 동안 로컬 미디어는 유지합니다.\n-   DataChannel 채팅은 메시지별 중복 제거와 애플리케이션 수신 응답을 적용합니다. 상대 브라우저 애플리케이션이 메시지를 받았다는 응답 수에 따라 전체 성공, 일부 성공과 실패를 구분하며, 사용자가 내용을 읽었다는 뜻은 아닙니다. 송신 대기 버퍼의 최대 크기도 제한합니다.\n\n## 검증과 현재 범위\n\n-   구현 기준: 비공개 `main` 커밋 `7c9218c`\n-   통과: Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 시나리오\n-   보완 완료: WebKit 직접 연결용 mDNS와 배포 검증용 restic 누락\n-   미검증: 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속\n-   운영 제약: 방과 참가자 상태를 메모리에 저장하므로 한 인스턴스로 실행",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/round-realtime-boundary.md",
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "e04d224850154b9c87b004f1806d954a59f83351b0298e80fd4bd45ea06d0260",
-      "contentHash": "fe31dafd9af93d95ece30a7c3fb06bffef4445069a753771acdf600e004147cc"
+      "sourceHash": "d9274eea71268805a8f4cb60a29eff57fd5a4c0ab9543b3c0584b31ff2bf4e78",
+      "contentHash": "7166edae7b47ee40c1af3e8a6e9b8898a714ca42157108db0fd3429834179e46"
     },
     {
       "schemaVersion": "1.0",
@@ -1012,7 +1012,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:b0cf6264e4e8",
+      "sourceRevision": "sha256:65edaf0981ef",
       "documentId": "knowledge_c9dd4b8f00aa7596324df8d4",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1020,13 +1020,13 @@
       "documentType": "problem_solution",
       "title": "8회권 환불 시 예약 취소와 이용 횟수 및 사용 이력 반영",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 8회권 전체 환불과 예약 사용 및 취소가 동시에 실행되면 환불할 이용 횟수, 미래 예약과 사용 이력이 서로 달라질 수 있었습니다.\n\n해결 방법: 환불 횟수를 잔여 이용 횟수와 취소한 미래 예약 수의 합으로 계산했습니다. 이용권과 예약을 순서대로 잠그고 취소, 이용 횟수 차감과 사용 이력을 함께 저장했습니다.\n\n확인: 미래 예약 2건과 잔여 6회를 합쳐 8회분 환불이 생성되고 동시 예약에도 원장이 일치하는지 확인했습니다.\n\n제약과 남은 작업: 결제사 환불 완료 전에도 예약 취소와 이용 횟수 차감이 먼저 끝날 수 있습니다. 환불 상태를 DB에 보존하고 자동 복구와 관리자 재처리로 금전 환불을 이어가야 합니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 8회권 전체 환불과 예약 사용 및 취소가 동시에 실행되면 환불할 이용 횟수, 미래 예약과 사용 이력이 서로 달라질 수 있었습니다.\n\n해결 방법: 환불 횟수를 잔여 이용 횟수와 취소한 미래 예약 수의 합으로 계산했습니다. 이용권과 예약을 순서대로 잠그고 취소, 이용 횟수 차감과 사용 이력을 함께 저장했습니다.\n\n확인: 미래 예약 2건과 잔여 6회를 합쳐 8회분 환불이 생성되고 동시 예약에도 이용 횟수와 사용 이력이 일치하는지 확인했습니다.\n\n제약과 남은 작업: 결제사 환불 완료 전에도 예약 취소와 이용 횟수 차감이 먼저 끝날 수 있습니다. 환불 상태를 DB에 보존하고 자동 복구와 관리자 재처리로 금전 환불을 이어가야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "b0cf6264e4e855fb1c6af26de5239a609aeb2a690d028abf3f8cf60541e270d5",
-      "contentHash": "5ccd1a7982c273e1aba88b527446fcede0d1d1213c8ffe87be0bc7340d18eb81"
+      "sourceHash": "65edaf0981efeee82358ce336a8c9920509e2a4bb767777da7e6bd41f7ec075b",
+      "contentHash": "d59311f57e920338cf83762be4f7e7ee5532e57eda69c7f81835983fba63c93b"
     },
     {
       "schemaVersion": "1.0",
@@ -1084,7 +1084,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:4826d63718c2",
+      "sourceRevision": "sha256:8f9aaa4f5286",
       "documentId": "knowledge_8e68713d6663b1ca2773c829",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1092,13 +1092,13 @@
       "documentType": "problem_solution",
       "title": "배송조회 재처리와 주문 완료 분리",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 배송조회 등록 실패는 고객 조회를 막고, 웹훅만으로 주문을 완료하면 후속 처리가 너무 일찍 실행될 수 있었습니다.\n\n해결 방법: 배송조회 등록 실패는 DB 상태를 기준으로 배치가 재처리합니다. 서명을 검증한 웹훅은 배송 상태만 갱신하고 주문 완료는 관리자가 확정합니다.\n\n확인: 배송 전 과정을 통합 테스트하고 서명된 웹훅만 반영하며 주문 완료는 관리자 확인 전까지 유지되는지 검증했습니다.\n\n제약과 남은 작업: Delivery API 한 곳만 지원하며 운영 자격 증명, 장시간 장애와 웹훅 재전달은 미검증입니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 배송조회 등록 실패는 고객 조회를 막고, 웹훅만으로 주문을 완료하면 후속 처리가 너무 일찍 실행될 수 있었습니다.\n\n해결 방법: 배송조회 등록 실패는 DB 상태를 기준으로 배치가 재처리합니다. 서명을 검증한 웹훅은 배송 상태만 갱신하고 주문 완료는 관리자가 확정합니다.\n\n확인: 배송 전 과정을 통합 테스트했습니다. 서명된 웹훅만 반영하고 관리자 확인 전에는 주문을 완료 처리하지 않는지 검증했습니다.\n\n제약과 남은 작업: Delivery API 한 곳만 지원하며 운영 자격 증명, 장시간 장애와 웹훅 재전달은 미검증입니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "4826d63718c20766849de153642e036e8511eed85e3a2e5516f83f7325c35fdc",
-      "contentHash": "64db41dfbab5ca6bfb8dc679972ce638256fb3959e354fba37009d00bda52166"
+      "sourceHash": "8f9aaa4f52862ff4432c9fd977477113bb350d1cfa7165863a54719b58b2118f",
+      "contentHash": "7f835266cf9b0d1583f8342571bd2ab54b1a8e998e4bb128ca53dbe22d53e471"
     },
     {
       "schemaVersion": "1.0",
@@ -1138,7 +1138,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:020057d4a76f",
+      "sourceRevision": "sha256:0c8b6016797a",
       "documentId": "knowledge_17222797e3a3b015f5de0356",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1146,13 +1146,13 @@
       "documentType": "problem_solution",
       "title": "예약 부분취소 시 환불액 및 잔여석 반영과 빈자리 알림",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 만석 회차의 취소로 자리가 생겨도 고객이 알기 어렵고, 여러 명 예약의 일부만 취소할 때 환불액과 정원을 함께 맞춰야 했습니다.\n\n해결 방법: 빈자리가 실제로 생긴 순간 대기 신청을 종료하고 알림 작업을 함께 저장했습니다. 다인 예약은 남은 인원 비율로 예약금과 잔금을 다시 계산하고 줄인 인원만큼 정원을 반환합니다.\n\n확인: 전체취소, 부분취소와 예약 변경의 빈자리 전환 및 최소 1명을 남기는 부분취소 흐름을 통합 테스트 코드와 PRD에서 확인했습니다.\n\n제약과 남은 작업: 빈자리 알림은 좌석을 선점하지 않습니다. 실제 NHN 발송과 Toss 부분환불 자격 증명 연동은 미검증입니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 만석 회차의 취소로 자리가 생겨도 고객이 알기 어렵고, 여러 명 예약의 일부만 취소할 때 취소 인원에 맞춰 환불액과 잔여석을 계산해야 했습니다.\n\n해결 방법: 빈자리가 실제로 생긴 순간 대기 신청을 종료하고 알림 작업을 함께 저장했습니다. 다인 예약은 남은 인원 비율로 예약금과 잔금을 다시 계산하고 취소한 인원만큼 잔여석을 늘립니다.\n\n확인: 전체취소, 부분취소와 예약 변경의 빈자리 전환 및 최소 1명을 남기는 부분취소 흐름을 통합 테스트 코드와 PRD에서 확인했습니다.\n\n제약과 남은 작업: 빈자리 알림은 좌석을 선점하지 않습니다. 실제 NHN 발송과 Toss 부분환불 자격 증명 연동은 미검증입니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "020057d4a76f42d69a49dc2afcb717324b132bd3d58062014922d403f300e6a0",
-      "contentHash": "11bad4adbfe5a2129c01964ec0dce379f0fd41cabec3e95b8de0d3d2c7837c05"
+      "sourceHash": "0c8b6016797acbcf59d9bfb29a78feda1860966b380fb3bce9684bfa04d408af",
+      "contentHash": "a585cc3635245e166ae7e5306ca01086cd999be7027df0528375e2ab14c077d7"
     },
     {
       "schemaVersion": "1.0",
@@ -1498,7 +1498,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c7a5d62fe981",
+      "sourceRevision": "sha256:c8dfa421759d",
       "documentId": "knowledge_fd9930085b2ae766b2b1253e",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1506,13 +1506,13 @@
       "documentType": "project_overview",
       "title": "청년정책메이트 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색 및 일정 관리 웹앱\n\n서울 청년이 정책 자격 근거와 신청 일정을 확인하는 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.\n\n기간: 2026.08.30 — 진행 중\n\n구분: 개인 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인되지 않은 조건과 마감일을 확정하지 않고, 정책 개정과 늦은 AI 결과를 현재 상태에 덮어쓰지 않는 웹앱을 개발합니다.\n\n현재 상태: 공개 main 7311d9e에 조건 입력 화면, 개발 전용 자격 및 마감 화면, 서버 판정과 AI 비용 복구 모델 및 CI를 반영했습니다. 온통청년 인증키는 승인 대기 중이며 실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring Data JPA, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
+      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색 및 일정 관리 웹앱\n\n서울 청년이 정책 자격 근거와 신청 일정을 확인하는 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.\n\n기간: 2026.08.30 — 진행 중\n\n구분: 개인 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.\n\n현재 상태: 공개 main 7311d9e에 조건 입력 화면, 개발 전용 자격 및 마감 화면, 서버 판정과 AI 비용 복구 모델 및 CI를 반영했습니다. 온통청년 인증키는 승인 대기 중이며 실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring Data JPA, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-overview",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "c7a5d62fe981e568b8ff361428f968a30714875ac6bfb50503d4c127aedfb8cb",
-      "contentHash": "400e96725597d0dfc1feb92283a9200e2c2b2f9ba836d477c599223a895d669d"
+      "sourceHash": "c8dfa421759d840587c63821d86150607a38663a3f70d4568109fadacdb1964b",
+      "contentHash": "8ff4dac5978d15c43427809e19f4a56b422672de51184f5237804fd4446e2db2"
     },
     {
       "schemaVersion": "1.0",
@@ -1534,7 +1534,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:cacc4eaa68df",
+      "sourceRevision": "sha256:8de272d67fb6",
       "documentId": "knowledge_a085f3ede1c6039ab238a505",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1542,13 +1542,13 @@
       "documentType": "problem_solution",
       "title": "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 청년정책메이트\n\n문제: 정책 조건을 해석하지 못했거나 사용자 정보가 없을 때 단순 참과 거짓으로 처리하면 신청 가능 여부를 잘못 안내할 수 있습니다.\n\n해결 방법: 연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계했습니다. 판정에는 정책 개정, 조건 정의와 기준일을 함께 남깁니다.\n\n확인: 조건 충족 및 불충족, 정책 미해석, 예외, 사용자 정보 누락과 소득 구간 일부 중첩을 서버 단위 테스트로 확인했습니다.\n\n제약과 남은 작업: 현재는 고정 테스트 규칙과 답변만 사용합니다. 온통청년 원천 매핑과 실제 정책 추천은 아직 연결하지 않았습니다.",
+      "content": "프로젝트: 청년정책메이트\n\n문제: 정책 조건을 해석하지 못했거나 사용자 정보가 없을 때 단순 참과 거짓으로 처리하면 신청 가능 여부를 잘못 안내할 수 있습니다.\n\n해결 방법: 연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계했습니다. 판정에는 정책 개정, 조건 정의와 기준일을 함께 남깁니다.\n\n확인: 조건 충족 및 불충족, 정책 미해석, 예외, 사용자 정보 누락과 소득 구간 일부 중첩을 서버 단위 테스트로 확인했습니다.\n\n제약과 남은 작업: 현재는 고정 테스트 규칙과 답변만 사용합니다. 온통청년 데이터의 내부 형식 변환과 실제 정책 추천은 아직 연결하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-problems",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "cacc4eaa68df8dc651e604fa611439a9beeade7109871f54489d11530ef0dfbf",
-      "contentHash": "f4cb21fa3ab7d5378bf088b9ee69e2bcaafd7e5a585a4c61f432c03fd0db3c21"
+      "sourceHash": "8de272d67fb648fa37b002e82e31a018ca8748349e63fd17adb63b51dc289ad1",
+      "contentHash": "50f50bb43df4902c0ef8ee28782f106b8d967c96d3d5de3c72105ae0ad8b05c9"
     },
     {
       "schemaVersion": "1.0",
@@ -1840,7 +1840,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:8c6de5b0ae45",
+      "sourceRevision": "sha256:a0ffeaae3361",
       "documentId": "knowledge_f1ee8d964fd1ffe20cafb7fb",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1848,13 +1848,13 @@
       "documentType": "architecture_decision",
       "title": "지정한 커밋의 diff만 리뷰합니다.",
       "heading": "구현 방법과 선택 이유",
-      "content": "프로젝트: Hope Commit\n\n구현 방법: 검토 범위\n\n지정한 커밋의 diff만 리뷰합니다.\n\n일반 커밋은 첫 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 확정합니다. 작업 파일이 바뀌어도 입력한 커밋과 비교 기준에 저장된 코드만 사용합니다.\n\n적용 범위와 제약: 결과는 재현할 수 있지만 대상 커밋이 로컬에 있어야 합니다. CI, 이슈와 토론은 자동으로 가져오지 않습니다.",
+      "content": "프로젝트: Hope Commit\n\n구현 방법: 검토 범위\n\n지정한 커밋의 diff만 리뷰합니다.\n\n일반 커밋은 첫 부모, 최초 커밋은 빈 상태, 병합 커밋은 사용자가 고른 부모를 비교 기준으로 확정합니다. 작업 파일이 바뀌어도 입력한 커밋과 비교 기준에 저장된 코드만 사용합니다.\n\n적용 범위와 제약: 같은 커밋의 변경 내용을 다시 수집하려면 해당 커밋이 로컬에 있어야 합니다. CI, 이슈와 토론은 자동으로 가져오지 않습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-architecture",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "8c6de5b0ae459ae1b1e8c87ff540cf61358424af998668ed00458bf8227bc5a7",
-      "contentHash": "436f2e02179d9b7e3375506d9d55d8a6e6c6f057e40a872c23c3eabdc3fc6afb"
+      "sourceHash": "a0ffeaae3361dde5425acefd6a7386c488487367749e3c8557438744e0d41fd8",
+      "contentHash": "9a6dae853ecc5a16b8d26ea0e72ab59754c6e0cdf64ca11f72db1ed214b32f43"
     },
     {
       "schemaVersion": "1.0",
@@ -2524,7 +2524,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:b2fac5967929",
+      "sourceRevision": "sha256:a03fd4463fb4",
       "documentId": "knowledge_f1bd460fbda175cdb22b5845",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -2532,13 +2532,13 @@
       "documentType": "problem_solution",
       "title": "WebSquare 상태 변경 요청에 CSRF 토큰 적용",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 사용자가 열어 둔 WebSquare 업무 화면을 악용한 위조 요청이 저장 및 변경 기능을 실행하지 못하도록 Spring Security의 위조 방지 토큰(CSRF)을 모든 상태 변경 요청에 포함해야 했습니다.\n\n해결 방법: CSRF 토큰을 WebSquare 공통 요청에 포함하고 누락되거나 일치하지 않는 요청은 필터에서 차단했습니다.\n\n확인: 정상 토큰, 토큰 누락과 불일치 요청을 각각 실행해 정상 요청만 처리되고 나머지는 필터에서 차단되는 것을 확인했습니다.\n\n제약과 남은 작업: WebSquare의 모든 공통 요청 경로에서 토큰 이름과 값을 같은 방식으로 전달해야 하므로, 새 상태 변경 요청을 추가할 때 공통 로직 적용 여부를 확인해야 합니다.",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 위조 요청으로 WebSquare의 저장 및 변경 기능이 실행되는 것을 막아야 했습니다. 모든 상태 변경 요청에 CSRF 토큰이 필요했습니다.\n\n해결 방법: CSRF 토큰을 WebSquare 공통 요청에 포함하고 누락되거나 일치하지 않는 요청은 필터에서 차단했습니다.\n\n확인: 정상 토큰, 토큰 누락과 불일치 요청을 각각 실행해 정상 요청만 처리되고 나머지는 필터에서 차단되는 것을 확인했습니다.\n\n제약과 남은 작업: WebSquare의 모든 공통 요청 경로에서 토큰 이름과 값을 같은 방식으로 전달해야 하므로, 새 상태 변경 요청을 추가할 때 공통 로직 적용 여부를 확인해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-problems",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "b2fac5967929ae6a6a0bd4ecbac9313fba6aebb460104057b43caf2f81748401",
-      "contentHash": "20c886cfdd8c37b6fd4cebc825e157077550af8123246f4b4294807034408dd1"
+      "sourceHash": "a03fd4463fb46c1ca0fce46ea3f3d99bc6ba6317af310becc531dfd120b41741",
+      "contentHash": "8212392b619d2dd15c5deb6f183f973c651a2de04cfc1019695eea2a7b6bee02"
     },
     {
       "schemaVersion": "1.0",

@@ -30,7 +30,7 @@ const PROJECT_VISUALS = {
     },
     gallery: {
         src: "happygallery-product-options.webp",
-        alt: "happyGallery 상품 상세에서 색상과 각인 옵션 및 조합별 가격과 재고를 선택하는 모습",
+        alt: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
         width: 1440,
         height: 960,
         caption: "상품 옵션, 조합별 가격과 재고 확인",

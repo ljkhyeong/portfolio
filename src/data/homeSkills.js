@@ -52,7 +52,7 @@ export const homeSkillGroups = [
                 ],
             },
             {
-                name: "미확인 조건과 늦은 결과 차단",
+                name: "조건 미확인 안내와 이전 AI 결과 차단",
                 detail: "정책 조건을 확인할 수 없으면 추가 확인 필요로 남깁니다. 정책 개정과 요청 순번이 맞지 않는 AI 결과는 현재 후보에 반영하지 않습니다.",
                 examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
             },

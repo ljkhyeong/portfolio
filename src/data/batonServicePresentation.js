@@ -148,12 +148,17 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "공개 main에서 Core 일정 JSON 호환성, 입력 제한, HTTP 캐시, 동시 요청, OCI 백업 및 복구와 이전 복구 작업의 늦은 결과 차단을 확인했습니다.",
+                text: "Core 요청 형식 고정과 CAL 컨테이너 연동, 입력 제한, HTTP 캐시, 동시 요청, OCI 백업 및 복구와 이전 복구 작업의 늦은 결과 차단을 확인했습니다.",
+            },
+            {
+                kind: "limited",
+                label: "공개 상태",
+                text: "정식 JSON 규격은 1.0.0입니다. 1.1.0-rc.1은 2026년 9월 2일 사전 릴리스로 게시했으며 정식 버전 전환 전입니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "공개 구독과 전체 시즌 재동기화는 미검증입니다.",
+                text: "운영 활성화와 공개 배포는 아직 완료하지 않았습니다. 실제 캘린더 앱과 운영 환경의 구독 및 전체 일정 재전송은 미검증입니다.",
             },
         ],
         flow: {
