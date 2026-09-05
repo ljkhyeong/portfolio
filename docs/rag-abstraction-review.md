@@ -1,6 +1,6 @@
 # RAG API와 검증 로직 정리
 
-검토 및 반영일: 2026-09-05. 최초 검토 기준: `890dcc9`, 검토 문서 커밋: `0604196`.
+검토 및 반영일: 2026-09-05~06. 최초 검토 기준: `890dcc9`, 검토 문서 커밋: `0604196`.
 범위: `knowledge-api`의 검색, 답변 생성, 동기화, 요청 검증과 설정.
 Java 21, Spring Boot 4.1.0, Spring AI 2.0.0, Elasticsearch Java Client 8.19.19를 유지했다.
 
@@ -70,16 +70,17 @@ Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스�
 관련 테스트 39개와 `bootJar`를 통과했다. HTTP 계약, AI 설정 및 답변 어댑터, 검색·답변 서비스와 기본 프로필의 readiness 테스트를 선택 실행했다.
 이번에 변경하지 않은 Elasticsearch 색인 통합 테스트, 웹 빌드와 PDF·OG 생성은 반복하지 않았다. 실제 OpenAI·Ollama 호출도 실행하지 않았다.
 
-## 후속 검토 — `982484a` 기준
+## HTTP 오류 처리 반영 — `65d47d1` 검토 후
 
-추가로 수정할 항목 한 개를 확인했다. 앱 코드는 아직 변경하지 않았다.
+없는 API 주소가 `404` 대신 `500 INTERNAL_ERROR`를 반환하던 문제를 수정했다.
+[GlobalExceptionHandler.handleUnexpected()](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/GlobalExceptionHandler.java)에서 일반 서버 오류로 처리하기 전에 [Spring ErrorResponse](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/ErrorResponse.html)의 상태와 헤더를 사용한다.
+`NoHandlerFoundException`과 `NoResourceFoundException`을 개별 등록하지 않고 공통 인터페이스로 처리한다.
 
-- 위치: [GlobalExceptionHandler.handleUnexpected()](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/GlobalExceptionHandler.java).
-- 재현: 기존 컴파일 결과로 구성한 MockMvc에서 `GET /api/v1/knowledge/not-found`, `Accept: application/json`을 요청하면 `404` 대신 `500`과 `INTERNAL_ERROR` 본문을 반환했다.
-- 원인: `@ExceptionHandler(Exception.class)`가 Spring의 `NoHandlerFoundException`까지 잡아 일반 서버 오류로 바꾼다. 기본 리소스 처리에서 사용하는 `NoResourceFoundException`도 동일하게 `ErrorResponse`를 구현한다.
-- 개선: 공통 500 처리 전에 `ErrorResponse`의 상태와 헤더를 보존하고, 한글 오류 본문은 현재 DTO 형식을 유지한다. 개별 Spring 예외를 추가로 나열할 필요는 없다. [Spring ErrorResponse](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/ErrorResponse.html).
-- 확인할 동작: 없는 API·리소스는 404, 예상하지 못한 코드 오류는 500, 기존 400·405·415 응답은 유지.
+- 404는 `NOT_FOUND`와 “요청한 주소를 찾을 수 없습니다.”를 반환한다.
+- 기존 전용 처리기가 없는 나머지 Spring HTTP 예외는 해당 상태·헤더와 `HTTP_ERROR`를 반환한다.
+- 예상하지 못한 코드 오류는 기존처럼 로그를 남기고 `500 INTERNAL_ERROR`를 반환한다. 응답 DTO와 일반 오류 안내는 유지하며 내부 예외 메시지를 노출하지 않는다.
 
-지원하지 않는 `Accept: application/xml` 요청은 같은 MockMvc에서 406과 빈 본문을 반환했다. 이 상태 코드는 이미 올바르므로 수정 대상으로 분류하지 않았다.
-데이터 변환, 임베딩 배열 변환, 짧은 응답 생성 코드에서는 추가 추상화로 얻을 실익이 큰 항목을 찾지 못했다. 유지하기로 한 근거·임베딩·색인 검증도 삭제하지 않는 것이 적절하다.
-검토에는 기존 앱 클래스와 동일 버전 Spring Test를 사용했으며, 임시 Java 소스는 실행 후 제거했다. 빌드·전체 테스트·AI 및 Elasticsearch 호출은 반복하지 않았다.
+관련 테스트 12개와 `bootJar`를 통과했다. MockMvc로 없는 API의 404, 429와 `Retry-After` 헤더, 코드 오류의 500, 기존 400·403·405·406·415 응답을 확인했다.
+별도의 로컬 HTTP 서버 테스트로 없는 정적 리소스의 404와 한글 본문을 확인했다. 실제 AI·Elasticsearch 호출과 웹 빌드는 실행하지 않았다.
+
+후속 검토에서 데이터 변환, 임베딩 배열 변환과 짧은 응답 생성 코드는 추가 추상화의 실익이 크지 않았다. 근거·임베딩·색인 검증도 유지한다.
