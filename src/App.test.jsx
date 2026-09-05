@@ -16,7 +16,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(heroHeading).toHaveTextContent(
         "중복 실행을 막고 중단된 작업을 재처리하는 백엔드 개발자입니다.",
     )
-    expect(screen.getByText("BEINTECH · 2024.06 — 현재")).toBeInTheDocument()
+    expect(screen.getByRole("region", { name: "현재 경력 요약" })).toHaveTextContent(
+        "백엔드 개발자 / 2024.06 — 현재",
+    )
     expect(
         screen.getByText(
             "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.",
@@ -65,7 +67,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         }),
     ).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(
-        within(supportingProjects).getByText("BEINTECH / 국방부 SI / 백엔드 개발 및 운영"),
+        within(supportingProjects).getByText(
+            "군교정 업무와 군사법원, 군검찰 및 군사경찰의 수용자 정보 연계를 담당했습니다.",
+        ),
     ).toBeInTheDocument()
     expect(
         within(supportingProjects).getByRole("link", {
@@ -133,16 +137,16 @@ test("상세에서 프로젝트 목록으로 돌아가면 해당 섹션으로 �
     }
 })
 
-test("GitHub 프로필 이미지와 아이디를 포트폴리오 식별 정보로 사용한다", () => {
+test("픽셀 아바타와 실명을 포트폴리오 식별 정보로 사용한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    const brand = screen.getByRole("link", { name: "ljkhyeong 포트폴리오 홈" })
+    const brand = screen.getByRole("link", { name: "임정규 포트폴리오 홈" })
     const avatar = brand.querySelector("img")
     const pdfDownload = screen.getByRole("link", { name: "PDF 내려받기" })
 
-    expect(brand).toHaveTextContent("ljkhyeong")
+    expect(brand).toHaveTextContent("임정규")
     expect(avatar).toHaveAttribute("src", expect.stringContaining("ljkhyeong-avatar.png"))
     expect(avatar).toHaveAttribute("alt", "")
     expect(decodeURI(pdfDownload.getAttribute("href"))).toBe("/임정규_포트폴리오.pdf")
@@ -247,7 +251,7 @@ test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, 
     )
 })
 
-test("홈은 상세 문서 대신 대표 시각 자료와 프로젝트 선택에 집중한다", () => {
+test("홈은 프로젝트 요약과 미리보기에서 상세로 연결한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
@@ -255,11 +259,9 @@ test("홈은 상세 문서 대신 대표 시각 자료와 프로젝트 선택에
     expect(screen.queryByRole("heading", { name: "문제와 해결 방법" })).not.toBeInTheDocument()
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
     expect(screen.queryByText("API Contract")).not.toBeInTheDocument()
-    expect(
-        screen.getByRole("img", {
-            name: "KICS 요청을 연계 서버가 기관 규격으로 변환해 통신사와 전자영장 포털에 전달하는 흐름",
-        }),
-    ).toBeInTheDocument()
+    expect(screen.getByLabelText("전송형 전자영장 시스템 문제, 구현과 검증")).toHaveTextContent(
+        "기관별 변환 코드를 분리",
+    )
     expect(
         screen.getByRole("img", {
             name: "BATON 오늘 화면에서 업무 회차와 미완료 업무 및 수락 대기 인수인계를 확인하는 모습",
@@ -355,43 +357,22 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     )
 })
 
-test("대표 프로젝트는 핵심 구현을 보여주고 추가 프로젝트는 구현과 근거를 요약한다", () => {
+test("경력 요약을 대표 프로젝트 앞에 두고 경력 상세로 연결한다", () => {
     window.history.pushState({}, "", "/")
-
     render(<App />)
 
-    const warrantFacts = screen.getByRole("list", { name: "전송형 전자영장 시스템 핵심 구현" })
-    const galleryFacts = screen.getByRole("list", { name: "happyGallery 핵심 구현" })
-    const defenseProject = screen
-        .getByRole("link", {
-            name: "차세대 군사법 정보 시스템 프로젝트 상세 보기",
-        })
-        .closest("article")
-    const youthPolicyProject = screen
-        .getByRole("link", {
-            name: "청년정책메이트 프로젝트 상세 보기",
-        })
-        .closest("article")
-
-    expect(within(warrantFacts).getAllByRole("listitem")).toHaveLength(2)
-    expect(warrantFacts).toHaveTextContent("기관별 요청 규격 변환 및 전송 서버 개발")
-    expect(warrantFacts).toHaveTextContent("제출 자료의 KICS 반영 서버와 Spring Batch 개발")
-
-    expect(galleryFacts).toHaveTextContent("카드와 네이버페이 및 카카오페이 결제 흐름")
-    expect(galleryFacts).toHaveTextContent("스마트스토어 상품, 재고, 주문, 문의 및 정산 운영")
-    expect(youthPolicyProject).toHaveTextContent("웹앱")
-    expect(youthPolicyProject).toHaveTextContent(
-        "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버",
+    const summary = screen.getByRole("region", { name: "현재 경력 요약" })
+    const projects = screen.getByRole("region", { name: "대표 프로젝트" })
+    expect(summary.compareDocumentPosition(projects)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
+    expect(summary).toHaveTextContent("BEINTECH")
+    expect(summary).toHaveTextContent("현재 업무")
+    expect(summary).toHaveTextContent("전송형 전자영장 시스템")
+    expect(summary).toHaveTextContent("이전 업무")
+    expect(summary).toHaveTextContent("차세대 군사법 정보 시스템")
+    expect(within(summary).getByRole("link", { name: "경력 상세 보기" })).toHaveAttribute(
+        "href",
+        "#experience",
     )
-    expect(youthPolicyProject).toHaveTextContent(
-        "공개 main CI 통과 및 서버 자동화 테스트 341개 통과",
-    )
-    expect(defenseProject).toHaveTextContent(
-        "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치, CSRF 차단과 대용량 파일 직접 업로드 개발",
-    )
-    expect(defenseProject).toHaveTextContent("기관별 배치 결과, JEUS 로그 및 Tibero 상태 확인")
-    expect(defenseProject).not.toHaveTextContent("문제")
-    expect(defenseProject).not.toHaveTextContent("해결")
 })
 
 test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록을 연결한다", () => {

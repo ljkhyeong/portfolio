@@ -31,7 +31,7 @@ test.each([
     expect(screen.getByRole("main")).toHaveClass("case-showcase")
     const navigation = screen.getByRole("navigation", { name: "프로젝트 상세 탐색" })
     const brand = within(navigation).getByRole("link", {
-        name: "ljkhyeong 포트폴리오 홈",
+        name: "임정규 포트폴리오 홈",
     })
 
     expect(brand).toHaveAttribute("href", "/")
@@ -558,7 +558,7 @@ test.each([
     renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
 
     const navigation = screen.getByRole("navigation", { name: "BATON 서비스 상세 탐색" })
-    const brand = within(navigation).getByRole("link", { name: "ljkhyeong 포트폴리오 홈" })
+    const brand = within(navigation).getByRole("link", { name: "임정규 포트폴리오 홈" })
 
     expect(brand).toHaveAttribute("href", "/")
     expect(brand.querySelector("img")).toHaveAttribute(

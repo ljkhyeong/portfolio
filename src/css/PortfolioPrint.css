@@ -191,8 +191,7 @@ body.portfolio-print-mode {
 
     .portfolio-web-print .site-nav__links,
     .portfolio-web-print .site-nav__actions,
-    .portfolio-web-print .home-hero__button--secondary,
-    .portfolio-web-print .home-flow__packet {
+    .portfolio-web-print .home-hero__button--secondary {
         display: none !important;
     }
 
@@ -208,20 +207,7 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .home-hero h1 {
-        font-size: 38px;
-    }
-
-    .portfolio-web-print .home-hero__example {
-        margin-bottom: 12px;
-        font-size: 18px;
-    }
-
-    .portfolio-web-print .home-hero__statement {
-        max-width: none;
-    }
-
-    .portfolio-web-print .home-hero__career {
-        margin-bottom: 20px;
+        font-size: 30px;
     }
 
     .portfolio-web-print .home-hero__summary,
@@ -230,8 +216,19 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .home-flow {
+        padding-top: 0;
         padding-left: 20px;
+        border-top: 0;
+        border-left: 1px solid var(--line);
         box-shadow: none;
+    }
+
+    .portfolio-web-print .home-flow__map ol {
+        display: block;
+    }
+
+    .portfolio-web-print .home-flow__map li p {
+        display: block;
     }
 
     .portfolio-web-print .home-flow__map li {

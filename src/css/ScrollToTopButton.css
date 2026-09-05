@@ -38,14 +38,16 @@
     outline-offset: 3px;
 }
 
-body:has(.portfolio-page, main.case-showcase) .scroll-to-top {
+body:has(.portfolio-page, main.case-showcase, .knowledge-page) .scroll-to-top {
+    --accent: var(--portfolio-accent);
+    --paper-raised: var(--portfolio-surface);
     border-color: var(--portfolio-line);
     background: var(--portfolio-surface);
     color: var(--portfolio-text);
     box-shadow: none;
 }
 
-body:has(.portfolio-page, main.case-showcase) .scroll-to-top:hover {
+body:has(.portfolio-page, main.case-showcase, .knowledge-page) .scroll-to-top:hover {
     border-color: var(--portfolio-accent);
     color: var(--portfolio-accent);
 }

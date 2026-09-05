@@ -12,6 +12,68 @@
     color: var(--ink);
 }
 
+.home-career {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr 1.2fr;
+    gap: 36px;
+    width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
+    margin: 0 auto;
+    padding: 26px 30px;
+    border-left: 3px solid var(--portfolio-signature);
+    background: var(--paper-raised);
+}
+
+.home-career h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.home-career h3 {
+    margin: 6px 0;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+    word-break: keep-all;
+}
+
+.home-career p,
+.home-career > div > span {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+    word-break: keep-all;
+}
+
+.home-career a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    color: var(--accent);
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+@media (max-width: 800px) {
+    .home-career {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 22px;
+    }
+
+    .home-career__company {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 560px) {
+    .home-career {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
 .portfolio-page a:focus-visible,
 .capability-mobile summary:focus-visible {
     outline: 2px solid var(--accent);

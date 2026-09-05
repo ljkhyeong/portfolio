@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { projectSummaries } from "../data/projectSummaries"
+import { caseHighlights, caseIntroductions } from "../data/caseHighlights"
 import { assetPath } from "../utils/assetPath"
 import "../css/Projects.css"
 
@@ -40,12 +41,22 @@ const PROJECT_VISUALS = {
 const getProjectsInOrder = (ids) =>
     ids.map((id) => projectSummaries.find((project) => project.id === id)).filter(Boolean)
 
-const ProjectHighlights = ({ project }) => (
-    <ul className="project-card__highlights" aria-label={`${project.title} 핵심 구현`}>
-        {project.homeHighlights.map((highlight) => (
-            <li key={highlight}>{highlight}</li>
+const ProjectFacts = ({ project }) => (
+    <dl className="project-card__facts" aria-label={`${project.title} 문제, 구현과 검증`}>
+        {[
+            ["문제", "문제"],
+            ["구현", "해결"],
+        ].map(([label, source]) => (
+            <div key={label}>
+                <dt>{label}</dt>
+                <dd>{project.homeFacts.find((fact) => fact.label === source)?.value}</dd>
+            </div>
         ))}
-    </ul>
+        <div>
+            <dt>검증</dt>
+            <dd>{caseHighlights[project.id].find((item) => item.label === "확인 결과").text}</dd>
+        </div>
+    </dl>
 )
 
 const ProjectMeta = ({ project }) => (
@@ -93,7 +104,6 @@ const ProjectServices = ({ project }) => {
 
     return (
         <nav className="project-card__services" aria-label="BATON 마이크로서비스 상세">
-            <span>서비스 맵</span>
             <div className="project-card__service-map">
                 <strong>CORE</strong>
                 <span aria-hidden="true">→</span>
@@ -113,40 +123,6 @@ const ProjectServices = ({ project }) => {
         </nav>
     )
 }
-
-const WarrantVisual = () => (
-    <div
-        className="project-card__visual project-card__visual--warrant"
-        role="img"
-        aria-label="KICS 요청을 연계 서버가 기관 규격으로 변환해 통신사와 전자영장 포털에 전달하는 흐름"
-    >
-        <span className="project-card__visual-kicker">PUBLIC SYSTEM INTEGRATION</span>
-        <div className="warrant-flow">
-            <div className="warrant-flow__node warrant-flow__node--source">
-                <span>01</span>
-                <strong>KICS</strong>
-                <small>요청 및 결과</small>
-            </div>
-            <span className="warrant-flow__connector" aria-hidden="true">
-                <i />
-            </span>
-            <div className="warrant-flow__node warrant-flow__node--server">
-                <span>02</span>
-                <strong>연계 서버</strong>
-                <small>기관별 변환</small>
-            </div>
-            <span className="warrant-flow__connector" aria-hidden="true">
-                <i />
-            </span>
-            <div className="warrant-flow__node warrant-flow__node--target">
-                <span>03</span>
-                <strong>통신사 및 포털</strong>
-                <small>전송 및 제출</small>
-            </div>
-        </div>
-        <p>기관별 요청 변환과 제출 자료 반영을 구현했습니다.</p>
-    </div>
-)
 
 const ScreenshotVisual = ({ project }) => {
     const visual = PROJECT_VISUALS[project.visual]
@@ -174,39 +150,29 @@ const ScreenshotVisual = ({ project }) => {
     )
 }
 
-const FeaturedProjectCard = ({ project, position }) => (
-    <li
-        className={`project-showcase__item project-showcase__item--${project.visual} project-showcase__item--${project.presentation}`}
-    >
+const FeaturedProjectCard = ({ project }) => (
+    <li className="project-showcase__item">
         <article>
-            <Link
-                className="project-card__visual-link"
-                to={project.route}
-                aria-label={`${project.title} 미리보기에서 상세 보기`}
-            >
-                {project.visual === "warrant" ? (
-                    <WarrantVisual />
-                ) : (
-                    <ScreenshotVisual project={project} />
+            <header className="project-card__header">
+                <span className="project-card__eyebrow">
+                    {PROJECT_TYPE_LABELS[project.projectType]}
+                </span>
+                <h3>
+                    <Link to={project.route}>{project.title}</Link>
+                </h3>
+                <p className="project-card__summary">{project.homeSummary}</p>
+                {PROJECT_VISUALS[project.visual] && (
+                    <Link
+                        className="project-card__visual-link"
+                        to={project.route}
+                        aria-label={`${project.title} 미리보기에서 상세 보기`}
+                    >
+                        <ScreenshotVisual project={project} />
+                    </Link>
                 )}
-            </Link>
-
+            </header>
             <div className="project-card__content">
-                <header className="project-card__header">
-                    <div className="project-card__eyebrow">
-                        <span>{String(position + 1).padStart(2, "0")}</span>
-                        <span>{PROJECT_TYPE_LABELS[project.projectType]}</span>
-                    </div>
-                    <h3>
-                        <Link to={project.route}>{project.title}</Link>
-                    </h3>
-                    {project.projectType === "career" && (
-                        <p className="project-card__eyebrow-copy">BEINTECH / LG CNS 컨소시엄</p>
-                    )}
-                    <p className="project-card__summary">{project.homeSummary}</p>
-                </header>
-
-                <ProjectHighlights project={project} />
+                <ProjectFacts project={project} />
                 <ProjectMeta project={project} />
                 <ProjectLinks project={project} />
                 <ProjectServices project={project} />
@@ -215,45 +181,24 @@ const FeaturedProjectCard = ({ project, position }) => (
     </li>
 )
 
-const SupportingProjectCard = ({ project, position }) => {
-    const implementation = project.homeFacts.find((fact) => fact.label === "담당")?.value
-
-    return (
-        <li
-            className={`project-support__item project-support__item--${project.visual} project-support__item--${project.presentation}`}
-        >
-            <article>
-                <span className="project-support__index" aria-hidden="true">
-                    {String(position + 4).padStart(2, "0")}
+const SupportingProjectCard = ({ project }) => (
+    <li className="project-support__item">
+        <article>
+            <header className="project-support__identity">
+                <span>
+                    {PROJECT_TYPE_LABELS[project.projectType]} / {project.stage}
                 </span>
-
-                <header className="project-support__identity">
-                    <span>{PROJECT_TYPE_LABELS[project.projectType]}</span>
-                    <h4>
-                        <Link to={project.route}>{project.title}</Link>
-                    </h4>
-                    <p>{project.eyebrow}</p>
-                    <time>{project.period}</time>
-                </header>
-
-                <div className="project-support__summary">
-                    <dl className="project-support__details">
-                        <div>
-                            <dt>구현</dt>
-                            <dd>{implementation}</dd>
-                        </div>
-                        <div>
-                            <dt>확인</dt>
-                            <dd>{project.homeProof}</dd>
-                        </div>
-                    </dl>
-                </div>
-
-                <ProjectLinks project={project} supporting />
-            </article>
-        </li>
-    )
-}
+                <h4>
+                    <Link to={project.route}>{project.title}</Link>
+                </h4>
+            </header>
+            <p className="project-support__summary">
+                {caseIntroductions[project.id] || project.summary}
+            </p>
+            <ProjectLinks project={project} supporting />
+        </article>
+    </li>
+)
 
 const Projects = () => {
     const featuredProjects = getProjectsInOrder(FEATURED_PROJECT_IDS)
@@ -271,12 +216,8 @@ const Projects = () => {
 
             <div className="project-showcase">
                 <ol className="project-showcase__grid" aria-label="대표 프로젝트">
-                    {featuredProjects.map((project, position) => (
-                        <FeaturedProjectCard
-                            key={project.id}
-                            project={project}
-                            position={position}
-                        />
+                    {featuredProjects.map((project) => (
+                        <FeaturedProjectCard key={project.id} project={project} />
                     ))}
                 </ol>
             </div>
@@ -284,18 +225,12 @@ const Projects = () => {
             <section className="project-support" aria-labelledby="supporting-projects-title">
                 <div className="project-section-heading project-section-heading--compact">
                     <div>
-                        <span>MORE WORK</span>
                         <h3 id="supporting-projects-title">추가 프로젝트</h3>
                     </div>
-                    <p>웹앱, 운영 경험, 개발 도구와 실시간 미디어 구현 사례입니다.</p>
                 </div>
                 <ol className="project-support__grid" aria-label="추가 프로젝트">
-                    {supportingProjects.map((project, position) => (
-                        <SupportingProjectCard
-                            key={project.id}
-                            project={project}
-                            position={position}
-                        />
+                    {supportingProjects.map((project) => (
+                        <SupportingProjectCard key={project.id} project={project} />
                     ))}
                 </ol>
             </section>

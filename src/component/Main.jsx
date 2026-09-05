@@ -1,6 +1,7 @@
 import Header from "./Header"
 import Projects from "./Projects"
 import About from "./About"
+import CareerSummary from "./CareerSummary"
 import { portfolioProfile } from "../data/profile"
 import "../css/Main.css"
 
@@ -12,6 +13,7 @@ const Main = () => {
             </a>
             <Header />
             <main id="main-content" tabIndex="-1">
+                <CareerSummary />
                 <Projects />
                 <About />
             </main>

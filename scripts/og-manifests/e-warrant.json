@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/e-warrant.png",
-    "sourceSha256": "da79f07b57e65b10726f7cb5c9e0a3079bc5672fe52dd4e87fef80aab669c711",
+    "sourceSha256": "fc2bed0c048e275b15e79bf36fe4392ee33a64a0227c2f250aed6d6b5b766f80",
     "artifactSha256": "a4bd570f1cf004652b6f85c4071b5a3b269d53977c029c8cadb3ea45bc86f32f",
     "renderer": {
         "id": "chrome",

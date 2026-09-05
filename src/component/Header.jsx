@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
-import { careers } from "../data/profile"
 import { homeHeroContent } from "../data/homeHero"
 import PortfolioNavigation from "./PortfolioNavigation"
 import "../css/HomeHero.css"
@@ -13,10 +12,7 @@ const HOME_SECTIONS = [
 ]
 
 const Header = () => {
-    const currentCareer = careers[0]
     const [activeSection, setActiveSection] = useState("")
-    const headlineExample = `${homeHeroContent.headlineHighlight} `
-    const headlineRemainder = homeHeroContent.headline.slice(headlineExample.length)
 
     useEffect(() => {
         const sections = HOME_SECTIONS.map(({ id }) => document.getElementById(id)).filter(Boolean)
@@ -94,13 +90,13 @@ const Header = () => {
 
             <section className="home-hero" id="top" aria-labelledby="home-hero-title">
                 <div className="home-hero__copy">
-                    <p className="home-hero__career">
-                        <span aria-hidden="true" />
-                        {currentCareer.organization} · {currentCareer.period}
-                    </p>
                     <h1 id="home-hero-title" data-route-heading="/">
-                        <span className="home-hero__example">{headlineExample}</span>
-                        <span className="home-hero__statement">{headlineRemainder}</span>
+                        {homeHeroContent.headlineLines.map((line, index) => (
+                            <span className="home-hero__line" key={line}>
+                                {index > 0 && " "}
+                                {line}
+                            </span>
+                        ))}
                     </h1>
                     <p className="home-hero__summary">{homeHeroContent.summary}</p>
                     <div className="home-hero__actions">
@@ -141,9 +137,6 @@ const Header = () => {
                                 </li>
                             ))}
                         </ol>
-                        <span className="home-flow__packet" aria-hidden="true">
-                            REQ
-                        </span>
                     </div>
                 </aside>
             </section>

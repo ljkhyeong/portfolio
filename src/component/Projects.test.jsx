@@ -9,24 +9,17 @@ const renderProjects = () =>
         </MemoryRouter>,
     )
 
-test("대표 프로젝트는 서비스 소개와 핵심 구현 두 가지를 먼저 보여준다", () => {
+test("대표 프로젝트의 문제, 구현과 검증 범위를 함께 보여준다", () => {
     renderProjects()
 
-    const batonHighlights = screen.getByRole("list", { name: "BATON 핵심 구현" })
-    expect(within(batonHighlights).getAllByRole("listitem")).toHaveLength(2)
-    expect(batonHighlights).toHaveTextContent(
-        "할 일 관리, 담당자 공백 및 업무 지연 확인, 통합 검색, 인수인계 문서 생성",
+    const batonFacts = screen.getByLabelText("BATON 문제, 구현과 검증")
+    expect(batonFacts).toHaveTextContent("링크와 전달 작업이 중복 생성될 수 있음")
+    expect(batonFacts).toHaveTextContent("결과 미확인 전송은 자동 재시도하지 않음")
+    expect(batonFacts).toHaveTextContent("공개 환경 전체 연동은 미검증")
+    expect(screen.getByLabelText("happyGallery 문제, 구현과 검증")).toHaveTextContent(
+        "실제 네이버 및 PG 계정 연동은 미검증",
     )
-    expect(batonHighlights).toHaveTextContent("Core와 6개 마이크로서비스의 API 및 저장소 분리")
-    expect(
-        screen.getByText("조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다."),
-    ).toBeInTheDocument()
-
-    const batonStatus = screen.getByLabelText("BATON 진행 및 공개 상태")
-    expect(batonStatus).toHaveTextContent("개발 중")
-    expect(batonStatus).toHaveTextContent("일부 저장소 공개")
-    expect(screen.queryByText("PRD 44 / ADR 63 / Runbook 7")).not.toBeInTheDocument()
-    expect(screen.queryByLabelText("BATON 담당, 문제와 해결")).not.toBeInTheDocument()
+    expect(screen.getByLabelText("BATON 진행 및 공개 상태")).toHaveTextContent("일부 저장소 공개")
     expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
         "담당 범위만 공개",
     )
@@ -54,44 +47,18 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     expect(screen.queryByRole("link", { name: /군사법.*GitHub/ })).not.toBeInTheDocument()
 })
 
-test("추가 프로젝트는 구현, 확인 근거와 상세 링크로 표시한다", () => {
+test("추가 프로젝트는 짧은 소개와 진행 상태 및 상세 링크로 표시한다", () => {
     renderProjects()
 
-    const supportingProjects = screen.getByRole("list", { name: "추가 프로젝트" })
-    const defenseLink = within(supportingProjects).getByRole("link", {
-        name: "차세대 군사법 정보 시스템 프로젝트 상세 보기",
-    })
-    const defenseProject = defenseLink.closest("article")
-    const youthPolicyLink = within(supportingProjects).getByRole("link", {
-        name: "청년정책메이트 프로젝트 상세 보기",
-    })
-    const youthPolicyProject = youthPolicyLink.closest("article")
-
-    expect(defenseProject).toHaveTextContent("경력 프로젝트")
-    expect(defenseProject).toHaveTextContent("BEINTECH / 국방부 SI / 백엔드 개발 및 운영")
-    expect(defenseProject).toHaveTextContent("구현")
-    expect(defenseProject).toHaveTextContent(
-        "군교정 업무 화면, 수용자 인적정보 및 영장정보 연계 배치",
-    )
-    expect(defenseProject).toHaveTextContent("기관별 배치 결과, JEUS 로그 및 Tibero 상태 확인")
-    expect(defenseProject).toHaveTextContent("상세 보기")
-    expect(defenseProject).not.toHaveTextContent("문제")
-    expect(defenseProject).not.toHaveTextContent("해결")
-    expect(youthPolicyProject).toHaveTextContent("웹앱")
-    expect(youthPolicyProject).toHaveTextContent(
-        "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버",
-    )
-    expect(youthPolicyProject).toHaveTextContent(
-        "공개 main CI 통과 및 서버 자동화 테스트 341개 통과",
-    )
-    expect(youthPolicyLink).toHaveAttribute("href", "/projects/youth-policy-mate")
-    expect(supportingProjects).toHaveTextContent("SeungIl 님의 Hope 6.0.0 포크")
-    expect(supportingProjects).toHaveTextContent("v5.0.2 공개 및 자동화 테스트 343개 통과")
-    expect(supportingProjects).toHaveTextContent("HLS 지연 약 35초 → 약 17초 (팀 시연 환경)")
-
+    const projects = within(screen.getByRole("list", { name: "추가 프로젝트" }))
+    const youth = projects.getByRole("link", { name: "청년정책메이트 프로젝트 상세 보기" })
+    expect(youth).toHaveAttribute("href", "/projects/youth-policy-mate")
+    expect(youth.closest("article")).toHaveTextContent("개발 중")
+    expect(youth.closest("article")).toHaveTextContent("웹앱을 개발합니다")
     expect(
-        within(supportingProjects).queryByRole("list", { name: /처리 흐름/ }),
-    ).not.toBeInTheDocument()
+        projects.getByRole("link", { name: "Hope Commit 프로젝트 상세 보기" }).closest("article"),
+    ).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
+    expect(projects.getAllByRole("heading", { level: 4 })).toHaveLength(5)
 })
 
 test("대표 프로젝트 순서를 유지하고 제목과 미리보기에서 상세로 이동한다", () => {

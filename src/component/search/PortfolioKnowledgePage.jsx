@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { generatePortfolioAnswer, searchPortfolioKnowledge } from "../../api/knowledgeSearch"
 import { portfolioProfile } from "../../data/profile"
 import { projectSummaries } from "../../data/projectSummaries"
-import { assetPath } from "../../utils/assetPath"
+import PortfolioNavigation from "../PortfolioNavigation"
 import "../../css/PortfolioKnowledge.css"
 
 const suggestionQuestions = [
@@ -70,24 +70,23 @@ const SourceLink = ({ item, children, className }) => {
 }
 
 const KnowledgeHeader = () => (
-    <header className="knowledge-header">
-        <nav className="knowledge-nav" aria-label="포트폴리오 검색 메뉴">
-            <Link className="knowledge-nav__brand" to="/" aria-label="ljkhyeong 포트폴리오 홈">
-                <span className="knowledge-nav__avatar" aria-hidden="true">
-                    <img src={assetPath("ljkhyeong-avatar.png")} alt="" width="80" height="80" />
-                </span>
-                <strong>ljkhyeong</strong>
-            </Link>
-            <div className="knowledge-nav__links">
-                <a href="/#work">프로젝트</a>
-                <Link to="/search" aria-current="page">
-                    문서 검색
-                </Link>
-            </div>
-            <a className="knowledge-nav__contact" href={`mailto:${portfolioProfile.email}`}>
-                이메일 보내기 <span aria-hidden="true">↗</span>
-            </a>
-        </nav>
+    <header>
+        <PortfolioNavigation
+            label="포트폴리오 검색 메뉴"
+            links={
+                <>
+                    <Link to="/#work">프로젝트</Link>
+                    <Link to="/search" aria-current="page">
+                        문서 검색
+                    </Link>
+                </>
+            }
+            actions={
+                <a className="site-nav__contact" href={`mailto:${portfolioProfile.email}`}>
+                    이메일 보내기
+                </a>
+            }
+        />
     </header>
 )
 
@@ -518,7 +517,7 @@ const PortfolioKnowledgePage = () => {
                 </div>
             </main>
             <footer className="knowledge-footer">
-                <span>{portfolioProfile.name} · 포트폴리오 문서 검색</span>
+                <span>{portfolioProfile.name} / 포트폴리오 문서 검색</span>
                 <Link to="/">포트폴리오로 돌아가기 →</Link>
             </footer>
         </div>

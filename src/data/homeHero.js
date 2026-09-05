@@ -1,6 +1,9 @@
+const headlineLines = ["중복 실행을 막고", "중단된 작업을 재처리하는", "백엔드 개발자입니다."]
+
 export const homeHeroContent = {
-    headline: "중복 실행을 막고 중단된 작업을 재처리하는 백엔드 개발자입니다.",
-    headlineHighlight: "중복 실행을 막고 중단된 작업을 재처리하는",
+    headline: headlineLines.join(" "),
+    headlineHighlight: headlineLines.slice(0, 2).join(" "),
+    headlineLines,
     summary:
         "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.",
     flow: [
