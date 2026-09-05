@@ -12,7 +12,7 @@ const evidencePresentation = {
     },
     "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지": {
         methodLabel: "Compose 검증",
-        resultSummary: "재전달에도 수신 이력 1건 유지, 완료 응답 반환, 실패 큐 미전송",
+        resultSummary: "재전달 시 수신 이력 1건 유지, RabbitMQ ACK 전송, DLQ 미전송",
     },
     "BRIEF 점검 상태 반영과 발행 보고서 수정 방지": {
         methodLabel: "통합 테스트 및 Core 연동",
@@ -26,7 +26,8 @@ const evidencePresentation = {
     },
     "ROUND 입장 토큰 검증과 브라우저 연결": {
         methodLabel: "CI 확인",
-        resultSummary: "Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 통과",
+        resultSummary:
+            "Chromium 카메라 및 마이크 제어와 화면 공유 테스트, WebKit 호환성, Core 연동과 배포 검사 통과",
         scopeNote:
             "실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
     },
@@ -36,7 +37,7 @@ const evidencePresentation = {
     "스마트스토어 주문과 공유 재고 반영": {
         methodLabel: "코드 대조",
         resultSummary:
-            "주문별 재고 차이 반영, 외부 상태로 문의 및 주문 명령 확정, 미처리 날짜부터 정산 재개 구현",
+            "주문별 수량 변경분 반영, 문의 조회 및 답변, 수집한 변경 주문으로 상태 갱신, 미처리 날짜부터 정산 재개",
         scopeNote: "네이버 실제 자격 증명을 사용한 운영 연동은 미검증",
     },
     "Toss 결제 대사와 NHN 알림 최종 결과": {

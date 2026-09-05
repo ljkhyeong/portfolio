@@ -162,16 +162,16 @@ export const batonServicePresentations = {
             },
         ],
         flow: {
-            title: "최신 일정만 반영하고 변경 없으면 304 응답",
+            title: "캐시가 유효한 조건부 요청에 304 응답",
             description:
-                "Core 일정의 개정 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 일정이 같으면 ETag로 304를 반환하며 토큰 교체 시 이전 토큰을 폐기합니다.",
+                "Core 일정의 개정 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환합니다. 그 외에는 .ics 본문을 반환하며 토큰 교체 시 이전 토큰을 폐기합니다.",
             note: "일정 ID는 UID, 개정 번호는 SEQUENCE로 사용합니다. 토큰을 교체하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",
             compact: {
                 input: ["Core 일정", "일정 ID + 개정 번호"],
-                action: ["iCalendar 변환", "과거 개정은 반영하지 않음"],
+                action: ["개정 및 캐시 확인", "최신 일정과 요청 캐시 비교"],
                 outputs: [
-                    ["내용 변경", "최신 .ics 피드"],
-                    ["변경 없음", "ETag / 304 응답"],
+                    ["본문 필요", "200 및 .ics 본문"],
+                    ["캐시 유효", "304 응답"],
                 ],
             },
         },
@@ -184,7 +184,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "현재 main에서 Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 시나리오를 통과했습니다.",
+                text: "현재 main에서 Chromium의 카메라 및 마이크 제어와 화면 공유 테스트를 통과했습니다. WebKit 호환성, Core 연동과 배포 검사 시나리오도 통과했습니다.",
             },
             {
                 kind: "limited",

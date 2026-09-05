@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton.png",
-    "sourceSha256": "877ab092ff4674a743e89b46f27c98ef30e60a8b69cff211d656d84fb9360003",
+    "sourceSha256": "4dae1eaf8441c417b18442683559d7f25629d9599a744e81bb3ca64cfee580f3",
     "artifactSha256": "125996bcc8bd11702e6582dc6ec95a11adb89b3dbffe0b9ea1c9e3b16cab42c0",
     "renderer": {
         "id": "chrome",

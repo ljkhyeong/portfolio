@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:e129b627bb26",
+  "sourceRevision": "sha256:67777701968c",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -148,7 +148,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:1032b77c2970",
+      "sourceRevision": "sha256:bcc04bf8eba6",
       "documentId": "knowledge_ad06d759d736b76a0dfbbd8c",
       "projectId": "baton",
       "projectName": "BATON",
@@ -156,13 +156,13 @@
       "documentType": "service_overview",
       "title": "ROUND - WebRTC 스터디룸",
       "heading": "ROUND 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: ROUND\n\n역할: WebRTC 스터디룸\n\nCore 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.\n\n담당 구현: React 입장 및 통화 화면, protocol v3, 재연결과 채팅 수신 확인을 처리하는 RTC 코어, Spring WebSocket 시그널링과 만료 시간이 짧은 Cloudflare TURN 자격 증명 발급을 구현했습니다.\n\n주요 기능: 최대 6명 mesh WebRTC, 이전 연결 메시지 차단, RS256 입장 토큰과 TURN 접속 정보\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: Chromium 전체 미디어, WebKit 호환성, BATON edge와 배포 검증을 CI 작업으로 분리하고 이전 WebKit mDNS 및 restic 누락을 현재 main에서 보완\n\n입력: Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 만료 시간이 짧은 RS256 입장 토큰\n\n입력 확인: 입장 토큰의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.\n\n출력: 브라우저 사이의 WebRTC 연결 메시지 전달, DataChannel 채팅 수신 응답과 만료 시간이 짧은 Cloudflare TURN 접속 정보\n\n처리 기준: 연결을 새로 만들 때마다 순번을 올리고 이전 연결에서 늦게 온 메시지는 버립니다. 같은 참가자가 새 입장 토큰으로 접속하면 이전 WebSocket 세션을 종료합니다.\n\n데이터베이스: DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장\n\n사용 기술: TypeScript, React 19, Vite 8, WebRTC / RTCDataChannel, Java 21, Spring Boot 4.1, Spring WebSocket, Cloudflare TURN / Caddy, Playwright\n\n구현 상태: 현재 main에 입장 전 장치 확인, 채팅, 화면 공유, 개인 음소거와 연결 진단을 구현하고 시그널링 및 RTC 상태 책임을 분리했습니다. 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.\n\n적용 범위와 제약: 참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: ROUND\n\n역할: WebRTC 스터디룸\n\nCore 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.\n\n담당 구현: React 입장 및 통화 화면, protocol v3, 재연결과 채팅 수신 확인을 처리하는 RTC 코어, Spring WebSocket 시그널링과 만료 시간이 짧은 Cloudflare TURN 자격 증명 발급을 구현했습니다.\n\n주요 기능: 최대 6명 mesh WebRTC, 이전 연결 메시지 차단, RS256 입장 토큰과 TURN 접속 정보\n\n저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개\n\n검증 요약: Chromium 카메라 및 마이크 제어와 화면 공유, WebKit 호환성, BATON edge와 배포 검증을 CI 작업으로 분리했습니다. WebKit mDNS와 restic 누락도 보완했습니다.\n\n입력: Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 만료 시간이 짧은 RS256 입장 토큰\n\n입력 확인: 입장 토큰의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.\n\n출력: 브라우저 사이의 WebRTC 연결 메시지 전달, DataChannel 채팅 수신 응답과 만료 시간이 짧은 Cloudflare TURN 접속 정보\n\n처리 기준: 연결을 새로 만들 때마다 순번을 올리고 이전 연결에서 늦게 온 메시지는 버립니다. 같은 참가자가 새 입장 토큰으로 접속하면 이전 WebSocket 세션을 종료합니다.\n\n데이터베이스: DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장\n\n사용 기술: TypeScript, React 19, Vite 8, WebRTC / RTCDataChannel, Java 21, Spring Boot 4.1, Spring WebSocket, Cloudflare TURN / Caddy, Playwright\n\n구현 상태: 현재 main에 입장 전 장치 확인, 채팅, 화면 공유, 개인 음소거와 연결 진단을 구현하고 시그널링 및 RTC 상태 책임을 분리했습니다. 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.\n\n적용 범위와 제약: 참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/round",
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "1032b77c2970d080ef1e6186d2460d815d91c819ead71afc9815c86a1487f357",
-      "contentHash": "8912ef930f052cd7fbd5edd83b1da29d579520cb0227d5c4a10220b7aec38146"
+      "sourceHash": "bcc04bf8eba62d265116c93808d847777ed44be533eba1c7ee77884d68bcaa03",
+      "contentHash": "616de2a09a6265fe6b68aa09d82f042a53c60877936b78716df4f2c95ff7c1fb"
     },
     {
       "schemaVersion": "1.0",
@@ -382,7 +382,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e70469ad37bc",
+      "sourceRevision": "sha256:08b24990e04c",
       "documentId": "knowledge_67a668815d28d496e7d26ebf",
       "projectId": "baton",
       "projectName": "BATON",
@@ -390,13 +390,13 @@
       "documentType": "problem_solution",
       "title": "iCalendar 시간대 및 취소 처리와 HTTP 캐시 적용",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: CAL\n\n문제: 캘린더 앱마다 시간대와 취소 일정 및 캐시 처리 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.\n\n해결 방법: 일정 ID는 UID로 고정하고 개정 번호는 SEQUENCE로 사용했습니다. 일정이 같으면 ETag와 304 응답으로 본문을 생략했습니다.\n\n확인: UTC, 서머타임 전환(DST), 자정 경계, 취소 일정, UTF-8 줄 접기와 변경 없음 응답(304 Not Modified)을 iCalendar 기대값 파일 및 자동화 테스트로 확인했습니다.\n\n제약과 남은 작업: iCal4j 또는 시간대 데이터 버전을 바꾸면 iCalendar 기대값 파일과 캐시 검증값이 함께 바뀌는지 확인해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: CAL\n\n문제: 캘린더 앱마다 시간대와 취소 일정 및 캐시 처리 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.\n\n해결 방법: 일정 ID는 UID로 고정하고 개정 번호는 SEQUENCE로 사용했습니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환하고, 그 외에는 .ics 본문을 반환합니다.\n\n확인: UTC, 서머타임 전환(DST), 자정 경계, 취소 일정, UTF-8 줄 접기와 변경 없음 응답(304 Not Modified)을 iCalendar 기대값 파일 및 자동화 테스트로 확인했습니다.\n\n제약과 남은 작업: iCal4j 또는 시간대 데이터 버전을 바꾸면 iCalendar 기대값 파일과 캐시 검증값이 함께 바뀌는지 확인해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/cal#service-problems",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e70469ad37bc09ee58a8289991529f8e898ca0bb914546b6702c426f504944cd",
-      "contentHash": "031c2f9bc28077534ca7c9ece3e1bb3cbff199832b3eec3e4b935ecd2427e9fc"
+      "sourceHash": "08b24990e04c9215f8b05c8e1dc7213af57ab1e43e9963e244982a053c1023da",
+      "contentHash": "11ead13a90ffd807fa64bfebb090be92f291503a993d5f33b895c8fcb882fe10"
     },
     {
       "schemaVersion": "1.0",
@@ -490,7 +490,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:8c15090de451",
+      "sourceRevision": "sha256:b97af71fe92b",
       "documentId": "knowledge_442d2e15779cb012b43d28ad",
       "projectId": "baton",
       "projectName": "BATON",
@@ -498,13 +498,13 @@
       "documentType": "implementation_evidence",
       "title": "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지",
       "heading": "검증 범위 및 현재 상태",
-      "content": "프로젝트: BATON\n\n확인 대상: RELAY DB 저장 후 RabbitMQ 재전달 중복 방지\n\n확인 방법: RabbitMQ 및 PostgreSQL Docker Compose 검증\n\n확인 조건: PostgreSQL 저장은 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 RabbitMQ와 RELAY를 중단하고 같은 이벤트를 재전달\n\n결과: 같은 이벤트 ID의 수신 이력을 1건으로 유지하고 재전달에 처리 완료 응답을 보내며 별도 실패 큐(DLQ)에는 넣지 않음\n\n공개 범위: RELAY 공개 main f9645c2 · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 main CI 성공",
+      "content": "프로젝트: BATON\n\n확인 대상: RELAY DB 저장 후 RabbitMQ 재전달 중복 방지\n\n확인 방법: RabbitMQ 및 PostgreSQL Docker Compose 검증\n\n확인 조건: PostgreSQL 저장은 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 RabbitMQ와 RELAY를 중단하고 같은 이벤트를 재전달\n\n결과: 같은 이벤트 ID의 수신 이력을 1건으로 유지하고 RabbitMQ에 ACK를 보내며 별도 실패 큐(DLQ)에는 넣지 않음\n\n공개 범위: RELAY 공개 main f9645c2 · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 main CI 성공",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-proof",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "8c15090de451b1607c6f36e13ce88969a1bc24113d8f991f3b8544871323b2dd",
-      "contentHash": "7ce35a610598ca336fdc0b95a3246d633202c031ed1c9c379b98a11226d5a87d"
+      "sourceHash": "b97af71fe92bf768be7f46a6dc8e4f49abb05064e013c4a0b8e5809dc3f1b929",
+      "contentHash": "b0bbfa5c99c0df24e0d98bceca3e9868c209ee33bc3059acf41c33d7f8030219"
     },
     {
       "schemaVersion": "1.0",
@@ -544,7 +544,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:de3aa9427586",
+      "sourceRevision": "sha256:54d059b3d454",
       "documentId": "knowledge_6aed3e334ba9b4ad11f80b69",
       "projectId": "baton",
       "projectName": "BATON",
@@ -552,13 +552,13 @@
       "documentType": "implementation_evidence",
       "title": "ROUND 입장 토큰 검증과 브라우저 연결",
       "heading": "검증 범위 및 현재 상태",
-      "content": "프로젝트: BATON\n\n확인 대상: ROUND 입장 토큰 검증과 브라우저 연결\n\n확인 방법: 현재 main의 Chromium, WebKit, BATON edge 및 배포 검증 구성 확인\n\n확인 조건: RS256 입장 토큰으로 최대 6명 mesh 연결, 전체 미디어와 재연결 및 WebKit 장치 동의, 채팅과 모바일 배치 시나리오를 실행\n\n결과: 이전 실패 원인이었던 WebKit 직접 연결용 mDNS와 배포 검증용 restic 설치를 현재 main에 추가하고 시그널링 및 RTC 상태 책임을 분리했습니다.\n\n공개 범위: 비공개 main 7c9218c 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
+      "content": "프로젝트: BATON\n\n확인 대상: ROUND 입장 토큰 검증과 브라우저 연결\n\n확인 방법: 현재 main의 Chromium, WebKit, BATON edge 및 배포 검증 구성 확인\n\n확인 조건: RS256 입장 토큰으로 최대 6명 mesh 연결, 카메라 및 마이크 제어, 화면 공유와 재연결 및 WebKit 장치 동의, 채팅과 모바일 화면 배치 시나리오를 실행\n\n결과: 이전 실패 원인이었던 WebKit 직접 연결용 mDNS와 배포 검증용 restic 설치를 현재 main에 추가하고 시그널링 및 RTC 상태 책임을 분리했습니다.\n\n공개 범위: 비공개 main 7c9218c 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-proof",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "de3aa9427586121a318cc7ae33024e8ee9a01774c1b287026a04b877ea43a055",
-      "contentHash": "a43265508fa4f42b3611af6efe7e74f229099bd25d84bb5595b4868266f1ad00"
+      "sourceHash": "54d059b3d454609cd5017ff1f85341b35d8931e21fda535d6ee29523e28a131d",
+      "contentHash": "4168bf4b9c32e9319189302bb22bdb70c9d37b71cb468588d0359e175aacc895"
     },
     {
       "schemaVersion": "1.0",
@@ -670,7 +670,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:1f64f2e0475b",
+      "sourceRevision": "sha256:fa3c95ae008d",
       "documentId": "knowledge_8c0d38184b09944107fa2210",
       "projectId": "baton",
       "projectName": "BATON",
@@ -678,17 +678,17 @@
       "documentType": "representative_document",
       "title": "CAL 일정 JSON 수신과 캘린더 구독",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON CAL 일정 JSON 수신과 캘린더 구독\n\n## 책임\n\nCAL은 Core가 확정한 시즌 일정과 마감을 읽기 전용 iCalendar(`.ics`) 피드로 제공합니다. Core는 일정 한 건의 최신 전체 데이터와 개정 번호를 보내고, CAL은 같은 일정과 이전 번호가 다시 들어오는지 확인한 뒤 캘린더 형식으로 변환합니다. 어떤 일정을 포함하고 누가 구독할 수 있는지는 Core가 결정합니다.\n\n## 일정 및 구독 처리\n\n-   이벤트 ID, 일정 ID, 개정 번호와 내용 해시를 비교해 적용, 중복, 이전 버전과 충돌을 구분합니다.\n-   일정 식별값(`UID`)은 고정하고 원본 개정 번호를 캘린더 변경 순번(`SEQUENCE`)으로 사용해 변경 및 취소를 구분합니다.\n-   같은 일정에서는 같은 `.ics`, 캐시 확인값(`ETag`)과 최종 변경 시각(`Last-Modified`)을 생성합니다. 캘린더 앱이 이전 ETag를 보내고 일정이 바뀌지 않았으면 본문 대신 `304 Not Modified`를 반환합니다.\n-   구독 토큰은 한 번만 반환하고 DB에는 SHA-256 해시만 저장합니다.\n-   토큰을 교체하거나 폐기하면 이전 구독 URL은 더 이상 피드를 반환하지 않습니다.\n\n## 검증 기준\n\nPostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일정 재전송, 과거 및 충돌 개정 번호, 저장 데이터 기반 재생성, 서머타임 전환(DST)과 자정 경계, 취소 일정, UTF-8 줄 접기, 변경 없음 응답(`304 Not Modified`)과 구독 토큰 동시 교체를 확인했습니다.\n\n1.1.0-rc.1에서는 입력 제한, HTTP 캐시, DB 제한 시간과 구독 및 시즌 동시성을 확인했습니다. OCI 백업 및 복구, 복구 세대 번호를 이용한 이전 작업의 늦은 결과 차단도 로컬에서 검증했습니다.\n\n일정 JSON 형식 1.0.0 기준으로 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 생성, 변경, 취소와 순서가 바뀐 전달이 올바르게 처리되는지도 별도로 확인했습니다.\n\n## 현재 범위\n\n-   정식 JSON 규격 `1.0.0`: 정식 버전 기준이며 Core 일정 JSON과 CAL 컨테이너의 호환성 검증 완료\n-   사전 릴리스 `1.1.0-rc.1`: 2026년 9월 2일 태그 `contracts-v1.1.0-rc.1`과 규격 ZIP 게시 완료. 정식 버전 전환 전\n-   Core 연동: `1.1.0-rc.1`의 일정, 시즌 이름과 복구 요청 형식 및 ZIP 해시를 고정하고 CAL 컨테이너와 연동 검증 완료\n-   운영 상태: 운영 활성화와 공개 배포 전. 실제 캘린더 앱, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증\n\n게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.\n\n`1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.",
+      "content": "# BATON CAL 일정 JSON 수신과 캘린더 구독\n\n## 책임\n\nCAL은 Core가 확정한 시즌 일정과 마감을 읽기 전용 iCalendar(`.ics`) 피드로 제공합니다. Core는 일정 한 건의 최신 전체 데이터와 개정 번호를 보내고, CAL은 같은 일정과 이전 번호가 다시 들어오는지 확인한 뒤 캘린더 형식으로 변환합니다. 어떤 일정을 포함하고 누가 구독할 수 있는지는 Core가 결정합니다.\n\n## 일정 및 구독 처리\n\n-   이벤트 ID, 일정 ID, 개정 번호와 내용 해시를 비교해 적용, 중복, 이전 버전과 충돌을 구분합니다.\n-   일정 식별값(`UID`)은 고정하고 원본 개정 번호를 캘린더 변경 순번(`SEQUENCE`)으로 사용해 변경 및 취소를 구분합니다.\n-   같은 일정에서는 같은 `.ics`, 캐시 확인값(`ETag`)과 최종 변경 시각(`Last-Modified`)을 생성합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 `304 Not Modified`를 반환합니다. 그 외에는 `200 OK`와 `.ics` 본문을 반환합니다.\n-   구독 토큰은 한 번만 반환하고 DB에는 SHA-256 해시만 저장합니다.\n-   토큰을 교체하거나 폐기하면 이전 구독 URL은 더 이상 피드를 반환하지 않습니다.\n\n## 검증 기준\n\nPostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일정 재전송, 과거 및 충돌 개정 번호, 저장 데이터 기반 재생성, 서머타임 전환(DST)과 자정 경계, 취소 일정, UTF-8 줄 접기, 변경 없음 응답(`304 Not Modified`)과 구독 토큰 동시 교체를 확인했습니다.\n\n1.1.0-rc.1에서는 입력 제한, HTTP 캐시, DB 제한 시간과 구독 및 시즌 동시성을 확인했습니다. OCI 백업 및 복구, 복구 세대 번호를 이용한 이전 작업의 늦은 결과 차단도 로컬에서 검증했습니다.\n\n일정 JSON 형식 1.0.0 기준으로 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 생성, 변경, 취소와 순서가 바뀐 전달이 올바르게 처리되는지도 별도로 확인했습니다.\n\n## 현재 범위\n\n-   정식 JSON 규격 `1.0.0`: 정식 버전 기준이며 Core 일정 JSON과 CAL 컨테이너의 호환성 검증 완료\n-   사전 릴리스 `1.1.0-rc.1`: 2026년 9월 2일 태그 `contracts-v1.1.0-rc.1`과 규격 ZIP 게시 완료. 정식 버전 전환 전\n-   Core 연동: `1.1.0-rc.1`의 일정, 시즌 이름과 복구 요청 형식 및 ZIP 해시를 고정하고 CAL 컨테이너와 연동 검증 완료\n-   운영 상태: 운영 활성화와 공개 배포 전. 실제 캘린더 앱, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증\n\n게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.\n\n`1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/cal-calendar-contract.md",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "1f64f2e0475b1f53f0dbb5418870572e866c2f63b9b8dd7a5832e92078b9005e",
-      "contentHash": "1232c673d91cec6271f1e26f45daca32c9d9ec12136e12ee150f60f327e1916b"
+      "sourceHash": "fa3c95ae008d384ce7f53a949209dd574008397a1b5bce6b8a8a75fa2945a8d3",
+      "contentHash": "7de0c3d1858de47743d291fb87354eb714ef47c5d0760f8752122296372bc73e"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:d9274eea7126",
+      "sourceRevision": "sha256:5711fe4c998d",
       "documentId": "knowledge_6ad26b46f6b4377339282b8b",
       "projectId": "baton",
       "projectName": "BATON",
@@ -696,13 +696,13 @@
       "documentType": "representative_document",
       "title": "ROUND 방 입장 토큰 검증과 WebRTC 연결 관리",
       "heading": "ADR / 아키텍처 요약",
-      "content": "# BATON ROUND 입장 토큰 검증과 WebRTC 연결 관리\n\n## 책임\n\nCore는 활동 중인 스터디 구성원에게 방 입장 토큰을 발급합니다. ROUND는 입장 토큰을 검증하고 최대 6명의 mesh WebRTC 연결 메시지를 전달합니다. 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 발급합니다. 두 서비스는 DB를 공유하지 않으며 ROUND의 방과 참가자 상태는 프로세스 메모리에 저장합니다.\n\n## 방 입장 권한 확인 방식\n\n-   Core가 계정에 연결된 활동 중인 스터디 구성원인지 확인한 뒤 RSA 개인 키와 SHA-256을 사용하는 `RS256` 방식으로 서명한 만료 시간이 짧은 입장 토큰을 발급합니다. 입장 토큰 쿠키는 방 경로로 범위를 제한하고, JavaScript에서 읽을 수 없으며 HTTPS 요청에만 전송되도록 `HttpOnly`, `Secure`, `SameSite=Strict`를 적용합니다.\n-   ROUND는 Core의 공개 키 목록(`JWKS`)으로 서명, 발급자, 단일 수신자, 만료와 방 식별자를 로컬에서 검증합니다.\n-   입장 토큰 갱신은 Core가 처리하고 WebSocket 및 TURN 요청만 ROUND로 전달합니다.\n-   ROUND가 입장 토큰을 한 번 검증한 뒤에는 WebRTC 연결 설명과 네트워크 경로 후보를 전달할 때마다 Core를 다시 호출하지 않습니다. 따라서 Core 응답이 느리거나 일시적으로 실패해도 이미 입장한 참가자의 연결은 계속 처리할 수 있습니다.\n-   같은 참가자가 새 입장 토큰으로 다시 입장하면 서버가 이전 WebSocket 세션을 종료하고 새 연결만 유지합니다.\n\n## 연결 복구\n\n-   연결마다 먼저 연결 설명을 만드는 브라우저를 하나로 고정해 동시에 offer를 만드는 충돌을 피합니다.\n-   새 연결을 만들 때마다 순번을 올리고 연결 설명과 네트워크 경로 후보에 같은 순번을 넣습니다. 이전 연결 순번으로 늦게 도착한 메시지는 버립니다.\n-   ICE 재시작으로 복구되지 않으면 피어 연결을 다시 만들되, 제한된 시그널링 재연결 동안 로컬 미디어는 유지합니다.\n-   DataChannel 채팅은 메시지별 중복 제거와 애플리케이션 수신 응답을 적용합니다. 상대 브라우저 애플리케이션이 메시지를 받았다는 응답 수에 따라 전체 성공, 일부 성공과 실패를 구분하며, 사용자가 내용을 읽었다는 뜻은 아닙니다. 송신 대기 버퍼의 최대 크기도 제한합니다.\n\n## 검증과 현재 범위\n\n-   구현 기준: 비공개 `main` 커밋 `7c9218c`\n-   통과: Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 시나리오\n-   보완 완료: WebKit 직접 연결용 mDNS와 배포 검증용 restic 누락\n-   미검증: 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속\n-   운영 제약: 방과 참가자 상태를 메모리에 저장하므로 한 인스턴스로 실행",
+      "content": "# BATON ROUND 입장 토큰 검증과 WebRTC 연결 관리\n\n## 책임\n\nCore는 활동 중인 스터디 구성원에게 방 입장 토큰을 발급합니다. ROUND는 입장 토큰을 검증하고 최대 6명의 mesh WebRTC 연결 메시지를 전달합니다. 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 발급합니다. 두 서비스는 DB를 공유하지 않으며 ROUND의 방과 참가자 상태는 프로세스 메모리에 저장합니다.\n\n## 방 입장 권한 확인 방식\n\n-   Core가 계정에 연결된 활동 중인 스터디 구성원인지 확인한 뒤 RSA 개인 키와 SHA-256을 사용하는 `RS256` 방식으로 서명한 만료 시간이 짧은 입장 토큰을 발급합니다. 입장 토큰 쿠키는 방 경로로 범위를 제한하고, JavaScript에서 읽을 수 없으며 HTTPS 요청에만 전송되도록 `HttpOnly`, `Secure`, `SameSite=Strict`를 적용합니다.\n-   ROUND는 Core의 공개 키 목록(`JWKS`)으로 서명, 발급자, 단일 수신자, 만료와 방 식별자를 로컬에서 검증합니다.\n-   입장 토큰 갱신은 Core가 처리하고 WebSocket 및 TURN 요청만 ROUND로 전달합니다.\n-   ROUND가 입장 토큰을 한 번 검증한 뒤에는 WebRTC 연결 설명과 네트워크 경로 후보를 전달할 때마다 Core를 다시 호출하지 않습니다. 따라서 Core 응답이 느리거나 일시적으로 실패해도 이미 입장한 참가자의 연결은 계속 처리할 수 있습니다.\n-   같은 참가자가 새 입장 토큰으로 다시 입장하면 서버가 이전 WebSocket 세션을 종료하고 새 연결만 유지합니다.\n\n## 연결 복구\n\n-   연결마다 먼저 연결 설명을 만드는 브라우저를 하나로 고정해 동시에 offer를 만드는 충돌을 피합니다.\n-   새 연결을 만들 때마다 순번을 올리고 연결 설명과 네트워크 경로 후보에 같은 순번을 넣습니다. 이전 연결 순번으로 늦게 도착한 메시지는 버립니다.\n-   ICE 재시작으로 복구되지 않으면 피어 연결을 다시 만들되, 제한된 시그널링 재연결 동안 로컬 미디어는 유지합니다.\n-   DataChannel 채팅은 메시지별 중복 제거와 애플리케이션 수신 응답을 적용합니다. 상대 브라우저 애플리케이션이 메시지를 받았다는 응답 수에 따라 전체 성공, 일부 성공과 실패를 구분하며, 사용자가 내용을 읽었다는 뜻은 아닙니다. 송신 대기 버퍼의 최대 크기도 제한합니다.\n\n## 검증과 현재 범위\n\n-   구현 기준: 비공개 `main` 커밋 `7c9218c`\n-   통과: Chromium 카메라 및 마이크 제어와 화면 공유 테스트, WebKit 호환성, Core 연동과 배포 검사 시나리오\n-   보완 완료: WebKit 직접 연결용 mDNS와 배포 검증용 restic 누락\n-   미검증: 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속\n-   운영 제약: 방과 참가자 상태를 메모리에 저장하므로 한 인스턴스로 실행",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/round-realtime-boundary.md",
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "d9274eea71268805a8f4cb60a29eff57fd5a4c0ab9543b3c0584b31ff2bf4e78",
-      "contentHash": "7166edae7b47ee40c1af3e8a6e9b8898a714ca42157108db0fd3429834179e46"
+      "sourceHash": "5711fe4c998d6747a68a2e89374a48b3afd153c46babdd087d2c10d95257697a",
+      "contentHash": "752c69779405c1dec33bfdb77c2e1e0ade023dc4e7ee3804314a8ea8f2e6befa"
     },
     {
       "schemaVersion": "1.0",
@@ -1102,7 +1102,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:cd5e5fd5e7b8",
+      "sourceRevision": "sha256:178333f6b27e",
       "documentId": "knowledge_c15cfbf61bbe7436173e7963",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1110,13 +1110,13 @@
       "documentType": "problem_solution",
       "title": "스마트스토어 주문을 공유 재고에 한 번만 반영",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 스마트스토어 판매분을 반영하기 전에 자사몰 재고 수량을 보내면, 이미 판매된 수량이 재고에 다시 잡힐 수 있습니다. 변경 주문 재전송과 부분취소도 재고를 중복 변경할 수 있습니다.\n\n해결 방법: 스마트스토어 변경 주문을 먼저 수집하고 상품 주문 번호를 식별자로 저장했습니다. 주문별 적용 수량과 현재 목표 수량의 차이만 차감하거나 복원한 뒤 내부 재고를 채널에 전송합니다.\n\n확인: 부분취소, 같은 변경 재수신, 재고 부족과 반품 검수 흐름을 공개 main 구현 코드와 ADR-0047에서 대조했습니다.\n\n제약과 남은 작업: 실제 네이버 자격 증명을 사용한 주문 수집과 재고 전송은 미검증입니다. 매핑이 없거나 새 상태가 들어오면 재고를 추측하지 않고 관리자 확인 대상으로 남깁니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 스마트스토어 판매분을 반영하기 전에 자사몰 재고 수량을 보내면, 이미 판매된 수량이 재고에 다시 잡힐 수 있습니다. 변경 주문 재전송과 부분취소도 재고를 중복 변경할 수 있습니다.\n\n해결 방법: 스마트스토어 변경 주문을 먼저 수집하고 상품 주문 번호를 식별자로 저장했습니다. 이미 반영한 수량과 이번에 반영할 수량의 차이만 재고에 적용한 뒤 내부 재고를 채널에 전송합니다.\n\n확인: 부분취소, 같은 변경 재수신, 재고 부족과 반품 검수 흐름을 공개 main 구현 코드와 ADR-0047에서 대조했습니다.\n\n제약과 남은 작업: 실제 네이버 자격 증명을 사용한 주문 수집과 재고 전송은 미검증입니다. 매핑이 없거나 새 상태가 들어오면 재고를 추측하지 않고 관리자 확인 대상으로 남깁니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "cd5e5fd5e7b896190b3173a9a3ba77c33cc085e6aaea5af2f48c9ac87a8ea381",
-      "contentHash": "466aece46b7e1039d297e8a00aa7f93f0eaaa8d265a8337e04517a37dd6cb149"
+      "sourceHash": "178333f6b27e0a2453f0cca0e6002ed36e9ed0500f9d5d4c9a75f4492560239b",
+      "contentHash": "29e8cce6839835ba5ae4004f2a50f5cf420de40ae6e13a34f828ca060d699d77"
     },
     {
       "schemaVersion": "1.0",
@@ -1246,7 +1246,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:b3203c4c6bcc",
+      "sourceRevision": "sha256:31e936b0de29",
       "documentId": "knowledge_a5857ca39ea473c8a867a3c6",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1254,13 +1254,13 @@
       "documentType": "implementation_evidence",
       "title": "스마트스토어 주문과 공유 재고 반영",
       "heading": "테스트 범위 및 운영 이력",
-      "content": "프로젝트: happyGallery\n\n확인 대상: 스마트스토어 주문과 공유 재고 반영\n\n확인 방법: 공개 main 구현 코드와 ADR-0047 및 ADR-0048 대조\n\n확인 조건: 변경 주문 재수신, 부분취소, 재고 부족, 반품 검수와 7일 이상 정산 중단 뒤 재개 경계를 확인\n\n결과: 주문별 적용 수량 차이만 재고에 반영하고, 문의와 주문 명령은 외부 상태가 다시 들어올 때 확정하며 정산 누락일은 커서부터 처리하도록 구현했습니다.\n\n공개 범위: 공개 main 2e831500 기준 · 네이버 실제 자격 증명을 사용한 운영 연동은 미검증",
+      "content": "프로젝트: happyGallery\n\n확인 대상: 스마트스토어 주문과 공유 재고 반영\n\n확인 방법: 공개 main 구현 코드와 ADR-0047 및 ADR-0048 대조\n\n확인 조건: 변경 주문 재수신, 부분취소, 재고 부족, 반품 검수와 7일 이상 정산 중단 뒤 재개 경계를 확인\n\n결과: 주문별 수량 변경분만 재고에 반영했습니다. 문의는 네이버 API로 조회하고 답변하며, 주문 상태는 변경 주문 수집 결과로 갱신합니다. 정산은 미처리 날짜부터 재개합니다.\n\n공개 범위: 공개 main 2e831500 기준 · 네이버 실제 자격 증명을 사용한 운영 연동은 미검증",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-proof",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "b3203c4c6bccd3aefd9668f4cb80298d079a2bc90de8566f07a06d0cb5a6f3b8",
-      "contentHash": "4664947e024b854211d94bec7d38a4c8fbb9f249172bf81f63f6d4479f4a0aca"
+      "sourceHash": "31e936b0de29b311553f04a927fad98d72060dce502f1f41f8c7ec2646dd3e1e",
+      "contentHash": "80f6566a312979b5d25472f789de33a25edf449b84ebdc64daacb28a4ecd8365"
     },
     {
       "schemaVersion": "1.0",
@@ -1462,7 +1462,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:eb3d5673780d",
+      "sourceRevision": "sha256:88acf1dc7b13",
       "documentId": "knowledge_49eccf1f16ea14d5b53701c8",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1470,13 +1470,13 @@
       "documentType": "representative_document",
       "title": "스마트스토어 주문과 재고 동기화",
       "heading": "ADR",
-      "content": "프로젝트: happyGallery\n\n문서 종류: ADR\n\n채널 주문을 먼저 반영하고 부분취소와 재전송을 적용 수량 차이로 처리하는 결정",
+      "content": "프로젝트: happyGallery\n\n문서 종류: ADR\n\n채널 주문을 먼저 반영하고 부분취소와 재전송은 주문 수량 변경분만 적용하는 결정",
       "sourceUrl": "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0047_%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%8A%A4%ED%86%A0%EC%96%B4_%EC%9E%AC%EA%B3%A0_%EB%8F%99%EA%B8%B0%ED%99%94/adr.md",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "eb3d5673780dbe9144a582ff8470299ae728be3a6c66e4bb7105620ab8bb94bc",
-      "contentHash": "0264ceef3e0c7bc2388335c46809e2309ef5ba73e5968d1511d38ca41ec5427d"
+      "sourceHash": "88acf1dc7b137abaf737de2bdda05ef933cde3cf39b83b3cc7b41017e9f17bae",
+      "contentHash": "3ed6185f0e67b538825e974335a57e2b351a33be577be42eca44cdd167d30dcc"
     },
     {
       "schemaVersion": "1.0",

@@ -475,7 +475,7 @@ const projects = [
                 ],
                 detail: "최대 6명 mesh WebRTC, 이전 연결 메시지 차단, RS256 입장 토큰과 TURN 접속 정보",
                 evidence:
-                    "Chromium 전체 미디어, WebKit 호환성, BATON edge와 배포 검증을 CI 작업으로 분리하고 이전 WebKit mDNS 및 restic 누락을 현재 main에서 보완",
+                    "Chromium 카메라 및 마이크 제어와 화면 공유, WebKit 호환성, BATON edge와 배포 검증을 CI 작업으로 분리했습니다. WebKit mDNS와 restic 누락도 보완했습니다.",
                 input: "Core가 방 ID, 참가자 ID와 만료 시각을 넣어 RSA 개인 키로 서명한 만료 시간이 짧은 RS256 입장 토큰",
                 inputRule:
                     "입장 토큰의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.",
@@ -550,7 +550,7 @@ const projects = [
                 item: "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지",
                 method: "RabbitMQ 및 PostgreSQL Docker Compose 검증",
                 rule: "PostgreSQL 저장은 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 RabbitMQ와 RELAY를 중단하고 같은 이벤트를 재전달",
-                result: "같은 이벤트 ID의 수신 이력을 1건으로 유지하고 재전달에 처리 완료 응답을 보내며 별도 실패 큐(DLQ)에는 넣지 않음",
+                result: "같은 이벤트 ID의 수신 이력을 1건으로 유지하고 RabbitMQ에 ACK를 보내며 별도 실패 큐(DLQ)에는 넣지 않음",
                 scope: "RELAY 공개 main f9645c2 · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 main CI 성공",
             },
             {
@@ -570,7 +570,7 @@ const projects = [
             {
                 item: "ROUND 입장 토큰 검증과 브라우저 연결",
                 method: "현재 main의 Chromium, WebKit, BATON edge 및 배포 검증 구성 확인",
-                rule: "RS256 입장 토큰으로 최대 6명 mesh 연결, 전체 미디어와 재연결 및 WebKit 장치 동의, 채팅과 모바일 배치 시나리오를 실행",
+                rule: "RS256 입장 토큰으로 최대 6명 mesh 연결, 카메라 및 마이크 제어, 화면 공유와 재연결 및 WebKit 장치 동의, 채팅과 모바일 화면 배치 시나리오를 실행",
                 result: "이전 실패 원인이었던 WebKit 직접 연결용 mDNS와 배포 검증용 restic 설치를 현재 main에 추가하고 시그널링 및 RTC 상태 책임을 분리했습니다.",
                 scope: "비공개 main 7c9218c 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
             },
@@ -732,7 +732,7 @@ const projects = [
                 constraint:
                     "캘린더 앱마다 시간대와 취소 일정 및 캐시 처리 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.",
                 decision:
-                    "일정 ID는 UID로 고정하고 개정 번호는 SEQUENCE로 사용했습니다. 일정이 같으면 ETag와 304 응답으로 본문을 생략했습니다.",
+                    "일정 ID는 UID로 고정하고 개정 번호는 SEQUENCE로 사용했습니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환하고, 그 외에는 .ics 본문을 반환합니다.",
                 validation:
                     "UTC, 서머타임 전환(DST), 자정 경계, 취소 일정, UTF-8 줄 접기와 변경 없음 응답(304 Not Modified)을 iCalendar 기대값 파일 및 자동화 테스트로 확인했습니다.",
                 boundary:
@@ -949,7 +949,7 @@ const projects = [
                 type: "ADR",
                 label: "스마트스토어 주문과 재고 동기화",
                 href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0047_%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%8A%A4%ED%86%A0%EC%96%B4_%EC%9E%AC%EA%B3%A0_%EB%8F%99%EA%B8%B0%ED%99%94/adr.md",
-                note: "채널 주문을 먼저 반영하고 부분취소와 재전송을 적용 수량 차이로 처리하는 결정",
+                note: "채널 주문을 먼저 반영하고 부분취소와 재전송은 주문 수량 변경분만 적용하는 결정",
             },
             {
                 type: "ADR",
@@ -998,7 +998,7 @@ const projects = [
                 item: "스마트스토어 주문과 공유 재고 반영",
                 method: "공개 main 구현 코드와 ADR-0047 및 ADR-0048 대조",
                 rule: "변경 주문 재수신, 부분취소, 재고 부족, 반품 검수와 7일 이상 정산 중단 뒤 재개 경계를 확인",
-                result: "주문별 적용 수량 차이만 재고에 반영하고, 문의와 주문 명령은 외부 상태가 다시 들어올 때 확정하며 정산 누락일은 커서부터 처리하도록 구현했습니다.",
+                result: "주문별 수량 변경분만 재고에 반영했습니다. 문의는 네이버 API로 조회하고 답변하며, 주문 상태는 변경 주문 수집 결과로 갱신합니다. 정산은 미처리 날짜부터 재개합니다.",
                 scope: "공개 main 2e831500 기준 · 네이버 실제 자격 증명을 사용한 운영 연동은 미검증",
             },
             {
@@ -1177,7 +1177,7 @@ const projects = [
                 constraint:
                     "스마트스토어 판매분을 반영하기 전에 자사몰 재고 수량을 보내면, 이미 판매된 수량이 재고에 다시 잡힐 수 있습니다. 변경 주문 재전송과 부분취소도 재고를 중복 변경할 수 있습니다.",
                 decision:
-                    "스마트스토어 변경 주문을 먼저 수집하고 상품 주문 번호를 식별자로 저장했습니다. 주문별 적용 수량과 현재 목표 수량의 차이만 차감하거나 복원한 뒤 내부 재고를 채널에 전송합니다.",
+                    "스마트스토어 변경 주문을 먼저 수집하고 상품 주문 번호를 식별자로 저장했습니다. 이미 반영한 수량과 이번에 반영할 수량의 차이만 재고에 적용한 뒤 내부 재고를 채널에 전송합니다.",
                 validation:
                     "부분취소, 같은 변경 재수신, 재고 부족과 반품 검수 흐름을 공개 main 구현 코드와 ADR-0047에서 대조했습니다.",
                 boundary:

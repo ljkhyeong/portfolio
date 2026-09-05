@@ -66,7 +66,7 @@ test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표
     const unverified = within(status).getByText("미검증").closest("div")
 
     expect(verified).toHaveClass("baton-service-status__item--verified")
-    expect(verified).toHaveTextContent("Chromium 전체 미디어")
+    expect(verified).toHaveTextContent("Chromium의 카메라 및 마이크 제어와 화면 공유 테스트")
     expect(verified).toHaveTextContent("Core 연동")
     expect(verified).toHaveTextContent("WebKit 호환성")
     expect(verified).toHaveTextContent("배포 검사 시나리오")

@@ -123,7 +123,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "결제 orderId와 환불 UUID를 재사용하고, DB 알림을 재처리하며 스마트스토어 주문은 적용 수량 차이만 재고에 반영",
+                value: "결제 orderId와 환불 UUID를 재사용하고, DB 알림을 재처리하며 스마트스토어 주문은 수량 변경분만 재고에 반영",
             },
         ],
         period: "2026.02.21 — 진행 중",
