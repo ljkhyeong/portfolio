@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:67777701968c",
+  "sourceRevision": "sha256:34a98fb313e2",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -112,7 +112,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:54230bcc3c36",
+      "sourceRevision": "sha256:a3cb056d9f4e",
       "documentId": "knowledge_716cb839f83bf7376a2e9c78",
       "projectId": "baton",
       "projectName": "BATON",
@@ -120,13 +120,13 @@
       "documentType": "service_overview",
       "title": "BRIEF - 담당자 공백 및 업무 지연 점검과 주간 보고서",
       "heading": "BRIEF 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 담당자 공백 및 업무 지연 점검과 주간 보고서\n\nCore가 확인한 담당자 공백, 업무 지연 등 5개 문제를 점검 목록과 주간 보고서에 반영합니다.\n\n담당 구현: Core가 보낸 상태를 그대로 미해결(ACTIVE) 또는 해결됨(RESOLVED) 상태의 점검 항목에 저장했습니다. 같은 이벤트와 과거 개정을 차단하고, 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n주요 기능: Core 점검 상태 5개의 ACTIVE 및 RESOLVED 반영, 저장 이벤트 기반 목록 재생성, 발행한 주간 보고서 수정 차단\n\n저장소 공개 범위: 공개 저장소 / 최신 기능은 로컬 구현 기준\n\n검증 요약: 중복 및 과거 이벤트 차단, 점검 항목 요약 및 필터와 발행 보고서 불변성을 PostgreSQL 및 Core 교차 서비스 테스트로 확인했습니다.\n\n입력: Core가 판정한 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연 및 미완료 인수인계 신호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 미해결 및 해결된 점검 항목, 수신 이벤트 이력과 발행 후 수정하지 않는 주간 보고서\n\n처리 기준: 같은 이벤트와 과거 개정은 반영하지 않고 저장한 이벤트 전체를 읽어 같은 점검 항목을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: 최신 로컬 main은 공개 main보다 16개 커밋 앞서 있습니다. 점검 항목 요약 및 필터 API와 BATON 오늘 화면 연결을 추가했습니다. 실제 Core와 내부 Caddy HTTPS로 조회 및 주간 보고서 발행을 확인했으며 공인 DNS와 원격 배포는 미검증입니다.\n\n적용 범위와 제약: v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 반영 및 보고서 비교 규칙을 함께 변경해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 담당자 공백 및 업무 지연 점검과 주간 보고서\n\nCore가 확인한 담당자 공백, 업무 지연 등 5개 문제를 점검 목록과 주간 보고서에 반영합니다.\n\n담당 구현: Core가 보낸 상태를 그대로 미해결(ACTIVE) 또는 해결됨(RESOLVED) 상태의 점검 항목에 저장했습니다. 같은 이벤트와 과거 개정을 차단하고, 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n주요 기능: Core 점검 상태 5개의 ACTIVE 및 RESOLVED 반영, 저장 이벤트 기반 점검 목록 재생성, 발행한 주간 보고서 수정 차단\n\n저장소 공개 범위: 공개 저장소 / 최신 기능은 로컬 구현 기준\n\n검증 요약: 중복 및 과거 이벤트 차단, 점검 항목 요약 및 필터와 발행 보고서 불변성을 PostgreSQL 및 Core 교차 서비스 테스트로 확인했습니다.\n\n입력: Core가 판정한 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연 및 미완료 인수인계 신호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 미해결 및 해결된 점검 항목, 수신 이벤트 이력과 발행 후 수정하지 않는 주간 보고서\n\n처리 기준: 같은 이벤트와 과거 개정은 반영하지 않고 저장한 이벤트 전체를 읽어 같은 점검 항목을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: 최신 로컬 main은 공개 main보다 16개 커밋 앞서 있습니다. 점검 항목 요약 및 필터 API와 BATON 오늘 화면 연결을 추가했습니다. 실제 Core와 내부 Caddy HTTPS로 조회 및 주간 보고서 발행을 확인했으며 공인 DNS와 원격 배포는 미검증입니다.\n\n적용 범위와 제약: v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 반영 및 보고서 비교 규칙을 함께 변경해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "54230bcc3c36f45e6322c1b6b7f233aa1748dc517902bab4ad91f7fd6e4ba434",
-      "contentHash": "c96aedc37841ae3d654e75f1f53ae64c850d01004323c3101d467c5e7ee1c67d"
+      "sourceHash": "a3cb056d9f4e846e2a0cd57709fc7a7406fae4b4587aa6206200c16d8a486cf7",
+      "contentHash": "4c60ca4616334daf5a10a9fbdef817d4eac795fd04d8606e47d4ddf0a93c1184"
     },
     {
       "schemaVersion": "1.0",
@@ -508,7 +508,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:99fb45bcdef6",
+      "sourceRevision": "sha256:2a5cc9c00cea",
       "documentId": "knowledge_8b9fccae6b53286e976c2837",
       "projectId": "baton",
       "projectName": "BATON",
@@ -516,13 +516,13 @@
       "documentType": "implementation_evidence",
       "title": "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
       "heading": "검증 범위 및 현재 상태",
-      "content": "프로젝트: BATON\n\n확인 대상: BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n확인 방법: PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동\n\n확인 조건: Core의 담당자 공백 및 업무 지연 등 5개 상태를 ACTIVE 및 RESOLVED로 전환하고, 같은 이벤트와 과거 개정 및 점검 항목 요약, 필터와 보고서 동시 생성 요청을 실행\n\n결과: 신호를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.\n\n공개 범위: BRIEF 최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
+      "content": "프로젝트: BATON\n\n확인 대상: BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n확인 방법: PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동\n\n확인 조건: Core의 담당자 공백 및 업무 지연 등 5개 상태를 ACTIVE 및 RESOLVED로 전환하고, 같은 이벤트와 과거 개정 및 점검 항목 요약, 필터와 보고서 동시 생성 요청을 실행\n\n결과: 신호를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 점검 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.\n\n공개 범위: BRIEF 최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-proof",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "99fb45bcdef6db558c8b7020fb6b58adcf34f160197515b618b9a5243b1d57b2",
-      "contentHash": "6d90dac728471fd3172cf52a5d1ee55c54b09e74017b0cad02ee9ee475a0be16"
+      "sourceHash": "2a5cc9c00cea116fa40e52ecdb38be5205d89a235bf3d0ac88b1a98779b9c11f",
+      "contentHash": "5308661adfdbd216039e13b86ef09ca0058bd0b6868e750fc4913142272e3d20"
     },
     {
       "schemaVersion": "1.0",
@@ -652,7 +652,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c12066872dbf",
+      "sourceRevision": "sha256:0cc7812c6346",
       "documentId": "knowledge_b76304103fc2240fb8731289",
       "projectId": "baton",
       "projectName": "BATON",
@@ -660,13 +660,13 @@
       "documentType": "representative_document",
       "title": "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n## 책임\n\nCore는 조직 데이터를 기준으로 다음 5개 운영 신호를 판정합니다. BRIEF는 이 신호를 다시 판정하지 않고 현재 점검 항목과 주간 보고서에 반영합니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계할 업무가 없거나 끝나지 않았거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대가 가까운데 인수인계를 시작하지 않았거나 전달 및 수락이 끝나지 않은 인수인계\n\nCore 이벤트의 활성 상태는 `ACTIVE`, 해소 상태는 `RESOLVED` 점검 항목으로 그대로 저장합니다. 원본 심각도도 다시 계산하지 않고 `CRITICAL`과 `WARNING`을 각각 `HIGH`와 `MEDIUM`으로 표시합니다. 주간 보고서에는 해당 주간, 마지막 이벤트 순번과 포함 항목을 저장하며 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 주간 보고서를 반환합니다. 이후 상태가 바뀌었다가 같은 항목으로 돌아와도 새 생성 번호의 주간 보고서를 저장하고 이전 주간 보고서는 그대로 둡니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 5개 신호의 `ACTIVE` 및 `RESOLVED` 반영, 이벤트 중복, ID 충돌, 과거 개정 차단, 저장 이벤트 기반 목록 재생성과 같은 주간 보고서의 중복 생성을 확인했습니다.\n\n실제 서비스 연동과 HTTPS 앞단 검증은 다음과 같이 나눠 확인했습니다.\n\n-   JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다.\n-   내부 서비스용 Caddy에서는 실제 Core와 BRIEF JAR, MySQL과 PostgreSQL을 실행해 로그인, 멤버십 및 접근 키 확인, HTTPS 보고서 생성과 조회, ETag, 재시도와 토큰 교체를 확인했습니다.\n-   BRIEF 원격 개발 브랜치는 `2.0.0-rc.4` 릴리스 후보 JSON 규격을 사용하지만 Core 공개 `main`은 `2.0.0-rc.1`을 사용합니다.\n\n## 현재 범위\n\n최신 로컬 `main`은 공개 `main`보다 16개 커밋 앞서 있습니다. 공개 상태와 최신 로컬 구현을 다음과 같이 구분합니다.\n\n-   확인 완료: 실제 Core와 BRIEF JAR의 `2.0.0-rc.1` 로컬 HTTP 연동\n-   확인 완료: 실제 Core와 내부 서비스용 Caddy HTTPS 연동\n-   최신 로컬 구현: 점검 항목 요약 및 필터 API와 BATON 오늘 화면 연결\n-   호환 유지: v2 담당자 공백 및 업무 지연 신호 5종과 기존 v1 이벤트\n-   미반영: BRIEF `2.0.0-rc.4` 릴리스 후보 JSON 규격의 Core 반영\n-   미검증: 공인 DNS 및 TLS, 원격 전달과 장기 운영 배포",
+      "content": "# BATON BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n## 책임\n\nCore는 조직 데이터를 기준으로 다음 5개 운영 신호를 판정합니다. BRIEF는 이 신호를 다시 판정하지 않고 현재 점검 항목과 주간 보고서에 반영합니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계할 업무가 없거나 끝나지 않았거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대가 가까운데 인수인계를 시작하지 않았거나 전달 및 수락이 끝나지 않은 인수인계\n\nCore 이벤트의 활성 상태는 `ACTIVE`, 해소 상태는 `RESOLVED` 점검 항목으로 그대로 저장합니다. 원본 심각도도 다시 계산하지 않고 `CRITICAL`과 `WARNING`을 각각 `HIGH`와 `MEDIUM`으로 표시합니다. 주간 보고서에는 해당 주간, 마지막 이벤트 순번과 포함 항목을 저장하며 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 주간 보고서를 반환합니다. 이후 상태가 바뀌었다가 같은 항목으로 돌아와도 새 생성 번호의 주간 보고서를 저장하고 이전 주간 보고서는 그대로 둡니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 5개 신호의 `ACTIVE` 및 `RESOLVED` 반영, 이벤트 중복, ID 충돌, 과거 개정 차단, 저장 이벤트 기반 점검 목록 재생성과 같은 주간 보고서의 중복 생성을 확인했습니다.\n\n실제 서비스 연동과 HTTPS 앞단 검증은 다음과 같이 나눠 확인했습니다.\n\n-   JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다.\n-   내부 서비스용 Caddy에서는 실제 Core와 BRIEF JAR, MySQL과 PostgreSQL을 실행해 로그인, 멤버십 및 접근 키 확인, HTTPS 보고서 생성과 조회, ETag, 재시도와 토큰 교체를 확인했습니다.\n-   BRIEF 원격 개발 브랜치는 `2.0.0-rc.4` 릴리스 후보 JSON 규격을 사용하지만 Core 공개 `main`은 `2.0.0-rc.1`을 사용합니다.\n\n## 현재 범위\n\n최신 로컬 `main`은 공개 `main`보다 16개 커밋 앞서 있습니다. 공개 상태와 최신 로컬 구현을 다음과 같이 구분합니다.\n\n-   확인 완료: 실제 Core와 BRIEF JAR의 `2.0.0-rc.1` 로컬 HTTP 연동\n-   확인 완료: 실제 Core와 내부 서비스용 Caddy HTTPS 연동\n-   최신 로컬 구현: 점검 항목 요약 및 필터 API와 BATON 오늘 화면 연결\n-   호환 유지: v2 담당자 공백 및 업무 지연 신호 5종과 기존 v1 이벤트\n-   미반영: BRIEF `2.0.0-rc.4` 릴리스 후보 JSON 규격의 Core 반영\n-   미검증: 공인 DNS 및 TLS, 원격 전달과 장기 운영 배포",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/brief-event-projection.md",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "c12066872dbf0615b73c9039951b0465e0ee2abe732d83ba470859e6d86b5f4b",
-      "contentHash": "2720fe9d9bc5f6a6fdc258c5f96189269ed94718f7c0decffbd80a48ef442403"
+      "sourceHash": "0cc7812c6346a30fdc932d7246444153581dfc56893fc79faa3397468d62845e",
+      "contentHash": "6dea90e9210136a6419c19c0c77de74a2c327a5a80a629fad54dced2f1aff98e"
     },
     {
       "schemaVersion": "1.0",
@@ -1930,7 +1930,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:5d6199752928",
+      "sourceRevision": "sha256:2cc80e69244e",
       "documentId": "knowledge_f8ec3ed5086118fb4b616e83",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1938,13 +1938,13 @@
       "documentType": "implementation_evidence",
       "title": "입력한 커밋과 비교 기준 확정",
       "heading": "구현 및 자동화 테스트",
-      "content": "프로젝트: Hope Commit\n\n확인 대상: 입력한 커밋과 비교 기준 확정\n\n확인 방법: 테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트\n\n확인 조건: 짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집\n\n결과: 수집기는 커밋 ID와 비교 기준을 고정했습니다. textconv 및 색상을 꺼도 이름 변경과 줄 수를 유지했고, UTF-8이 아닌 경로는 거절했습니다.\n\n공개 범위: 공개 v5.0.2 및 main 커밋 9d8392d의 commit-collector.test.mjs 기준",
+      "content": "프로젝트: Hope Commit\n\n확인 대상: 입력한 커밋과 비교 기준 확정\n\n확인 방법: 테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트\n\n확인 조건: 짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집\n\n결과: 수집기는 커밋 ID와 비교 기준을 고정했습니다. textconv와 색상 출력을 끈 상태에서 파일 이름 변경 정보와 추가 및 삭제 줄 수를 보존했고, UTF-8이 아닌 경로는 거절했습니다.\n\n공개 범위: 공개 v5.0.2 및 main 커밋 9d8392d의 commit-collector.test.mjs 기준",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-proof",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "5d6199752928c9bf13a7cb9e9cd1e7e505b5b277ccdbf1da08df038e5ec712d1",
-      "contentHash": "e472bc80cdd2c3b4b53762bf4606e71ec1d02e0449781bdc27fb7b957047edcf"
+      "sourceHash": "2cc80e69244e309f6be485ef1785acbd03f8f46624eaf1d72dddd8745ff6e00e",
+      "contentHash": "2df0cc8fd454b5a405e868cd05e090c0f998d2b0d31a8ffb9e9953e357a2873b"
     },
     {
       "schemaVersion": "1.0",

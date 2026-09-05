@@ -370,7 +370,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "Core 점검 상태 5개의 ACTIVE 및 RESOLVED 반영, 저장 이벤트 기반 목록 재생성, 발행한 주간 보고서 수정 차단",
+                detail: "Core 점검 상태 5개의 ACTIVE 및 RESOLVED 반영, 저장 이벤트 기반 점검 목록 재생성, 발행한 주간 보고서 수정 차단",
                 evidence:
                     "중복 및 과거 이벤트 차단, 점검 항목 요약 및 필터와 발행 보고서 불변성을 PostgreSQL 및 Core 교차 서비스 테스트로 확인했습니다.",
                 input: "Core가 판정한 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연 및 미완료 인수인계 신호",
@@ -557,7 +557,7 @@ const projects = [
                 item: "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
                 method: "PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동",
                 rule: "Core의 담당자 공백 및 업무 지연 등 5개 상태를 ACTIVE 및 RESOLVED로 전환하고, 같은 이벤트와 과거 개정 및 점검 항목 요약, 필터와 보고서 동시 생성 요청을 실행",
-                result: "신호를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.",
+                result: "신호를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 점검 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.",
                 scope: "BRIEF 최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
             },
             {
@@ -1599,7 +1599,7 @@ const projects = [
                 item: "입력한 커밋과 비교 기준 확정",
                 method: "테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트",
                 rule: "짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집",
-                result: "수집기는 커밋 ID와 비교 기준을 고정했습니다. textconv 및 색상을 꺼도 이름 변경과 줄 수를 유지했고, UTF-8이 아닌 경로는 거절했습니다.",
+                result: "수집기는 커밋 ID와 비교 기준을 고정했습니다. textconv와 색상 출력을 끈 상태에서 파일 이름 변경 정보와 추가 및 삭제 줄 수를 보존했고, UTF-8이 아닌 경로는 거절했습니다.",
                 scope: "공개 v5.0.2 및 main 커밋 9d8392d의 commit-collector.test.mjs 기준",
             },
             {

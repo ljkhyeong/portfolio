@@ -16,7 +16,7 @@ const evidencePresentation = {
     },
     "BRIEF 점검 상태 반영과 발행 보고서 수정 방지": {
         methodLabel: "통합 테스트 및 Core 연동",
-        resultSummary: "Core 신호 반영, 저장 이벤트로 목록 재생성, 같은 주간 보고서 1건 저장",
+        resultSummary: "Core 신호 반영, 저장 이벤트로 점검 목록 재생성, 같은 주간 보고서 1건 저장",
         scopeNote:
             "최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 기준, 공인 DNS와 원격 배포는 미검증",
     },
@@ -59,7 +59,8 @@ const evidencePresentation = {
     },
     "입력한 커밋과 비교 기준 확정": {
         methodLabel: "코드 수집 테스트",
-        resultSummary: "커밋 및 비교 기준 고정, 이름 변경과 줄 수 유지, UTF-8이 아닌 경로 거절",
+        resultSummary:
+            "커밋 및 비교 기준 고정, 파일 이름 변경 정보와 추가 및 삭제 줄 수 보존, UTF-8이 아닌 경로 거절",
     },
     "비공개 파일과 토큰 제외 및 리뷰 근거 검증": { methodLabel: "자동화 테스트" },
     "검증이 끝난 결과만 새 HTML로 저장": { methodLabel: "전체 처리 테스트" },

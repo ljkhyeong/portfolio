@@ -199,7 +199,7 @@ const featuredProblems = {
             "연결마다 순번을 부여하고 answer와 ICE의 순번을 비교해 이전 연결의 메시지를 버립니다.",
         steps: [
             { title: "새 연결 시도", description: "연결 순번 부여" },
-            { title: "응답 및 후보 수신", description: "answer와 ICE의 연결 순번 확인" },
+            { title: "SDP 응답 및 ICE 후보 수신", description: "answer와 ICE의 연결 순번 확인" },
             { title: "현재 연결에만 반영", description: "이전 연결의 늦은 메시지 차단" },
         ],
         evidenceLabel: "연결 모듈 자동화 테스트",
