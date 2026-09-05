@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -30,12 +31,13 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
 
     @BeforeAll
     static void setUp() {
-        KnowledgeProperties properties = new KnowledgeProperties();
-        properties.getElasticsearch().setBaseUrl("http://" + ELASTICSEARCH.getHttpHostAddress());
-        properties.getElasticsearch().setIndexName("portfolio-knowledge-integration-test");
+        KnowledgeProperties properties = knowledgeProperties(
+                "elasticsearch.base-url", "http://" + ELASTICSEARCH.getHttpHostAddress(),
+                "elasticsearch.index-name", "portfolio-knowledge-integration-test"
+        );
         repository = new ElasticsearchKnowledgeRepository(properties);
         repository.checkHealth();
-        String chunkingFingerprint = properties.getSource().chunkingFingerprint();
+        String chunkingFingerprint = properties.source().chunkingFingerprint();
         repository.ensureIndex("test-model", 2, chunkingFingerprint);
         repository.ensureIndex("test-model", 2, chunkingFingerprint);
         repository.bulkIndex(List.of(chunk("integration-chunk")));

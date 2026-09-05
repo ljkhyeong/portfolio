@@ -59,7 +59,7 @@ public class KnowledgeRateLimitInterceptor implements HandlerInterceptor {
     }
 
     private String resolveClientId(HttpServletRequest request) {
-        if (properties.getAi().isTrustProxyHeaders()) {
+        if (properties.ai().trustProxyHeaders()) {
             String forwardedFor = request.getHeader("X-Forwarded-For");
             if (StringUtils.hasText(forwardedFor)) {
                 return forwardedFor.split(",", 2)[0].strip();

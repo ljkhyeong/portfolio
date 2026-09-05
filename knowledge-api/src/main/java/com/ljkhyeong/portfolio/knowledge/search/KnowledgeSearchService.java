@@ -10,6 +10,7 @@ import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
+import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
@@ -33,17 +34,20 @@ public class KnowledgeSearchService {
     private final KnowledgeProperties properties;
     private final EmbeddingPort embeddingPort;
     private final KnowledgeIndexPort indexPort;
+    private final KnowledgeIndexInitializer indexInitializer;
     private final RrfRanker rrfRanker;
 
     public KnowledgeSearchService(
             KnowledgeProperties properties,
             EmbeddingPort embeddingPort,
+            KnowledgeIndexInitializer indexInitializer,
             KnowledgeIndexPort indexPort,
             RrfRanker rrfRanker
     ) {
         this.properties = properties;
         this.embeddingPort = embeddingPort;
         this.indexPort = indexPort;
+        this.indexInitializer = indexInitializer;
         this.rrfRanker = rrfRanker;
     }
 
@@ -59,13 +63,9 @@ public class KnowledgeSearchService {
                 normalizeProjectIds(projectIds),
                 normalizeDocumentTypes(documentTypes)
         );
-        int candidateLimit = Math.max(limit, properties.getSearch().getCandidateLimit());
+        int candidateLimit = Math.max(limit, properties.search().candidateLimit());
 
-        indexPort.ensureIndex(
-                embeddingPort.modelId(),
-                embeddingPort.dimensions(),
-                properties.getSource().chunkingFingerprint()
-        );
+        indexInitializer.ensureInitialized();
         List<SearchHit> bm25 = indexPort.searchBm25(normalizedQuery, filter, candidateLimit);
         List<List<SearchHit>> rankings = new ArrayList<>();
         rankings.add(bm25);
@@ -85,7 +85,7 @@ public class KnowledgeSearchService {
     }
 
     private KnowledgeSearchResult result(List<List<SearchHit>> rankings, List<SearchHit> bm25, int limit) {
-        List<SearchHit> hits = rrfRanker.merge(rankings, properties.getSearch().getRrfK(), limit);
+        List<SearchHit> hits = rrfRanker.merge(rankings, properties.search().rrfK(), limit);
         Set<String> bm25ChunkIds = bm25.stream()
                 .map(hit -> hit.chunk().chunkId())
                 .collect(java.util.stream.Collectors.toUnmodifiableSet());
@@ -93,8 +93,8 @@ public class KnowledgeSearchService {
     }
 
     private int normalizeLimit(Integer requestedLimit) {
-        int limit = requestedLimit == null ? properties.getSearch().getDefaultLimit() : requestedLimit;
-        return Math.min(limit, properties.getSearch().getMaxLimit());
+        int limit = requestedLimit == null ? properties.search().defaultLimit() : requestedLimit;
+        return Math.min(limit, properties.search().maxLimit());
     }
 
     private List<String> normalizeProjectIds(List<String> projectIds) {

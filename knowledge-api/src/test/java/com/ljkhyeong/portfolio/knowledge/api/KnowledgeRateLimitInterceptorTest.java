@@ -1,5 +1,6 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Clock;
@@ -16,10 +17,11 @@ class KnowledgeRateLimitInterceptorTest {
 
     @Test
     void OPTIONS는_버킷을_만들지_않고_상한_이후에는_신규_클라이언트만_429로_거절한다() throws Exception {
-        KnowledgeProperties properties = new KnowledgeProperties();
-        properties.getAi().setGlobalSearchesPerMinute(0);
-        properties.getAi().setClientSearchesPerMinute(2);
-        properties.getAi().setMaxClientBucketsPerMinute(1);
+        KnowledgeProperties properties = knowledgeProperties(
+                "ai.global-searches-per-minute", "0",
+                "ai.client-searches-per-minute", "2",
+                "ai.max-client-buckets-per-minute", "1"
+        );
         KnowledgeRateLimiter limiter = new KnowledgeRateLimiter(
                 properties,
                 Clock.fixed(Instant.parse("2026-08-23T12:00:30Z"), ZoneOffset.UTC)

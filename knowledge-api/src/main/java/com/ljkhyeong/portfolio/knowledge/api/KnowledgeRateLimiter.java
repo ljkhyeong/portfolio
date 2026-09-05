@@ -34,14 +34,14 @@ public class KnowledgeRateLimiter {
         this.clock = clock;
         this.timeMeter = new ClockTimeMeter(clock);
         this.answerState = new LimitState(
-                properties.getAi().getGlobalAnswersPerMinute(),
-                properties.getAi().getClientAnswersPerMinute(),
-                properties.getAi().getMaxClientBucketsPerMinute()
+                properties.ai().globalAnswersPerMinute(),
+                properties.ai().clientAnswersPerMinute(),
+                properties.ai().maxClientBucketsPerMinute()
         );
         this.searchState = new LimitState(
-                properties.getAi().getGlobalSearchesPerMinute(),
-                properties.getAi().getClientSearchesPerMinute(),
-                properties.getAi().getMaxClientBucketsPerMinute()
+                properties.ai().globalSearchesPerMinute(),
+                properties.ai().clientSearchesPerMinute(),
+                properties.ai().maxClientBucketsPerMinute()
         );
     }
 
@@ -88,10 +88,7 @@ public class KnowledgeRateLimiter {
 
     private RateLimitDecision denied(EstimationProbe probe) {
         long nanosToWait = probe.getNanosToWaitForRefill();
-        long retryAfter = TimeUnit.NANOSECONDS.toSeconds(nanosToWait);
-        if (nanosToWait % TimeUnit.SECONDS.toNanos(1) != 0) {
-            retryAfter++;
-        }
+        long retryAfter = Math.ceilDiv(nanosToWait, TimeUnit.SECONDS.toNanos(1));
         return new RateLimitDecision(false, Math.max(1, retryAfter));
     }
 

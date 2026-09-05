@@ -30,6 +30,8 @@ KNOWLEDGE_SYNC_ON_STARTUP=true ./gradlew bootRun
 
 `KNOWLEDGE_SYNC_ON_STARTUP`을 설정하지 않으면 애플리케이션은 기존 인덱스를 조회하되 시작 시 공개 문서를 색인하지 않습니다. 시작 동기화를 끈 환경에서는 `KNOWLEDGE_SYNC_KEY`를 설정하고 아래의 내부 동기화 API를 한 번 호출해야 합니다.
 
+인덱스 생성과 호환성 검사는 첫 검색에서 한 번 수행하고 동기화 때 다시 실행합니다. 초기화 실패는 다음 요청에서 재시도합니다. 실행 중 외부에서 인덱스를 교체했다면 내부 동기화를 호출하거나 앱을 재시작해야 호환성을 다시 확인합니다.
+
 빌드 시 루트의 `public/knowledge/portfolio.json`을 생성 리소스 디렉터리로 복사합니다. JAR에 별도 문서 사본을 직접 관리하지 않으므로 원본과 색인 자료가 달라지는 문제를 막습니다.
 
 ## OpenAI 운영 프로필
@@ -57,7 +59,7 @@ AI_PROFILE=ollama docker compose --profile ollama up --build knowledge-api
 
 프로필별 기본 인덱스는 `portfolio-knowledge-disabled-v2`, `portfolio-knowledge-openai-v2`, `portfolio-knowledge-ollama-v2`로 분리됩니다. Compose에서 `ELASTICSEARCH_INDEX`를 설정하면 사용자 지정 이름을 우선 사용합니다. 임베딩 모델 또는 차원을 변경하면 기존 벡터와 호환되지 않으므로 새 인덱스 이름으로 전체 문서를 다시 색인해야 합니다.
 
-`AI_PROFILE`은 `disabled`, `openai`, `ollama`만 허용합니다. 철자가 틀린 값은 AI가 비활성화된 상태로 기동하지 않고 설정 오류로 시작을 중단합니다.
+`AI_PROFILE`은 `disabled`, `openai`, `ollama`를 허용하며, 빈 값은 기본값 `disabled`로 바인딩합니다. 철자가 틀린 값은 AI가 비활성화된 상태로 기동하지 않고 설정 오류로 시작을 중단합니다.
 
 ## API
 
@@ -97,7 +99,7 @@ Content-Type: application/json
 -   `INSUFFICIENT_EVIDENCE`: 관련 공개 근거가 부족해 답변을 만들지 않습니다.
 -   `GENERATION_UNAVAILABLE`: AI 제공자 오류 또는 설정 없음으로 답변을 만들지 않고 검색 결과만 반환합니다.
 
-답변 API는 모델이 반환한 `[1]` 형식의 인용 번호가 실제 전달 근거에 있는지 확인합니다. 제공하지 않은 번호나 인용이 없는 답변은 노출하지 않습니다.
+Spring AI의 `ChatClient.entity()`로 답변 가능 여부와 문단별 본문·근거 ID를 받습니다. 서비스는 각 문단의 근거 ID를 확인하고 인용 순서대로 `[1]` 번호와 출처 목록을 만듭니다. 제공하지 않은 ID, 인용이 없는 문단이나 잘못된 JSON은 `GENERATION_UNAVAILABLE`로 처리합니다. JSON 형식을 고치기 위한 추가 AI 호출은 하지 않습니다. [Spring AI ChatClient](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
 벡터 검색 결과만 있고 BM25 키워드 검색에서 적중한 문서가 없으면 AI를 호출하지 않습니다. 이 조건은 질문과 직접 일치하는 공개 문서가 없는 상태에서 의미상 가까운 문서만으로 답변을 만드는 일을 막습니다.
 
@@ -147,4 +149,4 @@ CORS 기본 허용 주소는 다음 두 개이며 와일드카드를 사용하�
 ./gradlew bootJar
 ```
 
-단위 테스트는 공개 문서 필터, `sourceHash` 증분 판정, 청크 설정 지문, RRF 순위, 제공자 장애 시 BM25 대체, 인용 번호 검증과 요청 제한을 확인합니다. 통합 테스트는 표준 Elasticsearch 이미지에서 임베딩이 있는 문서와 없는 문서를 모두 색인하고 BM25 및 kNN 검색을 확인합니다.
+단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. 통합 테스트는 표준 Elasticsearch 이미지에서 임베딩이 있는 문서와 없는 문서를 모두 색인하고 BM25 및 kNN 검색을 확인합니다.

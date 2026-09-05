@@ -1,5 +1,6 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Clock;
@@ -85,8 +86,11 @@ class KnowledgeRateLimiterTest {
     @Test
     void 클라이언트_버킷_상한을_넘으면_새_클라이언트를_다음_분까지_거절한다() {
         MutableClock clock = new MutableClock(Instant.parse("2026-08-23T12:00:30Z"));
-        KnowledgeProperties properties = properties(0, 2, 0, 0);
-        properties.getAi().setMaxClientBucketsPerMinute(2);
+        KnowledgeProperties properties = knowledgeProperties(
+                "ai.global-answers-per-minute", "0",
+                "ai.client-answers-per-minute", "2",
+                "ai.max-client-buckets-per-minute", "2"
+        );
         KnowledgeRateLimiter limiter = new KnowledgeRateLimiter(properties, clock);
 
         assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-a").allowed()).isTrue();
@@ -108,12 +112,12 @@ class KnowledgeRateLimiterTest {
             int globalSearches,
             int clientSearches
     ) {
-        KnowledgeProperties properties = new KnowledgeProperties();
-        properties.getAi().setGlobalAnswersPerMinute(globalAnswers);
-        properties.getAi().setClientAnswersPerMinute(clientAnswers);
-        properties.getAi().setGlobalSearchesPerMinute(globalSearches);
-        properties.getAi().setClientSearchesPerMinute(clientSearches);
-        return properties;
+        return knowledgeProperties(
+                "ai.global-answers-per-minute", String.valueOf(globalAnswers),
+                "ai.client-answers-per-minute", String.valueOf(clientAnswers),
+                "ai.global-searches-per-minute", String.valueOf(globalSearches),
+                "ai.client-searches-per-minute", String.valueOf(clientSearches)
+        );
     }
 
     private static final class MutableClock extends Clock {

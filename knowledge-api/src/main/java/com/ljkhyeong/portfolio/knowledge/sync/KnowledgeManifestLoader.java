@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeManifest;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSourceDocument;
+import jakarta.validation.Validator;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -21,17 +22,16 @@ public class KnowledgeManifestLoader {
 
     private final ResourceLoader resourceLoader;
     private final ObjectMapper objectMapper;
+    private final Validator validator;
 
-    public KnowledgeManifestLoader(ResourceLoader resourceLoader, ObjectMapper objectMapper) {
+    public KnowledgeManifestLoader(ResourceLoader resourceLoader, ObjectMapper objectMapper, Validator validator) {
         this.resourceLoader = resourceLoader;
         this.objectMapper = objectMapper;
+        this.validator = validator;
     }
 
     public KnowledgeManifest load(String location) {
         Resource resource = resourceLoader.getResource(location);
-        if (!resource.exists()) {
-            throw new IllegalArgumentException("공개 지식 문서 목록을 찾을 수 없습니다: " + location);
-        }
 
         try (InputStream inputStream = resource.getInputStream()) {
             KnowledgeManifest manifest = objectMapper.readValue(inputStream, KnowledgeManifest.class);
@@ -71,22 +71,16 @@ public class KnowledgeManifestLoader {
     }
 
     private void validateDocument(KnowledgeSourceDocument document) {
-        requireText(document.documentId(), "documentId");
-        requireText(document.projectId(), "projectId");
-        requireText(document.projectName(), "projectName");
-        requireText(document.documentType(), "documentType");
-        requireText(document.title(), "title");
-        requireText(document.content(), "content");
-        requireText(document.sourceHash(), "sourceHash");
-        requireText(document.contentHash(), "contentHash");
+        var violations = validator.validate(document);
+        if (!violations.isEmpty()) {
+            String fields = violations.stream()
+                    .map(violation -> violation.getPropertyPath().toString())
+                    .sorted()
+                    .collect(java.util.stream.Collectors.joining(", "));
+            throw new IllegalArgumentException("공개 문서의 필수값이 없습니다: " + fields);
+        }
         if (!StringUtils.hasText(document.sourceUrl()) && !StringUtils.hasText(document.route())) {
             throw new IllegalArgumentException(document.documentId() + " 문서에는 sourceUrl 또는 route가 필요합니다.");
-        }
-    }
-
-    private void requireText(String value, String field) {
-        if (!StringUtils.hasText(value)) {
-            throw new IllegalArgumentException(field + " 값이 필요합니다.");
         }
     }
 }

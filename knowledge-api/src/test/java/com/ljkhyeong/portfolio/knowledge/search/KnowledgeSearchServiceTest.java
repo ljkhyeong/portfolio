@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.search;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,6 +10,7 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +18,7 @@ import java.util.List;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
+import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
@@ -25,12 +28,13 @@ class KnowledgeSearchServiceTest {
 
     @Test
     void 임베딩에_실패해도_BM25_검색_결과를_반환한다() {
-        KnowledgeProperties properties = new KnowledgeProperties();
+        KnowledgeProperties properties = knowledgeProperties();
         EmbeddingPort embeddingPort = mock(EmbeddingPort.class);
         KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
         KnowledgeSearchService service = new KnowledgeSearchService(
                 properties,
                 embeddingPort,
+                new KnowledgeIndexInitializer(properties, embeddingPort, indexPort),
                 indexPort,
                 new RrfRanker()
         );
@@ -46,6 +50,10 @@ class KnowledgeSearchServiceTest {
 
         var result = service.search("알림 재처리", List.of(), List.of(), 10);
 
+        service.search("알림 재처리", List.of(), List.of(), 10);
+        verify(indexPort).ensureIndex("test-model", 2, properties.source().chunkingFingerprint());
+        verify(indexPort, times(2)).searchBm25(anyString(), any(), anyInt());
+
         assertThat(result.hits()).extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
         assertThat(result.hasBm25Evidence()).isTrue();
         verify(indexPort, never()).searchKnn(anyList(), any(), anyInt(), anyInt());
@@ -53,12 +61,13 @@ class KnowledgeSearchServiceTest {
 
     @Test
     void 임의의_코드_오류는_BM25_결과로_대체하지_않고_전파한다() {
-        KnowledgeProperties properties = new KnowledgeProperties();
+        KnowledgeProperties properties = knowledgeProperties();
         EmbeddingPort embeddingPort = mock(EmbeddingPort.class);
         KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
         KnowledgeSearchService service = new KnowledgeSearchService(
                 properties,
                 embeddingPort,
+                new KnowledgeIndexInitializer(properties, embeddingPort, indexPort),
                 indexPort,
                 new RrfRanker()
         );

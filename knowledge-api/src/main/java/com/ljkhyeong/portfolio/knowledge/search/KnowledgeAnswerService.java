@@ -1,11 +1,11 @@
 package com.ljkhyeong.portfolio.knowledge.search;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.ljkhyeong.portfolio.knowledge.api.AnswerResponse;
 import com.ljkhyeong.portfolio.knowledge.api.ResponseMapper;
@@ -17,12 +17,12 @@ import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableExcepti
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class KnowledgeAnswerService {
 
     private static final Logger log = LoggerFactory.getLogger(KnowledgeAnswerService.class);
-    private static final Pattern CITATION_PATTERN = Pattern.compile("\\[(\\d+)]");
 
     private final KnowledgeProperties properties;
     private final KnowledgeSearchService searchService;
@@ -47,7 +47,7 @@ public class KnowledgeAnswerService {
             List<String> documentTypes,
             Integer requestedLimit
     ) {
-        int limit = requestedLimit == null ? properties.getAi().getAnswerContextLimit() : requestedLimit;
+        int limit = requestedLimit == null ? properties.ai().answerContextLimit() : requestedLimit;
         KnowledgeSearchResult searchResult = searchService.search(question, projectIds, documentTypes, limit);
         List<SearchHit> hits = searchResult.hits();
         var searchResults = responseMapper.toSearchResults(hits, question);
@@ -62,9 +62,11 @@ public class KnowledgeAnswerService {
             );
         }
 
+        Map<String, SearchHit> evidenceById = new LinkedHashMap<>();
         List<AnswerGenerationPort.AnswerContext> contexts = new ArrayList<>(hits.size());
         for (int index = 0; index < hits.size(); index++) {
             SearchHit hit = hits.get(index);
+            evidenceById.put(String.valueOf(index + 1), hit);
             contexts.add(new AnswerGenerationPort.AnswerContext(
                     String.valueOf(index + 1),
                     hit.chunk().title(),
@@ -74,8 +76,11 @@ public class KnowledgeAnswerService {
         }
 
         try {
-            String answer = answerGenerationPort.generate(question, contexts);
-            if (answer.contains("공개된 자료에서 확인할 수 없습니다.")) {
+            var generated = answerGenerationPort.generate(question, contexts);
+            if (generated == null || generated.answerable() == null) {
+                throw new AnswerGenerationUnavailableException("AI 답변의 답변 가능 여부가 없습니다.");
+            }
+            if (!generated.answerable()) {
                 return new AnswerResponse(
                         question,
                         AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE,
@@ -84,9 +89,10 @@ public class KnowledgeAnswerService {
                         searchResults
                 );
             }
-            Set<Integer> citedIndexes = extractAndValidateCitations(answer, hits.size());
-            List<AnswerResponse.CitationResponse> citations = citedIndexes.stream()
-                    .map(index -> citation(hits.get(index - 1), question))
+            Map<String, Integer> citationNumbers = new LinkedHashMap<>();
+            String answer = renderAnswer(generated.paragraphs(), evidenceById.keySet(), citationNumbers);
+            List<AnswerResponse.CitationResponse> citations = citationNumbers.keySet().stream()
+                    .map(id -> citation(evidenceById.get(id), question))
                     .toList();
             return new AnswerResponse(
                     question,
@@ -101,28 +107,31 @@ public class KnowledgeAnswerService {
         }
     }
 
-    private Set<Integer> extractAndValidateCitations(String answer, int contextCount) {
-        Matcher matcher = CITATION_PATTERN.matcher(answer);
-        Set<Integer> citedIndexes = new LinkedHashSet<>();
-        while (matcher.find()) {
-            int citation;
-            try {
-                citation = Integer.parseInt(matcher.group(1));
-            } catch (NumberFormatException exception) {
-                throw new AnswerGenerationUnavailableException(
-                        "AI 답변의 인용 번호가 허용 범위를 벗어났습니다.",
-                        exception
-                );
-            }
-            if (citation < 1 || citation > contextCount) {
-                throw new AnswerGenerationUnavailableException("AI 답변에 제공하지 않은 인용 번호가 포함됐습니다.");
-            }
-            citedIndexes.add(citation);
+    private String renderAnswer(
+            List<AnswerGenerationPort.AnswerParagraph> paragraphs,
+            Set<String> evidenceIds,
+            Map<String, Integer> citationNumbers
+    ) {
+        if (paragraphs == null || paragraphs.isEmpty()) {
+            throw new AnswerGenerationUnavailableException("AI가 빈 답변을 반환했습니다.");
         }
-        if (citedIndexes.isEmpty()) {
-            throw new AnswerGenerationUnavailableException("AI 답변에 근거 인용이 없습니다.");
+        List<String> rendered = new ArrayList<>(paragraphs.size());
+        for (var paragraph : paragraphs) {
+            if (paragraph == null || !StringUtils.hasText(paragraph.text())
+                    || paragraph.citationIds() == null || paragraph.citationIds().isEmpty()) {
+                throw new AnswerGenerationUnavailableException("AI 답변의 문단 또는 근거 인용이 없습니다.");
+            }
+            if (!evidenceIds.containsAll(paragraph.citationIds())) {
+                throw new AnswerGenerationUnavailableException("AI 답변에 제공하지 않은 인용 ID가 포함됐습니다.");
+            }
+            String references = paragraph.citationIds().stream()
+                    .distinct()
+                    .map(id -> citationNumbers.computeIfAbsent(id, ignored -> citationNumbers.size() + 1))
+                    .map(number -> "[" + number + "]")
+                    .collect(Collectors.joining(" "));
+            rendered.add(paragraph.text().strip() + " " + references);
         }
-        return citedIndexes;
+        return String.join("\n\n", rendered);
     }
 
     private AnswerResponse.CitationResponse citation(SearchHit hit, String question) {

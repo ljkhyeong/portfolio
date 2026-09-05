@@ -10,6 +10,7 @@ import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeManifest;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSourceDocument;
+import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,14 @@ public class KnowledgeSyncService {
     private final KnowledgeChunker chunker;
     private final EmbeddingPort embeddingPort;
     private final KnowledgeIndexPort indexPort;
+    private final KnowledgeIndexInitializer indexInitializer;
 
     public KnowledgeSyncService(
             KnowledgeProperties properties,
             KnowledgeManifestLoader manifestLoader,
             KnowledgeChunker chunker,
             EmbeddingPort embeddingPort,
+            KnowledgeIndexInitializer indexInitializer,
             KnowledgeIndexPort indexPort
     ) {
         this.properties = properties;
@@ -37,18 +40,15 @@ public class KnowledgeSyncService {
         this.chunker = chunker;
         this.embeddingPort = embeddingPort;
         this.indexPort = indexPort;
+        this.indexInitializer = indexInitializer;
     }
 
     public SyncResult syncConfiguredManifest() {
-        KnowledgeManifest manifest = manifestLoader.load(properties.getSource().getLocation());
-        if (manifest.documents().isEmpty() && !properties.getSource().isAllowEmpty()) {
+        KnowledgeManifest manifest = manifestLoader.load(properties.source().location());
+        if (manifest.documents().isEmpty() && !properties.source().allowEmpty()) {
             throw new IllegalArgumentException("빈 공개 지식 문서 목록은 동기화할 수 없습니다.");
         }
-        indexPort.ensureIndex(
-                embeddingPort.modelId(),
-                embeddingPort.dimensions(),
-                properties.getSource().chunkingFingerprint()
-        );
+        indexInitializer.refresh();
         Map<String, String> currentHashes = indexPort.findIndexedSourceHashes();
 
         Set<String> desiredDocumentIds = new HashSet<>();

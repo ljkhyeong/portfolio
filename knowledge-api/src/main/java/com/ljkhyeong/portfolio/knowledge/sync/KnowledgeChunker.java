@@ -16,11 +16,8 @@ public class KnowledgeChunker {
     private final int overlapCharacters;
 
     public KnowledgeChunker(KnowledgeProperties properties) {
-        this.maxCharacters = properties.getSource().getMaxChunkCharacters();
-        this.overlapCharacters = properties.getSource().getOverlapCharacters();
-        if (maxCharacters < 200 || overlapCharacters < 0 || overlapCharacters >= maxCharacters) {
-            throw new IllegalArgumentException("청크 크기와 겹침 범위 설정을 확인하세요.");
-        }
+        this.maxCharacters = properties.source().maxChunkCharacters();
+        this.overlapCharacters = properties.source().overlapCharacters();
     }
 
     public List<KnowledgeChunk> split(KnowledgeSourceDocument document) {

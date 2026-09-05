@@ -11,12 +11,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import com.openai.errors.OpenAIException;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort.AnswerContext;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
+import com.openai.errors.OpenAIException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatModel;
@@ -35,11 +36,15 @@ class SpringAiAnswerGenerationAdapterTest {
         ChatModel chatModel = mock(ChatModel.class);
         when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
         when(chatModel.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(
-                new Generation(new AssistantMessage("  알림 이벤트를 다시 처리합니다. [1]  "))
+                new Generation(new AssistantMessage("""
+                        {"answerable":true,"paragraphs":[
+                          {"text":"알림 이벤트를 다시 처리합니다.","citationIds":["1"]}
+                        ]}
+                        """))
         )));
         var adapter = new SpringAiAnswerGenerationAdapter(chatModel);
 
-        String answer = adapter.generate(
+        var answer = adapter.generate(
                 "알림은 어떻게 복구하나요?",
                 List.of(new AnswerContext("1", "BATON", "알림 복구", "{재처리} 근거"))
         );
@@ -49,7 +54,9 @@ class SpringAiAnswerGenerationAdapterTest {
         assertThat(prompt.getValue().getSystemMessage().getText()).contains("제공된 근거만 사용해");
         assertThat(prompt.getValue().getUserMessage().getText())
                 .contains("알림은 어떻게 복구하나요?", "[1] BATON / 알림 복구", "{재처리} 근거");
-        assertThat(answer).isEqualTo("알림 이벤트를 다시 처리합니다. [1]");
+        assertThat(answer.answerable()).isTrue();
+        assertThat(answer.paragraphs().getFirst().text()).isEqualTo("알림 이벤트를 다시 처리합니다.");
+        assertThat(answer.paragraphs().getFirst().citationIds()).containsExactly("1");
     }
 
     @ParameterizedTest
@@ -74,6 +81,21 @@ class SpringAiAnswerGenerationAdapterTest {
         var adapter = new SpringAiAnswerGenerationAdapter(chatModel);
 
         assertThatThrownBy(() -> adapter.generate("질문", List.of())).isSameAs(programmingError);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "JSON 형식이 아닌 답변", "{\"answerable\":true,\"paragraphs\":{}}"})
+    void 잘못된_JSON은_추가_AI_호출_없이_생성_불가로_처리한다(String response) {
+        ChatModel chatModel = mock(ChatModel.class);
+        when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
+        when(chatModel.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(
+                new Generation(new AssistantMessage(response))
+        )));
+        var adapter = new SpringAiAnswerGenerationAdapter(chatModel);
+
+        assertThatThrownBy(() -> adapter.generate("질문", List.of()))
+                .isInstanceOf(AnswerGenerationUnavailableException.class);
+        verify(chatModel).call(any(Prompt.class));
     }
 
     private static Stream<RuntimeException> providerFailures() {

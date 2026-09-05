@@ -1,5 +1,6 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -16,8 +17,7 @@ class InternalKnowledgeControllerTest {
 
     @Test
     void 동기화_키가_없으면_403을_반환한다() throws Exception {
-        KnowledgeProperties properties = new KnowledgeProperties();
-        properties.getSource().setSyncKey("configured-key");
+        KnowledgeProperties properties = knowledgeProperties("source.sync-key", "configured-key");
         InternalKnowledgeController controller = new InternalKnowledgeController(
                 properties,
                 mock(KnowledgeSyncService.class)

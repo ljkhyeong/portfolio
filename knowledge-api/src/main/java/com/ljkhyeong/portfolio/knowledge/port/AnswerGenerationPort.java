@@ -4,7 +4,13 @@ import java.util.List;
 
 public interface AnswerGenerationPort {
 
-    String generate(String question, List<AnswerContext> contexts);
+    GeneratedAnswer generate(String question, List<AnswerContext> contexts);
+
+    record GeneratedAnswer(Boolean answerable, List<AnswerParagraph> paragraphs) {
+    }
+
+    record AnswerParagraph(String text, List<String> citationIds) {
+    }
 
     record AnswerContext(
             String citationId,

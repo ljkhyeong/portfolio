@@ -5,11 +5,11 @@ import java.security.MessageDigest;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.sync.KnowledgeSyncService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.util.StringUtils;
 
 @RestController
 @RequestMapping("/internal/v1/knowledge")
@@ -32,7 +32,7 @@ public class InternalKnowledgeController {
     }
 
     private void verifySyncKey(String suppliedKey) {
-        String configuredKey = properties.getSource().getSyncKey();
+        String configuredKey = properties.source().syncKey();
         if (!StringUtils.hasText(configuredKey) || !StringUtils.hasText(suppliedKey)) {
             throw new SyncForbiddenException();
         }

@@ -2,12 +2,24 @@ package com.ljkhyeong.portfolio.knowledge;
 
 import java.util.List;
 
+import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.mock.env.MockEnvironment;
+
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSourceDocument;
 
 public final class TestFixtures {
 
     private TestFixtures() {
+    }
+
+    public static KnowledgeProperties knowledgeProperties(String... entries) {
+        MockEnvironment environment = new MockEnvironment();
+        for (int index = 0; index < entries.length; index += 2) {
+            environment.withProperty("knowledge." + entries[index], entries[index + 1]);
+        }
+        return Binder.get(environment).bindOrCreate("knowledge", KnowledgeProperties.class);
     }
 
     public static KnowledgeSourceDocument document(String documentId, String contentHash) {

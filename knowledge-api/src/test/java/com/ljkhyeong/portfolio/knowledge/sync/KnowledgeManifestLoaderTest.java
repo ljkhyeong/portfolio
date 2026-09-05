@@ -1,13 +1,21 @@
 package com.ljkhyeong.portfolio.knowledge.sync;
 
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.document;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
 
 class KnowledgeManifestLoaderTest {
 
@@ -48,11 +56,38 @@ class KnowledgeManifestLoaderTest {
                 return getClass().getClassLoader();
             }
         };
-        KnowledgeManifestLoader loader = new KnowledgeManifestLoader(resourceLoader, new JsonMapper());
+        try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
+            validator.afterPropertiesSet();
+            KnowledgeManifestLoader loader = new KnowledgeManifestLoader(resourceLoader, new JsonMapper(), validator);
 
-        var manifest = loader.load("memory:portfolio.json");
+            var manifest = loader.load("memory:portfolio.json");
 
-        assertThat(manifest.documents()).extracting(document -> document.documentId())
-                .containsExactly("public-doc");
+            assertThat(manifest.documents()).extracting(document -> document.documentId())
+                    .containsExactly("public-doc");
+        }
     }
+
+    @Test
+    void 공개_문서의_필수값을_표준_검증으로_확인한다() {
+        var mapper = new JsonMapper();
+        var document = document("doc-1", "sha256:content");
+        var invalidDocument = mapper.valueToTree(document).deepCopy();
+        ((ObjectNode) invalidDocument).put("title", " ");
+        byte[] json = mapper.writeValueAsBytes(Map.of(
+                "schemaVersion", "1.0",
+                "sourceRevision", "sha256:revision",
+                "documents", List.of(invalidDocument)
+        ));
+        ResourceLoader resources = mock(ResourceLoader.class);
+        when(resources.getResource("memory:invalid.json")).thenReturn(new ByteArrayResource(json));
+        try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
+            validator.afterPropertiesSet();
+            var loader = new KnowledgeManifestLoader(resources, mapper, validator);
+
+            assertThatThrownBy(() -> loader.load("memory:invalid.json"))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("title");
+        }
+    }
+
 }

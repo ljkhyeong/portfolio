@@ -20,7 +20,7 @@ public class AiPortConfiguration {
             ObjectProvider<ChatModel> chatModelProvider,
             KnowledgeProperties properties
     ) {
-        if ("disabled".equalsIgnoreCase(properties.getAi().getProvider())) {
+        if (properties.ai().provider() == KnowledgeProperties.AiProvider.DISABLED) {
             return new UnavailableAnswerGenerationAdapter();
         }
         ChatModel chatModel = chatModelProvider.getIfAvailable();
@@ -35,8 +35,8 @@ public class AiPortConfiguration {
             ObjectProvider<EmbeddingModel> embeddingModelProvider,
             KnowledgeProperties properties
     ) {
-        if ("disabled".equalsIgnoreCase(properties.getAi().getProvider())) {
-            return new UnavailableEmbeddingAdapter(properties.getAi().getEmbeddingDimensions());
+        if (properties.ai().provider() == KnowledgeProperties.AiProvider.DISABLED) {
+            return new UnavailableEmbeddingAdapter(properties.ai().embeddingDimensions());
         }
         EmbeddingModel embeddingModel = embeddingModelProvider.getIfAvailable();
         if (embeddingModel == null) {
@@ -44,8 +44,8 @@ public class AiPortConfiguration {
         }
         return new SpringAiEmbeddingAdapter(
                 embeddingModel,
-                properties.getAi().getEmbeddingModelId(),
-                properties.getAi().getEmbeddingDimensions()
+                properties.ai().embeddingModelId(),
+                properties.ai().embeddingDimensions()
         );
     }
 }

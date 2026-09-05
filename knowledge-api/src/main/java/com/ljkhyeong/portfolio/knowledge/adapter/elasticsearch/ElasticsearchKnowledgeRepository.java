@@ -57,7 +57,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
 
     public ElasticsearchKnowledgeRepository(KnowledgeProperties properties) {
         this.properties = properties;
-        RestClient restClient = createRestClient(properties.getElasticsearch());
+        RestClient restClient = createRestClient(properties.elasticsearch());
         this.transport = new RestClientTransport(restClient, new Jackson3JsonpMapper());
         this.client = new ElasticsearchClient(transport);
     }
@@ -393,16 +393,16 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
     }
 
     private RestClient createRestClient(KnowledgeProperties.Elasticsearch configuration) {
-        RestClientBuilder builder = RestClient.builder(HttpHost.create(configuration.getBaseUrl()))
+        RestClientBuilder builder = RestClient.builder(HttpHost.create(configuration.baseUrl()))
                 .setRequestConfigCallback(request -> request
-                        .setConnectTimeout(configuration.getConnectTimeoutSeconds() * 1_000)
-                        .setSocketTimeout(configuration.getReadTimeoutSeconds() * 1_000)
+                        .setConnectTimeout(configuration.connectTimeoutSeconds() * 1_000)
+                        .setSocketTimeout(configuration.readTimeoutSeconds() * 1_000)
                 );
-        if (StringUtils.hasText(configuration.getUsername())) {
+        if (StringUtils.hasText(configuration.username())) {
             HttpHeaders headers = new HttpHeaders();
             headers.setBasicAuth(
-                    configuration.getUsername(),
-                    configuration.getPassword(),
+                    configuration.username(),
+                    configuration.password(),
                     StandardCharsets.UTF_8
             );
             builder.setDefaultHeaders(new BasicHeader[]{
@@ -415,15 +415,12 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
     private <T> T execute(String message, ElasticsearchCall<T> call) {
         try {
             return call.execute();
-        } catch (IOException | RuntimeException exception) {
+        } catch (IOException | ElasticsearchException exception) {
             throw accessException(message, exception);
         }
     }
 
     private ElasticsearchAccessException accessException(String message, Exception exception) {
-        if (exception instanceof ElasticsearchAccessException accessException) {
-            return accessException;
-        }
         if (exception instanceof ElasticsearchException elasticsearchException) {
             return new ElasticsearchAccessException(
                     message + " 상태 코드: " + elasticsearchException.status(),
@@ -440,7 +437,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
     }
 
     private String indexName() {
-        return properties.getElasticsearch().getIndexName();
+        return properties.elasticsearch().indexName();
     }
 
     private static String valueOrEmpty(String value) {

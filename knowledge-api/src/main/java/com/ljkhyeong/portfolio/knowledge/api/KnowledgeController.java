@@ -37,13 +37,13 @@ public class KnowledgeController {
         );
         var hits = searchResult.hits();
         var results = responseMapper.toSearchResults(hits, request.query());
-        return new SearchResponse(request.query().strip(), results.size(), results);
+        return new SearchResponse(request.query(), results.size(), results);
     }
 
     @PostMapping(path = "/answers", consumes = MediaType.APPLICATION_JSON_VALUE)
     public AnswerResponse answer(@Valid @RequestBody AnswerRequest request) {
         return answerService.answer(
-                request.question().strip(),
+                request.question(),
                 request.projectIds(),
                 request.documentTypes(),
                 request.limit()
