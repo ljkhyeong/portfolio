@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:3dac575d43d9",
+  "sourceRevision": "sha256:f741dbfcdf7f",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -1570,7 +1570,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:d3168a1b7cc8",
+      "sourceRevision": "sha256:4635036585ce",
       "documentId": "knowledge_dad992584a9b9db126159634",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1578,13 +1578,13 @@
       "documentType": "problem_solution",
       "title": "과거 정책 개정과 늦은 AI 결과의 덮어쓰기 차단",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 청년정책메이트\n\n문제: 수집과 AI 처리가 비동기로 끝나면 이전 정책 개정이나 오래된 요청의 결과가 최신 정책을 덮을 수 있습니다.\n\n해결 방법: 원본 참조, 정책 개정, 생성 방식과 AI 요청 순번을 비교해 현재 상태와 맞는 후보만 반영합니다. 실패와 한도 보류는 기존 후보를 지우지 않습니다.\n\n확인: 같은 내용 재수집, 낮은 개정의 늦은 결과, 원본과 생성 버전 불일치 및 최신 요청 변경을 순수 모델 테스트로 확인했습니다.\n\n제약과 남은 작업: 정책 개정과 AI 후보는 아직 실제 수집기 및 후보 DB와 연결하지 않았고 실제 AI 공급자도 호출하지 않습니다.",
+      "content": "프로젝트: 청년정책메이트\n\n문제: 수집과 AI 처리가 비동기로 끝나면 이전 정책 개정이나 오래된 요청의 결과가 최신 정책을 덮을 수 있습니다.\n\n해결 방법: AI 요약 및 조건 추출 후보의 원본, 정책 개정, 생성 방식과 요청 순번을 비교해 현재 상태와 맞는 후보만 반영합니다. 요청 실패나 예산 한도로 처리 보류 시 기존 후보를 유지합니다.\n\n확인: 같은 내용 재수집, 낮은 개정의 늦은 결과, 원본과 생성 버전 불일치 및 최신 요청 변경을 순수 모델 테스트로 확인했습니다.\n\n제약과 남은 작업: 정책 개정과 AI 후보는 아직 실제 수집기 및 후보 DB와 연결하지 않았고 실제 AI 공급자도 호출하지 않습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-problems",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d3168a1b7cc8de752baf422ed009b8028edb4404502ccfefaa884d24b4df83e7",
-      "contentHash": "6baecbf0399984cbcb259f73612188a1a714b6e1a50a5a2852cb38d8f0852ab0"
+      "sourceHash": "4635036585ce53d62b58c3059641b1ae53381ac9ee766b86fb2ee62eb993253f",
+      "contentHash": "de0635486bc732c7969498bede1e38f3ed38ca5cae2c4c3781ffde93627d13ee"
     },
     {
       "schemaVersion": "1.0",
@@ -1660,21 +1660,21 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:60ef8b2355b7",
+      "sourceRevision": "sha256:d38393733bd3",
       "documentId": "knowledge_0cb20ca4788233dc891d2b2a",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
       "serviceId": null,
       "documentType": "implementation_evidence",
-      "title": "정책 개정과 AI 후보의 늦은 결과 차단",
+      "title": "AI 요약 및 조건 추출 후보의 늦은 반영 차단",
       "heading": "구현 및 검증 범위",
-      "content": "프로젝트: 청년정책메이트\n\n확인 대상: 정책 개정과 AI 후보의 늦은 결과 차단\n\n확인 방법: 정책 개정, 수집 진행과 AI 후보 순수 모델 테스트\n\n확인 조건: 같은 내용 재수집, 낮은 개정의 지연 응답, 이전 원본과 생성 버전 및 요청 순번의 AI 결과를 입력\n\n결과: 현재 정책 개정과 원본 및 최신 요청이 일치하는 후보만 반영하고 실패와 한도 보류가 기존 후보를 지우지 않도록 했습니다.\n\n공개 범위: 공개 main 7311d9e · 내부 모델 기준 · 실제 정책 수집, 후보 DB 저장과 AI 호출은 미구현",
+      "content": "프로젝트: 청년정책메이트\n\n확인 대상: AI 요약 및 조건 추출 후보의 늦은 반영 차단\n\n확인 방법: 정책 개정, 수집 진행과 AI 후보 순수 모델 테스트\n\n확인 조건: 같은 내용 재수집, 낮은 개정의 지연 응답, 이전 원본과 생성 버전 및 요청 순번의 AI 결과를 입력\n\n결과: 현재 정책 개정, 원본과 최신 요청이 일치하는 후보만 반영합니다. 요청 실패나 예산 한도로 처리 보류 시 기존 후보를 유지합니다.\n\n공개 범위: 공개 main 7311d9e, 후보 ID와 내용 해시를 관리하는 내부 모델 기준, 실제 정책 수집, 후보 본문 및 DB 저장과 AI 호출은 미구현",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-proof",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "60ef8b2355b718b4f8ac9fba4b9629dea4075c84bced7f6cd4b6886a3752c3a4",
-      "contentHash": "c9343f43a0e15e77c9a72324d3c7d6ebd8caedcc4b43da4eba311082f6b57900"
+      "sourceHash": "d38393733bd33adc38c01ed4d5cf3b9400112f423038cbc25c92d7f9ee0210b9",
+      "contentHash": "b89d2939d32932a4b39e875864b10195f4967bd527664e1af1c396d7bfec94b1"
     },
     {
       "schemaVersion": "1.0",
@@ -1912,20 +1912,20 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:98e0519faebe",
+      "sourceRevision": "sha256:0c358c24d828",
       "documentId": "knowledge_a024efcd7eac4c7c7e83307a",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
       "serviceId": null,
       "documentType": "problem_solution",
-      "title": "검증 결과만 저장하고 중단된 작업 재개",
+      "title": "검증을 통과한 리뷰만 저장하고 중단 작업 재개",
       "heading": "문제와 해결 방법",
       "content": "프로젝트: Hope Commit\n\n문제: 상태 저장 중 중단되면 빈 파일이 남거나 수집을 다시 해야 합니다. 동시 실행은 기존 결과를 덮어쓸 수 있습니다.\n\n해결 방법: 상태는 임시 파일에 저장한 뒤 교체하고 중단된 실행은 수집 지점부터 재개합니다. 저장 직전에는 실행 식별자와 검토 버전이 처음 확인한 값과 같은지 다시 확인합니다.\n\n확인: 상태 기록 단계별 중단 및 재개, 검증 전후 대상 변경과 잠금 소유권 상실을 재현했습니다. 기존 출력 경로, 심볼릭 링크와 동시 저장에서도 다른 실행의 작업 디렉터리와 기존 HTML이 바뀌지 않는지 확인했습니다.\n\n제약과 남은 작업: HTML은 로컬 파일로만 생성합니다. 원격 저장소 게시, 브랜치 생성, 푸시와 리뷰 댓글 작성은 수행하지 않습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-problems",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "98e0519faebe0470de060d054ccd69c591dfcb1588b8131abd9dfaac3b8486d3",
+      "sourceHash": "0c358c24d828b6d3a6b835ab46cd7bf41209d375730203bc91217092e1cb27ea",
       "contentHash": "305d6075610efd9c253f34194ac4bdff0eaa12cff293737fa965aba669082ac0"
     },
     {

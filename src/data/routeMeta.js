@@ -68,7 +68,7 @@ const routeMetaContent = {
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "정책 조건을 3단계로 판정해 근거와 기준일을 표시하고 확인한 마감만 알림 후보로 계산하는 서울 청년정책 웹앱",
+            "테스트 정책의 조건을 3단계로 판정해 근거와 기준일을 표시하고, 확인한 마감만 알림 후보 날짜로 계산하는 서울 청년정책 웹앱 개발 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {

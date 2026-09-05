@@ -17,7 +17,7 @@ export const batonServicePresentations = {
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "BATON 호출자의 생성 및 폐기와 대상 서비스 권한까지 포함한 전체 흐름, 실제 클러스터와 공개 배포는 미검증입니다.",
+                text: "BATON의 링크 생성 및 폐기 요청부터 대상 서비스의 접근 권한 확인까지 이어지는 전체 연동, 실제 클러스터와 공개 배포는 미검증입니다.",
             },
         ],
         flow: {
