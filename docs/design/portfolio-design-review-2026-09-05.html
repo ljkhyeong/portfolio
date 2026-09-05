@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>임정규 포트폴리오 — 디자인 비교 시안</title>
+<style>
+:root{--bg:#171a19;--surface:#222925;--text:#f4f6f4;--muted:#b2beb6;--line:#39433d;--green:#a6d9bd;--yellow:#f4d35e;font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-size:17px;line-height:1.7;word-break:keep-all}a{color:inherit;text-underline-offset:5px}button{font:inherit;cursor:pointer}a,button{touch-action:manipulation}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--yellow);outline-offset:5px}button:focus-visible{outline-offset:-4px}h1,h2,h3,h4,p{margin:0}h1,h2,h3,h4{line-height:1.35;letter-spacing:-.035em}h1{font-size:20px;font-weight:650}[hidden]{display:none!important}.review-header{background:#f0f3f1;color:#23302a;padding:20px max(24px,calc((100vw - 1200px)/2));border-bottom:1px solid #c8d2cb}.review-header p{font-size:14px;color:#516359;margin-top:4px}.review-header a{font-size:14px}.review-title{display:flex;align-items:baseline;justify-content:space-between;gap:20px}.switcher{display:flex;gap:4px;margin-top:16px;flex-wrap:wrap}.switcher button{border:1px solid #a4b4aa;background:transparent;color:#23302a;padding:8px 18px;border-radius:6px;font-weight:600;font-size:14px}.switcher button[aria-pressed="true"]{background:#233b2e;border-color:#233b2e;color:white}.review-note{font-size:14px;color:var(--muted);max-width:1200px;margin:20px auto 0;padding:0 0 20px;border-bottom:1px dashed var(--line)}.wrap{max-width:1200px;margin:auto}.preview-nav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:25px 0;border-bottom:1px solid var(--line)}.identity{display:flex;align-items:center;gap:12px;text-decoration:none}.identity img{width:36px;height:36px;image-rendering:pixelated}.identity strong{font-size:20px;letter-spacing:-.04em}.identity span{font-size:14px;color:var(--muted);margin-left:8px}.nav-links{display:flex;gap:25px;font-size:14px;align-items:center}.nav-links a{text-decoration:none}.nav-links a:hover{color:var(--green)}.nav-links .pdf{border:1px solid var(--line);padding:6px 13px;border-radius:4px}.hero{display:grid;grid-template-columns:1.35fr 1fr;align-items:center;gap:80px;padding:68px 0 58px}.hero h2{font-size:46px;line-height:1.32;letter-spacing:-.05em;font-weight:650}.hero-summary{max-width:660px;color:var(--muted);margin-top:25px;line-height:1.8}.hero-actions{display:flex;align-items:center;gap:24px;margin-top:28px}.primary-link{display:inline-flex;background:var(--green);color:#17271c;border-radius:4px;padding:10px 20px;text-decoration:none;font-size:15px;font-weight:650}.secondary-link{font-size:15px;color:var(--text)}.flow{padding-left:30px;border-left:1px solid var(--line)}.flow h3{font-size:18px;font-weight:600}.flow>p{font-size:13px;margin-top:5px;color:var(--muted)}.flow ol{list-style:none;padding:0;margin:24px 0 0}.flow li{display:flex;gap:16px;padding:0 0 16px;position:relative}.flow li:last-child{padding-bottom:0}.flow li:not(:last-child):before{content:"";position:absolute;left:15px;top:33px;bottom:0;border-left:1px solid #65756a}.step{flex:none;width:32px;height:32px;display:grid;place-items:center;font-size:12px;border:1px solid #65756a;border-radius:50%}.flow li:first-child .step{background:var(--yellow);color:#292509;border-color:var(--yellow);border-radius:5px}.flow strong{font-size:15px;font-weight:600}.flow li p{font-size:13px;color:var(--muted)}.career{display:grid;grid-template-columns:.8fr 1.2fr 1.2fr;gap:36px;background:var(--surface);border-left:3px solid var(--yellow);padding:26px 30px;scroll-margin-top:24px}.career h3{font-size:20px}.career small{color:var(--muted);font-size:13px}.career h4{font-size:16px;margin:4px 0}.career p{font-size:14px;color:var(--muted);margin-top:4px}.career a{font-size:13px;color:var(--green)}.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-top:66px;margin-bottom:25px}.section-title h2{font-size:30px;font-weight:600}.section-title p{font-size:14px;color:var(--muted)}.project{display:grid;grid-template-columns:300px 1fr;gap:52px;padding:34px 0;border-top:1px solid var(--line)}.project-heading>span{font-size:13px;color:var(--green)}.project h3{font-size:26px;margin:7px 0 10px;font-weight:600}.project-heading>p{font-size:14px;color:var(--muted);line-height:1.7}.project dl{margin:0;display:grid;grid-template-columns:42px 1fr;gap:10px 16px}.project dt{color:var(--muted);font-size:14px;padding-top:2px}.project dd{margin:0;font-size:16px;line-height:1.75}.project dd:last-child{color:var(--muted);font-size:14px}.project-links{display:flex;align-items:center;gap:20px;margin-top:18px}.project-links a{font-size:14px;color:var(--green)}.project-links span{font-size:12px;color:var(--muted)}.project-shot{width:100%;max-height:110px;object-fit:cover;object-position:top;display:block;margin-top:19px;border:1px solid var(--line);border-radius:5px}.service-names{display:flex;gap:12px;flex-wrap:wrap;margin-top:15px;font-size:12px;color:var(--muted)}.more-list{padding:0;margin:0;list-style:none;border-top:1px solid var(--line)}.more-list li{border-bottom:1px solid var(--line)}.more-list a{display:grid;grid-template-columns:300px 1fr 20px;gap:52px;text-decoration:none;padding:18px 0;align-items:center;font-size:15px}.more-list a:hover{color:var(--green)}.more-list strong{font-weight:550}.more-list p{font-size:14px;color:var(--muted)}.closing{margin:45px 0 50px;padding:24px 0;border-top:1px dashed var(--line);color:var(--muted);font-size:14px}.closing strong{color:var(--text);font-weight:550}.closing a{color:var(--green)}.existing{max-width:1200px;margin:auto;padding:30px 0 60px}.existing p{margin-bottom:22px;color:var(--muted);font-size:15px}.existing img{display:block;width:100%;height:auto;border:1px solid var(--line)}.references{max-width:1050px;margin:0 auto;padding:48px 0 70px}.references h2{font-size:30px;margin-bottom:15px}.references .lead{font-size:18px;max-width:850px;margin-bottom:30px}.reference-row{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:24px 0;border-top:1px solid var(--line)}.reference-row h3{font-size:20px;margin-bottom:6px}.reference-row p{font-size:15px;color:var(--muted)}.reference-row a{color:var(--green);font-size:14px}.reference-row strong{color:var(--text);font-weight:550}.references .small{font-size:13px;color:var(--muted);margin-top:22px}.priorities{padding-left:22px;margin:24px 0}.priorities li{padding:6px 0}.priorities strong{font-weight:550}.refs-section-title{margin-top:48px}.review-footer{max-width:1200px;margin:0 auto 28px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
+@media(max-width:1300px){.wrap,.review-note,.existing,.references,.review-footer{margin-left:32px;margin-right:32px}.hero{gap:48px}.project{grid-template-columns:280px 1fr;gap:36px}.more-list a{grid-template-columns:280px 1fr 20px;gap:36px}}
+@media(max-width:800px){.hero{gap:28px}.hero h2{font-size:38px}.flow{padding-left:20px}.career{gap:20px;padding:22px}.career{grid-template-columns:1fr 1fr}.career>div:first-child{grid-column:1/-1}.project{grid-template-columns:230px 1fr;gap:24px}.more-list a{grid-template-columns:230px 1fr 20px;gap:24px}.identity span{display:none}.nav-links{gap:18px}.section-title p{max-width:40%}}
+@media(max-width:600px){body{font-size:16px}.wrap,.review-note,.existing,.references,.review-footer{margin-left:24px;margin-right:24px}.review-header{padding:18px 24px}.review-title{display:block}.review-title>a{display:inline-block;margin-top:5px}.review-header h1{font-size:18px}.switcher{gap:5px}.switcher button{padding:8px 11px;font-size:13px}.review-note{font-size:12px;line-height:1.7;margin-top:16px;padding-bottom:16px}.preview-nav{padding:20px 0;gap:18px;flex-wrap:wrap}.identity strong{font-size:18px}.identity img{width:32px;height:32px}.nav-links{font-size:13px;gap:17px}.nav-links a:first-child,.nav-links a:nth-child(2){display:none}.hero{display:block;padding:35px 0}.hero h2{font-size:32px;line-height:1.38}.hero-summary{font-size:15px;line-height:1.8;margin-top:20px}.hero-actions{margin-top:22px;gap:24px}.primary-link{font-size:14px;padding:9px 16px}.secondary-link{font-size:14px}.flow{padding:23px 0 0;margin-top:28px;border-left:0;border-top:1px solid var(--line)}.flow h3{font-size:16px}.flow>p{font-size:12px}.flow ol{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:17px}.flow li{gap:9px;padding:0}.flow li:not(:last-child):before{display:none}.step{width:26px;height:26px;font-size:11px}.flow strong{font-size:13px}.flow li p{display:none}.career{display:block;padding:21px 22px}.career>div+div{margin-top:16px}.career h4{font-size:15px}.career p{font-size:13px}.section-title{display:block;margin-top:40px;margin-bottom:18px}.section-title h2{font-size:25px}.section-title p{max-width:none;font-size:13px;margin-top:8px}.project{display:block;padding:25px 0}.project h3{font-size:24px}.project-heading>p{font-size:14px}.project-shot{display:none}.project dl{margin-top:18px;grid-template-columns:32px 1fr;gap:8px 10px}.project dt{font-size:13px}.project dd{font-size:15px}.project dd:last-child{font-size:13px}.project-links{gap:16px;flex-wrap:wrap}.service-names{font-size:11px;gap:10px}.more-list a{grid-template-columns:1fr 16px;gap:4px 12px;padding:17px 0}.more-list p{grid-row:2;grid-column:1;font-size:13px}.more-list span{grid-column:2;grid-row:1/3}.closing{font-size:13px;margin:30px 0}.existing{padding-top:24px}.references{padding-top:30px}.references h2{font-size:25px}.references .lead{font-size:16px}.reference-row{display:block}.reference-row>div+div{margin-top:15px}.reference-row h3{font-size:18px}.reference-row p{font-size:14px}.priorities{font-size:15px}.review-footer{font-size:11px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="review-header">
+ <div class="review-title"><h1>포트폴리오 디자인 비교</h1><a href="../portfolio-design-review-2026-09-05.md">검토 문서</a></div>
+ <p>추천: 현재 분위기를 유지하고 이름, 경력, 대표 사례의 배치를 보완합니다.</p>
+ <div class="switcher" role="group" aria-label="비교 화면 선택">
+  <button type="button" data-view="proposal" aria-pressed="true" aria-controls="proposal">보완안 시안</button>
+  <button type="button" data-view="current" aria-pressed="false" aria-controls="current">현재 첫 화면</button>
+  <button type="button" data-view="sources" aria-pressed="false" aria-controls="sources">참고 사례와 판단</button>
+ </div>
+</header>
+<main>
+<section id="proposal" aria-label="보완안 시안">
+ <p class="review-note">검토용 시안입니다. 첫 화면과 프로젝트 목록의 배치를 비교하며, 실제 사이트에는 아직 적용하지 않았습니다.</p>
+ <div class="wrap">
+  <nav class="preview-nav" aria-label="시안 메뉴">
+   <a class="identity" href="#proposal"><img src="../../public/ljkhyeong-avatar.png" alt="" width="36" height="36"><div><strong>임정규</strong><span>백엔드 개발자</span></div></a>
+   <div class="nav-links"><a href="#career">경력</a><a href="#cases">프로젝트</a><a href="https://github.com/ljkhyeong" target="_blank" rel="noreferrer">GitHub</a><a class="pdf" href="https://ljkportfolio.netlify.app/임정규_포트폴리오.pdf" target="_blank" rel="noreferrer">PDF</a></div>
+  </nav>
+  <div class="hero">
+   <div>
+    <h2>중복 실행을 막고<br>중단된 작업을 재처리하는<br>백엔드 개발자입니다.</h2>
+    <p class="hero-summary">공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.</p>
+    <div class="hero-actions"><a class="primary-link" href="#cases">대표 사례 보기</a><a class="secondary-link" href="mailto:jolri24@naver.com">이메일 연락</a></div>
+   </div>
+   <aside class="flow" aria-label="요청 처리 흐름">
+    <h3>요청 처리 흐름</h3><p>BATON과 happyGallery에 적용한 방식</p>
+    <ol>
+     <li><span class="step">01</span><div><strong>요청 수신</strong><p>요청 식별값과 처리 대상 확인</p></div></li>
+     <li><span class="step">02</span><div><strong>중복 확인</strong><p>처리한 요청의 기존 결과 재사용</p></div></li>
+     <li><span class="step">03</span><div><strong>상태 저장</strong><p>처리 상태와 재처리 기준을 DB에 기록</p></div></li>
+     <li><span class="step">04</span><div><strong>중단 후 재처리</strong><p>재처리 가능한 미완료 작업 실행</p></div></li>
+    </ol>
+   </aside>
+  </div>
+  <section id="career" class="career" aria-labelledby="career-title">
+   <div><h3 id="career-title">BEINTECH</h3><small>백엔드 개발자 / 2024.06 — 현재</small><p><a href="https://ljkportfolio.netlify.app/#experience" target="_blank" rel="noreferrer">경력 상세 보기</a></p></div>
+   <div><small>현재 업무</small><h4>전송형 전자영장 시스템</h4><p>기관별 요청 변환 및 제출 자료 반영 서버와 Spring Batch 개발</p></div>
+   <div><small>이전 업무</small><h4>차세대 군사법 정보 시스템</h4><p>기관 자료 검증 배치 개발 및 중단 배치 재실행</p></div>
+  </section>
+  <section id="cases" aria-labelledby="cases-title">
+   <div class="section-title"><h2 id="cases-title">대표 프로젝트</h2><p>해결한 문제와 구현 내용을 먼저 확인할 수 있습니다.</p></div>
+   <article class="project">
+    <div class="project-heading"><span>경력 프로젝트 / 진행 중</span><h3>전송형 전자영장 시스템</h3><p>KICS와 기관 사이에서 요청과 제출 자료를 전달하는 시스템입니다.</p></div>
+    <div><dl><dt>문제</dt><dd>기관마다 요청 형식이 다르고, PDF 완료 응답이 요청 상태 저장보다 먼저 도착할 수 있습니다.</dd><dt>구현</dt><dd>기관별 변환 코드를 분리하고, 먼저 도착한 완료 응답은 요청 상태를 다시 조회해 반영합니다.</dd><dt>검증</dt><dd>자료 변환 및 배치 단계 확인 / 내부 문서 비공개</dd></dl><div class="project-links"><a href="https://ljkportfolio.netlify.app/projects/e-warrant" target="_blank" rel="noreferrer">담당 범위와 구현 보기</a><span>Java / Spring Boot / Spring Batch / Oracle</span></div></div>
+   </article>
+   <article class="project">
+    <div class="project-heading"><span>개인 프로젝트 / 개발 중</span><h3>BATON</h3><p>조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.</p><img class="project-shot" src="../../public/baton-core-today.webp" width="1440" height="900" alt="BATON의 업무 관리 화면"></div>
+    <div><dl><dt>문제</dt><dd>같은 요청이나 이벤트가 다시 전달되면 링크와 전달 작업이 중복 생성될 수 있습니다.</dd><dt>구현</dt><dd>요청 UUID와 이벤트 ID로 기존 작업을 재사용합니다. 결과가 확인되지 않은 전송은 자동 재시도하지 않습니다.</dd><dt>검증</dt><dd>서비스별 테스트와 일부 Core 연동을 로컬에서 확인 / 공개 환경 전체 연동은 미검증</dd></dl><div class="project-links"><a href="https://ljkportfolio.netlify.app/projects/baton" target="_blank" rel="noreferrer">설계와 검증 범위 보기</a><a href="https://github.com/ljkhyeong/baton-watch" target="_blank" rel="noreferrer">WATCH GitHub</a></div><div class="service-names" aria-label="BATON 서비스"><span>Core</span><span>GO</span><span>WATCH</span><span>RELAY</span><span>BRIEF</span><span>CAL</span><span>ROUND</span></div></div>
+   </article>
+   <article class="project">
+    <div class="project-heading"><span>개인 프로젝트 / 개발 중</span><h3>happyGallery</h3><p>상품 주문, 클래스 예약과 스마트스토어 운영을 한 곳에서 처리하는 공방 서비스입니다.</p><img class="project-shot" src="../../public/happygallery-product-options.webp" width="1440" height="960" alt="happyGallery의 상품 옵션 선택 화면"></div>
+    <div><dl><dt>문제</dt><dd>결제사 응답 유실, 서버 중단에 따른 알림 유실과 외부 주문 재수신에 따른 재고 중복 반영이 발생할 수 있습니다.</dd><dt>구현</dt><dd>결제 orderId와 환불 UUID를 재사용합니다. DB에 저장한 알림을 재처리하고, 외부 주문은 수량 변경분만 재고에 반영합니다.</dd><dt>검증</dt><dd>공개 main 통합 테스트 및 화면 자동화 확인 / 실제 PG 연동은 미검증</dd></dl><div class="project-links"><a href="https://ljkportfolio.netlify.app/projects/happygallery" target="_blank" rel="noreferrer">결제와 재처리 구현 보기</a><a href="https://github.com/ljkhyeong/happyGallery" target="_blank" rel="noreferrer">GitHub</a></div></div>
+   </article>
+  </section>
+  <section aria-labelledby="more-title">
+   <div class="section-title"><h2 id="more-title">추가 프로젝트</h2></div>
+   <ul class="more-list">
+    <li><a href="https://ljkportfolio.netlify.app/projects/youth-policy-mate" target="_blank" rel="noreferrer"><strong>청년정책메이트</strong><p>정책 자격 근거와 신청 일정</p><span aria-hidden="true">↗</span></a></li>
+    <li><a href="https://ljkportfolio.netlify.app/projects/defense" target="_blank" rel="noreferrer"><strong>차세대 군사법 정보 시스템</strong><p>기관 자료 검증과 중단 배치 재실행</p><span aria-hidden="true">↗</span></a></li>
+    <li><a href="https://ljkportfolio.netlify.app/projects/hope-commit" target="_blank" rel="noreferrer"><strong>Hope Commit</strong><p>로컬 커밋 HTML 리뷰 / Hope 비공식 포크</p><span aria-hidden="true">↗</span></a></li>
+    <li><a href="https://ljkportfolio.netlify.app/projects/intent-trace" target="_blank" rel="noreferrer"><strong>IntentTrace</strong><p>AI 코드 변경 의도와 검증 기록</p><span aria-hidden="true">↗</span></a></li>
+    <li><a href="https://ljkportfolio.netlify.app/projects/webrtc" target="_blank" rel="noreferrer"><strong>WebRTC 실시간 강의</strong><p>실시간 강의와 HLS 다시보기</p><span aria-hidden="true">↗</span></a></li>
+   </ul>
+  </section>
+  <p class="closing"><strong>메인 상단 및 프로젝트 목록의 시안은 여기까지입니다.</strong><br>이어서 기존 경력 및 학습, 기술, 연락처를 배치합니다. <a href="https://ljkportfolio.netlify.app" target="_blank" rel="noreferrer">현재 전체 포트폴리오 보기</a></p>
+ </div>
+</section>
+<section id="current" aria-label="현재 첫 화면" hidden>
+ <div class="existing"><p>현재 사이트의 첫 화면입니다. 데스크톱과 모바일 너비에 맞춰 해당 화면을 표시합니다. 보완안과 색상은 같고, 이름과 경력의 위치, 소개의 높이가 달라집니다.</p><picture><source media="(max-width:600px)" srcset="assets/current-home-390.png"><img src="assets/current-home-1440.png" alt="현재 포트폴리오의 소개와 요청 처리 흐름" width="1440" height="1000"></picture></div>
+</section>
+<section id="sources" aria-labelledby="sources-title" hidden>
+ <div class="references">
+  <h2 id="sources-title">전면 교체보다 메인 보완을 추천합니다.</h2>
+  <p class="lead">현재 색상과 도식은 백엔드 경험에 잘 맞습니다. 다른 템플릿으로 교체하기보다 이름과 업무 경험을 앞에 두고, 프로젝트에서 해결한 문제를 빠르게 읽게 하는 편이 적합합니다.</p>
+  <div class="reference-row"><div><h3>Brittany Chiang</h3><p>v4 저장소 약 8.3k 별</p><a href="https://brittanychiang.com/" target="_blank" rel="noreferrer">현재 화면</a> / <a href="https://github.com/bchiang7/v4" target="_blank" rel="noreferrer">v4 저장소</a></div><div><p><strong>참고: 이름, 직무와 경력을 찾기 쉬운 구성.</strong><br>현재 사이트의 고정 프로필에서 읽는 순서를 참고합니다. 넓은 사이드바는 한글 설명과 도식의 폭을 줄이므로 적용하지 않습니다. 현재 사이트와 v4 저장소는 서로 다른 버전입니다.</p></div></div>
+  <div class="reference-row"><div><h3>Magic UI Portfolio</h3><p>약 1.5k 별</p><a href="https://portfolio-magicui.vercel.app/" target="_blank" rel="noreferrer">화면</a> / <a href="https://github.com/magicuidesign/portfolio" target="_blank" rel="noreferrer">저장소</a></div><div><p><strong>참고: 짧고 비교하기 쉬운 경력 목록.</strong><br>회사, 역할과 기간을 간결하게 배치합니다. 좁은 본문과 작은 프로젝트 격자까지 적용하면 백엔드 문제 해결 설명이 답답해질 수 있습니다.</p></div></div>
+  <div class="reference-row"><div><h3>Chánh Đại</h3><p>약 2.2k 별</p><a href="https://chanhdai.com/" target="_blank" rel="noreferrer">화면</a> / <a href="https://github.com/ncdai/chanhdai.com" target="_blank" rel="noreferrer">저장소</a></div><div><p><strong>참고: 이름과 직무가 분명한 프로필.</strong><br>구획과 프로필 표현을 참고합니다. 큰 브랜드 그래픽과 활동 그래프는 현재 실무와 대표 사례보다 앞에 놓을 필요가 없습니다.</p></div></div>
+  <div class="reference-row"><div><h3>vCard</h3><p>약 8.1k 별</p><a href="https://codewithsadee.github.io/vcard-personal-portfolio/" target="_blank" rel="noreferrer">화면</a> / <a href="https://github.com/codewithsadee/vcard-personal-portfolio" target="_blank" rel="noreferrer">저장소</a></div><div><p><strong>참고: 프로필과 연락처를 쉽게 찾는 구성.</strong><br>탭을 눌러 경력과 프로젝트를 확인하는 방식은 처음 방문한 사람이 전체 내용을 훑어보기에는 불리하다고 판단했습니다.</p></div></div>
+  <p class="small">별 수는 2026년 9월 5일 GitHub 표시 기준의 근삿값입니다. 적합성은 현재 포트폴리오의 내용에 따른 판단이며 채용 효과를 측정한 결과가 아닙니다.</p>
+  <h2 class="refs-section-title">먼저 바꿀 다섯 가지</h2>
+  <ol class="priorities"><li><strong>실명과 직무</strong>를 첫 화면에 표시</li><li><strong>회사와 현재 업무</strong>를 대표 프로젝트 앞에 배치</li><li>프로젝트마다 <strong>문제, 구현, 검증 범위</strong>를 짧게 표시</li><li>큰 서비스 이미지와 <strong>모바일 처리 도식의 높이</strong> 축소</li><li>추가 프로젝트를 <strong>짧은 목록</strong>으로 정리</li></ol>
+  <p>현재 요청 처리 도식과 프로젝트 상세는 유지합니다. 문서 검색의 색상 통일은 다음 순서로 진행합니다.</p>
+  <p class="small">기존 참고 사이트인 <a href="https://hamishw.com/" target="_blank" rel="noreferrer">Hamish Williams</a>, <a href="https://www.craftz.dog/" target="_blank" rel="noreferrer">CraftzDog</a>와 인기 저장소 Simplefolio, developerFolio도 비교했습니다. 상세 내용은 검토 문서에 정리했습니다.</p>
+ </div>
+</section>
+</main>
+<footer class="review-footer">2026.09.05 검토 / 기존 색상과 프로젝트 사실관계 유지 / 실제 사이트와 PDF에는 미적용</footer>
+<script>
+const controls = [...document.querySelectorAll('[data-view]')]
+for (const control of controls) {
+ control.addEventListener('click', () => {
+  for (const other of controls) {
+   const selected = other === control
+   other.setAttribute('aria-pressed', String(selected))
+   document.getElementById(other.dataset.view).hidden = !selected
+  }
+ })
+}
+</script>
+</body>
+</html>
