@@ -60,7 +60,7 @@ public class KnowledgeSearchService {
         String normalizedQuery = query.strip();
         int limit = normalizeLimit(requestedLimit);
         KnowledgeFilter filter = new KnowledgeFilter(
-                normalizeProjectIds(projectIds),
+                normalizeFilterValues(projectIds),
                 normalizeDocumentTypes(documentTypes)
         );
         int candidateLimit = Math.max(limit, properties.search().candidateLimit());
@@ -97,11 +97,11 @@ public class KnowledgeSearchService {
         return Math.min(limit, properties.search().maxLimit());
     }
 
-    private List<String> normalizeProjectIds(List<String> projectIds) {
-        if (projectIds == null) {
+    private List<String> normalizeFilterValues(List<String> values) {
+        if (values == null) {
             return List.of();
         }
-        return projectIds.stream()
+        return values.stream()
                 .map(String::strip)
                 .map(value -> value.toLowerCase(Locale.ROOT))
                 .filter(value -> !value.isBlank())
@@ -110,15 +110,7 @@ public class KnowledgeSearchService {
     }
 
     private List<String> normalizeDocumentTypes(List<String> documentTypes) {
-        if (documentTypes == null) {
-            return List.of();
-        }
-        List<String> normalized = documentTypes.stream()
-                .map(String::strip)
-                .map(value -> value.toLowerCase(Locale.ROOT))
-                .filter(value -> !value.isBlank())
-                .distinct()
-                .toList();
+        List<String> normalized = normalizeFilterValues(documentTypes);
         List<String> invalid = normalized.stream().filter(value -> !DOCUMENT_TYPES.contains(value)).toList();
         if (!invalid.isEmpty()) {
             throw new IllegalArgumentException("지원하지 않는 문서 종류입니다: " + String.join(", ", invalid));

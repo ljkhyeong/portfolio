@@ -99,7 +99,7 @@ Content-Type: application/json
 -   `INSUFFICIENT_EVIDENCE`: 관련 공개 근거가 부족해 답변을 만들지 않습니다.
 -   `GENERATION_UNAVAILABLE`: AI 제공자 오류 또는 설정 없음으로 답변을 만들지 않고 검색 결과만 반환합니다.
 
-Spring AI의 `ChatClient.entity()`로 답변 가능 여부와 문단별 본문·근거 ID를 받습니다. 서비스는 각 문단의 근거 ID를 확인하고 인용 순서대로 `[1]` 번호와 출처 목록을 만듭니다. 제공하지 않은 ID, 인용이 없는 문단이나 잘못된 JSON은 `GENERATION_UNAVAILABLE`로 처리합니다. JSON 형식을 고치기 위한 추가 AI 호출은 하지 않습니다. [Spring AI ChatClient](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
+Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션과 메트릭·추적 설정을 적용합니다. `ChatClient.entity()`로 답변 가능 여부와 문단별 본문·근거 ID를 받습니다. 서비스는 각 문단의 근거 ID를 확인하고 인용 순서대로 `[1]` 번호와 출처 목록을 만듭니다. 제공하지 않은 ID, 인용이 없는 문단이나 잘못된 JSON은 `GENERATION_UNAVAILABLE`로 처리합니다. JSON 형식을 고치기 위한 추가 AI 호출은 하지 않습니다. [Spring AI ChatClient](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
 벡터 검색 결과만 있고 BM25 키워드 검색에서 적중한 문서가 없으면 AI를 호출하지 않습니다. 이 조건은 질문과 직접 일치하는 공개 문서가 없는 상태에서 의미상 가까운 문서만으로 답변을 만드는 일을 막습니다.
 

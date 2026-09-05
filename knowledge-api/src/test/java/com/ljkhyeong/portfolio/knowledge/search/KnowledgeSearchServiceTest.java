@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -15,14 +16,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class KnowledgeSearchServiceTest {
 
@@ -82,4 +88,46 @@ class KnowledgeSearchServiceTest {
         assertThatThrownBy(() -> service.search("알림 재처리", List.of(), List.of(), 10))
                 .isSameAs(programmingError);
     }
+
+    @ParameterizedTest
+    @MethodSource("filters")
+    void 프로젝트와_문서_종류에_같은_정규화_규칙을_적용한다(
+            List<String> projectIds, List<String> documentTypes, KnowledgeFilter expected
+    ) {
+        KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
+        var service = new KnowledgeSearchService(
+                knowledgeProperties(), mock(EmbeddingPort.class), mock(KnowledgeIndexInitializer.class),
+                indexPort, new RrfRanker()
+        );
+
+        service.search("알림", projectIds, documentTypes, 10);
+
+        verify(indexPort).searchBm25(eq("알림"), eq(expected), anyInt());
+    }
+
+    @Test
+    void 정규화_후에도_지원하지_않는_문서_종류는_검색하지_않는다() {
+        KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
+        var service = new KnowledgeSearchService(
+                knowledgeProperties(), mock(EmbeddingPort.class), mock(KnowledgeIndexInitializer.class),
+                indexPort, new RrfRanker()
+        );
+
+        assertThatThrownBy(() -> service.search("알림", List.of(), List.of(" PRIVATE "), 10))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("지원하지 않는 문서 종류입니다: private");
+        verify(indexPort, never()).searchBm25(anyString(), any(), anyInt());
+    }
+
+    private static Stream<Arguments> filters() {
+        return Stream.of(
+                Arguments.of(null, null, new KnowledgeFilter(List.of(), List.of())),
+                Arguments.of(
+                        List.of(" BATON ", "baton", ""),
+                        List.of(" PROJECT_OVERVIEW ", "project_overview", " "),
+                        new KnowledgeFilter(List.of("baton"), List.of("project_overview"))
+                )
+        );
+    }
+
 }

@@ -3,6 +3,7 @@ package com.ljkhyeong.portfolio.knowledge.api;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,6 +11,7 @@ import com.ljkhyeong.portfolio.knowledge.search.KnowledgeAnswerService;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeSearchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -43,6 +45,7 @@ class KnowledgeControllerHttpContractTest {
     void GET으로_검색을_요청하면_405를_반환한다() throws Exception {
         mockMvc.perform(get("/api/v1/knowledge/search"))
                 .andExpect(status().isMethodNotAllowed())
+                .andExpect(header().string(HttpHeaders.ALLOW, "POST"))
                 .andExpect(jsonPath("$.code").value("METHOD_NOT_ALLOWED"));
     }
 
@@ -52,6 +55,7 @@ class KnowledgeControllerHttpContractTest {
                         .contentType(MediaType.TEXT_PLAIN)
                         .content("검색어"))
                 .andExpect(status().isUnsupportedMediaType())
+                .andExpect(header().string(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.code").value("UNSUPPORTED_MEDIA_TYPE"));
     }
 

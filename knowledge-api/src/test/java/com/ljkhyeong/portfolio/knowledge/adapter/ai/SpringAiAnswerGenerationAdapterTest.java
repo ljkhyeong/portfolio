@@ -19,6 +19,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -42,7 +43,7 @@ class SpringAiAnswerGenerationAdapterTest {
                         ]}
                         """))
         )));
-        var adapter = new SpringAiAnswerGenerationAdapter(chatModel);
+        var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
 
         var answer = adapter.generate(
                 "알림은 어떻게 복구하나요?",
@@ -65,7 +66,7 @@ class SpringAiAnswerGenerationAdapterTest {
         ChatModel chatModel = mock(ChatModel.class);
         when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
         when(chatModel.call(any(Prompt.class))).thenThrow(providerFailure);
-        var adapter = new SpringAiAnswerGenerationAdapter(chatModel);
+        var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
 
         assertThatThrownBy(() -> adapter.generate("질문", List.of()))
                 .isInstanceOf(AnswerGenerationUnavailableException.class)
@@ -78,7 +79,7 @@ class SpringAiAnswerGenerationAdapterTest {
         when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
         IllegalStateException programmingError = new IllegalStateException("programming error");
         when(chatModel.call(any(Prompt.class))).thenThrow(programmingError);
-        var adapter = new SpringAiAnswerGenerationAdapter(chatModel);
+        var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
 
         assertThatThrownBy(() -> adapter.generate("질문", List.of())).isSameAs(programmingError);
     }
@@ -91,7 +92,7 @@ class SpringAiAnswerGenerationAdapterTest {
         when(chatModel.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(
                 new Generation(new AssistantMessage(response))
         )));
-        var adapter = new SpringAiAnswerGenerationAdapter(chatModel);
+        var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
 
         assertThatThrownBy(() -> adapter.generate("질문", List.of()))
                 .isInstanceOf(AnswerGenerationUnavailableException.class);

@@ -6,7 +6,7 @@ import com.ljkhyeong.portfolio.knowledge.adapter.ai.UnavailableAnswerGenerationA
 import com.ljkhyeong.portfolio.knowledge.adapter.ai.UnavailableEmbeddingAdapter;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
-import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
@@ -17,17 +17,17 @@ public class AiPortConfiguration {
 
     @Bean
     AnswerGenerationPort answerGenerationPort(
-            ObjectProvider<ChatModel> chatModelProvider,
+            ObjectProvider<ChatClient.Builder> chatClientBuilderProvider,
             KnowledgeProperties properties
     ) {
         if (properties.ai().provider() == KnowledgeProperties.AiProvider.DISABLED) {
             return new UnavailableAnswerGenerationAdapter();
         }
-        ChatModel chatModel = chatModelProvider.getIfAvailable();
-        if (chatModel == null) {
-            throw new IllegalStateException("AI provider가 설정되었지만 ChatModel을 찾을 수 없습니다.");
+        ChatClient.Builder builder = chatClientBuilderProvider.getIfAvailable();
+        if (builder == null) {
+            throw new IllegalStateException("AI provider가 설정되었지만 ChatClient.Builder를 찾을 수 없습니다.");
         }
-        return new SpringAiAnswerGenerationAdapter(chatModel);
+        return new SpringAiAnswerGenerationAdapter(builder);
     }
 
     @Bean

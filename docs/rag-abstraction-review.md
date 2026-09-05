@@ -44,34 +44,28 @@ JSON 변환과 기본값 처리는 [Spring AI ChatClient](https://docs.spring.io
 마지막 설정 변경은 관련 설정 테스트와 JAR 빌드만 다시 확인했다. 최초 테스트에서 기대한 빈 제공자 값의 거부는 Spring 기본값 처리와 달라, 기본값을 허용하고 잘못된 이름을 거부하는 기준으로 조정했다.
 실제 OpenAI·Ollama 호출과 검색 품질 평가는 실행하지 않았다. 프런트엔드와 공개 검색 자료는 변경하지 않아 웹 빌드와 산출물 생성은 반복하지 않았다.
 
-## 추가 검토 — `3c7018e` 기준
+## 추가 검토 반영 — `2a4d028` 검토 후
 
-이번에는 앱 코드를 수정하지 않았다. 남은 개선 항목은 다음 세 가지다.
+### 1. HTTP 오류 응답의 Spring 제공 헤더 보존
 
-### 1. HTTP 오류 응답에서 Spring이 제공하는 헤더를 보존한다
-
-[GlobalExceptionHandler](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/GlobalExceptionHandler.java)의 405·415 처리 메서드는 상태와 본문을 직접 만들며 예외의 헤더를 전달하지 않는다.
-기존 컴파일 결과의 두 메서드를 직접 호출한 결과, Spring 예외에는 `Allow: POST`와 `Accept: application/json`이 있지만 반환된 `ResponseEntity`의 헤더는 모두 비어 있었다.
-
-`exception.getStatusCode()`와 `exception.getHeaders()`를 사용해 응답을 만들고 현재 한글 오류 본문은 유지하는 수정이 적절하다.
-전체 예외 처리기를 교체할 필요는 없다. 기존 HTTP 계약 테스트에 405의 `Allow`, 415의 `Accept` 확인을 추가하면 된다.
+[GlobalExceptionHandler](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/GlobalExceptionHandler.java)의 405·415 응답에 `exception.getStatusCode()`와 `exception.getHeaders()`를 적용했다.
+기존 한글 오류 본문을 유지하며, 405에서는 `Allow: POST`, 415에서는 `Accept: application/json`을 반환한다. 기존 HTTP 계약 테스트에서 두 헤더를 확인했다.
 [Spring HTTP 메소드 예외](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/HttpRequestMethodNotSupportedException.html), [Spring 미디어 타입 예외](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/HttpMediaTypeNotSupportedException.html).
 
-### 2. 자동 설정된 `ChatClient.Builder`를 주입받는다
+### 2. 자동 설정된 `ChatClient.Builder` 주입
 
-[SpringAiAnswerGenerationAdapter](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/adapter/ai/SpringAiAnswerGenerationAdapter.java)는 `ChatClient.builder(chatModel)`로 빌더를 직접 만든다.
-이 경로는 Spring 자동 설정이 연결하는 ChatClient 단위 메트릭·추적 설정과 빌더 커스터마이저를 사용하지 않는다. 하위 ChatModel의 관측까지 모두 비활성화된다는 뜻은 아니다.
-현재 별도 커스터마이저는 없으므로 공통 설정 누락으로 발생한 운영 장애를 확인한 것은 아니다.
+[AiPortConfiguration](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/config/AiPortConfiguration.java)은 `ObjectProvider<ChatClient.Builder>`로 빌더를 받아 답변 어댑터에 전달한다.
+어댑터는 이 빌더에 시스템 지침과 `NoOpTemplateRenderer`를 적용한다. `disabled` 프로필에서는 빌더 없이 기동하고, AI를 켠 상태에서 빌더가 없으면 설정 오류로 시작을 중단한다.
 
-`AiPortConfiguration`에서 자동 설정된 `ChatClient.Builder`를 받아 전달하고, 어댑터에서는 시스템 지침과 `NoOpTemplateRenderer`만 적용하면 된다.
-기본 `disabled` 프로필에서 빌더가 없어도 기동하는 동작은 `ObjectProvider`로 유지한다.
-Spring AI 2.0.0의 로컬 자동 설정 JAR과 [ChatClient 공식 문서](https://docs.spring.io/spring-ai/reference/api/chatclient.html)에서 해당 연결을 확인했다.
+Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스트에서 빌더 커스터마이저의 공통 옵션과 `spring.ai.chat.client` 관측 이벤트를 확인했다.
+이는 앱 내부 설정의 연결 검증이며 운영 추적 서버로의 전송을 확인한 것은 아니다. [ChatClient 공식 문서](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
-### 3. 필터 정규화의 동일한 처리를 한 메서드로 모은다
+### 3. 필터 정규화 중복 제거
 
-[KnowledgeSearchService](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/search/KnowledgeSearchService.java)의 `normalizeProjectIds()`와 `normalizeDocumentTypes()`는 null 처리, 공백 제거, 소문자 변환, 빈 값 제외와 중복 제거를 동일하게 수행한다.
-공통 정규화 메서드 하나를 사용하고 문서 종류의 허용값 검사만 남길 수 있다. 별도 공통 모듈이나 새 검증 프레임워크는 필요하지 않다.
-성능 개선보다 같은 규칙을 두 곳에서 수정하지 않도록 하는 작은 정리이며 우선순위는 낮다.
+[KnowledgeSearchService](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/search/KnowledgeSearchService.java)의 `normalizeFilterValues()`에서 null 처리, 공백 제거, 소문자 변환, 빈 값 제외와 중복 제거를 공통 수행한다.
+문서 종류의 허용값 검사는 유지했다. 누락된 필터, 중복·공백·대문자가 있는 필터와 지원하지 않는 문서 종류를 관련 테스트에서 확인했다.
 
-추가 검토에서는 원래 유지하기로 한 청크 분할, RRF, 임베딩 개수·차원과 부분 색인 검증을 삭제할 근거를 찾지 못했다.
-전체 테스트와 빌드는 반복하지 않았으며, 헤더 누락은 기존 오류 처리 메서드의 직접 호출로만 확인했다.
+### 확인 범위
+
+관련 테스트 39개와 `bootJar`를 통과했다. HTTP 계약, AI 설정 및 답변 어댑터, 검색·답변 서비스와 기본 프로필의 readiness 테스트를 선택 실행했다.
+이번에 변경하지 않은 Elasticsearch 색인 통합 테스트, 웹 빌드와 PDF·OG 생성은 반복하지 않았다. 실제 OpenAI·Ollama 호출도 실행하지 않았다.

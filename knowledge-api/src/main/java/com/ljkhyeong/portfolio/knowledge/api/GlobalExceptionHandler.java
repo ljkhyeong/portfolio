@@ -53,20 +53,24 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiErrorResponse> handleUnsupportedMethod(HttpRequestMethodNotSupportedException exception) {
-        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ApiErrorResponse(
-                "METHOD_NOT_ALLOWED",
-                "지원하지 않는 HTTP 메소드입니다.",
-                Map.of()
-        ));
+        return ResponseEntity.status(exception.getStatusCode())
+                .headers(exception.getHeaders())
+                .body(new ApiErrorResponse(
+                        "METHOD_NOT_ALLOWED",
+                        "지원하지 않는 HTTP 메소드입니다.",
+                        Map.of()
+                ));
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<ApiErrorResponse> handleUnsupportedMediaType(HttpMediaTypeNotSupportedException exception) {
-        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(new ApiErrorResponse(
-                "UNSUPPORTED_MEDIA_TYPE",
-                "Content-Type은 application/json을 사용해 주세요.",
-                Map.of()
-        ));
+        return ResponseEntity.status(exception.getStatusCode())
+                .headers(exception.getHeaders())
+                .body(new ApiErrorResponse(
+                        "UNSUPPORTED_MEDIA_TYPE",
+                        "Content-Type은 application/json을 사용해 주세요.",
+                        Map.of()
+                ));
     }
 
     @ExceptionHandler(ElasticsearchAccessException.class)

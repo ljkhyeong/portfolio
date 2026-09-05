@@ -7,7 +7,6 @@ import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
 import com.openai.errors.OpenAIException;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.retry.NonTransientAiException;
 import org.springframework.ai.retry.TransientAiException;
 import org.springframework.ai.template.NoOpTemplateRenderer;
@@ -29,8 +28,8 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
 
     private final ChatClient chatClient;
 
-    public SpringAiAnswerGenerationAdapter(ChatModel chatModel) {
-        this.chatClient = ChatClient.builder(chatModel)
+    public SpringAiAnswerGenerationAdapter(ChatClient.Builder builder) {
+        this.chatClient = builder
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultTemplateRenderer(new NoOpTemplateRenderer())
                 .build();
