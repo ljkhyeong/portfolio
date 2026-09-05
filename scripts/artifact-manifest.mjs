@@ -85,3 +85,19 @@ export const verifyArtifactManifest = ({
         )
     }
 }
+
+export const isArtifactCurrent = async ({ manifestPath, validateArtifact, ...options }) => {
+    try {
+        const [artifact, manifest] = await Promise.all([
+            readFile(options.artifactPath),
+            readArtifactManifest(manifestPath),
+        ])
+        validateArtifact(artifact)
+        verifyArtifactManifest({ ...options, artifact, manifest })
+        return true
+    } catch (error) {
+        // 누락, 손상, 원본 변경은 재생성하고 파일 접근 오류는 그대로 보고한다.
+        if (error.code && error.code !== "ENOENT") throw error
+        return false
+    }
+}

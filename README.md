@@ -99,7 +99,8 @@ npm run pdf:generate:safari
 npm run pdf:check
 ```
 
-`pdf:generate`는 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트가 모두 표시되는지와
+`pdf:generate`는 원본, PDF 파일과 생성 기록이 일치하면 브라우저 실행을 생략합니다.
+갱신이 필요하면 임시 Vite 서버를 열고 Chrome으로 이미지 및 폰트가 모두 표시되는지와
 A4 페이지 밖으로 내용이 넘치는지 검사한 뒤 배포용 기준 파일인
 `public/임정규_포트폴리오.pdf`를 교체합니다. Edge 미리보기는
 `output/pdf-preview/임정규_포트폴리오-edge.pdf`에 따로 저장합니다. 실행 파일을 자동으로
@@ -113,6 +114,8 @@ Edge와 Safari 결과는 브라우저 호환성 확인용이며 배포용 PDF를
 `npm run build`를 실행하면 최신 파일이 `build/`에도 포함됩니다.
 `pdf:check`는 인쇄에 사용하는 파일 내용으로 계산한 SHA-256 값과 PDF 파일 자체의
 SHA-256 값을 생성 기록과 비교합니다. 이 검사는 프로덕션 빌드에서도 자동으로 실행됩니다.
+브라우저나 외부 폰트가 바뀌어 다시 생성하려면 `npm run pdf:generate -- --force`를 사용합니다.
+Edge와 Safari 미리보기에도 같은 생략 기준과 `--force` 옵션을 적용합니다.
 
 인쇄본과 홈 웹 화면은 `src/data/profile.js`, `src/data/projectSummaries.js`를 함께 사용하고,
 웹 프로젝트 상세는 `src/data/projects.js`의 근거와 문제 해결 내용을 추가로 사용합니다.
@@ -130,10 +133,15 @@ npm run og:generate
 npm run og:check
 ```
 
-`og:generate`는 홈 1개와 상세 14개를 생성하고 렌더링 원본 및 PNG의 SHA-256을 기록합니다.
+`og:generate`는 홈 1개와 상세 14개 중 원본이 바뀌었거나 파일 또는 생성 기록이 없거나
+손상된 항목만 생성합니다. 원본과 PNG의 SHA-256을 모두 확인하므로 파일이 존재한다는
+이유만으로 생략하지 않습니다. 메인 전용 문구나 스타일 변경은 상세 이미지 재생성을 유발하지 않습니다.
+브라우저나 외부 폰트 변경 등으로 전체를 다시 생성하려면 `npm run og:generate -- --force`를 사용합니다.
 `og:check`는 전체 이미지의 크기, 파일 변경 여부와 원본 갱신 여부를 검사합니다.
 이 검사는 프로덕션 빌드에서도 자동으로 실행됩니다. 개발 서버에서
 `/og-preview.html?project=baton-relay`처럼 확인할 수 있으며, 미리보기 HTML은 배포에 포함하지 않습니다.
+
+변경별 검증 순서와 이전 세션의 반복 작업 개선 내용은 [에이전트 검증 절차](docs/agent-validation.md)를 참고합니다.
 
 ## 화면 디자인 기준과 출처
 

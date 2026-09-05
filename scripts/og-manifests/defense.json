@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/defense.png",
-    "sourceSha256": "1752d98fa291ba7f41381aeb74d304afa0b3b541f2b0b2ccbf4b6b07dcd67451",
+    "sourceSha256": "2817e4fc093c418fdfd11481ba5a14720eb4caa7ccb279bd21700c3a6494ce9a",
     "artifactSha256": "69fdc35d79fbcafebf53521a568c07f2bdd09e3e576590530a0a05f26d20e5e3",
     "renderer": {
         "id": "chrome",

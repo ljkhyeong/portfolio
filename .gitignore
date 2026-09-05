@@ -7,6 +7,7 @@ AGENTS.md
 .playwright-cli/
 output/playwright/
 output/pdf-preview/
+output/validation/
 .env
 .env.local
 .env.*.local

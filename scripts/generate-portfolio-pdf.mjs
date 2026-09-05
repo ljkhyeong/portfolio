@@ -3,7 +3,11 @@ import { access, mkdir, readFile, rename, rm, stat } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { createServer } from "vite"
-import { createArtifactManifest, writeArtifactManifest } from "./artifact-manifest.mjs"
+import {
+    createArtifactManifest,
+    isArtifactCurrent,
+    writeArtifactManifest,
+} from "./artifact-manifest.mjs"
 import { validatePdfArtifact } from "./artifact-validation.mjs"
 import {
     assertCanonicalPdfRenderer,
@@ -258,46 +262,60 @@ const generateWithWebKit = async (printUrl) => {
     }
 }
 
-const server = await createServer({
-    root: repositoryRoot,
-    logLevel: "error",
-    server: {
-        host: "127.0.0.1",
-        port: 0,
-        strictPort: false,
-    },
-})
-
-try {
-    await server.listen()
-    const address = server.httpServer.address()
-    const port = typeof address === "object" && address ? address.port : 5173
-    const printUrl = `http://127.0.0.1:${port}/portfolio/print`
-
-    await mkdir(path.dirname(outputPath), { recursive: true })
-    await rm(temporaryOutputPath, { force: true })
-
-    const renderer =
-        selectedBrowser === "webkit"
-            ? await generateWithWebKit(printUrl)
-            : await generateWithChromiumBrowser(selectedBrowser, printUrl)
-    const pdf = await readFile(temporaryOutputPath)
-    const { size } = validatePdfArtifact(pdf)
-
-    await rename(temporaryOutputPath, outputPath)
-    const sourceSha256 = await createPortfolioPdfFingerprint()
-    const manifest = createArtifactManifest({
-        artifact: pdf,
+const sourceSha256 = await createPortfolioPdfFingerprint()
+const current =
+    !argumentsWithoutRuntime.includes("--force") &&
+    (await isArtifactCurrent({
         artifactPath: outputPath,
-        renderer,
+        manifestPath: outputManifestPath,
         sourceSha256,
-    })
-    await writeArtifactManifest(outputManifestPath, manifest)
+        expectedRendererId: selectedBrowser,
+        validateArtifact: validatePdfArtifact,
+    }))
 
-    process.stdout.write(
-        `PDF 생성 완료: ${outputPath} (${size} bytes, ${getPdfBrowserLabel(selectedBrowser)})\n`,
-    )
-} finally {
-    await server.close()
-    await rm(temporaryOutputPath, { force: true })
+if (current) {
+    process.stdout.write(`PDF 최신 상태 유지: ${outputPath}\n`)
+} else {
+    const server = await createServer({
+        root: repositoryRoot,
+        logLevel: "error",
+        server: {
+            host: "127.0.0.1",
+            port: 0,
+            strictPort: false,
+        },
+    })
+
+    try {
+        await server.listen()
+        const address = server.httpServer.address()
+        const port = typeof address === "object" && address ? address.port : 5173
+        const printUrl = `http://127.0.0.1:${port}/portfolio/print`
+
+        await mkdir(path.dirname(outputPath), { recursive: true })
+        await rm(temporaryOutputPath, { force: true })
+
+        const renderer =
+            selectedBrowser === "webkit"
+                ? await generateWithWebKit(printUrl)
+                : await generateWithChromiumBrowser(selectedBrowser, printUrl)
+        const pdf = await readFile(temporaryOutputPath)
+        const { size } = validatePdfArtifact(pdf)
+
+        await rename(temporaryOutputPath, outputPath)
+        const manifest = createArtifactManifest({
+            artifact: pdf,
+            artifactPath: outputPath,
+            renderer,
+            sourceSha256,
+        })
+        await writeArtifactManifest(outputManifestPath, manifest)
+
+        process.stdout.write(
+            `PDF 생성 완료: ${outputPath} (${size} bytes, ${getPdfBrowserLabel(selectedBrowser)})\n`,
+        )
+    } finally {
+        await server.close()
+        await rm(temporaryOutputPath, { force: true })
+    }
 }

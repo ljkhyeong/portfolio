@@ -5,15 +5,19 @@ import { fileURLToPath } from "node:url"
 
 export const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 
-const commonRenderSourceTargets = [
-    "index.html",
+const runtimeSourceTargets = [
     "package.json",
     "package-lock.json",
     "vite.config.js",
+    "src/index.css",
+]
+
+const commonRenderSourceTargets = [
+    ...runtimeSourceTargets,
+    "index.html",
     "src/main.jsx",
     "src/App.jsx",
     "src/App.css",
-    "src/index.css",
     "src/css/PortfolioTheme.css",
     "src/component/Main.jsx",
     "src/component/CareerSummary.jsx",
@@ -53,12 +57,17 @@ export const ogCoverSourceTargets = [
 ]
 
 export const projectOgSourceTargets = [
-    ...ogCoverSourceTargets,
+    ...runtimeSourceTargets,
+    ...artifactPipelineSourceTargets,
+    "scripts/generate-og-cover.mjs",
+    "scripts/og-cover-fingerprint.mjs",
     "og-preview.html",
     "src/component/share/og-entry.jsx",
     "src/component/share/ProjectOgPreview.jsx",
+    "src/data/projectOg.js",
     "src/css/ProjectOg.css",
     "src/component/project/diagrams/BatonServiceFlowDiagram.jsx",
+    "src/component/project/diagrams/useCenteredDiagramViewport.js",
     "src/css/BatonServiceFlowDiagram.css",
     "src/data/batonServicePresentation.js",
 ]
