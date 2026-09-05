@@ -15,7 +15,7 @@ const HOME_SECTIONS = [
 const Header = () => {
     const currentCareer = careers[0]
     const [activeSection, setActiveSection] = useState("")
-    const headlineExample = `${homeHeroContent.headlineHighlight} 등 `
+    const headlineExample = `${homeHeroContent.headlineHighlight} `
     const headlineRemainder = homeHeroContent.headline.slice(headlineExample.length)
 
     useEffect(() => {

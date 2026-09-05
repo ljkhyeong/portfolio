@@ -123,7 +123,7 @@ describe("project summary data", () => {
         expect(
             youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
         ).toEqual(["1440x960", "1440x960", "1440x960", "1440x960"])
-        expect(youthPolicyMate.screenshots[2].caption).toContain("실제 정책 추천 결과가 아닙니다")
+        expect(youthPolicyMate.screenshots[2].note).toContain("실제 정책 추천 결과가 아닙니다")
         expect(youthPolicyMate.status.text).toContain("온통청년 인증키는 승인 대기 중")
         expect(youthPolicyMate.status.text).toContain("실제 정책 수집 및 추천")
         expect(youthPolicyMate.status.text).toContain("아직 구현하지 않았습니다")
@@ -245,7 +245,7 @@ describe("project summary data", () => {
             decision: expect.stringContaining("독립 트랜잭션"),
         })
         expect(passRefundProblem).toMatchObject({
-            title: "8회권 환불 시 예약, 크레딧과 원장 일치",
+            title: "8회권 환불 시 예약 취소와 이용 횟수 및 사용 이력 반영",
             decision: expect.stringContaining("순서대로 잠그고"),
             boundary: expect.stringContaining("관리자 재처리"),
         })

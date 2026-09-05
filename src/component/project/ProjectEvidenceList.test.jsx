@@ -68,9 +68,9 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
     const rows = within(list).getAllByRole("listitem")
     const coreRow = getEvidenceRow(list, "Core 인수인계 상태 전이 및 중복 교대 차단")
     const goRow = getEvidenceRow(list, "GO 링크 중복 생성 방지")
-    const briefRow = getEvidenceRow(list, "BRIEF 운영 신호 반영과 발행 보고서 수정 방지")
+    const briefRow = getEvidenceRow(list, "BRIEF 점검 상태 반영과 발행 보고서 수정 방지")
     const calRow = getEvidenceRow(list, "CAL 일정 JSON 수신과 캘린더 구독")
-    const roundRow = getEvidenceRow(list, "ROUND 참여권 검증과 브라우저 연결")
+    const roundRow = getEvidenceRow(list, "ROUND 입장 토큰 검증과 브라우저 연결")
 
     expect(rows).toHaveLength(7)
     expect(coreRow).toHaveTextContent("준비 → 전달 → 수락 순서 적용")
@@ -85,7 +85,7 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
 
     const roundSummary = roundRow.querySelector("summary")
     const roundProof = projectsById.baton.proofs.find(
-        (proof) => proof.item === "ROUND 참여권 검증과 브라우저 연결",
+        (proof) => proof.item === "ROUND 입장 토큰 검증과 브라우저 연결",
     )
     const roundResult = within(roundRow).getByText(roundProof.result)
 

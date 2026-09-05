@@ -337,7 +337,7 @@ const PriorExperienceCase = ({ project }) => {
                     aria-labelledby="system-title"
                 >
                     <div className="case-section-heading case-cover__heading">
-                        <h2 id="system-title">WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 흐름</h2>
+                        <h2 id="system-title">WebRTC 실시간 강의와 HLS 다시보기 구조</h2>
                     </div>
                     <ProjectVisual project={project} />
                     <p className="case-system__caption">{project.visualCaption}</p>

@@ -53,7 +53,7 @@ export const projectOgCards = [
         route: "/projects/hope-commit",
         title: ["Hope Commit"],
         category: "개발 도구 / SeungIl 님의 Hope 비공식 포크",
-        description: "지정한 커밋만 검토하고\n실제 변경 줄로 설명을 연결합니다.",
+        description: "지정한 커밋만 리뷰하고\n설명에 해당하는 코드 줄을 표시합니다.",
         caption: "검토 범위 고정부터 HTML 리뷰까지",
         steps: [
             ["대상 커밋 확정", "비교 기준과 커밋 범위 고정"],
@@ -69,7 +69,7 @@ export const projectOgCards = [
         description: "변경 이유, 코드와 검증을 기록하고\n작성자가 확인한 기록만 공개합니다.",
         caption: "확인 뒤 코드가 바뀌면 공개 차단",
         steps: [
-            ["요청과 변경 기록", "판단 출처, 코드 위치, 검증 결과"],
+            ["요청과 변경 기록", "변경 근거와 출처, 코드 위치, 검증 결과"],
             ["작성자 확인", "커밋 ID와 코드 줄 해시 확인"],
             ["작성자가 확인한 기록 공개", "코드가 바뀐 기록은 공개 차단"],
         ],
@@ -106,7 +106,7 @@ export const projectOgCards = [
             "짧은 링크 발급",
             "같은 UUID의 재요청은 기존 링크로.\n조건이 다르면 충돌로 차단합니다.",
         ],
-        ["watch", "URL 상태 점검", "사설망 접근을 차단하고\n중단된 점검은 새 시도로 회수합니다."],
+        ["watch", "URL 상태 점검", "사설망 접근을 차단하고\n중단된 점검을 다시 실행합니다."],
         [
             "relay",
             "이벤트 전달",
@@ -114,15 +114,19 @@ export const projectOgCards = [
         ],
         [
             "brief",
-            "운영 신호와 주간 보고서",
-            "Core의 운영 신호를 반영하고\n발행한 주간 보고서는 유지합니다.",
+            "업무 점검과 주간 보고서",
+            "Core의 점검 결과를 반영하고\n발행한 주간 보고서는 유지합니다.",
         ],
         [
             "cal",
             "외부 캘린더 구독",
             "최신 일정만 읽기 전용 피드로.\n개정 번호와 구독 토큰을 관리합니다.",
         ],
-        ["round", "WebRTC 스터디룸", "Core 참여권을 확인하고\n참가자 간 영상과 채팅을 연결합니다."],
+        [
+            "round",
+            "WebRTC 스터디룸",
+            "Core 입장 토큰을 확인하고\n참가자 간 영상과 채팅을 연결합니다.",
+        ],
     ].map(([serviceId, role, description]) => ({
         id: `baton-${serviceId}`,
         route: `/projects/baton/${serviceId}`,

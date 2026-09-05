@@ -19,4 +19,4 @@ HTTP 컨트롤러와 DB 저장 코드를 업무 규칙에서 분리하면서 인
 
 Gradle 빌드에서 모듈별 컴파일과 의존성 테스트를 실행해 업무 규칙 모듈이 웹 및 DB 구현 모듈을 참조하면 빌드가 실패하도록 했습니다.
 
-현재 공개용 설계 기준은 PRD 8건과 ADR 20건입니다. Google, Naver 및 이메일 계정 세션과 기존 구성원 연결을 구현했습니다. Core와 CAL의 1.1.0-rc.1 후보 계약, Core와 ROUND의 로컬 연동, Core와 BRIEF의 2.0.0-rc.1 로컬 HTTP 및 내부 서비스용 Caddy HTTPS를 확인했습니다. BRIEF의 최신 2.0.0-rc.4 후보 계약은 Core에 아직 반영하지 않았습니다. GO와 RELAY의 실제 런타임 연결, WATCH 공개 콜백, 공인 DNS와 TLS도 확인하지 않았습니다.
+현재 공개용 설계 기준은 PRD 8건과 ADR 20건입니다. Google, Naver 및 이메일 계정 세션과 기존 구성원 연결을 구현했습니다. Core와 CAL의 1.1.0-rc.1 릴리스 후보 JSON 규격, Core와 ROUND의 로컬 연동, Core와 BRIEF의 2.0.0-rc.1 로컬 HTTP 및 내부 서비스용 Caddy HTTPS를 확인했습니다. BRIEF의 최신 2.0.0-rc.4 릴리스 후보 JSON 규격은 Core에 아직 반영하지 않았습니다. GO와 RELAY의 실제 런타임 연결, WATCH 공개 콜백, 공인 DNS와 TLS도 확인하지 않았습니다.

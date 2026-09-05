@@ -16,6 +16,21 @@
     box-shadow: 0 8px 24px rgba(140, 149, 159, 0.18);
 }
 
+.screenshot-gallery__note {
+    margin: 12px 0 0;
+    color: var(--muted, #57606a);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.screenshot-lightbox__description {
+    min-width: 0;
+}
+
+.screenshot-lightbox__description p + p {
+    margin-top: 6px;
+}
+
 .screenshot-gallery__item--1 {
     grid-row: 1 / 3;
 }
@@ -405,11 +420,17 @@
     }
 
     .screenshot-lightbox__footer {
-        align-items: flex-start;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
     }
 
-    .screenshot-lightbox__footer p {
-        max-width: 56%;
+    .screenshot-lightbox__description {
+        max-width: none;
+    }
+
+    .screenshot-lightbox__navigation {
+        justify-content: flex-end;
     }
 }
 

@@ -14,7 +14,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
     expect(heroHeading).toHaveTextContent(
-        "중복 실행 방지와 중단 후 재처리 등 안정적인 설계를 추구하는 백엔드 개발자입니다.",
+        "중복 실행을 막고 중단된 작업을 재처리하는 백엔드 개발자입니다.",
     )
     expect(screen.getByText("BEINTECH · 2024.06 — 현재")).toBeInTheDocument()
     expect(
@@ -190,7 +190,7 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
     expect(desktop.getByText("정원 및 재고 초과 방지")).toBeInTheDocument()
     expect(
         desktop.getByText(
-            "클래스와 예약 시간, 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
+            "클래스, 예약 슬롯과 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
         ),
     ).toBeInTheDocument()
     expect(desktop.getByText("서버 중단 후 URL 점검 및 이벤트 전달 재개")).toBeInTheDocument()
@@ -262,7 +262,7 @@ test("홈은 상세 문서 대신 대표 시각 자료와 프로젝트 선택에
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "BATON 오늘 화면에서 운영 회차와 미완료 업무 및 수락 대기 바통을 확인하는 모습",
+            name: "BATON 오늘 화면에서 업무 회차와 미완료 업무 및 수락 대기 인수인계를 확인하는 모습",
         }),
     ).toBeInTheDocument()
     expect(
@@ -409,7 +409,7 @@ test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록�
     ).toBeInTheDocument()
     expect(screen.getByText(/HTTP 메시지, 캐시, 프록시와 인증/)).toBeInTheDocument()
     expect(
-        screen.getByText(/객체 생성, 변경할 수 없는 객체 설계, 제네릭과 API 설계 원칙/),
+        screen.getByText(/객체 생성, 불변 객체 설계, 제네릭과 API 설계 원칙/),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "LnS 발표 및 Q&A 기록 ↗" })).toHaveAttribute(
         "href",
@@ -431,11 +431,7 @@ const canonicalRouteCases = [
     ["/projects/happygallery", "happyGallery", "happyGallery | 임정규 포트폴리오"],
     ["/projects/hope-commit", "Hope Commit", "Hope Commit | 임정규 포트폴리오"],
     ["/projects/intent-trace", "IntentTrace", "IntentTrace | 임정규 포트폴리오"],
-    [
-        "/projects/youth-policy-mate",
-        "청년정책메이트",
-        "청년정책메이트 | 임정규 포트폴리오",
-    ],
+    ["/projects/youth-policy-mate", "청년정책메이트", "청년정책메이트 | 임정규 포트폴리오"],
     ["/projects/e-warrant", "전송형 전자영장 시스템", "전송형 전자영장 시스템 | 임정규 포트폴리오"],
     [
         "/projects/defense",
@@ -598,21 +594,22 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년정책메이트 조건 화면에서 인공 생년월일과 거주지 및 취업 상태를 확인하는 모습",
+            name: "청년정책메이트 조건 화면에서 테스트 생년월일과 거주지 및 취업 상태를 확인하는 모습",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년정책메이트 개발 화면에서 인공 정책의 자격 상태와 항목별 근거를 확인하는 모습",
+            name: "청년정책메이트 개발 화면에서 테스트 정책의 자격 상태와 항목별 근거를 확인하는 모습",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년정책메이트 개발 화면에서 인공 정책의 마감 상태와 알림 후보 날짜를 확인하는 모습",
+            name: "청년정책메이트 개발 화면에서 테스트 정책의 마감 상태와 알림 후보 날짜를 확인하는 모습",
         }),
     ).toBeInTheDocument()
-    expect(screenshots).toHaveTextContent("실제 정책 추천 결과가 아닙니다")
-    expect(screenshots).toHaveTextContent("실제 알림 발송 화면이 아닙니다")
+    expect(screenshots).toHaveAccessibleDescription(
+        /개발용 고정 테스트 데이터를 사용하며 실제 정책 추천과 알림 발송은 미구현/,
+    )
     expect(
         screen.getByText(
             /실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다/,
@@ -632,7 +629,7 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(screen.getAllByText(/제가 추가한 Commit Diff/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("heading", {
-            name: "입력한 커밋과 확정한 비교 기준 사이의 변경만 검토",
+            name: "지정한 커밋의 diff만 리뷰",
         }),
     ).toBeInTheDocument()
     expect(

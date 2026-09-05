@@ -286,7 +286,9 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByText("웹앱 프로젝트 01 / 01")).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
-        screen.getByText("조건에 맞는 청년 정책의 판단 근거와 신청 일정을 관리하는 웹앱입니다."),
+        screen.getByText(
+            "청년 정책의 신청 자격과 판단 근거, 신청 일정을 확인하는 웹앱을 개발합니다.",
+        ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
 
@@ -359,7 +361,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
     expect(within(lifecycleDiagram).getByText("SUPERSEDED")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "요청과 판단 출처를 전체 길이 커밋 ID 및 코드 위치에 묶고, 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
+            name: "변경 근거를 커밋과 코드 위치에 연결하고, 확인 후 코드가 바뀌면 기록 공개를 차단합니다.",
         }),
     ).toBeInTheDocument()
     expect(screen.getByLabelText("공개 상태")).toHaveTextContent(
@@ -523,7 +525,7 @@ test.each([
         "watch",
         "WATCH",
         "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
-        /서버 중단 뒤 처리 기한이 지난 URL 점검을 새 시도로 회수/,
+        /서버 중단 뒤 처리 기한이 지난 URL 점검을 다시 실행/,
     ],
     [
         "relay",
@@ -534,7 +536,7 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "Core가 판정한 5개 운영 신호를 현재 관심 항목과 주간 보고서에 반영합니다.",
+        "Core가 확인한 담당자 공백, 업무 지연 등 5개 문제를 점검 목록과 주간 보고서에 반영합니다.",
         /ACTIVE 및 RESOLVED 반영.*발행한 주간 보고서 수정 차단/,
     ],
     [
@@ -546,7 +548,7 @@ test.each([
     [
         "round",
         "ROUND",
-        "Core 참여권을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.",
+        "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.",
         /이전 연결 메시지 차단/,
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
@@ -617,12 +619,12 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "Core 운영 신호를 그대로 관심 항목에 반영",
+        "Core의 점검 결과를 그대로 반영",
         "https://github.com/ljkhyeong/baton-brief",
         /BRIEF 공개 저장소 보기/,
         [
             /Core 2\.0\.0-rc\.1과 로컬 HTTP 및 내부 HTTPS 연동도 검증/,
-            /BRIEF 원격 개발 브랜치는 2\.0\.0-rc\.4.*최신 후보 계약의 Core 반영은 아직 완료되지 않았습니다/,
+            /BRIEF 원격 개발 브랜치는 2\.0\.0-rc\.4.*최신 릴리스 후보 JSON 규격의 Core 반영은 아직 완료되지 않았습니다/,
             /공인 DNS와 원격 환경의 전체 서비스 연결은 미검증/,
         ],
         /공개 main과 최신 로컬 main의 차이는 현재 상태 설명에 구분/,
@@ -637,7 +639,7 @@ test.each([
             /공개 main에서 Core 일정 JSON 호환성.*OCI 백업 및 복구.*이전 복구 작업의 늦은 결과 차단/,
             /공개 구독과 전체 시즌 재동기화는 미검증/,
         ],
-        /안정 계약 1.0.0과 공개 후보 계약 1.1.0-rc.1의 BATON 호환성 근거/,
+        /정식 JSON 규격 1.0.0과 릴리스 후보 JSON 규격 1.1.0-rc.1의 BATON 호환성 근거/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",
@@ -707,7 +709,7 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     )
     expect(
         screen.getByRole("heading", {
-            name: "WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 흐름",
+            name: "WebRTC 실시간 강의와 HLS 다시보기 구조",
         }),
     ).toBeInTheDocument()
     const mediaDiagram = screen.getByRole("img", {

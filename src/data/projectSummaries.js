@@ -9,7 +9,7 @@ export const projectSummaries = [
         eyebrow: "조직 운영 플랫폼",
         homeSummary: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
         homeHighlights: [
-            "오늘 할 일, 조직 연속성, 통합 검색과 바통북 구현",
+            "할 일 관리, 담당자 공백 및 업무 지연 확인, 통합 검색, 인수인계 문서 생성",
             "Core와 6개 마이크로서비스의 API 및 저장소 분리",
         ],
         homeRepository: {
@@ -196,7 +196,7 @@ export const projectSummaries = [
         homeFacts: [
             {
                 label: "담당",
-                value: "SeungIl 님의 Hope 6.0.0 포크에 로컬 커밋 비교, 근거 연결 HTML 리뷰와 자동화 테스트 추가",
+                value: "SeungIl 님의 Hope 6.0.0 포크에 로컬 커밋 비교, 참조한 코드를 표시하는 HTML 리뷰와 자동화 테스트 추가",
             },
             {
                 label: "문제",
@@ -229,7 +229,7 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 의도 및 검증 기록",
         summary:
-            "AI 코드 변경의 요청, 판단 출처, 코드 위치와 검증 결과를 함께 남기는 도구입니다. 원문 대화나 숨은 추론은 저장하지 않으며 작성자가 확인한 기록을 GitHub와 IntelliJ에서 조회합니다.",
+            "AI 코드 변경의 요청, 변경 근거와 출처, 코드 위치와 검증 결과를 함께 남기는 도구입니다. 원문 대화나 숨은 추론은 저장하지 않으며 작성자가 확인한 기록을 GitHub와 IntelliJ에서 조회합니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -241,7 +241,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "전체 길이 커밋 ID와 코드 줄 해시를 저장하고, 작성자 확인 뒤 코드가 바뀌면 공개 차단",
+                value: "전체 커밋 해시와 코드 줄 해시를 저장하고, 작성자 확인 뒤 코드가 바뀌면 공개 차단",
             },
         ],
         period: "2026.08.27 — 진행 중",

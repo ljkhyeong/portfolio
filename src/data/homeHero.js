@@ -1,6 +1,6 @@
 export const homeHeroContent = {
-    headline: "중복 실행 방지와 중단 후 재처리 등 안정적인 설계를 추구하는 백엔드 개발자입니다.",
-    headlineHighlight: "중복 실행 방지와 중단 후 재처리",
+    headline: "중복 실행을 막고 중단된 작업을 재처리하는 백엔드 개발자입니다.",
+    headlineHighlight: "중복 실행을 막고 중단된 작업을 재처리하는",
     summary:
         "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.",
     flow: [
@@ -22,7 +22,7 @@ export const homeHeroContent = {
         {
             step: "04",
             title: "중단 후 재처리",
-            description: "완료되지 않은 작업만 이어서 실행",
+            description: "재처리 가능한 미완료 작업 실행",
         },
     ],
     signals: [

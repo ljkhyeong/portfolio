@@ -119,3 +119,30 @@ test("Escape와 배경 클릭으로 확대 화면을 닫는다", () => {
     fireEvent.mouseDown(screen.getByRole("dialog"))
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
 })
+
+test("확대 화면에서도 공통 안내와 이미지별 테스트 범위를 표시한다", () => {
+    const commonNote = "모의 API 응답을 사용한 테스트 화면입니다."
+    const imageNote = "입력값은 서버에 저장하지 않습니다."
+    render(
+        <ProjectScreenshotGallery
+            project={{
+                ...project,
+                screenshotNote: commonNote,
+                screenshots: project.screenshots.map((screenshot, index) =>
+                    index === 0 ? { ...screenshot, note: imageNote } : screenshot,
+                ),
+            }}
+        />,
+    )
+
+    const gallery = screen.getByRole("group", { name: "테스트 프로젝트 대표 화면" })
+    expect(gallery).toHaveAccessibleDescription(commonNote)
+    fireEvent.click(
+        within(gallery).getByRole("button", { name: "테스트 프로젝트 상품 화면 확대해서 보기" }),
+    )
+    expect(screen.getByRole("dialog")).toHaveAccessibleDescription(commonNote)
+
+    fireEvent.keyDown(window, { key: "ArrowLeft" })
+    expect(screen.getByRole("dialog")).toHaveAccessibleDescription(imageNote)
+    expect(within(screen.getByRole("dialog")).getByText(imageNote)).toBeVisible()
+})

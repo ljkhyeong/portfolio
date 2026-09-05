@@ -40,7 +40,7 @@ export const homeSkillGroups = [
             },
             {
                 name: "정원 및 재고 초과 방지",
-                detail: "클래스와 예약 시간, 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
+                detail: "클래스, 예약 슬롯과 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
                 examples: [{ label: "happyGallery", route: "/projects/happygallery" }],
             },
             {

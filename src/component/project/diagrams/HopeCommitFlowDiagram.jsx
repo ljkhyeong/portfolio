@@ -32,7 +32,7 @@ const HopeCommitFlowDiagram = () => {
                     <title id="hope-commit-flow-title">Hope Commit의 커밋 검토 및 저장 흐름</title>
                     <desc id="hope-commit-flow-desc">
                         입력한 커밋을 확정하고 일반, 최초 및 병합 커밋별 비교 기준과의 변경을 수집한
-                        뒤 파일과 줄 및 JSON 근거를 검증해, 통과하면 새 HTML을 저장하고 실패하면
+                        뒤 파일, 코드 줄과 JSON 형식을 검증해, 통과하면 새 HTML을 저장하고 실패하면
                         저장하지 않고 중단하는 흐름입니다.
                     </desc>
                     <defs>
@@ -144,7 +144,7 @@ const HopeCommitFlowDiagram = () => {
                                 입력 커밋 확정
                             </text>
                             <text className="hope-commit-flow__node-detail" x="480" y="68">
-                                짧은 ID를 전체 ID로 고정
+                                전체 커밋 해시 확인
                             </text>
                         </g>
 

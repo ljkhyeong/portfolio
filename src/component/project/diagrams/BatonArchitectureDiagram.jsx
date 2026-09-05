@@ -136,7 +136,7 @@ const CONNECTIONS = [
     {
         id: "round",
         path: "M580 316 H612 Q620 316 620 324 V440 Q620 448 628 448 H720",
-        label: "RS256 참여권",
+        label: "RS256 입장 토큰",
         labelX: 686,
         labelY: 368,
         maskX: 628,

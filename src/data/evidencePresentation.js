@@ -7,23 +7,24 @@ const evidencePresentation = {
     "GO 링크 중복 생성 방지": { methodLabel: "통합 테스트" },
     "WATCH 안전한 URL 점검": {
         methodLabel: "자동화 테스트",
-        resultSummary: "사설망과 과대 응답 차단, 현재 URL 버전 결과만 저장, 기한이 지난 점검 회수",
+        resultSummary:
+            "사설망과 과대 응답 차단, 현재 URL 버전 결과만 저장, 기한이 지난 점검 재실행",
     },
     "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지": {
         methodLabel: "Compose 검증",
         resultSummary: "재전달에도 수신 이력 1건 유지, 완료 응답 반환, 실패 큐 미전송",
     },
-    "BRIEF 운영 신호 반영과 발행 보고서 수정 방지": {
+    "BRIEF 점검 상태 반영과 발행 보고서 수정 방지": {
         methodLabel: "통합 테스트 및 Core 연동",
         resultSummary: "Core 신호 반영, 저장 이벤트로 목록 재생성, 같은 주간 보고서 1건 저장",
         scopeNote:
-            "최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 기준, 공개 main보다 16개 커밋 앞섬, 공인 DNS와 원격 배포는 미검증",
+            "최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 기준, 공인 DNS와 원격 배포는 미검증",
     },
     "CAL 일정 JSON 수신과 캘린더 구독": {
         methodLabel: "통합 테스트",
         scopeNote: "실제 운영 활성화와 공개 배포 전",
     },
-    "ROUND 참여권 검증과 브라우저 연결": {
+    "ROUND 입장 토큰 검증과 브라우저 연결": {
         methodLabel: "CI 확인",
         resultSummary: "Chromium 전체 미디어, WebKit 호환성, Core 연동과 배포 검사 통과",
         scopeNote:
@@ -62,7 +63,7 @@ const evidencePresentation = {
     "비공개 파일과 토큰 제외 및 리뷰 근거 검증": { methodLabel: "자동화 테스트" },
     "검증이 끝난 결과만 새 HTML로 저장": { methodLabel: "전체 처리 테스트" },
     "저장소 자동화 테스트": { methodLabel: "CI 확인" },
-    "작성자 확인 뒤 변경되지 않은 코드만 공개": {
+    "작성자 확인 후 코드가 바뀌면 변경 기록 공개 차단": {
         methodLabel: "통합 테스트",
         resultSummary:
             "초안 → 작성자 확인 → 공개 → 대체 순서 적용, 확인 후 코드가 바뀌면 공개 차단",

@@ -9,7 +9,7 @@ import "../../css/PortfolioKnowledge.css"
 const suggestionQuestions = [
     "결제와 환불 중복 처리를 어떻게 막았나요?",
     "BATON Core와 6개 서비스는 각각 무엇을 담당하나요?",
-    "폐쇄망 배치가 중단되면 Jenkins 실행 이력, JEUS 로그와 Tibero 상태에서 어떻게 중단 단계를 찾았나요?",
+    "폐쇄망에서 배치 중단 원인을 어떻게 찾았나요?",
     "서버 중단 뒤 미전송 알림을 어떻게 재처리했나요?",
 ]
 

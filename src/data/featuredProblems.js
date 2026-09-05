@@ -1,9 +1,9 @@
 const featuredProblems = {
     baton: {
         problemNumber: "02",
-        problem: "바통만 수락되고 담당자가 바뀌지 않으면 역할 정보가 어긋납니다.",
+        problem: "인수인계만 수락되고 담당자가 바뀌지 않으면 역할 정보가 어긋납니다.",
         approach:
-            "수락과 담당자 변경을 한 트랜잭션으로 묶고, 역할별 진행 중 바통을 1건으로 제한했습니다.",
+            "수락과 담당자 변경을 한 트랜잭션으로 묶고, 역할별 진행 중 인수인계를 1건으로 제한했습니다.",
         steps: [
             { title: "인수인계 준비", description: "다음 담당자와 담당 기간 고정" },
             { title: "전달 전 확인", description: "누락 항목 검사" },
@@ -11,7 +11,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "기능 테스트",
         result: "상태 전이, 취소, 중복 교대 차단과 전달 후 수정 제한을 확인했습니다.",
-        limitation: "준비 또는 전달 상태에서 멈춘 바통을 정리하는 운영 절차는 필요합니다.",
+        limitation: "준비 또는 전달 상태에서 멈춘 인수인계를 정리하는 운영 절차는 필요합니다.",
     },
     happygallery: {
         problemNumber: "02",
@@ -41,7 +41,7 @@ const featuredProblems = {
         evidenceLabel: "서버 단위 테스트",
         result: "조건 충족 및 불충족, 정책 미해석, 사용자 정보 누락과 일부 구간 중첩을 구분했습니다.",
         limitation:
-            "현재는 인공 규칙과 답변만 사용하며 실제 정책 수집과 추천은 연결하지 않았습니다.",
+            "현재는 테스트 규칙과 답변만 사용하며 실제 정책 수집과 추천은 연결하지 않았습니다.",
     },
     "hope-commit": {
         problemNumber: "03",
@@ -56,13 +56,13 @@ const featuredProblems = {
         evidenceLabel: "자동화 테스트",
         result: "수집하지 않은 파일과 줄, 잘못된 범위 및 형식과 과도하게 긴 설명을 거절했습니다.",
         limitation:
-            "줄 근거가 있다는 것이 리뷰 판단의 정확성을 보장하지는 않습니다. 최종 판단은 사용자가 확인합니다.",
+            "참조한 코드 줄이 유효하다는 것이 리뷰 판단의 정확성을 보장하지는 않습니다. 최종 판단은 사용자가 확인합니다.",
     },
     "intent-trace": {
         problemNumber: "02",
         problem: "코드가 바뀌면 기존 변경 기록이 어느 상태를 설명하는지 불분명해집니다.",
         approach:
-            "기록을 전체 길이 커밋 ID와 코드 위치에 묶고, 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
+            "기록을 전체 커밋 해시와 코드 위치에 묶고, 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
         steps: [
             { title: "코드 상태 기록", description: "커밋 ID, 파일과 줄 범위 및 해시 저장" },
             { title: "작성자 확인", description: "해당 코드에 대한 기록 확정" },
@@ -144,7 +144,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "자동화 테스트",
         result: "사설망 및 과도한 응답 차단, DNS 변경과 서버 중단 및 늦은 결과 처리를 확인했습니다.",
-        limitation: "처리 기한이 짧으면 중복 점검이 늘고, 길면 중단된 점검 회수가 늦어집니다.",
+        limitation: "처리 기한이 짧으면 중복 점검이 늘고, 길면 중단된 점검 재실행이 늦어집니다.",
     },
     "baton-relay": {
         problemNumber: "07",
@@ -155,12 +155,12 @@ const featuredProblems = {
         steps: [
             { title: "전송 시도 저장", description: "UUID와 외부 제공자 중복 방지 키 고정" },
             { title: "외부 전송", description: "서버가 바뀌어도 같은 시도 정보 유지" },
-            { title: "미확인 결과 조정", description: "재전송 없이 기록 확인 후 상태 확정" },
+            { title: "전송 결과 수동 확정", description: "재전송 없이 기록 확인 후 상태 확정" },
         ],
         evidenceLabel: "장애 시나리오 확인",
         result: "서버 중단 뒤 시도 정보 유지, 이전 서버의 늦은 결과 차단과 운영자 상태 확정을 확인했습니다.",
         limitation:
-            "중복 전송 방지를 우선하므로 결과 미확인 건은 외부 기록 확인과 운영자 조정이 필요합니다.",
+            "중복 전송 방지를 우선하므로 결과 미확인 건은 외부 기록 확인과 운영자 수동 확정이 필요합니다.",
     },
     "baton-brief": {
         problemNumber: "09",
@@ -168,14 +168,14 @@ const featuredProblems = {
         approach:
             "Core가 판정한 5개 신호를 그대로 반영하고, 이벤트 ID와 개정 번호로 중복 및 과거 이벤트를 차단합니다.",
         steps: [
-            { title: "Core 신호 수신", description: "Core가 판정한 5개 운영 신호" },
+            { title: "Core 신호 수신", description: "담당자 공백 및 업무 지연 등 5개 상태" },
             { title: "이벤트 검증", description: "ID, 해시와 개정 번호 비교" },
-            { title: "관심 항목 반영", description: "ACTIVE 또는 RESOLVED로 반영" },
+            { title: "점검 항목 반영", description: "ACTIVE 또는 RESOLVED로 반영" },
         ],
         evidenceLabel: "로컬 연동 확인",
         result: "2.0.0-rc.1 실제 Core와 로컬 HTTP 및 내부 서비스용 Caddy HTTPS 연동을 확인했습니다.",
         limitation:
-            "BRIEF의 최신 2.0.0-rc.4 후보 계약은 Core에 아직 반영하지 않았고, 공인 DNS와 원격 배포는 미검증입니다.",
+            "BRIEF의 최신 2.0.0-rc.4 릴리스 후보 JSON 규격은 Core에 아직 반영하지 않았고, 공인 DNS와 원격 배포는 미검증입니다.",
     },
     "baton-cal": {
         problemNumber: "11",
@@ -190,7 +190,7 @@ const featuredProblems = {
         evidenceLabel: "PostgreSQL 통합 테스트",
         result: "재전송, 낮은 개정과 같은 개정의 내용 충돌 및 트랜잭션 실패 후 재시도를 확인했습니다.",
         limitation:
-            "비동기 연동으로 반영이 지연될 수 있습니다. 운영 활성화 전 자격 증명 회전과 최신 일정 재전송 검증이 필요합니다.",
+            "비동기 연동으로 반영이 지연될 수 있습니다. 운영 활성화 전 자격 증명 교체와 최신 일정 재전송 검증이 필요합니다.",
     },
     "baton-round": {
         problemNumber: "13",

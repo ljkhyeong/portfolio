@@ -16,7 +16,7 @@ import "../../css/CaseShowcase.css"
 const problemResults = {
     "03": "동시 요청 8건에도 링크와 처리 기록 각 1건",
     "04": "HMAC 키 불일치 시 기동과 링크 생성 차단",
-    "05": "사설망, 늦은 결과 차단과 중단 시도 회수 확인",
+    "05": "사설망, 늦은 결과 차단과 중단 점검 재실행 확인",
     "06": "응답 유실과 미전송 이벤트 재처리 확인",
     "07": "서버 중단 후 같은 시도 정보 유지와 상태 확정 확인",
     "08": "RabbitMQ 재전달에도 수신 이력 1건",
@@ -25,7 +25,7 @@ const problemResults = {
     11: "중복, 과거 개정과 같은 개정의 내용 충돌 차단",
     12: "시간대, 취소 일정과 ETag 304 응답 확인",
     13: "현재 연결 순번의 SDP 및 ICE만 반영",
-    14: "잘못된 참여권 차단과 공개 키 교체 확인",
+    14: "잘못된 입장 토큰 차단과 공개 키 교체 확인",
 }
 
 const BatonServiceCaseStudy = ({ serviceId }) => {
@@ -47,6 +47,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
               title: `BATON ${service.name}`,
               visual: `baton-${serviceId}`,
               screenshots: service.screenshots,
+              screenshotNote: service.screenshotNote,
           }
         : null
 

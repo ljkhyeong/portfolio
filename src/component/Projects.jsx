@@ -23,10 +23,10 @@ const PROJECT_TYPE_LABELS = {
 const PROJECT_VISUALS = {
     baton: {
         src: "baton-core-today.webp",
-        alt: "BATON 오늘 화면에서 운영 회차와 미완료 업무 및 수락 대기 바통을 확인하는 모습",
+        alt: "BATON 오늘 화면에서 업무 회차와 미완료 업무 및 수락 대기 인수인계를 확인하는 모습",
         width: 1440,
         height: 900,
-        caption: "운영 회차, 미완료 업무와 수락 대기 바통",
+        caption: "업무 회차, 미완료 업무와 수락 대기 인수인계",
     },
     gallery: {
         src: "happygallery-product-options.webp",
@@ -144,7 +144,7 @@ const WarrantVisual = () => (
                 <small>전송 및 제출</small>
             </div>
         </div>
-        <p>요청 변환부터 제출 자료 반영까지 담당 범위를 분리해 처리합니다.</p>
+        <p>기관별 요청 변환과 제출 자료 반영을 구현했습니다.</p>
     </div>
 )
 

@@ -14,7 +14,9 @@ test("대표 프로젝트는 서비스 소개와 핵심 구현 두 가지를 먼
 
     const batonHighlights = screen.getByRole("list", { name: "BATON 핵심 구현" })
     expect(within(batonHighlights).getAllByRole("listitem")).toHaveLength(2)
-    expect(batonHighlights).toHaveTextContent("오늘 할 일, 조직 연속성, 통합 검색과 바통북 구현")
+    expect(batonHighlights).toHaveTextContent(
+        "할 일 관리, 담당자 공백 및 업무 지연 확인, 통합 검색, 인수인계 문서 생성",
+    )
     expect(batonHighlights).toHaveTextContent("Core와 6개 마이크로서비스의 API 및 저장소 분리")
     expect(
         screen.getByText("조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다."),

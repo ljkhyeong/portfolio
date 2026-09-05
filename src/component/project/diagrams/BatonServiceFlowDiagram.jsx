@@ -63,7 +63,7 @@ const fullFlows = {
             node("attempt", 528, 116, 184, 80, "URL 점검 시도", "처리 서버 + 기한", "focal"),
             node("result", 776, 116, 160, 80, "결과 저장", "최신 시도만 반영", "result"),
             node("block", 248, 280, 176, 72, "접근 차단", "사설망 및 로컬", "result"),
-            node("recover", 528, 280, 184, 72, "새 시도로 회수", "이전 시도 종료", "step"),
+            node("recover", 528, 280, 184, 72, "새 점검 실행", "이전 시도 종료", "step"),
         ],
         edges: [
             edge("M184 156 H248"),
@@ -120,9 +120,18 @@ const fullFlows = {
     },
     brief: {
         nodes: [
-            node("signals", 24, 160, 224, 80, "Core 운영 신호 5개", "Core가 판정한 상태", "input"),
-            node("apply", 336, 160, 192, 80, "관심 항목 반영", "중복 및 과거 개정 차단", "focal"),
-            node("active", 616, 48, 160, 80, "ACTIVE", "관심 항목 유지", "result"),
+            node(
+                "signals",
+                24,
+                160,
+                224,
+                80,
+                "담당 공백 등 5개 상태",
+                "Core가 판정한 상태",
+                "input",
+            ),
+            node("apply", 336, 160, 192, 80, "점검 항목 반영", "중복 및 과거 개정 차단", "focal"),
+            node("active", 616, 48, 160, 80, "ACTIVE", "점검 항목 유지", "result"),
             node("resolved", 616, 272, 160, 80, "RESOLVED", "해소 상태 반영", "result"),
             node("report", 824, 136, 112, 128, ["주간", "보고서"], "발행 후 보존", "step"),
         ],
@@ -176,7 +185,16 @@ const fullFlows = {
     },
     round: {
         nodes: [
-            node("ticket", 24, 152, 160, 96, "Core 참여권", ["방 + 참가자", "만료 시각"], "input"),
+            node(
+                "ticket",
+                24,
+                152,
+                160,
+                96,
+                "Core 입장 토큰",
+                ["방 + 참가자", "만료 시각"],
+                "input",
+            ),
             node("verify", 216, 152, 160, 96, "RS256 검증", "Core 공개 키", "step"),
             node("signal", 408, 152, 160, 96, "WebSocket", "SDP / ICE만 중계", "step"),
             node("peers", 600, 152, 160, 96, "브라우저 피어", "미디어 송수신", "focal"),
@@ -394,7 +412,7 @@ const BatonServiceFlowDiagram = ({ serviceId }) => {
                     <span>처리 결과</span>
                     {["watch", "round"].includes(serviceId) && (
                         <span className="baton-service-flow__legend-retry">
-                            회수 또는 대체 경로
+                            재실행 또는 대체 경로
                         </span>
                     )}
                 </span>

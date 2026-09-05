@@ -7,6 +7,8 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
     const [activeIndex, setActiveIndex] = useState(null)
     const dialogId = useId()
     const dialogTitleId = `${dialogId}-title`
+    const galleryNoteId = `${dialogId}-gallery-note`
+    const activeNoteId = `${dialogId}-active-note`
     const closeButtonRef = useRef(null)
     const triggerRef = useRef(null)
     const screenshots = project.screenshots
@@ -18,6 +20,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
         )
     const isOpen = activeIndex !== null
     const activeScreenshot = isOpen ? screenshots[activeIndex] : null
+    const activeNote = activeScreenshot?.note ?? project.screenshotNote
 
     const openLightbox = (index, trigger) => {
         triggerRef.current = trigger
@@ -112,6 +115,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                 className={`screenshot-gallery screenshot-gallery--${context} screenshot-gallery--${project.visual} screenshot-gallery--count-${displayedScreenshots.length}`}
                 role="group"
                 aria-label={`${project.title} 대표 화면`}
+                aria-describedby={project.screenshotNote ? galleryNoteId : undefined}
             >
                 {displayedScreenshots.map(({ screenshot, index }, displayIndex) => (
                     <figure
@@ -155,6 +159,11 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                     </figure>
                 ))}
             </div>
+            {project.screenshotNote && (
+                <p className="screenshot-gallery__note" id={galleryNoteId}>
+                    {project.screenshotNote}
+                </p>
+            )}
 
             {isOpen &&
                 createPortal(
@@ -164,6 +173,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby={dialogTitleId}
+                        aria-describedby={activeNote ? activeNoteId : undefined}
                         onMouseDown={(event) => {
                             if (event.target === event.currentTarget) {
                                 closeLightbox()
@@ -199,7 +209,10 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                             </div>
 
                             <footer className="screenshot-lightbox__footer">
-                                <p>{activeScreenshot.caption}</p>
+                                <div className="screenshot-lightbox__description">
+                                    <p>{activeScreenshot.caption}</p>
+                                    {activeNote && <p id={activeNoteId}>{activeNote}</p>}
+                                </div>
                                 <div className="screenshot-lightbox__navigation">
                                     <span
                                         className="screenshot-lightbox__status"

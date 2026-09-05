@@ -38,13 +38,13 @@ export const batonServicePresentations = {
     },
     watch: {
         target: "위험한 URL 접근과 중단된 점검 작업",
-        decision: "공인 IP만 점검하고 기한이 지난 시도 회수",
+        decision: "공인 IP만 점검하고 기한이 지난 점검 재실행",
         result: "사설망과 DNS 변경 차단, 이전 결과 미저장 확인",
         verification: [
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 회수와 이전 URL 버전의 늦은 결과 차단을 테스트했습니다.",
+                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행과 이전 URL 버전의 늦은 결과 차단을 테스트했습니다.",
             },
             {
                 kind: "limited",
@@ -58,16 +58,16 @@ export const batonServicePresentations = {
             },
         ],
         flow: {
-            title: "공인 IP만 점검하고 중단된 시도는 회수합니다",
+            title: "공인 IP만 점검하고 중단된 점검은 다시 실행합니다",
             description:
-                "URL을 해석해 사설망과 로컬 주소를 차단하고 공인 IP로만 점검합니다. 처리 기한이 지나면 새 시도로 회수하며 이전 시도의 늦은 결과는 저장하지 않습니다.",
+                "URL을 해석해 사설망과 로컬 주소를 차단하고 공인 IP로만 점검합니다. 처리 기한이 지나면 기존 시도를 종료하고 새로 점검하며 이전 시도의 늦은 결과는 저장하지 않습니다.",
             note: "외부 HTTP 요청 중에는 DB 연결을 반환합니다. 이전 시도나 URL 버전의 늦은 결과는 저장하지 않습니다.",
             compact: {
                 input: ["점검할 URL", "URL 버전 함께 저장"],
                 action: ["공인 IP로만 점검", "사설망 및 로컬 주소 차단"],
                 outputs: [
                     ["기한 내 완료", "최신 결과 저장"],
-                    ["처리 기한 초과", "새 시도로 회수"],
+                    ["처리 기한 초과", "새 점검 실행"],
                 ],
             },
         },
@@ -80,7 +80,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단과 결과 미확인 조정 원장을 확인했습니다.",
+                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단과 전송 결과 수동 확정 이력을 확인했습니다.",
             },
             {
                 kind: "unverified",
@@ -112,12 +112,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "원격 개발 브랜치에서 개정 공백 감지, 관심 항목의 상태 전이, 발행 보고서 이력 및 비교를 확인했습니다. Core 2.0.0-rc.1과 로컬 HTTP 및 내부 HTTPS 연동도 검증했습니다.",
+                text: "원격 개발 브랜치에서 누락된 개정 번호 감지, 점검 항목의 상태 전이, 발행 보고서 이력 및 비교를 확인했습니다. Core 2.0.0-rc.1과 로컬 HTTP 및 내부 HTTPS 연동도 검증했습니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "BRIEF 원격 개발 브랜치는 2.0.0-rc.4이며 Core 공개 main은 2.0.0-rc.1을 사용합니다. 최신 후보 계약의 Core 반영은 아직 완료되지 않았습니다.",
+                text: "최신 로컬 main은 공개 main보다 16개 커밋 앞서 있습니다. BRIEF 원격 개발 브랜치는 2.0.0-rc.4이며 Core 공개 main은 2.0.0-rc.1을 사용합니다. 최신 릴리스 후보 JSON 규격의 Core 반영은 아직 완료되지 않았습니다.",
             },
             {
                 kind: "unverified",
@@ -128,11 +128,11 @@ export const batonServicePresentations = {
         flow: {
             title: "Core 판정은 그대로, 발행 보고서는 변경 없이",
             description:
-                "Core가 판정한 5개 운영 신호를 ACTIVE 또는 RESOLVED 관심 항목으로 반영합니다. 같은 조건의 주간 보고서는 재사용하고 변경된 내용은 새 보고서로 발행합니다.",
+                "Core의 점검 결과를 미해결(ACTIVE) 또는 해결됨(RESOLVED)으로 저장합니다. 같은 조건의 주간 보고서는 재사용하고 변경된 내용은 새 보고서로 발행합니다.",
             note: "5개 신호: 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계. BRIEF가 판정 규칙을 다시 만들지 않습니다.",
             compact: {
-                input: ["Core 운영 신호 5개", "Core에서 판정"],
-                action: ["관심 항목 반영", "ACTIVE / RESOLVED"],
+                input: ["담당 공백 등 5개 상태", "Core에서 판정"],
+                action: ["점검 항목 반영", "ACTIVE / RESOLVED"],
                 outputs: [
                     ["같은 보고서 조건", "기존 보고서 반환"],
                     ["내용 변경", "새 보고서 발행"],
@@ -159,8 +159,8 @@ export const batonServicePresentations = {
         flow: {
             title: "최신 일정만 반영하고 변경 없으면 304 응답",
             description:
-                "Core 일정의 개정 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 일정이 같으면 ETag로 304를 반환하며 토큰 회전 시 이전 토큰을 폐기합니다.",
-            note: "일정 ID는 UID, 개정 번호는 SEQUENCE로 사용합니다. 토큰을 회전하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",
+                "Core 일정의 개정 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 일정이 같으면 ETag로 304를 반환하며 토큰 교체 시 이전 토큰을 폐기합니다.",
+            note: "일정 ID는 UID, 개정 번호는 SEQUENCE로 사용합니다. 토큰을 교체하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",
             compact: {
                 input: ["Core 일정", "일정 ID + 개정 번호"],
                 action: ["iCalendar 변환", "과거 개정은 반영하지 않음"],
@@ -173,7 +173,7 @@ export const batonServicePresentations = {
     },
     round: {
         target: "스터디 입장 권한과 WebRTC 연결 처리 분리",
-        decision: "Core 참여권 검증 후 시그널링, 필요하면 TURN",
+        decision: "Core 입장 토큰 검증 후 시그널링, 필요하면 TURN",
         result: "Chromium, WebKit 호환성과 Core 연동 검사 통과",
         verification: [
             {
@@ -195,10 +195,10 @@ export const batonServicePresentations = {
         flow: {
             title: "입장은 Core가, 연결 메시지는 ROUND가 담당합니다",
             description:
-                "Core가 발급한 RS256 참여권을 ROUND가 검증한 뒤 WebSocket으로 연결 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고 직접 연결이 어려우면 Cloudflare TURN을 사용합니다.",
+                "Core가 발급한 RS256 입장 토큰을 ROUND가 검증한 뒤 WebSocket으로 연결 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고 직접 연결이 어려우면 Cloudflare TURN을 사용합니다.",
             note: "미디어는 시그널링 서버를 거치지 않습니다. 새 연결의 순번과 다른 이전 SDP 및 ICE 메시지는 버립니다.",
             compact: {
-                input: ["Core 참여권", "RS256 서명 검증"],
+                input: ["Core 입장 토큰", "RS256 서명 검증"],
                 action: ["WebSocket 시그널링", "연결 메시지만 전달"],
                 outputs: [
                     ["직접 연결", "mesh WebRTC"],

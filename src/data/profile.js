@@ -56,7 +56,7 @@ export const personalActivities = [
         type: "개발 서적 그룹 스터디",
         role: "아이템별 학습 내용 기록",
         summary:
-            "객체 생성, 변경할 수 없는 객체 설계, 제네릭과 API 설계 원칙을 아이템별로 학습하고 적용 기준을 Notion에 기록했습니다.",
+            "객체 생성, 불변 객체 설계, 제네릭과 API 설계 원칙을 아이템별로 학습하고 적용 기준을 Notion에 기록했습니다.",
         links: [
             {
                 label: "Effective Java 학습 기록",
