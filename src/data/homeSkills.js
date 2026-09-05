@@ -6,20 +6,11 @@ export const homeSkillGroups = [
             "Java와 Spring으로 공공기관 연계 API와 배치, 주문 및 예약 서버와 정책 판정 모델을 개발했습니다.",
         items: [
             { name: "Java" },
-            {
-                name: "Spring Boot / Spring MVC",
-                examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
-            },
-            {
-                name: "Spring Batch",
-                examples: [{ label: "전자영장", route: "/projects/e-warrant" }],
-            },
+            { name: "Spring Boot / Spring MVC" },
+            { name: "Spring Batch" },
             { name: "JPA / MyBatis" },
             { name: "MySQL / PostgreSQL" },
-            {
-                name: "RabbitMQ / AWS SQS FIFO",
-                examples: [{ label: "BATON", route: "/projects/baton" }],
-            },
+            { name: "RabbitMQ / AWS SQS FIFO" },
         ],
     },
     {
@@ -100,21 +91,9 @@ export const homeSkillGroups = [
         items: [
             { name: "JavaScript" },
             { name: "TypeScript" },
-            {
-                name: "React",
-                examples: [
-                    { label: "happyGallery", route: "/projects/happygallery" },
-                    { label: "청년정책메이트", route: "/projects/youth-policy-mate" },
-                ],
-            },
-            {
-                name: "Next.js",
-                examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
-            },
-            {
-                name: "WebSquare",
-                examples: [{ label: "군사법", route: "/projects/defense" }],
-            },
+            { name: "React" },
+            { name: "Next.js" },
+            { name: "WebSquare" },
         ],
     },
 ]
