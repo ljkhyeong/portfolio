@@ -153,7 +153,12 @@ const FeaturedProjectCard = ({ project }) => (
                 {project.collaboration && (
                     <p className="project-card__collaboration">{project.collaboration}</p>
                 )}
-                <p className="project-card__summary">{project.homeSummary}</p>
+                <p className="project-card__summary">
+                    {project.agencyScope && (
+                        <strong className="project-card__scope">{project.agencyScope}</strong>
+                    )}
+                    {project.homeSummary}
+                </p>
                 {PROJECT_VISUALS[project.visual] && (
                     <Link
                         className="project-card__visual-link"
@@ -187,6 +192,9 @@ const SupportingProjectCard = ({ project }) => (
                 </h4>
             </header>
             <p className="project-support__summary">
+                {project.agencyScope && (
+                    <strong className="project-card__scope">{project.agencyScope}</strong>
+                )}
                 {caseIntroductions[project.id] || project.summary}
             </p>
             <ProjectLinks project={project} supporting />

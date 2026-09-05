@@ -100,6 +100,13 @@ test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제�
         .closest("article")
     expect(warrant).toHaveTextContent("BEINTECH / 공공 SI")
     expect(warrant).toHaveTextContent("LG CNS 컨소시엄 참여")
+    expect(warrant).toHaveTextContent("5개 기관 연계 시스템")
+    expect(warrant).toHaveTextContent("법무부, 공수처, 검찰, 경찰, 해양경찰")
+    const defense = screen
+        .getByRole("heading", { name: "차세대 군사법 정보 시스템", level: 4 })
+        .closest("article")
+    expect(defense).toHaveTextContent("국방부 산하 4개 기관 연계 시스템")
+    expect(defense).toHaveTextContent("군사법원, 군검찰, 군경찰, 군교정")
     const baton = screen.getByRole("heading", { name: "BATON", level: 4 })
     expect(within(baton).getByRole("link")).toHaveAttribute("href", "/projects/baton")
     expect(screen.getByRole("link", { name: "BATON 미리보기에서 상세 보기" })).toHaveAttribute(

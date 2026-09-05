@@ -45,7 +45,8 @@
     word-break: keep-all;
 }
 
-.home-career .home-career__collaboration {
+.home-career .home-career__collaboration,
+.home-career .home-career__scope {
     color: var(--accent);
     font-weight: 600;
 }

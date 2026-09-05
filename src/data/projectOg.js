@@ -12,7 +12,7 @@ export const projectOgCards = [
         id: "e-warrant",
         route: "/projects/e-warrant",
         title: ["전송형", "전자영장 시스템"],
-        category: "경력 프로젝트 / 기관 연계",
+        category: "경력 프로젝트 / LG CNS 컨소시엄 / 5개 기관 연계",
         description: "기관별 요청 형식을 변환하고\n제출 자료를 KICS에 반영합니다.",
         caption: "요청 전달과 제출 자료 반영",
         steps: [
@@ -77,7 +77,7 @@ export const projectOgCards = [
         id: "defense",
         route: "/projects/defense",
         title: ["차세대", "군사법 정보 시스템"],
-        category: "경력 프로젝트 / 자료 검증과 파일 처리",
+        category: "경력 프로젝트 / 국방부 산하 4개 기관 연계",
         description: "군사법 기관의 자료 검증 배치와\n대용량 파일 업로드를 개발했습니다.",
         caption: "수용자 자료 검증과 군교정 DB 반영",
         steps: [

@@ -67,7 +67,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     ).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(
         within(projects).getByText(
-            "군교정 업무와 군사법원, 군검찰 및 군사경찰의 수용자 정보 연계를 담당했습니다.",
+            "군사법원, 군검찰, 군경찰, 군교정의 업무를 연계하는 시스템입니다.",
         ),
     ).toBeInTheDocument()
     expect(
@@ -362,6 +362,8 @@ test("경력 요약에 컨소시엄 참여를 표시하고 경력 상세로 연�
     expect(summary).toHaveTextContent("현재 업무")
     expect(summary).toHaveTextContent("전송형 전자영장 시스템")
     expect(summary).toHaveTextContent("LG CNS 컨소시엄 참여")
+    expect(summary).toHaveTextContent("5개 기관 연계 시스템")
+    expect(summary).toHaveTextContent("국방부 산하 4개 기관 연계 시스템")
     expect(summary).toHaveTextContent("이전 업무")
     expect(summary).toHaveTextContent("차세대 군사법 정보 시스템")
     expect(within(summary).getByRole("link", { name: "경력 상세 보기" })).toHaveAttribute(

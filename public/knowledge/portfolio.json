@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:f741dbfcdf7f",
+  "sourceRevision": "sha256:a2c27147a9e5",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -706,7 +706,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c71b63ca4bab",
+      "sourceRevision": "sha256:53e0460bd0e0",
       "documentId": "knowledge_a7c844f9619aa89663f2d166",
       "projectId": "warrant",
       "projectName": "전송형 전자영장 시스템",
@@ -714,13 +714,13 @@
       "documentType": "project_overview",
       "title": "전송형 전자영장 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 해양경찰 사건수사시스템, 통신사 및 집행포털 연계\n\nKICS 요청을 기관별 규격으로 변환해 전달하고, 기관이 제출한 자료를 KICS에 반영하는 공공 시스템입니다. 연계 서버와 Spring Batch를 개발합니다.\n\n기간: 2026.03.24 — 진행 중\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: KICS 요청을 통신사용 또는 포털용 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현\n\n주요 구현 및 해결: KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.\n\n현재 상태: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조와 역할만 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
+      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.\n\n기간: 2026.03.24 — 진행 중\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: KICS 요청을 통신사용 또는 포털용 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현\n\n주요 구현 및 해결: KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.\n\n현재 상태: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조와 역할만 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/e-warrant#project-overview",
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "c71b63ca4bab53310a633661fd294ec785b040930cbf78f3191292b879d7cf8d",
-      "contentHash": "f66bd98f53f76b265ef3aa13612bc58ed9020b6f714fc08be65aa2840080d21d"
+      "sourceHash": "53e0460bd0e027f78e1234ce9a9b75ca2b1c80ac88d0d74608085d810844ec94",
+      "contentHash": "0e51af2358c28ef72866bf0ed15cd679b5405ce70086ee52fe98c7bc7db249e6"
     },
     {
       "schemaVersion": "1.0",
@@ -2488,7 +2488,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:b1c7a80d81ac",
+      "sourceRevision": "sha256:e74638a1f82f",
       "documentId": "knowledge_2a22962d9934e4c7beb6a52e",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -2496,13 +2496,13 @@
       "documentType": "project_overview",
       "title": "차세대 군사법 정보 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 SI / 백엔드 개발 및 운영\n\n군 사법 및 군교정 업무를 처리하는 국방부 폐쇄망 시스템입니다. 군사법원, 군검찰 및 군사경찰의 자료 검증 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 재실행했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 중단 배치 재실행\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 차단과 대용량 파일 직접 업로드를 구현했습니다.\n\n현재 상태: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당 개발 및 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발 및 운영\n\n군사법원, 군검찰, 군경찰, 군교정 등 국방부 산하 4개 기관의 업무를 연계하는 폐쇄망 시스템입니다. 세 기관의 수용자 자료를 군교정 DB에 반영하는 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 재실행했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 중단 배치 재실행\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 차단과 대용량 파일 직접 업로드를 구현했습니다.\n\n현재 상태: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당 개발 및 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-overview",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "b1c7a80d81acd5d987e9fbe32a5a6b15b2852c51b2775450f5c9dcd13622b098",
-      "contentHash": "7f61b922d67df9b726de9ef26961216daf7df891705192a40a8601d8a030d84e"
+      "sourceHash": "e74638a1f82f2ed6ddfabde631e47e51b699e26d183e3f14d9b0f792048c771c",
+      "contentHash": "e1cfc4ff786389074e01d12bf21e3642542daa680b3fa98b5b229cb6582d70a9"
     },
     {
       "schemaVersion": "1.0",

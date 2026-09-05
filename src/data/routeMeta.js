@@ -56,7 +56,7 @@ const routeMetaContent = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch 개발 사례",
+            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관 연계 시스템의 서버와 Spring Batch를 개발한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
@@ -86,7 +86,7 @@ const routeMetaContent = {
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:
-            "군사법원, 군검찰 및 군사경찰 자료 검증 배치와 요청 위조 차단 및 대용량 파일 직접 업로드를 개발한 경력 사례",
+            "군사법원, 군검찰, 군경찰, 군교정 등 국방부 산하 4개 기관 연계 시스템에서 자료 검증 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/webrtc": {

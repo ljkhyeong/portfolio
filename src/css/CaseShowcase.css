@@ -75,6 +75,14 @@ main.case-showcase .baton-service-hero__intro > p {
     letter-spacing: -0.025em;
 }
 
+main.case-showcase .case-hero__scope {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--accent);
+    font-size: var(--portfolio-body);
+    font-weight: 600;
+}
+
 main.case-showcase .case-hero__support {
     display: flex;
     flex-direction: column;

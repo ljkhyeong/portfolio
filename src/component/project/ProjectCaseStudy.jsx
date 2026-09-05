@@ -435,7 +435,14 @@ const ProjectCaseStudy = ({ projectId }) => {
                             {project.title}
                         </h1>
                         <div className="case-hero__intro">
-                            <p>{caseIntroductions[project.id] ?? project.summary}</p>
+                            <p>
+                                {project.agencyScope && (
+                                    <strong className="case-hero__scope">
+                                        {project.agencyScope}
+                                    </strong>
+                                )}
+                                {caseIntroductions[project.id] ?? project.summary}
+                            </p>
                             <div className="case-hero__support">
                                 <ProjectLabels project={project} />
                                 <ProjectEvidenceLinks project={project} />

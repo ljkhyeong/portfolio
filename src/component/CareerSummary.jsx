@@ -23,6 +23,7 @@ const CareerSummary = () => {
                         {project.collaboration && (
                             <p className="home-career__collaboration">{project.collaboration}</p>
                         )}
+                        <p className="home-career__scope">{project.agencyScope}</p>
                         <p>{career.projectResponsibilities[id]}</p>
                     </div>
                 )

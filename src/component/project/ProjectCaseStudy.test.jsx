@@ -378,6 +378,8 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
 test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐름과 기술 판단을 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="warrant" />)
 
+    expect(screen.getByText("5개 기관 연계 시스템")).toBeInTheDocument()
+    expect(screen.getByText(/법무부, 공수처, 검찰, 경찰, 해양경찰/)).toBeInTheDocument()
     expect(screen.getByText("경력 프로젝트 01 / 02")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", { name: "전송형 전자영장 시스템", level: 1 }),
@@ -431,6 +433,8 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
 test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 연계와 레거시 환경의 보안 및 장애 대응을 구체적으로 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="defense" />)
 
+    expect(screen.getByText("국방부 산하 4개 기관 연계 시스템")).toBeInTheDocument()
+    expect(screen.getByText(/군사법원, 군검찰, 군경찰, 군교정/)).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
             name: "수용자 인적정보 및 영장정보 연계 배치 흐름",

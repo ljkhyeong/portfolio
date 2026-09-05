@@ -57,20 +57,21 @@ export const projectSummaries = [
         homeCategory: "career",
         homeTypeLabel: "BEINTECH / 공공 SI",
         collaboration: "LG CNS 컨소시엄 참여",
+        agencyScope: "5개 기관 연계 시스템",
         index: "01",
         projectType: "career",
         presentation: "career-case",
         title: "전송형 전자영장 시스템",
         navigationLabel: "전자영장",
-        eyebrow: "BEINTECH / LG CNS 컨소시엄 / 해양경찰 사건수사시스템, 통신사 및 집행포털 연계",
+        eyebrow: "BEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계",
         homeSummary:
-            "KICS와 통신사 및 전자영장 포털 사이에서 요청과 제출 자료를 전달하는 시스템입니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다.",
         homeHighlights: [
             "기관별 요청 규격 변환 및 전송 서버 개발",
             "제출 자료의 KICS 반영 서버와 Spring Batch 개발",
         ],
         summary:
-            "KICS 요청을 기관별 규격으로 변환해 전달하고, 기관이 제출한 자료를 KICS에 반영하는 공공 시스템입니다. 연계 서버와 Spring Batch를 개발합니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -273,14 +274,15 @@ export const projectSummaries = [
         id: "defense",
         homeCategory: "career",
         homeTypeLabel: "BEINTECH / 국방부 SI",
+        agencyScope: "국방부 산하 4개 기관 연계 시스템",
         index: "02",
         projectType: "career",
         presentation: "career-case",
         title: "차세대 군사법 정보 시스템",
         navigationLabel: "군사법",
-        eyebrow: "BEINTECH / 국방부 SI / 백엔드 개발 및 운영",
+        eyebrow: "BEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발 및 운영",
         summary:
-            "군 사법 및 군교정 업무를 처리하는 국방부 폐쇄망 시스템입니다. 군사법원, 군검찰 및 군사경찰의 자료 검증 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 재실행했습니다.",
+            "군사법원, 군검찰, 군경찰, 군교정 등 국방부 산하 4개 기관의 업무를 연계하는 폐쇄망 시스템입니다. 세 기관의 수용자 자료를 군교정 DB에 반영하는 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 재실행했습니다.",
         homeFacts: [
             {
                 label: "담당",
