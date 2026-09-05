@@ -69,3 +69,17 @@ Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스�
 
 관련 테스트 39개와 `bootJar`를 통과했다. HTTP 계약, AI 설정 및 답변 어댑터, 검색·답변 서비스와 기본 프로필의 readiness 테스트를 선택 실행했다.
 이번에 변경하지 않은 Elasticsearch 색인 통합 테스트, 웹 빌드와 PDF·OG 생성은 반복하지 않았다. 실제 OpenAI·Ollama 호출도 실행하지 않았다.
+
+## 후속 검토 — `982484a` 기준
+
+추가로 수정할 항목 한 개를 확인했다. 앱 코드는 아직 변경하지 않았다.
+
+- 위치: [GlobalExceptionHandler.handleUnexpected()](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/GlobalExceptionHandler.java).
+- 재현: 기존 컴파일 결과로 구성한 MockMvc에서 `GET /api/v1/knowledge/not-found`, `Accept: application/json`을 요청하면 `404` 대신 `500`과 `INTERNAL_ERROR` 본문을 반환했다.
+- 원인: `@ExceptionHandler(Exception.class)`가 Spring의 `NoHandlerFoundException`까지 잡아 일반 서버 오류로 바꾼다. 기본 리소스 처리에서 사용하는 `NoResourceFoundException`도 동일하게 `ErrorResponse`를 구현한다.
+- 개선: 공통 500 처리 전에 `ErrorResponse`의 상태와 헤더를 보존하고, 한글 오류 본문은 현재 DTO 형식을 유지한다. 개별 Spring 예외를 추가로 나열할 필요는 없다. [Spring ErrorResponse](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/ErrorResponse.html).
+- 확인할 동작: 없는 API·리소스는 404, 예상하지 못한 코드 오류는 500, 기존 400·405·415 응답은 유지.
+
+지원하지 않는 `Accept: application/xml` 요청은 같은 MockMvc에서 406과 빈 본문을 반환했다. 이 상태 코드는 이미 올바르므로 수정 대상으로 분류하지 않았다.
+데이터 변환, 임베딩 배열 변환, 짧은 응답 생성 코드에서는 추가 추상화로 얻을 실익이 큰 항목을 찾지 못했다. 유지하기로 한 근거·임베딩·색인 검증도 삭제하지 않는 것이 적절하다.
+검토에는 기존 앱 클래스와 동일 버전 Spring Test를 사용했으며, 임시 Java 소스는 실행 후 제거했다. 빌드·전체 테스트·AI 및 Elasticsearch 호출은 반복하지 않았다.
