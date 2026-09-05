@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/임정규_포트폴리오.pdf",
-    "sourceSha256": "3df63a4e30d015c38c265cd1c48e6ede0529f644f27231cd32d3bc9b33d7f32f",
-    "artifactSha256": "541276bb8c9c4af7a87cfb9001f95f8d0588b1deb9df08ebb6278ef0be5f6039",
+    "sourceSha256": "21cd155819a8cd4d229974016b28b134f1aad6db858eb9f69bdd467baaf4a9e8",
+    "artifactSha256": "25dcaa01c54f8df5541477098e9ec3994d8fdac42d7837ec8d8a2923d8651523",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",

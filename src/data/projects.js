@@ -51,7 +51,7 @@ const projects = [
             description:
                 "GO, WATCH, RELAY, BRIEF, CAL과 ROUND는 독립 실행하며 저장소를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.",
             tradeoff:
-                "장애와 배포 영향은 줄었지만, 서비스별 배포와 미전송 이벤트 재처리를 함께 운영해야 합니다.",
+                "서비스를 개별 배포할 수 있으며, 배포 상태와 미전송 이벤트를 서비스별로 관리해야 합니다.",
         },
         featuredProblemNumbers: ["02", "03", "05", "07"],
         documentGroups: [
@@ -955,7 +955,7 @@ const projects = [
                 type: "ADR",
                 label: "스마트스토어 주문 운영과 정산",
                 href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0048_%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%8A%A4%ED%86%A0%EC%96%B4_%EC%A3%BC%EB%AC%B8_%EC%9A%B4%EC%98%81_%EC%97%B0%EB%8F%99/adr.md",
-                note: "발주, 발송, 문의와 정산을 외부 상태 확정 및 대사 원장으로 분리한 결정",
+                note: "주문 상태 갱신, 문의 조회 및 답변과 정산 내역 대조를 구분한 설계",
             },
         ],
         proofs: [
@@ -1837,8 +1837,8 @@ const projects = [
                 item: "IntelliJ 현재 줄 및 변경 기록 조회",
                 method: "IntelliJ 플러그인 자동화 테스트와 로컬 GitHub OAuth 연동 확인",
                 rule: "GitHub remote, 전체 HEAD, 저장소 상대 경로와 현재 줄로 조회하고 저장소, 파일과 상태 조건으로 기록 목록을 탐색",
-                result: "커밋된 현재 줄과 팀 공개 및 내 비공개 기록을 조회하고 its_ 세션을 PasswordSafe에 저장하도록 구현했습니다. 실제 GitHub OAuth 세션으로 목록 조회까지 로컬 확인했습니다.",
-                scope: "IntelliJ IDEA 2025.3.2 대상 · 상태 필터와 커밋이 없는 기록의 버튼 상태 수동 확인, Marketplace 배포 및 공개 운영은 미검증",
+                result: "커밋된 현재 줄과 팀 공개 및 내 비공개 기록을 조회하고 its_ 세션 토큰을 PasswordSafe에 저장하도록 구현했습니다. 실제 GitHub OAuth 세션으로 목록 조회까지 로컬 확인했습니다.",
+                scope: "IntelliJ IDEA 2025.3.2 대상, 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증 미완료, Marketplace 배포 및 공개 운영은 미검증",
             },
             {
                 item: "공개 main 자동화 검증",
@@ -1924,7 +1924,7 @@ const projects = [
                 validation:
                     "다른 PR HEAD 게시 차단, Check Run 갱신, IntelliJ의 커밋되지 않은 파일 조회 차단과 기록 목록 탐색을 테스트했습니다. 실제 GitHub OAuth 세션으로 목록 조회도 로컬 확인했습니다.",
                 boundary:
-                    "IntelliJ에서 기록 생성과 callback token 자동 수신은 제공하지 않습니다. 상태 필터와 커밋이 없는 기록의 버튼 상태는 추가 수동 확인이 필요합니다.",
+                    "IntelliJ에서 기록 생성과 callback token 자동 수신은 제공하지 않습니다. 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증을 마치지 못했습니다.",
             },
         ],
         stack: [

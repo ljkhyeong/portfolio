@@ -80,10 +80,11 @@ const evidencePresentation = {
         resultSummary: "GitHub 읽기와 쓰기 권한 분리, 인증 토큰과 세션은 메모리에만 보관",
         scopeNote: "서버 재시작 시 세션 소멸, 실제 공개 운영 미검증",
     },
-    "IntelliJ 현재 줄의 공개 기록 조회": {
-        methodLabel: "단위 테스트 및 구조 검증",
-        resultSummary: "커밋된 코드의 현재 줄에서 공개 기록 조회, 세션은 PasswordSafe에 저장",
-        scopeNote: "Marketplace 배포 및 실사용 운영 미검증",
+    "IntelliJ 현재 줄 및 변경 기록 조회": {
+        methodLabel: "자동화 테스트 및 로컬 연동",
+        resultSummary: "현재 줄과 팀 공개 및 내 비공개 기록 조회, 세션 토큰은 PasswordSafe에 보관",
+        scopeNote:
+            "일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증 미완료, Marketplace 배포 및 공개 운영 미검증",
     },
     "공개 main 자동화 검증": {
         methodLabel: "CI 확인",

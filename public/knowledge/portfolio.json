@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:34a98fb313e2",
+  "sourceRevision": "sha256:3dac575d43d9",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -166,7 +166,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:243f5fece444",
+      "sourceRevision": "sha256:2d799beb5a03",
       "documentId": "knowledge_ab5cc9dd1f4898e367ba4454",
       "projectId": "baton",
       "projectName": "BATON",
@@ -174,13 +174,13 @@
       "documentType": "architecture_decision",
       "title": "조직과 인수인계는 Core에 두고, 6개 기능은 독립 서비스와 저장소로 분리했습니다.",
       "heading": "구현 방법과 선택 이유",
-      "content": "프로젝트: BATON\n\n구현 방법: 서비스 구성과 담당 업무\n\n조직과 인수인계는 Core에 두고, 6개 기능은 독립 서비스와 저장소로 분리했습니다.\n\nGO, WATCH, RELAY, BRIEF, CAL과 ROUND는 독립 실행하며 저장소를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.\n\n적용 범위와 제약: 장애와 배포 영향은 줄었지만, 서비스별 배포와 미전송 이벤트 재처리를 함께 운영해야 합니다.",
+      "content": "프로젝트: BATON\n\n구현 방법: 서비스 구성과 담당 업무\n\n조직과 인수인계는 Core에 두고, 6개 기능은 독립 서비스와 저장소로 분리했습니다.\n\nGO, WATCH, RELAY, BRIEF, CAL과 ROUND는 독립 실행하며 저장소를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.\n\n적용 범위와 제약: 서비스를 개별 배포할 수 있으며, 배포 상태와 미전송 이벤트를 서비스별로 관리해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-architecture",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "243f5fece444363ea4687511fa617e1bdb3e682e0300b81a84407ebb3b307918",
-      "contentHash": "d61327f124b044fe3753d9322b05b098dca14393cefc2c2b7fb02d16f6448ad3"
+      "sourceHash": "2d799beb5a0329e10817cd110fe60b75fd2f1dd02c2d36ce9cbc475e38ef5a4e",
+      "contentHash": "12891b18d5ce5bcaa12eb383c84f75991748133d81db5a3ad26410ec86f2fb96"
     },
     {
       "schemaVersion": "1.0",
@@ -1480,7 +1480,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:d7ed1512576c",
+      "sourceRevision": "sha256:eb0393181076",
       "documentId": "knowledge_7c30dbaffd84b3158463b353",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1488,13 +1488,13 @@
       "documentType": "representative_document",
       "title": "스마트스토어 주문 운영과 정산",
       "heading": "ADR",
-      "content": "프로젝트: happyGallery\n\n문서 종류: ADR\n\n발주, 발송, 문의와 정산을 외부 상태 확정 및 대사 원장으로 분리한 결정",
+      "content": "프로젝트: happyGallery\n\n문서 종류: ADR\n\n주문 상태 갱신, 문의 조회 및 답변과 정산 내역 대조를 구분한 설계",
       "sourceUrl": "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0048_%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%8A%A4%ED%86%A0%EC%96%B4_%EC%A3%BC%EB%AC%B8_%EC%9A%B4%EC%98%81_%EC%97%B0%EB%8F%99/adr.md",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "d7ed1512576c389b456d24bfafc37b55326e442a768cad57e7562fe9b1e9ecfc",
-      "contentHash": "477821fa0801930355e9b2c27476507efdf384f207d964324f3379561b5963ab"
+      "sourceHash": "eb039318107626ce9f23cfc175bbe942c3fb0f1bbf079780dc2d616cfaab5663",
+      "contentHash": "b59448db01e8a00e05d39d72740aaac8ee2ad6bf609bc54eea29934da009c5ae"
     },
     {
       "schemaVersion": "1.0",
@@ -2182,7 +2182,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:883747d356e2",
+      "sourceRevision": "sha256:e0006dd5a592",
       "documentId": "knowledge_4676770f08f74a00385ba601",
       "projectId": "intent-trace",
       "projectName": "IntentTrace",
@@ -2190,13 +2190,13 @@
       "documentType": "problem_solution",
       "title": "PR, 현재 코드 줄과 기록 목록에서 같은 변경 근거 조회",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: IntentTrace\n\n문제: 변경 기록이 별도 화면에만 있으면 PR 리뷰와 이후 코드 탐색 중 필요한 시점에 찾기 어렵습니다.\n\n해결 방법: PR HEAD가 기록 커밋과 같을 때 neutral Check Run으로 게시합니다. IntelliJ는 현재 줄뿐 아니라 저장소, 파일과 상태 조건으로 팀 공개 기록과 내 비공개 기록을 조회합니다.\n\n확인: 다른 PR HEAD 게시 차단, Check Run 갱신, IntelliJ의 커밋되지 않은 파일 조회 차단과 기록 목록 탐색을 테스트했습니다. 실제 GitHub OAuth 세션으로 목록 조회도 로컬 확인했습니다.\n\n제약과 남은 작업: IntelliJ에서 기록 생성과 callback token 자동 수신은 제공하지 않습니다. 상태 필터와 커밋이 없는 기록의 버튼 상태는 추가 수동 확인이 필요합니다.",
+      "content": "프로젝트: IntentTrace\n\n문제: 변경 기록이 별도 화면에만 있으면 PR 리뷰와 이후 코드 탐색 중 필요한 시점에 찾기 어렵습니다.\n\n해결 방법: PR HEAD가 기록 커밋과 같을 때 neutral Check Run으로 게시합니다. IntelliJ는 현재 줄뿐 아니라 저장소, 파일과 상태 조건으로 팀 공개 기록과 내 비공개 기록을 조회합니다.\n\n확인: 다른 PR HEAD 게시 차단, Check Run 갱신, IntelliJ의 커밋되지 않은 파일 조회 차단과 기록 목록 탐색을 테스트했습니다. 실제 GitHub OAuth 세션으로 목록 조회도 로컬 확인했습니다.\n\n제약과 남은 작업: IntelliJ에서 기록 생성과 callback token 자동 수신은 제공하지 않습니다. 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증을 마치지 못했습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/intent-trace#project-problems",
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "883747d356e23db6b8e8c98ddfc899c7673b4c5f1ff368300c97325dcdd42c4c",
-      "contentHash": "3b37ce78835cfb6ecf10d5828a34386c8d37adbec7933bd86705f7134b1b15e9"
+      "sourceHash": "e0006dd5a5926378cdd20735c13f1c00e44c1dc14fd91b158d79596d9655bcdc",
+      "contentHash": "9cf65766cbf70e9d2ac7122bb35039555ad3c9ed7aac5fde216317fd62d8331f"
     },
     {
       "schemaVersion": "1.0",
@@ -2254,7 +2254,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:338d6a2d3127",
+      "sourceRevision": "sha256:370a4dc19fb5",
       "documentId": "knowledge_75c9755275b20adbf60f8e52",
       "projectId": "intent-trace",
       "projectName": "IntentTrace",
@@ -2262,13 +2262,13 @@
       "documentType": "implementation_evidence",
       "title": "IntelliJ 현재 줄 및 변경 기록 조회",
       "heading": "구현 및 공개 검증",
-      "content": "프로젝트: IntentTrace\n\n확인 대상: IntelliJ 현재 줄 및 변경 기록 조회\n\n확인 방법: IntelliJ 플러그인 자동화 테스트와 로컬 GitHub OAuth 연동 확인\n\n확인 조건: GitHub remote, 전체 HEAD, 저장소 상대 경로와 현재 줄로 조회하고 저장소, 파일과 상태 조건으로 기록 목록을 탐색\n\n결과: 커밋된 현재 줄과 팀 공개 및 내 비공개 기록을 조회하고 its_ 세션을 PasswordSafe에 저장하도록 구현했습니다. 실제 GitHub OAuth 세션으로 목록 조회까지 로컬 확인했습니다.\n\n공개 범위: IntelliJ IDEA 2025.3.2 대상 · 상태 필터와 커밋이 없는 기록의 버튼 상태 수동 확인, Marketplace 배포 및 공개 운영은 미검증",
+      "content": "프로젝트: IntentTrace\n\n확인 대상: IntelliJ 현재 줄 및 변경 기록 조회\n\n확인 방법: IntelliJ 플러그인 자동화 테스트와 로컬 GitHub OAuth 연동 확인\n\n확인 조건: GitHub remote, 전체 HEAD, 저장소 상대 경로와 현재 줄로 조회하고 저장소, 파일과 상태 조건으로 기록 목록을 탐색\n\n결과: 커밋된 현재 줄과 팀 공개 및 내 비공개 기록을 조회하고 its_ 세션 토큰을 PasswordSafe에 저장하도록 구현했습니다. 실제 GitHub OAuth 세션으로 목록 조회까지 로컬 확인했습니다.\n\n공개 범위: IntelliJ IDEA 2025.3.2 대상, 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증 미완료, Marketplace 배포 및 공개 운영은 미검증",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/intent-trace#project-proof",
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "338d6a2d3127ab8184a7dc4ded711f46354bb2950fe292af9c340ac9a5dfaa95",
-      "contentHash": "2431c5f8f67dd5ce4b14ee5f11be377b63a54946a5d9180c3d37e01a55ce11e7"
+      "sourceHash": "370a4dc19fb58ac356c248fc4a4ba1b2f80af5235546a7040b53cef33342f0a9",
+      "contentHash": "6fb6cd46d3e282217488b6b7bf02d4eb4e9ecf802e44e683e1527b28a34f22f3"
     },
     {
       "schemaVersion": "1.0",
