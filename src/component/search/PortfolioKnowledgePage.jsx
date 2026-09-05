@@ -217,7 +217,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
         {state === "insufficient" && (
             <div className="knowledge-answer__notice" role="status">
                 <strong>질문과 관련된 공개 문서가 충분하지 않습니다.</strong>
-                <p>왼쪽 검색 결과를 직접 확인하거나 질문 범위를 좁혀 보세요.</p>
+                <p>검색 결과를 직접 확인하거나 질문 범위를 좁혀 보세요.</p>
             </div>
         )}
 
