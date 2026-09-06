@@ -7,7 +7,7 @@
 -   Java 21
 -   Spring Boot 4.1.0
 -   Spring AI 2.0.0
--   Elasticsearch 8.19.20
+-   Elasticsearch 8.19.20 + 한국어 분석기 Nori
 -   운영 AI: OpenAI
 -   로컬 AI: Ollama
 
@@ -57,7 +57,7 @@ docker compose exec ollama ollama pull bge-m3
 AI_PROFILE=ollama docker compose --profile ollama up --build knowledge-api
 ```
 
-프로필별 기본 인덱스는 `portfolio-knowledge-disabled-v2`, `portfolio-knowledge-openai-v2`, `portfolio-knowledge-ollama-v2`로 분리됩니다. Compose에서 `ELASTICSEARCH_INDEX`를 설정하면 사용자 지정 이름을 우선 사용합니다. 임베딩 모델 또는 차원을 변경하면 기존 벡터와 호환되지 않으므로 새 인덱스 이름으로 전체 문서를 다시 색인해야 합니다.
+프로필별 기본 인덱스는 `portfolio-knowledge-disabled-v3`, `portfolio-knowledge-openai-v3`, `portfolio-knowledge-ollama-v3`로 분리됩니다. Compose에서 `ELASTICSEARCH_INDEX`를 설정하면 사용자 지정 이름을 우선 사용합니다. 임베딩 모델 또는 차원을 변경하면 기존 벡터와 호환되지 않으므로 새 인덱스 이름으로 전체 문서를 다시 색인해야 합니다.
 
 `AI_PROFILE`은 `disabled`, `openai`, `ollama`를 허용하며, 빈 값은 기본값 `disabled`로 바인딩합니다. 철자가 틀린 값은 AI가 비활성화된 상태로 기동하지 않고 설정 오류로 시작을 중단합니다.
 
@@ -105,6 +105,10 @@ Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션
 
 ## 동기화
 
+루트의 `npm run knowledge:refresh-docs`는 허용 목록 중 공개 문서 6건을 가져와
+`docs/knowledge-document-snapshots.json`에 원본 커밋과 함께 저장합니다. 본문 diff를 검토한 뒤
+`npm run knowledge:generate`로 검색 자료를 생성합니다. 일반 빌드에서는 보관된 본문만 사용하며 외부 문서를 다시 내려받지 않습니다.
+
 증분 동기화는 본문, 제목, 링크 등 공개 입력 전체를 계산한 `sourceHash`로 변경 여부를 판단합니다. `contentHash`는 본문만의 변경 이력을 확인할 수 있도록 각 청크에 함께 저장합니다. 변경된 청크를 먼저 upsert한 뒤 더 이상 사용하지 않는 이전 청크를 삭제하므로 벌크 색인 실패 시 기존 전체 문서가 먼저 사라지지 않습니다. 문서 목록에서 빠진 항목은 Elasticsearch에서 삭제합니다.
 
 최대 청크 길이와 겹침 범위는 Elasticsearch 인덱스 매핑에 호환성 지문으로 저장합니다. 두 값 중 하나를 바꾸면 기존 인덱스를 재사용하지 않으므로 `ELASTICSEARCH_INDEX`에 새 이름을 지정한 뒤 전체 문서를 다시 색인해야 합니다.
@@ -144,9 +148,38 @@ CORS 기본 허용 주소는 다음 두 개이며 와일드카드를 사용하�
 ## 검증
 
 ```bash
+docker build -f elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:8.19.20-nori ..
 ./gradlew test
 ./gradlew integrationTest
 ./gradlew bootJar
 ```
 
-단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. 통합 테스트는 표준 Elasticsearch 이미지에서 임베딩이 있는 문서와 없는 문서를 모두 색인하고 BM25 및 kNN 검색을 확인합니다.
+단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. 통합 테스트는 위에서 빌드한 Nori 이미지에서 임베딩 유무, 한국어 조사, BM25 및 kNN 검색을 확인합니다.
+
+## 검색 품질과 배포 자료 확인
+
+Nori로 색인하므로 이전 `v2` 인덱스를 재사용하지 않습니다. 기본값은 `v3`이며 사용자 지정 인덱스도 새 이름으로 바꿔 전체 색인해야 합니다. 기존 인덱스는 자동 삭제하지 않습니다. 관리형 Elasticsearch에서도 같은 버전의 `analysis-nori` 설치가 필요합니다. [Nori 공식 문서](https://www.elastic.co/docs/reference/elasticsearch/plugins/analysis-nori-analyzer).
+
+`GET /internal/v1/knowledge/status`는 동기화와 같은 `X-Knowledge-Sync-Key`를 요구합니다. API에 포함된 자료 버전, 기대 문서 수, 색인 문서 수, 해시가 같은 문서 수와 `upToDate`를 반환합니다. 문서 수가 같아도 본문이 다르면 최신으로 판정하지 않습니다.
+
+다음은 저장소 루트에서 실행합니다. 배포 자동화에서는 **같은 공개 자료로 API를 배포한 뒤** 동기화 명령을 실행합니다.
+
+```bash
+export KNOWLEDGE_API_BASE_URL=http://127.0.0.1:8080
+# KNOWLEDGE_SYNC_KEY는 배포 환경의 비밀값으로 설정
+npm run knowledge:sync
+npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL"
+```
+
+동기화 명령은 현재 자료와 API 버전이 다르면 색인을 수정하지 않습니다. 최신이면 재색인을 생략하고, 동기화 후에도 해시가 다르면 실패합니다. CI에서는 새 API 이미지로 이 절차와 검색 평가를 실행하고 결과 JSON을 보관합니다. 원격 운영 배포 대상은 이 저장소에 설정돼 있지 않습니다.
+
+`scripts/knowledge-evaluation-cases.json`은 대표 질문 20개와 답할 근거가 없는 질문 4개입니다. 기본 평가는 유료 AI 호출 없이 상위 5건의 목표 문서 적중률과 MRR@5, 요청 시간을 기록합니다. 적중률이 85% 미만이면 실패합니다. `KNOWLEDGE_SYNC_KEY`가 있으면 평가 전에 색인의 자료 버전도 확인합니다.
+
+```bash
+# AI가 설정된 별도 평가 서버에서만 실행: 실제 모델 사용 비용 발생
+npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL" --answers
+```
+
+답변 모드는 생성·거절 상태와 출처 유무를 검사하고 답변 및 출처를 기록합니다. 의미가 근거와 일치하는지는 각 질문의 `criteria`와 원문으로 검토해야 합니다. 인용 ID 검사를 사실 정확도 점수로 계산하지 않습니다. 평가용 인스턴스는 기존 호출 제한에 걸리지 않도록 별도로 설정하되 운영 한도를 낮추지 않습니다.
+
+검색과 답변 생성에서 같은 질문을 사용하면 Caffeine으로 질문 벡터만 2분간, 최대 256개 재사용합니다. 문서 검색은 매번 실행하므로 색인 갱신이 캐시에 가려지지 않으며, 임베딩 실패는 캐시하지 않습니다. 인스턴스와 모델 설정을 공유하는 분산 캐시는 사용하지 않습니다.
