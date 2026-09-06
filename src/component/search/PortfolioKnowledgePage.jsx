@@ -193,6 +193,71 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
     )
 }
 
+const AnswerContent = ({ answer, citations }) => {
+    const evidenceDetails = useRef([])
+    const showEvidence = (index) => {
+        const details = evidenceDetails.current[index]
+        if (!details) return
+        details.open = true
+        details.querySelector("summary")?.focus()
+        details.scrollIntoView?.({ block: "nearest", behavior: "smooth" })
+    }
+    return (
+        <div className="knowledge-answer__content" aria-live="polite">
+            <p>
+                {answer.split(/(\[\d+\])/g).map((part, index) => {
+                    const match = part.match(/^\[(\d+)\]$/)
+                    const number = match ? Number(match[1]) : 0
+                    return number > 0 && number <= citations.length ? (
+                        <button
+                            key={index}
+                            type="button"
+                            className="knowledge-answer__reference"
+                            aria-label={`근거 ${number} 보기`}
+                            onClick={() => showEvidence(number - 1)}
+                        >
+                            {part}
+                        </button>
+                    ) : (
+                        part
+                    )
+                })}
+            </p>
+            <section aria-labelledby="knowledge-citations-title">
+                <h3 id="knowledge-citations-title">답변에 사용한 문서</h3>
+                <ol>
+                    {citations.map((citation, index) => (
+                        <li key={citation.chunkId || `${citation.title}-${index}`}>
+                            <SourceLink item={citation} className="knowledge-answer__citation">
+                                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                                <span>
+                                    <strong>{getPrimaryLabel(citation)}</strong>
+                                    {getSecondaryLabel(citation) && (
+                                        <small>{getSecondaryLabel(citation)}</small>
+                                    )}
+                                </span>
+                                <span aria-hidden="true">↗</span>
+                            </SourceLink>
+                            <details
+                                className="knowledge-answer__evidence"
+                                ref={(element) => {
+                                    evidenceDetails.current[index] = element
+                                }}
+                            >
+                                <summary>근거 {index + 1} 발췌문</summary>
+                                <blockquote>
+                                    {citation.excerpt ||
+                                        "발췌문이 없습니다. 원문 링크에서 확인하세요."}
+                                </blockquote>
+                            </details>
+                        </li>
+                    ))}
+                </ol>
+            </section>
+        </div>
+    )
+}
+
 const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGenerate }) => (
     <aside className="knowledge-answer" aria-labelledby="knowledge-answer-title">
         <div className="knowledge-answer__heading">
@@ -227,32 +292,7 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
             </div>
         )}
 
-        {state === "generated" && (
-            <div className="knowledge-answer__content" aria-live="polite">
-                <p>{answer}</p>
-                <section aria-labelledby="knowledge-citations-title">
-                    <h3 id="knowledge-citations-title">답변에 사용한 문서</h3>
-                    <ol>
-                        {citations.map((citation, index) => (
-                            <li key={citation.chunkId || `${citation.title}-${index}`}>
-                                <SourceLink item={citation} className="knowledge-answer__citation">
-                                    <span aria-hidden="true">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
-                                    <span>
-                                        <strong>{getPrimaryLabel(citation)}</strong>
-                                        {getSecondaryLabel(citation) && (
-                                            <small>{getSecondaryLabel(citation)}</small>
-                                        )}
-                                    </span>
-                                    <span aria-hidden="true">↗</span>
-                                </SourceLink>
-                            </li>
-                        ))}
-                    </ol>
-                </section>
-            </div>
-        )}
+        {state === "generated" && <AnswerContent answer={answer} citations={citations} />}
 
         <button
             className="knowledge-answer__button"

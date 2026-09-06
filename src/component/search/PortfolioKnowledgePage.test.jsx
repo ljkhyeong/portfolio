@@ -32,6 +32,33 @@ beforeEach(() => {
     vi.clearAllMocks()
 })
 
+test("본문 인용 번호를 누르면 해당 출처의 발췌문을 열고 키보드 초점을 옮긴다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
+    generatePortfolioAnswer.mockResolvedValue({
+        status: "GENERATED",
+        answer: "같은 키를 재사용합니다. [1]",
+        citations: [{ ...searchResult, excerpt: "환불 요청의 UUID를 재사용합니다." }],
+    })
+    renderPage()
+    await act(async () => {
+        userEvent.click(
+            screen.getByRole("button", { name: "결제와 환불 중복 처리를 어떻게 막았나요?" }),
+        )
+    })
+    await screen.findByRole("heading", { name: searchResult.title })
+    await act(async () => {
+        userEvent.click(screen.getByRole("button", { name: /검색 결과로 답변 생성/ }))
+    })
+    const reference = await screen.findByRole("button", { name: "근거 1 보기" })
+    expect(screen.getByText("근거 1 발췌문").closest("details")).not.toHaveAttribute("open")
+    await act(async () => {
+        userEvent.click(reference)
+    })
+    expect(screen.getByText("근거 1 발췌문").closest("details")).toHaveAttribute("open")
+    expect(screen.getByText("근거 1 발췌문")).toHaveFocus()
+    expect(screen.getByText("환불 요청의 UUID를 재사용합니다.")).toBeVisible()
+})
+
 test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI 답변을 생성한다", async () => {
     searchPortfolioKnowledge.mockResolvedValue({
         query: "결제와 환불 중복 처리를 어떻게 막았나요?",
