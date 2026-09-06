@@ -300,11 +300,11 @@ const diagrams = {
     },
     "youth-policy-mate": {
         eyebrow: "ARCHITECTURE / WEB APP",
-        title: "조건 입력 화면과 개발용 자격 및 일정 계산",
+        title: "공개 정책 조회와 조건 확인·일정·알림",
         summary:
-            "조건 입력값은 화면에서만 확인합니다. 개발용 API는 테스트 정책과 답변으로 자격과 알림 후보를 계산해 결과 화면에 표시합니다.",
+            "수집한 정책과 검토한 질문으로 조건을 확인하고, 관심 정책 저장과 신청 일정·알림을 연결합니다.",
         description:
-            "일반 조건 입력값은 서버로 보내거나 저장하지 않고 화면에서 확인합니다. 별도 개발용 API는 테스트 정책과 답변으로 자격과 알림 후보를 계산합니다. 실제 정책 수집, 회원 저장, 알림 예약과 외부 발송은 연결하지 않았습니다.",
+            "Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 회원 저장, 일정과 알림을 처리합니다. 정책·회원·알림 상태는 JDBC와 PostgreSQL로 관리합니다.",
         height: 608,
         zones: [
             { x: 24, y: 40, width: 912, height: 160, label: "조건 입력 화면", labelWidth: 120 },
@@ -313,7 +313,7 @@ const diagrams = {
                 y: 236,
                 width: 912,
                 height: 328,
-                label: "개발용 API와 결과 화면",
+                label: "정책 API와 회원 기능",
                 labelWidth: 168,
             },
         ],
@@ -336,7 +336,7 @@ const diagrams = {
                 height: 104,
                 tag: "WEB VIEW",
                 title: ["입력 내용 확인"],
-                detail: ["서버 전송 및 저장 없음"],
+                detail: ["확인 후 요청 · 회원 저장 선택"],
             },
             {
                 id: "development-data",
@@ -344,9 +344,9 @@ const diagrams = {
                 y: 364,
                 width: 224,
                 height: 104,
-                tag: "TEST DATA",
-                title: ["테스트 정책과 답변"],
-                detail: ["개발용 예시"],
+                tag: "PUBLIC DATA",
+                title: ["수집한 정책·검토한 질문"],
+                detail: ["공개 정책 40건 · 질문 5종"],
                 kind: "external",
             },
             {
@@ -356,8 +356,8 @@ const diagrams = {
                 width: 232,
                 height: 104,
                 tag: "SPRING API",
-                title: ["자격 판정"],
-                detail: ["가능, 불가 및 추가 확인"],
+                title: ["조건별 판정"],
+                detail: ["요건 확인 · 추가 확인 구분"],
                 kind: "focal",
             },
             {
@@ -367,8 +367,8 @@ const diagrams = {
                 width: 232,
                 height: 104,
                 tag: "SPRING API",
-                title: ["알림 후보 계산"],
-                detail: ["모집 기간 및 서울 날짜 기준", "예약 및 발송 미구현"],
+                title: ["일정·알림 처리"],
+                detail: ["마감·수신 동의 확인", "예약·취소·Outbox"],
             },
             {
                 id: "result",
@@ -378,7 +378,7 @@ const diagrams = {
                 height: 104,
                 tag: "WEB RESULT",
                 title: ["판정 및 근거"],
-                detail: ["개발 화면 표시"],
+                detail: ["실제 웹 화면"],
             },
             {
                 id: "reminder-view",
@@ -386,19 +386,20 @@ const diagrams = {
                 y: 432,
                 width: 192,
                 height: 104,
-                tag: "WEB PREVIEW",
-                title: ["마감 및 알림 후보"],
-                detail: ["개발 화면 표시"],
+                tag: "MEMBER VIEW",
+                title: ["관심 정책 일정·알림"],
+                detail: ["실제 웹 화면"],
             },
         ],
         edges: [
             { d: "M272 132 H384" },
+            { d: "M512 184 V252 H476 V288", kind: "accent" },
             { d: "M272 392 H304 Q312 392 312 384 V348 Q312 340 320 340 H360", kind: "accent" },
             { d: "M272 440 H304 Q312 440 312 448 V476 Q312 484 320 484 H360" },
             { d: "M592 340 H712" },
             { d: "M592 484 H712" },
         ],
-        note: "일반 조건 입력과 개발용 계산은 별도 기능입니다. 실제 온통청년 수집, 회원 저장, 알림 예약과 외부 발송은 아직 연결하지 않았습니다.",
+        note: "조건 질문은 일부 요건만 확인합니다. 실제 OAuth 계정·외부 이메일 수신·AI 공급자 호출은 미검증입니다.",
     },
 }
 

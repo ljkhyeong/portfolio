@@ -66,10 +66,10 @@ test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표
     const unverified = within(status).getByText("미검증").closest("div")
 
     expect(verified).toHaveClass("baton-service-status__item--verified")
-    expect(verified).toHaveTextContent("Chromium의 카메라 및 마이크 제어와 화면 공유 테스트")
+    expect(verified).toHaveTextContent("가상 카메라 2명을 로컬 서버에 연결")
     expect(verified).toHaveTextContent("Core 연동")
-    expect(verified).toHaveTextContent("WebKit 호환성")
-    expect(verified).toHaveTextContent("배포 검사 시나리오")
+    expect(verified).toHaveTextContent("손들기·공용 타이머·주제")
+    expect(verified).toHaveTextContent("화면을 확인")
     expect(limited).toHaveClass("baton-service-status__item--limited")
     expect(limited).toHaveTextContent("방과 참가자 연결 상태는 프로세스 메모리")
     expect(limited).toHaveTextContent("단일 시그널링 인스턴스")
@@ -85,6 +85,12 @@ test("ROUND의 입장 확인, 통화와 화면 공유를 현재 대표 화면으
 
     const gallery = screen.getByRole("group", { name: "BATON ROUND 대표 화면" })
     const expectedScreens = [
+        {
+            label: "스터디 진행 도구",
+            src: "baton-round-study.webp",
+            height: 960,
+            alt: "두 참가자가 연결된 방에서 공용 타이머·주제와 손들기 순서를 확인하는 화면",
+        },
         {
             label: "입장 전 장치 확인",
             src: "baton-round-prejoin.webp",
@@ -104,7 +110,7 @@ test("ROUND의 입장 확인, 통화와 화면 공유를 현재 대표 화면으
 
     expect(within(gallery).getAllByRole("button")).toHaveLength(expectedScreens.length)
 
-    expectedScreens.forEach(({ label, src, alt }) => {
+    expectedScreens.forEach(({ label, src, alt, height = 900 }) => {
         expect(
             within(gallery).getByRole("button", {
                 name: `BATON ROUND ${label} 화면 확대해서 보기`,
@@ -114,7 +120,7 @@ test("ROUND의 입장 확인, 통화와 화면 공유를 현재 대표 화면으
         const image = within(gallery).getByRole("img", { name: alt })
         expect(image).toHaveAttribute("src", expect.stringContaining(src))
         expect(image).toHaveAttribute("width", "1440")
-        expect(image).toHaveAttribute("height", "900")
+        expect(image).toHaveAttribute("height", String(height))
     })
 })
 

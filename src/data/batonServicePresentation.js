@@ -7,12 +7,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "최신 로컬 main에서 같은 요청 8건의 동시 처리, HMAC 키 불일치 시 기동 차단, 한글 오류 화면과 요청률 제한을 테스트했습니다.",
+                text: "같은 요청 8건의 동시 처리 검증을 유지하고, Redis 공유 요청률 제한·HMAC 키 교체·만료 링크 정리의 최신 구현을 확인했습니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "최신 로컬 main은 공개 main보다 18개 커밋 앞서 있습니다. 화면과 기능 설명은 로컬 구현 기준입니다.",
+                text: "2026년 9월 6일 로컬 main 08041e0을 확인했습니다. 설명은 해당 구현 기준이며 공개 배포 상태와 구분합니다.",
             },
             {
                 kind: "unverified",
@@ -49,7 +49,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "복구 도구와 운영 대시보드는 공개 원격 개발 브랜치에 있으며 공개 main에는 아직 병합되지 않았습니다.",
+                text: "로컬 main 97e6758에 본문 없는 URL 점검과 원본 스냅샷 대조·복원을 반영했습니다. 공개 저장소 링크는 기존 공개 근거입니다.",
             },
             {
                 kind: "unverified",
@@ -85,7 +85,7 @@ export const batonServicePresentations = {
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "실제 AWS 전송과 큐 적체 및 실패 알림은 미검증입니다.",
+                text: "경보 실패·재시도·복구는 모의 수신기로 확인했습니다. 실제 AWS 전송과 외부 운영 알림 연결은 미검증입니다.",
             },
         ],
         flow: {
@@ -112,12 +112,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "원격 개발 브랜치에서 누락된 개정 번호 감지, 점검 항목의 상태 전이, 발행 보고서 이력 및 비교를 확인했습니다. Core 2.0.0-rc.1과 로컬 HTTP 및 내부 HTTPS 연동도 검증했습니다.",
+                text: "점검 상태와 보고서 이력·비교의 검증에 이어 주간 이월·신규·해결 내역을 추가했습니다. Core와 로컬 HTTP·내부 HTTPS 연동 기록을 확인했습니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "최신 로컬 main은 공개 main보다 16개 커밋 앞서 있습니다. BRIEF 원격 개발 브랜치는 2.0.0-rc.4이며 Core 공개 main은 2.0.0-rc.1을 사용합니다. 최신 릴리스 후보 JSON 규격의 Core 반영은 아직 완료되지 않았습니다.",
+                text: "2026년 9월 6일 로컬 main 5e7cd53을 확인했습니다. 주간 보고서 확장과 Core 화면 연결은 로컬 구현 기준입니다.",
             },
             {
                 kind: "unverified",
@@ -153,7 +153,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "정식 JSON 규격은 1.0.0입니다. 1.1.0-rc.1은 2026년 9월 2일 사전 릴리스로 게시했으며 정식 버전 전환 전입니다.",
+                text: "정식 규격은 1.0.0, 게시된 후보는 1.1.0-rc.1입니다. 개인 구독·응답 유실 복구는 1.1.0-rc.2 개발 소스에 있으며 정식 반영 전입니다.",
             },
             {
                 kind: "unverified",
@@ -184,7 +184,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "현재 main에서 Chromium의 카메라 및 마이크 제어와 화면 공유 테스트를 통과했습니다. WebKit 호환성, Core 연동과 배포 검사 시나리오도 통과했습니다.",
+                text: "기존 브라우저·Core 연동 검증에 손들기·공용 타이머·주제를 추가했습니다. 이번에는 가상 카메라 2명을 로컬 서버에 연결해 화면을 확인했습니다.",
             },
             {
                 kind: "limited",

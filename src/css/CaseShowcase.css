@@ -192,15 +192,23 @@ main.case-showcase .screenshot-gallery--case-overview {
 }
 
 main.case-showcase
-    .screenshot-gallery--case-overview:not(.screenshot-gallery--count-2)
+    .screenshot-gallery--case-overview:not(.screenshot-gallery--count-2):not(
+        .screenshot-gallery--youth-policy-mate
+    )
     .screenshot-gallery__item:first-child {
     grid-column: 1 / -1;
 }
 
 main.case-showcase
-    .screenshot-gallery--case-overview.screenshot-gallery--count-4
+    .screenshot-gallery--case-overview.screenshot-gallery--count-4:not(
+        .screenshot-gallery--youth-policy-mate
+    )
     .screenshot-gallery__item:last-child {
     grid-column: 1 / -1;
+}
+
+main.case-showcase .screenshot-gallery--case-overview.screenshot-gallery--youth-policy-mate {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 main.case-showcase .screenshot-gallery__item {
@@ -936,6 +944,10 @@ main.case-showcase ::selection {
 }
 
 @media (max-width: 800px) {
+    main.case-showcase .screenshot-gallery--case-overview.screenshot-gallery--youth-policy-mate {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     main.case-showcase .case-hero,
     main.case-showcase .baton-service-hero {
         grid-template-columns: 1fr;
@@ -1049,6 +1061,7 @@ main.case-showcase ::selection {
     }
 
     main.case-showcase .screenshot-gallery--case-overview,
+    main.case-showcase .screenshot-gallery--case-overview.screenshot-gallery--youth-policy-mate,
     main.case-showcase .screenshot-gallery--service {
         grid-template-columns: 1fr;
         gap: 28px;

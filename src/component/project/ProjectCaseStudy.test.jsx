@@ -219,7 +219,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
-    expect(screen.getByText("추가 문제 해결 10건 보기").closest("details")).not.toHaveAttribute(
+    expect(screen.getByText("추가 문제 해결 11건 보기").closest("details")).not.toHaveAttribute(
         "open",
     )
     expect(screen.getByRole("heading", { name: "대표 화면" })).toBeInTheDocument()
@@ -245,15 +245,15 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     })
 
     const paymentTrigger = within(gallery).getByRole("button", {
-        name: "happyGallery 결제수단 선택 화면 확대해서 보기",
+        name: "happyGallery 선택 구매와 결제수단 화면 확대해서 보기",
     })
     fireEvent.click(paymentTrigger)
 
-    const dialog = screen.getByRole("dialog", { name: "결제수단 선택" })
+    const dialog = screen.getByRole("dialog", { name: "선택 구매와 결제수단" })
     expect(
-        within(dialog).getByRole("img", { name: project.screenshots[1].alt }),
+        within(dialog).getByRole("img", { name: project.screenshots[4].alt }),
     ).toBeInTheDocument()
-    expect(within(dialog).getByText(/2 \/ 5/)).toBeInTheDocument()
+    expect(within(dialog).getByText(/5 \/ 5/)).toBeInTheDocument()
 
     fireEvent.click(within(dialog).getByRole("button", { name: "확대 화면 닫기" }))
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
@@ -287,7 +287,7 @@ test("청년정책메이트는 모바일 웹앱으로 구분하고 현재 화면
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByText(
-            "청년 정책의 신청 자격과 판단 근거, 신청 일정을 확인하는 모바일 웹앱을 개발합니다.",
+            "정책을 찾아 조건을 확인하고, 관심 정책의 일정과 알림을 관리하는 모바일 웹앱입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
@@ -304,22 +304,22 @@ test("청년정책메이트는 모바일 웹앱으로 구분하고 현재 화면
     })
 
     expect(
-        screen.getByRole("heading", { name: "조건 입력 화면과 개발용 자격 및 일정 계산" }),
+        screen.getByRole("heading", { name: "공개 정책 조회와 조건 확인·일정·알림" }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /조건 입력 화면과 개발용 자격 및 일정 계산.*일반 조건 입력값은 서버로 보내거나 저장하지 않고 화면에서 확인.*별도 개발용 API.*실제 정책 수집, 회원 저장, 알림 예약과 외부 발송은 연결하지 않았습니다/,
+            name: /공개 정책 조회와 조건 확인·일정·알림.*Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 회원 저장, 일정과 알림을 처리/,
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("region", {
-            name: "조건 입력 화면과 개발용 자격 및 일정 계산 가로 스크롤 영역",
+            name: "공개 정책 조회와 조건 확인·일정·알림 가로 스크롤 영역",
         }),
     ).toHaveAttribute("tabindex", "0")
-    expect(screen.getByText("자격 판정")).toBeInTheDocument()
-    expect(screen.getByText("알림 후보 계산")).toBeInTheDocument()
+    expect(screen.getByText("조건별 판정")).toBeInTheDocument()
+    expect(screen.getByText("일정·알림 처리")).toBeInTheDocument()
     expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /공개 main 7311d9e.*실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다/,
+        /공개 정책 40건.*실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증/,
     )
     expect(
         within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(
@@ -367,8 +367,8 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
             name: "변경 근거를 커밋과 코드 위치에 연결하고, 확인 후 코드가 바뀌면 기록 공개를 차단합니다.",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByLabelText("공개 상태")).toHaveTextContent(
-        /v0\.7\.0.*0\.8\.0-SNAPSHOT.*Marketplace 배포와 공개 운영은 미검증/,
+    expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
+        /v0\.7\.0.*0\.12\.3-SNAPSHOT.*Marketplace.*공개 운영은 미검증/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
@@ -531,7 +531,7 @@ test.each([
     [
         "watch",
         "WATCH",
-        "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
+        "사설망 접근을 차단하고 공개 URL의 응답 상태·헤더로 연결 상태를 점검합니다. 상태 변경은 Core로 전달합니다.",
         /서버 중단 뒤 처리 기한이 지난 URL 점검을 다시 실행/,
     ],
     [
@@ -543,7 +543,7 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "Core가 확인한 담당자 공백, 업무 지연 등 5개 문제를 점검 목록과 주간 보고서에 반영합니다.",
+        "Core의 5개 점검 신호를 주간 보고서에 반영하고 이전부터 미해결·이번 주 신규·해결 항목을 구분합니다.",
         /ACTIVE 및 RESOLVED 반영.*발행한 주간 보고서 수정 차단/,
     ],
     [
@@ -630,8 +630,8 @@ test.each([
         "https://github.com/ljkhyeong/baton-brief",
         /BRIEF 공개 저장소 보기/,
         [
-            /Core 2\.0\.0-rc\.1과 로컬 HTTP 및 내부 HTTPS 연동도 검증/,
-            /BRIEF 원격 개발 브랜치는 2\.0\.0-rc\.4.*최신 릴리스 후보 JSON 규격의 Core 반영은 아직 완료되지 않았습니다/,
+            /Core와 로컬 HTTP·내부 HTTPS 연동 기록/,
+            /주간 보고서 확장과 Core 화면 연결은 로컬 구현 기준/,
             /공인 DNS와 원격 환경의 전체 서비스 연결은 미검증/,
         ],
         /공개 main과 최신 로컬 main의 차이는 현재 상태 설명에 구분/,
@@ -644,7 +644,7 @@ test.each([
         /CAL 공개 main 고정 커밋 보기/,
         [
             /Core 요청 형식 고정과 CAL 컨테이너 연동.*OCI 백업 및 복구.*이전 복구 작업의 늦은 결과 차단/,
-            /정식 JSON 규격은 1.0.0.*1.1.0-rc.1.*사전 릴리스로 게시.*정식 버전 전환 전/,
+            /정식 규격은 1.0.0.*게시된 후보는 1.1.0-rc.1.*1.1.0-rc.2 개발 소스.*정식 반영 전/,
             /운영 활성화와 공개 배포는 아직 완료하지 않았습니다.*실제 캘린더 앱과 운영 환경의 구독 및 전체 일정 재전송은 미검증/,
         ],
         /정식 JSON 규격 1.0.0과 릴리스 후보 JSON 규격 1.1.0-rc.1의 BATON 호환성 근거/,

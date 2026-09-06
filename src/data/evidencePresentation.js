@@ -8,7 +8,7 @@ const evidencePresentation = {
     "WATCH 안전한 URL 점검": {
         methodLabel: "자동화 테스트",
         resultSummary:
-            "사설망과 과대 응답 차단, 현재 URL 버전 결과만 저장, 기한이 지난 점검 재실행",
+            "사설망 차단·응답 본문 미수신, 현재 URL 버전 결과만 저장, 기한이 지난 점검 재실행",
     },
     "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지": {
         methodLabel: "Compose 검증",
@@ -47,11 +47,11 @@ const evidencePresentation = {
     },
     "공개 페이지는 서버 렌더링하고 회원 및 결제 화면은 검색 제외": {
         methodLabel: "HTTP 응답 확인",
-        scopeNote: "공개 main 2e831500 기준, 실제 Node SSR 운영은 미검증",
+        scopeNote: "초기 구현 검증 2e831500 기준, 실제 Node SSR 운영은 미검증",
     },
     "주문제작 옵션, 가격과 재고 일치": {
         methodLabel: "통합 시나리오",
-        scopeNote: "공개 main 2e831500 기준",
+        scopeNote: "초기 구현 검증 2e831500 기준",
     },
     "외부 배송조회 등록 실패 재처리와 서명된 배송 상태 수신": {
         methodLabel: "통합 테스트",

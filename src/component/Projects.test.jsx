@@ -18,7 +18,7 @@ test("대표 프로젝트의 문제, 구현과 검증 범위를 함께 보여준
     expect(batonFacts).toHaveTextContent("결과 미확인 전송은 자동 재시도하지 않음")
     expect(batonFacts).toHaveTextContent("공개 환경 전체 연동은 미검증")
     expect(screen.getByLabelText("happyGallery 문제, 구현과 검증")).toHaveTextContent(
-        "실제 네이버 및 PG 계정 연동은 미검증",
+        "실제 네이버·PG 계정 연동은 미검증",
     )
     expect(screen.getByLabelText("BATON 진행 및 공개 상태")).toHaveTextContent("일부 저장소 공개")
     expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
@@ -83,7 +83,7 @@ test("간단한 소개에도 진행 상태와 원작 포크 출처를 표시한�
     const youth = screen.getByRole("link", { name: "청년정책메이트 프로젝트 상세 보기" })
     expect(youth).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(youth.closest("article")).toHaveTextContent("개발 중")
-    expect(youth.closest("article")).toHaveTextContent("모바일 웹앱을 개발합니다")
+    expect(youth.closest("article")).toHaveTextContent("모바일 웹앱입니다")
     expect(
         screen.getByRole("link", { name: "Hope Commit 프로젝트 상세 보기" }).closest("article"),
     ).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")

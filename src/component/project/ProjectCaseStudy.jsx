@@ -192,8 +192,8 @@ const ArchitectureVisual = ({ project }) => {
         return <HopeCommitFlowDiagram />
     }
 
-    if (project.id === "youth-policy-mate") {
-        return <PortfolioFlowDiagram variant="youth-policy-mate" />
+    if (["youth-policy-mate", "intent-trace"].includes(project.id)) {
+        return <PortfolioFlowDiagram variant={project.id} />
     }
 
     return null

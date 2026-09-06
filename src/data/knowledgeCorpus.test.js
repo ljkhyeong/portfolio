@@ -82,8 +82,8 @@ describe("공개 지식 문서 목록", () => {
                 document.documentType === "project_overview",
         )
 
-        expect(intentTraceOverview.content).toContain("원문 대화나 숨은 추론은 저장하지 않으며")
-        expect(intentTraceOverview.content).toContain("공개 main은 0.8.0-SNAPSHOT")
+        expect(intentTraceOverview.content).toContain("변경 이유, 코드 위치와 검증 결과")
+        expect(intentTraceOverview.content).toContain("로컬 서버·IntelliJ는 0.12.3-SNAPSHOT")
 
         const youthPolicyOverview = corpus.documents.find(
             (document) =>
@@ -92,8 +92,10 @@ describe("공개 지식 문서 목록", () => {
         )
 
         expect(youthPolicyOverview.content).toContain("구분: 개인 모바일 웹앱 프로젝트")
-        expect(youthPolicyOverview.content).toContain("실제 정책 수집 및 추천")
-        expect(youthPolicyOverview.content).toContain("아직 구현하지 않았습니다")
+        expect(youthPolicyOverview.content).toContain("공개 정책 40건")
+        expect(youthPolicyOverview.content).toContain(
+            "실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증",
+        )
 
         const firstProblem = corpus.documents.find(
             (document) => document.documentType === "problem_solution",

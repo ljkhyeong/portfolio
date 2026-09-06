@@ -175,7 +175,7 @@ const featuredProblems = {
         evidenceLabel: "로컬 연동 확인",
         result: "2.0.0-rc.1 실제 Core와 로컬 HTTP 및 내부 서비스용 Caddy HTTPS 연동을 확인했습니다.",
         limitation:
-            "BRIEF의 최신 2.0.0-rc.4 릴리스 후보 JSON 규격은 Core에 아직 반영하지 않았고, 공인 DNS와 원격 배포는 미검증입니다.",
+            "주간 이월·신규·해결 보고서와 Core 연결은 로컬 구현 기준입니다. 공인 DNS와 원격 배포는 미검증입니다.",
     },
     "baton-cal": {
         problemNumber: "11",

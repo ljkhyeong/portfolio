@@ -88,15 +88,13 @@ describe("project summary data", () => {
 
         expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
         expect(intentTrace.status.text).toContain("v0.7.0")
-        expect(intentTrace.status.text).toContain("0.8.0-SNAPSHOT")
-        expect(intentTrace.architecture.tradeoff).toContain(
-            "서버는 Git 객체를 직접 다시 읽지 않고 클라이언트가 제출한 증거를 신뢰",
-        )
+        expect(intentTrace.status.text).toContain("0.12.3-SNAPSHOT")
+        expect(intentTrace.architecture.tradeoff).toContain("별도 조회에서 GitHub 원본 코드와 비교")
         expect(intentTrace.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    item: "공개 main 자동화 검증",
-                    result: expect.stringContaining("서버 테스트 126개"),
+                    item: "웹 기록 조회와 원본 코드 비교",
+                    result: expect.stringContaining("웹에서 팀 공개 기록과 내 비공개 기록"),
                 }),
             ]),
         )
@@ -110,28 +108,30 @@ describe("project summary data", () => {
         )
     })
 
-    it("청년정책메이트의 구현 화면과 미구현 외부 기능을 구분한다", () => {
+    it("청년정책메이트의 실제 정책 화면과 미검증 외부 연동을 구분한다", () => {
         const youthPolicyMate = projectsById["youth-policy-mate"]
 
         expect(youthPolicyMate.projectType).toBe("webapp")
         expect(youthPolicyMate.screenshots.map((screenshot) => screenshot.src)).toEqual([
             "youth-policy-mate-home.webp",
-            "youth-policy-mate-conditions.webp",
-            "youth-policy-mate-eligibility.webp",
-            "youth-policy-mate-reminders.webp",
+            "youth-policy-mate-policies.webp",
+            "youth-policy-mate-detail.webp",
+            "youth-policy-mate-questions.webp",
         ])
         expect(
             youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
-        ).toEqual(["1440x960", "1440x960", "1440x960", "1440x960"])
-        expect(youthPolicyMate.screenshots[2].note).toContain("실제 정책 추천 결과가 아닙니다")
-        expect(youthPolicyMate.status.text).toContain("온통청년 인증키는 승인 대기 중")
-        expect(youthPolicyMate.status.text).toContain("실제 정책 수집 및 추천")
-        expect(youthPolicyMate.status.text).toContain("아직 구현하지 않았습니다")
+        ).toEqual(["780x1688", "780x1688", "780x1688", "780x1688"])
+        expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
+        expect(youthPolicyMate.status.text).toContain("공개 정책 40건")
+        expect(youthPolicyMate.status.text).toContain(
+            "실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증",
+        )
+        expect(youthPolicyMate.stack).toContain("Spring JDBC")
         expect(youthPolicyMate.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    item: "웹과 서버 자동화 검증",
-                    result: expect.stringContaining("서버 자동화 테스트 341개"),
+                    item: "서버 자동화 검증",
+                    result: expect.stringContaining("서버 테스트 436개"),
                 }),
             ]),
         )
@@ -263,10 +263,10 @@ describe("project summary data", () => {
         )
         expect(happyGallery.screenshots.map(({ width, height }) => `${width}x${height}`)).toEqual([
             "1440x960",
+            "1440x960",
+            "1440x960",
+            "1440x960",
             "1440x1200",
-            "1440x960",
-            "1440x960",
-            "1440x960",
         ])
     })
 

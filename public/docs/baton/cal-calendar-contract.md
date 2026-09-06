@@ -30,3 +30,7 @@ PostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일
 게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.
 
 `1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.
+
+## 개인 구독 확장 — 2026-09-06
+
+로컬 `30f88e7`의 `1.1.0-rc.2` 개발 소스에는 개인 구독·목록·일괄 해지와 응답 유실 시 복구를 추가했습니다. Core에서도 개인 구독 흐름을 연결했습니다. 게시된 후보는 `1.1.0-rc.1`, 정식 규격은 `1.0.0`이며 새 개발 소스를 정식 릴리스로 소개하지 않습니다. 실제 캘린더 앱 구독과 공개 운영은 미검증입니다.

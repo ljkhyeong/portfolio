@@ -525,7 +525,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 장바구니에서 카드와 네이버페이 및 카카오페이 결제수단을 선택하는 모습",
+            name: "선택한 상품만 주문하고 미선택 상품은 장바구니에 보관하는 화면",
         }),
     ).toBeInTheDocument()
     expect(
@@ -569,31 +569,27 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     expect(within(screenshots).getAllByRole("img")).toHaveLength(4)
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년정책메이트 홈에서 서비스 범위와 조건 입력 시작 버튼을 확인하는 모습",
+            name: "조건 입력과 공개 정책 탐색을 시작하는 모바일 홈",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년정책메이트 조건 화면에서 테스트 생년월일과 거주지 및 취업 상태를 확인하는 모습",
+            name: "로컬 DB에 저장한 공개 정책 40건의 목록과 검색",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년정책메이트 개발 화면에서 테스트 정책의 자격 상태와 항목별 근거를 확인하는 모습",
+            name: "K-패스의 지원 내용과 신청 방법을 확인하는 화면",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년정책메이트 개발 화면에서 테스트 정책의 마감 상태와 알림 후보 날짜를 확인하는 모습",
+            name: "검토한 K-패스 조건 질문으로 일부 신청 요건을 확인하는 화면",
         }),
     ).toBeInTheDocument()
-    expect(screenshots).toHaveAccessibleDescription(
-        /개발용 고정 테스트 데이터를 사용하며 실제 정책 추천과 알림 발송은 미구현/,
-    )
+    expect(screenshots).toHaveAccessibleDescription(/온통청년에서 수집해 저장한 공개 데이터/)
     expect(
-        screen.getByText(
-            /실제 정책 수집 및 추천, 로그인, 저장, 알림 예약과 발송은 아직 구현하지 않았습니다/,
-        ),
+        screen.getByText(/실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증/),
     ).toBeInTheDocument()
 })
 
@@ -648,7 +644,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
     expect(
         screen.getByText(
-            "URL이 사설망 또는 로컬 주소로 해석되면 차단하고, 공개 URL의 상태를 점검해 변경 이벤트를 Core에 전달합니다.",
+            "사설망 접근을 차단하고 공개 URL의 응답 상태·헤더로 연결 상태를 점검합니다. 상태 변경은 Core로 전달합니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "처리 흐름", level: 2 })).toBeInTheDocument()

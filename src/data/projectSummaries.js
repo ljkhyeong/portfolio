@@ -10,7 +10,7 @@ export const projectSummaries = [
         eyebrow: "조직 운영 플랫폼",
         homeSummary: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
         homeHighlights: [
-            "할 일 관리, 담당자 공백 및 업무 지연 확인, 통합 검색, 인수인계 문서 생성",
+            "여러 팀의 내 할 일, 자료 재확인, 통합 검색과 인수인계 문서",
             "Core와 6개 마이크로서비스의 API 및 저장소 분리",
         ],
         homeRepository: {
@@ -41,7 +41,7 @@ export const projectSummaries = [
         visibility: "일부 저장소 공개",
         homeEvidence: {
             validation: "서비스별 자동화 및 로컬 교차 서비스 테스트",
-            documents: "PRD 47 / ADR 70 / Runbook 17",
+            documents: "PRD · ADR · 운영 절차",
         },
         serviceLinks: [
             { id: "go", name: "GO", route: "/projects/baton/go" },
@@ -109,7 +109,7 @@ export const projectSummaries = [
         homeSummary:
             "상품 주문, 클래스 예약과 스마트스토어 운영을 한 곳에서 처리하는 공방 서비스입니다.",
         homeHighlights: [
-            "카드와 네이버페이 및 카카오페이 결제 흐름",
+            "장바구니 선택 구매, 재주문, 재입고 알림과 단체수업 문의",
             "스마트스토어 상품, 재고, 주문, 문의 및 정산 운영",
         ],
         homeRepository: {
@@ -117,7 +117,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/happyGallery",
         },
         summary:
-            "공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 상품 및 주문 운영, 결제 및 알림 재처리와 재고 동시성 제어를 구현했습니다.",
+            "공방 상품 주문과 클래스 예약을 처리합니다. 선택 구매와 재주문, 재입고 알림, 스마트스토어 운영과 결제·알림 재처리를 구현했습니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -139,8 +139,8 @@ export const projectSummaries = [
         stage: "개발 중",
         visibility: "공개 저장소",
         homeEvidence: {
-            validation: "공개 main 통합 테스트 및 화면 자동화 19개 통과",
-            documents: "PRD 4 / ADR 48 / Runbook 1",
+            validation: "통합 테스트와 주요 구매·운영 화면 자동화",
+            documents: "PRD · ADR · 운영 회고",
         },
     },
     {
@@ -153,17 +153,18 @@ export const projectSummaries = [
         title: "청년정책메이트",
         navigationLabel: "청년정책메이트",
         eyebrow: "서울 청년 정책 탐색 및 일정 관리 모바일 웹앱",
-        homeSummary: "청년 정책 자격 근거와 신청 일정을 확인하는 모바일 웹앱을 개발하고 있습니다.",
+        homeSummary:
+            "청년 정책을 찾아 신청 조건을 확인하고 관심 정책의 일정과 알림을 관리하는 모바일 웹앱입니다.",
         homeHighlights: [
-            "연령, 지역, 취업과 소득 조건의 3단계 자격 판정",
-            "정책 개정과 마감일을 반영한 알림 후보 계산",
+            "공개 정책 40건 조회와 검토한 정책 5종의 조건 질문",
+            "관심 정책 저장, 신청 일정과 서비스 내 알림",
         ],
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
         summary:
-            "서울 청년이 정책 자격 근거와 신청 일정을 확인하는 모바일 웹앱을 개발합니다. 현재 조건 입력 화면, 개발용 예시의 3단계 판정, 마감 알림 후보와 AI 호출 전 비용 예약 및 중단 작업 복구 모델을 구현했습니다.",
+            "공개 정책을 조회하고 검토한 조건 질문으로 신청 요건을 확인하는 모바일 웹앱입니다. 관심 정책 저장, 일정, 서비스 내 알림과 이메일 발송 처리를 구현했습니다. 실제 외부 이메일 수신은 미검증입니다.",
         homeFacts: [
             {
                 label: "담당",
@@ -184,8 +185,8 @@ export const projectSummaries = [
         visual: "youth-policy-mate",
         stage: "개발 중",
         visibility: "공개 저장소",
-        homeProof: "공개 main CI 통과 및 서버 자동화 테스트 341개 통과",
-        homeFlow: ["조건 입력", "근거별 판정", "일정 및 알림 후보"],
+        homeProof: "공개 정책 40건 로컬 조회 · 서버 테스트 436개 통과",
+        homeFlow: ["정책 탐색", "조건과 근거 확인", "저장·일정·알림"],
     },
     {
         id: "hope-commit",
@@ -229,7 +230,7 @@ export const projectSummaries = [
     {
         id: "intent-trace",
         homeCategory: "plugin",
-        homeTypeLabel: "IntelliJ 플러그인 / MCP 연동",
+        homeTypeLabel: "IntelliJ / Zed / MCP 연동",
         index: "02",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -241,11 +242,11 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 의도 및 검증 기록",
         summary:
-            "AI 코드 변경의 요청, 변경 근거와 출처, 코드 위치와 검증 결과를 함께 남기는 도구입니다. 원문 대화나 숨은 추론은 저장하지 않으며 작성자가 확인한 기록을 GitHub와 IntelliJ에서 조회합니다.",
+            "AI 코드 변경의 요청, 변경 이유, 코드 위치와 검증 결과를 함께 남깁니다. 작성자가 확인한 기록을 웹, IntelliJ와 Zed에서 찾고 GitHub 원본 코드와 비교할 수 있습니다.",
         homeFacts: [
             {
                 label: "담당",
-                value: "Kotlin 및 Spring 서버, GitHub 인증과 Check Run, Codex MCP 연동 및 IntelliJ 플러그인 구현",
+                value: "Kotlin·Spring 서버, 웹 기록 조회, GitHub 인증·게시와 IntelliJ·Zed·MCP 연동 구현",
             },
             {
                 label: "문제",
@@ -267,8 +268,8 @@ export const projectSummaries = [
         visual: "intent-trace",
         stage: "개발 중",
         visibility: "공개 저장소",
-        homeProof: "v0.7.0 공개 및 최신 main의 서버, IntelliJ와 릴리스 자동화 검증",
-        homeFlow: ["커밋", "코드 줄 해시", "공개 판단"],
+        homeProof: "v0.7.0 공개 · 웹 조회와 Zed 연결은 최신 로컬 구현",
+        homeFlow: ["변경 이유 기록", "작성자 확인", "웹·IDE 조회"],
     },
     {
         id: "defense",

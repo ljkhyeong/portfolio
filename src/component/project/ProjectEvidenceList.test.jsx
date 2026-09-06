@@ -72,7 +72,7 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
     const calRow = getEvidenceRow(list, "CAL 일정 JSON 수신과 캘린더 구독")
     const roundRow = getEvidenceRow(list, "ROUND 입장 토큰 검증과 브라우저 연결")
 
-    expect(rows).toHaveLength(7)
+    expect(rows).toHaveLength(8)
     expect(coreRow).toHaveTextContent("준비 → 전달 → 수락 순서 적용")
     expect(goRow).toHaveTextContent("GO 링크 중복 생성 방지")
     expect(goRow).toHaveTextContent("같은 UUID와 요청으로 8건을 동시에 실행")
@@ -107,20 +107,20 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
 
 test("GitHub Actions 실행 결과와 코드 대조를 구분하고 외부 연동 한계를 먼저 표시한다", async () => {
     const selectedProofs = projectsById.happygallery.proofs.filter((proof) =>
-        ["백엔드와 주요 화면 자동화", "스마트스토어 주문과 공유 재고 반영"].includes(proof.item),
+        ["기존 공개 CI 검증 이력", "스마트스토어 주문과 공유 재고 반영"].includes(proof.item),
     )
     render(<ProjectEvidenceList proofs={selectedProofs} label="근거 구분" />)
 
     const list = screen.getByRole("list", { name: "근거 구분" })
     const rows = within(list).getAllByRole("listitem")
-    const automationRow = getEvidenceRow(list, "백엔드와 주요 화면 자동화")
+    const automationRow = getEvidenceRow(list, "기존 공개 CI 검증 이력")
     const smartStoreRow = getEvidenceRow(list, "스마트스토어 주문과 공유 재고 반영")
     const automationSummary = automationRow.querySelector("summary")
     const smartStoreSummary = smartStoreRow.querySelector("summary")
 
     expect(rows).toHaveLength(2)
     expect(automationRow.querySelector("details")).not.toHaveAttribute("open")
-    expect(automationSummary).toHaveTextContent("백엔드 빌드와 브라우저 스모크 19개가 통과")
+    expect(automationSummary).toHaveTextContent("백엔드 빌드와 브라우저 스모크 19개 통과")
     expect(automationSummary).not.toHaveTextContent("기존 테스트 산출물")
     expect(smartStoreSummary).toHaveTextContent("코드 대조")
     expect(smartStoreSummary).toHaveTextContent("네이버 실제 자격 증명을 사용한 운영 연동은 미검증")
