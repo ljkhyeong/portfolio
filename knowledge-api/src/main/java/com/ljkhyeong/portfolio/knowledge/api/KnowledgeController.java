@@ -3,6 +3,7 @@ package com.ljkhyeong.portfolio.knowledge.api;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeAnswerService;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeSearchService;
 import jakarta.validation.Valid;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,15 +17,18 @@ public class KnowledgeController {
     private final KnowledgeSearchService searchService;
     private final KnowledgeAnswerService answerService;
     private final ResponseMapper responseMapper;
+    private final MeterRegistry meters;
 
     public KnowledgeController(
             KnowledgeSearchService searchService,
             KnowledgeAnswerService answerService,
-            ResponseMapper responseMapper
+            ResponseMapper responseMapper,
+            MeterRegistry meters
     ) {
         this.searchService = searchService;
         this.answerService = answerService;
         this.responseMapper = responseMapper;
+        this.meters = meters;
     }
 
     @PostMapping(path = "/search", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,11 +46,13 @@ public class KnowledgeController {
 
     @PostMapping(path = "/answers", consumes = MediaType.APPLICATION_JSON_VALUE)
     public AnswerResponse answer(@Valid @RequestBody AnswerRequest request) {
-        return answerService.answer(
+        AnswerResponse response = answerService.answer(
                 request.question(),
                 request.projectIds(),
                 request.documentTypes(),
                 request.limit()
         );
+        meters.counter("knowledge.answers", "status", response.status().name()).increment();
+        return response;
     }
 }

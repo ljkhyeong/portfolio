@@ -8,6 +8,7 @@ import java.time.Duration;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import io.micrometer.core.instrument.MeterRegistry;
 
 import com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchAccessException;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
@@ -40,6 +41,7 @@ public class KnowledgeSearchService {
     private final KnowledgeIndexPort indexPort;
     private final KnowledgeIndexInitializer indexInitializer;
     private final RrfRanker rrfRanker;
+    private final MeterRegistry meters;
     // 질문 벡터만 재사용하고 문서 검색은 매번 실행해 색인 변경을 바로 반영한다.
     private final Cache<String, List<Float>> queryVectors = Caffeine.newBuilder()
             .maximumSize(256)
@@ -51,13 +53,15 @@ public class KnowledgeSearchService {
             EmbeddingPort embeddingPort,
             KnowledgeIndexInitializer indexInitializer,
             KnowledgeIndexPort indexPort,
-            RrfRanker rrfRanker
+            RrfRanker rrfRanker,
+            MeterRegistry meters
     ) {
         this.properties = properties;
         this.embeddingPort = embeddingPort;
         this.indexPort = indexPort;
         this.indexInitializer = indexInitializer;
         this.rrfRanker = rrfRanker;
+        this.meters = meters;
     }
 
     public KnowledgeSearchResult search(
@@ -80,17 +84,21 @@ public class KnowledgeSearchService {
         rankings.add(bm25);
 
         if (!embeddingPort.available()) {
+            meters.counter("knowledge.searches", "mode", "keyword").increment();
             return result(rankings, bm25, limit);
         }
 
+        String mode = "hybrid";
         try {
             List<Float> queryVector = queryVectors.get(normalizedQuery,
                     key -> List.copyOf(embeddingPort.embed(List.of(key)).getFirst()));
             rankings.add(indexPort.searchKnn(queryVector, filter, candidateLimit, candidateLimit * 2));
         } catch (EmbeddingUnavailableException | ElasticsearchAccessException exception) {
+            mode = "fallback";
             log.warn("임베딩 또는 벡터 검색에 실패해 BM25 결과만 반환합니다.", exception);
         }
 
+        meters.counter("knowledge.searches", "mode", mode).increment();
         return result(rankings, bm25, limit);
     }
 

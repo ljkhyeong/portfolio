@@ -1,5 +1,6 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -12,6 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeAnswerService;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeSearchService;
+import java.util.List;
+
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -24,18 +30,37 @@ import org.springframework.web.ErrorResponseException;
 class KnowledgeControllerHttpContractTest {
 
     private final KnowledgeSearchService searchService = mock(KnowledgeSearchService.class);
+    private final KnowledgeAnswerService answerService = mock(KnowledgeAnswerService.class);
+    private final SimpleMeterRegistry meters = new SimpleMeterRegistry();
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
         KnowledgeController controller = new KnowledgeController(
                 searchService,
-                mock(KnowledgeAnswerService.class),
-                new ResponseMapper()
+                answerService,
+                new ResponseMapper(),
+                meters
         );
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
+    }
+
+    @ParameterizedTest
+    @EnumSource(AnswerResponse.AnswerStatus.class)
+    void HTTP_성공과_별개로_AI_답변_결과를_구분한다(AnswerResponse.AnswerStatus answerStatus) throws Exception {
+        when(answerService.answer(anyString(), any(), any(), any())).thenReturn(
+                new AnswerResponse("복구 방법", answerStatus, null, List.of(), List.of()));
+
+        mockMvc.perform(post("/api/v1/knowledge/answers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"question\":\"복구 방법\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(answerStatus.name()));
+
+        assertThat(meters.get("knowledge.answers").tag("status", answerStatus.name())
+                .counter().count()).isEqualTo(1);
     }
 
     @Test

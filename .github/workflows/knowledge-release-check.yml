@@ -1,0 +1,49 @@
+name: 배포된 검색 API 자료 및 품질 확인
+
+on:
+    workflow_dispatch:
+        inputs:
+            answers:
+                description: 실제 AI 답변도 평가 (모델 사용 비용 발생, 별도 평가 한도 필요)
+                type: boolean
+                default: false
+
+permissions:
+    contents: read
+
+concurrency:
+    group: knowledge-release-check
+    cancel-in-progress: false
+
+jobs:
+    verify:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        environment: knowledge-production
+        env:
+            KNOWLEDGE_API_BASE_URL: ${{ vars.KNOWLEDGE_API_BASE_URL }}
+            KNOWLEDGE_SYNC_KEY: ${{ secrets.KNOWLEDGE_SYNC_KEY }}
+            EVALUATE_ANSWERS: ${{ inputs.answers }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: .nvmrc
+            - name: 운영 연결 설정 확인
+              run: |
+                  : "${KNOWLEDGE_API_BASE_URL:?knowledge-production 환경의 API 주소를 설정하세요.}"
+                  : "${KNOWLEDGE_SYNC_KEY:?knowledge-production 환경의 동기화 키를 설정하세요.}"
+            - name: 배포 자료 버전 확인과 동기화
+              run: npm run knowledge:sync
+            - name: 검색 품질 확인
+              run: npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL"
+            - name: 실제 AI 답변 평가
+              if: env.EVALUATE_ANSWERS == 'true'
+              run: npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL" --answers --output output/validation/knowledge-answer-evaluation.json
+            - name: 평가 결과 보관
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: knowledge-release-evaluation
+                  path: output/validation/knowledge-*.json
+                  if-no-files-found: ignore

@@ -54,13 +54,17 @@ services:
             AI_CLIENT_SEARCHES_PER_MINUTE: ${AI_CLIENT_SEARCHES_PER_MINUTE:-30}
             AI_MAX_CLIENT_BUCKETS_PER_MINUTE: ${AI_MAX_CLIENT_BUCKETS_PER_MINUTE:-100}
             AI_TRUST_PROXY_HEADERS: ${AI_TRUST_PROXY_HEADERS:-false}
+            MANAGEMENT_SERVER_PORT: 9091
+            MANAGEMENT_SERVER_ADDRESS: 0.0.0.0
+            MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,metrics
         ports:
             - "127.0.0.1:8080:8080"
+            - "127.0.0.1:9091:9091"
         healthcheck:
             test:
                 [
                     "CMD-SHELL",
-                    "curl -fsS --max-time 3 http://localhost:8080/actuator/health/readiness >/dev/null || exit 1",
+                    "curl -fsS --max-time 3 http://localhost:9091/actuator/health/readiness >/dev/null || exit 1",
                 ]
             interval: 10s
             timeout: 5s

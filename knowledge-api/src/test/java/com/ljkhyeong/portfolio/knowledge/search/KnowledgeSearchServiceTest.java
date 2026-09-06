@@ -25,12 +25,15 @@ import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class KnowledgeSearchServiceTest {
+
+    private final SimpleMeterRegistry meters = new SimpleMeterRegistry();
 
     @Test
     void 같은_질문의_벡터는_재사용하고_필터별_문서는_다시_검색한다() {
@@ -40,11 +43,12 @@ class KnowledgeSearchServiceTest {
         when(embedding.available()).thenReturn(true);
         when(embedding.embed(List.of("결제 재처리"))).thenReturn(List.of(List.of(1.0f, 0.0f)));
         var service = new KnowledgeSearchService(properties, embedding,
-                mock(KnowledgeIndexInitializer.class), index, new RrfRanker());
+                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
 
         service.search("결제 재처리", List.of(), List.of(), 10);
         service.search("결제 재처리", List.of("happygallery"), List.of(), 6);
 
+        assertThat(meters.get("knowledge.searches").tag("mode", "hybrid").counter().count()).isEqualTo(2);
         verify(embedding).embed(List.of("결제 재처리"));
         verify(index, times(2)).searchBm25(anyString(), any(), anyInt());
         verify(index).searchKnn(eq(List.of(1.0f, 0.0f)),
@@ -61,7 +65,7 @@ class KnowledgeSearchServiceTest {
                 embeddingPort,
                 new KnowledgeIndexInitializer(properties, embeddingPort, indexPort),
                 indexPort,
-                new RrfRanker()
+                new RrfRanker(), meters
         );
         SearchHit bm25Hit = new SearchHit(chunk("bm25-result"), 5);
         when(embeddingPort.modelId()).thenReturn("test-model");
@@ -81,6 +85,8 @@ class KnowledgeSearchServiceTest {
 
         assertThat(result.hits()).extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
         assertThat(result.hasBm25Evidence()).isTrue();
+        assertThat(meters.get("knowledge.searches").tag("mode", "fallback").counter().count()).isEqualTo(2);
+        assertThat(meters.find("knowledge.searches").tag("mode", "keyword").counter()).isNull();
         verify(indexPort, never()).searchKnn(anyList(), any(), anyInt(), anyInt());
     }
 
@@ -94,7 +100,7 @@ class KnowledgeSearchServiceTest {
                 embeddingPort,
                 new KnowledgeIndexInitializer(properties, embeddingPort, indexPort),
                 indexPort,
-                new RrfRanker()
+                new RrfRanker(), meters
         );
         when(embeddingPort.modelId()).thenReturn("test-model");
         when(embeddingPort.dimensions()).thenReturn(2);
@@ -116,12 +122,13 @@ class KnowledgeSearchServiceTest {
         KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
         var service = new KnowledgeSearchService(
                 knowledgeProperties(), mock(EmbeddingPort.class), mock(KnowledgeIndexInitializer.class),
-                indexPort, new RrfRanker()
+                indexPort, new RrfRanker(), meters
         );
 
         service.search("알림", projectIds, documentTypes, 10);
 
         verify(indexPort).searchBm25(eq("알림"), eq(expected), anyInt());
+        assertThat(meters.get("knowledge.searches").tag("mode", "keyword").counter().count()).isEqualTo(1);
     }
 
     @Test
@@ -129,7 +136,7 @@ class KnowledgeSearchServiceTest {
         KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
         var service = new KnowledgeSearchService(
                 knowledgeProperties(), mock(EmbeddingPort.class), mock(KnowledgeIndexInitializer.class),
-                indexPort, new RrfRanker()
+                indexPort, new RrfRanker(), meters
         );
 
         assertThatThrownBy(() -> service.search("알림", List.of(), List.of(" PRIVATE "), 10))

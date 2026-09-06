@@ -105,7 +105,7 @@ Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션
 
 ## 동기화
 
-루트의 `npm run knowledge:refresh-docs`는 허용 목록 중 공개 문서 6건을 가져와
+루트의 `npm run knowledge:refresh-docs`는 허용 목록 중 공개 문서 10건을 가져와
 `docs/knowledge-document-snapshots.json`에 원본 커밋과 함께 저장합니다. 본문 diff를 검토한 뒤
 `npm run knowledge:generate`로 검색 자료를 생성합니다. 일반 빌드에서는 보관된 본문만 사용하며 외부 문서를 다시 내려받지 않습니다.
 
@@ -173,7 +173,7 @@ npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL"
 
 동기화 명령은 현재 자료와 API 버전이 다르면 색인을 수정하지 않습니다. 최신이면 재색인을 생략하고, 동기화 후에도 해시가 다르면 실패합니다. CI에서는 새 API 이미지로 이 절차와 검색 평가를 실행하고 결과 JSON을 보관합니다. 원격 운영 배포 대상은 이 저장소에 설정돼 있지 않습니다.
 
-`scripts/knowledge-evaluation-cases.json`은 대표 질문 20개와 답할 근거가 없는 질문 4개입니다. 기본 평가는 유료 AI 호출 없이 상위 5건의 목표 문서 적중률과 MRR@5, 요청 시간을 기록합니다. 적중률이 85% 미만이면 실패합니다. `KNOWLEDGE_SYNC_KEY`가 있으면 평가 전에 색인의 자료 버전도 확인합니다.
+`scripts/knowledge-evaluation-cases.json`은 대표 질문 24개와 답할 근거가 없는 질문 4개입니다. 기본 평가는 유료 AI 호출 없이 상위 5건의 목표 문서 적중률과 MRR@5, 요청 시간을 기록합니다. 적중률이 85% 미만이면 실패합니다. `KNOWLEDGE_SYNC_KEY`가 있으면 평가 전에 색인의 자료 버전도 확인합니다. RRF로 청크 순위를 결합한 뒤 문서별 최상위 문단 하나를 선택하므로 긴 문서의 여러 문단이 검색 결과를 중복 차지하지 않습니다. 현재 답변도 이 대표 문단들을 근거로 사용하며, 한 문서의 여러 절을 함께 읽어야 하는 질문은 실제 모델 평가에서 별도로 확인해야 합니다.
 
 ```bash
 # AI가 설정된 별도 평가 서버에서만 실행: 실제 모델 사용 비용 발생
@@ -183,3 +183,34 @@ npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL" --answers
 답변 모드는 생성·거절 상태와 출처 유무를 검사하고 답변 및 출처를 기록합니다. 의미가 근거와 일치하는지는 각 질문의 `criteria`와 원문으로 검토해야 합니다. 인용 ID 검사를 사실 정확도 점수로 계산하지 않습니다. 평가용 인스턴스는 기존 호출 제한에 걸리지 않도록 별도로 설정하되 운영 한도를 낮추지 않습니다.
 
 검색과 답변 생성에서 같은 질문을 사용하면 Caffeine으로 질문 벡터만 2분간, 최대 256개 재사용합니다. 문서 검색은 매번 실행하므로 색인 갱신이 캐시에 가려지지 않으며, 임베딩 실패는 캐시하지 않습니다. 인스턴스와 모델 설정을 공유하는 분산 캐시는 사용하지 않습니다.
+
+## 운영 지표
+
+Compose는 업무 API를 `127.0.0.1:8080`, Actuator를 `127.0.0.1:9091`에 연결합니다. 컨테이너 상태 확인도 9091의 `/actuator/health/readiness`를 사용합니다. 외부 프록시는 업무 포트만 연결하고 운영 지표 포트는 공개하지 않습니다.
+
+| 지표                   | 용도                                                                                           |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| `http.server.requests` | Spring 기본 요청 수·응답 시간·HTTP 오류. `uri`와 `status`로 구분                               |
+| `knowledge.answers`    | HTTP 200으로 반환한 `GENERATED`, `INSUFFICIENT_EVIDENCE`, `GENERATION_UNAVAILABLE` 횟수        |
+| `knowledge.searches`   | 결과를 반환한 검색 실행의 `keyword`, `hybrid`, `fallback` 횟수. 답변에 필요한 내부 검색도 포함 |
+
+`keyword`는 AI를 설정하지 않은 검색이고, `fallback`은 임베딩 또는 벡터 검색 실패로 키워드 검색 결과를 반환한 경우입니다. 질문과 문서 ID는 지표 태그에 저장하지 않습니다. 생성 불가 비율은 `GENERATION_UNAVAILABLE / 전체 답변 결과`, 검색 대체 비율은 `fallback / (hybrid + fallback)`으로 비교합니다. 지표는 프로세스 재시작 때 초기화되며 장기 보관은 운영 모니터링 시스템에서 구성합니다.
+
+```bash
+curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.answers
+curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.searches
+curl -fsS 'http://127.0.0.1:9091/actuator/metrics/http.server.requests?tag=uri:/api/v1/knowledge/answers'
+```
+
+아직 실행되지 않은 경로의 지표는 생성 전이므로 404일 수 있습니다. JAR 직접 실행은 기본 Actuator 설정을 유지합니다. 운영 지표를 켤 때는 `MANAGEMENT_SERVER_PORT=9091`, `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`, `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,metrics`를 함께 설정합니다. [Spring Boot 지표](https://docs.spring.io/spring-boot/reference/actuator/metrics.html)와 [관리 포트 설정](https://docs.spring.io/spring-boot/reference/actuator/monitoring.html)을 사용하며 별도 모니터링 서버는 추가하지 않습니다.
+
+## 배포 후 수동 검증
+
+`.github/workflows/knowledge-release-check.yml`은 이미 배포된 API의 자료 버전을 확인하고 동기화·검색 평가를 실행합니다. API 서버 자체를 배포하는 워크플로는 아닙니다.
+
+1. GitHub의 `knowledge-production` 환경에 변수 `KNOWLEDGE_API_BASE_URL`과 비밀값 `KNOWLEDGE_SYNC_KEY`를 설정합니다. 동기화 키는 해당 API의 키와 같아야 합니다.
+2. 배포에 사용한 커밋을 선택해 **배포된 검색 API 자료 및 품질 확인**을 수동 실행합니다. API와 자료 버전이 다르면 색인을 변경하기 전에 중단합니다.
+3. 실제 답변 평가가 필요할 때만 `answers`를 켭니다. 모델이 설정되고 평가 요청을 허용할 호출 한도를 갖춘 서버에서 실행합니다. OpenAI 키는 API 서버에만 설정합니다.
+4. 업로드된 검색·답변 결과를 확인합니다. 답변의 인용과 의미는 질문별 `criteria`로 검토합니다.
+
+동시 검증은 직렬 처리합니다. 원격 주소와 비밀값이 준비되기 전에는 운영 검증을 실행하지 않습니다.
