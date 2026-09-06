@@ -21,6 +21,8 @@ export const PUBLIC_LOCAL_DOCUMENTS = [
 export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/baton-watch/blob/main/docs/ADR/0003_health-change-event-delivery/adr.md",
     "https://github.com/ljkhyeong/baton-watch/blob/main/docs/runbooks/public-staging-event-delivery.md",
+    "https://github.com/ljkhyeong/baton-brief/blob/main/docs/ADR/0006_baton-brief-application-boundary/adr.md",
+    "https://github.com/ljkhyeong/baton-brief/blob/main/docs/PRD/0009_weekly-latest-edition/spec.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/PRD/0001_%EA%B8%B0%EC%A4%80_%EC%8A%A4%ED%8E%99/spec.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0021_Hexagonal_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98_%EC%A0%84%ED%99%98/adr.md",
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0033_결제_confirm_트랜잭션과_보상_경계/adr.md",

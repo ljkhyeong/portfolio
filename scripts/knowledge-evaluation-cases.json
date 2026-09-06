@@ -140,6 +140,34 @@
         "criteria": "약 35초에서 약 17초라는 확인 결과를 ROUND 성과로 옮기지 않는다."
     },
     {
+        "id": "watch-delivery",
+        "question": "WATCH는 왜 메시지 브로커 대신 HTTPS로 상태 변경을 전달하나요?",
+        "projectId": "baton",
+        "titleIncludes": "WATCH 상태 변경 이벤트 전달",
+        "criteria": "단일 소비자와 팬아웃·재생 요구 부재를 근거로 설명하고, 아웃박스 재시도와 최소 1회 전달을 구분한다."
+    },
+    {
+        "id": "watch-replay",
+        "question": "WATCH 응답 유실 후 재전달을 실제로 확인하려면 어떤 증거가 필요한가요?",
+        "projectId": "baton",
+        "titleIncludes": "WATCH 공개 스테이징 전송 테스트",
+        "criteria": "수신기 커밋 뒤 응답 유실, 동일 이벤트 재전달과 sameReceipt 확인을 설명한다. 문서의 검증 절차를 실제 운영 성공 결과로 단정하지 않는다."
+    },
+    {
+        "id": "brief-permissions",
+        "question": "BRIEF가 사용자 인증과 멤버십을 직접 처리하지 않는 이유는 무엇인가요?",
+        "projectId": "baton",
+        "titleIncludes": "BRIEF 사용자 권한과 보고서 생성 책임 분리",
+        "criteria": "Core가 사용자·시즌 권한을 판정하고 BRIEF가 보고서 생성·멱등성을 담당함을 설명한다. 공개 이벤트 경로와 비공개 조회 경로를 구분한다."
+    },
+    {
+        "id": "brief-weekly",
+        "question": "BRIEF의 전체 최신 보고서와 주간별 최신 보고서는 어떻게 다른가요?",
+        "projectId": "baton",
+        "titleIncludes": "BRIEF 주간별 최신 보고서 조회",
+        "criteria": "주간 조회는 작업공간·시즌·주간·시간대가 일치하는 최대 generation을 선택한다. 저장 보고서를 현재 상태로 다시 조합하지 않으며 내부 API 계약임을 유지한다."
+    },
+    {
         "id": "unsupported-salary",
         "question": "개발자의 현재 연봉과 희망 연봉은 얼마인가요?",
         "unanswerable": true,

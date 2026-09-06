@@ -2,6 +2,10 @@ import { readFile, writeFile } from "node:fs/promises"
 import { PUBLIC_EXTERNAL_DOCUMENTS } from "../src/data/knowledgeCorpus.js"
 
 const selectedNames = [
+    "0003_health-change-event-delivery/adr.md",
+    "public-staging-event-delivery.md",
+    "0006_baton-brief-application-boundary/adr.md",
+    "0009_weekly-latest-edition/spec.md",
     "eligibility-decision.md",
     "deadline-reminder-candidates.md",
     "ai-reservation-recovery-heartbeat.md",

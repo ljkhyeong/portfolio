@@ -134,6 +134,20 @@ const projects = [
                 note: "Core의 담당자 공백 및 업무 지연 등 5개 상태를 ACTIVE 또는 RESOLVED로 반영하고, 발행한 주간 보고서는 수정하지 않는 방식",
             },
             {
+                serviceId: "brief",
+                type: "ADR",
+                label: "BRIEF 사용자 권한과 보고서 생성 책임 분리",
+                href: "https://github.com/ljkhyeong/baton-brief/blob/main/docs/ADR/0006_baton-brief-application-boundary/adr.md",
+                note: "Core가 사용자 권한을 확인하고, BRIEF가 보고서 생성과 중복 생성 방지를 담당하는 설계 원문",
+            },
+            {
+                serviceId: "brief",
+                type: "PRD",
+                label: "BRIEF 주간별 최신 보고서 조회",
+                href: "https://github.com/ljkhyeong/baton-brief/blob/main/docs/PRD/0009_weekly-latest-edition/spec.md",
+                note: "작업공간·시즌·주간·시간대가 일치하는 저장 보고서 중 최신 생성 번호를 조회하는 내부 API 계약",
+            },
+            {
                 serviceId: "cal",
                 type: "PRD / ADR 요약",
                 label: "CAL 일정 JSON 수신과 캘린더 구독",
