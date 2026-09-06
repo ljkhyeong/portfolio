@@ -1,6 +1,9 @@
 services:
     elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:8.19.20
+        image: portfolio-knowledge-elasticsearch:8.19.20-nori
+        build:
+            context: .
+            dockerfile: elasticsearch.Dockerfile
         environment:
             discovery.type: single-node
             xpack.security.enabled: "false"
@@ -31,7 +34,7 @@ services:
             AI_PROFILE: ${AI_PROFILE:-disabled}
             SPRING_PROFILES_ACTIVE: ${AI_PROFILE:-}
             ELASTICSEARCH_URL: http://elasticsearch:9200
-            ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX:-portfolio-knowledge-${AI_PROFILE:-disabled}-v2}
+            ELASTICSEARCH_INDEX: ${ELASTICSEARCH_INDEX:-portfolio-knowledge-${AI_PROFILE:-disabled}-v3}
             KNOWLEDGE_SOURCE_LOCATION: ${KNOWLEDGE_SOURCE_LOCATION:-classpath:knowledge/portfolio.json}
             KNOWLEDGE_SYNC_ON_STARTUP: ${KNOWLEDGE_SYNC_ON_STARTUP:-true}
             KNOWLEDGE_ALLOW_EMPTY: ${KNOWLEDGE_ALLOW_EMPTY:-false}

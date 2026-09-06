@@ -38,7 +38,7 @@ knowledge:
         overlap-characters: 150
     elasticsearch:
         base-url: ${ELASTICSEARCH_URL:http://localhost:9200}
-        index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-disabled-v2}
+        index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-disabled-v3}
         username: ${ELASTICSEARCH_USERNAME:}
         password: ${ELASTICSEARCH_PASSWORD:}
     search:

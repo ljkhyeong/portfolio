@@ -26,6 +26,33 @@ const createCorpus = () =>
     buildKnowledgeCorpus(createKnowledgeSources(projectList, { localDocumentContentByHref }))
 
 describe("공개 지식 문서 목록", () => {
+    it("선택한 외부 문서는 커밋에 고정된 본문을 색인하고 나머지 문서는 설명만 포함한다", () => {
+        const externalDocumentSnapshots = JSON.parse(
+            readFileSync(
+                path.join(repositoryRoot, "docs/knowledge-document-snapshots.json"),
+                "utf8",
+            ),
+        )
+        const corpus = buildKnowledgeCorpus(
+            createKnowledgeSources(projectList, {
+                localDocumentContentByHref,
+                externalDocumentSnapshots,
+            }),
+        )
+        for (const [href, snapshot] of Object.entries(externalDocumentSnapshots)) {
+            expect(PUBLIC_EXTERNAL_DOCUMENTS).toContain(href)
+            expect(snapshot.sourceUrl).toContain(`/blob/${snapshot.revision}/`)
+            expect(snapshot.revision).toMatch(/^[a-f0-9]{40}$/)
+            const document = corpus.documents.find((item) => item.sourceUrl === snapshot.sourceUrl)
+            expect(document.content).toContain(snapshot.content.trim().split("\n")[0])
+            expect(document.evidenceLevel).toBe("public_document")
+        }
+        expect(
+            corpus.documents.some(
+                (document) => document.evidenceLevel === "public_document_metadata",
+            ),
+        ).toBe(true)
+    })
     it("공개한 프로젝트 설명과 접근 가능한 대표 문서만 포함한다", () => {
         const corpus = createCorpus()
         const serializedCorpus = JSON.stringify(corpus)

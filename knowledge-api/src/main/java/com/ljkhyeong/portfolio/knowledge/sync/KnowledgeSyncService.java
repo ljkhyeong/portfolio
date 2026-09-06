@@ -92,6 +92,22 @@ public class KnowledgeSyncService {
         );
     }
 
+    public IndexStatus status() {
+        KnowledgeManifest manifest = manifestLoader.load(properties.source().location());
+        indexInitializer.ensureInitialized();
+        Map<String, String> indexed = indexPort.findIndexedSourceHashes();
+        long matched = manifest.documents().stream()
+                .filter(document -> document.sourceHash().equals(indexed.get(document.documentId())))
+                .count();
+        return new IndexStatus(manifest.sourceRevision(), manifest.documents().size(), indexed.size(),
+                matched, (!manifest.documents().isEmpty() || properties.source().allowEmpty())
+                        && matched == manifest.documents().size() && indexed.size() == matched);
+    }
+
+    public record IndexStatus(String sourceRevision, int expectedDocuments, int indexedDocuments,
+                              long matchedDocuments, boolean upToDate) {
+    }
+
     private List<KnowledgeChunk> addEmbeddings(List<KnowledgeChunk> chunks) {
         if (!embeddingPort.available()) {
             return chunks;

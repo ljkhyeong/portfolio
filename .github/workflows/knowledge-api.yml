@@ -1,6 +1,7 @@
 name: 공개 문서 검색 API 검증
 
 on:
+    workflow_dispatch:
     push:
         paths:
             - "knowledge-api/**"
@@ -9,6 +10,8 @@ on:
             - "scripts/generate-knowledge-corpus.mjs"
             - "scripts/knowledge-corpus-core.mjs"
             - "src/data/knowledgeCorpus.js"
+            - "docs/knowledge-document-snapshots.json"
+            - "scripts/*knowledge*"
             - "src/data/projects.js"
             - "src/data/projectSummaries.js"
             - "package.json"
@@ -23,6 +26,8 @@ on:
             - "scripts/generate-knowledge-corpus.mjs"
             - "scripts/knowledge-corpus-core.mjs"
             - "src/data/knowledgeCorpus.js"
+            - "docs/knowledge-document-snapshots.json"
+            - "scripts/*knowledge*"
             - "src/data/projects.js"
             - "src/data/projectSummaries.js"
             - "package.json"
@@ -69,6 +74,9 @@ jobs:
                   npm run knowledge:generate
                   git diff --exit-code -- public/knowledge/portfolio.json
 
+            - name: 한국어 검색 이미지 준비
+              run: docker build -f knowledge-api/elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:8.19.20-nori .
+
             - name: 검색 API 검증
               working-directory: knowledge-api
               run: ./gradlew --no-daemon test integrationTest bootJar
@@ -81,3 +89,33 @@ jobs:
 
             - name: 검색 API 이미지 빌드
               run: docker build -f knowledge-api/Dockerfile -t portfolio-knowledge-api:test .
+
+            - name: 실제 공개 자료 검색 품질과 색인 버전 확인
+              env:
+                  KNOWLEDGE_API_BASE_URL: http://127.0.0.1:18080
+                  KNOWLEDGE_SYNC_KEY: ci-evaluation-only
+              run: |
+                  mkdir -p output/validation
+                  docker run -d --rm --name knowledge-evaluation-es -p 127.0.0.1:19200:9200 -e discovery.type=single-node -e xpack.security.enabled=false -e ES_JAVA_OPTS="-Xms512m -Xmx512m" portfolio-knowledge-elasticsearch:8.19.20-nori
+                  trap 'docker stop knowledge-evaluation-api knowledge-evaluation-es >/dev/null 2>&1 || true' EXIT
+                  for attempt in {1..90}; do
+                    if curl -fsS http://127.0.0.1:19200/_cluster/health >/dev/null; then break; fi
+                    if [ "$attempt" -eq 90 ]; then exit 1; fi
+                    sleep 1
+                  done
+                  docker run -d --rm --name knowledge-evaluation-api --network host -e PORT=18080 -e ELASTICSEARCH_URL=http://127.0.0.1:19200 -e KNOWLEDGE_SYNC_ON_STARTUP=true -e KNOWLEDGE_SYNC_KEY -e AI_CLIENT_SEARCHES_PER_MINUTE=0 portfolio-knowledge-api:test
+                  for attempt in {1..90}; do
+                    if curl -fsS http://127.0.0.1:18080/actuator/health/readiness >/dev/null; then break; fi
+                    if [ "$attempt" -eq 90 ]; then docker logs knowledge-evaluation-api; exit 1; fi
+                    sleep 1
+                  done
+                  npm run knowledge:sync
+                  npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL"
+
+            - name: 검색 품질 결과 보관
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: knowledge-evaluation
+                  path: output/validation/knowledge-evaluation.json
+                  if-no-files-found: ignore

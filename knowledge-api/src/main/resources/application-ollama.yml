@@ -1,6 +1,6 @@
 knowledge:
     elasticsearch:
-        index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-ollama-v2}
+        index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-ollama-v3}
     ai:
         provider: ollama
         embedding-model-id: ${OLLAMA_EMBEDDING_MODEL:bge-m3}

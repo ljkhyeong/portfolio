@@ -47,6 +47,27 @@ class KnowledgeSyncServiceTest {
     }
 
     @Test
+    void 빈_자료를_허용하지_않으면_빈_색인도_최신으로_판정하지_않는다() {
+        when(loader.load(properties.source().location())).thenReturn(
+                new KnowledgeManifest("1.0", "sha256:revision", List.of(), List.of(), List.of()));
+        when(indexPort.findIndexedSourceHashes()).thenReturn(Map.of());
+        assertThat(service.status().upToDate()).isFalse();
+    }
+
+    @Test
+    void 문서_수가_같아도_본문이_오래됐거나_문서가_바뀌면_최신으로_판정하지_않는다() {
+        when(loader.load(properties.source().location())).thenReturn(manifest(document("doc-1", "sha256:same")));
+        when(indexPort.findIndexedSourceHashes()).thenReturn(
+                Map.of("doc-1", "sha256:old"),
+                Map.of("old-doc", "sha256:source"),
+                Map.of("doc-1", "sha256:source")
+        );
+        assertThat(service.status().upToDate()).isFalse();
+        assertThat(service.status().upToDate()).isFalse();
+        assertThat(service.status().upToDate()).isTrue();
+    }
+
+    @Test
     void sourceHash가_같으면_다시_임베딩하지_않는다() {
         var document = document("doc-1", "sha256:same");
         when(loader.load(properties.source().location())).thenReturn(manifest(document));

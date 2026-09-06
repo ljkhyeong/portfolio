@@ -42,7 +42,13 @@ const loadLocalDocuments = async () =>
 
 const projects = await loadProjects()
 const localDocumentContentByHref = await loadLocalDocuments()
-const sources = createKnowledgeSources(projects, { localDocumentContentByHref })
+const externalDocumentSnapshots = JSON.parse(
+    await readFile(path.join(repositoryRoot, "docs/knowledge-document-snapshots.json"), "utf8"),
+)
+const sources = createKnowledgeSources(projects, {
+    localDocumentContentByHref,
+    externalDocumentSnapshots,
+})
 const corpus = buildKnowledgeCorpus(sources)
 
 await mkdir(path.dirname(outputPath), { recursive: true })

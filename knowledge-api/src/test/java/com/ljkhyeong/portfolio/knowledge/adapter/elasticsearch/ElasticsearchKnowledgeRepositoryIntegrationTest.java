@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+import java.time.Duration;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
@@ -24,8 +25,11 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
 
     @Container
     private static final ElasticsearchContainer ELASTICSEARCH = new ElasticsearchContainer(
-            DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.19.20")
-    ).withEnv("xpack.security.enabled", "false");
+            DockerImageName.parse("portfolio-knowledge-elasticsearch:8.19.20-nori")
+                    .asCompatibleSubstituteFor("docker.elastic.co/elasticsearch/elasticsearch")
+    ).withEnv("xpack.security.enabled", "false")
+            .withEnv("ES_JAVA_OPTS", "-Xms512m -Xmx512m")
+            .withStartupTimeout(Duration.ofSeconds(120));
 
     private static ElasticsearchKnowledgeRepository repository;
 
@@ -53,6 +57,13 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
         assertThat(bm25).extracting(hit -> hit.chunk().chunkId()).contains("integration-chunk");
         assertThat(knn).extracting(hit -> hit.chunk().chunkId()).contains("integration-chunk");
         assertThat(repository.findIndexedSourceHashes()).containsEntry("doc-1", "sha256:source");
+    }
+
+    @Test
+    void 조사가_붙은_한국어_질문도_같은_근거를_찾는다() {
+        var filter = new KnowledgeFilter(List.of("baton"), List.of("problem_solution"));
+        assertThat(repository.searchBm25("알림을", filter, 5))
+                .extracting(hit -> hit.chunk().chunkId()).contains("integration-chunk");
     }
 
     @Test

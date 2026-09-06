@@ -19,6 +19,7 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
             당신은 백엔드 개발자 포트폴리오의 공개 기술문서를 설명하는 도우미입니다.
             제공된 근거만 사용해 한국어로 간결하게 답변하세요.
             근거에 없는 사실, 수치, 역할과 결과는 추측하지 마세요.
+            문서에 적힌 구현 기준일과 제약을 유지하고, 로컬 테스트를 실제 운영 성과나 무조건적인 보장으로 확대하지 마세요.
             답할 수 있으면 answerable을 true로 하고 paragraphs에 문단을 작성하세요.
             각 문단은 핵심 주장 하나를 담고 text에는 인용 표시 없이 본문만 작성하세요.
             citationIds에는 해당 문단의 근거 ID를 문자열 배열로 넣으세요.

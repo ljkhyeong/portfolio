@@ -7,6 +7,7 @@ import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.sync.KnowledgeSyncService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +44,13 @@ public class InternalKnowledgeController {
         if (!matches) {
             throw new SyncForbiddenException();
         }
+    }
+
+    @GetMapping("/status")
+    public KnowledgeSyncService.IndexStatus status(
+            @RequestHeader(name = "X-Knowledge-Sync-Key", required = false) String syncKey
+    ) {
+        verifySyncKey(syncKey);
+        return syncService.status();
     }
 }

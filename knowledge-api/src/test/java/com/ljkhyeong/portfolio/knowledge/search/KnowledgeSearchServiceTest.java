@@ -33,6 +33,25 @@ import org.junit.jupiter.params.provider.MethodSource;
 class KnowledgeSearchServiceTest {
 
     @Test
+    void 같은_질문의_벡터는_재사용하고_필터별_문서는_다시_검색한다() {
+        var properties = knowledgeProperties();
+        EmbeddingPort embedding = mock(EmbeddingPort.class);
+        KnowledgeIndexPort index = mock(KnowledgeIndexPort.class);
+        when(embedding.available()).thenReturn(true);
+        when(embedding.embed(List.of("결제 재처리"))).thenReturn(List.of(List.of(1.0f, 0.0f)));
+        var service = new KnowledgeSearchService(properties, embedding,
+                mock(KnowledgeIndexInitializer.class), index, new RrfRanker());
+
+        service.search("결제 재처리", List.of(), List.of(), 10);
+        service.search("결제 재처리", List.of("happygallery"), List.of(), 6);
+
+        verify(embedding).embed(List.of("결제 재처리"));
+        verify(index, times(2)).searchBm25(anyString(), any(), anyInt());
+        verify(index).searchKnn(eq(List.of(1.0f, 0.0f)),
+                eq(new KnowledgeFilter(List.of("happygallery"), List.of())), anyInt(), anyInt());
+    }
+
+    @Test
     void 임베딩에_실패해도_BM25_검색_결과를_반환한다() {
         KnowledgeProperties properties = knowledgeProperties();
         EmbeddingPort embeddingPort = mock(EmbeddingPort.class);

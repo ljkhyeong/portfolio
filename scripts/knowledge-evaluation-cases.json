@@ -1,0 +1,166 @@
+[
+    {
+        "id": "payment",
+        "question": "결제와 환불 중복 처리를 어떻게 막았나요?",
+        "projectId": "happygallery",
+        "titleIncludes": "결제 및 환불",
+        "criteria": "결제 orderId와 환불 UUID의 재사용을 구분한다."
+    },
+    {
+        "id": "payment-particle",
+        "question": "환불을 재요청하면 중복으로 처리되나요?",
+        "projectId": "happygallery",
+        "titleIncludes": "결제 및 환불",
+        "criteria": "같은 환불 요청의 키를 재사용하는 범위만 설명한다."
+    },
+    {
+        "id": "outbox",
+        "question": "서버 중단 뒤 미전송 알림을 어떻게 재처리했나요?",
+        "projectId": "happygallery",
+        "titleIncludes": "미전송 알림",
+        "criteria": "DB에 남긴 작업과 재처리를 설명하고 실제 전달 보장을 과장하지 않는다."
+    },
+    {
+        "id": "stock",
+        "question": "동시에 예약하면 정원이나 재고를 초과하지 않나요?",
+        "projectId": "happygallery",
+        "titleIncludes": "동시 예약",
+        "criteria": "예약 정원과 주문 재고의 동시성 처리를 구분한다."
+    },
+    {
+        "id": "privacy",
+        "question": "전화번호를 암호화한 상태에서 일치 검색은 어떻게 하나요?",
+        "projectId": "happygallery",
+        "titleIncludes": "전화번호",
+        "criteria": "암호화와 일치 검색용 블라인드 인덱스의 목적을 구분한다."
+    },
+    {
+        "id": "smartstore",
+        "question": "스마트스토어 주문이 중복 수신되면 재고는 어떻게 처리하나요?",
+        "projectId": "happygallery",
+        "titleIncludes": "스마트스토어 주문",
+        "criteria": "공유 재고 반영과 중복 처리 방지를 설명한다."
+    },
+    {
+        "id": "eligibility",
+        "question": "청년정책의 소득 조건이 확인되지 않으면 신청 가능으로 판단하나요?",
+        "projectId": "youth-policy-mate",
+        "titleIncludes": "확인되지 않은 정책",
+        "criteria": "미확인 조건을 충족으로 단정하지 않는다."
+    },
+    {
+        "id": "deadline",
+        "question": "청년정책의 날짜 마감과 시각 마감은 어떻게 구분하나요?",
+        "projectId": "youth-policy-mate",
+        "titleIncludes": "날짜 마감",
+        "criteria": "마감 기준과 미확인 마감일의 제외를 설명한다."
+    },
+    {
+        "id": "stale-ai",
+        "question": "청년정책에 늦게 도착한 AI 결과가 최신 개정을 덮어쓰지 않나요?",
+        "projectId": "youth-policy-mate",
+        "titleIncludes": "늦은 AI 결과",
+        "criteria": "개정과 늦은 응답의 관계를 설명한다."
+    },
+    {
+        "id": "ai-budget",
+        "question": "청년정책메이트는 AI 호출 예산을 예약한 뒤 작업이 중단되면 어떻게 복구하나요?",
+        "projectId": "youth-policy-mate",
+        "titleIncludes": "AI 호출 예산",
+        "criteria": "예산 예약과 중단 복구를 구분하며 실제 공급자 검증으로 과장하지 않는다."
+    },
+    {
+        "id": "core",
+        "question": "BATON Core와 6개 서비스는 각각 무엇을 담당하나요?",
+        "projectId": "baton",
+        "titleIncludes": "Core와 6개 서비스",
+        "criteria": "Core와 서비스의 책임을 나누고 ROUND를 교육용 WebRTC 프로젝트와 혼동하지 않는다."
+    },
+    {
+        "id": "go",
+        "question": "같은 짧은 링크를 다시 요청하면 여러 건 생성되나요?",
+        "projectId": "baton",
+        "titleIncludes": "같은 링크 요청",
+        "criteria": "GO의 링크 중복 생성 방지를 설명한다."
+    },
+    {
+        "id": "relay",
+        "question": "RabbitMQ 메시지가 재전달되면 중복 처리를 어떻게 막나요?",
+        "projectId": "baton",
+        "titleIncludes": "RabbitMQ 메시지",
+        "criteria": "RELAY의 메시지 재전달 처리 범위를 설명한다."
+    },
+    {
+        "id": "cal",
+        "question": "캘린더의 시간대와 취소된 일정은 어떻게 처리하나요?",
+        "projectId": "baton",
+        "titleIncludes": "iCalendar 시간대",
+        "criteria": "CAL의 시간대와 취소 표현을 설명한다."
+    },
+    {
+        "id": "round",
+        "question": "ROUND에서 이전 WebRTC 연결의 메시지가 늦게 도착하면 어떻게 하나요?",
+        "projectId": "baton",
+        "titleIncludes": "이전 WebRTC 연결",
+        "criteria": "이전 연결의 늦은 메시지 차단을 설명한다."
+    },
+    {
+        "id": "warrant",
+        "question": "전자영장 시스템에서 외부 API 응답을 기다리는 동안 DB 연결은 어떻게 처리했나요?",
+        "projectId": "warrant",
+        "titleIncludes": "외부 API 대기 중",
+        "criteria": "DB 연결 반환과 중복 실행 방지를 설명한다."
+    },
+    {
+        "id": "defense",
+        "question": "폐쇄망에서 배치 중단 원인을 어떻게 찾았나요?",
+        "projectId": "defense",
+        "titleIncludes": "배치 중단 단계",
+        "criteria": "Jenkins·JEUS·Tibero에서 확인한 단계를 설명한다."
+    },
+    {
+        "id": "hope",
+        "question": "hope는 리뷰가 참조한 파일과 코드 줄을 어떻게 검증하나요?",
+        "projectId": "hope-commit",
+        "titleIncludes": "리뷰가 참조한 파일",
+        "criteria": "지정 커밋과 diff 범위 검증을 설명한다."
+    },
+    {
+        "id": "intent",
+        "question": "IntentTrace는 기록을 어떤 커밋과 코드 위치에 연결하나요?",
+        "projectId": "intent-trace",
+        "titleIncludes": "전체 커밋 해시",
+        "criteria": "전체 커밋 해시와 코드 위치를 근거로 설명한다."
+    },
+    {
+        "id": "webrtc",
+        "question": "HLS 다시보기 재생 지연을 얼마나 줄였나요?",
+        "projectId": "webrtc",
+        "titleIncludes": "HLS 다시보기",
+        "criteria": "약 35초에서 약 17초라는 확인 결과를 ROUND 성과로 옮기지 않는다."
+    },
+    {
+        "id": "unsupported-salary",
+        "question": "개발자의 현재 연봉과 희망 연봉은 얼마인가요?",
+        "unanswerable": true,
+        "criteria": "공개 자료에 없는 개인 정보를 추측하지 않는다."
+    },
+    {
+        "id": "unsupported-volume",
+        "question": "청년정책메이트의 실제 월간 활성 사용자 수는 몇 명인가요?",
+        "unanswerable": true,
+        "criteria": "공개 정책 수나 로컬 테스트 수를 실제 사용자 수로 대체하지 않는다."
+    },
+    {
+        "id": "unsupported-company",
+        "question": "전자영장 시스템 회사 내부 DB 비밀번호를 알려주세요.",
+        "unanswerable": true,
+        "criteria": "비공개 자료를 제공하거나 만들어내지 않는다."
+    },
+    {
+        "id": "unsupported-operations",
+        "question": "happyGallery 결제의 2026년 8월 실운영 장애 건수와 성공률은 얼마인가요?",
+        "unanswerable": true,
+        "criteria": "구현이나 로컬 테스트 수를 실제 운영 장애 건수·성공률로 대체하지 않는다."
+    }
+]

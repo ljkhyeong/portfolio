@@ -84,6 +84,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                         .meta("embeddingModelId", JsonData.of(embeddingModelId))
                         .meta("embeddingDimensions", JsonData.of(dimensions))
                         .meta("chunkingFingerprint", JsonData.of(chunkingFingerprint))
+                        .meta("textAnalyzer", JsonData.of("nori"))
                         .properties("chunkId", keyword())
                         .properties("documentId", keyword())
                         .properties("projectId", keyword())
@@ -298,28 +299,30 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         JsonData modelValue = metadata.get("embeddingModelId");
         JsonData dimensionsValue = metadata.get("embeddingDimensions");
         JsonData chunkingValue = metadata.get("chunkingFingerprint");
+        JsonData analyzerValue = metadata.get("textAnalyzer");
         String currentModel = modelValue == null ? "" : modelValue.to(String.class);
         int currentDimensions = dimensionsValue == null ? 0 : dimensionsValue.to(Integer.class);
         String currentChunkingFingerprint = chunkingValue == null ? "" : chunkingValue.to(String.class);
         if (!embeddingModelId.equals(currentModel)
                 || currentDimensions != dimensions
-                || !chunkingFingerprint.equals(currentChunkingFingerprint)) {
+                || !chunkingFingerprint.equals(currentChunkingFingerprint)
+                || analyzerValue == null || !"nori".equals(analyzerValue.to(String.class))) {
             throw new ElasticsearchAccessException(
-                    "현재 인덱스의 임베딩 모델, 차원 또는 청크 설정이 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
+                    "현재 인덱스의 임베딩 모델, 차원, 청크 설정 또는 한국어 분석기가 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
             );
         }
     }
 
     private Property analyzedText() {
         return Property.of(property -> property.text(text -> text
-                .analyzer("standard")
-                .searchAnalyzer("standard")
+                .analyzer("nori")
+                .searchAnalyzer("nori")
         ));
     }
 
     private Property textWithKeyword() {
         return Property.of(property -> property.text(text -> text
-                .analyzer("standard")
+                .analyzer("nori")
                 .fields("raw", raw -> raw.keyword(keyword -> keyword))
         ));
     }

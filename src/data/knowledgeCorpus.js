@@ -209,7 +209,11 @@ const createImplementationEvidence = (project) =>
         }),
     )
 
-const createRepresentativeDocuments = (project, localDocumentContentByHref) =>
+const createRepresentativeDocuments = (
+    project,
+    localDocumentContentByHref,
+    externalDocumentSnapshots,
+) =>
     (project.documents ?? []).flatMap((document) => {
         const localDocumentAllowed = PUBLIC_LOCAL_DOCUMENTS.includes(document.href)
         const externalDocumentAllowed = PUBLIC_EXTERNAL_DOCUMENTS.includes(document.href)
@@ -219,6 +223,7 @@ const createRepresentativeDocuments = (project, localDocumentContentByHref) =>
         }
 
         const localContent = localDocumentContentByHref[document.href]
+        const snapshot = externalDocumentAllowed ? externalDocumentSnapshots[document.href] : null
 
         if (localDocumentAllowed && !localContent) {
             throw new Error(`공개 문서 내용을 찾을 수 없습니다: ${document.href}`)
@@ -233,16 +238,18 @@ const createRepresentativeDocuments = (project, localDocumentContentByHref) =>
                     heading: document.type,
                     content: localDocumentAllowed
                         ? localContent
-                        : joinContent([
+                        : snapshot?.content ??
+                          joinContent([
                               labeledContent("프로젝트", project.title),
                               labeledContent("서비스", document.serviceId?.toUpperCase()),
                               labeledContent("문서 종류", document.type),
                               document.note,
                           ]),
-                    sourceUrl: toPublicUrl(document.href),
-                    evidenceLevel: localDocumentAllowed
-                        ? "public_document"
-                        : "public_document_metadata",
+                    sourceUrl: snapshot?.sourceUrl ?? toPublicUrl(document.href),
+                    evidenceLevel:
+                        localDocumentAllowed || snapshot
+                            ? "public_document"
+                            : "public_document_metadata",
                 }),
                 serviceId: document.serviceId ?? null,
                 route: serviceRoute(project, document.serviceId),
@@ -250,12 +257,19 @@ const createRepresentativeDocuments = (project, localDocumentContentByHref) =>
         ]
     })
 
-export const createKnowledgeSources = (projects, { localDocumentContentByHref = {} } = {}) =>
+export const createKnowledgeSources = (
+    projects,
+    { localDocumentContentByHref = {}, externalDocumentSnapshots = {} } = {},
+) =>
     projects.flatMap((project) => [
         createProjectOverview(project),
         ...createServiceOverviews(project),
         ...createArchitectureDecision(project),
         ...createProblemSolutions(project),
         ...createImplementationEvidence(project),
-        ...createRepresentativeDocuments(project, localDocumentContentByHref),
+        ...createRepresentativeDocuments(
+            project,
+            localDocumentContentByHref,
+            externalDocumentSnapshots,
+        ),
     ])

@@ -28,7 +28,10 @@
         "pdf:check": "node scripts/check-portfolio-pdf.mjs",
         "preview": "vite preview",
         "test": "vitest run",
-        "test:watch": "vitest"
+        "test:watch": "vitest",
+        "knowledge:refresh-docs": "node scripts/refresh-knowledge-documents.mjs",
+        "knowledge:evaluate": "node scripts/evaluate-knowledge.mjs",
+        "knowledge:sync": "node scripts/sync-knowledge-index.mjs"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^7.0.0",

@@ -1,6 +1,6 @@
 knowledge:
     elasticsearch:
-        index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-openai-v2}
+        index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-openai-v3}
     ai:
         provider: openai
         embedding-model-id: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-large}

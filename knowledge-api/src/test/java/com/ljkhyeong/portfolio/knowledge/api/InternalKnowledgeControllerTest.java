@@ -2,6 +2,7 @@ package com.ljkhyeong.portfolio.knowledge.api;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,5 +30,9 @@ class InternalKnowledgeControllerTest {
         mockMvc.perform(post("/internal/v1/knowledge/sync"))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.code").value("SYNC_FORBIDDEN"));
+        mockMvc.perform(get("/internal/v1/knowledge/status"))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(get("/internal/v1/knowledge/status").header("X-Knowledge-Sync-Key", "wrong-key"))
+                .andExpect(status().isForbidden());
     }
 }
