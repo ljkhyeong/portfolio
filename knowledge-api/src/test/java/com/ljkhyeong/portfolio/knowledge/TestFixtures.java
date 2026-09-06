@@ -48,9 +48,13 @@ public final class TestFixtures {
     }
 
     public static KnowledgeChunk chunk(String chunkId) {
+        return chunk(chunkId, "doc-1");
+    }
+
+    public static KnowledgeChunk chunk(String chunkId, String documentId) {
         return new KnowledgeChunk(
                 chunkId,
-                "doc-1",
+                documentId,
                 "baton",
                 "BATON",
                 null,

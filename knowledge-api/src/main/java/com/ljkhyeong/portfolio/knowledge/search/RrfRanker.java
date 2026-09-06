@@ -1,6 +1,5 @@
 package com.ljkhyeong.portfolio.knowledge.search;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,12 +26,13 @@ public class RrfRanker {
             }
         }
 
-        return merged.values().stream()
+        Map<String, SearchHit> documents = new LinkedHashMap<>();
+        merged.values().stream()
                 .sorted(Comparator.comparingDouble(RankedHit::score).reversed()
                         .thenComparing(value -> value.hit().chunk().chunkId()))
-                .limit(limit)
-                .map(value -> new SearchHit(value.hit().chunk(), value.score()))
-                .toList();
+                .forEach(value -> documents.putIfAbsent(value.hit().chunk().documentId(),
+                        new SearchHit(value.hit().chunk(), value.score())));
+        return documents.values().stream().limit(limit).toList();
     }
 
     private record RankedHit(SearchHit hit, double score) {
