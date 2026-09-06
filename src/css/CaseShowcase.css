@@ -295,38 +295,6 @@ main.case-showcase .case-section-nav {
 }
 
 /* 도면의 배경과 글자색을 함께 지정해 테마 변경 시 대비를 유지한다. */
-main.case-showcase .case-visual--webrtc {
-    border-color: var(--line);
-    background: var(--paper);
-    color: var(--ink);
-}
-
-main.case-showcase .stream-map__source {
-    border-color: var(--accent);
-    background: var(--paper-raised);
-}
-
-main.case-showcase .stream-lane__node {
-    border-color: var(--line);
-}
-
-main.case-showcase .stream-map__pulse,
-main.case-showcase .stream-lane__path::after {
-    background: var(--accent);
-}
-
-main.case-showcase .stream-lane__path {
-    background: var(--line);
-}
-
-main.case-showcase .stream-lane__label {
-    color: var(--accent);
-}
-
-main.case-showcase .stream-map__source small,
-main.case-showcase .stream-lane small {
-    color: var(--muted);
-}
 
 main.case-showcase .case-section-nav ul {
     justify-content: flex-start;

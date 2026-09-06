@@ -148,10 +148,6 @@
     fill: var(--diagram-accent);
 }
 
-.editorial-diagram__marker--ink {
-    fill: var(--diagram-ink);
-}
-
 .editorial-diagram__marker--muted {
     fill: var(--diagram-muted);
 }

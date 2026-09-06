@@ -296,8 +296,7 @@ body.portfolio-print-mode {
         font-size: var(--portfolio-project-title);
     }
 
-    .portfolio-web-print .project-card__summary,
-    .portfolio-web-print .project-card__highlights {
+    .portfolio-web-print .project-card__summary {
         margin-top: 14px;
     }
 

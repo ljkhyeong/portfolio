@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-route
 import Main from "./component/Main"
 import NotFound from "./component/NotFound"
 import ScrollToTopButton from "./component/ScrollToTopButton"
+import { projectSummaries, projectSummariesById } from "./data/projectSummaries"
 import {
     defaultRouteMeta,
     normalizeRoutePath,
@@ -132,62 +133,20 @@ const App = () => {
                 <ScrollToTopButton />
                 <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route
-                        path="/projects/baton"
-                        element={<ProjectCaseStudy projectId="baton" />}
-                    />
-                    <Route
-                        path="/projects/baton/go"
-                        element={<BatonServiceCaseStudy serviceId="go" />}
-                    />
-                    <Route
-                        path="/projects/baton/watch"
-                        element={<BatonServiceCaseStudy serviceId="watch" />}
-                    />
-                    <Route
-                        path="/projects/baton/relay"
-                        element={<BatonServiceCaseStudy serviceId="relay" />}
-                    />
-                    <Route
-                        path="/projects/baton/brief"
-                        element={<BatonServiceCaseStudy serviceId="brief" />}
-                    />
-                    <Route
-                        path="/projects/baton/cal"
-                        element={<BatonServiceCaseStudy serviceId="cal" />}
-                    />
-                    <Route
-                        path="/projects/baton/round"
-                        element={<BatonServiceCaseStudy serviceId="round" />}
-                    />
-                    <Route
-                        path="/projects/happygallery"
-                        element={<ProjectCaseStudy projectId="happygallery" />}
-                    />
-                    <Route
-                        path="/projects/hope-commit"
-                        element={<ProjectCaseStudy projectId="hope-commit" />}
-                    />
-                    <Route
-                        path="/projects/intent-trace"
-                        element={<ProjectCaseStudy projectId="intent-trace" />}
-                    />
-                    <Route
-                        path="/projects/youth-policy-mate"
-                        element={<ProjectCaseStudy projectId="youth-policy-mate" />}
-                    />
-                    <Route
-                        path="/projects/e-warrant"
-                        element={<ProjectCaseStudy projectId="warrant" />}
-                    />
-                    <Route
-                        path="/projects/defense"
-                        element={<ProjectCaseStudy projectId="defense" />}
-                    />
-                    <Route
-                        path="/projects/webrtc"
-                        element={<ProjectCaseStudy projectId="webrtc" />}
-                    />
+                    {projectSummaries.map((project) => (
+                        <Route
+                            key={project.route}
+                            path={project.route}
+                            element={<ProjectCaseStudy projectId={project.id} />}
+                        />
+                    ))}
+                    {projectSummariesById.baton.serviceLinks.map((service) => (
+                        <Route
+                            key={service.route}
+                            path={service.route}
+                            element={<BatonServiceCaseStudy serviceId={service.id} />}
+                        />
+                    ))}
                     <Route path="/portfolio/print" element={<PortfolioPrintPage />} />
                     <Route path="/search" element={<PortfolioKnowledgePage />} />
 

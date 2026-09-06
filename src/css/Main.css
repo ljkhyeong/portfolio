@@ -105,18 +105,6 @@
     letter-spacing: 0.04em;
 }
 
-.section-heading-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-}
-
-.section-index {
-    color: var(--muted);
-    font-size: var(--portfolio-caption, 14px);
-}
-
 .experience-section,
 .capability-section,
 .site-footer {
