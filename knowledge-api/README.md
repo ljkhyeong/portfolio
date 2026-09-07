@@ -77,7 +77,9 @@ Content-Type: application/json
 }
 ```
 
-응답의 `results`에는 `chunkId`, 프로젝트와 서비스, 문서 종류, 제목, 관련 문단, 원문 URL 또는 포트폴리오 경로와 RRF 점수가 포함됩니다.
+응답의 `results`에는 `chunkId`, 프로젝트와 서비스, 문서 종류, 제목, 관련 문단, 원문 URL 또는 포트폴리오 경로와 RRF 점수가 포함됩니다. 목록은 문서별 최상위 문단 하나만 표시합니다.
+
+발췌문은 Elasticsearch unified highlighter가 찾은 본문 구간을 사용합니다. CommonMark로 제목·강조·링크 등 Markdown을 일반 텍스트로 바꾸고, 긴 글은 280자 안의 문장 또는 단어 경계에서 줄입니다. 일치 구간이 없는 벡터 검색 결과는 본문 앞부분을 표시합니다. [Elasticsearch 발췌 설정](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/highlighting-settings), [CommonMark Java](https://github.com/commonmark/commonmark-java).
 
 ### 근거 기반 답변
 
@@ -101,7 +103,9 @@ Content-Type: application/json
 
 Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션과 메트릭·추적 설정을 적용합니다. `ChatClient.entity()`로 답변 가능 여부와 문단별 본문·근거 ID를 받습니다. 서비스는 각 문단의 근거 ID를 확인하고 인용 순서대로 `[1]` 번호와 출처 목록을 만듭니다. 제공하지 않은 ID, 인용이 없는 문단이나 잘못된 JSON은 `GENERATION_UNAVAILABLE`로 처리합니다. JSON 형식을 고치기 위한 추가 AI 호출은 하지 않습니다. [Spring AI ChatClient](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
-벡터 검색 결과만 있고 BM25 키워드 검색에서 적중한 문서가 없으면 AI를 호출하지 않습니다. 이 조건은 질문과 직접 일치하는 공개 문서가 없는 상태에서 의미상 가까운 문서만으로 답변을 만드는 일을 막습니다.
+답변에는 목록에서 선택한 문서의 검색 문단을 문서당 최대 3개, 본문 합계 12,000자까지 전달합니다. `limit`은 검색 목록의 문서 수이며 AI 입력 문단 수와 다릅니다. 키워드 일치 문단 한 건을 먼저 확보한 뒤 문서별 대표 문단과 추가 문단을 순위에 따라 선택합니다. 같은 문서의 문단도 각각 인용할 수 있습니다.
+
+실제로 전달할 문단에 BM25 키워드 검색 근거가 없으면 AI를 호출하지 않습니다. 벡터 검색에서 선택한 대표 문단과 같은 문서의 다른 문단이 키워드 검색에 적중했다면, 그 문단을 함께 전달해 불필요한 답변 거절을 막습니다. 목록 밖 문서의 키워드 적중만으로 답변을 허용하지 않습니다.
 
 ## 동기화
 
@@ -173,7 +177,7 @@ npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL"
 
 동기화 명령은 현재 자료와 API 버전이 다르면 색인을 수정하지 않습니다. 최신이면 재색인을 생략하고, 동기화 후에도 해시가 다르면 실패합니다. CI에서는 새 API 이미지로 이 절차와 검색 평가를 실행하고 결과 JSON을 보관합니다. 원격 운영 배포 대상은 이 저장소에 설정돼 있지 않습니다.
 
-`scripts/knowledge-evaluation-cases.json`은 대표 질문 24개와 답할 근거가 없는 질문 4개입니다. 기본 평가는 유료 AI 호출 없이 상위 5건의 목표 문서 적중률과 MRR@5, 요청 시간을 기록합니다. 적중률이 85% 미만이면 실패합니다. `KNOWLEDGE_SYNC_KEY`가 있으면 평가 전에 색인의 자료 버전도 확인합니다. RRF로 청크 순위를 결합한 뒤 문서별 최상위 문단 하나를 선택하므로 긴 문서의 여러 문단이 검색 결과를 중복 차지하지 않습니다. 현재 답변도 이 대표 문단들을 근거로 사용하며, 한 문서의 여러 절을 함께 읽어야 하는 질문은 실제 모델 평가에서 별도로 확인해야 합니다.
+`scripts/knowledge-evaluation-cases.json`은 대표 질문 24개와 답할 근거가 없는 질문 4개입니다. 기본 평가는 유료 AI 호출 없이 상위 5건의 목표 문서 적중률과 MRR@5, 요청 시간을 기록합니다. 적중률이 85% 미만이면 실패합니다. `KNOWLEDGE_SYNC_KEY`가 있으면 평가 전에 색인의 자료 버전도 확인합니다. RRF로 청크 순위를 결합한 뒤 문서별 최상위 문단 하나를 선택하므로 긴 문서의 여러 문단이 검색 결과를 중복 차지하지 않습니다. 답변은 선택한 문서의 추가 검색 문단을 함께 사용합니다. 문단 전달과 인용 연결은 회귀 테스트로 확인하며, 여러 절을 종합하는 답변의 의미 정확도는 실제 모델로 별도 평가합니다.
 
 ```bash
 # AI가 설정된 별도 평가 서버에서만 실행: 실제 모델 사용 비용 발생
