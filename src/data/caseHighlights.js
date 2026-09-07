@@ -93,7 +93,7 @@ export const problemHighlights = {
     "intent-trace": {
         "01": "민감한 필드와 원문 대화가 저장 및 출력에서 제외되는지 테스트",
         "02": "불완전한 커밋 ID와 잘못된 코드 위치 및 해시 거절 테스트",
-        "03": "재요청, payload 충돌과 Check Run 반복 게시 테스트",
+        "03": "재요청, 같은 ID의 다른 요청 본문 충돌과 Check Run 반복 게시 테스트",
         "04": "PKCE, 토큰 갱신과 저장소 읽기 및 쓰기 권한 테스트",
     },
     warrant: {

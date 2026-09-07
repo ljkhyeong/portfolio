@@ -1156,8 +1156,7 @@ const projects = [
             {
                 number: "01",
                 title: "주문 및 예약 규칙을 웹과 DB 코드에서 분리",
-                constraint:
-                    "웹과 DB 코드가 업무 규칙에 섞여 규칙 변경이 외부 구현 수정으로 번졌습니다.",
+                constraint: "주문·예약 규칙을 바꿀 때 HTTP·DB 코드까지 함께 수정해야 했습니다.",
                 decision:
                     "실행, API, DB, 외부 연동, 업무 처리와 도메인 규칙을 나누고 Gradle과 ArchUnit으로 의존 방향을 검사했습니다.",
                 validation:
@@ -1265,7 +1264,7 @@ const projects = [
                 number: "10",
                 title: "운영시간과 휴일 규칙으로 예약 회차 자동 생성",
                 constraint:
-                    "예약 슬롯을 매번 등록하는 수고를 줄이면서, 기존 예약의 참조와 동시성 제어는 유지해야 했습니다.",
+                    "예약 슬롯을 자동 생성하면서 기존 예약의 슬롯 연결과 동시 예약의 잠금 규칙을 유지해야 했습니다.",
                 decision:
                     "운영시간, 휴무와 차단 규칙을 저장하고 조회할 때 예약 슬롯을 자동 생성했습니다. 기존 예약과 비활성 슬롯은 유지했습니다.",
                 validation:
@@ -1769,7 +1768,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "대용량 변경과 자격 증명 제외",
+                title: "리뷰 크기 제한과 자격 증명 제외",
                 constraint:
                     "대용량 변경은 검토 범위를 흐리고, 자격 증명이 분석과 HTML에 노출될 수 있습니다.",
                 decision:
@@ -1996,7 +1995,7 @@ const projects = [
         problems: [
             {
                 number: "01",
-                title: "원문 대화 대신 확인 가능한 요청과 판단만 저장",
+                title: "사용자 요청·변경 근거·검증 요약만 저장",
                 constraint:
                     "AI 대화 전체와 숨은 추론을 저장하면 개인정보와 자격 증명이 섞일 수 있고, 코드 변경 이유를 찾기도 어렵습니다.",
                 decision:
@@ -2008,7 +2007,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "기록을 전체 커밋 해시와 코드 위치에 고정",
+                title: "변경 기록에 커밋 해시·파일 경로·줄 범위 저장",
                 constraint:
                     "짧은 커밋 ID나 파일명만 남기면 이후 코드가 바뀌었을 때 어느 상태를 설명하는 기록인지 판단하기 어렵습니다.",
                 decision:
@@ -2020,13 +2019,13 @@ const projects = [
             },
             {
                 number: "03",
-                title: "같은 요청과 PR 게시를 한 건으로 유지",
+                title: "초안·GitHub Check Run의 중복 생성 방지",
                 constraint:
                     "네트워크 재시도와 동시 요청이 같은 초안이나 GitHub Check Run을 여러 건 만들 수 있습니다.",
                 decision:
-                    "requestId의 payload를 비교하고 DB 유일 제약과 낙관적 잠금을 적용했습니다. 같은 PR에는 기존 Check Run ID를 저장해 갱신합니다.",
+                    "같은 requestId로 받은 요청 본문을 비교하고 DB 유일 제약과 낙관적 잠금을 적용했습니다. 같은 PR에는 기존 Check Run ID를 저장해 갱신합니다.",
                 validation:
-                    "같은 요청 재전송, 다른 payload 충돌, 동시 상태 변경과 Check Run 반복 게시를 테스트했습니다.",
+                    "같은 요청 재전송, 같은 ID의 다른 요청 본문 충돌, 동시 상태 변경과 Check Run 반복 게시를 테스트했습니다.",
                 boundary:
                     "Fork에서 만든 PR의 Check Run 게시는 지원하지 않습니다. 게시 요청 직렬화도 단일 앱 프로세스 안에서만 보장합니다.",
             },
