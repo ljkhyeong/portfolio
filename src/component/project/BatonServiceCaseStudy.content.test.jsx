@@ -66,7 +66,7 @@ test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표
     const unverified = within(status).getByText("미검증").closest("div")
 
     expect(verified).toHaveClass("baton-service-status__item--verified")
-    expect(verified).toHaveTextContent("가상 카메라 2명을 로컬 서버에 연결")
+    expect(verified).toHaveTextContent("로컬 서버에 가상 카메라 참가자 2명을 연결")
     expect(verified).toHaveTextContent("Core 연동")
     expect(verified).toHaveTextContent("손들기·공용 타이머·주제")
     expect(verified).toHaveTextContent("화면을 확인")

@@ -38,7 +38,7 @@ export const homeHeroContent = {
         {
             label: "개인 프로젝트",
             title: "BATON",
-            shortEvidence: "기존 작업 재사용",
+            shortEvidence: "링크·전송 작업 중복 생성 방지",
             route: "/projects/baton",
         },
         {

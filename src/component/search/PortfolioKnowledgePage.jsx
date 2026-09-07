@@ -466,8 +466,8 @@ const PortfolioKnowledgePage = () => {
                             백엔드 문제 해결 방법과 테스트 결과를 검색합니다.
                         </h1>
                         <p>
-                            KICS 요청 변환과 제출 자료의 KICS 반영, 결제 orderId와 환불 UUID 재사용,
-                            서버 중단 뒤 DB 알림 작업 처리를 공개 문서에서 확인할 수 있습니다.
+                            기관 연계, 결제 중복 방지, 서버 중단 후 재처리 경험을 공개 문서에서
+                            검색할 수 있습니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">

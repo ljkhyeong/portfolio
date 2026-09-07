@@ -32,7 +32,7 @@ const routeMetaContent = {
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "같은 이벤트 ID의 전달 작업과 시도 UUID 및 제공자 멱등 키를 유지하고 결과 미확인은 다시 보내지 않는 RELAY 마이크로서비스",
+            "이벤트 중복 수신을 막고 기존 전송 시도 정보를 유지하며 결과 미확인 건은 재전송하지 않는 RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/brief": {

@@ -589,7 +589,7 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     ).toBeInTheDocument()
     expect(screenshots).toHaveAccessibleDescription(/온통청년에서 수집해 저장한 공개 데이터/)
     expect(
-        screen.getByText(/실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증/),
+        screen.getByText(/실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증/),
     ).toBeInTheDocument()
 })
 
@@ -683,7 +683,7 @@ test("WebRTC/HLS 상세는 담당 흐름, 문제 해결과 확인 결과를 보�
     expect(screen.getAllByText("교육 프로젝트").length).toBeGreaterThan(0)
     expect(
         screen.getByRole("img", {
-            name: /실시간 WebRTC와 HLS 다시보기를 한 입력에서 분리.*mediasoup.*RTP.*FFmpeg.*GStreamer/,
+            name: /강의 영상을 WebRTC 실시간 시청과 HLS 다시보기로 분리.*mediasoup.*RTP.*FFmpeg.*GStreamer/,
         }),
     ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()

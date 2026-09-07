@@ -49,7 +49,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "로컬 main 97e6758에 본문 없는 URL 점검과 원본 스냅샷 대조·복원을 반영했습니다. 공개 저장소 링크는 기존 공개 근거입니다.",
+                text: "로컬 main 97e6758 기준으로 URL 응답 상태·헤더 점검과 Core 원본 데이터를 이용한 WATCH 복구를 구현했습니다. 연결된 공개 커밋과는 버전이 다릅니다.",
             },
             {
                 kind: "unverified",
@@ -80,22 +80,22 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 제공자 멱등 키 유지, 이전 서버의 늦은 결과 차단과 전송 결과 수동 확정 이력을 확인했습니다.",
+                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 외부 서비스 멱등 키 유지, 이전 서버의 늦은 결과 차단과 전송 결과 수동 확정을 확인했습니다. 경보 실패·재시도·복구는 모의 수신기로 검증했습니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "경보 실패·재시도·복구는 모의 수신기로 확인했습니다. 실제 AWS 전송과 외부 운영 알림 연결은 미검증입니다.",
+                text: "실제 AWS 전송과 외부 운영 알림 연결은 미검증입니다.",
             },
         ],
         flow: {
             title: "전송 실패와 결과 미확인을 다르게 처리합니다",
             description:
-                "이벤트 ID로 중복 수신을 막고 시도 UUID와 제공자 멱등 키를 저장한 뒤 전송합니다. 성공, 실패와 결과 미확인을 구분하며 결과 미확인은 다시 보내지 않습니다.",
-            note: "서버가 중단돼도 같은 시도 UUID와 제공자 멱등 키를 유지합니다. 전송 전 일시 실패만 재시도합니다.",
+                "이벤트 ID로 중복 수신을 막고 시도 UUID와 외부 서비스 멱등 키를 저장한 뒤 전송합니다. 성공, 실패와 결과 미확인을 구분하며 결과 미확인은 다시 보내지 않습니다.",
+            note: "서버가 중단돼도 같은 시도 UUID와 외부 서비스 멱등 키를 유지합니다. 전송 전 일시 실패만 재시도합니다.",
             compact: {
                 input: ["Core 이벤트", "같은 이벤트 ID는 1건"],
-                action: ["전송 시도 기록", "UUID + 제공자 멱등 키"],
+                action: ["전송 시도 기록", "UUID + 외부 서비스 멱등 키"],
                 outputs: [
                     ["성공", "완료 확정"],
                     ["실패", "전송 전 실패만 재시도"],
@@ -106,7 +106,7 @@ export const batonServicePresentations = {
     },
     brief: {
         target: "Core 판정과 보고서 내용의 불일치",
-        decision: "5개 신호를 그대로 반영하고 발행 보고서는 보존",
+        decision: "5개 점검 결과를 그대로 반영하고 발행 보고서는 보존",
         result: "상태 반영, 보고서 수정 차단과 실제 Core 연동 확인",
         verification: [
             {
@@ -129,7 +129,7 @@ export const batonServicePresentations = {
             title: "Core 판정은 그대로, 발행 보고서는 변경 없이",
             description:
                 "Core의 점검 결과를 미해결(ACTIVE) 또는 해결됨(RESOLVED)으로 저장합니다. 같은 조건의 주간 보고서는 재사용하고 변경된 내용은 새 보고서로 발행합니다.",
-            note: "5개 신호: 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계. BRIEF가 판정 규칙을 다시 만들지 않습니다.",
+            note: "5개 점검 결과: 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계. BRIEF가 판정 규칙을 다시 만들지 않습니다.",
             compact: {
                 input: ["담당 공백 등 5개 상태", "Core에서 판정"],
                 action: ["점검 항목 반영", "ACTIVE / RESOLVED"],
@@ -158,7 +158,7 @@ export const batonServicePresentations = {
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "운영 활성화와 공개 배포는 아직 완료하지 않았습니다. 실제 캘린더 앱과 운영 환경의 구독 및 전체 일정 재전송은 미검증입니다.",
+                text: "실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증입니다.",
             },
         ],
         flow: {
@@ -184,7 +184,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "기존 브라우저·Core 연동 검증에 손들기·공용 타이머·주제를 추가했습니다. 이번에는 가상 카메라 2명을 로컬 서버에 연결해 화면을 확인했습니다.",
+                text: "브라우저·Core 연동을 검증하고 손들기·공용 타이머·주제를 구현했습니다. 로컬 서버에 가상 카메라 참가자 2명을 연결해 화면을 확인했습니다.",
             },
             {
                 kind: "limited",

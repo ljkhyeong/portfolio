@@ -32,7 +32,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "링크 요청 UUID와 이벤트 ID로 기존 작업을 재사용하고, 중단된 전달은 같은 시도 UUID와 제공자 멱등 키를 유지하며 결과 미확인 전송은 자동 재시도하지 않음",
+                value: "요청 UUID와 이벤트 ID로 중복 생성을 방지. 중단된 전송 작업은 기존 식별자를 유지해 인계하고, 결과 미확인 건은 자동 재전송하지 않음",
             },
         ],
         period: "2026.07.20 — 진행 중",
@@ -82,7 +82,7 @@ export const projectSummaries = [
             },
             {
                 label: "문제",
-                value: "이중화 서버 간 작업 중복 선점과 외부 API 대기 중 DB 연결 점유",
+                value: "여러 서버의 동일 작업 중복 실행과 외부 API 대기 중 DB 연결 점유",
             },
             {
                 label: "해결",
@@ -132,7 +132,7 @@ export const projectSummaries = [
             },
             {
                 label: "해결",
-                value: "결제 orderId와 환불 UUID를 재사용하고, DB 알림을 재처리하며 스마트스토어 주문은 수량 변경분만 재고에 반영",
+                value: "결제·환불 키를 재사용하고 미전송 알림을 재처리. 스마트스토어 주문은 수량 변경분만 재고에 반영",
             },
         ],
         period: "2026.02.21 — 진행 중",
@@ -167,7 +167,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
         summary:
-            "공개 정책을 조회하고 검토한 조건 질문으로 신청 요건을 확인하는 모바일 웹앱입니다. 관심 정책 저장, 일정, 서비스 내 알림과 이메일 발송 처리를 구현했습니다. 실제 외부 이메일 수신은 미검증입니다.",
+            "공개 정책을 조회하고 검토한 조건 질문으로 신청 요건을 확인하는 모바일 웹앱입니다. 관심 정책 저장, 일정, 서비스 내 알림과 이메일 발송 처리를 구현했습니다.",
         homeFacts: [
             {
                 label: "담당",

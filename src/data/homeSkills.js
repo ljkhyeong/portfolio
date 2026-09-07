@@ -3,7 +3,7 @@ export const homeSkillGroups = [
         id: "backend",
         label: "백엔드",
         summary:
-            "Java와 Spring으로 공공기관 연계 API와 배치, 주문 및 예약 서버와 정책 판정 모델을 개발했습니다.",
+            "Java와 Spring으로 공공기관 연계 API와 배치, 주문·예약 API와 정책 신청 조건 판정 로직을 개발했습니다.",
         items: [
             { name: "Java" },
             { name: "Spring Boot / Spring MVC" },

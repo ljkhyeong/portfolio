@@ -121,7 +121,7 @@ describe("공개 지식 문서 목록", () => {
         expect(youthPolicyOverview.content).toContain("구분: 개인 모바일 웹앱 프로젝트")
         expect(youthPolicyOverview.content).toContain("공개 정책 40건")
         expect(youthPolicyOverview.content).toContain(
-            "실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증",
+            "실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증",
         )
 
         const firstProblem = corpus.documents.find(

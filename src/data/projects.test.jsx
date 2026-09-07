@@ -124,7 +124,7 @@ describe("project summary data", () => {
         expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
         expect(youthPolicyMate.status.text).toContain("공개 정책 40건")
         expect(youthPolicyMate.status.text).toContain(
-            "실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증",
+            "실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증",
         )
         expect(youthPolicyMate.stack).toContain("Spring JDBC")
         expect(youthPolicyMate.proofs).toEqual(
@@ -245,7 +245,7 @@ describe("project summary data", () => {
             decision: expect.stringContaining("독립 트랜잭션"),
         })
         expect(passRefundProblem).toMatchObject({
-            title: "8회권 환불 시 예약 취소와 이용 횟수 및 사용 이력 반영",
+            title: "8회권 환불 시 예약 취소와 잔여 횟수 처리",
             decision: expect.stringContaining("순서대로 잠그고"),
             boundary: expect.stringContaining("관리자 재처리"),
         })

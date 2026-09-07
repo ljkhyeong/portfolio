@@ -27,7 +27,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "통합 테스트",
         result: "실패 이력 보존, 같은 키의 결과 재사용, 늦은 응답 차단과 결과 재조회를 확인했습니다.",
-        limitation: "실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
+        limitation: "모의 PG 응답을 사용한 통합 테스트 기준입니다.",
     },
     "youth-policy-mate": {
         problemNumber: "01",
@@ -43,13 +43,12 @@ const featuredProblems = {
         evidenceLabel: "서버 단위 테스트",
         result: "조건 충족 및 불충족, 정책 미해석, 사용자 정보 누락과 일부 구간 중첩을 구분했습니다.",
         limitation:
-            "현재는 테스트 규칙과 답변만 사용하며 실제 정책 수집과 추천은 연결하지 않았습니다.",
+            "공개 정책 40건을 조회하고, 검토한 정책 5종의 일부 신청 요건을 확인합니다. 최종 신청 자격은 공식 안내에서 확인해야 합니다.",
     },
     "hope-commit": {
         problemNumber: "03",
         problem: "실제 변경 코드에 없는 설명이나 지적이 리뷰에 섞일 수 있습니다.",
-        approach:
-            "이전 대화를 전달하지 않은 별도 AI 분석 결과를 변경 파일과 줄에 연결하고, 수집 범위와 JSON 형식을 검사합니다.",
+        approach: "이전 대화 없이 코드를 분석하고, 리뷰가 참조한 파일·줄과 JSON 형식을 검증합니다.",
         steps: [
             { title: "이전 대화 없이 코드 분석", description: "변경에 대한 설명과 지적 수신" },
             { title: "파일과 줄 연결", description: "실제 수집한 코드 범위인지 검사" },
@@ -78,7 +77,7 @@ const featuredProblems = {
     warrant: {
         problemNumber: "04",
         problem:
-            "서버 이중화로 프로세스 내부 잠금만으로는 같은 연계 작업의 동시 선점을 막을 수 없었습니다.",
+            "서버 이중화로 프로세스 내부 잠금만으로는 같은 연계 작업의 중복 실행을 막을 수 없었습니다.",
         approach:
             "SKIP LOCKED로 잠긴 행을 건너뛰어 작업을 선점하고, 외부 API 호출과 전후 DB 처리를 분리했습니다.",
         steps: [
@@ -118,7 +117,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "팀 시연",
         result: "같은 시연 흐름에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
-        limitation: "시연 환경의 측정값이며 통제된 벤치마크는 아닙니다.",
+        limitation: "팀 시연 환경에서 측정한 결과입니다.",
     },
     "baton-go": {
         problemNumber: "03",
@@ -168,16 +167,15 @@ const featuredProblems = {
         problemNumber: "09",
         problem: "BRIEF가 조직 상태를 다시 판정하면 Core와 결과가 달라질 수 있습니다.",
         approach:
-            "Core가 판정한 5개 신호를 그대로 반영하고, 이벤트 ID와 개정 번호로 중복 및 과거 이벤트를 차단합니다.",
+            "Core가 판정한 5개 점검 결과를 그대로 반영하고, 이벤트 ID와 개정 번호로 중복 및 과거 이벤트를 차단합니다.",
         steps: [
-            { title: "Core 신호 수신", description: "담당자 공백 및 업무 지연 등 5개 상태" },
+            { title: "Core 점검 결과 수신", description: "담당자 공백 및 업무 지연 등 5개 상태" },
             { title: "이벤트 검증", description: "ID, 해시와 개정 번호 비교" },
             { title: "점검 항목 반영", description: "ACTIVE 또는 RESOLVED로 반영" },
         ],
         evidenceLabel: "로컬 연동 확인",
         result: "2.0.0-rc.1 실제 Core와 로컬 HTTP 및 내부 서비스용 Caddy HTTPS 연동을 확인했습니다.",
-        limitation:
-            "주간 이월·신규·해결 보고서와 Core 연결은 로컬 구현 기준입니다. 공인 DNS와 원격 배포는 미검증입니다.",
+        limitation: "주간 보고서와 Core 연동은 로컬 검증 기준입니다.",
     },
     "baton-cal": {
         problemNumber: "11",
@@ -186,11 +184,11 @@ const featuredProblems = {
             "이벤트와 일정의 ID, 개정 번호 및 내용 해시를 비교해 중복과 과거 일정 반영을 막습니다.",
         steps: [
             { title: "일정 JSON 수신", description: "이벤트 ID와 일정 ID 확인" },
-            { title: "개정 및 내용 비교", description: "낮은 개정과 내용 충돌 구분" },
+            { title: "개정 및 내용 비교", description: "이전 버전과 동일 버전의 내용 불일치 구분" },
             { title: "최신 일정 유지", description: "중복 및 과거 일정은 반영하지 않음" },
         ],
         evidenceLabel: "PostgreSQL 통합 테스트",
-        result: "재전송, 낮은 개정과 같은 개정의 내용 충돌 및 트랜잭션 실패 후 재시도를 확인했습니다.",
+        result: "재전송, 이전 버전, 동일 버전의 내용 불일치와 트랜잭션 실패 후 재시도를 확인했습니다.",
         limitation:
             "비동기 연동으로 반영이 지연될 수 있습니다. 운영 활성화 전 자격 증명 교체와 최신 일정 재전송 검증이 필요합니다.",
     },
@@ -206,8 +204,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "연결 모듈 자동화 테스트",
         result: "연결 중단과 재시작 후 이전 순번의 answer 및 ICE를 전달해도 현재 연결의 메시지만 반영됐습니다.",
-        limitation:
-            "WebKit CI 호환성은 보완했지만 Safari 실기기와 외부망 및 6명 장시간 접속은 미검증입니다.",
+        limitation: "브라우저 자동화 테스트 기준입니다. 실기기·외부망 검증은 남아 있습니다.",
     },
 }
 

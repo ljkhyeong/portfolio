@@ -94,7 +94,7 @@ const diagrams = {
     },
     webrtc: {
         eyebrow: "DATA FLOW / LIVE AND REPLAY",
-        title: "실시간 WebRTC와 HLS 다시보기를 한 입력에서 분리",
+        title: "강의 영상을 WebRTC 실시간 시청과 HLS 다시보기로 분리",
         summary:
             "mediasoup의 실시간 전송과 RTP 출력을 나눠 React의 실시간 화면과 지난 구간 재생에 각각 제공합니다.",
         description:
@@ -399,7 +399,7 @@ const diagrams = {
             { d: "M592 340 H712" },
             { d: "M592 484 H712" },
         ],
-        note: "조건 질문은 일부 요건만 확인합니다. 실제 OAuth 계정·외부 이메일 수신·AI 공급자 호출은 미검증입니다.",
+        note: "조건 질문은 검토한 정책 5종의 일부 요건만 확인합니다. 로컬 구현 기준입니다.",
     },
 }
 

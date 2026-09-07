@@ -319,7 +319,7 @@ test("청년정책메이트는 모바일 웹앱으로 구분하고 현재 화면
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정·알림 처리")).toBeInTheDocument()
     expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /공개 정책 40건.*실제 OAuth 계정·외부 이메일 수신·AI 공급자는 미검증/,
+        /정책 40건 조회.*실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증/,
     )
     expect(
         within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(
@@ -544,7 +544,7 @@ test.each([
     [
         "brief",
         "BRIEF",
-        "Core의 5개 점검 신호를 주간 보고서에 반영하고 이전부터 미해결·이번 주 신규·해결 항목을 구분합니다.",
+        "Core가 확인한 담당자 공백·업무 지연 등 5개 점검 결과를 주간 보고서에 반영합니다. 지난주 미해결·이번 주 발생·해결 항목을 구분합니다.",
         /ACTIVE 및 RESOLVED 반영.*발행한 주간 보고서 수정 차단/,
     ],
     [
@@ -640,13 +640,13 @@ test.each([
     [
         "cal",
         "CAL",
-        "중복 및 과거 일정 JSON 차단",
+        "중복·이전 버전 일정의 반영 방지",
         "https://github.com/ljkhyeong/baton-cal/tree/978f0d4",
         /CAL 공개 main 고정 커밋 보기/,
         [
             /Core 요청 형식 고정과 CAL 컨테이너 연동.*OCI 백업 및 복구.*이전 복구 작업의 늦은 결과 차단/,
             /정식 규격은 1.0.0.*게시된 후보는 1.1.0-rc.1.*1.1.0-rc.2 개발 소스.*정식 반영 전/,
-            /운영 활성화와 공개 배포는 아직 완료하지 않았습니다.*실제 캘린더 앱과 운영 환경의 구독 및 전체 일정 재전송은 미검증/,
+            /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증/,
         ],
         /정식 JSON 규격 1.0.0과 릴리스 후보 JSON 규격 1.1.0-rc.1의 BATON 호환성 근거/,
     ],
@@ -722,12 +722,12 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
         }),
     ).toBeInTheDocument()
     const mediaDiagram = screen.getByRole("img", {
-        name: /실시간 WebRTC와 HLS 다시보기를 한 입력에서 분리.*강의 영상 입력을 mediasoup에서 WebRTC 실시간 전송과 RTP 출력으로 나누고.*React 다시보기 화면에 제공/,
+        name: /강의 영상을 WebRTC 실시간 시청과 HLS 다시보기로 분리.*강의 영상 입력을 mediasoup에서 WebRTC 실시간 전송과 RTP 출력으로 나누고.*React 다시보기 화면에 제공/,
     })
     expect(mediaDiagram).toBeInTheDocument()
     expect(
         screen.getByRole("region", {
-            name: "실시간 WebRTC와 HLS 다시보기를 한 입력에서 분리 가로 스크롤 영역",
+            name: "강의 영상을 WebRTC 실시간 시청과 HLS 다시보기로 분리 가로 스크롤 영역",
         }),
     ).toHaveAttribute("tabindex", "0")
     expect(within(mediaDiagram).getByText("mediasoup")).toBeInTheDocument()
