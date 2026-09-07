@@ -20,6 +20,11 @@ export const homeSkillGroups = [
             "같은 요청에는 기존 식별자를 재사용해 중복 실행을 막고, DB에 저장한 작업은 서버 중단 후 다시 처리하도록 구현했습니다.",
         items: [
             {
+                name: "이중화 서버의 연계 작업 선점",
+                detail: "SKIP LOCKED로 잠긴 행을 건너뛰고 처리 상태를 변경해 작업을 선점합니다. 외부 API는 트랜잭션 밖에서 호출하고, 오래된 처리중 상태는 재처리 대상으로 돌립니다.",
+                examples: [{ label: "전자영장", route: "/projects/e-warrant" }],
+            },
+            {
                 name: "결제 및 환불 중복 실행 방지",
                 detail: "결제 승인에는 orderId를, 환불에는 최초 생성 시 저장한 UUID를 모든 재시도에 재사용합니다. 결과가 불확실하면 PG 처리 결과를 조회합니다.",
                 examples: [{ label: "happyGallery", route: "/projects/happygallery" }],

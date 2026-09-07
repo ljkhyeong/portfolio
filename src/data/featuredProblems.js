@@ -1,3 +1,5 @@
+import { warrantPerformanceSummary } from "./warrantEvidence"
+
 const featuredProblems = {
     baton: {
         problemNumber: "02",
@@ -74,20 +76,20 @@ const featuredProblems = {
             "서버가 Git 객체를 직접 검증하지 않으므로 신뢰할 수 있는 클라이언트만 기록을 만들어야 합니다.",
     },
     warrant: {
-        problemNumber: "03",
+        problemNumber: "04",
         problem:
-            "요청 상태를 저장하기 전에 PDF 완료 응답이 도착하면 정상 결과가 누락될 수 있었습니다.",
+            "서버 이중화로 프로세스 내부 잠금만으로는 같은 연계 작업의 동시 선점을 막을 수 없었습니다.",
         approach:
-            "Spring Retry로 요청 상태를 다시 조회하고, 재시도 간격 증가와 무작위 지연을 적용했습니다.",
+            "SKIP LOCKED로 잠긴 행을 건너뛰어 작업을 선점하고, 외부 API 호출과 전후 DB 처리를 분리했습니다.",
         steps: [
-            { title: "PDF 완료 응답 수신", description: "요청 상태를 DB에서 조회" },
-            { title: "요청 상태가 없으면 재조회", description: "간격을 늘려 요청 상태 재조회" },
-            { title: "완료 결과 반영", description: "요청 상태가 확인되면 결과 저장" },
+            { title: "처리 대상 선점", description: "잠긴 행 제외 · N → P 저장" },
+            { title: "외부 API 호출", description: "DB 트랜잭션 밖에서 실행" },
+            { title: "완료 또는 재처리", description: "완료 → null · 오래된 P → N" },
         ],
-        evidenceLabel: "동작 확인",
-        result: "요청 저장보다 먼저 도착한 PDF 완료 응답도 상태를 다시 조회한 뒤 반영되는 것을 확인했습니다.",
+        evidenceLabel: "인터페이스 성능 테스트",
+        result: warrantPerformanceSummary,
         limitation:
-            "재시도 횟수는 제한했습니다. 계속 조회되지 않는 요청은 실패 기록과 운영자 확인이 필요합니다.",
+            "중단 작업은 설정한 경과 시간과 주기별 점검에 따라 다시 처리 대상으로 전환합니다.",
     },
     defense: {
         problemNumber: "01",

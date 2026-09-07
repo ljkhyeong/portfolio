@@ -37,6 +37,7 @@ const commonRenderSourceTargets = [
     "src/data/caseHighlights.js",
     "src/data/homeSkills.js",
     "src/data/projectSummaries.js",
+    "src/data/warrantEvidence.js",
     "src/data/routeMeta.js",
     "src/data/projectOg.js",
     "src/utils/assetPath.js",

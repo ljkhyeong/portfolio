@@ -311,7 +311,6 @@ describe("project summary data", () => {
         expect(publicCopy).not.toContain("processingToken")
         expect(publicCopy).not.toContain("AFTER_COMMIT")
         expect(publicCopy).not.toContain("Fake PG")
-        expect(publicCopy).not.toContain("작업 선점")
         expect(publicCopy).toContain("점검의 처리 기한")
         expect(publicCopy).not.toContain("테스트 스위트")
         expect(publicCopy).not.toContain("재인계")

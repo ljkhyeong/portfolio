@@ -1,3 +1,5 @@
+import { warrantPerformance } from "./warrantEvidence"
+
 export const projectSummaries = [
     {
         id: "baton",
@@ -69,6 +71,7 @@ export const projectSummaries = [
         homeHighlights: [
             "기관별 요청 규격 변환 및 전송 서버 개발",
             "제출 자료의 KICS 반영 서버와 Spring Batch 개발",
+            "이중화 서버의 DB 작업 선점과 중단 작업 재처리",
         ],
         summary:
             "법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
@@ -79,11 +82,11 @@ export const projectSummaries = [
             },
             {
                 label: "문제",
-                value: "기관별 요청 및 제출 형식이 다르고, PDF 완료 응답이 요청 상태 저장보다 먼저 도착할 수 있음",
+                value: "이중화 서버 간 작업 중복 선점과 외부 API 대기 중 DB 연결 점유",
             },
             {
                 label: "해결",
-                value: "기관별 변환 코드를 분리하고, 먼저 도착한 PDF 완료 응답은 요청 상태를 다시 조회해 반영",
+                value: "SKIP LOCKED와 처리 상태로 작업 선점, API 전후 트랜잭션 분리와 중단 작업 재처리",
             },
         ],
         period: "2026.03.24 — 진행 중",
@@ -91,9 +94,9 @@ export const projectSummaries = [
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
         visual: "warrant",
         stage: "진행 중",
-        visibility: "담당 범위만 공개",
+        visibility: "담당 구현과 테스트 요약 공개",
         homeEvidence: {
-            validation: "자료 변환 및 배치 단계 확인",
+            validation: `${warrantPerformance.load} · ${warrantPerformance.duration} 테스트`,
             documents: "내부 문서 비공개",
         },
     },

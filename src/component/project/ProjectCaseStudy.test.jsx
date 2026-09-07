@@ -409,7 +409,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.getByText("BEINTECH / LG CNS 컨소시엄 공공 SI")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "PDF 완료 응답이 먼저 도착한 경우 재처리",
+            name: "이중화 서버의 작업 선점과 중단 작업 재처리",
         }),
     ).toBeInTheDocument()
     expect(screen.getByText("포털용 요청")).toBeInTheDocument()
@@ -424,8 +424,9 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.getByText(/KICS 요청과 기관 제출 자료가 독립망 사이/)).toBeInTheDocument()
     expect(screen.getByText(projectsById.warrant.role)).toBeInTheDocument()
     expect(screen.queryByText(projectsById.warrant.oneLine)).not.toBeInTheDocument()
-    expect(screen.getAllByText(/REQUIRES_NEW/).length).toBeGreaterThan(0)
-    expect(screen.getByText(/다중 서버에서는 분산 잠금이 필요/)).toBeInTheDocument()
+    expect(screen.getAllByText(/FOR UPDATE SKIP LOCKED/).length).toBeGreaterThan(0)
+    expect(screen.getByText(/외부 API는 트랜잭션 밖에서 호출/)).toBeInTheDocument()
+    expect(screen.queryByText(/다중 서버에서는 분산 잠금이 필요/)).not.toBeInTheDocument()
     expect(screen.queryByText("군교정 업무")).not.toBeInTheDocument()
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
 })

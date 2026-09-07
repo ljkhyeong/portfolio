@@ -1,4 +1,5 @@
 import { projectSummaries, projectSummariesById } from "./projectSummaries"
+import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence"
 
 const projects = [
     {
@@ -2115,6 +2116,13 @@ const projects = [
         evidenceTitle: "주요 구현 및 확인 결과",
         proofs: [
             {
+                item: "이중화 인터페이스 서버의 동시 처리",
+                method: `${warrantPerformance.duration} 인터페이스 성능 테스트`,
+                rule: `${warrantPerformance.load} 부하에서 요청 처리, 커넥션 풀과 DB 잠금 상태 확인`,
+                result: `${warrantPerformance.result}했습니다.`,
+                scope: "성능 테스트 환경 기준 · 상세 환경과 로그는 비공개",
+            },
+            {
                 item: "해양경찰 KICS 독립망 연계",
                 method: "기관별 자료 변환과 Spring Batch 단계별 확인",
                 rule: "KICS의 통신사실확인자료 요청과 통신사 및 집행포털 연계에서 받은 제출 자료를 기관별 연계 형식에 맞춰 변환하고 단계별 처리 상태를 확인",
@@ -2142,18 +2150,18 @@ const projects = [
             "KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.",
         status: {
             label: "공개 범위",
-            text: "BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조와 역할만 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.",
+            text: "BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.",
         },
         systemTitle: "KICS와 기관 간 요청 및 자료 연계 흐름",
         systemNavLabel: "업무 흐름",
         visualCaption: "KICS 요청과 기관 제출 자료가 독립망 사이를 오가는 흐름입니다.",
         architecture: {
-            label: "기관별 변환 분리와 DB 연결 반환",
-            title: "기관별 변환은 분리하고 외부 API 대기 중에는 DB 연결을 반환했습니다.",
+            label: "이중화 서버의 작업 선점과 트랜잭션 분리",
+            title: "DB에서 작업을 선점하고 외부 API 대기 중에는 DB 연결을 반환했습니다.",
             description:
-                "조회, 상태 및 오류 처리만 공통으로 사용하고 외부 API 호출 전후의 DB 저장을 별도 트랜잭션으로 실행했습니다.",
+                "FOR UPDATE SKIP LOCKED로 다른 서버가 잠근 행을 건너뛰고 처리 상태를 변경했습니다. 외부 API 호출과 전후 DB 처리는 트랜잭션 경계를 분리했습니다.",
             tradeoff:
-                "후속 기능의 중복 코드는 줄었지만 초기 구현은 느려졌습니다. 다중 서버에서는 분산 잠금이 필요합니다.",
+                "외부 API 호출과 DB 반영은 하나의 트랜잭션으로 묶이지 않습니다. 오래된 처리중 상태는 주기적으로 복구해 재처리합니다.",
         },
         problems: [
             {
@@ -2194,15 +2202,14 @@ const projects = [
             },
             {
                 number: "04",
-                title: "외부 API 대기 중 DB 연결 반환과 중복 실행 방지",
+                title: "이중화 서버의 작업 선점과 중단 작업 재처리",
                 constraint:
-                    "주기적으로 들어오는 연계 요청이 겹치고 외부 승인 API 응답이 늦어지면 같은 작업이 중복 실행되거나 DB 연결을 오래 점유할 수 있었습니다.",
+                    "인터페이스 서버가 이중화되면서 한 프로세스 안에서만 동작하는 ReentrantLock으로는 서버 간 중복 실행을 막을 수 없었습니다. 외부 API 대기 중 DB 연결을 오래 점유하는 문제도 피해야 했습니다.",
                 decision:
-                    "외부 API를 호출하기 전과 응답을 받은 뒤의 DB 저장을 각각 별도 트랜잭션(REQUIRES_NEW)으로 처리했습니다. 한 애플리케이션 안에서는 ReentrantLock으로 같은 작업의 겹친 실행을 막았습니다.",
-                validation:
-                    "동시 호출에서 진행 중인 작업이 다시 실행되지 않고 외부 호출 전후의 DB 반영이 나뉘는 것을 확인했습니다.",
+                    "FOR UPDATE SKIP LOCKED로 잠긴 행을 건너뛰고 N(처리대상)을 P(처리중)로 바꿔 선점했습니다. 외부 API는 트랜잭션 밖에서 호출하고, 선점과 완료 상태(null) 반영은 각각 별도 트랜잭션으로 처리했습니다.",
+                validation: warrantPerformanceSummary,
                 boundary:
-                    "ReentrantLock은 한 서버 프로세스 안에서만 유효합니다. 서버를 여러 대로 확장하면 DB 잠금이나 분산 잠금 등 별도의 조정 수단이 필요합니다.",
+                    "서버 중단으로 남은 오래된 P 상태는 주기적으로 N으로 되돌려 재처리합니다. 복구 시점은 설정한 경과 시간과 점검 주기를 따릅니다.",
             },
         ],
         stack: [

@@ -254,7 +254,7 @@ test("홈은 프로젝트 요약과 미리보기에서 상세로 연결한다", 
     expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
     expect(screen.queryByText("API Contract")).not.toBeInTheDocument()
     expect(screen.getByLabelText("전송형 전자영장 시스템 문제, 구현과 검증")).toHaveTextContent(
-        "기관별 변환 코드를 분리",
+        "SKIP LOCKED와 처리 상태로 작업 선점",
     )
     expect(
         screen.getByRole("img", {
@@ -347,7 +347,7 @@ test("BEINTECH 단일 경력 아래 현재와 이전 프로젝트를 연결한�
     expect(within(careerProjects).queryByText("문제")).not.toBeInTheDocument()
     expect(within(careerSection).queryByText(/소속사 비공개/)).not.toBeInTheDocument()
     expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
-        "담당 범위만 공개",
+        "담당 구현과 테스트 요약 공개",
     )
 })
 

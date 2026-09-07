@@ -1,3 +1,5 @@
+import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence"
+
 export const caseIntroductions = {
     baton: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
     happygallery: "상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.",
@@ -37,9 +39,9 @@ const highlights = {
         "v0.7.0 공개. 웹 조회·원본 코드 비교·Zed MCP 연결을 로컬 확인",
     ],
     warrant: [
-        "기관별 요청 규격 차이와 먼저 도착하는 PDF 완료 응답",
-        "기관별 변환 코드 분리와 요청 상태 재조회",
-        "기관별 전송 및 KICS 자료 반영, PDF 응답 순서 역전 처리 확인",
+        "이중화 서버의 중복 작업 선점과 외부 API 대기 중 DB 연결 점유",
+        "SKIP LOCKED·처리 상태로 작업 선점, 트랜잭션 분리와 중단 작업 재처리",
+        warrantPerformanceSummary,
     ],
     defense: [
         "기관별 자료 형식 차이와 중단된 수용자 정보 연계 배치",
@@ -98,7 +100,7 @@ export const problemHighlights = {
         "01": "마지막 조회 키 이후 자료 조회와 기존 페이지 번호 이동 유지 확인",
         "02": "후속 기능에서 공통 상태와 오류 코드 재사용 확인",
         "03": "요청 저장보다 먼저 도착한 PDF 완료 결과 반영 확인",
-        "04": "한 프로세스의 중복 실행 차단과 API 전후 DB 반영 분리 확인",
+        "04": `${warrantPerformance.load} · ${warrantPerformance.duration} 테스트에서 전량 처리`,
     },
     defense: {
         "01": "중단 배치 재처리 후 인적정보와 영장정보의 DB 반영 확인",

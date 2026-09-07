@@ -32,7 +32,7 @@ export const homeHeroContent = {
         {
             label: "현재 업무",
             title: "전송형 전자영장 시스템",
-            shortEvidence: "기관별 규격 변환",
+            shortEvidence: "이중화 서버 작업 선점",
             route: "/projects/e-warrant",
         },
         {
