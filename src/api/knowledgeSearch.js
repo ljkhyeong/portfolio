@@ -31,7 +31,25 @@ const postKnowledgeRequest = async (path, body, { signal } = {}) => {
         })
     }
 
-    const payload = await response.json().catch(() => ({}))
+    let payload
+    try {
+        payload = await response.json()
+    } catch (error) {
+        if (error.name === "AbortError") {
+            throw error
+        }
+
+        if (response.ok) {
+            throw new KnowledgeApiError("서버 응답을 읽지 못했습니다. 다시 시도해 주세요.", {
+                status: response.status,
+                code: "INVALID_RESPONSE",
+            })
+        }
+
+        payload = {}
+    }
+
+    signal?.throwIfAborted()
 
     if (!response.ok) {
         throw new KnowledgeApiError(payload.message || "요청을 처리하지 못했습니다.", {
