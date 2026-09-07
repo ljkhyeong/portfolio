@@ -27,6 +27,7 @@ import co.elastic.clients.elasticsearch.core.DeleteByQueryResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
+import co.elastic.clients.elasticsearch.core.search.HighlighterOrder;
 import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
 import co.elastic.clients.json.JsonData;
 import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
@@ -212,6 +213,9 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 .size(limit)
                 .source(source -> source.filter(sourceFilter -> sourceFilter.excludes("embedding")))
                 .query(bm25Query)
+                .highlight(highlight -> highlight.preTags("").postTags("")
+                        .fields("content", field -> field.fragmentSize(280).numberOfFragments(1)
+                                .noMatchSize(280).order(HighlighterOrder.Score).boundaryScannerLocale("ko-KR")))
         );
     }
 
@@ -273,7 +277,8 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
             if (hit.source() != null) {
                 results.add(new SearchHit(
                         toChunk(hit.source()),
-                        hit.score() == null ? 0 : hit.score()
+                        hit.score() == null ? 0 : hit.score(),
+                        hit.highlight().getOrDefault("content", List.of()).stream().findFirst().orElse(null)
                 ));
             }
         });

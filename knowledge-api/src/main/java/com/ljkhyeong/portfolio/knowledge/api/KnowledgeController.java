@@ -40,7 +40,7 @@ public class KnowledgeController {
                 request.limit()
         );
         var hits = searchResult.hits();
-        var results = responseMapper.toSearchResults(hits, request.query());
+        var results = responseMapper.toSearchResults(hits);
         return new SearchResponse(request.query(), results.size(), results);
     }
 

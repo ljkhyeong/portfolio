@@ -36,6 +36,22 @@ class KnowledgeSearchServiceTest {
     private final SimpleMeterRegistry meters = new SimpleMeterRegistry();
 
     @Test
+    void 검색_목록은_문서별로_제한하고_답변용_문단은_유지한다() {
+        KnowledgeIndexPort index = mock(KnowledgeIndexPort.class);
+        var service = new KnowledgeSearchService(knowledgeProperties(), mock(EmbeddingPort.class),
+                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+        when(index.searchBm25(anyString(), any(), anyInt())).thenReturn(List.of(
+                new SearchHit(chunk("a#0", "a"), 10), new SearchHit(chunk("a#1", "a"), 9),
+                new SearchHit(chunk("b#0", "b"), 8), new SearchHit(chunk("c#0", "c"), 7)));
+
+        var result = service.search("알림 복구", List.of(), List.of(), 2);
+
+        assertThat(result.hits()).extracting(hit -> hit.chunk().documentId()).containsExactly("a", "b");
+        assertThat(result.candidates()).extracting(hit -> hit.chunk().chunkId())
+                .containsExactly("a#0", "a#1", "b#0", "c#0");
+    }
+
+    @Test
     void 같은_질문의_벡터는_재사용하고_필터별_문서는_다시_검색한다() {
         var properties = knowledgeProperties();
         EmbeddingPort embedding = mock(EmbeddingPort.class);
@@ -84,7 +100,7 @@ class KnowledgeSearchServiceTest {
         verify(indexPort, times(2)).searchBm25(anyString(), any(), anyInt());
 
         assertThat(result.hits()).extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
-        assertThat(result.hasBm25Evidence()).isTrue();
+        assertThat(result.hasBm25Evidence(result.candidates())).isTrue();
         assertThat(meters.get("knowledge.searches").tag("mode", "fallback").counter().count()).isEqualTo(2);
         assertThat(meters.find("knowledge.searches").tag("mode", "keyword").counter()).isNull();
         verify(indexPort, never()).searchKnn(anyList(), any(), anyInt(), anyInt());

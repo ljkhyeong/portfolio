@@ -12,6 +12,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -25,6 +26,7 @@ import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort.AnswerParagra
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort.GeneratedAnswer;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
+import org.mockito.ArgumentCaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,6 +48,7 @@ class KnowledgeAnswerServiceTest {
     void setUp() {
         when(searchService.search(anyString(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(
+                        List.of(new SearchHit(chunk("evidence-1"), 0.000_001)),
                         List.of(new SearchHit(chunk("evidence-1"), 0.000_001)),
                         Set.of("evidence-1")
                 ));
@@ -129,6 +132,7 @@ class KnowledgeAnswerServiceTest {
         when(searchService.search(anyString(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(
                         List.of(new SearchHit(chunk("vector-only"), 0.9)),
+                        List.of(new SearchHit(chunk("vector-only"), 0.9)),
                         Set.of()
                 ));
 
@@ -151,6 +155,7 @@ class KnowledgeAnswerServiceTest {
     void 본문의_인용_번호와_출처_목록을_사용한_순서대로_맞춘다() {
         when(searchService.search(anyString(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(
+                        List.of(new SearchHit(chunk("evidence-1"), 1)),
                         List.of(new SearchHit(chunk("evidence-1"), 1), new SearchHit(chunk("evidence-2"), 1)),
                         Set.of("evidence-1")
                 ));
@@ -178,6 +183,88 @@ class KnowledgeAnswerServiceTest {
         assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE);
         assertThat(response.answer()).isNull();
         assertThat(response.results()).hasSize(1);
+    }
+
+    @Test
+    void 대표_문단과_다른_키워드_근거도_답변에_전달하고_인용한다() {
+        var index = mock(com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort.class);
+        var embedding = mock(com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort.class);
+        SearchHit semantic = new SearchHit(chunk("doc#000", "doc", "작업자가 알림을 처리합니다."), 1);
+        SearchHit keyword = new SearchHit(chunk("doc#001", "doc", "실패한 이벤트는 DB에서 읽어 재처리합니다."), 1);
+        when(embedding.available()).thenReturn(true);
+        when(embedding.embed(anyList())).thenReturn(List.of(List.of(1f, 0f)));
+        when(index.searchBm25(anyString(), any(), org.mockito.ArgumentMatchers.anyInt()))
+                .thenReturn(List.of(keyword));
+        when(index.searchKnn(anyList(), any(), org.mockito.ArgumentMatchers.anyInt(), org.mockito.ArgumentMatchers.anyInt()))
+                .thenReturn(List.of(semantic));
+        var realSearch = new KnowledgeSearchService(properties, embedding,
+                mock(com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer.class), index,
+                new RrfRanker(), new io.micrometer.core.instrument.simple.SimpleMeterRegistry());
+        var answerService = new KnowledgeAnswerService(properties, realSearch, answerGenerationPort, new ResponseMapper());
+        when(answerGenerationPort.generate(anyString(), anyList())).thenReturn(generated("1", "2"));
+
+        AnswerResponse response = answerService.answer("실패한 알림 재처리", List.of(), List.of(), 1);
+
+        assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATED);
+        assertThat(response.results()).extracting(result -> result.chunkId()).containsExactly("doc#000");
+        assertThat(response.citations()).extracting(AnswerResponse.CitationResponse::chunkId)
+                .containsExactly("doc#001", "doc#000");
+        assertThat(generatedContexts()).extracting(AnswerGenerationPort.AnswerContext::content)
+                .containsExactly(keyword.chunk().content(), semantic.chunk().content());
+    }
+
+    @Test
+    void 선택한_문서_밖의_키워드_근거로_AI_답변을_허용하지_않는다() {
+        SearchHit selected = new SearchHit(chunk("selected#0", "selected"), 1);
+        SearchHit outside = new SearchHit(chunk("outside#0", "outside"), 0.1);
+        when(searchService.search(anyString(), anyList(), anyList(), any()))
+                .thenReturn(new KnowledgeSearchResult(List.of(selected), List.of(selected, outside), Set.of("outside#0")));
+
+        AnswerResponse response = service.answer("공개되지 않은 내용", List.of(), List.of(), 1);
+
+        assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE);
+        verify(answerGenerationPort, never()).generate(anyString(), anyList());
+    }
+
+    @Test
+    void 문서별_문단_상한과_전체_본문_예산_안에서_근거를_전달한다() {
+        List<SearchHit> candidates = new ArrayList<>();
+        List<SearchHit> hits = new ArrayList<>();
+        for (int document = 0; document < 6; document++) {
+            for (int part = 0; part < 4; part++) {
+                SearchHit hit = new SearchHit(chunk(document + "#" + part, "doc-" + document,
+                        "복구 정책을 설명합니다. ".repeat(75)), 1);
+                candidates.add(hit);
+                if (part == 0) {
+                    hits.add(hit);
+                }
+            }
+        }
+        when(searchService.search(anyString(), anyList(), anyList(), any()))
+                .thenReturn(new KnowledgeSearchResult(hits, candidates, Set.of("0#3")));
+        when(answerGenerationPort.generate(anyString(), anyList())).thenReturn(generated("1"));
+
+        service.answer("복구 정책", List.of(), List.of(), 6);
+
+        List<AnswerGenerationPort.AnswerContext> contexts = generatedContexts();
+        assertThat(contexts).hasSizeGreaterThan(hits.size());
+        assertThat(contexts.stream().mapToInt(context -> context.content().length()).sum()).isLessThanOrEqualTo(12_000);
+        // 인용 ID로 실제 전달한 청크를 확인해 문서별 상한과 키워드 근거 확보를 검증한다.
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn(generated(contexts.stream().map(AnswerGenerationPort.AnswerContext::citationId).toArray(String[]::new)));
+        AnswerResponse response = service.answer("복구 정책", List.of(), List.of(), 6);
+        assertThat(response.citations()).extracting(AnswerResponse.CitationResponse::chunkId)
+                .contains("0#3").doesNotHaveDuplicates();
+        assertThat(response.citations().stream().collect(java.util.stream.Collectors.groupingBy(
+                citation -> citation.chunkId().split("#")[0], java.util.stream.Collectors.counting())).values())
+                .allMatch(count -> count <= 3);
+        assertThat(response.results()).hasSize(6);
+    }
+
+    private List<AnswerGenerationPort.AnswerContext> generatedContexts() {
+        ArgumentCaptor<List<AnswerGenerationPort.AnswerContext>> captor = ArgumentCaptor.forClass(List.class);
+        verify(answerGenerationPort).generate(anyString(), captor.capture());
+        return captor.getValue();
     }
 
     private static Stream<GeneratedAnswer> incompleteAnswers() {

@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.search;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,8 @@ import org.springframework.util.StringUtils;
 public class KnowledgeAnswerService {
 
     private static final Logger log = LoggerFactory.getLogger(KnowledgeAnswerService.class);
+    private static final int MAX_CHUNKS_PER_DOCUMENT = 3;
+    private static final int MAX_CONTEXT_CHARACTERS = 12_000;
 
     private final KnowledgeProperties properties;
     private final KnowledgeSearchService searchService;
@@ -49,10 +52,10 @@ public class KnowledgeAnswerService {
     ) {
         int limit = requestedLimit == null ? properties.ai().answerContextLimit() : requestedLimit;
         KnowledgeSearchResult searchResult = searchService.search(question, projectIds, documentTypes, limit);
-        List<SearchHit> hits = searchResult.hits();
-        var searchResults = responseMapper.toSearchResults(hits, question);
+        List<SearchHit> hits = selectEvidence(searchResult);
+        var searchResults = responseMapper.toSearchResults(searchResult.hits());
 
-        if (!searchResult.hasBm25Evidence()) {
+        if (!searchResult.hasBm25Evidence(hits)) {
             return new AnswerResponse(
                     question,
                     AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE,
@@ -92,7 +95,7 @@ public class KnowledgeAnswerService {
             Map<String, Integer> citationNumbers = new LinkedHashMap<>();
             String answer = renderAnswer(generated.paragraphs(), evidenceById.keySet(), citationNumbers);
             List<AnswerResponse.CitationResponse> citations = citationNumbers.keySet().stream()
-                    .map(id -> citation(evidenceById.get(id), question))
+                    .map(id -> citation(evidenceById.get(id)))
                     .toList();
             return new AnswerResponse(
                     question,
@@ -105,6 +108,36 @@ public class KnowledgeAnswerService {
             log.warn("AI 답변을 제공하지 못해 검색 결과만 반환합니다.", exception);
             return generationUnavailable(question, searchResults);
         }
+    }
+
+    private List<SearchHit> selectEvidence(KnowledgeSearchResult result) {
+        Set<String> documentIds = result.hits().stream()
+                .map(hit -> hit.chunk().documentId()).collect(Collectors.toSet());
+        List<SearchHit> candidates = result.candidates().stream()
+                .filter(hit -> documentIds.contains(hit.chunk().documentId())).toList();
+
+        // 키워드 근거 한 건을 먼저 확보하고 문서별 대표 문단과 추가 문단을 배분한다.
+        Map<String, SearchHit> ordered = new LinkedHashMap<>();
+        candidates.stream().filter(hit -> result.bm25ChunkIds().contains(hit.chunk().chunkId()))
+                .findFirst().ifPresent(hit -> ordered.put(hit.chunk().chunkId(), hit));
+        result.hits().forEach(hit -> ordered.putIfAbsent(hit.chunk().chunkId(), hit));
+        candidates.forEach(hit -> ordered.putIfAbsent(hit.chunk().chunkId(), hit));
+
+        List<SearchHit> selected = new ArrayList<>();
+        Map<String, Integer> chunksPerDocument = new HashMap<>();
+        int characters = 0;
+        for (SearchHit hit : ordered.values()) {
+            String documentId = hit.chunk().documentId();
+            int count = chunksPerDocument.getOrDefault(documentId, 0);
+            int length = hit.chunk().content().length();
+            if (count >= MAX_CHUNKS_PER_DOCUMENT || characters + length > MAX_CONTEXT_CHARACTERS) {
+                continue;
+            }
+            selected.add(hit);
+            chunksPerDocument.put(documentId, count + 1);
+            characters += length;
+        }
+        return selected;
     }
 
     private String renderAnswer(
@@ -134,14 +167,14 @@ public class KnowledgeAnswerService {
         return String.join("\n\n", rendered);
     }
 
-    private AnswerResponse.CitationResponse citation(SearchHit hit, String question) {
+    private AnswerResponse.CitationResponse citation(SearchHit hit) {
         return new AnswerResponse.CitationResponse(
                 hit.chunk().chunkId(),
                 hit.chunk().title(),
                 hit.chunk().heading(),
                 hit.chunk().sourceUrl(),
                 hit.chunk().route(),
-                responseMapper.snippet(hit.chunk().content(), question)
+                responseMapper.snippet(hit)
         );
     }
 

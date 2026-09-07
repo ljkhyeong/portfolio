@@ -67,6 +67,21 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
     }
 
     @Test
+    void 본문_뒤쪽의_한국어_일치_문단을_태그_없이_발췌한다() {
+        String content = "# 시스템 소개\n\n" + "이 문서는 프로젝트 구성을 설명합니다. ".repeat(25)
+                + "\n\n권한 철회는 기존 구독 토큰을 폐기하고 새 접근을 차단합니다.\n\n"
+                + "기타 세부 사항은 원문을 확인하세요. ".repeat(10);
+        repository.bulkIndex(List.of(chunk("highlight#0", "highlight-doc", content)));
+
+        var hits = repository.searchBm25("권한을 철회하면", new KnowledgeFilter(List.of(), List.of()), 5);
+
+        assertThat(hits).filteredOn(hit -> hit.chunk().chunkId().equals("highlight#0"))
+                .singleElement().satisfies(hit -> assertThat(hit.matchedPassage())
+                        .contains("권한 철회", "구독 토큰").doesNotContain("<em>", "시스템 소개"));
+        repository.deleteByDocumentId("highlight-doc");
+    }
+
+    @Test
     void 임베딩이_없는_청크도_BM25_문서로_색인한다() {
         KnowledgeChunk source = chunk("disabled-embedding-chunk");
         KnowledgeChunk withoutEmbedding = new KnowledgeChunk(

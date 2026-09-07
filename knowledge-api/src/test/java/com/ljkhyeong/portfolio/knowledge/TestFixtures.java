@@ -52,6 +52,10 @@ public final class TestFixtures {
     }
 
     public static KnowledgeChunk chunk(String chunkId, String documentId) {
+        return chunk(chunkId, documentId, "알림 처리 중단 시 DB에 기록된 이벤트를 다시 처리합니다.");
+    }
+
+    public static KnowledgeChunk chunk(String chunkId, String documentId, String content) {
         return new KnowledgeChunk(
                 chunkId,
                 documentId,
@@ -61,7 +65,7 @@ public final class TestFixtures {
                 "problem_solution",
                 "알림 재처리",
                 "알림 아웃박스",
-                "알림 처리 중단 시 DB에 기록된 이벤트를 다시 처리합니다.",
+                content,
                 null,
                 "/projects/baton/#notification",
                 "verified",

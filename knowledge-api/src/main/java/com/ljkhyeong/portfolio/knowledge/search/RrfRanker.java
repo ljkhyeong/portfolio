@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RrfRanker {
 
-    public List<SearchHit> merge(List<List<SearchHit>> rankings, int rrfK, int limit) {
+    public List<SearchHit> merge(List<List<SearchHit>> rankings, int rrfK) {
         Map<String, RankedHit> merged = new LinkedHashMap<>();
         for (List<SearchHit> ranking : rankings) {
             for (int index = 0; index < ranking.size(); index++) {
@@ -26,13 +26,11 @@ public class RrfRanker {
             }
         }
 
-        Map<String, SearchHit> documents = new LinkedHashMap<>();
-        merged.values().stream()
+        return merged.values().stream()
                 .sorted(Comparator.comparingDouble(RankedHit::score).reversed()
                         .thenComparing(value -> value.hit().chunk().chunkId()))
-                .forEach(value -> documents.putIfAbsent(value.hit().chunk().documentId(),
-                        new SearchHit(value.hit().chunk(), value.score())));
-        return documents.values().stream().limit(limit).toList();
+                .map(value -> new SearchHit(value.hit().chunk(), value.score(), value.hit().matchedPassage()))
+                .toList();
     }
 
     private record RankedHit(SearchHit hit, double score) {

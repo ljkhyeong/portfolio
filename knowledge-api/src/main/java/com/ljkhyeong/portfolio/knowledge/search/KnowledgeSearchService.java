@@ -2,6 +2,8 @@ package com.ljkhyeong.portfolio.knowledge.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Locale;
 import java.util.Set;
 import java.time.Duration;
@@ -103,11 +105,14 @@ public class KnowledgeSearchService {
     }
 
     private KnowledgeSearchResult result(List<List<SearchHit>> rankings, List<SearchHit> bm25, int limit) {
-        List<SearchHit> hits = rrfRanker.merge(rankings, properties.search().rrfK(), limit);
+        List<SearchHit> candidates = rrfRanker.merge(rankings, properties.search().rrfK());
+        Map<String, SearchHit> documents = new LinkedHashMap<>();
+        candidates.forEach(hit -> documents.putIfAbsent(hit.chunk().documentId(), hit));
+        List<SearchHit> hits = documents.values().stream().limit(limit).toList();
         Set<String> bm25ChunkIds = bm25.stream()
                 .map(hit -> hit.chunk().chunkId())
                 .collect(java.util.stream.Collectors.toUnmodifiableSet());
-        return new KnowledgeSearchResult(hits, bm25ChunkIds);
+        return new KnowledgeSearchResult(hits, candidates, bm25ChunkIds);
     }
 
     private int normalizeLimit(Integer requestedLimit) {
