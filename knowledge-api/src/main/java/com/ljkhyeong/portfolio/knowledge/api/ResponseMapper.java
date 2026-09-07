@@ -56,7 +56,7 @@ public class ResponseMapper {
 
     public String snippet(SearchHit hit) {
         String passage = StringUtils.hasText(hit.matchedPassage()) ? hit.matchedPassage() : hit.chunk().content();
-        String content = plainText.render(markdown.parse(passage)).strip();
+        String content = toPlainText(passage);
         if (content.length() <= SNIPPET_LENGTH) {
             return content + (hit.chunk().content().stripTrailing().endsWith(passage.stripTrailing()) ? "" : "…");
         }
@@ -73,5 +73,9 @@ public class ResponseMapper {
             end = SNIPPET_LENGTH;
         }
         return content.substring(0, end).stripTrailing() + "…";
+    }
+
+    public String toPlainText(String content) {
+        return plainText.render(markdown.parse(content)).strip();
     }
 }

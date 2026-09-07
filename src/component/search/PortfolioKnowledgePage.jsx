@@ -244,10 +244,10 @@ const AnswerContent = ({ answer, citations }) => {
                                     evidenceDetails.current[index] = element
                                 }}
                             >
-                                <summary>근거 {index + 1} 발췌문</summary>
+                                <summary>근거 {index + 1} 전체 문단</summary>
                                 <blockquote>
                                     {citation.excerpt ||
-                                        "발췌문이 없습니다. 원문 링크에서 확인하세요."}
+                                        "근거 문단이 없습니다. 원문 링크에서 확인하세요."}
                                 </blockquote>
                             </details>
                         </li>

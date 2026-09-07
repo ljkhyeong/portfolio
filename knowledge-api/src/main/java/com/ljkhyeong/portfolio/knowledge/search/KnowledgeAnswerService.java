@@ -174,7 +174,7 @@ public class KnowledgeAnswerService {
                 hit.chunk().heading(),
                 hit.chunk().sourceUrl(),
                 hit.chunk().route(),
-                responseMapper.snippet(hit)
+                responseMapper.toPlainText(hit.chunk().content())
         );
     }
 

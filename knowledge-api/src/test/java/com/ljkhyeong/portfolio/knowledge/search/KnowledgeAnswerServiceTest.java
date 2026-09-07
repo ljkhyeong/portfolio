@@ -92,6 +92,29 @@ class KnowledgeAnswerServiceTest {
     }
 
     @Test
+    void 인용은_검색_발췌문_뒤의_내용까지_전체_근거를_반환한다() {
+        String passage = "**실패한 알림**은 DB에서 읽어 재처리합니다.";
+        String lastSentence = "단, 이미 처리한 이벤트는 같은 키로 다시 실행하지 않습니다.";
+        String content = passage + "\n\n" + "처리 상태와 이벤트 ID를 함께 기록합니다. ".repeat(25)
+                + "\n\n" + lastSentence;
+        SearchHit hit = new SearchHit(chunk("evidence-1", "doc", content), 1, passage);
+        when(searchService.search(anyString(), anyList(), anyList(), any()))
+                .thenReturn(new KnowledgeSearchResult(List.of(hit), List.of(hit), Set.of("evidence-1")));
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn(new GeneratedAnswer(true, List.of(new AnswerParagraph(lastSentence, List.of("1")))));
+
+        AnswerResponse response = service.answer("알림 재처리", List.of(), List.of(), 1);
+
+        assertThat(response.citations().getFirst().excerpt()).hasSizeGreaterThan(280)
+                .startsWith("실패한 알림은 DB에서 읽어 재처리합니다.")
+                .endsWith(lastSentence).doesNotContain("**", "…");
+        assertThat(response.results().getFirst().snippet())
+                .isEqualTo("실패한 알림은 DB에서 읽어 재처리합니다.…");
+        assertThat(generatedContexts()).extracting(AnswerGenerationPort.AnswerContext::content)
+                .containsExactly(content);
+    }
+
+    @Test
     void 전달하지_않은_번호를_인용한_AI_답변은_노출하지_않는다() {
         when(answerGenerationPort.generate(anyString(), anyList()))
                 .thenReturn(generated("2"));
