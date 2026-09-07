@@ -44,7 +44,7 @@ const routeMetaContent = {
     "/projects/baton/cal": {
         title: "BATON CAL | 임정규 포트폴리오",
         description:
-            "BATON 일정과 마감을 읽기 전용 iCalendar로 제공하고 일정 개정 번호 및 구독 토큰을 관리하는 CAL 마이크로서비스",
+            "BATON 일정과 마감을 읽기 전용 iCalendar로 제공하고 일정 버전 번호 및 구독 토큰을 관리하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/round": {

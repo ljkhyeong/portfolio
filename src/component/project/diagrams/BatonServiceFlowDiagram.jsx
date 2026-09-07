@@ -126,11 +126,11 @@ const fullFlows = {
                 160,
                 224,
                 80,
-                "담당 공백 등 5개 상태",
+                "담당자 공백 등 5개 상태",
                 "Core가 판정한 상태",
                 "input",
             ),
-            node("apply", 336, 160, 192, 80, "점검 항목 반영", "중복 및 과거 개정 차단", "focal"),
+            node("apply", 336, 160, 192, 80, "점검 항목 반영", "중복 및 과거 버전 차단", "focal"),
             node("active", 616, 48, 160, 80, "ACTIVE", "점검 항목 유지", "result"),
             node("resolved", 616, 272, 160, 80, "RESOLVED", "해소 상태 반영", "result"),
             node("report", 824, 136, 112, 128, ["주간", "보고서"], "발행 후 보존", "step"),
@@ -145,15 +145,15 @@ const fullFlows = {
     },
     cal: {
         nodes: [
-            node("schedule", 24, 72, 192, 96, "Core 일정", "일정 ID + 개정 번호", "input"),
+            node("schedule", 24, 72, 192, 96, "Core 일정", "일정 ID + 버전 번호", "input"),
             node(
                 "revision",
                 280,
                 72,
                 192,
                 96,
-                "최신 개정만 반영",
-                "과거 및 중복 개정 차단",
+                "최신 버전만 반영",
+                "과거 및 중복 버전 차단",
                 "focal",
             ),
             node(

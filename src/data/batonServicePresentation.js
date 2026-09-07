@@ -73,7 +73,7 @@ export const batonServicePresentations = {
         },
     },
     relay: {
-        target: "재수신 이벤트와 결과를 모르는 외부 전송",
+        target: "이벤트 중복 수신과 전송 결과 미확인",
         decision: "시도 UUID를 유지하고 결과 미확인은 재전송 중단",
         result: "중복 수신 차단과 서버 중단 후 시도 정보 유지 확인",
         verification: [
@@ -129,9 +129,9 @@ export const batonServicePresentations = {
             title: "Core 판정은 그대로, 발행 보고서는 변경 없이",
             description:
                 "Core의 점검 결과를 미해결(ACTIVE) 또는 해결됨(RESOLVED)으로 저장합니다. 같은 조건의 주간 보고서는 재사용하고 변경된 내용은 새 보고서로 발행합니다.",
-            note: "5개 점검 결과: 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계. BRIEF가 판정 규칙을 다시 만들지 않습니다.",
+            note: "5개 점검 결과: 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계. BRIEF가 판정 규칙을 다시 만들지 않습니다.",
             compact: {
-                input: ["담당 공백 등 5개 상태", "Core에서 판정"],
+                input: ["담당자 공백 등 5개 상태", "Core에서 판정"],
                 action: ["점검 항목 반영", "ACTIVE / RESOLVED"],
                 outputs: [
                     ["같은 보고서 조건", "기존 보고서 반환"],
@@ -141,9 +141,9 @@ export const batonServicePresentations = {
         },
     },
     cal: {
-        target: "늦은 일정이 최신 캘린더를 덮어쓰는 문제",
-        decision: "개정 번호 검증, 읽기 전용 피드와 ETag 응답",
-        result: "Core 일정 호환성, 과거 개정 차단과 304 응답 확인",
+        target: "늦게 도착한 이전 일정의 덮어쓰기",
+        decision: "버전 번호 검증, 읽기 전용 피드와 ETag 응답",
+        result: "Core 일정 호환성, 과거 버전 차단과 304 응답 확인",
         verification: [
             {
                 kind: "verified",
@@ -164,11 +164,11 @@ export const batonServicePresentations = {
         flow: {
             title: "캐시가 유효한 조건부 요청에 304 응답",
             description:
-                "Core 일정의 개정 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환합니다. 그 외에는 .ics 본문을 반환하며 토큰 교체 시 이전 토큰을 폐기합니다.",
-            note: "일정 ID는 UID, 개정 번호는 SEQUENCE로 사용합니다. 토큰을 교체하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",
+                "Core 일정의 버전 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환합니다. 그 외에는 .ics 본문을 반환하며 토큰 교체 시 이전 토큰을 폐기합니다.",
+            note: "일정 ID는 UID, 버전 번호는 SEQUENCE로 사용합니다. 토큰을 교체하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",
             compact: {
-                input: ["Core 일정", "일정 ID + 개정 번호"],
-                action: ["개정 및 캐시 확인", "최신 일정과 요청 캐시 비교"],
+                input: ["Core 일정", "일정 ID + 버전 번호"],
+                action: ["버전 및 캐시 확인", "최신 일정과 요청 캐시 비교"],
                 outputs: [
                     ["본문 필요", "200 및 .ics 본문"],
                     ["캐시 유효", "304 응답"],
@@ -201,7 +201,7 @@ export const batonServicePresentations = {
             title: "입장은 Core가, 연결 메시지는 ROUND가 담당합니다",
             description:
                 "Core가 발급한 RS256 입장 토큰을 ROUND가 검증한 뒤 WebSocket으로 연결 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고 직접 연결이 어려우면 Cloudflare TURN을 사용합니다.",
-            note: "미디어는 시그널링 서버를 거치지 않습니다. 새 연결의 순번과 다른 이전 SDP 및 ICE 메시지는 버립니다.",
+            note: "미디어는 시그널링 서버를 거치지 않습니다. 현재 연결 순번과 다른 SDP·ICE 메시지는 버립니다.",
             compact: {
                 input: ["Core 입장 토큰", "RS256 서명 검증"],
                 action: ["WebSocket 시그널링", "연결 메시지만 전달"],

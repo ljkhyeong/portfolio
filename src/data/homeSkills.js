@@ -41,15 +41,15 @@ export const homeSkillGroups = [
             },
             {
                 name: "서버 중단 후 URL 점검 및 이벤트 전달 재개",
-                detail: "WATCH는 처리 기한이 지난 URL 점검을 새 시도로 다시 실행합니다. RELAY는 중단 전 시도 UUID와 외부 서비스 중복 방지 키를 유지한 채 다른 서버가 이어받고, 이전 서버의 늦은 결과는 반영하지 않습니다.",
+                detail: "WATCH는 처리 기한이 지난 URL 점검을 새로 실행합니다. RELAY는 기존 시도 UUID와 외부 서비스 멱등 키를 유지해 다른 서버가 이어받습니다. 이전 서버의 늦은 결과는 반영하지 않습니다.",
                 examples: [
                     { label: "BATON WATCH", route: "/projects/baton/watch" },
                     { label: "BATON RELAY", route: "/projects/baton/relay" },
                 ],
             },
             {
-                name: "조건 미확인 안내와 이전 AI 결과 차단",
-                detail: "정책 조건을 확인할 수 없으면 추가 확인 필요로 남깁니다. 정책 개정과 요청 순번이 일치하는 AI 결과만 반영합니다.",
+                name: "정책 신청 조건 판정과 AI 결과 검증",
+                detail: "확인하지 못한 신청 조건은 ‘추가 확인 필요’로 표시합니다. 현재 정책 개정과 요청 순번에 맞는 AI 결과만 반영합니다.",
                 examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
             },
         ],

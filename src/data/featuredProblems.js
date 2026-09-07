@@ -154,7 +154,7 @@ const featuredProblems = {
         approach:
             "호출 전에 시도 UUID와 중복 방지 키를 저장합니다. 결과 미확인은 재전송하지 않고 외부 기록을 확인해 상태만 확정합니다.",
         steps: [
-            { title: "전송 시도 저장", description: "UUID와 외부 제공자 중복 방지 키 고정" },
+            { title: "전송 시도 저장", description: "UUID와 외부 서비스 멱등 키 고정" },
             { title: "외부 전송", description: "서버가 바뀌어도 같은 시도 정보 유지" },
             { title: "전송 결과 수동 확정", description: "재전송 없이 기록 확인 후 상태 확정" },
         ],
@@ -167,10 +167,10 @@ const featuredProblems = {
         problemNumber: "09",
         problem: "BRIEF가 조직 상태를 다시 판정하면 Core와 결과가 달라질 수 있습니다.",
         approach:
-            "Core가 판정한 5개 점검 결과를 그대로 반영하고, 이벤트 ID와 개정 번호로 중복 및 과거 이벤트를 차단합니다.",
+            "Core가 판정한 5개 점검 결과를 그대로 반영하고, 이벤트 ID와 버전 번호로 중복 및 과거 이벤트를 차단합니다.",
         steps: [
             { title: "Core 점검 결과 수신", description: "담당자 공백 및 업무 지연 등 5개 상태" },
-            { title: "이벤트 검증", description: "ID, 해시와 개정 번호 비교" },
+            { title: "이벤트 검증", description: "ID, 해시와 버전 번호 비교" },
             { title: "점검 항목 반영", description: "ACTIVE 또는 RESOLVED로 반영" },
         ],
         evidenceLabel: "로컬 연동 확인",
@@ -179,12 +179,12 @@ const featuredProblems = {
     },
     "baton-cal": {
         problemNumber: "11",
-        problem: "과거 개정의 일정이 늦게 도착하면 최신 캘린더가 이전 상태로 돌아갈 수 있습니다.",
+        problem: "이전 버전의 일정이 늦게 도착하면 최신 캘린더가 이전 상태로 돌아갈 수 있습니다.",
         approach:
-            "이벤트와 일정의 ID, 개정 번호 및 내용 해시를 비교해 중복과 과거 일정 반영을 막습니다.",
+            "이벤트와 일정의 ID, 버전 번호 및 내용 해시를 비교해 중복과 과거 일정 반영을 막습니다.",
         steps: [
             { title: "일정 JSON 수신", description: "이벤트 ID와 일정 ID 확인" },
-            { title: "개정 및 내용 비교", description: "이전 버전과 동일 버전의 내용 불일치 구분" },
+            { title: "버전 및 내용 비교", description: "이전 버전과 동일 버전의 내용 불일치 구분" },
             { title: "최신 일정 유지", description: "중복 및 과거 일정은 반영하지 않음" },
         ],
         evidenceLabel: "PostgreSQL 통합 테스트",

@@ -13,7 +13,7 @@ export const projectSummaries = [
         homeSummary: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
         homeHighlights: [
             "여러 팀의 내 할 일, 자료 재확인, 통합 검색과 인수인계 문서",
-            "Core와 6개 마이크로서비스의 API 및 저장소 분리",
+            "Core와 6개 마이크로서비스의 API 및 데이터 저장 분리",
         ],
         homeRepository: {
             label: "WATCH GitHub",
@@ -24,7 +24,7 @@ export const projectSummaries = [
         homeFacts: [
             {
                 label: "담당",
-                value: "Core와 6개 서비스의 API, 개별 저장소, 이벤트 전달과 중단 작업 재처리 흐름 설계 및 구현",
+                value: "Core와 6개 서비스의 API·데이터 저장·이벤트 전달·중단 작업 재처리 설계 및 구현",
             },
             {
                 label: "문제",
