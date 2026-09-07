@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:71bf0c0db6f8",
+  "sourceRevision": "sha256:1f45bdc42b23",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -22,7 +22,7 @@
   "documents": [
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:8582aab715bb",
+      "sourceRevision": "sha256:b16e5310e0a6",
       "documentId": "knowledge_8912b20b35d7ee59c5fdbf08",
       "projectId": "baton",
       "projectName": "BATON",
@@ -30,13 +30,13 @@
       "documentType": "project_overview",
       "title": "BATON 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: BATON\n\n조직 운영 플랫폼\n\n조직의 역할, 반복 업무, 결정과 인수인계를 관리합니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC는 6개 마이크로서비스로 분리했습니다.\n\n기간: 2026.07.20 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 일부 저장소 공개\n\n담당: Core와 6개 서비스의 API, 개별 저장소, 이벤트 전달 및 중단 작업 재처리 흐름 설계와 구현\n\n주요 구현 및 해결: 오늘 할 일과 인수인계를 중심으로 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더와 WebRTC를 독립 서비스로 구현했습니다.\n\n현재 상태: Core와 6개 서비스에 여러 팀 업무 조회, 개인 캘린더, 주간 보고서와 운영 복구 기능을 추가했습니다. 일부 서비스는 실제 로컬 실행으로 연동을 확인했으며 GO·WATCH를 포함한 공개 환경 전체 연결과 장기 운영은 미검증입니다.\n\n사용 기술: Java 21 / 25, Kotlin 2.4.10, TypeScript, Spring Boot, Spring MVC, Spring Data JPA / Spring JDBC, React 19 / Vite, MySQL 8.4 / PostgreSQL 18, Flyway, RabbitMQ 4.3 / AWS SQS FIFO, iCal4j 4.3, WebRTC / Spring WebSocket, Testcontainers / Playwright, Docker / Kubernetes / Caddy",
+      "content": "프로젝트: BATON\n\n조직 운영 플랫폼\n\n조직의 역할, 반복 업무, 결정과 인수인계를 관리합니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC는 6개 마이크로서비스로 분리했습니다.\n\n기간: 2026.07.20 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 일부 저장소 공개\n\n담당: Core와 6개 서비스의 API·데이터 저장·이벤트 전달·중단 작업 재처리 설계 및 구현\n\n주요 구현 및 해결: 오늘 할 일과 인수인계를 중심으로 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더와 WebRTC를 독립 서비스로 구현했습니다.\n\n현재 상태: Core와 6개 서비스에 여러 팀 업무 조회, 개인 캘린더, 주간 보고서와 운영 복구 기능을 추가했습니다. 일부 서비스는 실제 로컬 실행으로 연동을 확인했으며 GO·WATCH를 포함한 공개 환경 전체 연결과 장기 운영은 미검증입니다.\n\n사용 기술: Java 21 / 25, Kotlin 2.4.10, TypeScript, Spring Boot, Spring MVC, Spring Data JPA / Spring JDBC, React 19 / Vite, MySQL 8.4 / PostgreSQL 18, Flyway, RabbitMQ 4.3 / AWS SQS FIFO, iCal4j 4.3, WebRTC / Spring WebSocket, Testcontainers / Playwright, Docker / Kubernetes / Caddy",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-overview",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "8582aab715bb072f8313bf5b7747fe4913e0f54878785aea9d36f29008543364",
-      "contentHash": "3a0168ff4f505c988acb6f8c541b1a23ed108e6c4afe655eeb6bc3a6342ded7d"
+      "sourceHash": "b16e5310e0a658367d6e6d13e8d1a4d420bfecacb59ab33b476e00263244a69f",
+      "contentHash": "e26224d84a378227ec3402f90f74efea2cf619689b1169b39a893276d175dc68"
     },
     {
       "schemaVersion": "1.0",
@@ -94,7 +94,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:40d679fdf505",
+      "sourceRevision": "sha256:b3c51b6f92c4",
       "documentId": "knowledge_9397daa69cbe667e46650e87",
       "projectId": "baton",
       "projectName": "BATON",
@@ -102,17 +102,17 @@
       "documentType": "service_overview",
       "title": "RELAY - Webhook 및 AWS SQS FIFO 이벤트 전달",
       "heading": "RELAY 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n역할: Webhook 및 AWS SQS FIFO 이벤트 전달\n\nCore 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.\n\n담당 구현: 이벤트 ID를 저장해 재수신 시 새 전송 작업을 만들지 않습니다. 서버가 중단되면 기존 시도 UUID와 외부 서비스의 멱등 키를 유지하고, 처리 서버만 변경합니다.\n\n주요 기능: 중복 이벤트 수신 방지, 결과 미확인 전송 보류, 누락 전달 복구, 제공자 한도·일시정지와 암호화 이력 보관\n\n저장소 공개 범위: 공개 저장소 / 최신 구현 공개 main\n\n검증 요약: 이벤트 재수신 시 작업 중복 생성 방지, 서버 중단 후 기존 시도 UUID·외부 서비스 멱등 키 유지와 처리 서버 변경 검증\n\n입력: 이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각\n\n입력 확인: 수신 값이 정해 둔 이벤트 형식과 데이터 형식 버전에 맞는지 확인합니다.\n\n출력: Webhook 또는 AWS SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태\n\n처리 기준: 전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.\n\n데이터베이스: PostgreSQL\n\n사용 기술: Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, Spring Security, PostgreSQL 18, RabbitMQ / Spring AMQP, AWS SQS FIFO, Flyway, Testcontainers\n\n구현 상태: 공개 main 6f92cef에 누락 전달 미리보기·복구, 운영자 감사 조회, 제공자 한도·일시정지와 암호화 보관·복원을 구현했습니다. 경보 실패·복구는 모의 수신기로 검증했으며 실제 AWS·외부 운영 알림은 미검증입니다.\n\n적용 범위와 제약: 결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n역할: Webhook 및 AWS SQS FIFO 이벤트 전달\n\nCore 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.\n\n담당 구현: 이벤트 ID를 저장해 재수신 시 새 전송 작업을 만들지 않습니다. 서버가 중단되면 기존 시도 UUID와 외부 서비스의 멱등 키를 유지하고, 처리 서버만 변경합니다.\n\n주요 기능: 중복 이벤트 수신 방지, 결과 미확인 전송 보류, 누락 전달 복구, 외부 서비스별 전송 한도·일시정지와 암호화 이력 보관\n\n저장소 공개 범위: 공개 저장소 / 최신 구현 공개 main\n\n검증 요약: 이벤트 재수신 시 작업 중복 생성 방지, 서버 중단 후 기존 시도 UUID·외부 서비스 멱등 키 유지와 처리 서버 변경 검증\n\n입력: 이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각\n\n입력 확인: 수신 값이 정해 둔 이벤트 형식과 데이터 형식 버전에 맞는지 확인합니다.\n\n출력: Webhook 또는 AWS SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태\n\n처리 기준: 전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.\n\n데이터베이스: PostgreSQL\n\n사용 기술: Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, Spring Security, PostgreSQL 18, RabbitMQ / Spring AMQP, AWS SQS FIFO, Flyway, Testcontainers\n\n구현 상태: 공개 main 6f92cef에 누락 전달 미리보기·복구, 운영자 감사 조회, 외부 서비스별 전송 한도·일시정지와 암호화 보관·복원을 구현했습니다. 경보 실패·복구는 모의 수신기로 검증했으며 실제 AWS·외부 운영 알림은 미검증입니다.\n\n적용 범위와 제약: 결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/relay",
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "40d679fdf50538284c0696dc458103c27a9e928b1acc99237bd2b91aec92bc60",
-      "contentHash": "3c2381b885032f99d0f02668b554972b2a59e820bd8f55f2ac0088f9d819dfce"
+      "sourceHash": "b3c51b6f92c4e1ab330248b2ef4e1bae9099764e77753deca1d3eb52e981de8b",
+      "contentHash": "469fe55e51f27e0fc98c9879895511e393e9b11b56a9b7a711db88c57ff4f6cd"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:d815e0e22b6a",
+      "sourceRevision": "sha256:498b2524b57d",
       "documentId": "knowledge_716cb839f83bf7376a2e9c78",
       "projectId": "baton",
       "projectName": "BATON",
@@ -120,17 +120,17 @@
       "documentType": "service_overview",
       "title": "BRIEF - 담당자 공백 및 업무 지연 점검과 주간 보고서",
       "heading": "BRIEF 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 담당자 공백 및 업무 지연 점검과 주간 보고서\n\nCore가 확인한 담당자 공백·업무 지연 등 5개 점검 결과를 주간 보고서에 반영합니다. 지난주 미해결·이번 주 발생·해결 항목을 구분합니다.\n\n담당 구현: Core가 보낸 상태를 그대로 미해결(ACTIVE) 또는 해결됨(RESOLVED) 상태의 점검 항목에 저장했습니다. 같은 이벤트와 과거 개정을 차단하고, 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n주요 기능: Core 상태 반영, 주간 미해결 이월·신규·해결 구분, 해결 내역과 발행 보고서 이력 보존\n\n저장소 공개 범위: 공개 저장소 / 최신 기능은 로컬 구현 기준\n\n검증 요약: 중복 및 과거 이벤트 차단, 점검 항목 요약 및 필터와 발행 보고서 불변성을 PostgreSQL 및 Core 교차 서비스 테스트로 확인했습니다.\n\n입력: Core가 판정한 담당 공백, 후임 공백, 역할 준비 부족, 반복 업무 지연 및 미완료 인수인계 신호\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 개정 번호와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 미해결 및 해결된 점검 항목, 수신 이벤트 이력과 발행 후 수정하지 않는 주간 보고서\n\n처리 기준: 같은 이벤트와 과거 개정은 반영하지 않고 저장한 이벤트 전체를 읽어 같은 점검 항목을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: 로컬 main 5e7cd53에 주간 미해결 이월·신규 구분과 해결 내역 조회를 추가했습니다. Core와 주간 보고서의 로컬 연동을 확인했으며 공인 DNS·원격 배포는 미검증입니다.\n\n적용 범위와 제약: v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 반영 및 보고서 비교 규칙을 함께 변경해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n역할: 담당자 공백 및 업무 지연 점검과 주간 보고서\n\nCore가 확인한 담당자 공백·업무 지연 등 5개 점검 결과를 주간 보고서에 반영합니다. 지난주 미해결·이번 주 발생·해결 항목을 구분합니다.\n\n담당 구현: Core가 보낸 상태를 그대로 미해결(ACTIVE) 또는 해결됨(RESOLVED) 상태의 점검 항목에 저장했습니다. 같은 이벤트와 과거 버전을 차단하고, 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n주요 기능: Core 상태 반영, 주간 미해결 이월·신규·해결 구분, 해결 내역과 발행 보고서 이력 보존\n\n저장소 공개 범위: 공개 저장소 / 최신 기능은 로컬 구현 기준\n\n검증 요약: 중복 및 과거 이벤트 차단, 점검 항목 요약 및 필터와 발행 보고서 불변성을 PostgreSQL 및 Core 교차 서비스 테스트로 확인했습니다.\n\n입력: Core의 5개 점검 결과: 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계\n\n입력 확인: 이벤트 ID, 데이터 형식 버전, 점검 상태의 버전 번호(revision)와 본문 해시가 기존 수신 기록과 충돌하지 않는지 확인합니다.\n\n출력: 미해결 및 해결된 점검 항목, 수신 이벤트 이력과 발행 후 수정하지 않는 주간 보고서\n\n처리 기준: 같은 이벤트와 과거 버전은 반영하지 않고 저장한 이벤트 전체를 읽어 같은 점검 항목을 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 21, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, Flyway, Testcontainers\n\n구현 상태: 로컬 main 5e7cd53에 주간 미해결 이월·신규 구분과 해결 내역 조회를 추가했습니다. Core와 주간 보고서의 로컬 연동을 확인했으며 공인 DNS·원격 배포는 미검증입니다.\n\n적용 범위와 제약: v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 반영 및 보고서 비교 규칙을 함께 변경해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d815e0e22b6a603e2a211de745dcd43108df6c36a5d46fd04f2abe8ad28f6113",
-      "contentHash": "83d8f68074d35422407b7c281d70c8ba6a64484187cb69448b0a7e753b82afb0"
+      "sourceHash": "498b2524b57d20643ffab7b10797335261a4cfda5830bec3d65b63175336e7b3",
+      "contentHash": "1b145e8d43b553fd907ff4dd9337502a7143d7934aeebb1dd7652e7b1dc67bc1"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:ec6998054051",
+      "sourceRevision": "sha256:1cc6ae0471f4",
       "documentId": "knowledge_cd7f9f985bdeb3863d3bb8ca",
       "projectId": "baton",
       "projectName": "BATON",
@@ -138,13 +138,13 @@
       "documentType": "service_overview",
       "title": "CAL - 외부 캘린더 구독",
       "heading": "CAL 서비스 개요",
-      "content": "프로젝트: BATON\n\n서비스: CAL\n\n역할: 외부 캘린더 구독\n\nCore 일정과 마감을 외부 캘린더가 구독하는 읽기 전용 피드로 제공합니다.\n\n담당 구현: Core 일정과 일정 버전 번호(revision)를 저장해 iCalendar로 변환합니다. 구독 토큰 교체 및 폐기와 HTTP 캐시 응답도 구현했습니다.\n\n주요 기능: 개인 캘린더 구독·목록·일괄 해지, 응답 유실 시 구독 복구와 읽기 전용 .ics 캐시\n\n저장소 공개 범위: 공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1\n\n검증 요약: Core 1.0.0 생성 코드의 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증\n\n입력: Core 일정의 최신 전체 데이터와 개정 번호, 구독 생성, 토큰 교체 및 구독 폐기 요청\n\n입력 확인: 일정 ID, 이벤트 ID, 개정 번호와 시간대 값이 공개한 일정 JSON 형식에 맞는지 확인합니다.\n\n출력: 읽기 전용 iCalendar 피드와 일정이 바뀌지 않았음을 알리는 304 응답\n\n처리 기준: 중복 및 과거 개정 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 25, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, iCal4j 4.3.0, Flyway, Testcontainers\n\n구현 상태: 로컬 main 30f88e7의 1.1.0-rc.2 개발 소스에 개인 구독·응답 유실 복구·진단을 구현했습니다. 게시된 후보는 1.1.0-rc.1, 정식 규격은 1.0.0이며 실제 캘린더 앱·공개 운영은 미검증입니다.\n\n적용 범위와 제약: 읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: CAL\n\n역할: 외부 캘린더 구독\n\nCore 일정과 마감을 외부 캘린더가 구독하는 읽기 전용 피드로 제공합니다.\n\n담당 구현: Core 일정과 일정 버전 번호(revision)를 저장해 iCalendar로 변환합니다. 구독 토큰 교체 및 폐기와 HTTP 캐시 응답도 구현했습니다.\n\n주요 기능: 개인 캘린더 구독·목록·일괄 해지, 응답 유실 시 구독 복구와 읽기 전용 .ics 캐시\n\n저장소 공개 범위: 공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1\n\n검증 요약: Core 1.0.0 생성 코드의 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증\n\n입력: Core 일정의 최신 전체 데이터와 버전 번호, 구독 생성, 토큰 교체 및 구독 폐기 요청\n\n입력 확인: 일정 ID, 이벤트 ID, 버전 번호와 시간대 값이 공개한 일정 JSON 형식에 맞는지 확인합니다.\n\n출력: 읽기 전용 iCalendar 피드와 일정이 바뀌지 않았음을 알리는 304 응답\n\n처리 기준: 중복 및 과거 버전 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성\n\n데이터베이스: PostgreSQL\n\n사용 기술: Kotlin 2.4.10, Java 25, Spring Boot 4.1, Spring MVC, Spring JDBC, PostgreSQL 18, iCal4j 4.3.0, Flyway, Testcontainers\n\n구현 상태: 로컬 main 30f88e7의 1.1.0-rc.2 개발 소스에 개인 구독·응답 유실 복구·진단을 구현했습니다. 게시된 후보는 1.1.0-rc.1, 정식 규격은 1.0.0이며 실제 캘린더 앱·공개 운영은 미검증입니다.\n\n적용 범위와 제약: 읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/cal",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "ec6998054051e94fcbc2e3accaddce7982660e758763b5ab8493ba0032495898",
-      "contentHash": "40d7e17e26afdc57ae98f521e342fb26a09f024e511a74f8b36f508e934baa5f"
+      "sourceHash": "1cc6ae0471f4baf873ed9f2175e8d1349b348b6c1ebe9be0baf0e79e32054155",
+      "contentHash": "c96cf77b3650cb9b3c25e1bd66ad7e4678778b0c752d5646f524a1ddc79b97d6"
     },
     {
       "schemaVersion": "1.0",
@@ -166,25 +166,25 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:a628fec8ca14",
+      "sourceRevision": "sha256:b79750c853a9",
       "documentId": "knowledge_ab5cc9dd1f4898e367ba4454",
       "projectId": "baton",
       "projectName": "BATON",
       "serviceId": null,
       "documentType": "architecture_decision",
-      "title": "조직과 인수인계는 Core에 두고, 6개 기능은 독립 서비스와 저장소로 분리했습니다.",
+      "title": "조직·인수인계 관리는 Core가 맡고, 6개 기능은 독립 서비스로 분리했습니다.",
       "heading": "구현 방법과 선택 이유",
-      "content": "프로젝트: BATON\n\n구현 방법: 서비스 구성과 담당 업무\n\n조직과 인수인계는 Core에 두고, 6개 기능은 독립 서비스와 저장소로 분리했습니다.\n\n각 서비스는 독립 실행하고 DB를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.\n\n적용 범위와 제약: 서비스를 개별 배포할 수 있으며, 배포 상태와 미전송 이벤트를 서비스별로 관리해야 합니다.",
+      "content": "프로젝트: BATON\n\n구현 방법: 서비스 구성과 담당 업무\n\n조직·인수인계 관리는 Core가 맡고, 6개 기능은 독립 서비스로 분리했습니다.\n\n각 서비스는 독립 실행하고 DB를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.\n\n적용 범위와 제약: 서비스를 개별 배포할 수 있으며, 배포 상태와 미전송 이벤트를 서비스별로 관리해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-architecture",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "a628fec8ca14f206d100bc58c2fa98c2181caff3d44ad5edcc27b48fbbc568da",
-      "contentHash": "66e39a3c8c27ef6da8dabc0b8b5624d1ef8694358f1fa5db8148e4bd39dcdc39"
+      "sourceHash": "b79750c853a9ee7ca4f8194e1e1d04928d8895581a3b90bfc221f361f93173f4",
+      "contentHash": "54679702467f35939eb559ce3a64250eb4fce0bee8fc0b329ed842e516902e33"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:fca9e13ceb44",
+      "sourceRevision": "sha256:ce6d0bf2fcd9",
       "documentId": "knowledge_aab8914ca1e5f879318e3f51",
       "projectId": "baton",
       "projectName": "BATON",
@@ -192,13 +192,13 @@
       "documentType": "problem_solution",
       "title": "Core와 6개 서비스의 책임 및 저장소 분리",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n문제: 각 기능은 입력, 보안 검사와 실패 처리 방식이 달랐습니다.\n\n해결 방법: Core는 조직 운영을 맡고 6개 서비스를 저장소와 실행 환경별로 분리했습니다. 상태 변경 이벤트는 업무 데이터와 함께 저장한 뒤 전송합니다.\n\n확인: GO는 같은 UUID의 링크 1건, WATCH는 사설망 URL 차단, RELAY는 같은 이벤트 ID의 수신 이력 1건, BRIEF는 ACTIVE 및 RESOLVED 반영, CAL은 과거 개정 미반영, ROUND는 이전 연결 메시지 차단을 확인했습니다.\n\n제약과 남은 작업: 서비스별 구현과 일부 Core 교차 검증만 완료했으며, 실제 자격 증명을 쓴 Core와 6개 서비스의 공개 환경 종단 간 연결은 확인하지 않았습니다.",
+      "content": "프로젝트: BATON\n\n문제: 각 기능은 입력, 보안 검사와 실패 처리 방식이 달랐습니다.\n\n해결 방법: Core는 조직 운영을 맡고, 6개 서비스는 각각 데이터를 저장하고 독립 실행합니다. 상태 변경 이벤트는 업무 데이터와 함께 저장한 뒤 전송합니다.\n\n확인: GO는 같은 UUID의 링크 1건, WATCH는 사설망 URL 차단, RELAY는 같은 이벤트 ID의 수신 이력 1건, BRIEF는 ACTIVE 및 RESOLVED 반영, CAL은 과거 버전 미반영, ROUND는 이전 연결 메시지 차단을 확인했습니다.\n\n제약과 남은 작업: 서비스별 구현과 일부 Core 교차 검증만 완료했으며, 실제 자격 증명을 쓴 Core와 6개 서비스의 공개 환경 종단 간 연결은 확인하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-problems",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "fca9e13ceb443a1b176fcb53404bc22eb0e8507a06b6709ffa5d225f335535cb",
-      "contentHash": "8c320c5aa2f3e915d5f30cf09b46ca0bbce675006ae6315f18cfbf0c8f2590fc"
+      "sourceHash": "ce6d0bf2fcd9d0236ce08d5a98cd0b4dc7e21f47366925370479ac996f693e7b",
+      "contentHash": "e9d245fa4553bddc268ed78bb1d34287e561dc76a3f491f9105fe090c1b2aef1"
     },
     {
       "schemaVersion": "1.0",
@@ -292,21 +292,21 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:f7641b50f369",
+      "sourceRevision": "sha256:3c8b5e825975",
       "documentId": "knowledge_1cd6cb5c6b77e756334c30f5",
       "projectId": "baton",
       "projectName": "BATON",
       "serviceId": "relay",
       "documentType": "problem_solution",
-      "title": "결과를 모르는 외부 전송의 중복 방지",
+      "title": "전송 결과 미확인 시 중복 전송 방지",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n문제: 외부 전송 뒤 응답을 잃으면 성공 여부를 모른 채 중복 전송할 수 있었습니다.\n\n해결 방법: 호출 전에 시도 UUID와 외부 제공자 중복 방지 키를 저장했습니다. 서버가 바뀌어도 두 값을 유지하고, 결과 미확인 상태는 다시 보내지 않은 채 외부 기록 확인 후 상태만 확정합니다.\n\n확인: 전달 서버 중단 뒤 같은 시도 UUID와 중복 방지 키를 유지하는지, 이전 서버의 늦은 결과를 버리는지와 운영자 상태 확정을 확인했습니다.\n\n제약과 남은 작업: 결과 미확인 건은 운영자가 외부 전송 기록을 확인해 확정해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: RELAY\n\n문제: 외부 전송 뒤 응답을 잃으면 성공 여부를 모른 채 중복 전송할 수 있었습니다.\n\n해결 방법: 호출 전에 시도 UUID와 외부 서비스 멱등 키를 저장했습니다. 서버가 바뀌어도 두 값을 유지하고, 결과 미확인 상태는 다시 보내지 않은 채 외부 기록 확인 후 상태만 확정합니다.\n\n확인: 전달 서버 중단 뒤 같은 시도 UUID와 중복 방지 키를 유지하는지, 이전 서버의 늦은 결과를 버리는지와 운영자 상태 확정을 확인했습니다.\n\n제약과 남은 작업: 결과 미확인 건은 운영자가 외부 전송 기록을 확인해 확정해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/relay#service-problems",
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "f7641b50f369706ad314850e7ac22f27152165ed51454b8bf205577e141df78c",
-      "contentHash": "1360cf037b10fcb5bce0be7fbb9923b7425654fac2a467e7a7e4ef40ecb14fdd"
+      "sourceHash": "3c8b5e8259750b9576d6851e23f2fb439889e4df24441b8f579b4e5ff88fa97a",
+      "contentHash": "e2988747f8c2bbd3dc2e7e13ca95973fe8d6e55e222de72275465bc66ccb44ae"
     },
     {
       "schemaVersion": "1.0",
@@ -328,7 +328,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:9a32b0e11fcb",
+      "sourceRevision": "sha256:94d19273f6bb",
       "documentId": "knowledge_902d501545fd335b82d49980",
       "projectId": "baton",
       "projectName": "BATON",
@@ -336,13 +336,13 @@
       "documentType": "problem_solution",
       "title": "Core의 점검 결과를 그대로 반영",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n문제: BRIEF가 Core의 판정 규칙을 다시 구현하면 두 서비스가 같은 조직 상태를 다르게 판단할 수 있습니다.\n\n해결 방법: Core가 판정한 5개 점검 결과를 그대로 미해결(ACTIVE) 또는 해결됨(RESOLVED) 상태의 점검 항목에 반영했습니다. 이벤트 ID, 해시와 개정 번호로 중복 및 과거 이벤트도 차단했습니다.\n\n확인: 실제 Core와 내부 서비스용 Caddy HTTPS로 점검 항목, 요약 및 필터 조회와 주간 보고서 발행을 확인했습니다.\n\n제약과 남은 작업: 공인 DNS와 원격 배포는 미검증입니다. 검증한 연동 버전은 현재 상태에 정리했습니다.",
+      "content": "프로젝트: BATON\n\n서비스: BRIEF\n\n문제: BRIEF가 Core의 판정 규칙을 다시 구현하면 두 서비스가 같은 조직 상태를 다르게 판단할 수 있습니다.\n\n해결 방법: Core가 판정한 5개 점검 결과를 그대로 미해결(ACTIVE) 또는 해결됨(RESOLVED) 상태의 점검 항목에 반영했습니다. 이벤트 ID, 해시와 버전 번호로 중복 및 과거 이벤트도 차단했습니다.\n\n확인: 실제 Core와 내부 서비스용 Caddy HTTPS로 점검 항목, 요약 및 필터 조회와 주간 보고서 발행을 확인했습니다.\n\n제약과 남은 작업: 공인 DNS와 원격 배포는 미검증입니다. 검증한 연동 버전은 현재 상태에 정리했습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/brief#service-problems",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "9a32b0e11fcb979ffdf4fc4be3c5f142b495057d0416c59b0a83571eefab9847",
-      "contentHash": "c75405b2372b2dbd9fbcf19a2830a1188f109175bfccd62af7c2e51cff0342ad"
+      "sourceHash": "94d19273f6bb2c4e3eef59c70fd72b3806ecd64f70b277356e21505597b2a199",
+      "contentHash": "9522c1ab6921fbf2ce7edea5214ae3796d6543eaa739b07395004599fe70452e"
     },
     {
       "schemaVersion": "1.0",
@@ -364,7 +364,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c837e12663c6",
+      "sourceRevision": "sha256:7deccf1e6081",
       "documentId": "knowledge_3ce9fe2b3d003ef91606b897",
       "projectId": "baton",
       "projectName": "BATON",
@@ -372,17 +372,17 @@
       "documentType": "problem_solution",
       "title": "중복·이전 버전 일정의 반영 방지",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: CAL\n\n문제: 네트워크 재시도로 같은 일정 JSON이 다시 오거나 과거 개정 번호가 늦게 도착하면 최신 캘린더가 이전 일정으로 돌아갈 수 있습니다.\n\n해결 방법: 이벤트 ID, 일정 ID, 개정 번호와 해시를 비교해 중복 및 과거 일정을 무시했습니다.\n\n확인: 동일 내용 재전송, 낮은 개정 번호, 같은 개정 번호의 다른 내용과 트랜잭션 실패 후 재시도를 PostgreSQL 통합 테스트로 확인했습니다.\n\n제약과 남은 작업: BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있습니다. 실제 운영 활성화 전에는 자격 증명 교체와 모든 일정의 최신 값을 다시 보내는 순서를 함께 검증해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: CAL\n\n문제: 네트워크 재시도로 같은 일정 JSON이 다시 오거나 과거 버전 번호가 늦게 도착하면 최신 캘린더가 이전 일정으로 돌아갈 수 있습니다.\n\n해결 방법: 이벤트 ID, 일정 ID, 버전 번호와 해시를 비교해 중복 및 과거 일정을 무시했습니다.\n\n확인: 동일 내용 재전송, 낮은 버전 번호, 같은 버전 번호의 다른 내용과 트랜잭션 실패 후 재시도를 PostgreSQL 통합 테스트로 확인했습니다.\n\n제약과 남은 작업: BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있습니다. 실제 운영 활성화 전에는 자격 증명 교체와 모든 일정의 최신 값을 다시 보내는 순서를 함께 검증해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/cal#service-problems",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c837e12663c63bd3770c2d630f62f11c3c135bb43e43d900cac8466dbd9833ff",
-      "contentHash": "a1eea073fecf6efbdf64aee1a4176fd4263cf7d24ac78b30b80e75ee8f7bec0b"
+      "sourceHash": "7deccf1e60813b90eb2afdf0456cd744b7181d8c41a5d48c3933a54467ec8e79",
+      "contentHash": "3dd8b55f2887488767fa7505bb3c43afee761d2a2f97ee3ea6d21621585f3b22"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:08b24990e04c",
+      "sourceRevision": "sha256:6464dce207ea",
       "documentId": "knowledge_67a668815d28d496e7d26ebf",
       "projectId": "baton",
       "projectName": "BATON",
@@ -390,13 +390,13 @@
       "documentType": "problem_solution",
       "title": "iCalendar 시간대 및 취소 처리와 HTTP 캐시 적용",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: BATON\n\n서비스: CAL\n\n문제: 캘린더 앱마다 시간대와 취소 일정 및 캐시 처리 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.\n\n해결 방법: 일정 ID는 UID로 고정하고 개정 번호는 SEQUENCE로 사용했습니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환하고, 그 외에는 .ics 본문을 반환합니다.\n\n확인: UTC, 서머타임 전환(DST), 자정 경계, 취소 일정, UTF-8 줄 접기와 변경 없음 응답(304 Not Modified)을 iCalendar 기대값 파일 및 자동화 테스트로 확인했습니다.\n\n제약과 남은 작업: iCal4j 또는 시간대 데이터 버전을 바꾸면 iCalendar 기대값 파일과 캐시 검증값이 함께 바뀌는지 확인해야 합니다.",
+      "content": "프로젝트: BATON\n\n서비스: CAL\n\n문제: 캘린더 앱마다 시간대와 취소 일정 및 캐시 처리 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.\n\n해결 방법: 일정 ID는 UID로 고정하고 버전 번호는 SEQUENCE로 사용했습니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환하고, 그 외에는 .ics 본문을 반환합니다.\n\n확인: UTC, 서머타임 전환(DST), 자정 경계, 취소 일정, UTF-8 줄 접기와 변경 없음 응답(304 Not Modified)을 iCalendar 기대값 파일 및 자동화 테스트로 확인했습니다.\n\n제약과 남은 작업: iCal4j 또는 시간대 데이터 버전을 바꾸면 iCalendar 기대값 파일과 캐시 검증값이 함께 바뀌는지 확인해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton/cal#service-problems",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "08b24990e04c9215f8b05c8e1dc7213af57ab1e43e9963e244982a053c1023da",
-      "contentHash": "11ead13a90ffd807fa64bfebb090be92f291503a993d5f33b895c8fcb882fe10"
+      "sourceHash": "6464dce207ea8a286348ec1aac26336489f48a8956281a082db07f25d9730f94",
+      "contentHash": "96239733a3b16894fcb68aaea73990af68e02635564c79a00530ef789eb9487a"
     },
     {
       "schemaVersion": "1.0",
@@ -508,7 +508,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:2a5cc9c00cea",
+      "sourceRevision": "sha256:58af6a925596",
       "documentId": "knowledge_8b9fccae6b53286e976c2837",
       "projectId": "baton",
       "projectName": "BATON",
@@ -516,17 +516,17 @@
       "documentType": "implementation_evidence",
       "title": "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
       "heading": "검증 범위 및 현재 상태",
-      "content": "프로젝트: BATON\n\n확인 대상: BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n확인 방법: PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동\n\n확인 조건: Core의 담당자 공백 및 업무 지연 등 5개 상태를 ACTIVE 및 RESOLVED로 전환하고, 같은 이벤트와 과거 개정 및 점검 항목 요약, 필터와 보고서 동시 생성 요청을 실행\n\n결과: 신호를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 점검 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.\n\n공개 범위: BRIEF 최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
+      "content": "프로젝트: BATON\n\n확인 대상: BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n확인 방법: PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동\n\n확인 조건: Core의 담당자 공백 및 업무 지연 등 5개 상태를 ACTIVE 및 RESOLVED로 전환하고, 같은 이벤트와 과거 버전 및 점검 항목 요약, 필터와 보고서 동시 생성 요청을 실행\n\n결과: 신호를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 점검 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.\n\n공개 범위: BRIEF 최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-proof",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "2a5cc9c00cea116fa40e52ecdb38be5205d89a235bf3d0ac88b1a98779b9c11f",
-      "contentHash": "5308661adfdbd216039e13b86ef09ca0058bd0b6868e750fc4913142272e3d20"
+      "sourceHash": "58af6a925596c03df4ad76a4643b8cc002a074b9d15529be3dcd2b0cba9248b6",
+      "contentHash": "8ab1eb060ddb36a97f298a08c73b819258ad332fa14a711ea61990e0171e10c5"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:6916fb0eb859",
+      "sourceRevision": "sha256:8f9f76f3f820",
       "documentId": "knowledge_de64977de661eb3a3c8e8222",
       "projectId": "baton",
       "projectName": "BATON",
@@ -534,13 +534,13 @@
       "documentType": "implementation_evidence",
       "title": "CAL 일정 JSON 수신과 캘린더 구독",
       "heading": "검증 범위 및 현재 상태",
-      "content": "프로젝트: BATON\n\n확인 대상: CAL 일정 JSON 수신과 캘린더 구독\n\n확인 방법: PostgreSQL Testcontainers와 iCalendar 기대값 비교, Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 전송\n\n확인 조건: 같은 일정의 최신 전체 데이터 재전달, 현재보다 낮은 개정 번호, 서머타임 전환(DST) 및 자정 경계 일정, 취소 일정과 구독 토큰 동시 교체를 각각 실행\n\n결과: 중복 및 과거 일정을 차단하고 DST, 자정 경계와 취소 일정을 변환하며 같은 일정에는 같은 ETag를 반환\n\n공개 범위: 릴리스 후보 JSON 규격 1.1.0-rc.1 및 BATON Core와 실제 CAL 컨테이너 교차 검증 · 실제 캘린더 앱과 공개 운영은 미검증",
+      "content": "프로젝트: BATON\n\n확인 대상: CAL 일정 JSON 수신과 캘린더 구독\n\n확인 방법: PostgreSQL Testcontainers와 iCalendar 기대값 비교, Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 전송\n\n확인 조건: 같은 일정의 최신 전체 데이터 재전달, 현재보다 낮은 버전 번호, 서머타임 전환(DST) 및 자정 경계 일정, 취소 일정과 구독 토큰 동시 교체를 각각 실행\n\n결과: 중복 및 과거 일정을 차단하고 DST, 자정 경계와 취소 일정을 변환하며 같은 일정에는 같은 ETag를 반환\n\n공개 범위: 릴리스 후보 JSON 규격 1.1.0-rc.1 및 BATON Core와 실제 CAL 컨테이너 교차 검증 · 실제 캘린더 앱과 공개 운영은 미검증",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-proof",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "6916fb0eb859100b6e438502a77e53cccb121af2405324cc9507cb8c8342aa4d",
-      "contentHash": "f24216aa3805d570c2313ff0d0272c483c8d685ac14984d54e88037a8a2e0d9c"
+      "sourceHash": "8f9f76f3f8202c630c0db03ed5bc18a9a38a9851892cf2d9b984430ab11521e9",
+      "contentHash": "55889958e22ac37c13a5dec0df543e9af43c005593b489a7acb6e913b86198c2"
     },
     {
       "schemaVersion": "1.0",
@@ -652,7 +652,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:ecc5e2257c60",
+      "sourceRevision": "sha256:7b5ab42f5fc0",
       "documentId": "knowledge_c12d1c770c36a7204cb3a93c",
       "projectId": "baton",
       "projectName": "BATON",
@@ -660,17 +660,17 @@
       "documentType": "representative_document",
       "title": "RELAY 응답 유실 시 이벤트 중복 전달 방지",
       "heading": "ADR 요약",
-      "content": "# BATON RELAY 응답을 잃은 이벤트의 중복 전달 차단\n\n## 문제 상황\n\n등록된 HTTP Webhook이 요청을 받거나 SQS FIFO 큐가 전송 요청을 수락했지만 RELAY가 응답을 받기 전에 종료되면 성공 여부를 모른 채 같은 이벤트를 다시 전달할 수 있습니다. SQS의 성공 응답은 큐 수락을 뜻하며 실제 소비자의 업무 처리 완료를 뜻하지 않습니다.\n\n## 결정\n\n-   대상 호출 전에 전송 시도 이력과 대상용 중복 방지 키를 저장합니다.\n-   같은 이벤트 ID가 다시 들어오면 새 수신 이력과 등록된 전송 대상별 작업을 만들지 않고 기존 수신 결과를 반환합니다.\n-   DB에서 다른 서버가 처리 중이지 않은 작업만 선택하고, 외부 요청 중에는 DB 연결을 반환합니다.\n-   서버가 작업을 가져갈 때 처리 기한을 기록합니다. 기한이 지나 다른 서버가 이어받아도 같은 시도 UUID와 외부 제공자 중복 방지 키를 유지하고, 처리 서버만 변경합니다. 이전 서버의 늦은 결과는 저장하지 않습니다.\n-   Webhook 또는 SQS 전송 요청의 성공 여부를 확인할 수 없으면 결과 미확인 상태(`OUTCOME_UNKNOWN`)로 멈춥니다.\n\n## 적용 시 제약\n\n중복 전달 방지를 우선하므로 결과를 모르는 작업은 자동 재전송하지 않습니다. 운영자는 Webhook 수신 기록이나 SQS 전송 기록 등 외부 증거를 확인하고 성공 또는 실패 상태만 확정합니다. 상태 확정 과정에서 같은 이벤트를 다시 보내지 않습니다.\n\n## 확인\n\n같은 이벤트 재수신 때 등록된 전송 대상별 작업이 추가되지 않는지, 처리 서버 중단과 작업 처리 기한 만료 뒤에도 같은 시도 UUID와 중복 방지 키를 유지하는지 확인했습니다. 이전 서버의 늦은 응답 차단과 전송 결과의 운영자 수동 확정도 통합 테스트로 검증했습니다.\n\n## 최근 운영 기능 — 2026-09-06\n\n`6f92cef`에는 누락 전달의 미리보기·복구, 운영자별 감사 조회, 제공자 한도와 일시정지·재개를 구현했습니다. 완료 이력은 암호화해 보관하고 키 교체, 중단 후 재개와 새 저장소 복원을 검증했습니다. 모의 수신기로 경보 실패·재시도·복구를 확인했으며 실제 AWS와 외부 운영 알림 연결은 미검증입니다.",
+      "content": "# BATON RELAY 응답을 잃은 이벤트의 중복 전달 차단\n\n## 문제 상황\n\n등록된 HTTP Webhook이 요청을 받거나 SQS FIFO 큐가 전송 요청을 수락했지만 RELAY가 응답을 받기 전에 종료되면 성공 여부를 모른 채 같은 이벤트를 다시 전달할 수 있습니다. SQS의 성공 응답은 큐 수락을 뜻하며 실제 소비자의 업무 처리 완료를 뜻하지 않습니다.\n\n## 결정\n\n-   대상 호출 전에 전송 시도 이력과 대상용 중복 방지 키를 저장합니다.\n-   같은 이벤트 ID가 다시 들어오면 새 수신 이력과 등록된 전송 대상별 작업을 만들지 않고 기존 수신 결과를 반환합니다.\n-   DB에서 다른 서버가 처리 중이지 않은 작업만 선택하고, 외부 요청 중에는 DB 연결을 반환합니다.\n-   서버가 작업을 가져갈 때 처리 기한을 기록합니다. 기한이 지나 다른 서버가 이어받아도 같은 시도 UUID와 외부 서비스 멱등 키를 유지하고, 처리 서버만 변경합니다. 이전 서버의 늦은 결과는 저장하지 않습니다.\n-   Webhook 또는 SQS 전송 요청의 성공 여부를 확인할 수 없으면 결과 미확인 상태(`OUTCOME_UNKNOWN`)로 멈춥니다.\n\n## 적용 시 제약\n\n중복 전달 방지를 우선하므로 결과 미확인 작업은 자동 재전송하지 않습니다. 운영자는 Webhook 수신 기록이나 SQS 전송 기록 등 외부 증거를 확인하고 성공 또는 실패 상태만 확정합니다. 상태 확정 과정에서 같은 이벤트를 다시 보내지 않습니다.\n\n## 확인\n\n같은 이벤트 재수신 때 등록된 전송 대상별 작업이 추가되지 않는지, 처리 서버 중단과 작업 처리 기한 만료 뒤에도 같은 시도 UUID와 중복 방지 키를 유지하는지 확인했습니다. 이전 서버의 늦은 응답 차단과 전송 결과의 운영자 수동 확정도 통합 테스트로 검증했습니다.\n\n## 최근 운영 기능 — 2026-09-06\n\n`6f92cef`에는 누락 전달의 미리보기·복구, 운영자별 감사 조회, 외부 서비스별 전송 한도와 일시정지·재개를 구현했습니다. 완료 이력은 암호화해 보관하고 키 교체, 중단 후 재개와 새 저장소 복원을 검증했습니다. 모의 수신기로 경보 실패·재시도·복구를 확인했으며 실제 AWS와 외부 운영 알림 연결은 미검증입니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/relay-attempt-recovery.md",
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "ecc5e2257c602d463b46162b48d4a7cbab72aed23add3992ca4c5deda15be9e1",
-      "contentHash": "15de081c0fedc0b5a4c12822c08d5eabdea88658ab13e6b8fd425c7b21851f8d"
+      "sourceHash": "7b5ab42f5fc0d8b2cf4167673e7b6094a6f5a5571668254cffc77818459f503f",
+      "contentHash": "e04b186cf3579bfcf0cfb324a3171177adc8533a2d8132b9fbceaa955c641e24"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:8b9ab0a11f72",
+      "sourceRevision": "sha256:f6762c464176",
       "documentId": "knowledge_b76304103fc2240fb8731289",
       "projectId": "baton",
       "projectName": "BATON",
@@ -678,13 +678,13 @@
       "documentType": "representative_document",
       "title": "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n## 책임\n\nCore는 조직 데이터를 기준으로 다음 5개 운영 상태를 점검합니다. BRIEF는 이 점검 결과를 다시 판정하지 않고 현재 점검 항목과 주간 보고서에 반영합니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계할 업무가 없거나 끝나지 않았거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대가 가까운데 인수인계를 시작하지 않았거나 전달 및 수락이 끝나지 않은 인수인계\n\nCore 이벤트의 활성 상태는 `ACTIVE`, 해소 상태는 `RESOLVED` 점검 항목으로 그대로 저장합니다. 원본 심각도도 다시 계산하지 않고 `CRITICAL`과 `WARNING`을 각각 `HIGH`와 `MEDIUM`으로 표시합니다. 주간 보고서에는 해당 주간, 마지막 이벤트 순번과 포함 항목을 저장하며 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 개정 번호를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 개정 번호를 구분합니다. 개정 번호가 건너뛴 최신 이벤트는 적용하되 누락된 개정 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 주간 보고서를 반환합니다. 이후 상태가 바뀌었다가 같은 항목으로 돌아와도 새 생성 번호의 주간 보고서를 저장하고 이전 주간 보고서는 그대로 둡니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 5개 점검 결과의 `ACTIVE` 및 `RESOLVED` 반영, 이벤트 중복, ID 충돌, 과거 개정 차단, 저장 이벤트 기반 점검 목록 재생성과 같은 주간 보고서의 중복 생성을 확인했습니다.\n\n실제 서비스 연동과 HTTPS 앞단 검증은 다음과 같이 나눠 확인했습니다.\n\n-   JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다.\n-   내부 서비스용 Caddy에서는 실제 Core와 BRIEF JAR, MySQL과 PostgreSQL을 실행해 로그인, 멤버십 및 접근 키 확인, HTTPS 보고서 생성과 조회, ETag, 재시도와 토큰 교체를 확인했습니다.\n-   이 기록은 확인 당시의 계약과 로컬 환경에 대한 결과입니다. 최신 기능 전체의 공개 배포를 뜻하지 않습니다.\n\n## 현재 범위 — 2026-09-06\n\n로컬 `main`의 `5e7cd53`에서 주간 보고서를 이전부터 미해결인 항목, 이번 주 신규 미해결, 해결된 항목으로 구분합니다. 해결 건수는 실제 상태 전이를 기준으로 집계하고 상세 목록과 다음 페이지를 조회할 수 있습니다. Core 화면에도 주간 이월·신규·해결 내역을 연결했습니다.\n\nCore가 보낸 심각도와 판정을 유지하며 이미 발행한 보고서는 수정하지 않습니다. 기존 로컬 HTTP·내부 Caddy HTTPS 검증과 이번 보고서 확장 검증을 구분합니다. 공인 DNS, 공개 인증서, 원격 배포와 장기 운영은 확인하지 않았습니다.",
+      "content": "# BATON BRIEF 점검 상태 반영과 발행 보고서 수정 방지\n\n## 책임\n\nCore는 조직 데이터를 기준으로 다음 5개 운영 상태를 점검합니다. BRIEF는 이 점검 결과를 다시 판정하지 않고 현재 점검 항목과 주간 보고서에 반영합니다.\n\n-   담당자가 없는 역할\n-   담당 종료가 임박했지만 후임자가 없는 역할\n-   위험 요소가 기록된 역할 중 책임 목록이 없거나, 인수인계할 업무가 없거나 끝나지 않았거나, 역할 수행 자료가 없는 역할\n-   서로 다른 2개 이상 회차에서 마감 뒤에도 끝나지 않은 반복 업무\n-   담당 교대가 가까운데 인수인계를 시작하지 않았거나 전달 및 수락이 끝나지 않은 인수인계\n\nCore 이벤트의 활성 상태는 `ACTIVE`, 해소 상태는 `RESOLVED` 점검 항목으로 그대로 저장합니다. 원본 심각도도 다시 계산하지 않고 `CRITICAL`과 `WARNING`을 각각 `HIGH`와 `MEDIUM`으로 표시합니다. 주간 보고서에는 해당 주간, 마지막 이벤트 순번과 포함 항목을 저장하며 한 번 발행한 주간 보고서는 수정하지 않습니다.\n\n## 중복 및 이전 버전 처리\n\n-   이벤트 ID, 본문 해시와 점검 상태의 버전 번호(`revision`)를 비교해 같은 이벤트 재전달, 같은 ID의 다른 내용과 과거 버전 번호를 구분합니다. 버전 번호가 건너뛴 최신 이벤트는 적용하되 누락된 버전 구간을 함께 기록합니다.\n-   수락한 이벤트 기록과 운영 점검 목록을 같은 PostgreSQL 트랜잭션에서 저장합니다.\n-   저장한 이벤트 전체를 다시 읽어 기존 운영 점검 목록을 한 트랜잭션에서 교체할 수 있습니다.\n-   같은 주간, 같은 마지막 수신 순번과 같은 항목으로 생성하면 기존 주간 보고서를 반환합니다. 이후 상태가 바뀌었다가 같은 항목으로 돌아와도 새 생성 번호의 주간 보고서를 저장하고 이전 주간 보고서는 그대로 둡니다.\n-   서비스 간 요청 인증 토큰(Bearer)은 현재 값과 직전 값을 잠시 함께 허용해 중단 없이 교체합니다.\n\n## 테스트 기준\n\nPostgreSQL 통합 테스트로 5개 점검 결과의 `ACTIVE` 및 `RESOLVED` 반영, 이벤트 중복, ID 충돌, 과거 버전 차단, 저장 이벤트 기반 점검 목록 재생성과 같은 주간 보고서의 중복 생성을 확인했습니다.\n\n실제 서비스 연동과 HTTPS 앞단 검증은 다음과 같이 나눠 확인했습니다.\n\n-   JSON 계약 패키지 `2.0.0-rc.1` 기준으로 실제 Core 실행 JAR에서 BRIEF 실행 JAR로 로컬 HTTP 이벤트를 보냈습니다.\n-   내부 서비스용 Caddy에서는 실제 Core와 BRIEF JAR, MySQL과 PostgreSQL을 실행해 로그인, 멤버십 및 접근 키 확인, HTTPS 보고서 생성과 조회, ETag, 재시도와 토큰 교체를 확인했습니다.\n-   이 기록은 확인 당시의 계약과 로컬 환경에 대한 결과입니다. 최신 기능 전체의 공개 배포를 뜻하지 않습니다.\n\n## 현재 범위 — 2026-09-06\n\n로컬 `main`의 `5e7cd53`에서 주간 보고서를 이전부터 미해결인 항목, 이번 주 신규 미해결, 해결된 항목으로 구분합니다. 해결 건수는 실제 상태 전이를 기준으로 집계하고 상세 목록과 다음 페이지를 조회할 수 있습니다. Core 화면에도 주간 이월·신규·해결 내역을 연결했습니다.\n\nCore가 보낸 심각도와 판정을 유지하며 이미 발행한 보고서는 수정하지 않습니다. 기존 로컬 HTTP·내부 Caddy HTTPS 검증과 이번 보고서 확장 검증을 구분합니다. 공인 DNS, 공개 인증서, 원격 배포와 장기 운영은 확인하지 않았습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/brief-event-projection.md",
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "8b9ab0a11f7285fc88c9a68830a0612a15ba9b613fafafd0c90c7d48b83e97f2",
-      "contentHash": "cc7ea7bf03d1d24c9c1c26d3601cc0c2f9ca15d621d248255981bf65f83b3667"
+      "sourceHash": "f6762c4641768a03296aad3e556a413560dfda562b72d804a03335971e00ad4b",
+      "contentHash": "8c8d37f2db1d30bdf50a9460b65da182ebc0cd66e74e0a4d3c6053d5d5adba09"
     },
     {
       "schemaVersion": "1.0",
@@ -724,7 +724,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:2809fc56fcdd",
+      "sourceRevision": "sha256:c4ac149657ab",
       "documentId": "knowledge_8c0d38184b09944107fa2210",
       "projectId": "baton",
       "projectName": "BATON",
@@ -732,13 +732,13 @@
       "documentType": "representative_document",
       "title": "CAL 일정 JSON 수신과 캘린더 구독",
       "heading": "PRD / ADR 요약",
-      "content": "# BATON CAL 일정 JSON 수신과 캘린더 구독\n\n## 책임\n\nCAL은 Core가 확정한 시즌 일정과 마감을 읽기 전용 iCalendar(`.ics`) 피드로 제공합니다. Core는 일정 한 건의 최신 전체 데이터와 개정 번호를 보내고, CAL은 같은 일정과 이전 번호가 다시 들어오는지 확인한 뒤 캘린더 형식으로 변환합니다. 어떤 일정을 포함하고 누가 구독할 수 있는지는 Core가 결정합니다.\n\n## 일정 및 구독 처리\n\n-   이벤트 ID, 일정 ID, 개정 번호와 내용 해시를 비교해 적용, 중복, 이전 버전과 충돌을 구분합니다.\n-   일정 식별값(`UID`)은 고정하고 원본 개정 번호를 캘린더 변경 순번(`SEQUENCE`)으로 사용해 변경 및 취소를 구분합니다.\n-   같은 일정에서는 같은 `.ics`, 캐시 확인값(`ETag`)과 최종 변경 시각(`Last-Modified`)을 생성합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 `304 Not Modified`를 반환합니다. 그 외에는 `200 OK`와 `.ics` 본문을 반환합니다.\n-   구독 토큰은 한 번만 반환하고 DB에는 SHA-256 해시만 저장합니다.\n-   토큰을 교체하거나 폐기하면 이전 구독 URL은 더 이상 피드를 반환하지 않습니다.\n\n## 검증 기준\n\nPostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일정 재전송, 과거 및 충돌 개정 번호, 저장 데이터 기반 재생성, 서머타임 전환(DST)과 자정 경계, 취소 일정, UTF-8 줄 접기, 변경 없음 응답(`304 Not Modified`)과 구독 토큰 동시 교체를 확인했습니다.\n\n1.1.0-rc.1에서는 입력 제한, HTTP 캐시, DB 제한 시간과 구독 및 시즌 동시성을 확인했습니다. OCI 백업 및 복구, 복구 세대 번호를 이용한 이전 작업의 늦은 결과 차단도 로컬에서 검증했습니다.\n\n일정 JSON 형식 1.0.0 기준으로 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 생성, 변경, 취소와 순서가 바뀐 전달이 올바르게 처리되는지도 별도로 확인했습니다.\n\n## 현재 범위\n\n-   정식 JSON 규격 `1.0.0`: 정식 버전 기준이며 Core 일정 JSON과 CAL 컨테이너의 호환성 검증 완료\n-   사전 릴리스 `1.1.0-rc.1`: 2026년 9월 2일 태그 `contracts-v1.1.0-rc.1`과 규격 ZIP 게시 완료. 정식 버전 전환 전\n-   Core 연동: `1.1.0-rc.1`의 일정, 시즌 이름과 복구 요청 형식 및 ZIP 해시를 고정하고 CAL 컨테이너와 연동 검증 완료\n-   운영 상태: 운영 활성화와 공개 배포 전. 실제 캘린더 앱, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증\n\n게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.\n\n`1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.\n\n## 개인 구독 확장 — 2026-09-06\n\n로컬 `30f88e7`의 `1.1.0-rc.2` 개발 소스에는 개인 구독·목록·일괄 해지와 응답 유실 시 복구를 추가했습니다. Core에서도 개인 구독 흐름을 연결했습니다. 게시된 후보는 `1.1.0-rc.1`, 정식 규격은 `1.0.0`이며 새 개발 소스를 정식 릴리스로 소개하지 않습니다. 실제 캘린더 앱 구독과 공개 운영은 미검증입니다.",
+      "content": "# BATON CAL 일정 JSON 수신과 캘린더 구독\n\n## 책임\n\nCAL은 Core가 확정한 시즌 일정과 마감을 읽기 전용 iCalendar(`.ics`) 피드로 제공합니다. Core는 일정 한 건의 최신 전체 데이터와 일정 버전 번호(`revision`)를 보내고, CAL은 같은 일정과 이전 번호가 다시 들어오는지 확인한 뒤 캘린더 형식으로 변환합니다. 어떤 일정을 포함하고 누가 구독할 수 있는지는 Core가 결정합니다.\n\n## 일정 및 구독 처리\n\n-   이벤트 ID, 일정 ID, 버전 번호와 내용 해시를 비교해 적용, 중복, 이전 버전과 충돌을 구분합니다.\n-   일정 식별값(`UID`)은 고정하고 원본 버전 번호를 캘린더 변경 순번(`SEQUENCE`)으로 사용해 변경 및 취소를 구분합니다.\n-   같은 일정에서는 같은 `.ics`, 캐시 확인값(`ETag`)과 최종 변경 시각(`Last-Modified`)을 생성합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 `304 Not Modified`를 반환합니다. 그 외에는 `200 OK`와 `.ics` 본문을 반환합니다.\n-   구독 토큰은 한 번만 반환하고 DB에는 SHA-256 해시만 저장합니다.\n-   토큰을 교체하거나 폐기하면 이전 구독 URL은 더 이상 피드를 반환하지 않습니다.\n\n## 검증 기준\n\nPostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일정 재전송, 이전 버전 및 동일 버전의 내용 충돌, 저장 데이터 기반 재생성, 서머타임 전환(DST)과 자정 경계, 취소 일정, UTF-8 줄 접기, 변경 없음 응답(`304 Not Modified`)과 구독 토큰 동시 교체를 확인했습니다.\n\n1.1.0-rc.1에서는 입력 제한, HTTP 캐시, DB 제한 시간과 구독 및 시즌 동시성을 확인했습니다. OCI 백업 및 복구, 복구 세대 번호를 이용한 이전 작업의 늦은 결과 차단도 로컬에서 검증했습니다.\n\n일정 JSON 형식 1.0.0 기준으로 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 생성, 변경, 취소와 순서가 바뀐 전달이 올바르게 처리되는지도 별도로 확인했습니다.\n\n## 현재 범위\n\n-   정식 JSON 규격 `1.0.0`: 정식 버전 기준이며 Core 일정 JSON과 CAL 컨테이너의 호환성 검증 완료\n-   사전 릴리스 `1.1.0-rc.1`: 2026년 9월 2일 태그 `contracts-v1.1.0-rc.1`과 규격 ZIP 게시 완료. 정식 버전 전환 전\n-   Core 연동: `1.1.0-rc.1`의 일정, 시즌 이름과 복구 요청 형식 및 ZIP 해시를 고정하고 CAL 컨테이너와 연동 검증 완료\n-   운영 상태: 운영 활성화와 공개 배포 전. 실제 캘린더 앱, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증\n\n게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.\n\n`1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.\n\n## 개인 구독 확장 — 2026-09-06\n\n로컬 `30f88e7`의 `1.1.0-rc.2` 개발 소스에는 개인 구독·목록·일괄 해지와 응답 유실 시 복구를 추가했습니다. Core에서도 개인 구독 흐름을 연결했습니다. 게시된 후보는 `1.1.0-rc.1`, 정식 규격은 `1.0.0`이며 새 개발 소스를 정식 릴리스로 소개하지 않습니다. 실제 캘린더 앱 구독과 공개 운영은 미검증입니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/docs/baton/cal-calendar-contract.md",
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "2809fc56fcdde6b90fd78433042972c7c7703d0fe965d9dfa84442dd152d640a",
-      "contentHash": "7ce4abbd4cc8164b5f77baa4c386adbaaa38a18fcb5b32ce99fc0b892e6a1201"
+      "sourceHash": "c4ac149657abab04c54e4425cf7a63583bac0fb3b0f7a1a080bb50a2d2a56c44",
+      "contentHash": "475804b16c0181adf6ada1605555489c95e79fbb1de847fb441fc9f121b799fa"
     },
     {
       "schemaVersion": "1.0",
@@ -1012,7 +1012,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:59f2c6f36e93",
+      "sourceRevision": "sha256:e2bc3dbd656b",
       "documentId": "knowledge_0f61b150fd8757d54e371119",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1020,13 +1020,13 @@
       "documentType": "problem_solution",
       "title": "서버 중단 후 미전송 알림 재처리",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 주문이나 예약을 커밋한 직후 프로세스가 종료되면 알림 호출 자체가 사라질 수 있습니다.\n\n해결 방법: 업무 상태와 알림 Outbox를 함께 저장하고 미전송 건은 스케줄러가 다시 처리합니다. NHN 접수 ID로 최종 수신 결과를 조회해 실제 전달 성공만 SENT로 확정하고, 알림톡 최종 실패 뒤에만 SMS를 요청합니다.\n\n확인: 알림 중복 저장 차단, 서버 중단 후 인계, 최종 수신 결과 반영과 알림톡 최종 실패 뒤 SMS 전환을 통합 테스트했습니다.\n\n제약과 남은 작업: 발송 요청 접수는 최종 전달 성공이 아닙니다. 운영 자격 증명을 사용한 장기 지연과 제공자 장애 검증은 남아 있습니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 주문이나 예약을 커밋한 직후 프로세스가 종료되면 알림 호출 자체가 사라질 수 있습니다.\n\n해결 방법: 업무 상태와 알림 Outbox를 함께 저장하고 미전송 건은 스케줄러가 다시 처리합니다. NHN 접수 ID로 최종 수신 결과를 조회해 실제 전달 성공만 SENT로 확정하고, 알림톡 최종 실패 뒤에만 SMS를 요청합니다.\n\n확인: 알림 중복 저장 차단, 서버 중단 후 인계, 최종 수신 결과 반영과 알림톡 최종 실패 뒤 SMS 전환을 통합 테스트했습니다.\n\n제약과 남은 작업: 발송 요청 접수와 최종 전달 성공은 별개입니다. 운영 자격 증명을 사용한 장기 지연과 알림 서비스 장애 검증은 남아 있습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "59f2c6f36e9378235cc88cba3aa4e69e6d30346c0931c94cc0dcffe85448c477",
-      "contentHash": "5c4747efba43c7c8c31f60ac0639555a18f09bbd805b3e0dafa7f7ce22261f25"
+      "sourceHash": "e2bc3dbd656b8efa0a9d4f56cd3eeb2b31af33b3871ff18901df554d18a2fc55",
+      "contentHash": "61a5afa5b9f2b9a5c392e2c372dff8feb78da654802b419e633e2f9e7a72d3a1"
     },
     {
       "schemaVersion": "1.0",

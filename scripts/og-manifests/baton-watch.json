@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-watch.png",
-    "sourceSha256": "6dc5c43bfd1cfa904ffb5d81ad8324f2a604b5c505a3a9399b4b4909e1e4cf5d",
+    "sourceSha256": "2f0cad42b01fd2c36c3b86fb2657190564dd9a9fc85331b76c1ec0350c021a90",
     "artifactSha256": "49a518a1ecfe2e4334989dceaeadd18630a4260ae47d0c643b970f8470007749",
     "renderer": {
         "id": "chrome",
