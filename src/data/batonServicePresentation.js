@@ -7,12 +7,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "같은 요청 8건의 동시 처리 검증을 유지하고, Redis 공유 요청률 제한·HMAC 키 교체·만료 링크 정리의 최신 구현을 확인했습니다.",
+                text: "같은 요청 8건의 동시 처리, Redis 공유 요청률 제한과 HMAC 키 교체를 확인했습니다. 관리용 일괄 조회는 최대 100개 ID를 한 번에 조회합니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "2026년 9월 6일 로컬 main 08041e0을 확인했습니다. 설명은 해당 구현 기준이며 공개 배포 상태와 구분합니다.",
+                text: "2026년 9월 8일 공개 main 1062c18을 확인했습니다. 애플리케이션 46개·웹 124개·MySQL 43개 테스트 기록을 근거로 삼았습니다.",
             },
             {
                 kind: "unverified",
@@ -44,12 +44,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행과 이전 URL 버전의 늦은 결과 차단을 테스트했습니다.",
+                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행과 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. V6 DB 제약으로 결과 필수값이 빠진 9개 조합도 거절합니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "로컬 main 97e6758 기준으로 URL 응답 상태·헤더 점검과 Core 원본 데이터를 이용한 WATCH 복구를 구현했습니다. 연결된 공개 커밋과는 버전이 다릅니다.",
+                text: "공개 main e2ad4b0 기준입니다. V6 적용·백업 복원과 부하·프로세스 복구는 로컬에서 확인했지만, Grafana Cloud 계정·대시보드와 공개 callback 연결은 미검증입니다.",
             },
             {
                 kind: "unverified",
@@ -80,12 +80,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 같은 시도 UUID와 외부 서비스 멱등 키 유지, 이전 서버의 늦은 결과 차단과 전송 결과 수동 확정을 확인했습니다. 경보 실패·재시도·복구는 모의 수신기로 검증했습니다.",
+                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 시도 정보 유지와 결과 수동 확정을 확인했습니다. Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 복구 절차도 구현했습니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "실제 AWS 전송과 외부 운영 알림 연결은 미검증입니다.",
+                text: "실제 Discord·AWS 전송과 외부 운영 알림 연결, 운영 환경의 백업 RPO·RTO는 미검증입니다.",
             },
         ],
         flow: {
@@ -95,7 +95,7 @@ export const batonServicePresentations = {
             note: "서버가 중단돼도 같은 시도 UUID와 외부 서비스 멱등 키를 유지합니다. 전송 전 일시 실패만 재시도합니다.",
             compact: {
                 input: ["Core 이벤트", "같은 이벤트 ID는 1건"],
-                action: ["전송 시도 기록", "UUID + 외부 서비스 멱등 키"],
+                action: ["채널별 전송 시도", "Discord / Webhook / SQS"],
                 outputs: [
                     ["성공", "완료 확정"],
                     ["실패", "전송 전 실패만 재시도"],
@@ -112,12 +112,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "점검 상태와 보고서 이력·비교의 검증에 이어 주간 이월·신규·해결 내역을 추가했습니다. Core와 로컬 HTTP·내부 HTTPS 연동 기록을 확인했습니다.",
+                text: "점검 상태와 보고서 이력·비교, 주간 이월·신규·해결 내역을 확인했습니다. 이벤트 거부·지원하지 않는 버전의 지표와 누락 경보도 추가했습니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "2026년 9월 6일 로컬 main 5e7cd53을 확인했습니다. 주간 보고서 확장과 Core 화면 연결은 로컬 구현 기준입니다.",
+                text: "2026년 9월 8일 공개 main 5b7d880과 Core의 로컬 연동 기록을 확인했습니다. 공개 호스트는 설정했지만 서버·DNS·인증서는 준비 전입니다.",
             },
             {
                 kind: "unverified",
@@ -148,12 +148,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "Core 요청 형식 고정과 CAL 컨테이너 연동, 입력 제한, HTTP 캐시, 동시 요청, OCI 백업 및 복구와 이전 복구 작업의 늦은 결과 차단을 확인했습니다.",
+                text: "Core 요청 형식과 CAL 컨테이너 연동, 입력 제한, HTTP 캐시와 복구를 확인했습니다. Google·Apple·Outlook 등록 안내와 개인 구독 일괄 해지도 추가했습니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "정식 규격은 1.0.0, 게시된 후보는 1.1.0-rc.1입니다. 개인 구독·응답 유실 복구는 1.1.0-rc.2 개발 소스에 있으며 정식 반영 전입니다.",
+                text: "공개 main 3c2936d의 개발 규격은 1.1.0-rc.2입니다. 게시된 후보는 1.1.0-rc.1, 정식 규격은 1.0.0입니다.",
             },
             {
                 kind: "unverified",
@@ -184,7 +184,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "브라우저·Core 연동을 검증하고 손들기·공용 타이머·주제를 구현했습니다. 로컬 서버에 가상 카메라 참가자 2명을 연결해 화면을 확인했습니다.",
+                text: "브라우저·Core 연동을 검증하고 손들기·공용 타이머·주제, QR 초대, 채팅 검색어 강조와 입력 초점 복원을 구현했습니다. 로컬 서버에 가상 카메라 참가자 2명을 연결해 화면을 확인했습니다.",
             },
             {
                 kind: "limited",

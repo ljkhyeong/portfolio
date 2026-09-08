@@ -18,7 +18,7 @@ test("대표 프로젝트의 문제, 구현과 검증 범위를 함께 보여준
     expect(batonFacts).toHaveTextContent("결과 미확인 건은 자동 재전송하지 않음")
     expect(batonFacts).toHaveTextContent("공개 환경 전체 연동은 미검증")
     expect(screen.getByLabelText("happyGallery 문제, 구현과 검증")).toHaveTextContent(
-        "실제 네이버·PG 계정 연동은 미검증",
+        "실제 네이버·PG 연동은 미검증",
     )
     expect(screen.getByLabelText("BATON 진행 및 공개 상태")).toHaveTextContent("일부 저장소 공개")
     expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
@@ -54,7 +54,7 @@ test("프로젝트 유형별로 빠짐없이 한 번씩 표시하고 바로가�
     const categories = [
         ["career", "경력 프로젝트", ["전송형 전자영장 시스템", "차세대 군사법 정보 시스템"]],
         ["web", "웹", ["BATON", "happyGallery", "WebRTC/HLS 현장강의 보조 서비스"]],
-        ["mobile-webapp", "모바일 웹앱", ["청년정책메이트"]],
+        ["webapp", "웹앱", ["청년정책메이트"]],
         ["plugin", "플러그인", ["IntentTrace"]],
         ["ai-skill", "AI 스킬", ["Hope Commit"]],
     ]
@@ -83,7 +83,7 @@ test("간단한 소개에도 진행 상태와 원작 포크 출처를 표시한�
     const youth = screen.getByRole("link", { name: "청년정책메이트 프로젝트 상세 보기" })
     expect(youth).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(youth.closest("article")).toHaveTextContent("개발 중")
-    expect(youth.closest("article")).toHaveTextContent("모바일 웹앱입니다")
+    expect(youth.closest("article")).toHaveTextContent("웹앱입니다")
     expect(
         screen.getByRole("link", { name: "Hope Commit 프로젝트 상세 보기" }).closest("article"),
     ).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")

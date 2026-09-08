@@ -9,6 +9,8 @@ const selectedNames = [
     "eligibility-decision.md",
     "deadline-reminder-candidates.md",
     "ai-reservation-recovery-heartbeat.md",
+    "admin-collection-exceptions.md",
+    "ADR-0012-github-context-read.md",
     "0033_결제_confirm_트랜잭션과_보상_경계/adr.md",
     "0032_알림_Outbox_전달_보장/adr.md",
     "0047_스마트스토어_재고_동기화/adr.md",

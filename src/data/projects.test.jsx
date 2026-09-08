@@ -54,7 +54,7 @@ describe("project summary data", () => {
         expect(hopeCommit.status.text).toContain("SeungIl 님의 Hope 6.0.0")
         expect(hopeCommit.status.text).toContain("제가 추가한 Commit Diff")
         expect(hopeCommit.status.text).toContain("README와 NOTICE에 구분")
-        expect(hopeCommit.status.text).toContain("공개 릴리스와 main은 v5.0.2")
+        expect(hopeCommit.status.text).toContain("공개 v5.0.2와 main 9d8392d")
         expect(hopeCommit.status.text).toContain("Commit Diff")
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
@@ -89,7 +89,7 @@ describe("project summary data", () => {
         expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
         expect(intentTrace.status.text).toContain("v0.7.0")
         expect(intentTrace.status.text).toContain("0.12.3-SNAPSHOT")
-        expect(intentTrace.architecture.tradeoff).toContain("별도 조회에서 GitHub 원본 코드와 비교")
+        expect(intentTrace.architecture.tradeoff).toContain("GitHub 원본 코드와 비교")
         expect(intentTrace.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
@@ -123,15 +123,14 @@ describe("project summary data", () => {
         ).toEqual(["780x1688", "780x1688", "780x1688", "780x1688"])
         expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
         expect(youthPolicyMate.status.text).toContain("공개 정책 40건")
-        expect(youthPolicyMate.status.text).toContain(
-            "실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증",
-        )
+        expect(youthPolicyMate.status.text).toContain("정책 8종의 조건 질문")
+        expect(youthPolicyMate.status.text).toContain("실제 OAuth·이메일·AI 공급자")
         expect(youthPolicyMate.stack).toContain("Spring JDBC")
         expect(youthPolicyMate.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
-                    item: "서버 자동화 검증",
-                    result: expect.stringContaining("서버 테스트 436개"),
+                    item: "공개 정책 조회와 정책별 조건 질문",
+                    scope: expect.stringContaining("로컬 개발 브랜치 c083adf"),
                 }),
             ]),
         )

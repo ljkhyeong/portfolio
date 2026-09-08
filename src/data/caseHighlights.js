@@ -4,7 +4,7 @@ export const caseIntroductions = {
     baton: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
     happygallery: "상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.",
     "youth-policy-mate":
-        "정책을 찾아 조건을 확인하고, 관심 정책의 일정과 알림을 관리하는 모바일 웹앱입니다.",
+        "정책을 찾아 접수 상태와 조건을 확인하고, 수집 예외와 일정·알림을 관리하는 웹앱입니다.",
     "hope-commit": "SeungIl 님의 Hope 6.0.0을 포크해 로컬 커밋 HTML 리뷰를 추가했습니다.",
     "intent-trace": "AI가 코드를 바꾼 이유와 검증 결과를 코드 위치에 연결해 남기는 도구입니다.",
     warrant: "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다.",
@@ -14,10 +14,12 @@ export const caseIntroductions = {
 
 export const caseResults = {
     baton: "서비스별 테스트와 일부 Core 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
-    happygallery: "선택 구매·재주문·재입고 알림 시나리오 확인. 실제 네이버·PG 계정 연동은 미검증",
-    "youth-policy-mate": "공개 정책 40건 로컬 조회·서버 테스트 436개 통과. 실제 외부 연동은 미검증",
+    happygallery:
+        "공개 main에 무료 API 연동과 회원 목록 검색 조건 복원 반영. 실제 네이버·PG 연동은 미검증",
+    "youth-policy-mate":
+        "공개 정책 40건·질문 8종 확인. 최신 질문과 원문 충돌 안내는 개발 브랜치 기준",
     "hope-commit": "v5.0.2 공개 및 자동화 테스트 343개 통과",
-    "intent-trace": "v0.7.0 공개. 웹 조회·원본 코드 비교·Zed MCP 연결을 로컬 확인",
+    "intent-trace": "v0.7.0 공개. GitHub 이슈·PR·CI 조회와 Markdown 저장을 main에서 확인",
     warrant: warrantPerformanceSummary,
     defense: "군교정 DB 반영, CSRF 요청 차단과 저장소 직접 업로드 확인",
     webrtc: "팀 시연에서 HLS 지연 약 35초 → 17초",

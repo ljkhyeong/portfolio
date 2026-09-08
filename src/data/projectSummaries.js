@@ -80,7 +80,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/happyGallery",
         },
         summary:
-            "공방 상품 주문과 클래스 예약을 처리합니다. 선택 구매와 재주문, 재입고 알림, 스마트스토어 운영과 결제·알림 재처리를 구현했습니다.",
+            "공방 상품 주문과 클래스 예약을 처리합니다. 간편결제·스마트스토어 운영에 공휴일 갱신, 주소 검색과 목록 조건 복원을 추가했습니다.",
         homeFacts: {
             problem:
                 "결제사 응답 유실, 서버 중단에 따른 알림 유실과 외부 주문 재수신에 따른 재고 중복 반영",
@@ -96,20 +96,20 @@ export const projectSummaries = [
     },
     {
         id: "youth-policy-mate",
-        homeCategory: "mobile-webapp",
+        homeCategory: "webapp",
         homeTypeLabel: "개인 프로젝트",
         index: "01",
         projectType: "webapp",
         presentation: "webapp-case",
         title: "청년정책메이트",
         navigationLabel: "청년정책메이트",
-        eyebrow: "서울 청년 정책 탐색 및 일정 관리 모바일 웹앱",
+        eyebrow: "서울 청년 정책 탐색 및 일정 관리 웹앱",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
         summary:
-            "공개 정책을 조회하고 검토한 조건 질문으로 신청 요건을 확인하는 모바일 웹앱입니다. 관심 정책 저장, 일정, 서비스 내 알림과 이메일 발송 처리를 구현했습니다.",
+            "공개 정책을 검색하고 접수 상태와 검토한 조건 질문으로 신청 요건을 확인합니다. 관심 정책 일정·알림과 관리자 수집 예외 보정을 구현했습니다.",
         period: "2026.08.30 — 진행 중",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
@@ -155,7 +155,7 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 의도 및 검증 기록",
         summary:
-            "AI 코드 변경의 요청, 변경 이유, 코드 위치와 검증 결과를 함께 남깁니다. 작성자가 확인한 기록을 웹, IntelliJ와 Zed에서 찾고 GitHub 원본 코드와 비교할 수 있습니다.",
+            "AI 코드 변경의 요청, 근거와 검증 결과를 코드 위치에 남깁니다. 웹·IDE에서 기록을 찾고 GitHub 원본, 이슈·PR과 CI 결과를 함께 확인할 수 있습니다.",
         period: "2026.08.27 — 진행 중",
         route: "/projects/intent-trace",
         tags: [
@@ -214,7 +214,7 @@ export const projectSummaries = [
 export const homeProjectCategories = [
     { id: "career", label: "경력 프로젝트" },
     { id: "web", label: "웹" },
-    { id: "mobile-webapp", label: "모바일 웹앱" },
+    { id: "webapp", label: "웹앱" },
     { id: "plugin", label: "플러그인" },
     { id: "ai-skill", label: "AI 스킬" },
 ]

@@ -92,6 +92,12 @@ test("ROUND의 입장 확인, 통화와 화면 공유를 현재 대표 화면으
             alt: "두 참가자가 연결된 방에서 공용 타이머·주제와 손들기 순서를 확인하는 화면",
         },
         {
+            label: "QR 초대",
+            src: "baton-round-invite.webp",
+            height: 960,
+            alt: "BATON ROUND에서 QR 코드와 초대 링크를 확인하는 화면",
+        },
+        {
             label: "입장 전 장치 확인",
             src: "baton-round-prejoin.webp",
             alt: "BATON ROUND 입장 전 화면에서 카메라와 마이크를 확인하는 모습",

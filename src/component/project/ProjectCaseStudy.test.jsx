@@ -283,15 +283,15 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     ).toBeTruthy()
 })
 
-test("청년정책메이트는 모바일 웹앱으로 구분하고 현재 화면과 미구현 범위를 함께 보여준다", () => {
+test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구현 범위를 함께 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="youth-policy-mate" />)
 
     const project = projectsById["youth-policy-mate"]
-    expect(screen.getByText("모바일 웹앱 프로젝트 01 / 01")).toBeInTheDocument()
+    expect(screen.getByText("웹앱 프로젝트 01 / 01")).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByText(
-            "정책을 찾아 조건을 확인하고, 관심 정책의 일정과 알림을 관리하는 모바일 웹앱입니다.",
+            "정책을 찾아 접수 상태와 조건을 확인하고, 수집 예외와 일정·알림을 관리하는 웹앱입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
@@ -323,7 +323,7 @@ test("청년정책메이트는 모바일 웹앱으로 구분하고 현재 화면
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정·알림 처리")).toBeInTheDocument()
     expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /정책 40건 조회.*실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증/,
+        /공개 정책 40건.*정책 8종.*실제 OAuth·이메일·AI 공급자/,
     )
     expect(
         within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(
@@ -335,7 +335,7 @@ test("청년정책메이트는 모바일 웹앱으로 구분하고 현재 화면
             name: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText("추가 문제 해결 1건 보기").closest("details")).not.toHaveAttribute(
+    expect(screen.getByText("추가 문제 해결 2건 보기").closest("details")).not.toHaveAttribute(
         "open",
     )
     const stack = screen.getByRole("list", { name: "청년정책메이트 기술 스택" })
@@ -361,7 +361,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
     expect(within(lifecycleDiagram).getByText("사용자 요청 및 코드 위치")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("작성자 확인")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("공개 요청 검증")).toBeInTheDocument()
-    expect(within(lifecycleDiagram).getByText("GitHub / IntelliJ")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("웹 / IntelliJ / Zed")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("공개 거절")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("기존 기록 대체 요청")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("SUPERSEDED")).toBeInTheDocument()
@@ -372,7 +372,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
         }),
     ).toBeInTheDocument()
     expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /v0\.7\.0.*0\.12\.3-SNAPSHOT.*Marketplace.*공개 운영은 미검증/,
+        /v0\.7\.0.*0\.12\.3-SNAPSHOT.*GitHub 이슈·PR·CI 조회.*실제 게시·공개 운영은 미검증/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
@@ -542,7 +542,7 @@ test.each([
     [
         "relay",
         "RELAY",
-        "Core 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
+        "Core 이벤트를 Discord, Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
         /이전 서버의 늦은 결과 차단/,
     ],
     [
@@ -635,8 +635,8 @@ test.each([
         "https://github.com/ljkhyeong/baton-brief",
         /BRIEF 공개 저장소 보기/,
         [
-            /Core와 로컬 HTTP·내부 HTTPS 연동 기록/,
-            /주간 보고서 확장과 Core 화면 연결은 로컬 구현 기준/,
+            /점검 상태와 보고서 이력·비교.*이벤트 거부·지원하지 않는 버전/,
+            /공개 main 5b7d880과 Core의 로컬 연동 기록/,
             /공인 DNS와 원격 환경의 전체 서비스 연결은 미검증/,
         ],
         /공개 main과 최신 로컬 main의 차이는 현재 상태 설명에 구분/,
@@ -645,14 +645,14 @@ test.each([
         "cal",
         "CAL",
         "중복·이전 버전 일정의 반영 방지",
-        "https://github.com/ljkhyeong/baton-cal/tree/978f0d4",
+        "https://github.com/ljkhyeong/baton-cal/tree/3c2936d",
         /CAL 공개 main 고정 커밋 보기/,
         [
-            /Core 요청 형식 고정과 CAL 컨테이너 연동.*OCI 백업 및 복구.*이전 복구 작업의 늦은 결과 차단/,
-            /정식 규격은 1.0.0.*게시된 후보는 1.1.0-rc.1.*1.1.0-rc.2 개발 소스.*정식 반영 전/,
+            /Core 요청 형식과 CAL 컨테이너 연동.*Google·Apple·Outlook.*개인 구독 일괄 해지/,
+            /개발 규격은 1.1.0-rc.2.*게시된 후보는 1.1.0-rc.1.*정식 규격은 1.0.0/,
             /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증/,
         ],
-        /정식 JSON 규격 1.0.0과 릴리스 후보 JSON 규격 1.1.0-rc.1의 BATON 호환성 근거/,
+        /개발 규격 1.1.0-rc.2와 앱별 구독 안내 및 운영 스모크를 확인한 공개 main/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",

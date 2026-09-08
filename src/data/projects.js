@@ -68,20 +68,20 @@ const projects = [
             {
                 id: "prd",
                 label: "PRD",
-                count: "50",
+                count: "52",
                 summary: "각 서비스가 받을 요청, 처리할 업무와 완료 판단 기준을 정리합니다.",
             },
             {
                 id: "adr",
                 label: "ADR",
-                count: "87",
+                count: "90",
                 summary: "기술 선택 이유, 검토한 대안과 적용 시 제약을 기록합니다.",
             },
             {
                 id: "runbook",
-                label: "Runbook",
-                count: "24",
-                summary: "배포, 중단 작업 복구와 공개 스테이징 전송 테스트 절차를 정리합니다.",
+                label: "Runbook 및 운영 문서",
+                count: "38",
+                summary: "배포, 백업·복구와 공개 스테이징 전송 테스트 절차를 정리합니다.",
             },
             {
                 id: "api",
@@ -185,7 +185,7 @@ const projects = [
                 primary: true,
                 screenshotNote: "화면 검증용 테스트 데이터입니다.",
                 visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "2026년 9월 6일 로컬 소스에서 여러 팀 업무 조회, 자료 재확인, 개인 캘린더 구독과 주간 보고서 기능을 확인했습니다. CAL·BRIEF·ROUND 및 RELAY 이벤트 수신까지 로컬 연동 근거가 있으며 공개 환경 전체 연결은 미검증입니다.",
+                status: "공개 main 89d323df에서 여러 팀 업무, 자료 재확인, 안 읽은 알림 필터와 주간 보고서를 확인했습니다. 무료 공휴일 연동은 기본 비활성이며 실제 외부 계정과 공개 환경 전체 연결은 미검증입니다.",
                 screenshots: [
                     {
                         id: "today",
@@ -236,11 +236,11 @@ const projects = [
                 documentation: [
                     {
                         label: "PRD",
-                        count: "8",
+                        count: "11",
                     },
                     {
                         label: "ADR",
-                        count: "20",
+                        count: "25",
                     },
                     {
                         label: "OpenAPI",
@@ -257,7 +257,7 @@ const projects = [
                 summary:
                     "허용한 BATON 및 ROUND 경로에 짧은 링크를 발급합니다. 실제 접근 권한은 대상 서비스가 확인합니다.",
                 contribution:
-                    "링크 생성, 조회, 폐기와 리다이렉트를 구현했습니다. UUID로 중복 생성을 막고 HMAC 키 일치 여부와 관리 JWT의 issuer, audience 및 작업별 scope를 검사합니다.",
+                    "링크 생성·조회·폐기와 리다이렉트를 구현했습니다. UUID로 중복 생성을 막고 관리 JWT를 검사하며, 최대 100개 링크 ID를 한 번에 조회하는 관리 API를 추가했습니다.",
                 stack: [
                     "Java 21",
                     "Spring Boot 4.1",
@@ -268,7 +268,7 @@ const projects = [
                     "Kubernetes / Kustomize",
                     "Testcontainers",
                 ],
-                detail: "UUID·요청 조건으로 중복 링크를 막고 Redis 공유 요청률 제한, HMAC 키 교체와 만료·폐기 링크 정리를 제공합니다.",
+                detail: "UUID·요청 조건으로 중복 생성을 막고 Redis 요청률 제한, HMAC 키 교체, 만료 링크 정리와 관리용 일괄 조회를 제공합니다.",
                 evidence:
                     "같은 요청 8건을 동시에 보내도 링크 1건만 저장되고, HMAC 키 불일치 시 서버가 시작되지 않는지 검증",
                 input: "허용된 BATON 또는 ROUND 대상, 사용 목적, 활성 및 만료 시각과 UUID",
@@ -279,7 +279,7 @@ const projects = [
                     "같은 UUID와 링크 조건이면 기존 링크를 반환하고, 같은 UUID의 조건이 하나라도 다르면 충돌로 차단",
                 database: "MySQL",
                 visibility: "비공개 저장소 / 최신 로컬 구현 요약 공개",
-                status: "로컬 main 08041e0에서 Redis 공유 요청률 제한, 버전별 HMAC 키 교체와 만료 링크 정리를 확인했습니다. 링크를 정리해도 중복 생성 방지 기록은 보존합니다. 실제 클러스터·공개 배포는 미검증입니다.",
+                status: "공개 main 1062c18에서 관리용 일괄 조회와 Redis 공유 요청률 제한, HMAC 키 교체 및 만료 링크 정리를 확인했습니다. 실제 클러스터·공개 배포는 미검증입니다.",
                 tradeoff:
                     "UUID 처리 기록과 HMAC 키를 함께 관리해야 합니다. DB를 복구할 때 같은 시점의 키가 없으면 기존 링크를 그대로 유지할 수 없습니다.",
                 screenshots: [
@@ -300,11 +300,11 @@ const projects = [
                     },
                     {
                         label: "ADR",
-                        count: "10",
+                        count: "13",
                     },
                     {
                         label: "Runbook",
-                        count: "6",
+                        count: "10",
                     },
                 ],
             },
@@ -330,7 +330,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "URL 응답 상태·헤더 점검, 수동 재확인과 Core 원본 데이터를 이용한 WATCH 데이터 복구",
+                detail: "URL 응답 상태·헤더 점검, 수동 재확인, Core 원본 기반 복구와 Grafana Cloud Free 원격 전송 설정",
                 evidence:
                     "사설망 차단, 중단된 점검 재실행, 이전 결과 차단과 Core 원본 데이터를 이용한 WATCH 복구 절차를 확인했습니다.",
                 input: "점검 대상 URL과 점검 요청 시점의 URL 버전",
@@ -340,14 +340,14 @@ const projects = [
                 recoveryBoundary:
                     "한 서버의 처리 기한이 지나면 기존 시도를 닫고 새 점검 시도를 만들어 다른 서버가 처리",
                 database: "PostgreSQL",
-                visibility: "공개 원격 개발 브랜치",
-                status: "로컬 main 97e6758에 본문 없는 연결 점검, 수동 재확인과 Core 스냅샷 대조·복원 도구를 반영했습니다. 공개 callback과 외부 알림을 포함한 전체 운영 연결은 미검증입니다.",
+                visibility: "공개 저장소",
+                status: "공개 main e2ad4b0에서 결과 필수값이 빠진 9개 DB 조합을 V6 제약으로 차단하고, 백업 복원·부하 및 프로세스 복구와 Grafana Cloud Free 설정을 확인했습니다. 실제 외부 대시보드·알림과 공개 callback 연결은 미검증입니다.",
                 tradeoff:
                     "처리 기한이 짧으면 중복 점검이 늘고, 길면 중단 작업의 재실행이 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
                 repository: {
-                    href: "https://github.com/ljkhyeong/baton-watch/tree/5a683430267590f7c30af6d267beb3a675b844a8",
-                    label: "WATCH 개발 브랜치 고정 커밋",
-                    note: "URL 점검, 복구, 자원 상한과 Prometheus 운영 지표를 확인한 원격 개발 브랜치 커밋입니다.",
+                    href: "https://github.com/ljkhyeong/baton-watch/tree/e2ad4b0",
+                    label: "WATCH 공개 main 고정 커밋",
+                    note: "URL 점검·복구, DB 결과 제약과 운영 검증 도구를 확인한 공개 main 커밋입니다.",
                 },
                 documentation: [
                     {
@@ -360,7 +360,7 @@ const projects = [
                     },
                     {
                         label: "Runbook",
-                        count: "9",
+                        count: "15",
                     },
                 ],
             },
@@ -369,9 +369,9 @@ const projects = [
                 name: "RELAY",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/relay",
-                role: "Webhook 및 AWS SQS FIFO 이벤트 전달",
+                role: "Discord·Webhook 및 AWS SQS FIFO 이벤트 전달",
                 summary:
-                    "Core 이벤트를 Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
+                    "Core 이벤트를 Discord, Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
                 contribution:
                     "이벤트 ID를 저장해 재수신 시 새 전송 작업을 만들지 않습니다. 서버가 중단되면 기존 시도 UUID와 외부 서비스의 멱등 키를 유지하고, 처리 서버만 변경합니다.",
                 stack: [
@@ -382,25 +382,27 @@ const projects = [
                     "Spring Security",
                     "PostgreSQL 18",
                     "RabbitMQ / Spring AMQP",
+                    "Discord Webhook",
                     "AWS SQS FIFO",
+                    "pgBackRest",
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "중복 이벤트 수신 방지, 결과 미확인 전송 보류, 누락 전달 복구, 외부 서비스별 전송 한도·일시정지와 암호화 이력 보관",
+                detail: "중복 수신 방지, Discord·Webhook·SQS 전달, 결과 미확인 보류, 설정 오류 구독 조회와 pgBackRest 시점 복구",
                 evidence:
                     "이벤트 재수신 시 작업 중복 생성 방지, 서버 중단 후 기존 시도 UUID·외부 서비스 멱등 키 유지와 처리 서버 변경 검증",
                 input: "이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각",
                 inputRule: "수신 값이 정해 둔 이벤트 형식과 데이터 형식 버전에 맞는지 확인합니다.",
-                output: "Webhook 또는 AWS SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태",
+                output: "Discord, Webhook 또는 AWS SQS FIFO 전달 성공, 실패 또는 결과 미확인 상태",
                 recoveryBoundary:
                     "전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 구현 공개 main",
-                status: "공개 main 6f92cef에 누락 전달 미리보기·복구, 운영자 감사 조회, 외부 서비스별 전송 한도·일시정지와 암호화 보관·복원을 구현했습니다. 경보 실패·복구는 모의 수신기로 검증했으며 실제 AWS·외부 운영 알림은 미검증입니다.",
+                status: "공개 main 5f97e0a에서 Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 암호화 백업·시점 복구를 확인했습니다. 실제 Discord·AWS 전송과 운영 환경의 RPO·RTO는 미검증입니다.",
                 tradeoff:
                     "결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
                 repository: {
-                    href: "https://github.com/ljkhyeong/baton-relay/tree/f9645c2",
+                    href: "https://github.com/ljkhyeong/baton-relay/tree/5f97e0a",
                     label: "RELAY 공개 main",
                     note: "RabbitMQ 수신, 외부 전달과 운영 조회가 반영된 공개 main입니다.",
                 },
@@ -411,7 +413,11 @@ const projects = [
                     },
                     {
                         label: "ADR",
-                        count: "26",
+                        count: "37",
+                    },
+                    {
+                        label: "운영 문서",
+                        count: "3",
                     },
                 ],
             },
@@ -447,7 +453,7 @@ const projects = [
                     "같은 이벤트와 과거 버전은 반영하지 않고 저장한 이벤트 전체를 읽어 같은 점검 항목을 다시 생성",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 최신 기능은 로컬 구현 기준",
-                status: "로컬 main 5e7cd53에 주간 미해결 이월·신규 구분과 해결 내역 조회를 추가했습니다. Core와 주간 보고서의 로컬 연동을 확인했으며 공인 DNS·원격 배포는 미검증입니다.",
+                status: "공개 main 5b7d880에서 주간 이월·신규·해결 내역과 이벤트 거부·버전 오류 경보를 확인했습니다. Core 로컬 연동은 검증했으며 공인 DNS·원격 배포는 미검증입니다.",
                 tradeoff:
                     "v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 반영 및 보고서 비교 규칙을 함께 변경해야 합니다.",
                 repository: {
@@ -469,15 +475,19 @@ const projects = [
                 documentation: [
                     {
                         label: "PRD",
-                        count: "28",
+                        count: "30",
                     },
                     {
                         label: "ADR",
-                        count: "7",
+                        count: "8",
                     },
                     {
                         label: "이벤트 형식 문서",
                         count: "1",
+                    },
+                    {
+                        label: "운영 문서",
+                        count: "3",
                     },
                 ],
             },
@@ -512,13 +522,13 @@ const projects = [
                     "중복 및 과거 버전 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성",
                 database: "PostgreSQL",
                 visibility: "공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1",
-                status: "로컬 main 30f88e7의 1.1.0-rc.2 개발 소스에 개인 구독·응답 유실 복구·진단을 구현했습니다. 게시된 후보는 1.1.0-rc.1, 정식 규격은 1.0.0이며 실제 캘린더 앱·공개 운영은 미검증입니다.",
+                status: "공개 main 3c2936d의 1.1.0-rc.2 개발 소스에 개인 구독·일괄 해지, 응답 유실 복구와 앱별 등록 안내를 구현했습니다. 게시된 후보는 1.1.0-rc.1이며 실제 캘린더 앱·공개 운영은 미검증입니다.",
                 tradeoff:
                     "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
                 repository: {
-                    href: "https://github.com/ljkhyeong/baton-cal/tree/978f0d4",
+                    href: "https://github.com/ljkhyeong/baton-cal/tree/3c2936d",
                     label: "CAL 공개 main 고정 커밋",
-                    note: "정식 JSON 규격 1.0.0과 릴리스 후보 JSON 규격 1.1.0-rc.1의 BATON 호환성 근거를 확인할 수 있습니다.",
+                    note: "개발 규격 1.1.0-rc.2와 앱별 구독 안내 및 운영 스모크를 확인한 공개 main입니다.",
                 },
                 documentation: [
                     {
@@ -531,7 +541,7 @@ const projects = [
                     },
                     {
                         label: "JSON Schema",
-                        count: "6",
+                        count: "16",
                     },
                 ],
             },
@@ -546,7 +556,7 @@ const projects = [
                 summary:
                     "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.",
                 contribution:
-                    "React 입장 및 통화 화면, protocol v3, 재연결과 채팅 수신 확인을 처리하는 RTC 코어, Spring WebSocket 시그널링과 만료 시간이 짧은 Cloudflare TURN 자격 증명 발급을 구현했습니다.",
+                    "React 입장·통화 화면, protocol v3, 재연결과 채팅 수신 확인을 처리하는 RTC 코어, Spring WebSocket 시그널링과 만료 시간이 짧은 Cloudflare TURN 자격 증명 발급을 구현했습니다.",
                 stack: [
                     "TypeScript",
                     "React 19",
@@ -558,7 +568,7 @@ const projects = [
                     "Cloudflare TURN / Caddy",
                     "Playwright",
                 ],
-                detail: "최대 6명 WebRTC, 통합 입장 화면, 손들기 대기 순서·공용 타이머·주제, 채팅 검색과 화면 공유 확대",
+                detail: "최대 6명 WebRTC, QR 초대, 손들기 순서·공용 타이머·주제, 채팅 검색어 강조와 화면 공유 확대",
                 evidence:
                     "Chromium 카메라 및 마이크 제어와 화면 공유, WebKit 호환성, BATON edge와 배포 검증을 CI 작업으로 분리했습니다. WebKit mDNS와 restic 누락도 보완했습니다.",
                 input: "방 ID·참가자 ID·만료 시각이 담긴 Core의 단기 입장 토큰(RS256)",
@@ -569,7 +579,7 @@ const projects = [
                     "연결을 새로 만들 때마다 순번을 올리고 이전 연결에서 늦게 온 메시지는 버립니다. 같은 참가자가 새 입장 토큰으로 접속하면 이전 WebSocket 세션을 종료합니다.",
                 database: "DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장",
                 visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "로컬 main fd874e2에서 손들기·공용 타이머·주제, 채팅 검색, 참가자별 음량과 화면 공유 확대를 구현했습니다. 로컬 서버에 가상 카메라 참가자 2명을 연결해 촬영했습니다. 실제 TURN·Safari 실기기·외부망·6명 장시간 접속은 미검증입니다.",
+                status: "공개 main 78d8c16에서 QR 초대, 손들기·공용 타이머·주제, 채팅 검색어 강조와 입력 초점 복원을 확인했습니다. 실제 TURN·Safari 실기기·외부망·6명 장시간 접속은 미검증입니다.",
                 tradeoff:
                     "참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
                 screenshots: [
@@ -580,6 +590,15 @@ const projects = [
                         caption:
                             "두 참가자가 연결된 방에서 공용 타이머·주제와 손들기 순서를 확인하는 화면",
                         alt: "두 참가자가 연결된 방에서 공용 타이머·주제와 손들기 순서를 확인하는 화면",
+                        width: 1440,
+                        height: 960,
+                    },
+                    {
+                        id: "invite",
+                        src: "baton-round-invite.webp",
+                        label: "QR 초대",
+                        caption: "QR 코드·초대 링크로 스터디룸 공유",
+                        alt: "BATON ROUND에서 QR 코드와 초대 링크를 확인하는 화면",
                         width: 1440,
                         height: 960,
                     },
@@ -644,28 +663,28 @@ const projects = [
                 method: "Testcontainers 통합 테스트",
                 rule: "같은 UUID와 요청으로 8건을 동시에 실행",
                 result: "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
-                scope: "GO 최신 로컬 main 기준 · BATON 런타임 연결은 미검증",
+                scope: "GO 공개 main 1062c18 · BATON 런타임 연결은 미검증",
             },
             {
                 item: "WATCH 안전한 URL 점검",
                 method: "자동화 테스트",
                 rule: "사설망·DNS 변경 차단, 응답 본문 미수신, 이전 URL 버전 결과와 기한이 지난 점검의 복구를 확인",
                 result: "공인 IP의 응답 상태·헤더만 확인하고 본문은 읽지 않습니다. 현재 URL 버전 결과만 저장하고 중단된 점검은 다시 실행합니다.",
-                scope: "로컬 main 97e6758 · 기존 검증 기록과 현재 구현 대조",
+                scope: "WATCH 공개 main e2ad4b0 · 로컬 V6·복구 검증 완료 · 공개 callback은 미검증",
             },
             {
                 item: "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지",
                 method: "RabbitMQ 및 PostgreSQL Docker Compose 검증",
                 rule: "PostgreSQL 저장은 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 RabbitMQ와 RELAY를 중단하고 같은 이벤트를 재전달",
                 result: "같은 이벤트 ID의 수신 이력을 1건으로 유지하고 RabbitMQ에 ACK를 보내며 별도 실패 큐(DLQ)에는 넣지 않음",
-                scope: "RELAY 공개 main f9645c2 · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 main CI 성공",
+                scope: "RELAY 공개 main 5f97e0a · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 main CI 성공",
             },
             {
                 item: "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
                 method: "PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동",
                 rule: "Core의 담당자 공백 및 업무 지연 등 5개 상태를 ACTIVE 및 RESOLVED로 전환하고, 같은 이벤트와 과거 버전 및 점검 항목 요약, 필터와 보고서 동시 생성 요청을 실행",
                 result: "신호를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 점검 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.",
-                scope: "BRIEF 최신 로컬 main과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
+                scope: "BRIEF 공개 main 5b7d880과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
             },
             {
                 item: "CAL 일정 JSON 수신과 캘린더 구독",
@@ -679,14 +698,14 @@ const projects = [
                 method: "현재 main의 Chromium, WebKit, BATON edge 및 배포 검증 구성 확인",
                 rule: "RS256 입장 토큰으로 최대 6명 mesh 연결, 카메라 및 마이크 제어, 화면 공유와 재연결 및 WebKit 장치 동의, 채팅과 모바일 화면 배치 시나리오를 실행",
                 result: "이전 실패 원인이었던 WebKit 직접 연결용 mDNS와 배포 검증용 restic 설치를 현재 main에 추가하고 시그널링 및 RTC 상태 책임을 분리했습니다.",
-                scope: "비공개 main 7c9218c 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
+                scope: "비공개 main 78d8c16 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
             },
             {
                 item: "여러 팀의 내 업무와 최근 서비스 확장",
                 method: "각 저장소 소스·검증 기록과 로컬 화면 대조",
                 rule: "Core 내 팀·자료 재확인, BRIEF 주간 이월·해결, CAL 개인 구독과 ROUND 스터디 도구를 확인",
                 result: "여러 팀의 담당 업무를 모아 보고 개인 일정 구독과 주간 보고서로 이어집니다. ROUND에는 공용 타이머와 손들기 순서를 추가했습니다.",
-                scope: "2026.09.06 로컬 소스 기준 · 화면별 테스트 데이터 및 외부 연동 범위 별도 표시",
+                scope: "2026.09.08 각 저장소의 공개 main 또는 명시한 개발 브랜치 기준 · 외부 연동 범위 별도 표시",
             },
         ],
         category: "개인 프로젝트",
@@ -695,7 +714,7 @@ const projects = [
             "오늘 할 일과 인수인계를 중심으로 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더와 WebRTC를 독립 서비스로 구현했습니다.",
         status: {
             label: "현재 상태",
-            text: "Core와 6개 서비스에 여러 팀 업무 조회, 개인 캘린더, 주간 보고서와 운영 복구 기능을 추가했습니다. 일부 서비스는 실제 로컬 실행으로 연동을 확인했으며 GO·WATCH를 포함한 공개 환경 전체 연결과 장기 운영은 미검증입니다.",
+            text: "Core와 6개 서비스에 관리용 일괄 조회, DB 결과 제약, Discord 전달, 백업·복구와 캘린더 등록 안내를 추가했습니다. 일부 연동은 로컬에서 확인했으며 공개 환경 전체 연결과 장기 운영은 미검증입니다.",
         },
         visualCaption:
             "조직 데이터는 Core에 저장하고 서비스별 DB를 분리합니다. ROUND 방 상태는 메모리에 둡니다.",
@@ -888,7 +907,7 @@ const projects = [
             "React 19 / Vite",
             "MySQL 8.4 / PostgreSQL 18",
             "Flyway",
-            "RabbitMQ 4.3 / AWS SQS FIFO",
+            "RabbitMQ 4.3 / Discord / AWS SQS FIFO",
             "iCal4j 4.3",
             "WebRTC / Spring WebSocket",
             "Testcontainers / Playwright",
@@ -905,7 +924,7 @@ const projects = [
                 label: "BATON RELAY GitHub 저장소",
                 shortLabel: "RELAY 저장소",
                 href: "https://github.com/ljkhyeong/baton-relay",
-                note: "RabbitMQ 수신, Webhook 및 AWS SQS FIFO 전달",
+                note: "RabbitMQ 수신, Discord·Webhook 및 AWS SQS FIFO 전달",
             },
             {
                 label: "BATON BRIEF GitHub 저장소",
@@ -926,7 +945,8 @@ const projects = [
         evidenceTitle: "테스트 범위 및 운영 이력",
         systemTitle: "대표 화면",
         systemNavLabel: "대표 화면",
-        screenshotNote: "E2E 테스트용 모의 API 응답으로 촬영한 화면입니다.",
+        screenshotNote:
+            "2026년 9월 6일 E2E 테스트용 모의 API 응답으로 촬영했습니다. 이후 변경은 공휴일·주소 연동과 회원 목록 복귀 동작으로, 이 대표 화면의 기능 범위는 유지됩니다.",
         screenshots: [
             {
                 id: "product-options",
@@ -1140,15 +1160,30 @@ const projects = [
                 method: "최신 소스와 기존 브라우저 시나리오 대조·로컬 화면 확인",
                 rule: "선택 상품 결제, 미선택 상품 유지, 이전 주문의 가격·옵션 재확인과 품절 상품 알림 신청 흐름을 확인",
                 result: "선택한 상품만 결제하고 재주문 시 현재 가격·재고·옵션을 확인합니다. 재입고 알림 신청·해지와 관리자 수요 조회를 구현했습니다.",
-                scope: "2026.09.06 공개 main 87e9987 · 선택 구매 화면은 모의 API · 실제 결제·외부 알림 미검증",
+                scope: "공개 main a4dec4f4에 포함 · 선택 구매 화면은 모의 API · 실제 결제·외부 알림 미검증",
+            },
+            {
+                item: "무료 공휴일 갱신과 주소 검색",
+                method: "공개 main 구현·제품 명세와 자동화 검증 기록 대조",
+                rule: "공휴일 API 성공·실패와 연도별 스냅샷 대체, Kakao 우편번호 검색 실패 뒤 직접 입력을 확인",
+                result: "공휴일은 매일 현재·다음 연도를 갱신하고 실패하면 마지막 정상 데이터를 유지합니다. 주소 검색은 별도 API 키 없이 브라우저에서 실행하며 직접 입력도 유지합니다.",
+                scope: "공개 main a4dec4f4 · 실제 공공데이터 서비스 키와 운영 브라우저 검증은 미완료",
+            },
+            {
+                item: "회원 주문·예약 목록 조건 복원",
+                method: "공개 main의 브라우저 시나리오와 제품 명세 대조",
+                rule: "검색어·상태·정렬을 적용한 목록에서 상세로 이동한 뒤 뒤로가기·새로고침·조회 실패 복귀를 확인",
+                result: "상세 URL에 목록 조건을 보존하고, 상세 조회 중이거나 실패해도 기존 검색 조건으로 돌아갑니다.",
+                scope: "공개 main a4dec4f4",
             },
         ],
         category: "개인 프로젝트",
         role: "요구사항 정리, Java 및 Spring Boot API, React 화면, 결제 및 스마트스토어 연동과 자동화 테스트",
-        oneLine: "상품 주문, 결제, 클래스 예약과 스마트스토어 관리 기능을 구현했습니다.",
+        oneLine:
+            "상품 주문·간편결제·클래스 예약과 스마트스토어 운영을 하나의 서비스로 구현했습니다.",
         status: {
             label: "운영 상태",
-            text: "공개 main 87e9987 기준으로 선택 구매·재주문·재입고 알림·단체수업 문의와 스마트스토어 관리를 구현했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증입니다. AWS 주요 리소스는 2026년 5월 3일 종료했고 로컬 k3s 운영은 준비 중입니다.",
+            text: "공개 main a4dec4f4에 한국천문연구원 공휴일 갱신, Kakao 우편번호 검색과 회원 주문·예약 목록 조건 복원을 반영했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증이며 AWS 운영은 종료했습니다.",
         },
         visualCaption:
             "최신 UI에 E2E 테스트용 모의 API 응답을 넣은 화면입니다. 실제 네이버 판매자 계정이나 PG 운영 화면은 아닙니다.",
@@ -1373,14 +1408,14 @@ const projects = [
         systemTitle: "현재 구현 화면",
         systemNavLabel: "화면",
         screenshotNote:
-            "2026년 9월 6일 로컬 앱을 390px 모바일 화면으로 촬영했습니다. 정책 목록과 상세는 온통청년에서 수집해 저장한 공개 데이터입니다. 전체 정책 목록이나 최종 신청 자격을 보장하지 않습니다.",
+            "2026년 9월 8일 로컬 앱에서 다시 확인했습니다. 정책 목록과 상세는 온통청년에서 수집해 저장한 공개 데이터이며, 전체 정책 목록이나 최종 신청 자격을 보장하지 않습니다.",
         screenshots: [
             {
                 id: "home",
                 src: "youth-policy-mate-home.webp",
-                label: "모바일 홈",
-                caption: "조건 입력과 공개 정책 탐색을 시작하는 모바일 홈",
-                alt: "조건 입력과 공개 정책 탐색을 시작하는 모바일 홈",
+                label: "정책 탐색 홈",
+                caption: "조건 입력과 공개 정책 탐색을 시작하는 웹앱 홈",
+                alt: "조건 입력과 공개 정책 탐색을 시작하는 청년정책메이트 홈",
                 width: 780,
                 height: 1688,
             },
@@ -1388,8 +1423,8 @@ const projects = [
                 id: "policies",
                 src: "youth-policy-mate-policies.webp",
                 label: "실제 정책 목록",
-                caption: "로컬 DB에 저장한 공개 정책 40건의 목록과 검색",
-                alt: "로컬 DB에 저장한 공개 정책 40건의 목록과 검색",
+                caption: "공개 정책 40건의 접수 상태·질문 제공 여부 필터와 검색",
+                alt: "공개 정책 40건을 접수 상태와 질문 제공 여부로 검색하는 화면",
                 width: 780,
                 height: 1688,
             },
@@ -1397,8 +1432,8 @@ const projects = [
                 id: "detail",
                 src: "youth-policy-mate-detail.webp",
                 label: "정책 상세",
-                caption: "K-패스의 지원 내용과 신청 방법을 확인하는 화면",
-                alt: "K-패스의 지원 내용과 신청 방법을 확인하는 화면",
+                caption: "청년내일저축계좌의 지원 내용과 검토된 원문 충돌 안내",
+                alt: "청년내일저축계좌 상세에서 지원 내용과 검토된 원문 충돌을 확인하는 화면",
                 width: 780,
                 height: 1688,
             },
@@ -1406,8 +1441,8 @@ const projects = [
                 id: "questions",
                 src: "youth-policy-mate-questions.webp",
                 label: "정책별 조건 질문",
-                caption: "검토한 K-패스 조건 질문으로 일부 신청 요건을 확인하는 화면",
-                alt: "검토한 K-패스 조건 질문으로 일부 신청 요건을 확인하는 화면",
+                caption: "청년내일저축계좌의 소득·참여 이력 등 일부 가입 조건 확인",
+                alt: "청년내일저축계좌 조건 질문으로 일부 가입 요건을 확인하는 화면",
                 width: 780,
                 height: 1688,
             },
@@ -1418,9 +1453,9 @@ const projects = [
             description:
                 "정책 수집, 조건 판정, 회원 저장과 알림을 기능별로 나누고 JDBC·PostgreSQL 트랜잭션으로 처리합니다. 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성합니다.",
             tradeoff:
-                "정책 40건을 수집했으며 조건 질문은 검토한 정책 5종의 일부 공통 요건만 다룹니다.",
+                "정책 40건을 수집했으며 조건 질문은 검토한 정책 8종의 일부 공통 요건만 다룹니다.",
         },
-        featuredProblemNumbers: ["01", "02", "03", "04"],
+        featuredProblemNumbers: ["01", "03", "04", "06"],
         documentGroups: [
             {
                 id: "prd",
@@ -1445,7 +1480,7 @@ const projects = [
             {
                 id: "development",
                 label: "구현 기록",
-                count: "50",
+                count: "59",
                 summary: "작은 단위의 구현 범위, 검증 결과와 아직 연결하지 않은 기능을 기록합니다.",
             },
         ],
@@ -1460,7 +1495,7 @@ const projects = [
             },
             {
                 type: "PRD",
-                label: "서울 청년정책 모바일 웹앱 MVP",
+                label: "서울 청년정책 웹앱 MVP",
                 href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/PRD/0001_product-baseline/spec.md",
                 note: "대상 사용자, 정책 범위, 자격 판정, 일정과 알림의 완료 기준 및 제외 항목",
             },
@@ -1488,14 +1523,20 @@ const projects = [
                 href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-reservation-recovery-heartbeat.md",
                 note: "복구 작업의 처리 기한을 갱신하고 이전 작업자의 결과는 무시",
             },
+            {
+                type: "구현 기록",
+                label: "관리자 수집 예외와 정책 보정",
+                href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/admin-collection-exceptions.md",
+                note: "페이지 실패·개정·재처리 이력과 정책명·운영 기관 보정 및 충돌 처리",
+            },
         ],
         proofs: [
             {
                 item: "공개 정책 조회와 정책별 조건 질문",
                 method: "현재 로컬 앱과 서버 구현·테스트 대조",
                 rule: "수집한 정책 목록·상세와 조건 질문 필터를 조회하고 검토 대상 정책을 확인",
-                result: "공개 정책 40건을 조회하고 검토한 5종의 정책에만 조건 질문을 제공합니다. 확인하지 못한 요건은 추가 확인으로 남깁니다.",
-                scope: "2026.09.06 로컬 d6ef9d2 · 전체 서울 정책과 최종 신청 자격 판정은 아님",
+                result: "공개 정책 40건을 조회하고 검토한 8종의 정책에만 조건 질문을 제공합니다. 접수 상태와 질문 제공 여부로 검색하며 확인하지 못한 요건은 추가 확인으로 남깁니다.",
+                scope: "로컬 개발 브랜치 c083adf · 전체 서울 정책과 최종 신청 자격 판정은 아님",
             },
             {
                 item: "관심 정책 저장과 일정·알림",
@@ -1519,20 +1560,20 @@ const projects = [
                 scope: "실제 AI 공급자 요청·청구와 운영 작업자는 미연결",
             },
             {
-                item: "서버 자동화 검증",
-                method: "저장소 검증 기록과 결과 로그 확인",
-                rule: "JPA·Modulith 제거 후 JDBC 구성의 서버 전체 테스트와 빌드를 확인",
-                result: "서버 테스트 436개와 빌드가 통과했습니다.",
-                scope: "테스트 기준 c8cfc33 · 구현 기준 d6ef9d2",
+                item: "수집 예외 재처리와 원문 충돌 안내",
+                method: "PostgreSQL 정책 API·브라우저 시나리오와 구현 문서 대조",
+                rule: "페이지 실패 조회, 개정 비교, 사유를 남긴 재처리·보정과 새 원본 충돌 및 상세 안내를 확인",
+                result: "원본과 보정을 분리해 저장하고 새 원본과 충돌하면 현재 공개 값을 유지합니다. 검토한 원문 차이는 정책 상세에 근거 링크와 함께 표시합니다.",
+                scope: "공개 main 1b7fbdd와 로컬 개발 브랜치 c083adf · 실제 관리자 계정 연결은 미완료",
             },
         ],
-        category: "개인 모바일 웹앱 프로젝트",
+        category: "개인 웹앱 프로젝트",
         role: "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현",
         oneLine:
-            "확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 모바일 웹앱을 개발합니다.",
+            "확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.",
         status: {
             label: "현재 상태",
-            text: "공개 정책 40건 조회, 정책 5종의 조건 질문, 로그인, 관심 정책·일정·알림과 이메일 발송을 구현했습니다. 로컬·모의 응답으로 검증했으며 실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증입니다. 공개 운영 전입니다.",
+            text: "공개 main 1b7fbdd에서 접수 상태·개인 조건 검색과 관리자 수집 예외를 구현했고, 로컬 DB의 공개 정책 40건을 확인했습니다. 로컬 개발 브랜치 c083adf에는 정책 8종의 조건 질문과 원문 충돌 안내를 추가했습니다. 실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증입니다.",
         },
         visualCaption:
             "실제 공개 정책을 저장한 로컬 DB로 촬영한 모바일 화면입니다. 조건 질문은 일부 요건을 확인하며 최종 신청 자격은 공식 안내에서 확인합니다.",
@@ -1545,7 +1586,7 @@ const projects = [
                 decision:
                     "연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계했습니다. 판정에는 정책 개정, 조건 정의와 기준일을 함께 남깁니다.",
                 validation:
-                    "조건 충족·불충족·정보 누락의 집계 규칙을 테스트하고 실제 정책 5종의 검토한 질문과 연결했습니다.",
+                    "조건 충족·불충족·정보 누락의 집계 규칙을 테스트하고 실제 정책 8종의 검토한 질문과 연결했습니다.",
                 boundary:
                     "질문은 검토한 정책의 일부 공통 요건만 다룹니다. 환급액·예외·모집 기간 등 최종 신청 조건은 공식 안내에서 확인해야 합니다.",
             },
@@ -1596,6 +1637,18 @@ const projects = [
                     "공개 정책·회원 저장·일정·알림 API의 생성 타입 검사와 웹 빌드 검증 기록을 확인했습니다.",
                 boundary:
                     "개발 전용 예시 경로는 운영 빌드에서 제외합니다. 실제 OAuth와 SMTP 외부 연동은 별도 확인이 필요합니다.",
+            },
+            {
+                number: "06",
+                title: "수집 원문을 보존하고 관리자 보정을 별도 관리",
+                constraint:
+                    "수집 실패나 원문의 잘못된 정책명·운영 기관을 직접 덮어쓰면 원본과 수정 이유를 확인할 수 없고, 새 수집 결과가 보정을 되돌릴 수 있습니다.",
+                decision:
+                    "페이지 실패·개정·재처리 이력을 남기고 정책명 또는 운영 기관의 보정값을 원본과 분리했습니다. 새 원본과 충돌하면 현재 값을 유지한 채 관리자가 해소하도록 했습니다.",
+                validation:
+                    "중복 재처리, 원본·직전 개정 비교, 보정 사유와 작업자 기록, 새 원본 충돌 및 정책 상세의 원문 차이 안내를 PostgreSQL API와 브라우저 시나리오로 확인했습니다.",
+                boundary:
+                    "현재 보정 범위는 공개 정책의 정책명과 운영 기관입니다. 실제 관리자 계정 연결과 다른 정책의 원문 검토는 남아 있습니다.",
             },
         ],
         stack: [
@@ -1750,7 +1803,7 @@ const projects = [
             "지정한 커밋의 diff만 리뷰하고, 참조한 파일과 코드 줄을 검증한 결과를 새 HTML로 저장합니다.",
         status: {
             label: "공개 상태",
-            text: "SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 구분했습니다. 공개 릴리스와 main은 v5.0.2입니다. 현재 로컬 작업 브랜치는 긴 커밋 본문 분할, 파일과 심볼릭 링크 변경 지원 및 리뷰 한도 계산 보완 3건을 추가했지만 공개 main과 합치지 않았습니다.",
+            text: "SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 구분했습니다. 공개 v5.0.2와 main 9d8392d에 긴 커밋 본문 분할, 파일·심볼릭 링크 변경 지원과 리뷰 한도 계산 보완을 반영했습니다.",
         },
         visualCaption: "커밋 확정 → 변경 수집 → 참조한 코드 줄 검증 → HTML 저장 순서입니다.",
         problems: [
@@ -1762,7 +1815,7 @@ const projects = [
                 decision:
                     "커밋 종류에 맞는 비교 기준을 확정하고 입력한 커밋과 비교 기준에 저장된 코드만 읽습니다. textconv와 색상 출력을 끄고 UTF-8이 아닌 경로를 거절합니다.",
                 validation:
-                    "짧은 ID, 최초 및 병합 커밋, 파일 이름 변경과 안전한 Git 설정을 테스트했습니다.",
+                    "짧은 ID, 최초 및 병합 커밋, 파일 이름 변경, 긴 커밋 본문 분할과 파일·심볼릭 링크 전환을 테스트했습니다.",
                 boundary:
                     "로컬 저장소에 존재하는 한 커밋만 검토합니다. 원격 CI 결과, 이슈와 토론 내용은 자동으로 수집하지 않습니다.",
             },
@@ -1774,7 +1827,7 @@ const projects = [
                 decision:
                     "파일 수, 줄 수와 본문 크기에 상한을 두고 비공개 경로와 자격 증명은 분석 및 HTML에서 제외합니다.",
                 validation:
-                    "npm, PyPI 및 네트워크 자격 증명 경로와 토큰 형태, 파일 크기와 추가 코드 조회 상한의 바로 아래 및 위 값을 테스트했습니다.",
+                    "npm, PyPI 및 네트워크 자격 증명 경로와 토큰 형태, 파일 크기와 추가 코드 조회 상한을 테스트했습니다. 제외 파일이 많아도 실제 수집한 파일의 한도를 정확히 계산합니다.",
                 boundary:
                     "제외한 파일의 구현 내용은 분석하지 않습니다. 필요한 근거가 제한 범위 밖에 있으면 결과에 확인하지 못한 범위로 표시합니다.",
             },
@@ -1843,22 +1896,22 @@ const projects = [
             description:
                 "사용자 요청, 변경 근거와 출처, 전체 커밋 해시, 저장소 스냅샷과 파일 및 줄의 내용 해시를 한 기록에 저장합니다. 검증은 실행한 명령과 종료 코드, 실행 시간, 출력 해시 및 요약으로 남깁니다.",
             tradeoff:
-                "기록 공개 시 제출한 해시를 확인하고, 별도 조회에서 GitHub 원본 코드와 비교합니다. 서버는 테스트 실행 사실까지 검증하지 않습니다. 메모리 세션을 쓰는 단일 인스턴스만 지원합니다.",
+                "기록 공개 시 제출한 해시를 확인하고 GitHub 원본 코드와 비교합니다. 이슈·PR·CI는 읽기만 하며, 서버는 테스트 실행 사실까지 검증하지 않습니다. 메모리 세션을 쓰는 단일 인스턴스만 지원합니다.",
         },
-        featuredProblemNumbers: ["01", "02", "03", "04"],
+        featuredProblemNumbers: ["01", "02", "05", "06"],
         documentGroups: [
             {
                 id: "prd",
                 label: "PRD",
-                count: "5",
+                count: "6",
                 summary:
                     "MVP, GitHub 게시, 팀 권한과 IntelliJ 조회 및 기록 탐색 범위를 정의합니다.",
             },
             {
                 id: "adr",
                 label: "ADR",
-                count: "7",
-                summary: "기록 형식, 게시, 인증, 배포와 클라이언트 역할을 기록합니다.",
+                count: "13",
+                summary: "기록 형식, 게시, 인증, 조회·복구와 클라이언트 역할을 기록합니다.",
             },
             {
                 id: "operations",
@@ -1901,6 +1954,12 @@ const projects = [
                 note: "사용자 승인, 토큰 갱신과 세션 저장 범위",
             },
             {
+                type: "ADR",
+                label: "GitHub 이슈·PR과 Actions 결과 조회",
+                href: "https://github.com/ljkhyeong/intent-trace/blob/main/docs/ADR-0012-github-context-read.md",
+                note: "기존 GitHub 연결과 읽기 권한으로 초안 자료와 실행된 CI 결과만 조회하는 기준",
+            },
+            {
                 type: "PRD",
                 label: "IntelliJ 현재 줄 의도 조회",
                 href: "https://github.com/ljkhyeong/intent-trace/blob/main/docs/PRD-0004-intellij-line-intent.md",
@@ -1937,21 +1996,21 @@ const projects = [
                 method: "서버 도메인 및 JDBC 통합 테스트",
                 rule: "초안 생성, 다른 작성자의 확인 거절, 전체 커밋 해시 연결, 작성자 확인 후 코드가 바뀐 상태의 공개와 새 공개 기록으로 대체를 실행",
                 result: "DRAFT → AUTHOR_CONFIRMED → PUBLISHED → SUPERSEDED 순서를 적용하고, 작성자가 확인한 코드 상태와 공개 요청 때 제출한 코드 상태가 다르면 게시를 거절합니다.",
-                scope: "공개 main b641831의 서버 테스트 기준",
+                scope: "공개 main e234584의 서버 테스트 기준",
             },
             {
                 item: "요청 및 GitHub 게시 중복 처리 방지",
                 method: "REST, JDBC와 GitHub Check Run 통합 테스트",
                 rule: "같은 requestId와 같은 또는 다른 payload를 재전송하고, 같은 PR HEAD에 게시 요청을 반복하며 동시 상태 변경을 실행",
                 result: "같은 payload는 기존 결과를 반환하고 다른 payload는 충돌로 차단합니다. 유일 제약과 낙관적 잠금으로 상태 경쟁을 막고 기존 Check Run을 갱신합니다.",
-                scope: "공개 main b641831의 서버 테스트 기준",
+                scope: "공개 main e234584의 서버 테스트 기준",
             },
             {
                 item: "GitHub 사용자와 저장소 권한 확인",
                 method: "OAuth, GitHub App 및 인증 필터 테스트",
                 rule: "state와 PKCE 검증, user token 갱신, 저장소 읽기 및 쓰기 권한과 세션 재사용 및 폐기를 실행",
                 result: "GitHub 사용자를 확인한 뒤 읽기와 쓰기 권한을 분리하고, access 및 refresh token과 its_ 세션을 프로세스 메모리에만 보관합니다.",
-                scope: "공개 main b641831 기준 · 서버 재시작 시 세션 소멸 · 실제 공개 운영 미검증",
+                scope: "공개 main e234584 기준 · 서버 재시작 시 세션 소멸 · 실제 공개 운영 미검증",
             },
             {
                 item: "IntelliJ 현재 줄 및 변경 기록 조회",
@@ -1972,7 +2031,7 @@ const projects = [
                 method: "서버 통합 테스트 기록·생성 HTML 촬영",
                 rule: "저장소·작성자·상태 필터, 파일·줄 조회, GitHub 코드 비교와 변경 이력을 확인",
                 result: "웹에서 팀 공개 기록과 내 비공개 기록을 찾고 코드 해시를 비교합니다. 권한이 없는 기록은 노출하지 않고 조회 중단 사유와 재개 위치를 제공합니다.",
-                scope: "로컬 a5b98ac · 서버 생성 HTML과 모의 GitHub 데이터 · 실제 GitHub 게시 미검증",
+                scope: "공개 main e234584 · 서버 생성 HTML과 모의 GitHub 데이터 · 실제 GitHub 게시 미검증",
             },
             {
                 item: "Zed MCP 연결과 최신 로컬 검증",
@@ -1981,6 +2040,13 @@ const projects = [
                 result: "Zed 1.18.1에서 승인 인자 확인, 기록 조회와 세션 폐기 후 재연결을 확인했습니다.",
                 scope: "Zed 1.18.1 앱 기준 · GitHub·모델 응답은 로컬 모의 응답",
             },
+            {
+                item: "GitHub 초안 자료 조회와 Markdown 저장",
+                method: "서버 통합 테스트와 생성 HTML 확인",
+                rule: "저장소 읽기 권한으로 이슈·PR과 지정 커밋의 Actions 결과를 조회하고, 권한이 있는 기록을 Markdown 파일로 저장",
+                result: "새 워크플로를 실행하지 않고 기존 GitHub 자료를 초안 근거로 조회합니다. 웹 저장과 REST 출력은 같은 Markdown 생성기와 권한 검사를 사용합니다.",
+                scope: "공개 main e234584 · 서버 테스트 180개 통과 · 실제 브라우저 저장 대화상자와 GitHub 게시는 미검증",
+            },
         ],
         category: "오픈소스 및 개발 도구",
         role: "Kotlin·Spring 서버, 웹 기록 조회·원본 비교, GitHub 인증·게시와 IntelliJ·Zed·MCP 연동 구현",
@@ -1988,7 +2054,7 @@ const projects = [
             "사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.",
         status: {
             label: "현재 상태",
-            text: "공개 릴리스는 v0.7.0이며 최신 로컬 서버·IntelliJ는 0.12.3-SNAPSHOT, Zed 연결 도구는 0.12.2입니다. 웹 기록 조회·코드 비교·연결 관리와 Zed MCP 연동을 추가했습니다. Marketplace와 최신 기능의 실제 GitHub 게시·공개 운영은 미검증입니다.",
+            text: "공개 릴리스는 v0.7.0이며 main e234584의 서버·IntelliJ는 0.12.3-SNAPSHOT, Zed 연결 도구는 0.12.2입니다. GitHub 이슈·PR·CI 조회와 웹 Markdown 저장을 추가했으며 실제 게시·공개 운영은 미검증입니다.",
         },
         visualCaption:
             "원문 대화와 숨은 추론은 저장하지 않습니다. 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
@@ -2053,6 +2119,18 @@ const projects = [
                 boundary:
                     "IntelliJ에서 기록 생성과 callback token 자동 수신은 제공하지 않습니다. 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증을 마치지 못했습니다.",
             },
+            {
+                number: "06",
+                title: "GitHub 자료를 읽어 초안 근거로 사용하고 기록을 Markdown으로 저장",
+                constraint:
+                    "이슈·PR의 요구사항과 이미 실행된 CI 결과를 기록 작성 때 다시 옮기면 출처가 빠지거나 다른 커밋의 결과가 섞일 수 있습니다.",
+                decision:
+                    "기존 GitHub 세션의 읽기 권한으로 이슈·PR과 전체 커밋 해시에 맞는 Actions 결과를 조회합니다. 웹 저장은 REST와 같은 Markdown 생성기와 기록 열람 권한을 사용합니다.",
+                validation:
+                    "저장소·번호·커밋 불일치, 권한 부족, 페이지 이동과 로그인 후 복귀를 테스트했습니다. Markdown 본문·헤더·파일명과 비공개 기록 차단도 확인했습니다.",
+                boundary:
+                    "CI를 새로 실행하거나 로그·아티팩트를 저장하지 않습니다. 실제 브라우저 저장 대화상자와 외부 GitHub 게시·배포는 확인하지 않았습니다.",
+            },
         ],
         stack: [
             "Kotlin 2.3.21",
@@ -2074,9 +2152,9 @@ const projects = [
                 note: "서버, Codex 연동, IntelliJ 플러그인과 운영 문서",
             },
             {
-                label: "main GitHub Actions 결과",
-                href: "https://github.com/ljkhyeong/intent-trace/actions/runs/33634146017",
-                note: "공개 main b641831의 서버, IntelliJ와 릴리스 자동화 검증",
+                label: "GitHub Actions 검증 이력",
+                href: "https://github.com/ljkhyeong/intent-trace/actions",
+                note: "공개 main e234584의 자동화 이력과 로컬 통합 테스트 검증 범위",
             },
             {
                 label: "v0.7.0 릴리스",
@@ -2105,9 +2183,18 @@ const projects = [
                 width: 1440,
                 height: 960,
             },
+            {
+                id: "github-context",
+                src: "intent-trace-github-context.webp",
+                label: "GitHub 이슈·PR·CI 조회",
+                caption: "이슈·PR의 요청 내용과 지정 커밋의 Actions 결과를 함께 확인하는 화면",
+                alt: "IntentTrace에서 GitHub 이슈와 PR 및 CI 결과를 조회하는 화면",
+                width: 1440,
+                height: 960,
+            },
         ],
         screenshotNote:
-            "서버 통합 테스트가 생성한 최신 HTML을 2026년 9월 6일 로컬 Chrome에서 촬영했습니다. 저장소·커밋·기록은 테스트 데이터이며 실제 GitHub 게시 결과가 아닙니다.",
+            "서버 통합 테스트가 생성한 HTML을 2026년 9월 8일 로컬 Chrome에서 다시 확인했습니다. 저장소·커밋·기록은 테스트 데이터이며 실제 GitHub 게시 결과가 아닙니다.",
     },
     {
         ...projectSummariesById.warrant,
@@ -2422,8 +2509,8 @@ export const navigableCaseStudyGroups = [
     { id: "personal", label: "개인", title: "개인 프로젝트", projects: personalCaseStudies },
     {
         id: "webapp",
-        label: "모바일 웹앱",
-        title: "모바일 웹앱 프로젝트",
+        label: "웹앱",
+        title: "웹앱 프로젝트",
         projects: webappCaseStudies,
     },
     {

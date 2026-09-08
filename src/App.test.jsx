@@ -543,7 +543,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
             name: "happyGallery 클래스 목록에서 수업과 예약 회차를 확인하는 모습",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/AWS 주요 리소스는 2026년 5월 3일 종료/)).toBeInTheDocument()
+    expect(screen.getByText(/AWS 운영은 종료/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
             name: /업무 규칙과 웹 및 DB 코드 분리 대표 문서 새 창에서 보기/,
@@ -569,27 +569,27 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     expect(within(screenshots).getAllByRole("img")).toHaveLength(4)
     expect(
         within(screenshots).getByRole("img", {
-            name: "조건 입력과 공개 정책 탐색을 시작하는 모바일 홈",
+            name: "조건 입력과 공개 정책 탐색을 시작하는 청년정책메이트 홈",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "로컬 DB에 저장한 공개 정책 40건의 목록과 검색",
+            name: "공개 정책 40건을 접수 상태와 질문 제공 여부로 검색하는 화면",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "K-패스의 지원 내용과 신청 방법을 확인하는 화면",
+            name: "청년내일저축계좌 상세에서 지원 내용과 검토된 원문 충돌을 확인하는 화면",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "검토한 K-패스 조건 질문으로 일부 신청 요건을 확인하는 화면",
+            name: "청년내일저축계좌 조건 질문으로 일부 가입 요건을 확인하는 화면",
         }),
     ).toBeInTheDocument()
     expect(screenshots).toHaveAccessibleDescription(/온통청년에서 수집해 저장한 공개 데이터/)
     expect(
-        screen.getByText(/실제 OAuth 로그인, 외부 이메일 수신과 AI 공급자 호출은 미검증/),
+        screen.getByText(/실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증/),
     ).toBeInTheDocument()
 })
 
@@ -658,7 +658,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     )
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "문서 분류와 대표 문서" })).toBeInTheDocument()
-    expect(screen.getByText("공개 원격 개발 브랜치")).toBeInTheDocument()
+    expect(screen.getByText("공개 저장소")).toBeInTheDocument()
     expect(screen.getByText("URL 점검 중 DB 연결 반환과 늦은 결과 차단")).toBeInTheDocument()
     expect(screen.queryByText("HMAC 키와 링크 데이터의 복구 시점 일치")).not.toBeInTheDocument()
     expect(screen.queryByText("전송 결과 미확인 시 중복 발송 방지")).not.toBeInTheDocument()

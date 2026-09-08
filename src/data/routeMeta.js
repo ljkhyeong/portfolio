@@ -62,13 +62,13 @@ const routeMetaContent = {
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "카드와 간편결제, 스마트스토어 상품 및 주문 운영, 결제와 알림 재처리를 구현한 공방 주문 및 예약 서비스",
+            "카드·간편결제, 스마트스토어 운영, 공휴일 갱신과 주소 검색을 구현한 공방 주문 및 예약 서비스",
         image: "/og-cover.png",
     },
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "공개 정책 조회, 검토한 신청 조건 질문, 관심 정책 저장과 일정·알림을 연결한 서울 청년정책 모바일 웹앱 개발 프로젝트",
+            "공개 정책의 접수 상태와 신청 조건을 확인하고 관심 정책 일정·알림과 수집 예외 보정을 연결한 서울 청년정책 웹앱",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
@@ -80,7 +80,7 @@ const routeMetaContent = {
     "/projects/intent-trace": {
         title: "IntentTrace | 임정규 포트폴리오",
         description:
-            "AI 코드 변경의 요청, 변경 근거와 출처, 코드 위치와 검증 결과를 연결하고, 작성자 확인 후 코드가 바뀌면 공개를 차단하는 개발 도구",
+            "AI 코드 변경 근거와 검증을 코드 위치에 연결하고 GitHub 이슈·PR·CI 조회와 Markdown 저장을 제공하는 개발 도구",
         image: "/og-cover.png",
     },
     "/projects/defense": {
