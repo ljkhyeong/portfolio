@@ -10,8 +10,8 @@ export const projectSummaries = [
         eyebrow: "조직 운영 플랫폼",
         homeSummary: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
         homeRepository: {
-            label: "WATCH GitHub",
-            href: "https://github.com/ljkhyeong/baton-watch",
+            label: "GitHub",
+            href: "https://github.com/ljkhyeong/baton",
         },
         summary:
             "조직의 역할, 반복 업무, 결정과 인수인계를 관리합니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC는 6개 마이크로서비스로 분리했습니다.",

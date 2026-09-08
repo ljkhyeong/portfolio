@@ -120,14 +120,40 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     expect(screen.getByRole("heading", { name: "마이크로서비스별 담당 기능" })).toBeInTheDocument()
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
+    const repositoryLinks = [
+        ["Core", "https://github.com/ljkhyeong/baton", "비공개 저장소"],
+        ["GO", "https://github.com/ljkhyeong/baton-go", "비공개 저장소"],
+        ["WATCH", "https://github.com/ljkhyeong/baton-watch", "공개 저장소"],
+        ["RELAY", "https://github.com/ljkhyeong/baton-relay", "비공개 저장소"],
+        ["BRIEF", "https://github.com/ljkhyeong/baton-brief", "공개 저장소"],
+        ["CAL", "https://github.com/ljkhyeong/baton-cal", "공개 저장소"],
+        ["ROUND", "https://github.com/ljkhyeong/webrtc-study", "비공개 저장소"],
+    ]
 
-    expect(evidenceLinks).toHaveTextContent("WATCH 저장소")
+    expect(evidenceLinks).toHaveTextContent("Core 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
     expect(
         within(evidenceLinks).getByRole("link", {
-            name: "BATON WATCH GitHub 저장소 새 창에서 보기",
+            name: "BATON Core GitHub 저장소 새 창에서 보기",
         }),
-    ).toHaveAttribute("href", "https://github.com/ljkhyeong/baton-watch")
+    ).toHaveAttribute("href", "https://github.com/ljkhyeong/baton")
+
+    const relatedLinks = screen
+        .getByRole("heading", { name: "관련 링크" })
+        .closest(".case-meta__links")
+
+    repositoryLinks.forEach(([service, href, visibility]) => {
+        expect(
+            within(relatedLinks).getByRole("link", {
+                name: `BATON ${service} GitHub 저장소`,
+            }),
+        ).toHaveAttribute("href", href)
+        expect(
+            within(relatedLinks)
+                .getByRole("link", { name: `BATON ${service} GitHub 저장소` })
+                .closest("li"),
+        ).toHaveTextContent(visibility)
+    })
 
     const additionalProblems = screen.getByText("추가 문제 해결 10건 보기").closest("details")
     const featuredProblemList = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })

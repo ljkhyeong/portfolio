@@ -31,11 +31,11 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
 
     const detailLink = screen.getByRole("link", { name: "BATON 프로젝트 상세 보기" })
     const repositoryLink = screen.getByRole("link", {
-        name: "BATON WATCH GitHub 저장소 새 창에서 보기",
+        name: "BATON GitHub 저장소 새 창에서 보기",
     })
     expect(detailLink).toHaveAttribute("href", "/projects/baton")
     expect(detailLink).not.toHaveAttribute("target")
-    expect(repositoryLink).toHaveAttribute("href", "https://github.com/ljkhyeong/baton-watch")
+    expect(repositoryLink).toHaveAttribute("href", "https://github.com/ljkhyeong/baton")
     expect(repositoryLink).toHaveAttribute("target", "_blank")
     expect(repositoryLink).toHaveAttribute("rel", "noreferrer")
     expect(
