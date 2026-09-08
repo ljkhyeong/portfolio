@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import { generatePortfolioAnswer, searchPortfolioKnowledge } from "../../api/knowledgeSearch"
+import { Link, useSearchParams } from "react-router-dom"
 import { portfolioProfile } from "../../data/profile"
 import { projectSummaries } from "../../data/projectSummaries"
 import PortfolioNavigation from "../PortfolioNavigation"
+import usePortfolioKnowledge from "./usePortfolioKnowledge"
 import "../../css/PortfolioKnowledge.css"
 
 const suggestionQuestions = [
@@ -32,18 +32,6 @@ const getSecondaryLabel = (item) => {
     return item.heading && item.heading !== item.title && item.heading !== documentTypeLabel
         ? item.heading
         : null
-}
-
-const getRequestErrorMessage = (error, action) => {
-    if (error.status === 429) {
-        return `${action} 요청이 많습니다. 잠시 후 다시 시도해 주세요.`
-    }
-
-    if (error.status === 503 || error.code === "NETWORK_ERROR") {
-        return `현재 ${action} 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.`
-    }
-
-    return error.message || `${action} 요청을 처리하지 못했습니다.`
 }
 
 const SourceLink = ({ item, children, className }) => {
@@ -308,149 +296,44 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
 )
 
 const PortfolioKnowledgePage = () => {
-    const [query, setQuery] = useState("")
-    const [projectId, setProjectId] = useState("")
-    const [documentType, setDocumentType] = useState("")
-    const [searchState, setSearchState] = useState("idle")
-    const [searchedQuery, setSearchedQuery] = useState("")
-    const [results, setResults] = useState([])
-    const [total, setTotal] = useState(0)
-    const [searchError, setSearchError] = useState("")
-    const [answerState, setAnswerState] = useState("idle")
-    const [answer, setAnswer] = useState("")
-    const [citations, setCitations] = useState([])
-    const [answerError, setAnswerError] = useState("")
-    const activeSearch = useRef(null)
-    const activeAnswer = useRef(null)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const searchedQuery = (searchParams.get("q") ?? "").trim()
+    const projectId =
+        projectSummaries.find((project) => project.id === searchParams.get("project"))?.id ?? ""
+    const documentType =
+        documentTypes.find(([type]) => type === searchParams.get("type"))?.[0] ?? ""
+    const [query, setQuery] = useState(searchedQuery)
+    const { search, answer, generateAnswer, retrySearch } = usePortfolioKnowledge({
+        query: searchedQuery,
+        projectId,
+        documentType,
+    })
 
-    useEffect(
-        () => () => {
-            activeSearch.current?.abort()
-            activeAnswer.current?.abort()
-        },
-        [],
-    )
+    useEffect(() => setQuery(searchedQuery), [searchedQuery, searchParams])
 
-    const resetAnswer = () => {
-        activeAnswer.current?.abort()
-        setAnswerState("idle")
-        setAnswer("")
-        setCitations([])
-        setAnswerError("")
-    }
-
-    const resetSearchResult = () => {
-        activeSearch.current?.abort()
-        setSearchState("idle")
-        setSearchedQuery("")
-        setResults([])
-        setTotal(0)
-        setSearchError("")
-        resetAnswer()
-    }
-
-    const handleProjectChange = (value) => {
-        setProjectId(value)
-
-        if (searchState !== "idle") {
-            resetSearchResult()
-        }
-    }
-
-    const handleDocumentTypeChange = (value) => {
-        setDocumentType(value)
-
-        if (searchState !== "idle") {
-            resetSearchResult()
-        }
-    }
-
-    const runSearch = async (searchQuery) => {
+    const runSearch = (searchQuery, filters = { projectId, documentType }) => {
         const normalizedQuery = searchQuery.trim()
+        const nextParams = new URLSearchParams()
+        if (normalizedQuery) nextParams.set("q", normalizedQuery)
+        if (filters.projectId) nextParams.set("project", filters.projectId)
+        if (filters.documentType) nextParams.set("type", filters.documentType)
+        setQuery(normalizedQuery)
 
-        if (!normalizedQuery) {
+        if (
+            normalizedQuery === searchedQuery &&
+            filters.projectId === projectId &&
+            filters.documentType === documentType
+        ) {
+            if (normalizedQuery) retrySearch()
             return
         }
 
-        activeSearch.current?.abort()
-        const controller = new AbortController()
-        activeSearch.current = controller
-        setQuery(normalizedQuery)
-        setSearchedQuery(normalizedQuery)
-        setSearchState("loading")
-        setSearchError("")
-        resetAnswer()
-
-        try {
-            const response = await searchPortfolioKnowledge({
-                query: normalizedQuery,
-                projectId,
-                documentType,
-                signal: controller.signal,
-            })
-            setResults(response.results || [])
-            setTotal(response.total ?? response.results?.length ?? 0)
-            setSearchState("success")
-        } catch (error) {
-            if (error.name === "AbortError") {
-                return
-            }
-
-            setResults([])
-            setTotal(0)
-            setSearchError(getRequestErrorMessage(error, "검색"))
-            setSearchState("error")
-        }
+        setSearchParams(nextParams)
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
         runSearch(query)
-    }
-
-    const handleGenerateAnswer = async () => {
-        if (!searchedQuery || results.length === 0) {
-            return
-        }
-
-        activeAnswer.current?.abort()
-        const controller = new AbortController()
-        activeAnswer.current = controller
-        setAnswerState("loading")
-        setAnswerError("")
-        setCitations([])
-
-        try {
-            const response = await generatePortfolioAnswer({
-                question: searchedQuery,
-                projectId,
-                documentType,
-                signal: controller.signal,
-            })
-
-            setCitations(response.citations || [])
-
-            if (response.status === "GENERATED" && response.answer) {
-                setAnswer(response.answer)
-                setAnswerState("generated")
-                return
-            }
-
-            if (response.status === "INSUFFICIENT_EVIDENCE") {
-                setAnswerState("insufficient")
-                return
-            }
-
-            setAnswerError("현재 답변 생성 서비스를 사용할 수 없습니다.")
-            setAnswerState("unavailable")
-        } catch (error) {
-            if (error.name === "AbortError") {
-                return
-            }
-
-            setAnswerError(getRequestErrorMessage(error, "AI 답변"))
-            setAnswerState("unavailable")
-        }
     }
 
     return (
@@ -506,9 +389,9 @@ const PortfolioKnowledgePage = () => {
                             />
                             <button
                                 type="submit"
-                                disabled={!query.trim() || searchState === "loading"}
+                                disabled={!query.trim() || search.state === "loading"}
                             >
-                                {searchState === "loading" ? "검색 중" : "문서 검색"}
+                                {search.state === "loading" ? "검색 중" : "문서 검색"}
                             </button>
                         </div>
                     </form>
@@ -522,7 +405,7 @@ const PortfolioKnowledgePage = () => {
                                         key={suggestion}
                                         type="button"
                                         onClick={() => runSearch(suggestion)}
-                                        disabled={searchState === "loading"}
+                                        disabled={search.state === "loading"}
                                     >
                                         {suggestion}
                                     </button>
@@ -532,27 +415,22 @@ const PortfolioKnowledgePage = () => {
                         <KnowledgeFilters
                             projectId={projectId}
                             documentType={documentType}
-                            onProjectChange={handleProjectChange}
-                            onTypeChange={handleDocumentTypeChange}
+                            onProjectChange={(value) =>
+                                runSearch(query, { projectId: value, documentType })
+                            }
+                            onTypeChange={(value) =>
+                                runSearch(query, { projectId, documentType: value })
+                            }
                         />
                     </div>
                 </section>
 
-                <div className="knowledge-workspace" aria-busy={searchState === "loading"}>
-                    <SearchResults
-                        state={searchState}
-                        total={total}
-                        results={results}
-                        query={searchedQuery}
-                        errorMessage={searchError}
-                    />
+                <div className="knowledge-workspace" aria-busy={search.state === "loading"}>
+                    <SearchResults {...search} query={searchedQuery} />
                     <AnswerPanel
-                        state={answerState}
-                        answer={answer}
-                        citations={citations}
-                        errorMessage={answerError}
-                        onGenerate={handleGenerateAnswer}
-                        canGenerate={searchState === "success" && results.length > 0}
+                        {...answer}
+                        onGenerate={generateAnswer}
+                        canGenerate={search.state === "success" && search.results.length > 0}
                     />
                 </div>
             </main>

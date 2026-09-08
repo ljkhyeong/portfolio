@@ -72,12 +72,13 @@ const ProjectEvidenceLinks = ({ project }) => {
             candidates.findIndex((candidate) => candidate.href === link.href) === index,
     )
 
-    if (links.length === 0) {
-        return null
-    }
-
     return (
         <ul className="case-hero__evidence" aria-label="프로젝트 자료 바로가기">
+            <li>
+                <Link to={`/search?project=${project.id}`}>
+                    이 프로젝트 문서 검색 <span aria-hidden="true">→</span>
+                </Link>
+            </li>
             {links.map((link) => (
                 <li key={link.href}>
                     <a
@@ -327,6 +328,7 @@ const PriorExperienceCase = ({ project }) => {
                         </h1>
                         <ProjectLabels project={project} />
                         <p className="prior-case__summary">{caseIntroductions[project.id]}</p>
+                        <ProjectEvidenceLinks project={project} />
                     </div>
                     <ProjectHeroFacts project={project} />
                 </header>

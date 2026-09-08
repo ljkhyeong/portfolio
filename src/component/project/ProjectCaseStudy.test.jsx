@@ -44,6 +44,10 @@ test.each([
         "/#work",
     )
     expect(within(navigation).getByLabelText("다른 프로젝트 보기")).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "이 프로젝트 문서 검색" })).toHaveAttribute(
+        "href",
+        `/search?project=${projectId}`,
+    )
 })
 
 test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 명확히 보여준다", () => {
