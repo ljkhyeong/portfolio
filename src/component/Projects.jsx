@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom"
 import { homeProjectCategories, projectSummaries } from "../data/projectSummaries"
-import { caseHighlights, caseIntroductions } from "../data/caseHighlights"
+import { caseResults, caseIntroductions } from "../data/caseHighlights"
 import { assetPath } from "../utils/assetPath"
 import "../css/Projects.css"
-
-const FEATURED_PROJECT_IDS = ["warrant", "baton", "happygallery"]
 
 const PROJECT_TYPE_LABELS = {
     career: "경력 프로젝트",
@@ -33,18 +31,17 @@ const PROJECT_VISUALS = {
 
 const ProjectFacts = ({ project }) => (
     <dl className="project-card__facts" aria-label={`${project.title} 문제, 구현과 검증`}>
-        {[
-            ["문제", "문제"],
-            ["구현", "해결"],
-        ].map(([label, source]) => (
-            <div key={label}>
-                <dt>{label}</dt>
-                <dd>{project.homeFacts.find((fact) => fact.label === source)?.value}</dd>
-            </div>
-        ))}
+        <div>
+            <dt>문제</dt>
+            <dd>{project.homeFacts.problem}</dd>
+        </div>
+        <div>
+            <dt>구현</dt>
+            <dd>{project.homeFacts.solution}</dd>
+        </div>
         <div>
             <dt>검증</dt>
-            <dd>{caseHighlights[project.id].find((item) => item.label === "확인 결과").text}</dd>
+            <dd>{caseResults[project.id]}</dd>
         </div>
     </dl>
 )
@@ -237,7 +234,7 @@ const Projects = () => {
                     </div>
                     <ol className="project-group__list" aria-label={`${group.label} 목록`}>
                         {group.projects.map((project) =>
-                            FEATURED_PROJECT_IDS.includes(project.id) ? (
+                            project.homeFacts ? (
                                 <FeaturedProjectCard key={project.id} project={project} />
                             ) : (
                                 <SupportingProjectCard key={project.id} project={project} />

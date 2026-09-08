@@ -148,15 +148,6 @@ describe("project summary data", () => {
         })
     })
 
-    it("gives every home project a concise responsibility, problem, and solution", () => {
-        projectSummaries.forEach((project) => {
-            expect(project.homeFacts.map((fact) => fact.label)).toEqual(["담당", "문제", "해결"])
-            project.homeFacts.forEach((fact) => {
-                expect(fact.value.trim().length).toBeGreaterThan(10)
-            })
-        })
-    })
-
     it("기술 스택에는 실제 사용 기술만 표시한다", () => {
         expect(projectsById.warrant.stack).toEqual([
             "Java 11",

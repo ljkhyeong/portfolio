@@ -1,9 +1,5 @@
-const headlineLines = ["중복 실행을 막고", "중단된 작업을 재처리하는", "백엔드 개발자입니다."]
-
 export const homeHeroContent = {
-    headline: headlineLines.join(" "),
-    headlineHighlight: headlineLines.slice(0, 2).join(" "),
-    headlineLines,
+    headlineLines: ["중복 실행을 막고", "중단된 작업을 재처리하는", "백엔드 개발자입니다."],
     summary:
         "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.",
     flow: [
@@ -26,26 +22,6 @@ export const homeHeroContent = {
             step: "04",
             title: "중단 후 재처리",
             description: "재처리 가능한 미완료 작업 실행",
-        },
-    ],
-    signals: [
-        {
-            label: "현재 업무",
-            title: "전송형 전자영장 시스템",
-            shortEvidence: "이중화 서버 작업 선점",
-            route: "/projects/e-warrant",
-        },
-        {
-            label: "개인 프로젝트",
-            title: "BATON",
-            shortEvidence: "링크·전송 작업 중복 생성 방지",
-            route: "/projects/baton",
-        },
-        {
-            label: "개인 프로젝트",
-            title: "happyGallery",
-            shortEvidence: "결제 및 환불 중복 방지",
-            route: "/projects/happygallery",
         },
     ],
 }

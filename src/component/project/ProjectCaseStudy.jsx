@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { navigableCaseStudies, projectsById } from "../../data/projects"
-import { caseHighlights, caseIntroductions, problemHighlights } from "../../data/caseHighlights"
+import { caseResults, caseIntroductions, problemHighlights } from "../../data/caseHighlights"
 import featuredCasePresentations from "../../data/featuredProblems"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import PortfolioNavigation from "../PortfolioNavigation"
@@ -107,7 +107,7 @@ const ProjectHeroFacts = ({ project }) => (
         </div>
         <div>
             <dt>확인 결과</dt>
-            <dd>{caseHighlights[project.id]?.[2].text}</dd>
+            <dd>{caseResults[project.id]}</dd>
         </div>
     </dl>
 )

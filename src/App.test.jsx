@@ -710,7 +710,7 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
     expect(screen.getByText("웹 포트폴리오의 인쇄용 페이지")).toBeInTheDocument()
     expect(document.querySelectorAll("[data-print-page]")).toHaveLength(0)
     expect(within(printDocument).getByRole("heading", { level: 1 })).toHaveTextContent(
-        homeHeroContent.headline,
+        homeHeroContent.headlineLines.join(" "),
     )
     expect(
         within(printDocument).getByRole("heading", { name: "프로젝트", level: 2 }),

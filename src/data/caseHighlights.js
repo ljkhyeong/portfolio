@@ -12,58 +12,16 @@ export const caseIntroductions = {
     webrtc: "강의를 실시간으로 시청하고 지난 구간을 다시 볼 수 있는 서비스입니다.",
 }
 
-const highlights = {
-    baton: [
-        "반복 요청의 링크 중복 생성과 중단된 작업의 처리 누락",
-        "Core와 6개 서비스 분리, 요청 ID 재사용 및 중단 작업 재처리",
-        "서비스별 테스트와 일부 Core 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
-    ],
-    happygallery: [
-        "결제 결과 유실, 외부 주문 재수신과 스마트스토어 상태 불일치",
-        "결제 키 재사용, 주문별 적용 수량 차이 반영과 외부 상태 대사",
-        "선택 구매·재주문·재입고 알림 시나리오 확인. 실제 네이버·PG 계정 연동은 미검증",
-    ],
-    "youth-policy-mate": [
-        "확인할 수 없는 정책 조건과 모집 기간을 확정해서 안내할 위험",
-        "공개 정책 조회, 검토한 조건 질문과 근거 표시, 관심 정책·일정·알림 연결",
-        "공개 정책 40건 로컬 조회·서버 테스트 436개 통과. 실제 외부 연동은 미검증",
-    ],
-    "hope-commit": [
-        "지정한 커밋 밖의 코드가 섞이고 참조한 변경 코드가 없는 리뷰",
-        "Hope 6.0.0을 포크해 커밋 범위 고정과 참조한 코드 줄 검증 추가",
-        "v5.0.2 공개 및 자동화 테스트 343개 통과",
-    ],
-    "intent-trace": [
-        "커밋만으로 확인하기 어려운 AI 코드 변경 이유와 검증 결과",
-        "요청과 코드 위치를 기록하고 작성자 확인 뒤 코드 변경 시 공개 차단",
-        "v0.7.0 공개. 웹 조회·원본 코드 비교·Zed MCP 연결을 로컬 확인",
-    ],
-    warrant: [
-        "여러 서버의 동일 작업 중복 실행과 외부 API 대기 중 DB 연결 점유",
-        "SKIP LOCKED·처리 상태로 작업 선점, 트랜잭션 분리와 중단 작업 재처리",
-        warrantPerformanceSummary,
-    ],
-    defense: [
-        "기관별 자료 형식 차이와 중단된 수용자 정보 연계 배치",
-        "자료 검증 배치 구현, 실행 이력과 로그로 중단 단계 확인 후 재실행",
-        "군교정 DB 반영, CSRF 요청 차단과 저장소 직접 업로드 확인",
-    ],
-    webrtc: [
-        "실시간 강의와 지난 구간 재생을 함께 제공하고 다시보기 지연 개선",
-        "WebRTC 실시간 경로와 RTP-HLS 변환 경로 분리",
-        "팀 시연에서 HLS 지연 약 35초 → 17초",
-    ],
+export const caseResults = {
+    baton: "서비스별 테스트와 일부 Core 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
+    happygallery: "선택 구매·재주문·재입고 알림 시나리오 확인. 실제 네이버·PG 계정 연동은 미검증",
+    "youth-policy-mate": "공개 정책 40건 로컬 조회·서버 테스트 436개 통과. 실제 외부 연동은 미검증",
+    "hope-commit": "v5.0.2 공개 및 자동화 테스트 343개 통과",
+    "intent-trace": "v0.7.0 공개. 웹 조회·원본 코드 비교·Zed MCP 연결을 로컬 확인",
+    warrant: warrantPerformanceSummary,
+    defense: "군교정 DB 반영, CSRF 요청 차단과 저장소 직접 업로드 확인",
+    webrtc: "팀 시연에서 HLS 지연 약 35초 → 17초",
 }
-
-export const caseHighlights = Object.fromEntries(
-    Object.entries(highlights).map(([id, values]) => [
-        id,
-        values.map((text, index) => ({
-            label: ["해결 대상", "핵심 설계", "확인 결과"][index],
-            text,
-        })),
-    ]),
-)
 
 export const problemHighlights = {
     baton: {
