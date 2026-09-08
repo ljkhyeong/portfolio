@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:b2325ca999ff",
+  "sourceRevision": "sha256:baa3ef23f9f9",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -1624,7 +1624,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:d95263e7d3a6",
+      "sourceRevision": "sha256:f5f79317423f",
       "documentId": "knowledge_fd9930085b2ae766b2b1253e",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1632,17 +1632,17 @@
       "documentType": "project_overview",
       "title": "청년정책메이트 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색 및 일정 관리 웹앱\n\n공개 정책을 검색하고 접수 상태와 검토한 조건 질문으로 신청 요건을 확인합니다. 관심 정책 일정·알림과 관리자 수집 예외 보정을 구현했습니다.\n\n기간: 2026.08.30 — 진행 중\n\n구분: 개인 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.\n\n현재 상태: 공개 main 1b7fbdd에서 접수 상태·개인 조건 검색과 관리자 수집 예외를 구현했고, 로컬 DB의 공개 정책 40건을 확인했습니다. 로컬 개발 브랜치 c083adf에는 정책 8종의 조건 질문과 원문 충돌 안내를 추가했습니다. 실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증입니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring JDBC, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
+      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색 및 일정 관리 웹앱\n\n공개 정책 40건을 검색하고 검토한 정책 9종의 신청 요건을 확인합니다. 관심 정책 일정·알림과 관리자 수집 예외 보정을 구현했습니다.\n\n기간: 2026.08.30 — 진행 중\n\n구분: 개인 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.\n\n현재 상태: 공개 main 1b7fbdd에서 접수 상태·개인 조건 검색과 관리자 수집 예외를 구현했고, 로컬 DB의 공개 정책 40건을 확인했습니다. 로컬 개발 브랜치 5675733에는 정책 9종의 조건 질문, 7종의 연령 비교와 원문 충돌 안내를 추가했습니다. 실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증입니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring JDBC, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-overview",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "d95263e7d3a65a5fd8e2bbf18bcdc1f302e748c9610ae53217ca94e30f32844e",
-      "contentHash": "1261849981809f713b1ae5dc68a8e6d88c8f18c13d72111cea2b9b269527a929"
+      "sourceHash": "f5f79317423fdae6103bc55765c0025fba699f03f15908a517084ffdf1b28152",
+      "contentHash": "e0c789bb5f5027477054df43d7d5a34cf34100cc2686b27cb26d889c015ab88b"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:6a859dedcb90",
+      "sourceRevision": "sha256:02caa25e3745",
       "documentId": "knowledge_7bb9563e421e150afc07816b",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1650,17 +1650,17 @@
       "documentType": "architecture_decision",
       "title": "Next.js와 Spring Boot를 분리하고, 서버 DTO에서 TypeScript API 타입을 생성합니다.",
       "heading": "구현 방법과 선택 이유",
-      "content": "프로젝트: 청년정책메이트\n\n구현 방법: 웹과 업무 모듈 분리 및 API 타입 생성\n\nNext.js와 Spring Boot를 분리하고, 서버 DTO에서 TypeScript API 타입을 생성합니다.\n\n정책 수집, 조건 판정, 회원 저장과 알림을 기능별로 나누고 JDBC·PostgreSQL 트랜잭션으로 처리합니다. 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성합니다.\n\n적용 범위와 제약: 정책 40건을 수집했으며 조건 질문은 검토한 정책 8종의 일부 공통 요건만 다룹니다.",
+      "content": "프로젝트: 청년정책메이트\n\n구현 방법: 웹과 업무 모듈 분리 및 API 타입 생성\n\nNext.js와 Spring Boot를 분리하고, 서버 DTO에서 TypeScript API 타입을 생성합니다.\n\n정책 수집, 조건 판정, 회원 저장과 알림을 기능별로 나누고 JDBC·PostgreSQL 트랜잭션으로 처리합니다. 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성합니다.\n\n적용 범위와 제약: 정책 40건을 수집했으며 조건 질문은 검토한 정책 9종의 일부 공통 요건만 다룹니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-architecture",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "6a859dedcb90866975e5cf8ba7c2438645c8a952c7ef781fd93f11b518215d45",
-      "contentHash": "11c6f0a637c504abdd3563f42420a4cef9ad12867fa8f8422bbf14837b0f75b0"
+      "sourceHash": "02caa25e374594048f5fa22f3a17d248a3f11928dc682a57d64806e1b48c01c6",
+      "contentHash": "79acb1d6765cc02980810abde2b6157b4ad24f776df6b5896a175452680ffe5c"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:7db4d000f6bd",
+      "sourceRevision": "sha256:fd16708ea83a",
       "documentId": "knowledge_a085f3ede1c6039ab238a505",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1668,13 +1668,13 @@
       "documentType": "problem_solution",
       "title": "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 청년정책메이트\n\n문제: 정책 조건을 해석하지 못했거나 사용자 정보가 없을 때 단순 참과 거짓으로 처리하면 신청 가능 여부를 잘못 안내할 수 있습니다.\n\n해결 방법: 연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계했습니다. 판정에는 정책 개정, 조건 정의와 기준일을 함께 남깁니다.\n\n확인: 조건 충족·불충족·정보 누락의 집계 규칙을 테스트하고 실제 정책 8종의 검토한 질문과 연결했습니다.\n\n제약과 남은 작업: 질문은 검토한 정책의 일부 공통 요건만 다룹니다. 환급액·예외·모집 기간 등 최종 신청 조건은 공식 안내에서 확인해야 합니다.",
+      "content": "프로젝트: 청년정책메이트\n\n문제: 정책 조건을 해석하지 못했거나 사용자 정보가 없을 때 단순 참과 거짓으로 처리하면 신청 가능 여부를 잘못 안내할 수 있습니다.\n\n해결 방법: 연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계했습니다. 판정에는 정책 개정, 조건 정의와 기준일을 함께 남깁니다.\n\n확인: 조건 충족·불충족·정보 누락의 집계 규칙을 테스트하고 실제 정책 9종의 검토한 질문과 연결했습니다.\n\n제약과 남은 작업: 질문은 검토한 정책의 일부 공통 요건만 다룹니다. 환급액·예외·모집 기간 등 최종 신청 조건은 공식 안내에서 확인해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-problems",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "7db4d000f6bd9cc5ef064c577fb71d7fb73b7748e7f995e2452b8e01e56f79ff",
-      "contentHash": "531c4f90758f109346e0a152f6120a5b8f705c93799ead38d37ba0a2a9e80d75"
+      "sourceHash": "fd16708ea83a5ed4a64229e1e5986e0c4445b2d83d3ea3d02a2aaf769344e67d",
+      "contentHash": "3e54e79c00b0e0809cdea2beb5abbca7a937b77a901660b87e630539511457d9"
     },
     {
       "schemaVersion": "1.0",
@@ -1768,7 +1768,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c0fb080558cd",
+      "sourceRevision": "sha256:6335f06e4a34",
       "documentId": "knowledge_17064eba4aefafb172b93547",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1776,13 +1776,13 @@
       "documentType": "implementation_evidence",
       "title": "공개 정책 조회와 정책별 조건 질문",
       "heading": "구현 및 검증 범위",
-      "content": "프로젝트: 청년정책메이트\n\n확인 대상: 공개 정책 조회와 정책별 조건 질문\n\n확인 방법: 현재 로컬 앱과 서버 구현·테스트 대조\n\n확인 조건: 수집한 정책 목록·상세와 조건 질문 필터를 조회하고 검토 대상 정책을 확인\n\n결과: 공개 정책 40건을 조회하고 검토한 8종의 정책에만 조건 질문을 제공합니다. 접수 상태와 질문 제공 여부로 검색하며 확인하지 못한 요건은 추가 확인으로 남깁니다.\n\n공개 범위: 로컬 개발 브랜치 c083adf · 전체 서울 정책과 최종 신청 자격 판정은 아님",
+      "content": "프로젝트: 청년정책메이트\n\n확인 대상: 공개 정책 조회와 정책별 조건 질문\n\n확인 방법: 현재 로컬 앱과 서버 구현·테스트 대조\n\n확인 조건: 수집한 정책 목록·상세와 조건 질문 필터를 조회하고 검토 대상 정책을 확인\n\n결과: 공개 정책 40건을 조회하고 검토한 9종의 정책에만 조건 질문을 제공합니다. 이 중 7종은 연령을 비교하며, 햇살론유스는 이용 대상·소득·생애 보증한도도 구분합니다.\n\n공개 범위: 로컬 개발 브랜치 5675733 · 전체 서울 정책과 최종 신청 자격 판정은 아님",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-proof",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "c0fb080558cd817cae9aaa1d850d52fb2d883a5a89299cc9cd1b67278dff5f32",
-      "contentHash": "9efb0e27165ea07b1ca9a623f4f59deb517ff69cc5b4537379a1952a3d298f75"
+      "sourceHash": "6335f06e4a3416df4882172ed99cc0956c983c4a60f33fd8eb271637557e34ec",
+      "contentHash": "46601a6f5b02d3129b6074ee2209ca168d257277fa402b45209428eeda718852"
     },
     {
       "schemaVersion": "1.0",
@@ -1840,7 +1840,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:6dc2112adb42",
+      "sourceRevision": "sha256:5a33c7059c97",
       "documentId": "knowledge_1a9e079de9f89f7d1458e387",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1848,13 +1848,13 @@
       "documentType": "implementation_evidence",
       "title": "수집 예외 재처리와 원문 충돌 안내",
       "heading": "구현 및 검증 범위",
-      "content": "프로젝트: 청년정책메이트\n\n확인 대상: 수집 예외 재처리와 원문 충돌 안내\n\n확인 방법: PostgreSQL 정책 API·브라우저 시나리오와 구현 문서 대조\n\n확인 조건: 페이지 실패 조회, 개정 비교, 사유를 남긴 재처리·보정과 새 원본 충돌 및 상세 안내를 확인\n\n결과: 원본과 보정을 분리해 저장하고 새 원본과 충돌하면 현재 공개 값을 유지합니다. 검토한 원문 차이는 정책 상세에 근거 링크와 함께 표시합니다.\n\n공개 범위: 공개 main 1b7fbdd와 로컬 개발 브랜치 c083adf · 실제 관리자 계정 연결은 미완료",
+      "content": "프로젝트: 청년정책메이트\n\n확인 대상: 수집 예외 재처리와 원문 충돌 안내\n\n확인 방법: PostgreSQL 정책 API·브라우저 시나리오와 구현 문서 대조\n\n확인 조건: 페이지 실패 조회, 개정 비교, 사유를 남긴 재처리·보정과 새 원본 충돌 및 상세 안내를 확인\n\n결과: 원본과 보정을 분리해 저장하고 새 원본과 충돌하면 현재 공개 값을 유지합니다. 검토한 원문 차이는 정책 상세에 근거 링크와 함께 표시합니다.\n\n공개 범위: 공개 main 1b7fbdd와 로컬 개발 브랜치 5675733 · 실제 관리자 계정 연결은 미완료",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-proof",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "6dc2112adb428e9a7f1a082192e3464d0c76a5eb3fc2acf3b79fca48a3383465",
-      "contentHash": "f067813504287c33e960093c19d05a5aed14e4ced06986f1058f33f67c98e1c8"
+      "sourceHash": "5a33c7059c9792ccf40bfc522e81f02ba46d2c80ea49661b09b34e025829f769",
+      "contentHash": "dcf9554f7998a3527c9ef27ca93cf7bbc666a383d906ec0c0a76f1501edff2df"
     },
     {
       "schemaVersion": "1.0",
