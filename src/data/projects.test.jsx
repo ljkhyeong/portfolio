@@ -131,7 +131,7 @@ describe("project summary data", () => {
             expect.arrayContaining([
                 expect.objectContaining({
                     item: "공개 정책 조회와 정책별 조건 질문",
-                    scope: expect.stringContaining("로컬 개발 브랜치 5675733"),
+                    scope: expect.stringContaining("로컬 개발 브랜치 6f33f72"),
                 }),
             ]),
         )
