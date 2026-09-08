@@ -17,7 +17,7 @@ export const caseResults = {
     happygallery:
         "공개 main에 무료 API 연동과 회원 목록 검색 조건 복원 반영. 실제 네이버·PG 연동은 미검증",
     "youth-policy-mate":
-        "공개 정책 40건·질문 8종 확인. 최신 질문과 원문 충돌 안내는 개발 브랜치 기준",
+        "공개 정책 40건·질문 9종 확인. 햇살론유스와 원문 충돌 안내는 개발 브랜치 기준",
     "hope-commit": "v5.0.2 공개 및 자동화 테스트 343개 통과",
     "intent-trace": "v0.7.0 공개. GitHub 이슈·PR·CI 조회와 Markdown 저장을 main에서 확인",
     warrant: warrantPerformanceSummary,

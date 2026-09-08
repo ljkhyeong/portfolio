@@ -120,17 +120,18 @@ describe("project summary data", () => {
         ])
         expect(
             youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
-        ).toEqual(["780x1688", "780x1688", "780x1688", "780x1688"])
+        ).toEqual(["780x1688", "780x1688", "780x1688", "390x844"])
         expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
         expect(youthPolicyMate.status.text).toContain("공개 정책 40건")
-        expect(youthPolicyMate.status.text).toContain("정책 8종의 조건 질문")
+        expect(youthPolicyMate.status.text).toContain("정책 9종의 조건 질문")
+        expect(youthPolicyMate.status.text).toContain("7종의 연령 비교")
         expect(youthPolicyMate.status.text).toContain("실제 OAuth·이메일·AI 공급자")
         expect(youthPolicyMate.stack).toContain("Spring JDBC")
         expect(youthPolicyMate.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     item: "공개 정책 조회와 정책별 조건 질문",
-                    scope: expect.stringContaining("로컬 개발 브랜치 c083adf"),
+                    scope: expect.stringContaining("로컬 개발 브랜치 5675733"),
                 }),
             ]),
         )

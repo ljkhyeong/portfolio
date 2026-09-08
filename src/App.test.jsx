@@ -584,7 +584,7 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년내일저축계좌 조건 질문으로 일부 가입 요건을 확인하는 화면",
+            name: "햇살론유스 조건 질문으로 연령과 이용 대상 및 소득 조건을 확인하는 화면",
         }),
     ).toBeInTheDocument()
     expect(screenshots).toHaveAccessibleDescription(/온통청년에서 수집해 저장한 공개 데이터/)

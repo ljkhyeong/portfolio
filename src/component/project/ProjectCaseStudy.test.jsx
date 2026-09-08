@@ -323,7 +323,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정·알림 처리")).toBeInTheDocument()
     expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /공개 정책 40건.*정책 8종.*실제 OAuth·이메일·AI 공급자/,
+        /공개 정책 40건.*정책 9종.*7종의 연령 비교.*실제 OAuth·이메일·AI 공급자/,
     )
     expect(
         within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(

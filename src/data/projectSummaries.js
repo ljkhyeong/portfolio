@@ -109,7 +109,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
         summary:
-            "공개 정책을 검색하고 접수 상태와 검토한 조건 질문으로 신청 요건을 확인합니다. 관심 정책 일정·알림과 관리자 수집 예외 보정을 구현했습니다.",
+            "공개 정책 40건을 검색하고 검토한 정책 9종의 신청 요건을 확인합니다. 관심 정책 일정·알림과 관리자 수집 예외 보정을 구현했습니다.",
         period: "2026.08.30 — 진행 중",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
