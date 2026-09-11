@@ -11,8 +11,8 @@ export const batonServicePresentations = {
             },
             {
                 kind: "limited",
-                label: "공개 상태",
-                text: "2026년 9월 8일 공개 main 1062c18을 확인했습니다. 애플리케이션 46개·웹 124개·MySQL 43개 테스트 기록을 근거로 삼았습니다.",
+                label: "구현 상태",
+                text: "2026년 9월 8일 로컬 main 1062c18을 확인했습니다. 애플리케이션 46개·웹 124개·MySQL 43개 테스트 기록을 근거로 삼았습니다.",
             },
             {
                 kind: "unverified",
@@ -49,12 +49,12 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main e2ad4b0 기준입니다. V6 적용·백업 복원과 부하·프로세스 복구는 로컬에서 확인했지만, Grafana Cloud 계정·대시보드와 공개 callback 연결은 미검증입니다.",
+                text: "공개 main e2ad4b0 기준입니다. V6 적용·백업 복원과 부하·프로세스 복구는 로컬에서 확인했습니다. Grafana Cloud 계정·대시보드와 Core 콜백 연결은 미검증입니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "공개 callback으로 Core까지 연결하는 스테이징 흐름과 외부 대시보드 및 알림은 미검증입니다.",
+                text: "공개 환경에서 WATCH가 Core로 보내는 콜백과 외부 대시보드·알림은 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -75,12 +75,12 @@ export const batonServicePresentations = {
     relay: {
         target: "이벤트 중복 수신과 전송 결과 미확인",
         decision: "시도 UUID를 유지하고 결과 미확인은 재전송 중단",
-        result: "중복 수신 차단과 서버 중단 후 시도 정보 유지 확인",
+        result: "중복 수신 차단과 서버 중단 후 시도 UUID·멱등 키 유지 확인",
         verification: [
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "공개 main에서 이벤트 재수신 차단, 서버 중단 후 시도 정보 유지와 결과 수동 확정을 확인했습니다. Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 복구 절차도 구현했습니다.",
+                text: "로컬 구현에서 이벤트 재수신 차단, 서버 중단 후 시도 UUID·멱등 키 유지와 결과 수동 확정을 확인했습니다. Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 복구 절차도 구현했습니다.",
             },
             {
                 kind: "unverified",
@@ -112,7 +112,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "점검 상태와 보고서 이력·비교, 주간 이월·신규·해결 내역을 확인했습니다. 이벤트 거부·지원하지 않는 버전의 지표와 누락 경보도 추가했습니다.",
+                text: "점검 상태와 보고서 이력·비교, 주간 이월·신규·해결 내역을 확인했습니다. 거절한 이벤트와 지원하지 않는 버전을 집계하는 지표, 이벤트 누락 경보도 추가했습니다.",
             },
             {
                 kind: "limited",
@@ -162,7 +162,7 @@ export const batonServicePresentations = {
             },
         ],
         flow: {
-            title: "캐시가 유효한 조건부 요청에 304 응답",
+            title: "캐시가 유효하면 304를 반환합니다",
             description:
                 "Core 일정의 버전 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환합니다. 그 외에는 .ics 본문을 반환하며 토큰 교체 시 이전 토큰을 폐기합니다.",
             note: "일정 ID는 UID, 버전 번호는 SEQUENCE로 사용합니다. 토큰을 교체하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",

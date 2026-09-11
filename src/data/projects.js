@@ -185,7 +185,7 @@ const projects = [
                 primary: true,
                 screenshotNote: "화면 검증용 테스트 데이터입니다.",
                 visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "공개 main 89d323df에서 여러 팀 업무, 자료 재확인, 안 읽은 알림 필터와 주간 보고서를 확인했습니다. 무료 공휴일 연동은 기본 비활성이며 실제 외부 계정과 공개 환경 전체 연결은 미검증입니다.",
+                status: "로컬 구현 89d323df에서 여러 팀 업무, 자료 재확인, 안 읽은 알림 필터와 주간 보고서를 확인했습니다. 무료 공휴일 연동은 기본 비활성이며 실제 외부 계정과 공개 환경 전체 연결은 미검증입니다.",
                 screenshots: [
                     {
                         id: "today",
@@ -279,7 +279,7 @@ const projects = [
                     "같은 UUID와 링크 조건이면 기존 링크를 반환하고, 같은 UUID의 조건이 하나라도 다르면 충돌로 차단",
                 database: "MySQL",
                 visibility: "비공개 저장소 / 최신 로컬 구현 요약 공개",
-                status: "공개 main 1062c18에서 관리용 일괄 조회와 Redis 공유 요청률 제한, HMAC 키 교체 및 만료 링크 정리를 확인했습니다. 실제 클러스터·공개 배포는 미검증입니다.",
+                status: "로컬 main 1062c18에서 관리용 일괄 조회, Redis 공유 요청률 제한, HMAC 키 교체와 만료 링크 정리를 확인했습니다. 실제 클러스터·공개 배포는 미검증입니다.",
                 tradeoff:
                     "UUID 처리 기록과 HMAC 키를 함께 관리해야 합니다. DB를 복구할 때 같은 시점의 키가 없으면 기존 링크를 그대로 유지할 수 없습니다.",
                 screenshots: [
@@ -341,7 +341,7 @@ const projects = [
                     "한 서버의 처리 기한이 지나면 기존 시도를 닫고 새 점검 시도를 만들어 다른 서버가 처리",
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
-                status: "공개 main e2ad4b0에서 결과 필수값이 빠진 9개 DB 조합을 V6 제약으로 차단하고, 백업 복원·부하 및 프로세스 복구와 Grafana Cloud Free 설정을 확인했습니다. 실제 외부 대시보드·알림과 공개 callback 연결은 미검증입니다.",
+                status: "공개 main e2ad4b0에서 결과 필수값이 빠진 9개 DB 조합을 V6 제약으로 차단했습니다. 백업 복원·부하·프로세스 복구와 Grafana Cloud Free 설정도 확인했습니다. 실제 외부 대시보드·알림과 Core 콜백 연결은 미검증입니다.",
                 tradeoff:
                     "처리 기한이 짧으면 중복 점검이 늘고, 길면 중단 작업의 재실행이 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
                 repository: {
@@ -397,14 +397,14 @@ const projects = [
                 recoveryBoundary:
                     "전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.",
                 database: "PostgreSQL",
-                visibility: "공개 저장소 / 최신 구현 공개 main",
-                status: "공개 main 5f97e0a에서 Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 암호화 백업·시점 복구를 확인했습니다. 실제 Discord·AWS 전송과 운영 환경의 RPO·RTO는 미검증입니다.",
+                visibility: "비공개 저장소 / 확인한 로컬 구현 요약 공개",
+                status: "로컬 구현 5f97e0a에서 Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 암호화 백업·시점 복구를 확인했습니다. 실제 Discord·AWS 전송과 운영 환경의 RPO·RTO는 미검증입니다.",
                 tradeoff:
                     "결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-relay/tree/5f97e0a",
-                    label: "RELAY 공개 main",
-                    note: "RabbitMQ 수신, 외부 전달과 운영 조회가 반영된 공개 main입니다.",
+                    label: "RELAY 비공개 저장소",
+                    note: "저장소는 비공개이며, 구현과 검증 범위는 이 페이지에 요약했습니다.",
                 },
                 documentation: [
                     {
@@ -570,7 +570,7 @@ const projects = [
                 ],
                 detail: "최대 6명 WebRTC, QR 초대, 손들기 순서·공용 타이머·주제, 채팅 검색어 강조와 화면 공유 확대",
                 evidence:
-                    "Chromium 카메라 및 마이크 제어와 화면 공유, WebKit 호환성, BATON edge와 배포 검증을 CI 작업으로 분리했습니다. WebKit mDNS와 restic 누락도 보완했습니다.",
+                    "Chromium 카메라·마이크 제어와 화면 공유, WebKit 호환성, BATON 연동용 edge 프록시와 배포 검증을 CI 작업으로 분리했습니다. WebKit mDNS와 restic 누락도 보완했습니다.",
                 input: "방 ID·참가자 ID·만료 시각이 담긴 Core의 단기 입장 토큰(RS256)",
                 inputRule:
                     "입장 토큰의 서명, 발급자, 수신자, 방 ID와 만료 시각을 Core가 제공한 공개 키 목록으로 확인합니다.",
@@ -579,7 +579,7 @@ const projects = [
                     "연결을 새로 만들 때마다 순번을 올리고 이전 연결에서 늦게 온 메시지는 버립니다. 같은 참가자가 새 입장 토큰으로 접속하면 이전 WebSocket 세션을 종료합니다.",
                 database: "DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장",
                 visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "공개 main 78d8c16에서 QR 초대, 손들기·공용 타이머·주제, 채팅 검색어 강조와 입력 초점 복원을 확인했습니다. 실제 TURN·Safari 실기기·외부망·6명 장시간 접속은 미검증입니다.",
+                status: "로컬 구현 78d8c16에서 QR 초대, 손들기·공용 타이머·주제, 채팅 검색어 강조와 입력 초점 복원을 확인했습니다. 실제 TURN·Safari 실기기·외부망·6명 장시간 접속은 미검증입니다.",
                 tradeoff:
                     "참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
                 screenshots: [
@@ -663,21 +663,21 @@ const projects = [
                 method: "Testcontainers 통합 테스트",
                 rule: "같은 UUID와 요청으로 8건을 동시에 실행",
                 result: "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
-                scope: "GO 공개 main 1062c18 · BATON 런타임 연결은 미검증",
+                scope: "GO 비공개 저장소 main 1062c18 · BATON 런타임 연결은 미검증",
             },
             {
                 item: "WATCH 안전한 URL 점검",
                 method: "자동화 테스트",
                 rule: "사설망·DNS 변경 차단, 응답 본문 미수신, 이전 URL 버전 결과와 기한이 지난 점검의 복구를 확인",
                 result: "공인 IP의 응답 상태·헤더만 확인하고 본문은 읽지 않습니다. 현재 URL 버전 결과만 저장하고 중단된 점검은 다시 실행합니다.",
-                scope: "WATCH 공개 main e2ad4b0 · 로컬 V6·복구 검증 완료 · 공개 callback은 미검증",
+                scope: "WATCH 공개 main e2ad4b0 · 로컬 V6·복구 검증 완료 · 공개 환경의 Core 콜백은 미검증",
             },
             {
                 item: "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지",
                 method: "RabbitMQ 및 PostgreSQL Docker Compose 검증",
                 rule: "PostgreSQL 저장은 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 RabbitMQ와 RELAY를 중단하고 같은 이벤트를 재전달",
                 result: "같은 이벤트 ID의 수신 이력을 1건으로 유지하고 RabbitMQ에 ACK를 보내며 별도 실패 큐(DLQ)에는 넣지 않음",
-                scope: "RELAY 공개 main 5f97e0a · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 main CI 성공",
+                scope: "RELAY 비공개 구현 5f97e0a · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 CI 성공",
             },
             {
                 item: "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
@@ -695,7 +695,7 @@ const projects = [
             },
             {
                 item: "ROUND 입장 토큰 검증과 브라우저 연결",
-                method: "현재 main의 Chromium, WebKit, BATON edge 및 배포 검증 구성 확인",
+                method: "현재 main의 Chromium·WebKit·BATON 연동용 edge 프록시 및 배포 검증 구성 확인",
                 rule: "RS256 입장 토큰으로 최대 6명 mesh 연결, 카메라 및 마이크 제어, 화면 공유와 재연결 및 WebKit 장치 동의, 채팅과 모바일 화면 배치 시나리오를 실행",
                 result: "이전 실패 원인이었던 WebKit 직접 연결용 mDNS와 배포 검증용 restic 설치를 현재 main에 추가하고 시그널링 및 RTC 상태 책임을 분리했습니다.",
                 scope: "비공개 main 78d8c16 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
@@ -705,7 +705,7 @@ const projects = [
                 method: "각 저장소 소스·검증 기록과 로컬 화면 대조",
                 rule: "Core 내 팀·자료 재확인, BRIEF 주간 이월·해결, CAL 개인 구독과 ROUND 스터디 도구를 확인",
                 result: "여러 팀의 담당 업무를 모아 보고 개인 일정 구독과 주간 보고서로 이어집니다. ROUND에는 공용 타이머와 손들기 순서를 추가했습니다.",
-                scope: "2026.09.08 각 저장소의 공개 main 또는 명시한 개발 브랜치 기준 · 외부 연동 범위 별도 표시",
+                scope: "2026.09.08 각 저장소에서 확인한 커밋 또는 개발 브랜치 기준 · 외부 연동 범위 별도 표시",
             },
         ],
         category: "개인 프로젝트",
@@ -856,7 +856,7 @@ const projects = [
                 validation:
                     "동일 내용 재전송, 낮은 버전 번호, 같은 버전 번호의 다른 내용과 트랜잭션 실패 후 재시도를 PostgreSQL 통합 테스트로 확인했습니다.",
                 boundary:
-                    "BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있습니다. 실제 운영 활성화 전에는 자격 증명 교체와 모든 일정의 최신 값을 다시 보내는 순서를 함께 검증해야 합니다.",
+                    "BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있습니다. 공개 운영 전에는 자격 증명 교체와 모든 일정의 최신 값을 다시 보내는 순서를 함께 검증해야 합니다.",
             },
             {
                 number: "12",
@@ -1115,7 +1115,7 @@ const projects = [
                 method: "실제 AWS 배포 및 비용 내역 확인",
                 rule: "트래픽과 무관하게 발생하는 상시 리소스 비용을 월별로 확인",
                 result: "운영 환경을 종료하고 비용 원인을 회고 문서로 정리",
-                scope: "실운영 후 비용 문제로 종료",
+                scope: "AWS 운영 후 비용 문제로 종료",
             },
             {
                 item: "8회권 환불, 미래 예약과 잔여 횟수 일치",
@@ -1543,7 +1543,7 @@ const projects = [
             },
             {
                 type: "구현 기록",
-                label: "관리자 수집 예외와 정책 보정",
+                label: "수집 실패 재처리와 정책 보정",
                 href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/admin-collection-exceptions.md",
                 note: "페이지 실패·개정·재처리 이력과 정책명·운영 기관 보정 및 충돌 처리",
             },
@@ -1573,12 +1573,12 @@ const projects = [
             {
                 item: "AI 비용 예약과 중단 작업 복구",
                 method: "PostgreSQL 통합 테스트와 모의 AI 실행기",
-                rule: "호출 전 비용 예약, 응답 미확인, 정산과 처리 기한이 지난 작업자의 늦은 결과를 확인",
+                rule: "호출 전 비용 예약, 응답 미확인, 정산과 처리 권한이 만료된 작업자의 늦은 결과를 확인",
                 result: "예산을 먼저 예약하고 결과 미확인 시 유지합니다. 현재 요청·정책 개정과 맞지 않는 늦은 결과는 적용하지 않습니다.",
-                scope: "실제 AI 공급자 요청·청구와 운영 작업자는 미연결",
+                scope: "실제 AI 공급자 요청·청구와 운영용 작업 스케줄러는 미연결",
             },
             {
-                item: "수집 예외 재처리와 원문 충돌 안내",
+                item: "수집 실패 재처리와 원문 충돌 안내",
                 method: "PostgreSQL 정책 API·브라우저 시나리오와 구현 문서 대조",
                 rule: "페이지 실패 조회, 개정 비교, 사유를 남긴 재처리·보정과 새 원본 충돌 및 상세 안내를 확인",
                 result: "원본과 보정을 분리해 저장하고 새 원본과 충돌하면 현재 공개 값을 유지합니다. 검토한 원문 차이는 정책 상세에 근거 링크와 함께 표시합니다.",
@@ -1588,10 +1588,10 @@ const projects = [
         category: "개인 웹앱 프로젝트",
         role: "제품 요구사항, Next.js 화면, Java 및 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현",
         oneLine:
-            "확인되지 않은 조건과 마감일은 확정하지 않습니다. 과거 정책 개정과 이전 AI 요청 결과가 최신 데이터를 덮지 않도록 처리하는 웹앱을 개발합니다.",
+            "확인하지 못한 조건과 마감일은 ‘추가 확인 필요’로 표시하고, 이전 정책·AI 결과가 최신 데이터를 덮지 않도록 처리합니다.",
         status: {
             label: "현재 상태",
-            text: "공개 main 1b7fbdd에서 접수 상태·개인 조건 검색과 관리자 수집 예외를 구현했고, 로컬 DB의 공개 정책 40건을 확인했습니다. 로컬 브랜치 6f33f72의 구현 커밋 5675733에는 정책 9종의 조건 질문, 7종의 연령 비교와 원문 충돌 안내를 추가했습니다. 실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증입니다.",
+            text: "공개 main 1b7fbdd에서 접수 상태·개인 조건 검색과 관리자용 수집 실패 재처리를 구현했고, 로컬 DB의 공개 정책 40건을 확인했습니다. 로컬 브랜치 6f33f72의 구현 커밋 5675733에는 정책 9종의 조건 질문, 7종의 연령 비교와 원문 충돌 안내를 추가했습니다. 실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증입니다.",
         },
         visualCaption:
             "실제 공개 정책을 저장한 로컬 DB로 촬영한 모바일 화면입니다. 조건 질문은 일부 요건을 확인하며 최종 신청 자격은 공식 안내에서 확인합니다.",
@@ -1638,11 +1638,11 @@ const projects = [
                 constraint:
                     "외부 AI 호출 전 비용을 확보하지 않으면 동시에 예산을 초과할 수 있고, 응답을 잃은 요청을 바로 다시 보내면 중복 과금될 수 있습니다.",
                 decision:
-                    "PostgreSQL에서 최대 비용을 먼저 예약하고 외부 호출은 트랜잭션 밖에서 실행합니다. 결과 미확인은 예약을 유지하며 복구 작업자의 처리 기한, 순번과 heartbeat로 늦은 결과를 차단합니다.",
+                    "PostgreSQL에서 최대 비용을 먼저 예약하고 외부 호출은 트랜잭션 밖에서 실행합니다. 결과 미확인은 예약을 유지합니다. 복구 작업의 처리 기한과 순번을 확인하고, 처리 중에는 기한을 주기적으로 갱신해 늦은 결과를 차단합니다.",
                 validation:
-                    "예약 및 정산, 결과 미확인, 작업자 교체, heartbeat 갱신 실패와 이전 작업자의 늦은 결과를 PostgreSQL 통합 테스트와 모의 실행기로 확인했습니다.",
+                    "예약 및 정산, 결과 미확인, 작업자 교체, 처리 기한 갱신 실패와 이전 작업자의 늦은 결과를 PostgreSQL 통합 테스트와 모의 실행기로 확인했습니다.",
                 boundary:
-                    "비용 예약·복구 모델과 모의 공급자를 검증했습니다. 실제 AI 요청, 청구 조회와 운영 작업자는 연결하지 않았습니다.",
+                    "비용 예약·복구 모델과 모의 공급자를 검증했습니다. 실제 AI 요청, 청구 조회와 운영용 작업 스케줄러는 연결하지 않았습니다.",
             },
             {
                 number: "05",
@@ -2019,8 +2019,8 @@ const projects = [
             {
                 item: "요청 및 GitHub 게시 중복 처리 방지",
                 method: "REST, JDBC와 GitHub Check Run 통합 테스트",
-                rule: "같은 requestId와 같은 또는 다른 payload를 재전송하고, 같은 PR HEAD에 게시 요청을 반복하며 동시 상태 변경을 실행",
-                result: "같은 payload는 기존 결과를 반환하고 다른 payload는 충돌로 차단합니다. 유일 제약과 낙관적 잠금으로 상태 경쟁을 막고 기존 Check Run을 갱신합니다.",
+                rule: "같은 requestId로 동일하거나 다른 요청 본문을 재전송하고, 같은 PR HEAD에 게시 요청을 반복하며 동시 상태 변경을 실행",
+                result: "같은 요청 본문은 기존 결과를 반환하고 다른 요청 본문은 충돌로 차단합니다. 유일 제약과 낙관적 잠금으로 상태 경쟁을 막고 기존 Check Run을 갱신합니다.",
                 scope: "공개 main e234584의 서버 테스트 기준",
             },
             {
@@ -2053,7 +2053,7 @@ const projects = [
             },
             {
                 item: "Zed MCP 연결과 최신 로컬 검증",
-                method: "저장소 인계 문서·Zed 연결 테스트 기록",
+                method: "저장소 개발 인계 문서와 Zed 연결 테스트 기록",
                 rule: "Zed JSONC 설정, 표준 MCP 중계, 연결 진단과 세션 폐기 후 재연결을 확인",
                 result: "Zed 1.18.1에서 승인 인자 확인, 기록 조회와 세션 폐기 후 재연결을 확인했습니다.",
                 scope: "Zed 1.18.1 앱 기준 · GitHub·모델 응답은 로컬 모의 응답",
@@ -2135,7 +2135,7 @@ const projects = [
                 validation:
                     "웹의 권한·필터·부분 조회·재개와 IntelliJ·Zed 연결 검증 기록을 확인했습니다. 웹 화면은 서버 테스트가 생성한 HTML로 촬영했습니다.",
                 boundary:
-                    "IntelliJ에서 기록 생성과 callback token 자동 수신은 제공하지 않습니다. 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증을 마치지 못했습니다.",
+                    "IntelliJ에서 기록 생성과 콜백 토큰 자동 수신은 제공하지 않습니다. 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증을 마치지 못했습니다.",
             },
             {
                 number: "06",
@@ -2264,7 +2264,7 @@ const projects = [
             description:
                 "FOR UPDATE SKIP LOCKED로 다른 서버가 잠근 행을 건너뛰고 처리 상태를 변경했습니다. 외부 API 호출과 전후 DB 처리는 트랜잭션 경계를 분리했습니다.",
             tradeoff:
-                "외부 API 호출과 DB 반영은 하나의 트랜잭션으로 묶이지 않습니다. 오래된 처리중 상태는 주기적으로 복구해 재처리합니다.",
+                "외부 API 호출과 DB 반영은 하나의 트랜잭션으로 묶이지 않습니다. 오래된 처리 중 상태는 주기적으로 복구해 재처리합니다.",
         },
         problems: [
             {
@@ -2309,7 +2309,7 @@ const projects = [
                 constraint:
                     "인터페이스 서버가 이중화되면서 한 프로세스 안에서만 동작하는 ReentrantLock으로는 서버 간 중복 실행을 막을 수 없었습니다. 외부 API 대기 중 DB 연결을 오래 점유하는 문제도 피해야 했습니다.",
                 decision:
-                    "FOR UPDATE SKIP LOCKED로 잠긴 행을 건너뛰고 N(처리대상)을 P(처리중)로 바꿔 선점했습니다. 외부 API는 트랜잭션 밖에서 호출하고, 선점과 완료 상태(null) 반영은 각각 별도 트랜잭션으로 처리했습니다.",
+                    "FOR UPDATE SKIP LOCKED로 잠긴 행을 건너뛰고 N(처리대상)을 P(처리 중)로 바꿔 선점했습니다. 외부 API는 트랜잭션 밖에서 호출했습니다. 선점 상태 저장과 완료 후 처리 상태 초기화는 각각 별도 트랜잭션으로 처리했습니다.",
                 validation: warrantPerformanceSummary,
                 boundary:
                     "서버 중단으로 남은 오래된 P 상태는 주기적으로 N으로 되돌려 재처리합니다. 복구 시점은 설정한 경과 시간과 점검 주기를 따릅니다.",
@@ -2451,7 +2451,7 @@ const projects = [
         category: "교육 프로젝트",
         role: "mediasoup RTP-HLS 변환 서버와 WebRTC 및 HLS React 재생 화면 구현",
         oneLine:
-            "현재 강의는 mediasoup와 WebRTC로 실시간 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환해 지난 구간 다시보기에 사용했습니다.",
+            "현재 강의는 WebRTC로 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer로 HLS로 변환해 지난 구간 다시보기에 사용했습니다.",
         status: {
             label: "프로젝트 상태",
             text: "2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.",

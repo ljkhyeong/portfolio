@@ -10,7 +10,7 @@ const ProjectOgDiagram = ({ card }) => {
             <title id={`${prefix}-title`}>{card.caption}</title>
             <desc id={`${prefix}-desc`}>
                 {card.steps?.map(([title, detail]) => `${title}: ${detail}`).join(". ") ??
-                    "조직 운영 Core와 GO, WATCH, RELAY, BRIEF, CAL, ROUND의 책임을 분리합니다."}
+                    "Core는 조직 운영을 맡고, GO·WATCH·RELAY·BRIEF·CAL·ROUND는 독립 기능을 맡습니다."}
             </desc>
             <defs>
                 <marker

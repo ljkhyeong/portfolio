@@ -99,7 +99,7 @@ describe("공개 지식 문서 목록", () => {
             "저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개",
         )
         expect(roundOverview.content).toContain(
-            "검증 요약: Chromium 카메라 및 마이크 제어와 화면 공유",
+            "검증 요약: Chromium 카메라·마이크 제어와 화면 공유",
         )
         expect(roundOverview.content).toContain("입력 확인: 입장 토큰의 서명")
 

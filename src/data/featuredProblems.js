@@ -36,7 +36,7 @@ const featuredProblems = {
         approach:
             "연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계합니다.",
         steps: [
-            { title: "정책 조건 확인", description: "정의, 범위와 기준일 구분" },
+            { title: "정책 조건 확인", description: "조건 정의·적용 범위·기준일 확인" },
             { title: "사용자 답변 비교", description: "조건별 충족, 불충족과 미확인 판단" },
             { title: "근거와 함께 표시", description: "3단계 결과와 추가 확인 이유 제공" },
         ],
@@ -50,7 +50,7 @@ const featuredProblems = {
         problem: "실제 변경 코드에 없는 설명이나 지적이 리뷰에 섞일 수 있습니다.",
         approach: "이전 대화 없이 코드를 분석하고, 리뷰가 참조한 파일·줄과 JSON 형식을 검증합니다.",
         steps: [
-            { title: "이전 대화 없이 코드 분석", description: "변경에 대한 설명과 지적 수신" },
+            { title: "이전 대화 없이 코드 분석", description: "AI 리뷰 설명과 지적 생성" },
             { title: "파일과 줄 연결", description: "실제 수집한 코드 범위인지 검사" },
             { title: "형식 및 길이 검증", description: "잘못된 근거와 형식 거절" },
         ],
@@ -81,9 +81,9 @@ const featuredProblems = {
         approach:
             "SKIP LOCKED로 잠긴 행을 건너뛰어 작업을 선점하고, 외부 API 호출과 전후 DB 처리를 분리했습니다.",
         steps: [
-            { title: "처리 대상 선점", description: "잠긴 행 제외 · N → P 저장" },
+            { title: "처리 대상 선점", description: "잠긴 행 제외 · 처리대상(N) → 처리 중(P)" },
             { title: "외부 API 호출", description: "DB 트랜잭션 밖에서 실행" },
-            { title: "완료 또는 재처리", description: "완료 → null · 오래된 P → N" },
+            { title: "완료 또는 재처리", description: "완료 시 상태 초기화 · 오래된 P → N" },
         ],
         evidenceLabel: "인터페이스 성능 테스트",
         result: warrantPerformanceSummary,
@@ -155,11 +155,11 @@ const featuredProblems = {
             "호출 전에 시도 UUID와 중복 방지 키를 저장합니다. 결과 미확인은 재전송하지 않고 외부 기록을 확인해 상태만 확정합니다.",
         steps: [
             { title: "전송 시도 저장", description: "UUID와 외부 서비스 멱등 키 고정" },
-            { title: "외부 전송", description: "서버가 바뀌어도 같은 시도 정보 유지" },
+            { title: "외부 전송", description: "서버가 바뀌어도 시도 UUID와 멱등 키 유지" },
             { title: "전송 결과 수동 확정", description: "재전송 없이 기록 확인 후 상태 확정" },
         ],
         evidenceLabel: "장애 시나리오 확인",
-        result: "서버 중단 뒤 시도 정보 유지, 이전 서버의 늦은 결과 차단과 운영자 상태 확정을 확인했습니다.",
+        result: "서버 중단 뒤 시도 UUID·멱등 키 유지, 이전 서버의 늦은 결과 차단과 운영자 상태 확정을 확인했습니다.",
         limitation:
             "중복 전송 방지를 우선하므로 결과 미확인 건은 외부 기록 확인과 운영자 수동 확정이 필요합니다.",
     },
@@ -190,7 +190,7 @@ const featuredProblems = {
         evidenceLabel: "PostgreSQL 통합 테스트",
         result: "재전송, 이전 버전, 동일 버전의 내용 불일치와 트랜잭션 실패 후 재시도를 확인했습니다.",
         limitation:
-            "비동기 연동으로 반영이 지연될 수 있습니다. 운영 활성화 전 자격 증명 교체와 최신 일정 재전송 검증이 필요합니다.",
+            "비동기 연동으로 반영이 지연될 수 있습니다. 공개 운영 전 자격 증명 교체와 최신 일정 재전송 검증이 필요합니다.",
     },
     "baton-round": {
         problemNumber: "13",

@@ -32,7 +32,7 @@ const routeMetaContent = {
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "이벤트 중복 수신을 막고 기존 전송 시도 정보를 유지하며 결과 미확인 건은 재전송하지 않는 RELAY 마이크로서비스",
+            "이벤트 중복 수신을 막고 시도 UUID·멱등 키를 유지하며 결과 미확인 건은 재전송하지 않는 RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/brief": {
@@ -68,7 +68,7 @@ const routeMetaContent = {
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "공개 정책의 접수 상태와 신청 조건을 확인하고 관심 정책 일정·알림과 수집 예외 보정을 연결한 서울 청년정책 웹앱",
+            "공개 정책의 접수 상태와 신청 조건을 확인하고 관심 정책 일정·알림, 수집 실패 재처리와 정책 정보 보정을 구현한 서울 청년정책 웹앱",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {

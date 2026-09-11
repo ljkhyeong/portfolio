@@ -21,10 +21,12 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     )
     expect(
         screen.getByText(
-            "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제와 이벤트의 중복 실행을 막고, 중단된 작업을 이어서 처리하도록 구현했습니다.",
+            "공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는 결제·이벤트 중복 처리 방지와 중단 작업 재처리를 구현했습니다.",
         ),
     ).toBeInTheDocument()
-    const reliabilityFlow = screen.getByRole("list", { name: "안정적인 요청 처리 흐름" })
+    const reliabilityFlow = screen.getByRole("list", {
+        name: "중복 방지와 중단 작업 재처리 흐름",
+    })
 
     expect(reliabilityFlow).toHaveTextContent("요청 수신")
     expect(reliabilityFlow).toHaveTextContent("중복 확인")
@@ -182,7 +184,7 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
     expect(desktop.getByText("React")).toBeInTheDocument()
     expect(desktop.getByText("WebSquare")).toBeInTheDocument()
 
-    expect(desktop.getByRole("heading", { name: "안정성 설계" })).toBeInTheDocument()
+    expect(desktop.getByRole("heading", { name: "중복 방지 및 작업 복구" })).toBeInTheDocument()
     expect(desktop.getByText("결제 및 환불 중복 실행 방지")).toBeInTheDocument()
     expect(desktop.getByText("서버 중단 후 알림 재처리")).toBeInTheDocument()
     expect(desktop.getByText("정원 및 재고 초과 방지")).toBeInTheDocument()
@@ -195,7 +197,7 @@ test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으�
 
     const backendHeading = desktop.getByRole("heading", { name: "백엔드" })
     const reliabilityHeading = desktop.getByRole("heading", {
-        name: "안정성 설계",
+        name: "중복 방지 및 작업 복구",
     })
     const deliveryHeading = desktop.getByRole("heading", { name: "테스트 및 운영" })
     const frontendHeading = desktop.getByRole("heading", { name: "프론트엔드" })

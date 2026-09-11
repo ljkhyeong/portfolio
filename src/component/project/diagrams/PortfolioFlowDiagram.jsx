@@ -326,7 +326,7 @@ const diagrams = {
                 height: 104,
                 tag: "INPUT",
                 title: ["조건 입력"],
-                detail: ["화면 입력 상태"],
+                detail: ["연령·지역·취업·소득"],
             },
             {
                 id: "condition-confirmation",
@@ -336,7 +336,7 @@ const diagrams = {
                 height: 104,
                 tag: "WEB VIEW",
                 title: ["입력 내용 확인"],
-                detail: ["확인 후 요청 · 회원 저장 선택"],
+                detail: ["조건 확인 요청 · 회원 저장 선택"],
             },
             {
                 id: "development-data",

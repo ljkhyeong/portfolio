@@ -126,7 +126,7 @@ const Header = () => {
                     </div>
 
                     <div className="home-flow__map">
-                        <ol aria-label="안정적인 요청 처리 흐름">
+                        <ol aria-label="중복 방지와 중단 작업 재처리 흐름">
                             {homeHeroContent.flow.map((item) => (
                                 <li key={item.step}>
                                     <span className="home-flow__step">{item.step}</span>

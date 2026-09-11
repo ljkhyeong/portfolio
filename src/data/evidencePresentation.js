@@ -22,7 +22,7 @@ const evidencePresentation = {
     },
     "CAL 일정 JSON 수신과 캘린더 구독": {
         methodLabel: "통합 테스트",
-        scopeNote: "실제 운영 활성화와 공개 배포 전",
+        scopeNote: "실제 캘린더 앱 구독과 공개 배포는 미검증",
     },
     "ROUND 입장 토큰 검증과 브라우저 연결": {
         methodLabel: "CI 확인",
@@ -31,7 +31,7 @@ const evidencePresentation = {
         scopeNote:
             "실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
     },
-    "AWS 운영 이력": { methodLabel: "운영 내역", scopeNote: "실운영 후 비용 문제로 종료" },
+    "AWS 운영 이력": { methodLabel: "운영 내역", scopeNote: "AWS 운영 후 비용 문제로 종료" },
     "8회권 환불, 미래 예약과 잔여 횟수 일치": { methodLabel: "통합 테스트" },
     "OpenAPI 문서화 범위": { methodLabel: "산출물 집계" },
     "스마트스토어 주문과 공유 재고 반영": {

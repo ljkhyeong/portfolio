@@ -15,13 +15,13 @@ export const homeSkillGroups = [
     },
     {
         id: "reliability",
-        label: "안정성 설계",
+        label: "중복 방지 및 작업 복구",
         summary:
             "같은 요청에는 기존 식별자를 재사용해 중복 실행을 막고, DB에 저장한 작업은 서버 중단 후 다시 처리하도록 구현했습니다.",
         items: [
             {
                 name: "이중화 서버의 연계 작업 선점",
-                detail: "SKIP LOCKED로 잠긴 행을 건너뛰고 처리 상태를 변경해 작업을 선점합니다. 외부 API는 트랜잭션 밖에서 호출하고, 오래된 처리중 상태는 재처리 대상으로 돌립니다.",
+                detail: "SKIP LOCKED로 잠긴 행을 건너뛰고 처리 상태를 변경해 작업을 선점합니다. 외부 API는 트랜잭션 밖에서 호출하고, 오래된 처리 중 상태는 재처리 대상으로 돌립니다.",
                 examples: [{ label: "전자영장", route: "/projects/e-warrant" }],
             },
             {
@@ -41,7 +41,7 @@ export const homeSkillGroups = [
             },
             {
                 name: "서버 중단 후 URL 점검 및 이벤트 전달 재개",
-                detail: "WATCH는 처리 기한이 지난 URL 점검을 새로 실행합니다. RELAY는 기존 시도 UUID와 외부 서비스 멱등 키를 유지해 다른 서버가 이어받습니다. 이전 서버의 늦은 결과는 반영하지 않습니다.",
+                detail: "WATCH는 처리 기한이 지난 URL 점검을 새로 실행합니다. RELAY는 다른 서버가 같은 시도 UUID와 외부 서비스 멱등 키로 계속 처리합니다. 이전 서버의 늦은 결과는 반영하지 않습니다.",
                 examples: [
                     { label: "BATON WATCH", route: "/projects/baton/watch" },
                     { label: "BATON RELAY", route: "/projects/baton/relay" },

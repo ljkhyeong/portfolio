@@ -19,7 +19,7 @@ export const projectSummaries = [
             problem:
                 "같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달 작업이 중복 생성될 수 있음",
             solution:
-                "요청 UUID와 이벤트 ID로 중복 생성을 방지. 중단된 전송 작업은 기존 식별자를 유지해 인계하고, 결과 미확인 건은 자동 재전송하지 않음",
+                "요청 UUID와 이벤트 ID로 중복 생성을 방지. 중단된 전송 작업은 같은 식별자로 다른 서버가 이어서 처리하고, 결과 미확인 건은 자동 재전송하지 않음",
         },
         period: "2026.07.20 — 진행 중",
         route: "/projects/baton",
@@ -80,10 +80,10 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/happyGallery",
         },
         summary:
-            "공방 상품 주문과 클래스 예약을 처리합니다. 간편결제·스마트스토어 운영에 공휴일 갱신, 주소 검색과 목록 조건 복원을 추가했습니다.",
+            "공방 상품 주문과 클래스 예약을 처리합니다. 카드·간편결제, 스마트스토어 주문·재고 동기화와 공휴일·주소 조회를 구현했습니다.",
         homeFacts: {
             problem:
-                "결제사 응답 유실, 서버 중단에 따른 알림 유실과 외부 주문 재수신에 따른 재고 중복 반영",
+                "결제사 응답 유실, 서버 중단에 따른 알림 유실과 스마트스토어 주문 재수신 시 재고 중복 반영",
             solution:
                 "결제·환불 키를 재사용하고 미전송 알림을 재처리. 스마트스토어 주문은 수량 변경분만 재고에 반영",
         },
@@ -109,7 +109,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
         summary:
-            "공개 정책 40건을 검색하고 검토한 정책 9종의 신청 요건을 확인합니다. 관심 정책 일정·알림과 관리자 수집 예외 보정을 구현했습니다.",
+            "공개 정책 40건을 검색하고 검토한 정책 9종의 신청 요건을 확인합니다. 관심 정책 일정·알림, 관리자용 수집 실패 재처리와 정책 정보 보정을 구현했습니다.",
         period: "2026.08.30 — 진행 중",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
@@ -155,7 +155,7 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 의도 및 검증 기록",
         summary:
-            "AI 코드 변경의 요청, 근거와 검증 결과를 코드 위치에 남깁니다. 웹·IDE에서 기록을 찾고 GitHub 원본, 이슈·PR과 CI 결과를 함께 확인할 수 있습니다.",
+            "AI에게 전달한 요청, 코드 변경 근거와 검증 결과를 파일·줄 위치에 남깁니다. 웹·IDE에서 기록을 찾고 GitHub 원본 코드, 이슈·PR과 CI 결과를 함께 확인할 수 있습니다.",
         period: "2026.08.27 — 진행 중",
         route: "/projects/intent-trace",
         tags: [
@@ -180,7 +180,7 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "BEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발 및 운영",
         summary:
-            "군사법원, 군검찰, 군경찰, 군교정 등 국방부 산하 4개 기관의 업무를 연계하는 폐쇄망 시스템입니다. 세 기관의 수용자 자료를 군교정 DB에 반영하는 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발했습니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾아 재실행했습니다.",
+            "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발했습니다. 중단된 배치는 Jenkins·JEUS·Tibero 정보를 대조해 재실행했습니다.",
         period: "2024.06.23 — 2026.01.30",
         route: "/projects/defense",
         tags: ["Java 8", "전자정부 표준프레임워크 4.1", "MyBatis", "Tibero", "Jenkins"],

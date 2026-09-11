@@ -25,7 +25,7 @@ PostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일
 -   정식 JSON 규격 `1.0.0`: 정식 버전 기준이며 Core 일정 JSON과 CAL 컨테이너의 호환성 검증 완료
 -   사전 릴리스 `1.1.0-rc.1`: 2026년 9월 2일 태그 `contracts-v1.1.0-rc.1`과 규격 ZIP 게시 완료. 정식 버전 전환 전
 -   Core 연동: `1.1.0-rc.1`의 일정, 시즌 이름과 복구 요청 형식 및 ZIP 해시를 고정하고 CAL 컨테이너와 연동 검증 완료
--   운영 상태: 운영 활성화와 공개 배포 전. 실제 캘린더 앱, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증
+-   운영 상태: 실제 캘린더 앱 구독, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증
 
 게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.
 

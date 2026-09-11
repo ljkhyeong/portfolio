@@ -80,7 +80,7 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
         "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
     )
     expect(briefRow).toHaveTextContent("Core 신호 반영")
-    expect(calRow).toHaveTextContent("실제 운영 활성화와 공개 배포 전")
+    expect(calRow).toHaveTextContent("실제 캘린더 앱 구독과 공개 배포는 미검증")
     expect(goRow.querySelector("summary")).toHaveTextContent("통합 테스트")
 
     const roundSummary = roundRow.querySelector("summary")

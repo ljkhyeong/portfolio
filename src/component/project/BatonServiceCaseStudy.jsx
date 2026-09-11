@@ -16,9 +16,9 @@ import "../../css/CaseShowcase.css"
 const problemResults = {
     "03": "동시 요청 8건에도 링크와 처리 기록 각 1건",
     "04": "HMAC 키 불일치 시 기동과 링크 생성 차단",
-    "05": "사설망, 늦은 결과 차단과 중단 점검 재실행 확인",
+    "05": "사설망 접근·늦은 결과 차단과 중단 점검 재실행 확인",
     "06": "응답 유실과 미전송 이벤트 재처리 확인",
-    "07": "서버 중단 후 같은 시도 정보 유지와 상태 확정 확인",
+    "07": "서버 중단 후 시도 UUID·멱등 키 유지와 상태 확정 확인",
     "08": "RabbitMQ 재전달에도 수신 이력 1건",
     "09": "실제 Core와 로컬 HTTP 및 내부 HTTPS 연동 확인",
     10: "재생성 결과 일치, 동시 요청에도 보고서 1건",
@@ -181,7 +181,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="service-verification-title"
                 >
                     <div className="baton-service-section-heading">
-                        <h2 id="service-verification-title">검증 결과와 남은 범위</h2>
+                        <h2 id="service-verification-title">검증 결과와 미검증 범위</h2>
                     </div>
                     <dl className="baton-service-status" aria-label="구현 상태">
                         {presentation.verification.map((item) => (
