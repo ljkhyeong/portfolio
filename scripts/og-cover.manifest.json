@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og-cover.png",
-    "sourceSha256": "beb74f93b8fbee1b258ded311c25ef9ca853b467a1c1a5f1f584b9bd9f9d555f",
-    "artifactSha256": "62d714b5cc8a931e69e87fcf417060d7a6b775a70c8c254ab1ebf02863c328f2",
+    "sourceSha256": "c80cbf3d0a408792e4242ba7a957527850c0a027201351f9bfac91e4deef40c2",
+    "artifactSha256": "01d5d0d4897b2edd07b14abdb75ca2ddd26237d03138898bf6adf74b7a98a916",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
