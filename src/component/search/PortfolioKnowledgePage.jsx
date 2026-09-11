@@ -6,7 +6,7 @@ import PortfolioNavigation from "../PortfolioNavigation"
 import usePortfolioKnowledge from "./usePortfolioKnowledge"
 import "../../css/PortfolioKnowledge.css"
 
-const suggestionQuestions = [
+const defaultSuggestionQuestions = [
     "결제와 환불 중복 처리를 어떻게 막았나요?",
     "BATON Core와 6개 서비스는 각각 무엇을 담당하나요?",
     "폐쇄망에서 배치 중단 원인을 어떻게 찾았나요?",
@@ -27,6 +27,28 @@ const batonServices = [
     { id: "core", name: "Core" },
     ...projectSummariesById.baton.serviceLinks.map(({ id, name }) => ({ id, name })),
 ]
+
+const getSuggestionSet = (projectId, serviceId) => {
+    if (!projectId) {
+        return { label: "추천 질문", questions: defaultSuggestionQuestions }
+    }
+
+    const project = projectSummariesById[projectId]
+    const service =
+        projectId === "baton" && serviceId
+            ? batonServices.find((candidate) => candidate.id === serviceId)
+            : null
+    const scopeLabel = service ? `BATON ${service.name}` : project.title
+
+    return {
+        label: `${scopeLabel} 추천 질문`,
+        questions: [
+            `${scopeLabel} 주요 기능과 담당 범위는 무엇인가요?`,
+            `${scopeLabel} 문제 해결 방법을 알려주세요.`,
+            `${scopeLabel} 테스트 결과와 미검증 범위는 무엇인가요?`,
+        ],
+    }
+}
 
 const getPrimaryLabel = (item) => item.title || item.heading
 
@@ -89,6 +111,7 @@ const KnowledgeFilters = ({
     onProjectChange,
     onServiceChange,
     onTypeChange,
+    onReset,
 }) => (
     <fieldset className="knowledge-filters">
         <legend className="sr-only">검색 범위</legend>
@@ -127,6 +150,11 @@ const KnowledgeFilters = ({
                 ))}
             </select>
         </label>
+        {projectId || serviceId || documentType ? (
+            <button className="knowledge-filters__reset" type="button" onClick={onReset}>
+                범위 초기화
+            </button>
+        ) : null}
     </fieldset>
 )
 
@@ -165,7 +193,7 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
             <div className="knowledge-state">
                 <span aria-hidden="true">0</span>
                 <h2>일치하는 공개 자료가 없습니다.</h2>
-                <p>프로젝트나 문서 종류를 전체로 바꾸거나, 더 짧은 검색어를 사용해 보세요.</p>
+                <p>검색 범위를 초기화하거나 더 짧은 검색어를 사용해 보세요.</p>
             </div>
         )
     }
@@ -332,6 +360,7 @@ const PortfolioKnowledgePage = () => {
     const documentType =
         documentTypes.find(([type]) => type === searchParams.get("type"))?.[0] ?? ""
     const [query, setQuery] = useState(searchedQuery)
+    const suggestions = getSuggestionSet(projectId, serviceId)
     const { search, answer, generateAnswer, retrySearch } = usePortfolioKnowledge({
         query: searchedQuery,
         projectId,
@@ -416,7 +445,11 @@ const PortfolioKnowledgePage = () => {
                                 type="search"
                                 value={query}
                                 onChange={(event) => setQuery(event.target.value)}
-                                placeholder="예: 결제 승인 응답이 누락되면 어떻게 처리했나요?"
+                                placeholder={
+                                    projectId
+                                        ? `예: ${suggestions.questions[0]}`
+                                        : "예: 결제 승인 응답이 누락되면 어떻게 처리했나요?"
+                                }
                                 autoComplete="off"
                             />
                             <button
@@ -429,10 +462,10 @@ const PortfolioKnowledgePage = () => {
                     </form>
 
                     <div className="knowledge-query__controls">
-                        <div className="knowledge-suggestions" aria-label="추천 질문">
-                            <span>추천 질문</span>
+                        <div className="knowledge-suggestions" aria-label={suggestions.label}>
+                            <span>{suggestions.label}</span>
                             <div>
-                                {suggestionQuestions.map((suggestion) => (
+                                {suggestions.questions.map((suggestion) => (
                                     <button
                                         key={suggestion}
                                         type="button"
@@ -460,6 +493,13 @@ const PortfolioKnowledgePage = () => {
                             }
                             onTypeChange={(value) =>
                                 runSearch(query, { projectId, serviceId, documentType: value })
+                            }
+                            onReset={() =>
+                                runSearch(query, {
+                                    projectId: "",
+                                    serviceId: "",
+                                    documentType: "",
+                                })
                             }
                         />
                     </div>

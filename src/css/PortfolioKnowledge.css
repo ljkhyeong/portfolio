@@ -226,6 +226,7 @@
 .knowledge-filters {
     display: flex;
     gap: 8px;
+    align-items: end;
     padding: 0;
     border: 0;
     margin: 0;
@@ -252,6 +253,29 @@
     color: var(--knowledge-ink);
     font-size: 14px;
     font-weight: 650;
+}
+
+.knowledge-filters__reset {
+    min-height: 40px;
+    padding: 0 4px;
+    border: 0;
+    border-bottom: 1px solid var(--knowledge-muted);
+    background: transparent;
+    color: var(--knowledge-muted);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        border-color 160ms ease,
+        color 160ms ease;
+}
+
+.knowledge-filters__reset:hover,
+.knowledge-filters__reset:focus-visible {
+    border-color: var(--knowledge-accent);
+    color: var(--knowledge-accent);
 }
 
 .knowledge-workspace {

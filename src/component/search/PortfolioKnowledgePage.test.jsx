@@ -54,6 +54,18 @@ test("공유 주소의 검색어와 필터를 복원하고 AI 답변은 자동 �
 test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () => {
     renderPage(["/search?project=warrant"])
     expect(screen.getByLabelText("프로젝트")).toHaveValue("warrant")
+    expect(
+        screen.getByRole("button", {
+            name: "전송형 전자영장 시스템 주요 기능과 담당 범위는 무엇인가요?",
+        }),
+    ).toBeVisible()
+    expect(screen.getByRole("searchbox")).toHaveAttribute(
+        "placeholder",
+        "예: 전송형 전자영장 시스템 주요 기능과 담당 범위는 무엇인가요?",
+    )
+    expect(
+        screen.queryByRole("button", { name: "결제와 환불 중복 처리를 어떻게 막았나요?" }),
+    ).not.toBeInTheDocument()
     expect(searchPortfolioKnowledge).not.toHaveBeenCalled()
 })
 
@@ -66,6 +78,15 @@ test("BATON 서비스 범위를 주소에서 복원하고 변경한 서비스도
 
     await screen.findByRole("heading", { name: searchResult.title })
     expect(screen.getByLabelText("BATON 서비스")).toHaveValue("go")
+    expect(
+        screen.getByRole("button", {
+            name: "BATON GO 주요 기능과 담당 범위는 무엇인가요?",
+        }),
+    ).toBeVisible()
+    expect(screen.getByRole("searchbox")).toHaveAttribute(
+        "placeholder",
+        "예: BATON GO 주요 기능과 담당 범위는 무엇인가요?",
+    )
     expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
         expect.objectContaining({ projectId: "baton", serviceId: "go" }),
     )
@@ -73,6 +94,11 @@ test("BATON 서비스 범위를 주소에서 복원하고 변경한 서비스도
     await act(async () => userEvent.selectOptions(screen.getByLabelText("BATON 서비스"), "watch"))
     await screen.findByRole("heading", { name: searchResult.title })
     expect(new URLSearchParams(router.state.location.search).get("service")).toBe("watch")
+    expect(
+        screen.getByRole("button", {
+            name: "BATON WATCH 주요 기능과 담당 범위는 무엇인가요?",
+        }),
+    ).toBeVisible()
     expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
         expect.objectContaining({ projectId: "baton", serviceId: "watch" }),
     )
@@ -92,6 +118,26 @@ test("BATON이 아닌 프로젝트로 바꾸면 서비스 범위를 제거한다
     expect(new URLSearchParams(router.state.location.search).has("service")).toBe(false)
     expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
         expect.objectContaining({ projectId: "happygallery", serviceId: "" }),
+    )
+})
+
+test("검색 범위 초기화는 검색어를 유지하고 프로젝트와 문서 종류를 모두 제거한다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
+    const router = renderPage(["/search?q=결제&project=happygallery&type=problem_solution"])
+    await screen.findByRole("heading", { name: searchResult.title })
+
+    await act(async () => userEvent.click(screen.getByRole("button", { name: "범위 초기화" })))
+    await screen.findByRole("heading", { name: searchResult.title })
+
+    const nextParams = new URLSearchParams(router.state.location.search)
+    expect(nextParams.get("q")).toBe("결제")
+    expect(nextParams.has("project")).toBe(false)
+    expect(nextParams.has("type")).toBe(false)
+    expect(screen.getByLabelText("프로젝트")).toHaveValue("")
+    expect(screen.getByLabelText("문서 종류")).toHaveValue("")
+    expect(screen.queryByRole("button", { name: "범위 초기화" })).not.toBeInTheDocument()
+    expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
+        expect.objectContaining({ query: "결제", projectId: "", serviceId: "", documentType: "" }),
     )
 })
 
@@ -249,12 +295,12 @@ test("본문 인용 번호를 누르면 280자 뒤의 근거까지 펼치고 키
 
 test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI 답변을 생성한다", async () => {
     searchPortfolioKnowledge.mockResolvedValue({
-        query: "결제와 환불 중복 처리를 어떻게 막았나요?",
+        query: "happyGallery 문제 해결 방법을 알려주세요.",
         total: 1,
         results: [searchResult],
     })
     generatePortfolioAnswer.mockResolvedValue({
-        question: "결제와 환불 중복 처리를 어떻게 막았나요?",
+        question: "happyGallery 문제 해결 방법을 알려주세요.",
         status: "GENERATED",
         answer: "결제 승인과 환불에 멱등 키를 적용해 같은 요청의 중복 처리를 막았습니다.",
         citations: [searchResult],
@@ -272,7 +318,7 @@ test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI �
     await act(async () => {
         userEvent.click(
             screen.getByRole("button", {
-                name: "결제와 환불 중복 처리를 어떻게 막았나요?",
+                name: "happyGallery 문제 해결 방법을 알려주세요.",
             }),
         )
     })
@@ -284,7 +330,7 @@ test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI �
     ).toBeInTheDocument()
     expect(searchPortfolioKnowledge).toHaveBeenCalledWith(
         expect.objectContaining({
-            query: "결제와 환불 중복 처리를 어떻게 막았나요?",
+            query: "happyGallery 문제 해결 방법을 알려주세요.",
             projectId: "happygallery",
             documentType: "problem_solution",
         }),
@@ -302,7 +348,7 @@ test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI �
     ).toBeInTheDocument()
     expect(generatePortfolioAnswer).toHaveBeenCalledWith(
         expect.objectContaining({
-            question: "결제와 환불 중복 처리를 어떻게 막았나요?",
+            question: "happyGallery 문제 해결 방법을 알려주세요.",
             projectId: "happygallery",
             documentType: "problem_solution",
         }),
