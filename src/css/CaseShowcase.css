@@ -680,43 +680,79 @@ main.case-showcase .project-switcher__panel {
 }
 
 main.case-showcase .case-next {
+    display: grid;
     width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0 auto;
-    padding: 56px 0;
+    padding: 40px 0;
     border-top: 1px solid var(--line);
     background: transparent;
 }
 
 main.case-showcase .case-next a {
+    display: flex;
     width: 100%;
     min-height: 0;
-    padding: 0 96px 0 0;
+    padding: 18px 72px 18px 0;
+}
+
+main.case-showcase .case-next a.case-next__link--previous {
+    padding-right: 28px;
+    padding-left: 72px;
+}
+
+main.case-showcase .case-next a.case-next__link--next {
+    padding-left: 28px;
+    border-left: 1px solid var(--line);
+    text-align: right;
+}
+
+main.case-showcase .case-next a.case-next__link--next:first-child {
+    grid-column: 2;
 }
 
 main.case-showcase .case-next a > span:first-child {
+    margin-bottom: 12px;
     color: var(--muted);
+    letter-spacing: 0;
+    text-transform: none;
 }
 
 main.case-showcase .case-next strong {
     font-family: var(--sans);
-    font-size: var(--portfolio-project-title);
+    font-size: clamp(24px, 2.6vw, 36px);
     font-weight: 550;
-    line-height: 1.2;
     color: var(--ink);
+    line-height: 1.25;
 }
 
 main.case-showcase .case-next__arrow {
-    right: 0;
+    right: 8px;
     bottom: auto;
+    width: 48px;
+    height: 48px;
     border-color: var(--line);
     color: var(--ink);
+    font-size: 20px;
 }
 
-main.case-showcase .case-next a:is(:hover, :focus-visible) .case-next__arrow {
+main.case-showcase .case-next__link--previous .case-next__arrow {
+    right: auto;
+    left: 8px;
+}
+
+main.case-showcase .case-next__link--next:is(:hover, :focus-visible) .case-next__arrow {
     border-color: var(--accent);
     background: var(--accent);
     color: var(--paper);
     transform: translateX(4px);
+}
+
+main.case-showcase .case-next__link--previous:is(:hover, :focus-visible) .case-next__arrow {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+    transform: translateX(-4px);
 }
 
 main.case-showcase .case-design-credit {
@@ -999,6 +1035,34 @@ main.case-showcase ::selection {
     main.case-showcase .case-next,
     main.case-showcase .case-design-credit {
         width: calc(100% - 40px);
+    }
+
+    main.case-showcase .case-next {
+        grid-template-columns: 1fr;
+        padding: 24px 0;
+    }
+
+    main.case-showcase .case-next a.case-next__link--previous,
+    main.case-showcase .case-next a.case-next__link--next,
+    main.case-showcase .case-next a.case-next__link--next:first-child {
+        grid-column: 1;
+        min-height: 0;
+        padding: 22px 64px;
+        text-align: left;
+    }
+
+    main.case-showcase .case-next a.case-next__link--next {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+    }
+
+    main.case-showcase .case-next a.case-next__link--next:first-child {
+        border-top: 0;
+    }
+
+    main.case-showcase .case-next__link--next .case-next__arrow {
+        right: 8px;
+        left: auto;
     }
 
     main.case-showcase .case-hero h1,

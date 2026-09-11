@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { navigableCaseStudies, projectsById } from "../../data/projects"
+import { educationCaseStudies, navigableCaseStudies, projectsById } from "../../data/projects"
 import { caseResults, caseIntroductions, problemHighlights } from "../../data/caseHighlights"
 import featuredCasePresentations from "../../data/featuredProblems"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
@@ -25,6 +25,55 @@ const projectTypeShortLabels = {
     tooling: "도구",
     webapp: "웹앱",
     education: "교육",
+}
+
+const projectNavigationOrder = [...navigableCaseStudies, ...educationCaseStudies]
+
+const getProjectPositionLabel = (project) => {
+    const typeLabel = projectTypeShortLabels[project.projectType]
+
+    return project.projectType === "education" ? typeLabel : `${typeLabel} ${project.index}`
+}
+
+const ProjectPagerLink = ({ direction, project }) => {
+    const isPrevious = direction === "previous"
+
+    return (
+        <Link className={`case-next__link case-next__link--${direction}`} to={project.route}>
+            <span className="case-next__label">
+                {isPrevious ? "이전 프로젝트" : "다음 프로젝트"} /{" "}
+                {getProjectPositionLabel(project)}
+            </span>
+            <strong>{project.title}</strong>
+            <span className="case-next__arrow" aria-hidden="true">
+                {isPrevious ? "←" : "→"}
+            </span>
+        </Link>
+    )
+}
+
+const ProjectPager = ({ currentProjectId }) => {
+    const currentIndex = projectNavigationOrder.findIndex(
+        (project) => project.id === currentProjectId,
+    )
+    const previousProject = currentIndex > 0 ? projectNavigationOrder[currentIndex - 1] : null
+    const nextProject =
+        currentIndex >= 0 && currentIndex < projectNavigationOrder.length - 1
+            ? projectNavigationOrder[currentIndex + 1]
+            : null
+
+    if (!previousProject && !nextProject) {
+        return null
+    }
+
+    return (
+        <nav className="case-next" aria-label="프로젝트 이전 및 다음">
+            {previousProject ? (
+                <ProjectPagerLink direction="previous" project={previousProject} />
+            ) : null}
+            {nextProject ? <ProjectPagerLink direction="next" project={nextProject} /> : null}
+        </nav>
+    )
 }
 
 const ProductVisual = ({ project }) => (
@@ -376,6 +425,7 @@ const PriorExperienceCase = ({ project }) => {
                     links={project.links}
                 />
             </article>
+            <ProjectPager currentProjectId={project.id} />
             <CaseDesignCredit />
         </main>
     )
@@ -392,8 +442,6 @@ const ProjectCaseStudy = ({ projectId }) => {
         return <PriorExperienceCase project={project} />
     }
 
-    const projectIndex = navigableCaseStudies.findIndex((item) => item.id === projectId)
-    const nextProject = navigableCaseStudies[(projectIndex + 1) % navigableCaseStudies.length]
     const hasArchitecture = Boolean(project.architecture)
     const hasDocuments = Boolean(project.documents?.length)
     const evidenceTitle =
@@ -526,18 +574,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                 />
             </article>
 
-            <footer className="case-next">
-                <Link to={nextProject.route}>
-                    <span>
-                        다음 프로젝트 / {projectTypeShortLabels[nextProject.projectType]}{" "}
-                        {nextProject.index}
-                    </span>
-                    <strong>{nextProject.title}</strong>
-                    <span className="case-next__arrow" aria-hidden="true">
-                        →
-                    </span>
-                </Link>
-            </footer>
+            <ProjectPager currentProjectId={projectId} />
             <CaseDesignCredit />
         </main>
     )

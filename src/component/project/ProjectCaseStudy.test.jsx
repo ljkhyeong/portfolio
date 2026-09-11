@@ -232,6 +232,23 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     })
 })
 
+test("프로젝트 상세 하단에서 이전과 다음 프로젝트를 연속해서 이동한다", () => {
+    renderWithRouter(<ProjectCaseStudy projectId="baton" />)
+
+    const pager = screen.getByRole("navigation", { name: "프로젝트 이전 및 다음" })
+
+    expect(
+        within(pager).getByRole("link", {
+            name: /이전 프로젝트 \/ 경력 02 차세대 군사법 정보 시스템/,
+        }),
+    ).toHaveAttribute("href", "/projects/defense")
+    expect(
+        within(pager).getByRole("link", {
+            name: /다음 프로젝트 \/ 개인 02 happyGallery/,
+        }),
+    ).toHaveAttribute("href", "/projects/happygallery")
+})
+
 test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근거를 연결한다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="happygallery" />)
 
@@ -767,6 +784,14 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     expect(within(mediaDiagram).getByText("GStreamer")).toBeInTheDocument()
     expect(within(mediaDiagram).getByText("실시간 시청")).toBeInTheDocument()
     expect(within(mediaDiagram).getByText("지난 구간 재생")).toBeInTheDocument()
+
+    const pager = screen.getByRole("navigation", { name: "프로젝트 이전 및 다음" })
+    expect(
+        within(pager).getByRole("link", {
+            name: /이전 프로젝트 \/ 도구 02 IntentTrace/,
+        }),
+    ).toHaveAttribute("href", "/projects/intent-trace")
+    expect(within(pager).queryByText("다음 프로젝트")).not.toBeInTheDocument()
 
     const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
     const [mediaFlowProblem] = within(problems).getAllByRole("listitem")
