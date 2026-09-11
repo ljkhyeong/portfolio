@@ -109,6 +109,37 @@ test("현재 섹션의 공유 주소를 복사하고 결과를 알린다", async
     expect(screen.getByRole("status")).toHaveTextContent("확인 결과 섹션 링크를 복사했습니다.")
 })
 
+test("섹션 링크를 누르면 이동한 섹션 제목으로 초점을 옮긴다", () => {
+    let runAnimationFrame
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+        runAnimationFrame = callback
+        return 1
+    })
+
+    render(
+        <article>
+            <CaseSectionNavigation
+                sections={[
+                    { id: "overview", label: "개요" },
+                    { id: "proof", label: "확인 결과" },
+                ]}
+            />
+            <section id="overview">
+                <h1>프로젝트 개요</h1>
+            </section>
+            <section id="proof">
+                <h2>확인 결과</h2>
+            </section>
+        </article>,
+    )
+
+    fireEvent.click(screen.getByRole("link", { name: "확인 결과" }))
+    act(() => runAnimationFrame())
+
+    expect(screen.getByRole("heading", { name: "확인 결과" })).toHaveAttribute("tabindex", "-1")
+    expect(screen.getByRole("heading", { name: "확인 결과" })).toHaveFocus()
+})
+
 test("해시로 진입했을 때 내비게이션 아래에 보이는 섹션을 현재 위치로 표시한다", () => {
     let notifyIntersection
     vi.stubGlobal(

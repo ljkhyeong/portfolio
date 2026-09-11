@@ -36,6 +36,7 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
     const navigationRef = useRef(null)
     const listRef = useRef(null)
     const copyResetTimerRef = useRef(null)
+    const focusFrameRef = useRef(null)
     const [activeId, setActiveId] = useState(sections[0]?.id)
     const [copyState, setCopyState] = useState("idle")
     const sectionIds = sections.map((section) => section.id).join(",")
@@ -59,6 +60,31 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
         } catch {
             showCopyState("failed")
         }
+    }
+
+    const handleSectionClick = (event, sectionId) => {
+        if (
+            event.defaultPrevented ||
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+        ) {
+            return
+        }
+
+        setActiveId(sectionId)
+        window.cancelAnimationFrame(focusFrameRef.current)
+        focusFrameRef.current = window.requestAnimationFrame(() => {
+            const section = document.getElementById(sectionId)
+            const focusTarget = section?.querySelector("h1, h2, h3") ?? section
+            if (!focusTarget) return
+
+            focusTarget.setAttribute("tabindex", "-1")
+            focusTarget.focus({ preventScroll: true })
+            focusFrameRef.current = null
+        })
     }
 
     useEffect(() => {
@@ -156,6 +182,7 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
     useEffect(
         () => () => {
             window.clearTimeout(copyResetTimerRef.current)
+            window.cancelAnimationFrame(focusFrameRef.current)
         },
         [],
     )
@@ -171,7 +198,7 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
                         <a
                             href={`#${section.id}`}
                             aria-current={activeId === section.id ? "location" : undefined}
-                            onClick={() => setActiveId(section.id)}
+                            onClick={(event) => handleSectionClick(event, section.id)}
                         >
                             <span className="case-section-nav__full-label">{section.label}</span>
                             <span className="case-section-nav__short-label" aria-hidden="true">
