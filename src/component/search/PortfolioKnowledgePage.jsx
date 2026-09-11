@@ -344,7 +344,11 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
             onClick={onGenerate}
             disabled={!canGenerate || state === "loading"}
         >
-            {state === "loading" ? "답변 생성 중" : "검색 결과로 답변 생성"}
+            {state === "loading"
+                ? "답변 생성 중"
+                : state === "unavailable"
+                  ? "답변 다시 시도"
+                  : "검색 결과로 답변 생성"}
             <span aria-hidden="true">→</span>
         </button>
         <p className="knowledge-answer__policy">공개 문서로만 답하고 출처를 표시합니다.</p>

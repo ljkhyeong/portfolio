@@ -244,6 +244,44 @@ test("오류 영역에서 검색어와 필터를 유지한 채 다시 시도할 
     expect(router.state.location.key).toBe(initialKey)
 })
 
+test("AI 답변 오류 뒤 검색 결과와 필터를 유지한 채 답변만 다시 시도한다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
+    generatePortfolioAnswer
+        .mockRejectedValueOnce(
+            Object.assign(new Error("요청 실패"), { status: 503, code: "REQUEST_FAILED" }),
+        )
+        .mockResolvedValueOnce({
+            status: "GENERATED",
+            answer: "같은 결제 키로 처리 결과를 확인합니다.",
+            citations: [searchResult],
+        })
+    const router = renderPage(["/search?q=결제&project=happygallery"])
+    await screen.findByRole("heading", { name: searchResult.title })
+    const initialKey = router.state.location.key
+
+    await act(async () =>
+        userEvent.click(screen.getByRole("button", { name: /검색 결과로 답변 생성/ })),
+    )
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+        "현재 AI 답변 서버에 연결할 수 없습니다.",
+    )
+    expect(searchPortfolioKnowledge).toHaveBeenCalledOnce()
+
+    await act(async () => userEvent.click(screen.getByRole("button", { name: /답변 다시 시도/ })))
+
+    expect(await screen.findByText("같은 결제 키로 처리 결과를 확인합니다.")).toBeVisible()
+    expect(generatePortfolioAnswer).toHaveBeenCalledTimes(2)
+    expect(generatePortfolioAnswer).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+            question: "결제",
+            projectId: "happygallery",
+        }),
+    )
+    expect(searchPortfolioKnowledge).toHaveBeenCalledOnce()
+    expect(router.state.location.key).toBe(initialKey)
+})
+
 test("필터를 바꾸면 이전 검색을 취소하고 늦게 온 결과를 무시한다", async () => {
     let resolvePrevious
     searchPortfolioKnowledge
