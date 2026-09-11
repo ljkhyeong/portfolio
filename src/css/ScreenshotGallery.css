@@ -313,6 +313,29 @@
     gap: 8px;
 }
 
+.screenshot-lightbox__shortcut-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 6px;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.screenshot-lightbox__shortcut-hint kbd {
+    min-width: 26px;
+    padding: 3px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.78);
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1;
+    text-align: center;
+}
+
 .screenshot-lightbox__status {
     min-width: 58px;
     color: rgba(255, 255, 255, 0.66);
@@ -431,6 +454,10 @@
 
     .screenshot-lightbox__navigation {
         justify-content: flex-end;
+    }
+
+    .screenshot-lightbox__shortcut-hint {
+        display: none;
     }
 }
 

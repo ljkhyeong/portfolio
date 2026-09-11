@@ -64,6 +64,33 @@ test("모든 대표 화면을 버튼으로 열고 좌우 키로 전환한다", (
 
     fireEvent.keyDown(window, { key: "ArrowLeft" })
     expect(within(dialog).getByRole("img", { name: "결제 화면" })).toBeInTheDocument()
+
+    fireEvent.keyDown(window, { key: "Home" })
+    expect(within(dialog).getByRole("img", { name: "홈 화면" })).toBeInTheDocument()
+
+    fireEvent.keyDown(window, { key: "End" })
+    expect(within(dialog).getByRole("img", { name: "결제 화면" })).toBeInTheDocument()
+})
+
+test("확대 화면에 키보드 이동 방법과 단축키 정보를 제공한다", () => {
+    render(<ProjectScreenshotGallery project={project} />)
+
+    fireEvent.click(screen.getByRole("button", { name: "테스트 프로젝트 홈 화면 확대해서 보기" }))
+
+    const dialog = screen.getByRole("dialog", { name: "홈" })
+    const navigation = within(dialog).getByRole("group", { name: "대표 화면 이동" })
+
+    expect(dialog).toHaveAttribute("aria-keyshortcuts", "ArrowLeft ArrowRight Home End Escape")
+    expect(within(navigation).getByText("이동")).toBeVisible()
+    expect(within(navigation).getByText("닫기")).toBeVisible()
+    expect(within(navigation).getByRole("button", { name: "이전 이미지" })).toHaveAttribute(
+        "aria-keyshortcuts",
+        "ArrowLeft",
+    )
+    expect(within(navigation).getByRole("button", { name: "다음 이미지" })).toHaveAttribute(
+        "aria-keyshortcuts",
+        "ArrowRight",
+    )
 })
 
 test("소개에 한 화면만 보여줘도 확대 창에서는 전체 화면을 순서대로 탐색한다", () => {

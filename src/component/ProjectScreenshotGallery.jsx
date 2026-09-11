@@ -87,6 +87,18 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                 return
             }
 
+            if (event.key === "Home") {
+                event.preventDefault()
+                setActiveIndex(0)
+                return
+            }
+
+            if (event.key === "End") {
+                event.preventDefault()
+                setActiveIndex(screenshots.length - 1)
+                return
+            }
+
             if (event.key !== "Tab") {
                 return
             }
@@ -174,6 +186,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                         aria-modal="true"
                         aria-labelledby={dialogTitleId}
                         aria-describedby={activeNote ? activeNoteId : undefined}
+                        aria-keyshortcuts="ArrowLeft ArrowRight Home End Escape"
                         onMouseDown={(event) => {
                             if (event.target === event.currentTarget) {
                                 closeLightbox()
@@ -194,6 +207,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                                     ref={closeButtonRef}
                                     onClick={closeLightbox}
                                     aria-label="확대 화면 닫기"
+                                    aria-keyshortcuts="Escape"
                                 >
                                     <span aria-hidden="true">닫기</span>
                                 </button>
@@ -213,7 +227,22 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                                     <p>{activeScreenshot.caption}</p>
                                     {activeNote && <p id={activeNoteId}>{activeNote}</p>}
                                 </div>
-                                <div className="screenshot-lightbox__navigation">
+                                <div
+                                    className="screenshot-lightbox__navigation"
+                                    role="group"
+                                    aria-label="대표 화면 이동"
+                                >
+                                    <span
+                                        className="screenshot-lightbox__shortcut-hint"
+                                        aria-hidden="true"
+                                    >
+                                        <kbd>←</kbd>
+                                        <kbd>→</kbd>
+                                        <span>이동</span>
+                                        <span>·</span>
+                                        <kbd>Esc</kbd>
+                                        <span>닫기</span>
+                                    </span>
                                     <span
                                         className="screenshot-lightbox__status"
                                         aria-live="polite"
@@ -230,6 +259,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                                         type="button"
                                         onClick={showPrevious}
                                         aria-label="이전 이미지"
+                                        aria-keyshortcuts="ArrowLeft"
                                     >
                                         <span aria-hidden="true">←</span>
                                     </button>
@@ -237,6 +267,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                                         type="button"
                                         onClick={showNext}
                                         aria-label="다음 이미지"
+                                        aria-keyshortcuts="ArrowRight"
                                     >
                                         <span aria-hidden="true">→</span>
                                     </button>
