@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/happygallery.png",
-    "sourceSha256": "a4a5b0b038b70cef50f467d11f174686ca772d7ca6ceb2e826b83b9d5c0633fb",
-    "artifactSha256": "438413cdd94cf0caf15d80fd4f376de707e8cf2603d97f2d92870ad817bed963",
+    "sourceSha256": "858a68ef649ba36a22a6befc225f8fb7c44d1f105200f06f324ba5161fb42068",
+    "artifactSha256": "2ae80dc2fcef0fe364c690f58c09c1023808dfbdb991254bd93d24cf5e202c3a",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
