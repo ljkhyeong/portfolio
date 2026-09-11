@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { portfolioProfile } from "../../data/profile"
 import { projectSummaries, projectSummariesById } from "../../data/projectSummaries"
+import { siteUrl } from "../../data/routeMeta"
 import PortfolioNavigation from "../PortfolioNavigation"
 import usePortfolioKnowledge from "./usePortfolioKnowledge"
 import "../../css/PortfolioKnowledge.css"
@@ -60,19 +61,57 @@ const getSecondaryLabel = (item) => {
         : null
 }
 
+const siteOrigin = new URL(siteUrl).origin
+const normalizePathname = (pathname) => pathname.replace(/\/$/, "") || "/"
+
+const getSourceDestination = (item) => {
+    if (!item.sourceUrl) {
+        return item.route ? { href: item.route, kind: "route" } : { href: null, kind: "missing" }
+    }
+
+    let source
+    try {
+        source = new URL(item.sourceUrl, siteUrl)
+    } catch {
+        return { href: item.sourceUrl, kind: "external" }
+    }
+
+    if (source.origin !== siteOrigin) {
+        return { href: source.toString(), kind: "external" }
+    }
+
+    const relativeSource = `${source.pathname}${source.search}${source.hash}`
+    const routePathname = item.route
+        ? normalizePathname(new URL(item.route, siteUrl).pathname)
+        : null
+
+    return routePathname === normalizePathname(source.pathname)
+        ? { href: `${item.route}${source.search}${source.hash}`, kind: "route" }
+        : { href: relativeSource, kind: "asset" }
+}
+
 const SourceLink = ({ item, children, className }) => {
-    const href = item.sourceUrl || item.route
+    const { href, kind } = getSourceDestination(item)
 
     if (!href) {
         return null
     }
 
-    if (href.startsWith("/")) {
+    if (kind === "route") {
         return (
             <Link className={className} to={href}>
                 {children}
                 <span aria-hidden="true">→</span>
             </Link>
+        )
+    }
+
+    if (kind === "asset") {
+        return (
+            <a className={className} href={href}>
+                {children}
+                <span aria-hidden="true">→</span>
+            </a>
         )
     }
 

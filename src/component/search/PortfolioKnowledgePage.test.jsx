@@ -79,6 +79,51 @@ test("내부 원문과 외부 원문의 이동 기호와 새 창 동작을 구�
     expect(externalLink).toHaveTextContent("원문 확인↗")
 })
 
+test("배포 주소로 받은 포트폴리오 근거도 현재 사이트의 해당 섹션으로 이동한다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({
+        results: [
+            {
+                ...searchResult,
+                sourceUrl:
+                    "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
+            },
+        ],
+        total: 1,
+    })
+    renderPage(["/search?q=결제"])
+
+    await screen.findByRole("heading", { name: searchResult.title })
+    const sourceLink = screen.getByRole("link", { name: "원문 확인" })
+
+    expect(sourceLink).toHaveAttribute("href", "/projects/happygallery#project-problems")
+    expect(sourceLink).not.toHaveAttribute("target")
+    expect(sourceLink).toHaveTextContent("원문 확인→")
+})
+
+test("포트폴리오가 제공하는 원문 파일은 현재 사이트에서 직접 연다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({
+        results: [
+            {
+                ...searchResult,
+                projectId: "baton",
+                projectName: "BATON",
+                title: "GO 중복 링크 처리 문서",
+                route: "/projects/baton/go",
+                sourceUrl: "https://ljkportfolio.netlify.app/docs/baton/go-idempotent-link.md",
+            },
+        ],
+        total: 1,
+    })
+    renderPage(["/search?q=중복 링크"])
+
+    await screen.findByRole("heading", { name: "GO 중복 링크 처리 문서" })
+    const sourceLink = screen.getByRole("link", { name: "원문 확인" })
+
+    expect(sourceLink).toHaveAttribute("href", "/docs/baton/go-idempotent-link.md")
+    expect(sourceLink).not.toHaveAttribute("target")
+    expect(sourceLink).toHaveTextContent("원문 확인→")
+})
+
 test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () => {
     renderPage(["/search?project=warrant"])
     expect(screen.getByLabelText("프로젝트")).toHaveValue("warrant")
