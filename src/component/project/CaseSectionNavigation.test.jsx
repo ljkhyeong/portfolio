@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react"
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { afterEach, expect, test, vi } from "vitest"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 
@@ -77,4 +77,76 @@ test("스크롤 위치에 맞는 섹션을 표시하고 클릭한 섹션도 즉�
     expect(screen.getByRole("link", { name: "개요" })).toHaveAttribute("aria-current", "location")
     unmount()
     expect(disconnect).toHaveBeenCalled()
+})
+
+test("현재 섹션의 공유 주소를 복사하고 결과를 알린다", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    vi.stubGlobal("navigator", { clipboard: { writeText } })
+
+    render(
+        <article>
+            <CaseSectionNavigation
+                sections={[
+                    { id: "overview", label: "개요" },
+                    { id: "proof", label: "확인 결과" },
+                ]}
+            />
+            <section id="overview">개요 본문</section>
+            <section id="proof">확인 결과 본문</section>
+        </article>,
+    )
+
+    fireEvent.click(screen.getByRole("link", { name: "확인 결과" }))
+    await act(async () =>
+        fireEvent.click(screen.getByRole("button", { name: "확인 결과 섹션 링크 복사" })),
+    )
+
+    await waitFor(() => expect(writeText).toHaveBeenCalledOnce())
+    expect(new URL(writeText.mock.calls[0][0]).hash).toBe("#proof")
+    expect(screen.getByRole("button", { name: "확인 결과 섹션 링크 복사" })).toHaveTextContent(
+        "복사됨",
+    )
+    expect(screen.getByRole("status")).toHaveTextContent("확인 결과 섹션 링크를 복사했습니다.")
+})
+
+test("해시로 진입했을 때 내비게이션 아래에 보이는 섹션을 현재 위치로 표시한다", () => {
+    let notifyIntersection
+    vi.stubGlobal(
+        "IntersectionObserver",
+        class {
+            constructor(callback) {
+                notifyIntersection = callback
+            }
+            observe() {}
+            disconnect() {}
+        },
+    )
+
+    render(
+        <article>
+            <CaseSectionNavigation
+                sections={[
+                    { id: "overview", label: "개요" },
+                    { id: "proof", label: "확인 결과" },
+                ]}
+            />
+            <section id="overview">개요 본문</section>
+            <section id="proof">확인 결과 본문</section>
+        </article>,
+    )
+
+    const navigation = screen.getByRole("navigation")
+    const overview = document.getElementById("overview")
+    const proof = document.getElementById("proof")
+    navigation.getBoundingClientRect = () => ({ bottom: 112, height: 60 })
+    overview.getBoundingClientRect = () => ({ top: -300 })
+    proof.getBoundingClientRect = () => ({ top: 112 })
+
+    act(() => notifyIntersection())
+
+    expect(screen.getByRole("link", { name: "확인 결과" })).toHaveAttribute(
+        "aria-current",
+        "location",
+    )
+    expect(screen.getByRole("button", { name: "확인 결과 섹션 링크 복사" })).toBeVisible()
 })
