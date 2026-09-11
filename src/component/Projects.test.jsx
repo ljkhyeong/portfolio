@@ -35,9 +35,11 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     })
     expect(detailLink).toHaveAttribute("href", "/projects/baton")
     expect(detailLink).not.toHaveAttribute("target")
+    expect(detailLink).toHaveTextContent("상세 보기 →")
     expect(repositoryLink).toHaveAttribute("href", "https://github.com/ljkhyeong/baton")
     expect(repositoryLink).toHaveAttribute("target", "_blank")
     expect(repositoryLink).toHaveAttribute("rel", "noreferrer")
+    expect(repositoryLink).toHaveTextContent("GitHub ↗")
     expect(
         screen.getByRole("link", { name: "happyGallery GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/happyGallery")

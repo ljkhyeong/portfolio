@@ -68,7 +68,7 @@ const ProjectLinks = ({ project, supporting = false }) => (
             to={project.route}
             aria-label={`${project.title} 프로젝트 상세 보기`}
         >
-            상세 보기 <span aria-hidden="true">↗</span>
+            상세 보기 <span aria-hidden="true">→</span>
         </Link>
         {project.homeRepository && (
             <a

@@ -71,6 +71,7 @@ const SourceLink = ({ item, children, className }) => {
         return (
             <Link className={className} to={href}>
                 {children}
+                <span aria-hidden="true">→</span>
             </Link>
         )
     }
@@ -78,6 +79,7 @@ const SourceLink = ({ item, children, className }) => {
     return (
         <a className={className} href={href} target="_blank" rel="noreferrer">
             {children}
+            <span aria-hidden="true">↗</span>
             <span className="sr-only">새 창에서 보기</span>
         </a>
     )
@@ -226,7 +228,7 @@ const SearchResults = ({ state, total, results, query, errorMessage, onRetry }) 
                             )}
                             <p className="knowledge-result__snippet">{result.snippet}</p>
                             <SourceLink item={result} className="knowledge-result__link">
-                                원문 확인 <span aria-hidden="true">↗</span>
+                                원문 확인
                             </SourceLink>
                         </article>
                     </li>
@@ -279,7 +281,6 @@ const AnswerContent = ({ answer, citations }) => {
                                         <small>{getSecondaryLabel(citation)}</small>
                                     )}
                                 </span>
-                                <span aria-hidden="true">↗</span>
                             </SourceLink>
                             <details
                                 className="knowledge-answer__evidence"

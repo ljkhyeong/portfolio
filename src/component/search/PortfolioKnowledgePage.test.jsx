@@ -51,6 +51,34 @@ test("공유 주소의 검색어와 필터를 복원하고 AI 답변은 자동 �
     expect(generatePortfolioAnswer).not.toHaveBeenCalled()
 })
 
+test("내부 원문과 외부 원문의 이동 기호와 새 창 동작을 구분한다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({
+        results: [
+            searchResult,
+            {
+                ...searchResult,
+                chunkId: "happygallery#document#0",
+                title: "결제 처리 결정 문서",
+                route: undefined,
+                sourceUrl: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/payment.md",
+            },
+        ],
+        total: 2,
+    })
+    renderPage(["/search?q=결제"])
+
+    await screen.findByRole("heading", { name: "결제 처리 결정 문서" })
+    const internalLink = screen.getByRole("link", { name: "원문 확인" })
+    const externalLink = screen.getByRole("link", { name: "원문 확인 새 창에서 보기" })
+
+    expect(internalLink).toHaveAttribute("href", "/projects/happygallery")
+    expect(internalLink).not.toHaveAttribute("target")
+    expect(internalLink).toHaveTextContent("원문 확인→")
+    expect(externalLink).toHaveAttribute("target", "_blank")
+    expect(externalLink).toHaveAttribute("rel", "noreferrer")
+    expect(externalLink).toHaveTextContent("원문 확인↗")
+})
+
 test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () => {
     renderPage(["/search?project=warrant"])
     expect(screen.getByLabelText("프로젝트")).toHaveValue("warrant")
