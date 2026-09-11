@@ -196,7 +196,7 @@ test("검색과 필터 변경을 주소에 남기고 뒤로 가면 이전 조건
     )
 })
 
-test("같은 검색어로 오류 후 다시 시도할 수 있다", async () => {
+test("오류 영역에서 검색어와 필터를 유지한 채 다시 시도할 수 있다", async () => {
     searchPortfolioKnowledge
         .mockRejectedValueOnce(new Error("연결 실패"))
         .mockResolvedValueOnce({ results: [searchResult], total: 1 })
@@ -204,9 +204,15 @@ test("같은 검색어로 오류 후 다시 시도할 수 있다", async () => {
     await screen.findByRole("alert")
     const initialKey = router.state.location.key
 
-    await act(async () => userEvent.click(screen.getByRole("button", { name: "문서 검색" })))
+    expect(screen.getByRole("searchbox")).toHaveValue("결제")
+    expect(screen.getByLabelText("프로젝트")).toHaveValue("happygallery")
+
+    await act(async () => userEvent.click(screen.getByRole("button", { name: "검색 다시 시도" })))
     await screen.findByRole("heading", { name: searchResult.title })
     expect(searchPortfolioKnowledge).toHaveBeenCalledTimes(2)
+    expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
+        expect.objectContaining({ query: "결제", projectId: "happygallery" }),
+    )
     expect(router.state.location.key).toBe(initialKey)
 })
 
@@ -389,4 +395,5 @@ test.each([
     })
 
     expect(await screen.findByRole("alert")).toHaveTextContent(message)
+    expect(screen.getByRole("button", { name: "검색 다시 시도" })).toBeVisible()
 })

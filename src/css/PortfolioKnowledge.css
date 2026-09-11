@@ -142,7 +142,8 @@
 }
 
 .knowledge-query__input-row button,
-.knowledge-answer__button {
+.knowledge-answer__button,
+.knowledge-state__action {
     display: inline-flex;
     min-height: 44px;
     align-items: center;
@@ -166,7 +167,8 @@
 }
 
 .knowledge-query__input-row button:hover:not(:disabled),
-.knowledge-answer__button:hover:not(:disabled) {
+.knowledge-answer__button:hover:not(:disabled),
+.knowledge-state__action:hover {
     background: #c2e7d2;
 }
 
@@ -336,6 +338,12 @@
 .knowledge-state--error > span {
     border-color: var(--knowledge-error) !important;
     color: var(--knowledge-error) !important;
+}
+
+.knowledge-state__action {
+    min-width: 132px;
+    margin-top: 20px;
+    padding: 0 18px;
 }
 
 .knowledge-state__spinner {

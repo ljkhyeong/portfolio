@@ -158,7 +158,7 @@ const KnowledgeFilters = ({
     </fieldset>
 )
 
-const SearchResults = ({ state, total, results, query, errorMessage }) => {
+const SearchResults = ({ state, total, results, query, errorMessage, onRetry }) => {
     if (state === "idle") {
         return (
             <div className="knowledge-state knowledge-state--idle">
@@ -184,6 +184,9 @@ const SearchResults = ({ state, total, results, query, errorMessage }) => {
                 <span aria-hidden="true">!</span>
                 <h2>검색 결과를 불러오지 못했습니다.</h2>
                 <p>{errorMessage}</p>
+                <button className="knowledge-state__action" type="button" onClick={onRetry}>
+                    검색 다시 시도
+                </button>
             </div>
         )
     }
@@ -506,7 +509,7 @@ const PortfolioKnowledgePage = () => {
                 </section>
 
                 <div className="knowledge-workspace" aria-busy={search.state === "loading"}>
-                    <SearchResults {...search} query={searchedQuery} />
+                    <SearchResults {...search} query={searchedQuery} onRetry={retrySearch} />
                     <AnswerPanel
                         {...answer}
                         onGenerate={generateAnswer}
