@@ -19,6 +19,12 @@ const ScrollToTopButton = () => {
 
     const handleClick = () => {
         const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        const routeHeading = document.querySelector("h1[data-route-heading]")
+
+        if (routeHeading) {
+            routeHeading.setAttribute("tabindex", "-1")
+            routeHeading.focus({ preventScroll: true })
+        }
 
         window.scrollTo({
             top: 0,

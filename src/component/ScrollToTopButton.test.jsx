@@ -35,11 +35,21 @@ test("560px 이상 스크롤했을 때만 맨 위로 이동 버튼을 표시한�
 
 test("버튼을 누르면 부드럽게 페이지 맨 위로 이동한다", () => {
     setScrollPosition(800)
-    render(<ScrollToTopButton />)
+    render(
+        <>
+            <h1 data-route-heading="/projects/test">테스트 프로젝트</h1>
+            <ScrollToTopButton />
+        </>,
+    )
 
     fireEvent.click(screen.getByRole("button", { name: "맨 위로 이동" }))
 
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "smooth" })
+    expect(screen.getByRole("heading", { name: "테스트 프로젝트" })).toHaveAttribute(
+        "tabindex",
+        "-1",
+    )
+    expect(screen.getByRole("heading", { name: "테스트 프로젝트" })).toHaveFocus()
 })
 
 test("모션 감소 설정에서는 애니메이션 없이 페이지 맨 위로 이동한다", () => {
