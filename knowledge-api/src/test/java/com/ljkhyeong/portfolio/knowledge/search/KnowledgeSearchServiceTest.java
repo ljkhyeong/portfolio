@@ -132,8 +132,11 @@ class KnowledgeSearchServiceTest {
 
     @ParameterizedTest
     @MethodSource("filters")
-    void 프로젝트와_문서_종류에_같은_정규화_규칙을_적용한다(
-            List<String> projectIds, List<String> documentTypes, KnowledgeFilter expected
+    void 프로젝트와_서비스와_문서_종류에_같은_정규화_규칙을_적용한다(
+            List<String> projectIds,
+            List<String> serviceIds,
+            List<String> documentTypes,
+            KnowledgeFilter expected
     ) {
         KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
         var service = new KnowledgeSearchService(
@@ -141,7 +144,7 @@ class KnowledgeSearchServiceTest {
                 indexPort, new RrfRanker(), meters
         );
 
-        service.search("알림", projectIds, documentTypes, 10);
+        service.search("알림", projectIds, serviceIds, documentTypes, 10);
 
         verify(indexPort).searchBm25(eq("알림"), eq(expected), anyInt());
         assertThat(meters.get("knowledge.searches").tag("mode", "keyword").counter().count()).isEqualTo(1);
@@ -163,11 +166,21 @@ class KnowledgeSearchServiceTest {
 
     private static Stream<Arguments> filters() {
         return Stream.of(
-                Arguments.of(null, null, new KnowledgeFilter(List.of(), List.of())),
+                Arguments.of(
+                        null,
+                        null,
+                        null,
+                        new KnowledgeFilter(List.of(), List.of(), List.of())
+                ),
                 Arguments.of(
                         List.of(" BATON ", "baton", ""),
+                        List.of(" GO ", "go", " "),
                         List.of(" PROJECT_OVERVIEW ", "project_overview", " "),
-                        new KnowledgeFilter(List.of("baton"), List.of("project_overview"))
+                        new KnowledgeFilter(
+                                List.of("baton"),
+                                List.of("go"),
+                                List.of("project_overview")
+                        )
                 )
         );
     }

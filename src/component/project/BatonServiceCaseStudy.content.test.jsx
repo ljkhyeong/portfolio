@@ -38,6 +38,10 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
         expect(screen.getByText(`${service.name}의 적용 범위와 제약`)).toBeInTheDocument()
         expect(screen.getByText(service.tradeoff)).toBeInTheDocument()
         expect(screen.getByText(service.contribution)).toBeInTheDocument()
+        expect(screen.getByRole("link", { name: "이 서비스 문서 검색" })).toHaveAttribute(
+            "href",
+            `/search?project=baton&service=${serviceId}`,
+        )
         expect(screen.getByRole("link", { name: "사용 기술" })).toHaveAttribute(
             "href",
             "#service-stack",

@@ -72,10 +72,21 @@ public class KnowledgeSearchService {
             List<String> documentTypes,
             Integer requestedLimit
     ) {
+        return search(query, projectIds, List.of(), documentTypes, requestedLimit);
+    }
+
+    public KnowledgeSearchResult search(
+            String query,
+            List<String> projectIds,
+            List<String> serviceIds,
+            List<String> documentTypes,
+            Integer requestedLimit
+    ) {
         String normalizedQuery = query.strip();
         int limit = normalizeLimit(requestedLimit);
         KnowledgeFilter filter = new KnowledgeFilter(
                 normalizeFilterValues(projectIds),
+                normalizeFilterValues(serviceIds),
                 normalizeDocumentTypes(documentTypes)
         );
         int candidateLimit = Math.max(limit, properties.search().candidateLimit());

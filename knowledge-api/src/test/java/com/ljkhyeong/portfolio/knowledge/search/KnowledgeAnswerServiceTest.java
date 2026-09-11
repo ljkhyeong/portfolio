@@ -46,7 +46,7 @@ class KnowledgeAnswerServiceTest {
 
     @BeforeEach
     void setUp() {
-        when(searchService.search(anyString(), anyList(), anyList(), any()))
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(
                         List.of(new SearchHit(chunk("evidence-1"), 0.000_001)),
                         List.of(new SearchHit(chunk("evidence-1"), 0.000_001)),
@@ -98,7 +98,7 @@ class KnowledgeAnswerServiceTest {
         String content = passage + "\n\n" + "처리 상태와 이벤트 ID를 함께 기록합니다. ".repeat(25)
                 + "\n\n" + lastSentence;
         SearchHit hit = new SearchHit(chunk("evidence-1", "doc", content), 1, passage);
-        when(searchService.search(anyString(), anyList(), anyList(), any()))
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(List.of(hit), List.of(hit), Set.of("evidence-1")));
         when(answerGenerationPort.generate(anyString(), anyList()))
                 .thenReturn(new GeneratedAnswer(true, List.of(new AnswerParagraph(lastSentence, List.of("1")))));
@@ -152,7 +152,7 @@ class KnowledgeAnswerServiceTest {
 
     @Test
     void BM25에서_적중한_검색_결과가_없으면_AI를_호출하지_않는다() {
-        when(searchService.search(anyString(), anyList(), anyList(), any()))
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(
                         List.of(new SearchHit(chunk("vector-only"), 0.9)),
                         List.of(new SearchHit(chunk("vector-only"), 0.9)),
@@ -176,7 +176,7 @@ class KnowledgeAnswerServiceTest {
     }
     @Test
     void 본문의_인용_번호와_출처_목록을_사용한_순서대로_맞춘다() {
-        when(searchService.search(anyString(), anyList(), anyList(), any()))
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(
                         List.of(new SearchHit(chunk("evidence-1"), 1)),
                         List.of(new SearchHit(chunk("evidence-1"), 1), new SearchHit(chunk("evidence-2"), 1)),
@@ -240,7 +240,7 @@ class KnowledgeAnswerServiceTest {
     void 선택한_문서_밖의_키워드_근거로_AI_답변을_허용하지_않는다() {
         SearchHit selected = new SearchHit(chunk("selected#0", "selected"), 1);
         SearchHit outside = new SearchHit(chunk("outside#0", "outside"), 0.1);
-        when(searchService.search(anyString(), anyList(), anyList(), any()))
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(List.of(selected), List.of(selected, outside), Set.of("outside#0")));
 
         AnswerResponse response = service.answer("공개되지 않은 내용", List.of(), List.of(), 1);
@@ -263,7 +263,7 @@ class KnowledgeAnswerServiceTest {
                 }
             }
         }
-        when(searchService.search(anyString(), anyList(), anyList(), any()))
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
                 .thenReturn(new KnowledgeSearchResult(hits, candidates, Set.of("0#3")));
         when(answerGenerationPort.generate(anyString(), anyList())).thenReturn(generated("1"));
 

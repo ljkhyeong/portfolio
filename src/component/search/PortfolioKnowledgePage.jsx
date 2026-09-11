@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { portfolioProfile } from "../../data/profile"
-import { projectSummaries } from "../../data/projectSummaries"
+import { projectSummaries, projectSummariesById } from "../../data/projectSummaries"
 import PortfolioNavigation from "../PortfolioNavigation"
 import usePortfolioKnowledge from "./usePortfolioKnowledge"
 import "../../css/PortfolioKnowledge.css"
@@ -23,6 +23,10 @@ const documentTypes = [
 ]
 
 const documentTypeLabels = Object.fromEntries(documentTypes)
+const batonServices = [
+    { id: "core", name: "Core" },
+    ...projectSummariesById.baton.serviceLinks.map(({ id, name }) => ({ id, name })),
+]
 
 const getPrimaryLabel = (item) => item.title || item.heading
 
@@ -78,7 +82,14 @@ const KnowledgeHeader = () => (
     </header>
 )
 
-const KnowledgeFilters = ({ projectId, documentType, onProjectChange, onTypeChange }) => (
+const KnowledgeFilters = ({
+    projectId,
+    serviceId,
+    documentType,
+    onProjectChange,
+    onServiceChange,
+    onTypeChange,
+}) => (
     <fieldset className="knowledge-filters">
         <legend className="sr-only">검색 범위</legend>
         <label>
@@ -92,6 +103,19 @@ const KnowledgeFilters = ({ projectId, documentType, onProjectChange, onTypeChan
                 ))}
             </select>
         </label>
+        {projectId === "baton" ? (
+            <label>
+                <span>BATON 서비스</span>
+                <select value={serviceId} onChange={(event) => onServiceChange(event.target.value)}>
+                    <option value="">전체 서비스</option>
+                    {batonServices.map((service) => (
+                        <option key={service.id} value={service.id}>
+                            {service.name}
+                        </option>
+                    ))}
+                </select>
+            </label>
+        ) : null}
         <label>
             <span>문서 종류</span>
             <select value={documentType} onChange={(event) => onTypeChange(event.target.value)}>
@@ -300,28 +324,36 @@ const PortfolioKnowledgePage = () => {
     const searchedQuery = (searchParams.get("q") ?? "").trim()
     const projectId =
         projectSummaries.find((project) => project.id === searchParams.get("project"))?.id ?? ""
+    const serviceId =
+        projectId === "baton" &&
+        batonServices.some((service) => service.id === searchParams.get("service"))
+            ? searchParams.get("service")
+            : ""
     const documentType =
         documentTypes.find(([type]) => type === searchParams.get("type"))?.[0] ?? ""
     const [query, setQuery] = useState(searchedQuery)
     const { search, answer, generateAnswer, retrySearch } = usePortfolioKnowledge({
         query: searchedQuery,
         projectId,
+        serviceId,
         documentType,
     })
 
     useEffect(() => setQuery(searchedQuery), [searchedQuery, searchParams])
 
-    const runSearch = (searchQuery, filters = { projectId, documentType }) => {
+    const runSearch = (searchQuery, filters = { projectId, serviceId, documentType }) => {
         const normalizedQuery = searchQuery.trim()
         const nextParams = new URLSearchParams()
         if (normalizedQuery) nextParams.set("q", normalizedQuery)
         if (filters.projectId) nextParams.set("project", filters.projectId)
+        if (filters.serviceId) nextParams.set("service", filters.serviceId)
         if (filters.documentType) nextParams.set("type", filters.documentType)
         setQuery(normalizedQuery)
 
         if (
             normalizedQuery === searchedQuery &&
             filters.projectId === projectId &&
+            filters.serviceId === serviceId &&
             filters.documentType === documentType
         ) {
             if (normalizedQuery) retrySearch()
@@ -414,12 +446,20 @@ const PortfolioKnowledgePage = () => {
                         </div>
                         <KnowledgeFilters
                             projectId={projectId}
+                            serviceId={serviceId}
                             documentType={documentType}
                             onProjectChange={(value) =>
-                                runSearch(query, { projectId: value, documentType })
+                                runSearch(query, {
+                                    projectId: value,
+                                    serviceId: value === "baton" ? serviceId : "",
+                                    documentType,
+                                })
+                            }
+                            onServiceChange={(value) =>
+                                runSearch(query, { projectId, serviceId: value, documentType })
                             }
                             onTypeChange={(value) =>
-                                runSearch(query, { projectId, documentType: value })
+                                runSearch(query, { projectId, serviceId, documentType: value })
                             }
                         />
                     </div>

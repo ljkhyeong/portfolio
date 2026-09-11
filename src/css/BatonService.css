@@ -70,6 +70,23 @@
     word-break: keep-all;
 }
 
+.baton-service-hero__search {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    color: var(--accent-on-light) !important;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.baton-service-hero__search:hover,
+.baton-service-hero__search:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .baton-service-hero__intro > p + .baton-service-hero__contribution {
     margin-top: 8px;
     color: var(--ink);

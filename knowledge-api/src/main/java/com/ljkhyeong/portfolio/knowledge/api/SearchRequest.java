@@ -13,6 +13,8 @@ public record SearchRequest(
         String query,
         @Size(max = 10, message = "프로젝트 필터는 최대 10개까지 선택할 수 있습니다.")
         List<@NotBlank(message = "프로젝트 필터 값을 확인해 주세요.") String> projectIds,
+        @Size(max = 7, message = "서비스 필터는 최대 7개까지 선택할 수 있습니다.")
+        List<@NotBlank(message = "서비스 필터 값을 확인해 주세요.") String> serviceIds,
         @Size(max = 6, message = "문서 종류 필터는 최대 6개까지 선택할 수 있습니다.")
         List<@NotBlank(message = "문서 종류 필터 값을 확인해 주세요.") String> documentTypes,
         @Min(value = 1, message = "검색 결과 수는 1개 이상이어야 합니다.")

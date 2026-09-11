@@ -16,7 +16,7 @@ const getRequestErrorMessage = (error, action) => {
     return error.message || `${action} 요청을 처리하지 못했습니다.`
 }
 
-const usePortfolioKnowledge = ({ query, projectId, documentType }) => {
+const usePortfolioKnowledge = ({ query, projectId, serviceId, documentType }) => {
     const [search, setSearch] = useState(emptySearch)
     const [answer, setAnswer] = useState(emptyAnswer)
     const [retryCount, setRetryCount] = useState(0)
@@ -28,7 +28,13 @@ const usePortfolioKnowledge = ({ query, projectId, documentType }) => {
         setSearch({ ...emptySearch, state: query ? "loading" : "idle" })
 
         if (query) {
-            searchPortfolioKnowledge({ query, projectId, documentType, signal: controller.signal })
+            searchPortfolioKnowledge({
+                query,
+                projectId,
+                serviceId,
+                documentType,
+                signal: controller.signal,
+            })
                 .then((response) => {
                     if (!controller.signal.aborted) {
                         setSearch({
@@ -54,7 +60,7 @@ const usePortfolioKnowledge = ({ query, projectId, documentType }) => {
             controller.abort()
             activeAnswer.current?.abort()
         }
-    }, [query, projectId, documentType, retryCount])
+    }, [query, projectId, serviceId, documentType, retryCount])
 
     const generateAnswer = async () => {
         if (search.state !== "success" || search.results.length === 0) {
@@ -70,6 +76,7 @@ const usePortfolioKnowledge = ({ query, projectId, documentType }) => {
             const response = await generatePortfolioAnswer({
                 question: query,
                 projectId,
+                serviceId,
                 documentType,
                 signal: controller.signal,
             })

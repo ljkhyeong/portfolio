@@ -67,3 +67,33 @@ describe.each([
         await expect(send()).resolves.toEqual(payload)
     })
 })
+
+test("검색과 답변 요청에 같은 서비스 필터를 전달한다", async () => {
+    const fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: vi.fn().mockResolvedValue({ results: [] }),
+    })
+    vi.stubGlobal("fetch", fetch)
+
+    await searchPortfolioKnowledge({
+        query: "링크 중복 생성",
+        projectId: "baton",
+        serviceId: "go",
+        documentType: "problem_solution",
+    })
+    await generatePortfolioAnswer({
+        question: "링크 중복 생성",
+        projectId: "baton",
+        serviceId: "go",
+        documentType: "problem_solution",
+    })
+
+    fetch.mock.calls.forEach(([, request]) => {
+        expect(JSON.parse(request.body)).toMatchObject({
+            projectIds: ["baton"],
+            serviceIds: ["go"],
+            documentTypes: ["problem_solution"],
+        })
+    })
+})

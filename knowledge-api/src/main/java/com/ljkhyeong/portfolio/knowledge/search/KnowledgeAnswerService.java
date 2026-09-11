@@ -50,8 +50,24 @@ public class KnowledgeAnswerService {
             List<String> documentTypes,
             Integer requestedLimit
     ) {
+        return answer(question, projectIds, List.of(), documentTypes, requestedLimit);
+    }
+
+    public AnswerResponse answer(
+            String question,
+            List<String> projectIds,
+            List<String> serviceIds,
+            List<String> documentTypes,
+            Integer requestedLimit
+    ) {
         int limit = requestedLimit == null ? properties.ai().answerContextLimit() : requestedLimit;
-        KnowledgeSearchResult searchResult = searchService.search(question, projectIds, documentTypes, limit);
+        KnowledgeSearchResult searchResult = searchService.search(
+                question,
+                projectIds,
+                serviceIds,
+                documentTypes,
+                limit
+        );
         List<SearchHit> hits = selectEvidence(searchResult);
         var searchResults = responseMapper.toSearchResults(searchResult.hits());
 

@@ -57,6 +57,44 @@ test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () 
     expect(searchPortfolioKnowledge).not.toHaveBeenCalled()
 })
 
+test("BATON 서비스 범위를 주소에서 복원하고 변경한 서비스도 주소와 API에 반영한다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({
+        results: [{ ...searchResult, projectId: "baton", projectName: "BATON", serviceId: "go" }],
+        total: 1,
+    })
+    const router = renderPage(["/search?q=링크 중복&project=baton&service=go"])
+
+    await screen.findByRole("heading", { name: searchResult.title })
+    expect(screen.getByLabelText("BATON 서비스")).toHaveValue("go")
+    expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
+        expect.objectContaining({ projectId: "baton", serviceId: "go" }),
+    )
+
+    await act(async () => userEvent.selectOptions(screen.getByLabelText("BATON 서비스"), "watch"))
+    await screen.findByRole("heading", { name: searchResult.title })
+    expect(new URLSearchParams(router.state.location.search).get("service")).toBe("watch")
+    expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
+        expect.objectContaining({ projectId: "baton", serviceId: "watch" }),
+    )
+})
+
+test("BATON이 아닌 프로젝트로 바꾸면 서비스 범위를 제거한다", async () => {
+    searchPortfolioKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
+    const router = renderPage(["/search?q=결제&project=baton&service=go"])
+    await screen.findByRole("heading", { name: searchResult.title })
+
+    await act(async () =>
+        userEvent.selectOptions(screen.getByLabelText("프로젝트"), "happygallery"),
+    )
+    await screen.findByRole("heading", { name: searchResult.title })
+
+    expect(screen.queryByLabelText("BATON 서비스")).not.toBeInTheDocument()
+    expect(new URLSearchParams(router.state.location.search).has("service")).toBe(false)
+    expect(searchPortfolioKnowledge).toHaveBeenLastCalledWith(
+        expect.objectContaining({ projectId: "happygallery", serviceId: "" }),
+    )
+})
+
 test("주소에 없는 프로젝트와 문서 종류가 지정되면 전체 범위로 검색한다", async () => {
     searchPortfolioKnowledge.mockResolvedValue({ results: [], total: 0 })
     renderPage(["/search?q=결제&project=unknown&type=unknown"])

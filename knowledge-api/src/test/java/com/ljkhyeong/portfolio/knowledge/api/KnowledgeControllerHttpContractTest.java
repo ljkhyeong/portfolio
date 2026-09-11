@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -13,7 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeAnswerService;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeSearchService;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import java.util.List;
+import java.util.Set;
 
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -50,7 +53,7 @@ class KnowledgeControllerHttpContractTest {
     @ParameterizedTest
     @EnumSource(AnswerResponse.AnswerStatus.class)
     void HTTP_성공과_별개로_AI_답변_결과를_구분한다(AnswerResponse.AnswerStatus answerStatus) throws Exception {
-        when(answerService.answer(anyString(), any(), any(), any())).thenReturn(
+        when(answerService.answer(anyString(), any(), any(), any(), any())).thenReturn(
                 new AnswerResponse("복구 방법", answerStatus, null, List.of(), List.of()));
 
         mockMvc.perform(post("/api/v1/knowledge/answers")
@@ -75,7 +78,7 @@ class KnowledgeControllerHttpContractTest {
     void Spring_HTTP_예외의_상태와_헤더를_유지한다() throws Exception {
         var exception = new ErrorResponseException(HttpStatus.TOO_MANY_REQUESTS);
         exception.getHeaders().set(HttpHeaders.RETRY_AFTER, "60");
-        when(searchService.search(anyString(), any(), any(), any())).thenThrow(exception);
+        when(searchService.search(anyString(), any(), any(), any(), any())).thenThrow(exception);
 
         mockMvc.perform(post("/api/v1/knowledge/search")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +90,7 @@ class KnowledgeControllerHttpContractTest {
 
     @Test
     void 예상하지_못한_코드_오류는_500을_반환한다() throws Exception {
-        when(searchService.search(anyString(), any(), any(), any()))
+        when(searchService.search(anyString(), any(), any(), any(), any()))
                 .thenThrow(new IllegalStateException("내부 오류 세부 정보"));
 
         mockMvc.perform(post("/api/v1/knowledge/search")
@@ -162,6 +165,50 @@ class KnowledgeControllerHttpContractTest {
                                 """))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("INVALID_REQUEST"));
+    }
+
+    @Test
+    void 검색과_답변에_서비스_필터를_전달한다() throws Exception {
+        when(searchService.search(anyString(), any(), any(), any(), any()))
+                .thenReturn(new KnowledgeSearchResult(List.of(), List.of(), Set.of()));
+        when(answerService.answer(anyString(), any(), any(), any(), any()))
+                .thenReturn(new AnswerResponse(
+                        "링크 중복 생성",
+                        AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE,
+                        null,
+                        List.of(),
+                        List.of()
+                ));
+
+        String filters = """
+                "projectIds": ["baton"],
+                "serviceIds": ["go"],
+                "documentTypes": ["problem_solution"],
+                "limit": 6
+                """;
+        mockMvc.perform(post("/api/v1/knowledge/search")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"query\":\"링크 중복 생성\"," + filters + "}"))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/v1/knowledge/answers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"question\":\"링크 중복 생성\"," + filters + "}"))
+                .andExpect(status().isOk());
+
+        verify(searchService).search(
+                "링크 중복 생성",
+                List.of("baton"),
+                List.of("go"),
+                List.of("problem_solution"),
+                6
+        );
+        verify(answerService).answer(
+                "링크 중복 생성",
+                List.of("baton"),
+                List.of("go"),
+                List.of("problem_solution"),
+                6
+        );
     }
 
     @Test

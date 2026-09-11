@@ -61,28 +61,43 @@ const postKnowledgeRequest = async (path, body, { signal } = {}) => {
     return payload
 }
 
-const compactFilters = ({ projectId, documentType }) => ({
+const compactFilters = ({ projectId, serviceId, documentType }) => ({
     ...(projectId ? { projectIds: [projectId] } : {}),
+    ...(serviceId ? { serviceIds: [serviceId] } : {}),
     ...(documentType ? { documentTypes: [documentType] } : {}),
 })
 
-export const searchPortfolioKnowledge = ({ query, projectId, documentType, limit = 10, signal }) =>
+export const searchPortfolioKnowledge = ({
+    query,
+    projectId,
+    serviceId,
+    documentType,
+    limit = 10,
+    signal,
+}) =>
     postKnowledgeRequest(
         "/api/v1/knowledge/search",
         {
             query,
-            ...compactFilters({ projectId, documentType }),
+            ...compactFilters({ projectId, serviceId, documentType }),
             limit,
         },
         { signal },
     )
 
-export const generatePortfolioAnswer = ({ question, projectId, documentType, limit = 6, signal }) =>
+export const generatePortfolioAnswer = ({
+    question,
+    projectId,
+    serviceId,
+    documentType,
+    limit = 6,
+    signal,
+}) =>
     postKnowledgeRequest(
         "/api/v1/knowledge/answers",
         {
             question,
-            ...compactFilters({ projectId, documentType }),
+            ...compactFilters({ projectId, serviceId, documentType }),
             limit,
         },
         { signal },

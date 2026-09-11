@@ -36,6 +36,7 @@ public class KnowledgeController {
         var searchResult = searchService.search(
                 request.query(),
                 request.projectIds(),
+                request.serviceIds(),
                 request.documentTypes(),
                 request.limit()
         );
@@ -49,6 +50,7 @@ public class KnowledgeController {
         AnswerResponse response = answerService.answer(
                 request.question(),
                 request.projectIds(),
+                request.serviceIds(),
                 request.documentTypes(),
                 request.limit()
         );

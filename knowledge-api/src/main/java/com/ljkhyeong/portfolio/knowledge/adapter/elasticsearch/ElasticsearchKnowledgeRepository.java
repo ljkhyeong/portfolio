@@ -341,6 +341,9 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         if (!filter.projectIds().isEmpty()) {
             filters.add(termsQuery("projectId", filter.projectIds()));
         }
+        if (!filter.serviceIds().isEmpty()) {
+            filters.add(termsQuery("serviceId", filter.serviceIds()));
+        }
         if (!filter.documentTypes().isEmpty()) {
             filters.add(termsQuery("documentType", filter.documentTypes()));
         }
