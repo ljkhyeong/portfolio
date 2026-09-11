@@ -7,14 +7,15 @@ export const projectSummaries = [
         presentation: "featured",
         title: "BATON",
         navigationLabel: "BATON",
-        eyebrow: "조직 운영 플랫폼",
-        homeSummary: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
+        eyebrow: "역할·반복 업무·인수인계 서비스",
+        homeSummary:
+            "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과 자료 재확인 일정을 모아 봅니다.",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/baton",
         },
         summary:
-            "조직의 역할, 반복 업무, 결정과 인수인계를 관리합니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC는 6개 마이크로서비스로 분리했습니다.",
+            "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC는 6개 마이크로서비스로 분리했습니다.",
         homeFacts: {
             problem:
                 "같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달 작업이 중복 생성될 수 있음",
@@ -153,7 +154,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/intent-trace",
         },
         navigationLabel: "IntentTrace",
-        eyebrow: "AI 코드 변경 의도 및 검증 기록",
+        eyebrow: "AI 코드 변경 요청·근거·검증 기록",
         summary:
             "AI에게 전달한 요청, 코드 변경 근거와 검증 결과를 파일·줄 위치에 남깁니다. 웹·IDE에서 기록을 찾고 GitHub 원본 코드, 이슈·PR과 CI 결과를 함께 확인할 수 있습니다.",
         period: "2026.08.27 — 진행 중",

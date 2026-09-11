@@ -3,9 +3,9 @@ export const projectOgCards = [
         id: "baton",
         route: "/projects/baton",
         title: ["BATON"],
-        category: "개인 프로젝트 / 조직 운영 플랫폼",
-        description: "조직 운영은 Core에서,\n독립 기능은 6개 서비스에서.",
-        caption: "Core와 서비스별 책임 분리",
+        category: "개인 프로젝트 / 역할·업무·인수인계",
+        description: "역할·업무·인수인계는 Core에,\n독립 기능은 6개 서비스에 저장합니다.",
+        caption: "조직 업무를 맡는 Core와 6개 독립 서비스",
         labels: ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"],
     },
     {
@@ -39,9 +39,8 @@ export const projectOgCards = [
         route: "/projects/youth-policy-mate",
         title: ["청년정책메이트"],
         category: "웹앱 / 서울 청년정책",
-        description:
-            "정책의 접수 상태와 신청 조건을 확인하고\n수집 실패·원문 충돌과 일정·알림을 관리합니다.",
-        caption: "정책 탐색·조건 확인·수집 실패 관리",
+        description: "정책 상태와 신청 조건을 확인하고\n수집 실패 재처리와 일정 알림을 제공합니다.",
+        caption: "조건 확인·수집 재처리·일정 알림",
         steps: [
             ["공개 정책 조회", "접수 상태·질문 제공 여부 검색"],
             ["검토한 조건 질문", "정책 9종의 일부 요건과 근거"],
@@ -120,7 +119,7 @@ export const projectOgCards = [
         [
             "cal",
             "외부 캘린더 구독",
-            "최신 일정만 읽기 전용 피드로 제공하고\n버전 번호와 구독 토큰을 관리합니다.",
+            "최신 일정만 읽기 전용 피드로 제공하고\n구독 토큰을 교체·폐기합니다.",
         ],
         [
             "round",

@@ -10,7 +10,7 @@ const ProjectOgDiagram = ({ card }) => {
             <title id={`${prefix}-title`}>{card.caption}</title>
             <desc id={`${prefix}-desc`}>
                 {card.steps?.map(([title, detail]) => `${title}: ${detail}`).join(". ") ??
-                    "Core는 조직 운영을 맡고, GO·WATCH·RELAY·BRIEF·CAL·ROUND는 독립 기능을 맡습니다."}
+                    "Core는 역할·반복 업무·인수인계 문서를 저장하고, GO·WATCH·RELAY·BRIEF·CAL·ROUND는 기능별 데이터를 따로 처리합니다."}
             </desc>
             <defs>
                 <marker
@@ -139,7 +139,7 @@ const ProjectOgPreview = ({ imageId }) => {
                 </figure>
             </div>
             <footer className="project-og__footer">
-                <span>설계, 구현 및 검증 기록</span>
+                <span>구현 내용과 테스트 결과</span>
                 <span>{card.route}</span>
             </footer>
         </main>

@@ -57,11 +57,10 @@ const projects = [
         ],
         architecture: {
             label: "서비스 구성과 담당 업무",
-            title: "조직·인수인계 관리는 Core가 맡고, 6개 기능은 독립 서비스로 분리했습니다.",
+            title: "역할·반복 업무·인수인계 문서는 Core에 저장하고, 6개 기능은 독립 서비스로 분리했습니다.",
             description:
                 "각 서비스는 독립 실행하고 DB를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.",
-            tradeoff:
-                "서비스를 개별 배포할 수 있으며, 배포 상태와 미전송 이벤트를 서비스별로 관리해야 합니다.",
+            tradeoff: "서비스별로 배포 상태를 확인하고 미전송 이벤트를 재처리해야 합니다.",
         },
         featuredProblemNumbers: ["02", "03", "05", "07"],
         documentGroups: [
@@ -88,7 +87,7 @@ const projects = [
                 label: "API 및 서비스 간 데이터 형식",
                 count: "4개 서비스",
                 summary:
-                    "Core API, BRIEF 및 CAL 이벤트 JSON 형식과 ROUND WebSocket 메시지 규격을 관리합니다.",
+                    "Core API, BRIEF·CAL 이벤트 JSON과 ROUND WebSocket 메시지 형식을 정의합니다.",
             },
         ],
         documents: [
@@ -169,13 +168,13 @@ const projects = [
                 name: "Core",
                 kind: "CORE APPLICATION",
                 route: "/projects/baton",
-                role: "조직, 역할 및 인수인계 관리",
+                role: "역할·반복 업무·인수인계 문서 기록",
                 summary:
-                    "조직의 역할·반복 업무·인수인계를 관리하고 여러 팀의 내 할 일과 자료 재확인 기한을 모아 보여 줍니다.",
+                    "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 내 할 일과 자료 재확인 기한을 모아 보여 줍니다.",
                 detail: "여러 팀·진행 시즌의 내 업무, 재확인할 자료, 시즌 간 기록 검색, 초안 복원과 인수인계 문서",
                 evidence:
                     "인수인계 상태 전이, 역할별 진행 중 1건 제약과 BRIEF, CAL 및 ROUND 로컬 교차 서비스 테스트",
-                input: "조직 및 역할 관리, 인수인계 상태 변경과 ROUND 참여 요청",
+                input: "조직·역할 등록, 인수인계 상태 변경과 ROUND 참여 요청",
                 inputRule:
                     "조직 요청은 공유 키와 소속을 확인하고, 입장 토큰 발급은 활동 중인 스터디 구성원인지 추가로 확인합니다.",
                 output: "팀, 시즌, 역할, 반복 업무와 인수인계 데이터 및 ROUND 입장 토큰",
@@ -281,7 +280,7 @@ const projects = [
                 visibility: "비공개 저장소 / 최신 로컬 구현 요약 공개",
                 status: "로컬 main 1062c18에서 관리용 일괄 조회, Redis 공유 요청률 제한, HMAC 키 교체와 만료 링크 정리를 확인했습니다. 실제 클러스터·공개 배포는 미검증입니다.",
                 tradeoff:
-                    "UUID 처리 기록과 HMAC 키를 함께 관리해야 합니다. DB를 복구할 때 같은 시점의 키가 없으면 기존 링크를 그대로 유지할 수 없습니다.",
+                    "UUID 처리 기록과 HMAC 키를 같은 시점으로 백업해야 합니다. DB 복구 시점의 키가 없으면 기존 링크를 그대로 유지할 수 없습니다.",
                 screenshots: [
                     {
                         id: "link-error",
@@ -524,7 +523,7 @@ const projects = [
                 visibility: "공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1",
                 status: "공개 main 3c2936d의 1.1.0-rc.2 개발 소스에 개인 구독·일괄 해지, 응답 유실 복구와 앱별 등록 안내를 구현했습니다. 게시된 후보는 1.1.0-rc.1이며 실제 캘린더 앱·공개 운영은 미검증입니다.",
                 tradeoff:
-                    "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 캘린더 앱별 동작 차이를 관리해야 합니다.",
+                    "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 앱별 시간대·캐시 동작을 확인해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-cal/tree/3c2936d",
                     label: "CAL 공개 main 고정 커밋",
@@ -711,10 +710,10 @@ const projects = [
         category: "개인 프로젝트",
         role: "Core와 6개 서비스의 API·데이터 저장·이벤트 전달·중단 작업 재처리 설계 및 구현",
         oneLine:
-            "오늘 할 일과 인수인계를 중심으로 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더와 WebRTC를 독립 서비스로 구현했습니다.",
+            "여러 팀의 오늘 할 일과 인수인계 문서를 Core에 모으고, 짧은 링크·URL 점검·이벤트 전달·주간 보고서·캘린더·WebRTC를 독립 서비스로 구현했습니다.",
         status: {
             label: "현재 상태",
-            text: "Core와 6개 서비스에 관리용 일괄 조회, DB 결과 제약, Discord 전달, 백업·복구와 캘린더 등록 안내를 추가했습니다. 일부 연동은 로컬에서 확인했으며 공개 환경 전체 연결과 장기 운영은 미검증입니다.",
+            text: "Core와 6개 서비스에 관리용 일괄 조회, DB 결과 제약, Discord 전달, 백업·복구와 캘린더 등록 안내를 추가했습니다. Core–BRIEF·CAL·ROUND 연동은 로컬에서 확인했으며 공개 환경 전체 연결과 장기 운영은 미검증입니다.",
         },
         visualCaption:
             "조직 데이터는 Core에 저장하고 서비스별 DB를 분리합니다. ROUND 방 상태는 메모리에 둡니다.",
@@ -726,11 +725,11 @@ const projects = [
                 title: "Core와 6개 서비스의 책임 및 저장소 분리",
                 constraint: "각 기능은 입력, 보안 검사와 실패 처리 방식이 달랐습니다.",
                 decision:
-                    "Core는 조직 운영을 맡고, 6개 서비스는 각각 데이터를 저장하고 독립 실행합니다. 상태 변경 이벤트는 업무 데이터와 함께 저장한 뒤 전송합니다.",
+                    "Core는 조직·역할·반복 업무·인수인계 데이터를 저장합니다. 6개 서비스는 각자 DB를 사용해 독립 실행하며, 상태 변경 이벤트는 업무 데이터와 함께 저장한 뒤 전송합니다.",
                 validation:
                     "GO는 같은 UUID의 링크 1건, WATCH는 사설망 URL 차단, RELAY는 같은 이벤트 ID의 수신 이력 1건, BRIEF는 ACTIVE 및 RESOLVED 반영, CAL은 과거 버전 미반영, ROUND는 이전 연결 메시지 차단을 확인했습니다.",
                 boundary:
-                    "서비스별 구현과 일부 Core 교차 검증만 완료했으며, 실제 자격 증명을 쓴 Core와 6개 서비스의 공개 환경 종단 간 연결은 확인하지 않았습니다.",
+                    "Core–BRIEF·CAL·ROUND 로컬 연동과 Core Outbox–RELAY 수신 DB Compose를 확인했습니다. 실제 자격 증명을 쓴 Core와 6개 서비스의 공개 환경 종단 간 연결은 확인하지 않았습니다.",
             },
             {
                 number: "02",
@@ -918,7 +917,7 @@ const projects = [
                 label: "BATON Core GitHub 저장소",
                 shortLabel: "Core 저장소",
                 href: "https://github.com/ljkhyeong/baton",
-                note: "조직·역할·반복 업무·결정과 인수인계 관리 · 비공개 저장소",
+                note: "조직·역할·반복 업무·결정·인수인계 문서 · 비공개 저장소",
             },
             {
                 label: "BATON GO GitHub 저장소",
@@ -1026,7 +1025,7 @@ const projects = [
                 id: "prd",
                 label: "PRD",
                 count: "4",
-                summary: "상품, 예약, 주문과 운영 정책의 기준을 관리합니다.",
+                summary: "상품, 예약, 주문과 운영 업무의 처리 기준을 기록합니다.",
             },
             {
                 id: "adr",
@@ -1050,7 +1049,7 @@ const projects = [
                 id: "runbook",
                 label: "Runbook",
                 count: "1",
-                summary: "k3s 배포, 롤백, 백업과 복구 절차를 관리합니다.",
+                summary: "k3s 배포, 롤백, 백업과 복구 절차를 기록합니다.",
             },
         ],
         documents: [
@@ -1215,7 +1214,7 @@ const projects = [
                 validation:
                     "LayerDependencyPolicyTest와 모듈별 컴파일로 금지한 의존이 빌드 단계에서 실패하는지 확인했습니다.",
                 boundary:
-                    "domain 모듈의 일부 JPA 의존은 유지했습니다. 현재 규모에서는 JPA를 완전히 분리하는 비용보다 일관된 의존 방향을 우선했습니다.",
+                    "domain 모듈의 일부 JPA 의존은 유지했습니다. 현재 규모에서는 JPA를 완전히 분리하는 비용보다 정해진 모듈 의존 방향을 유지하는 편을 택했습니다.",
             },
             {
                 number: "02",
@@ -1466,7 +1465,7 @@ const projects = [
             },
         ],
         architecture: {
-            label: "웹과 업무 모듈 분리 및 API 타입 생성",
+            label: "웹·서버·DB 분리 및 API 타입 생성",
             title: "Next.js와 Spring Boot를 분리하고, 서버 DTO에서 TypeScript API 타입을 생성합니다.",
             description:
                 "정책 수집, 조건 판정, 회원 저장과 알림을 기능별로 나누고 JDBC·PostgreSQL 트랜잭션으로 처리합니다. 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성합니다.",
@@ -1493,17 +1492,18 @@ const projects = [
                 id: "design",
                 label: "설계",
                 count: "12",
-                summary: "자격 판정 기준, 정책 개정, AI 비용과 복구 및 웹 화면 상태를 설계합니다.",
+                summary:
+                    "자격 판정, 정책 개정, AI 비용 예약·복구와 화면 상태 처리 기준을 기록합니다.",
             },
             {
                 id: "development",
                 label: "구현 기록",
                 count: "60",
-                summary: "작은 단위의 구현 범위, 검증 결과와 아직 연결하지 않은 기능을 기록합니다.",
+                summary: "기능별 구현·검증 결과와 아직 연결하지 않은 외부 기능을 기록합니다.",
             },
         ],
         documentsIntro:
-            "정책 수집, 조건 질문, 회원 저장·알림과 AI 요청 복구의 구현 범위 및 남은 외부 연동을 문서로 관리합니다.",
+            "정책 수집, 조건 질문, 관심 정책 저장·알림과 AI 요청 복구의 구현 범위 및 남은 외부 연동을 문서에 기록합니다.",
         documents: [
             {
                 type: "README",
@@ -1519,9 +1519,9 @@ const projects = [
             },
             {
                 type: "ADR",
-                label: "기술 스택과 책임 분리",
+                label: "웹·서버·DB 구성",
                 href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/ADR/0001_%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D%EA%B3%BC_%EC%B1%85%EC%9E%84_%EB%B6%84%EB%A6%AC.md",
-                note: "Next.js, Spring Boot 모듈과 PostgreSQL의 책임 경계",
+                note: "Next.js 화면, Spring Boot 기능 모듈과 PostgreSQL 저장 범위",
             },
             {
                 type: "구현 기록",
@@ -1747,7 +1747,7 @@ const projects = [
                 id: "security",
                 label: "보안 정책",
                 count: "1",
-                summary: "비공개 경로와 자격 증명 형태의 데이터를 차단하는 기준을 관리합니다.",
+                summary: "비공개 경로와 자격 증명 형태의 데이터를 차단하는 규칙을 정의합니다.",
             },
             {
                 id: "license",
@@ -1929,17 +1929,18 @@ const projects = [
                 id: "adr",
                 label: "ADR",
                 count: "13",
-                summary: "기록 형식, 게시, 인증, 조회·복구와 클라이언트 역할을 기록합니다.",
+                summary:
+                    "기록 형식, 게시·인증·조회·복구와 웹·IntelliJ·Zed의 요청 범위를 기록합니다.",
             },
             {
                 id: "operations",
                 label: "운영 및 릴리스",
                 count: "2",
-                summary: "단일 인스턴스 배포, 백업, 복구와 릴리스 절차를 관리합니다.",
+                summary: "단일 인스턴스 배포, 백업, 복구와 릴리스 절차를 기록합니다.",
             },
         ],
         documentsIntro:
-            "변경 기록·GitHub 게시·인증, 웹·IntelliJ·Zed 조회와 배포·복구 절차를 관리합니다.",
+            "변경 기록·GitHub 게시·인증, 웹·IntelliJ·Zed 조회와 배포·복구 절차를 문서에 기록합니다.",
         documents: [
             {
                 type: "README",
@@ -2083,7 +2084,7 @@ const projects = [
                 constraint:
                     "AI 대화 전체와 숨은 추론을 저장하면 개인정보와 자격 증명이 섞일 수 있고, 코드 변경 이유를 찾기도 어렵습니다.",
                 decision:
-                    "사용자 요청, 확인 가능한 변경 근거 및 출처, 검증 요약만 구조화했습니다. 원문 대화, 숨은 추론과 검증 원문 출력은 저장하지 않습니다.",
+                    "사용자 요청, 확인 가능한 변경 근거·출처와 검증 요약만 정해진 필드에 저장했습니다. 원문 대화, 숨은 추론과 검증 원문 출력은 저장하지 않습니다.",
                 validation:
                     "민감한 필드와 허용 길이, 중첩 값 및 Markdown 출력에서 원문이 포함되지 않는지 테스트했습니다.",
                 boundary:

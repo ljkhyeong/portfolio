@@ -317,7 +317,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByText(
-            "정책을 찾아 접수 상태와 조건을 확인하고, 수집 실패·원문 충돌과 일정·알림을 관리하는 웹앱입니다.",
+            "정책의 접수 상태와 조건을 확인하고, 수집 실패를 재처리하며 관심 정책의 일정·알림을 제공하는 웹앱입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
@@ -338,7 +338,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /공개 정책 조회와 조건 확인·일정·알림.*Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 회원 저장, 일정과 알림을 처리/,
+            name: /공개 정책 조회와 조건 확인·일정·알림.*Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 관심 정책 저장, 일정과 알림을 처리/,
         }),
     ).toBeInTheDocument()
     expect(

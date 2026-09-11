@@ -13,7 +13,8 @@ const featuredProblems = {
         ],
         evidenceLabel: "기능 테스트",
         result: "상태 전이, 취소, 중복 교대 차단과 전달 후 수정 제한을 확인했습니다.",
-        limitation: "준비 또는 전달 상태에서 멈춘 인수인계를 정리하는 운영 절차는 필요합니다.",
+        limitation:
+            "준비 또는 전달 상태에서 멈춘 인수인계를 찾아 재처리하거나 취소하는 운영 절차가 필요합니다.",
     },
     happygallery: {
         problemNumber: "02",
@@ -72,7 +73,7 @@ const featuredProblems = {
         evidenceLabel: "자동화 테스트",
         result: "불완전한 커밋 ID, 다른 스냅샷과 잘못된 줄 범위 및 해시 형식을 거절했습니다.",
         limitation:
-            "서버가 Git 객체를 직접 검증하지 않으므로 신뢰할 수 있는 클라이언트만 기록을 만들어야 합니다.",
+            "서버가 Git 객체를 직접 검증하지 않으므로 기록 생성 전에 클라이언트가 커밋과 코드 위치를 확인해야 합니다.",
     },
     warrant: {
         problemNumber: "04",

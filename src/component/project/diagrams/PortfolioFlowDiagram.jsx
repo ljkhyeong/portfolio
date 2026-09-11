@@ -302,9 +302,9 @@ const diagrams = {
         eyebrow: "ARCHITECTURE / WEB APP",
         title: "공개 정책 조회와 조건 확인·일정·알림",
         summary:
-            "수집한 정책과 검토한 질문으로 조건을 확인하고, 관심 정책 저장과 신청 일정·알림을 연결합니다.",
+            "수집한 정책과 검토한 질문으로 신청 조건을 확인하고, 저장한 관심 정책의 마감 일정과 알림을 제공합니다.",
         description:
-            "Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 회원 저장, 일정과 알림을 처리합니다. 정책·회원·알림 상태는 JDBC와 PostgreSQL로 관리합니다.",
+            "Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 관심 정책 저장, 일정과 알림을 처리합니다. 정책·회원·알림 상태는 JDBC로 PostgreSQL에 저장합니다.",
         height: 608,
         zones: [
             { x: 24, y: 40, width: 912, height: 160, label: "조건 입력 화면", labelWidth: 120 },

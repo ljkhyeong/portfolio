@@ -1,10 +1,10 @@
 import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence"
 
 export const caseIntroductions = {
-    baton: "조직의 역할, 반복 업무, 결정과 인수인계를 관리하는 플랫폼입니다.",
+    baton: "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과 자료 재확인 일정을 모아 보는 서비스입니다.",
     happygallery: "상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.",
     "youth-policy-mate":
-        "정책을 찾아 접수 상태와 조건을 확인하고, 수집 실패·원문 충돌과 일정·알림을 관리하는 웹앱입니다.",
+        "정책의 접수 상태와 조건을 확인하고, 수집 실패를 재처리하며 관심 정책의 일정·알림을 제공하는 웹앱입니다.",
     "hope-commit": "SeungIl 님의 Hope 6.0.0을 포크해 로컬 커밋 HTML 리뷰를 추가했습니다.",
     "intent-trace": "AI 코드 변경의 요청·근거와 검증 결과를 코드 위치에 연결해 남기는 도구입니다.",
     warrant: "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다.",
@@ -13,11 +13,11 @@ export const caseIntroductions = {
 }
 
 export const caseResults = {
-    baton: "서비스별 테스트와 일부 Core 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
+    baton: "서비스별 테스트와 Core–BRIEF·CAL·ROUND 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
     happygallery:
-        "공개 main에서 공휴일 API 연동과 회원 목록 검색 조건 복원을 확인. 실제 네이버·PG 연동은 미검증",
+        "공개 main에서 공휴일 API 연동과 회원 목록 검색 조건 복원을 확인. 실제 네이버·Toss·NHN 계정 연동은 미검증",
     "youth-policy-mate":
-        "공개 정책 40건·질문 9종 확인. 햇살론유스와 원문 충돌 안내는 개발 브랜치 기준",
+        "공개 정책 40건·질문 9종 확인. 햇살론유스 조건과 동일 정책의 원문 불일치 안내는 개발 브랜치 기준",
     "hope-commit": "v5.0.2 공개 및 자동화 테스트 343개 통과",
     "intent-trace": "v0.7.0 공개. GitHub 이슈·PR·CI 조회와 Markdown 저장을 main에서 확인",
     warrant: warrantPerformanceSummary,

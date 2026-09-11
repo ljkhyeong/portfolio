@@ -14,7 +14,7 @@ const routeMetaContent = {
     "/projects/baton": {
         title: "BATON | 임정규 포트폴리오",
         description:
-            "조직과 인수인계를 관리하는 Core와 링크, URL 점검, 이벤트 전달, 보고서, 캘린더 및 WebRTC를 맡는 6개 마이크로서비스로 구성한 BATON 프로젝트",
+            "역할·반복 업무·인수인계 문서를 기록하는 Core와 링크, URL 점검, 이벤트 전달, 보고서, 캘린더 및 WebRTC를 맡는 6개 마이크로서비스로 구성한 BATON 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/baton/go": {
@@ -44,7 +44,7 @@ const routeMetaContent = {
     "/projects/baton/cal": {
         title: "BATON CAL | 임정규 포트폴리오",
         description:
-            "BATON 일정과 마감을 읽기 전용 iCalendar로 제공하고 일정 버전 번호 및 구독 토큰을 관리하는 CAL 마이크로서비스",
+            "BATON 일정과 마감을 읽기 전용 iCalendar로 제공하고 일정 버전을 검사하며 구독 토큰을 교체·폐기하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/round": {
