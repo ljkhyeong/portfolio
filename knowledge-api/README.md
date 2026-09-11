@@ -72,12 +72,15 @@ Content-Type: application/json
 {
   "query": "BATON 알림 아웃박스는 어떻게 복구하나요?",
   "projectIds": ["baton"],
+  "serviceIds": ["relay"],
   "documentTypes": ["problem_solution"],
   "limit": 10
 }
 ```
 
 응답의 `results`에는 `chunkId`, 프로젝트와 서비스, 문서 종류, 제목, 관련 문단, 원문 URL 또는 포트폴리오 경로와 RRF 점수가 포함됩니다. 목록은 문서별 최상위 문단 하나만 표시합니다.
+
+`projectIds`, `serviceIds`, `documentTypes`는 선택 필터입니다. BATON의 Core·GO·WATCH·RELAY·BRIEF·CAL·ROUND 문서만 조회할 때는 `projectIds`와 `serviceIds`를 함께 지정합니다. 검색과 답변 API에 같은 필터를 전달해야 결과와 답변 근거의 범위가 일치합니다.
 
 발췌문은 Elasticsearch unified highlighter가 찾은 본문 구간을 사용합니다. CommonMark로 제목·강조·링크 등 Markdown을 일반 텍스트로 바꾸고, 긴 글은 280자 안의 문장 또는 단어 경계에서 줄입니다. 일치 구간이 없는 벡터 검색 결과는 본문 앞부분을 표시합니다. [Elasticsearch 발췌 설정](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/highlighting-settings), [CommonMark Java](https://github.com/commonmark/commonmark-java).
 
@@ -90,6 +93,7 @@ Content-Type: application/json
 {
   "question": "BATON 알림 아웃박스는 어떻게 복구하나요?",
   "projectIds": ["baton"],
+  "serviceIds": ["relay"],
   "documentTypes": ["problem_solution"],
   "limit": 6
 }
