@@ -33,6 +33,24 @@ beforeEach(() => {
     vi.resetAllMocks()
 })
 
+test.each(["constructor", "__proto__", "new_document_type"])(
+    "등록되지 않은 문서 종류(%s)도 문자열로 표시한다",
+    async (documentType) => {
+        searchPortfolioKnowledge.mockResolvedValue({
+            results: [{ ...searchResult, documentType }],
+            total: 1,
+        })
+        renderPage(["/search?q=결제"])
+
+        await screen.findByRole("heading", { name: searchResult.title })
+        expect(screen.getByText(documentType)).toBeVisible()
+        expect(screen.getByRole("link", { name: "원문 확인" })).toHaveAttribute(
+            "href",
+            searchResult.route,
+        )
+    },
+)
+
 test("공유 주소의 검색어와 필터를 복원하고 AI 답변은 자동 생성하지 않는다", async () => {
     searchPortfolioKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
     renderPage(["/search?q=결제&project=happygallery&type=problem_solution"])
@@ -272,13 +290,14 @@ test("검색과 필터 변경을 주소에 남기고 뒤로 가면 이전 조건
 test.each([
     ["연결 실패", "NETWORK_ERROR"],
     ["응답이 늦어 요청을 중단했습니다. 잠시 후 다시 시도해 주세요.", "REQUEST_TIMEOUT"],
+    ["서버 응답 형식이 올바르지 않습니다. 다시 시도해 주세요.", "INVALID_RESPONSE"],
 ])("검색 오류(%s) 뒤 검색어와 필터를 유지한 채 다시 시도할 수 있다", async (message, code) => {
     searchPortfolioKnowledge
         .mockRejectedValueOnce(Object.assign(new Error(message), { code }))
         .mockResolvedValueOnce({ results: [searchResult], total: 1 })
     const router = renderPage(["/search?project=happygallery&q=결제"])
     expect(await screen.findByRole("alert")).toHaveTextContent(
-        code === "REQUEST_TIMEOUT" ? message : "현재 검색 서버에 연결할 수 없습니다.",
+        code === "NETWORK_ERROR" ? "현재 검색 서버에 연결할 수 없습니다." : message,
     )
     const initialKey = router.state.location.key
 
@@ -298,6 +317,7 @@ test.each([
 test.each([
     [503, "REQUEST_FAILED", "현재 AI 답변 서버에 연결할 수 없습니다."],
     [0, "REQUEST_TIMEOUT", "응답이 늦어 요청을 중단했습니다. 잠시 후 다시 시도해 주세요."],
+    [200, "INVALID_RESPONSE", "서버 응답 형식이 올바르지 않습니다. 다시 시도해 주세요."],
 ])(
     "AI 답변 오류(%s, %s) 뒤 검색 결과와 필터를 유지한 채 답변만 다시 시도한다",
     async (status, code, message) => {

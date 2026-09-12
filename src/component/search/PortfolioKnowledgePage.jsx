@@ -24,7 +24,7 @@ const documentTypes = [
     ["representative_document", "대표 문서"],
 ]
 
-const documentTypeLabels = Object.fromEntries(documentTypes)
+const documentTypeLabels = new Map(documentTypes)
 const batonServices = [
     { id: "core", name: "Core" },
     ...projectSummariesById.baton.serviceLinks.map(({ id, name }) => ({ id, name })),
@@ -55,7 +55,7 @@ const getSuggestionSet = (projectId, serviceId) => {
 const getPrimaryLabel = (item) => item.title || item.heading
 
 const getSecondaryLabel = (item) => {
-    const documentTypeLabel = documentTypeLabels[item.documentType]
+    const documentTypeLabel = documentTypeLabels.get(item.documentType)
 
     return item.heading && item.heading !== item.title && item.heading !== documentTypeLabel
         ? item.heading
@@ -257,7 +257,8 @@ const SearchResults = ({ state, total, results, query, errorMessage, onRetry }) 
                                 <span>{result.projectName || result.projectId}</span>
                                 {result.serviceId && <span>{result.serviceId.toUpperCase()}</span>}
                                 <span>
-                                    {documentTypeLabels[result.documentType] || result.documentType}
+                                    {documentTypeLabels.get(result.documentType) ||
+                                        result.documentType}
                                 </span>
                             </div>
                             <h3>{getPrimaryLabel(result)}</h3>
