@@ -1,6 +1,7 @@
 import { readFile, mkdir, writeFile } from "node:fs/promises"
 import { parseArgs } from "node:util"
 import path from "node:path"
+import { createKnowledgeApiClient } from "./knowledge-api-client.mjs"
 
 const { values } = parseArgs({
     options: {
@@ -15,41 +16,27 @@ const cases = JSON.parse(
 const corpus = JSON.parse(
     await readFile(new URL("../public/knowledge/portfolio.json", import.meta.url)),
 )
+const client = createKnowledgeApiClient({
+    baseUrl: values.url,
+    syncKey: process.env.KNOWLEDGE_SYNC_KEY,
+})
 let verifiedSourceRevision = null
 if (process.env.KNOWLEDGE_SYNC_KEY) {
-    const response = await fetch(`${values.url.replace(/\/$/, "")}/internal/v1/knowledge/status`, {
-        headers: { "X-Knowledge-Sync-Key": process.env.KNOWLEDGE_SYNC_KEY },
-        signal: AbortSignal.timeout(30_000),
-    })
-    if (!response.ok) throw new Error(`자료 버전 확인: HTTP ${response.status}`)
-    const status = await response.json()
-    if (!status.upToDate || status.sourceRevision !== corpus.sourceRevision) {
+    const status = await client.readStatus(corpus)
+    if (!status.upToDate) {
         throw new Error("평가 API의 색인과 현재 공개 자료가 다릅니다. 먼저 동기화하세요.")
     }
     verifiedSourceRevision = status.sourceRevision
 }
 const rows = []
-const request = async (endpoint, body) => {
+const request = async (body) => {
     const start = performance.now()
-    const headers = { "Content-Type": "application/json" }
-    if (endpoint === "answers" && process.env.KNOWLEDGE_SYNC_KEY) {
-        headers["X-Knowledge-Sync-Key"] = process.env.KNOWLEDGE_SYNC_KEY
-    }
-    const response = await fetch(`${values.url.replace(/\/$/, "")}/api/v1/knowledge/${endpoint}`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(body),
-        signal: AbortSignal.timeout(120_000),
-    })
-    if (!response.ok)
-        throw new Error(
-            `${endpoint}: HTTP ${response.status} — 평가 서버의 호출 제한·설정을 확인하세요.`,
-        )
-    return { payload: await response.json(), elapsedMs: Math.round(performance.now() - start) }
+    const payload = await (values.answers ? client.answer(body) : client.search(body))
+    return { payload, elapsedMs: Math.round(performance.now() - start) }
 }
 for (const item of cases) {
     if (item.unanswerable && !values.answers) continue
-    const { payload, elapsedMs } = await request(values.answers ? "answers" : "search", {
+    const { payload, elapsedMs } = await request({
         [values.answers ? "question" : "query"]: item.question,
         limit: 6,
     })
