@@ -7,6 +7,7 @@ import {
     PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY,
 } from "../src/data/knowledgeCorpus.js"
 import { assertNoContactInformation } from "./knowledge-corpus-core.mjs"
+import { cancelGitHubBody, githubResponseError } from "./github-response.mjs"
 
 const SHA_PATTERN = /^[a-f0-9]{40}$/
 const MAX_DOCUMENT_BYTES = 1024 * 1024
@@ -36,11 +37,12 @@ const parseDocument = (href) => {
 
 const readText = async (response, maxBytes) => {
     if (response.status !== 200) {
-        await response.body?.cancel()
-        throw new Error(`GitHub 문서 수집 실패: HTTP ${response.status}`)
+        const error = githubResponseError(response, "GitHub 문서 수집 실패")
+        await cancelGitHubBody(response.body)
+        throw error
     }
     if (Number(response.headers.get("content-length")) > maxBytes) {
-        await response.body?.cancel()
+        await cancelGitHubBody(response.body)
         throw new Error("GitHub 응답이 읽기 용량 제한을 초과했습니다.")
     }
     if (!response.body) throw new Error("GitHub 응답 본문이 비어 있습니다.")
@@ -58,7 +60,7 @@ const readText = async (response, maxBytes) => {
         return new TextDecoder("utf-8", { fatal: true }).decode(Buffer.concat(chunks, size))
     } finally {
         try {
-            await reader.cancel()
+            await cancelGitHubBody(reader)
         } finally {
             reader.releaseLock()
         }

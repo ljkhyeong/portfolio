@@ -1,5 +1,6 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { cancelGitHubBody, githubResponseError } from "./github-response.mjs"
 
 export const KNOWLEDGE_REFRESH_EVENT = "knowledge-documents-changed"
 
@@ -17,20 +18,31 @@ export async function dispatchKnowledgeRefresh({
     if (dryRun) return { url, body, sent: false }
     if (!token?.trim()) throw new Error("KNOWLEDGE_DISPATCH_TOKEN을 설정하세요.")
 
-    const response = await fetchImpl(url, {
-        method: "POST",
-        redirect: "error",
-        signal: AbortSignal.timeout(15_000),
-        headers: {
-            Accept: "application/vnd.github+json",
-            "Content-Type": "application/json",
-            "X-GitHub-Api-Version": "2026-03-10",
-            Authorization: `Bearer ${token.trim()}`,
-        },
-        body,
-    })
+    const signal = AbortSignal.timeout(15_000)
+    let response
+    try {
+        response = await fetchImpl(url, {
+            method: "POST",
+            redirect: "error",
+            signal,
+            headers: {
+                Accept: "application/vnd.github+json",
+                "Content-Type": "application/json",
+                "X-GitHub-Api-Version": "2026-03-10",
+                Authorization: `Bearer ${token.trim()}`,
+            },
+            body,
+        })
+    } catch {
+        const reason = signal.aborted
+            ? "15초 안에 응답을 받지 못했습니다."
+            : "GitHub 응답을 받지 못했습니다."
+        throw new Error(`${reason} 재전송 전에 Actions에서 접수 여부를 확인하세요.`)
+    }
     if (response.status !== 204) {
-        throw new Error(`GitHub 문서 검사 요청 실패: HTTP ${response.status}`)
+        const error = githubResponseError(response, "GitHub 문서 검사 요청 실패")
+        await cancelGitHubBody(response.body)
+        throw error
     }
     return { url, body, sent: true }
 }

@@ -179,6 +179,55 @@ test.each([302, 401, 429, 503])(
     },
 )
 
+test.each([403, 429])(
+    "호출 제한 HTTP %i의 대기 시간을 유지하고 수집 결과를 저장하지 않는다",
+    async (status) => {
+        const cancel = vi.fn().mockRejectedValue(new Error("테스트 본문 정리 실패"))
+        const fetchImpl = responses(new Response(revision), new Response("# 먼저 읽은 문서"), {
+            status,
+            headers: new Headers({ "Retry-After": "45" }),
+            body: { cancel },
+        })
+        await expect(run(fetchImpl, { documents: [first, second] })).rejects.toThrow(
+            `HTTP ${status} — 45초 후 다시 실행하세요.`,
+        )
+        expect(cancel).toHaveBeenCalledTimes(1)
+        expect(fetchImpl).toHaveBeenCalledTimes(3)
+        await unchanged()
+    },
+)
+
+test("스트림 정리 오류가 용량 초과 원인을 덮어쓰지 않는다", async () => {
+    const body = new ReadableStream({
+        start(controller) {
+            controller.enqueue(new Uint8Array(1024 * 1024 + 1))
+        },
+        cancel() {
+            throw new Error("테스트 스트림 정리 실패")
+        },
+    })
+    await expect(run(responses(new Response(revision), new Response(body)))).rejects.toThrow(
+        "용량 제한",
+    )
+    expect(body.locked).toBe(false)
+    await unchanged()
+})
+
+test("길이 헤더로 용량 초과를 확인한 뒤에도 본문 정리 실패를 무시한다", async () => {
+    const cancel = vi.fn().mockRejectedValue(new Error("테스트 본문 정리 실패"))
+    await expect(
+        run(
+            responses(new Response(revision), {
+                status: 200,
+                headers: new Headers({ "Content-Length": String(1024 * 1024 + 1) }),
+                body: { cancel },
+            }),
+        ),
+    ).rejects.toThrow("용량 제한")
+    expect(cancel).toHaveBeenCalledTimes(1)
+    await unchanged()
+})
+
 test.each([false, true])(
     "길이 헤더 유무와 관계없이 문서당 1MiB를 제한한다: %s",
     async (withLength) => {
