@@ -1,3 +1,5 @@
+import { isAnswerResponse, isSearchResponse } from "./knowledgeResponse"
+
 const API_BASE_URL = (import.meta.env.VITE_KNOWLEDGE_API_BASE_URL ?? "").replace(/\/$/, "")
 const SEARCH_TIMEOUT_MS = 90_000
 const ANSWER_TIMEOUT_MS = 180_000
@@ -11,7 +13,7 @@ export class KnowledgeApiError extends Error {
     }
 }
 
-const postKnowledgeRequest = async (path, body, { signal, headers = {}, timeoutMs }) => {
+const postKnowledgeRequest = async (path, body, { signal, headers = {}, timeoutMs, validate }) => {
     signal?.throwIfAborted()
     const controller = new AbortController()
     const cancelRequest = () => controller.abort(signal.reason)
@@ -33,6 +35,7 @@ const postKnowledgeRequest = async (path, body, { signal, headers = {}, timeoutM
         try {
             response = await fetch(`${API_BASE_URL}${path}`, {
                 method: "POST",
+                redirect: "error",
                 headers: {
                     "Content-Type": "application/json",
                     ...headers,
@@ -73,9 +76,24 @@ const postKnowledgeRequest = async (path, body, { signal, headers = {}, timeoutM
         checkCancellation()
 
         if (!response.ok) {
-            throw new KnowledgeApiError(payload?.message || "요청을 처리하지 못했습니다.", {
+            throw new KnowledgeApiError(
+                typeof payload?.message === "string" && payload.message.trim()
+                    ? payload.message
+                    : "요청을 처리하지 못했습니다.",
+                {
+                    status: response.status,
+                    code:
+                        typeof payload?.code === "string" && payload.code.trim()
+                            ? payload.code
+                            : undefined,
+                },
+            )
+        }
+
+        if (response.status !== 200 || !validate(payload)) {
+            throw new KnowledgeApiError("서버 응답 형식이 올바르지 않습니다. 다시 시도해 주세요.", {
                 status: response.status,
-                code: payload?.code,
+                code: "INVALID_RESPONSE",
             })
         }
 
@@ -107,7 +125,7 @@ export const searchPortfolioKnowledge = ({
             ...compactFilters({ projectId, serviceId, documentType }),
             limit,
         },
-        { signal, timeoutMs: SEARCH_TIMEOUT_MS },
+        { signal, timeoutMs: SEARCH_TIMEOUT_MS, validate: isSearchResponse },
     )
 
 export const generatePortfolioAnswer = ({
@@ -129,6 +147,7 @@ export const generatePortfolioAnswer = ({
         {
             signal,
             timeoutMs: ANSWER_TIMEOUT_MS,
+            validate: isAnswerResponse,
             headers: turnstileToken ? { "X-Turnstile-Token": turnstileToken } : {},
         },
     )

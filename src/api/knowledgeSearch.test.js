@@ -1,5 +1,18 @@
 import { generatePortfolioAnswer, searchPortfolioKnowledge } from "./knowledgeSearch"
 
+const emptySearchResponse = { results: [], total: 0 }
+const unavailableAnswerResponse = { status: "GENERATION_UNAVAILABLE", answer: null, citations: [] }
+const stubSuccessfulRequests = () => {
+    const fetch = vi.fn(async (url) => ({
+        ok: true,
+        status: 200,
+        json: async () =>
+            url.endsWith("/search") ? emptySearchResponse : unavailableAnswerResponse,
+    }))
+    vi.stubGlobal("fetch", fetch)
+    return fetch
+}
+
 afterEach(() => {
     vi.useRealTimers()
     vi.restoreAllMocks()
@@ -135,6 +148,29 @@ describe.each([
         })
     })
 
+    test("오류 메시지와 코드가 문자열이 아니면 기본 안내를 사용한다", async () => {
+        respond(400, async () => ({ message: { detail: "잘못된 형식" }, code: 123 }))
+
+        await expect(send()).rejects.toMatchObject({
+            status: 400,
+            code: "KNOWLEDGE_API_ERROR",
+            message: "요청을 처리하지 못했습니다.",
+        })
+    })
+
+    test.each([null, [], {}, "성공"])(
+        "HTTP 200이어도 잘못된 응답(%j)은 거부한다",
+        async (payload) => {
+            respond(200, async () => payload)
+
+            await expect(send()).rejects.toMatchObject({
+                status: 200,
+                code: "INVALID_RESPONSE",
+                message: "서버 응답 형식이 올바르지 않습니다. 다시 시도해 주세요.",
+            })
+        },
+    )
+
     test("서버가 보낸 오류 메시지와 상태를 유지한다", async () => {
         respond(429, vi.fn().mockResolvedValue({ message: "호출 제한", code: "RATE_LIMITED" }))
 
@@ -145,11 +181,20 @@ describe.each([
         })
     })
 
+    test.each([201, 206])("정상 JSON이라도 계약에 없는 HTTP %i 응답은 거부한다", async (status) => {
+        const payload =
+            request === searchPortfolioKnowledge ? emptySearchResponse : unavailableAnswerResponse
+        respond(status, async () => payload)
+
+        await expect(send()).rejects.toMatchObject({ status, code: "INVALID_RESPONSE" })
+    })
+
     test("정상 응답은 그대로 반환한다", async () => {
         vi.useFakeTimers()
         const caller = new AbortController()
         const removeListener = vi.spyOn(caller.signal, "removeEventListener")
-        const payload = { results: [{ title: "알림 재처리" }] }
+        const payload =
+            request === searchPortfolioKnowledge ? emptySearchResponse : unavailableAnswerResponse
         respond(200, vi.fn().mockResolvedValue(payload))
 
         await expect(send(caller.signal)).resolves.toEqual(payload)
@@ -159,12 +204,7 @@ describe.each([
 })
 
 test("검색과 답변 요청에 같은 서비스 필터를 전달한다", async () => {
-    const fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        status: 200,
-        json: vi.fn().mockResolvedValue({ results: [] }),
-    })
-    vi.stubGlobal("fetch", fetch)
+    const fetch = stubSuccessfulRequests()
 
     await searchPortfolioKnowledge({
         query: "링크 중복 생성",
@@ -188,13 +228,8 @@ test("검색과 답변 요청에 같은 서비스 필터를 전달한다", async
     })
 })
 
-test("답변 요청에만 Turnstile 토큰을 헤더로 전달한다", async () => {
-    const fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        status: 200,
-        json: vi.fn().mockResolvedValue({ results: [] }),
-    })
-    vi.stubGlobal("fetch", fetch)
+test("답변 요청에만 Turnstile 토큰을 전달하고 리다이렉트를 거부한다", async () => {
+    const fetch = stubSuccessfulRequests()
 
     await searchPortfolioKnowledge({ query: "알림 재처리" })
     await generatePortfolioAnswer({
@@ -204,4 +239,5 @@ test("답변 요청에만 Turnstile 토큰을 헤더로 전달한다", async () 
 
     expect(fetch.mock.calls[0][1].headers).not.toHaveProperty("X-Turnstile-Token")
     expect(fetch.mock.calls[1][1].headers).toHaveProperty("X-Turnstile-Token", "verified-token")
+    fetch.mock.calls.forEach(([, request]) => expect(request.redirect).toBe("error"))
 })
