@@ -50,7 +50,9 @@ OpenAI 요청은 기본 30초 안에 완료되지 않으면 중단하고 추론 
 
 Cloudflare AI Gateway를 경유하려면 `openai,ai-gateway` 프로필과 `.env.ai-gateway.example`의 값을 사용합니다. 홈서버는 `homeserver,openai,ai-gateway` 순서로 지정합니다. 답변·임베딩 모두 같은 Gateway로 전달하며 OpenAI 키와 Gateway 인증 토큰을 구분합니다. Gateway 추가 재시도는 1회, 캐시 건너뛰기·원문 로그 미수집 헤더를 적용합니다. 구체적인 설정은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md#선택-cloudflare-ai-gateway)에 정리했습니다.
 
-임베딩 응답은 요청 개수, 설정 차원, 유한한 숫자와 영벡터 여부를 확인합니다. 잘못된 벡터는 캐시·색인에 넣지 않습니다. 검색은 BM25 결과로 대체하고 다음 요청에서 임베딩을 다시 시도하며, 색인 작업은 해당 문서를 쓰기 전에 실패로 종료합니다.
+임베딩 응답은 요청 개수와 각 벡터의 순번을 검사하고 입력 순서로 정렬합니다. 순번 누락·중복·범위 오류, 차원 불일치·유효하지 않은 수·영벡터는 캐시나 색인에 넣지 않습니다. [Spring AI 임베딩 응답](https://docs.spring.io/spring-ai/reference/api/embeddings.html#_embeddingresponse).
+
+잘못된 응답을 받으면 검색은 BM25 결과를 유지하고, 색인은 해당 문서를 쓰기 전에 중단합니다. 응답 오류를 이유로 AI를 자동 재호출하지 않으며 다음 검색·동기화 요청에서 다시 시도합니다. Ollama는 Spring AI가 부여한 배열 순번을 사용합니다.
 
 ## Ollama 로컬 프로필
 
