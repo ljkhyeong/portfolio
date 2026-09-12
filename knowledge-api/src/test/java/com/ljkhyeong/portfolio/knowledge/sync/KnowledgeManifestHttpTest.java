@@ -4,6 +4,9 @@ import static com.ljkhyeong.portfolio.knowledge.TestFixtures.document;
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -18,6 +21,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
+import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -135,6 +141,32 @@ class KnowledgeManifestHttpTest {
         assertThatThrownBy(() -> loader("source.read-timeout-seconds", "1").load(location))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasRootCauseInstanceOf(SocketTimeoutException.class);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"missing", "null", "visibility"})
+    void 빈_목록을_허용해도_잘못된_원격_자료는_색인_변경_전에_중단한다(String failure) {
+        String documentsField = switch (failure) {
+            case "missing" -> "";
+            case "null" -> ",\"documents\":null";
+            default -> ",\"documents\":[" + mapper.writeValueAsString(document("doc-1", "sha256:body"))
+                    + ",{\"documentId\":\"doc-2\"}]";
+        };
+        byte[] body = ("{\"schemaVersion\":\"1.0\",\"sourceRevision\":\"sha256:http\""
+                + documentsField + "}").getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        server.createContext("/portfolio.json", exchange -> respond(exchange, body, body.length));
+        var properties = knowledgeProperties("source.location", location, "source.allow-empty", "true");
+        var index = mock(KnowledgeIndexPort.class);
+        when(index.findIndexedSourceHashes()).thenReturn(Map.of("doc-1", "sha256:source", "doc-2", "sha256:source"));
+        var embeddings = mock(EmbeddingPort.class);
+        var chunker = mock(KnowledgeChunker.class);
+        var initializer = mock(KnowledgeIndexInitializer.class);
+        var service = new KnowledgeSyncService(properties,
+                new KnowledgeManifestLoader(new DefaultResourceLoader(), mapper, validator, properties),
+                chunker, embeddings, initializer, index);
+
+        assertThatThrownBy(service::syncConfiguredManifest).isInstanceOf(IllegalArgumentException.class);
+        verifyNoInteractions(index, embeddings, chunker, initializer);
     }
 
     private KnowledgeManifestLoader loader(String... settings) {

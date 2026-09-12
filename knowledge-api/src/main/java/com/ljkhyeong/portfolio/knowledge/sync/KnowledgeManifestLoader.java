@@ -18,6 +18,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
 import tools.jackson.core.JacksonException;
 
 @Component
@@ -84,11 +85,27 @@ public class KnowledgeManifestLoader {
         if (bytes.length > configuration.maxBytes()) {
             throw new IllegalArgumentException("공개 지식 문서 목록이 읽기 용량 제한을 초과했습니다.");
         }
-        KnowledgeManifest manifest = objectMapper.readValue(bytes, KnowledgeManifest.class);
-        if (manifest == null) {
-            throw new IllegalArgumentException("공개 지식 문서 목록이 비어 있습니다.");
+        JsonNode root = objectMapper.readTree(bytes);
+        validateManifestShape(root);
+        return validateAndKeepPublicDocuments(objectMapper.treeToValue(root, KnowledgeManifest.class));
+    }
+
+    private void validateManifestShape(JsonNode root) {
+        if (root == null || !root.isObject() || !root.path("documents").isArray()) {
+            throw new IllegalArgumentException("공개 지식 문서의 documents는 배열이어야 합니다. 빈 목록은 []로 명시하세요.");
         }
-        return validateAndKeepPublicDocuments(manifest);
+        JsonNode documents = root.path("documents");
+        for (int index = 0; index < documents.size(); index++) {
+            JsonNode document = documents.get(index);
+            if (!document.isObject()) {
+                throw new IllegalArgumentException("documents[" + index + "]는 JSON 객체여야 합니다.");
+            }
+            JsonNode visibility = document.path("visibility");
+            if (!visibility.isString()
+                    || !("public".equals(visibility.asString()) || "private".equals(visibility.asString()))) {
+                throw new IllegalArgumentException("documents[" + index + "].visibility는 public 또는 private여야 합니다.");
+            }
+        }
     }
 
     private KnowledgeManifest validateAndKeepPublicDocuments(KnowledgeManifest manifest) {

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import tools.jackson.databind.json.JsonMapper;
@@ -121,6 +122,61 @@ class KnowledgeManifestLoaderTest {
             assertThatThrownBy(() -> loader.load("memory:large.json"))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("용량 제한");
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", ",\"documents\":null", ",\"documents\":{}", ",\"documents\":\"[]\""})
+    void 문서_배열_누락과_잘못된_자료형을_빈_목록으로_바꾸지_않는다(String documentsField) {
+        assertRejected("""
+                {"schemaVersion":"1.0","sourceRevision":"sha256:revision"%s}
+                """.formatted(documentsField), "documents");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"null", "42", "\"public\""})
+    void 문서_항목은_JSON_객체여야_한다(String entry) {
+        assertRejected("""
+                {"schemaVersion":"1.0","sourceRevision":"sha256:revision","documents":[%s]}
+                """.formatted(entry), "documents[0]");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", ",\"visibility\":null", ",\"visibility\":\"pubic\"",
+            ",\"visibility\":\"PUBLIC\"", ",\"visibility\":\"\"", ",\"visibility\":false"})
+    void 공개_범위가_불명확한_문서를_조용히_제외하지_않는다(String visibilityField) {
+        assertRejected("""
+                {"schemaVersion":"1.0","sourceRevision":"sha256:revision",
+                 "documents":[{"documentId":"doc-1"%s}]}
+                """.formatted(visibilityField), "documents[0].visibility");
+    }
+
+    @Test
+    void 명시한_빈_배열과_현재_공개_자료는_유효한_목록이다() {
+        try (var validator = new LocalValidatorFactoryBean()) {
+            validator.afterPropertiesSet();
+            var resources = mock(ResourceLoader.class);
+            when(resources.getResource("memory:empty.json")).thenReturn(new ByteArrayResource("""
+                    {"schemaVersion":"1.0","sourceRevision":"sha256:empty","documents":[]}
+                    """.getBytes(StandardCharsets.UTF_8)));
+            var loader = new KnowledgeManifestLoader(resources, new JsonMapper(), validator, knowledgeProperties());
+            assertThat(loader.load("memory:empty.json").documents()).isEmpty();
+
+            var bundled = new KnowledgeManifestLoader(new DefaultResourceLoader(), new JsonMapper(), validator,
+                    knowledgeProperties()).load("classpath:knowledge/portfolio.json");
+            assertThat(bundled.documents()).isNotEmpty().allMatch(document -> "public".equals(document.visibility()));
+        }
+    }
+
+    private void assertRejected(String json, String field) {
+        var resources = mock(ResourceLoader.class);
+        when(resources.getResource("memory:invalid.json"))
+                .thenReturn(new ByteArrayResource(json.getBytes(StandardCharsets.UTF_8)));
+        try (var validator = new LocalValidatorFactoryBean()) {
+            validator.afterPropertiesSet();
+            var loader = new KnowledgeManifestLoader(resources, new JsonMapper(), validator, knowledgeProperties());
+            assertThatThrownBy(() -> loader.load("memory:invalid.json"))
+                    .isInstanceOf(IllegalArgumentException.class).hasMessageContaining(field);
         }
     }
 
