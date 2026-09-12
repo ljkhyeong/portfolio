@@ -1,11 +1,8 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.sync.KnowledgeSyncService;
-import org.springframework.util.StringUtils;
+import com.ljkhyeong.portfolio.knowledge.util.SecretMatcher;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -33,15 +30,7 @@ public class InternalKnowledgeController {
     }
 
     private void verifySyncKey(String suppliedKey) {
-        String configuredKey = properties.source().syncKey();
-        if (!StringUtils.hasText(configuredKey) || !StringUtils.hasText(suppliedKey)) {
-            throw new SyncForbiddenException();
-        }
-        boolean matches = MessageDigest.isEqual(
-                configuredKey.getBytes(StandardCharsets.UTF_8),
-                suppliedKey.getBytes(StandardCharsets.UTF_8)
-        );
-        if (!matches) {
+        if (!SecretMatcher.matches(properties.source().syncKey(), suppliedKey)) {
             throw new SyncForbiddenException();
         }
     }

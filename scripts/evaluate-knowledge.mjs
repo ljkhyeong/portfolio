@@ -31,9 +31,13 @@ if (process.env.KNOWLEDGE_SYNC_KEY) {
 const rows = []
 const request = async (endpoint, body) => {
     const start = performance.now()
+    const headers = { "Content-Type": "application/json" }
+    if (endpoint === "answers" && process.env.KNOWLEDGE_SYNC_KEY) {
+        headers["X-Knowledge-Sync-Key"] = process.env.KNOWLEDGE_SYNC_KEY
+    }
     const response = await fetch(`${values.url.replace(/\/$/, "")}/api/v1/knowledge/${endpoint}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(body),
         signal: AbortSignal.timeout(120_000),
     })

@@ -695,6 +695,40 @@
     padding: 0 14px;
 }
 
+.knowledge-verification {
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+    margin-top: 16px;
+}
+
+.knowledge-verification p {
+    margin: 0;
+    color: var(--knowledge-muted);
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.knowledge-verification [role="alert"] {
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+}
+
+.knowledge-verification button {
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--knowledge-line);
+    border-radius: 6px;
+    background: var(--knowledge-paper);
+    color: var(--knowledge-ink);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
 .knowledge-answer__button:disabled {
     border-color: var(--knowledge-line);
     background: var(--knowledge-paper);

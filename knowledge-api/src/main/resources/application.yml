@@ -57,5 +57,11 @@ knowledge:
         client-searches-per-minute: ${AI_CLIENT_SEARCHES_PER_MINUTE:30}
         max-client-buckets-per-minute: ${AI_MAX_CLIENT_BUCKETS_PER_MINUTE:100}
         trust-proxy-headers: ${AI_TRUST_PROXY_HEADERS:false}
+    human-verification:
+        enabled: ${KNOWLEDGE_TURNSTILE_ENABLED:false}
+        secret-key: ${KNOWLEDGE_TURNSTILE_SECRET_KEY:}
+        expected-hostnames: ${KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES:ljkportfolio.netlify.app}
+        connect-timeout-seconds: 3
+        read-timeout-seconds: 5
     cors:
         allowed-origins: ${KNOWLEDGE_CORS_ALLOWED_ORIGINS:http://localhost:5173,https://ljkportfolio.netlify.app}

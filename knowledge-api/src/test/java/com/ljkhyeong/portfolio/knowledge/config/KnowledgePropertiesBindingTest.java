@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import java.util.Map;
 
 import com.ljkhyeong.portfolio.knowledge.api.KnowledgeRateLimitInterceptor;
+import com.ljkhyeong.portfolio.knowledge.api.KnowledgeHumanVerificationInterceptor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -46,7 +47,8 @@ class KnowledgePropertiesBindingTest {
         KnowledgeProperties properties = knowledgeProperties();
         WebConfiguration configuration = new WebConfiguration(
                 properties,
-                mock(KnowledgeRateLimitInterceptor.class)
+                mock(KnowledgeRateLimitInterceptor.class),
+                mock(KnowledgeHumanVerificationInterceptor.class)
         );
         InspectableCorsRegistry registry = new InspectableCorsRegistry();
 
@@ -54,6 +56,7 @@ class KnowledgePropertiesBindingTest {
 
         CorsConfiguration cors = registry.configurations().get("/api/v1/knowledge/**");
         assertThat(cors.getExposedHeaders()).contains(HttpHeaders.RETRY_AFTER);
+        assertThat(cors.getAllowedHeaders()).contains(KnowledgeHumanVerificationInterceptor.TOKEN_HEADER);
     }
 
     @Test
@@ -78,6 +81,13 @@ class KnowledgePropertiesBindingTest {
     }
 
     @Test
+    void Turnstile을_켜고_비밀키를_누락하면_기동을_거부한다() {
+        new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)
+                .withPropertyValues("knowledge.human-verification.enabled=true")
+                .run(context -> assertThat(context).hasFailed());
+    }
+
+    @Test
     void 설정이_없으면_기존_기본값으로_기동한다() {
         new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class).run(context -> {
             assertThat(context).hasNotFailed();
@@ -98,7 +108,8 @@ class KnowledgePropertiesBindingTest {
             "knowledge.ai.embedding-dimensions=0",
             "knowledge.ai.provider=opneai",
             "knowledge.search.default-limit=0",
-            "knowledge.search.rrf-k=-1"
+            "knowledge.search.rrf-k=-1",
+            "knowledge.human-verification.connect-timeout-seconds=0"
     })
     void 사용할_수_없는_설정은_기동할_때_거부한다(String property) {
         new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)

@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.config;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.ljkhyeong.portfolio.knowledge.util.Hashing;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ public record KnowledgeProperties(
         @Valid @DefaultValue Elasticsearch elasticsearch,
         @Valid @DefaultValue Search search,
         @Valid @DefaultValue Ai ai,
+        @Valid @DefaultValue HumanVerification humanVerification,
         @DefaultValue Cors cors
 ) {
 
@@ -76,6 +78,31 @@ public record KnowledgeProperties(
             @DefaultValue("100") int maxClientBucketsPerMinute,
             @DefaultValue("false") boolean trustProxyHeaders
     ) {
+    }
+
+    public record HumanVerification(
+            @DefaultValue("false") boolean enabled,
+            @DefaultValue("") String secretKey,
+            @DefaultValue("ljkportfolio.netlify.app") List<String> expectedHostnames,
+            @Positive @DefaultValue("3") int connectTimeoutSeconds,
+            @Positive @DefaultValue("5") int readTimeoutSeconds
+    ) {
+        public HumanVerification {
+            expectedHostnames = expectedHostnames == null
+                    ? List.of()
+                    : expectedHostnames.stream()
+                            .map(String::strip)
+                            .filter(hostname -> !hostname.isEmpty())
+                            .map(hostname -> hostname.toLowerCase(Locale.ROOT))
+                            .distinct()
+                            .toList();
+            if (enabled && secretKey.isBlank()) {
+                throw new IllegalArgumentException("Turnstile을 사용하려면 비밀 키가 필요합니다.");
+            }
+            if (enabled && expectedHostnames.isEmpty()) {
+                throw new IllegalArgumentException("Turnstile을 사용하려면 허용 호스트가 필요합니다.");
+            }
+        }
     }
 
     public record Cors(

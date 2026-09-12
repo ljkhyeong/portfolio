@@ -97,3 +97,21 @@ test("검색과 답변 요청에 같은 서비스 필터를 전달한다", async
         })
     })
 })
+
+test("답변 요청에만 Turnstile 토큰을 헤더로 전달한다", async () => {
+    const fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: vi.fn().mockResolvedValue({ results: [] }),
+    })
+    vi.stubGlobal("fetch", fetch)
+
+    await searchPortfolioKnowledge({ query: "알림 재처리" })
+    await generatePortfolioAnswer({
+        question: "알림 재처리",
+        turnstileToken: "verified-token",
+    })
+
+    expect(fetch.mock.calls[0][1].headers).not.toHaveProperty("X-Turnstile-Token")
+    expect(fetch.mock.calls[1][1].headers).toHaveProperty("X-Turnstile-Token", "verified-token")
+})

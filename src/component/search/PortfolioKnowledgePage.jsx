@@ -4,6 +4,7 @@ import { portfolioProfile } from "../../data/profile"
 import { projectSummaries, projectSummariesById } from "../../data/projectSummaries"
 import { siteUrl } from "../../data/routeMeta"
 import PortfolioNavigation from "../PortfolioNavigation"
+import TurnstileWidget, { turnstileSiteKey } from "./TurnstileWidget"
 import usePortfolioKnowledge from "./usePortfolioKnowledge"
 import "../../css/PortfolioKnowledge.css"
 
@@ -341,7 +342,17 @@ const AnswerContent = ({ answer, citations }) => {
     )
 }
 
-const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGenerate }) => (
+const AnswerPanel = ({
+    state,
+    answer,
+    citations,
+    errorMessage,
+    onGenerate,
+    canGenerate,
+    verificationEnabled,
+    verificationResetKey,
+    onVerificationTokenChange,
+}) => (
     <aside className="knowledge-answer" aria-labelledby="knowledge-answer-title">
         <div className="knowledge-answer__heading">
             <h2 id="knowledge-answer-title">공개 문서 기반 답변</h2>
@@ -377,6 +388,13 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
 
         {state === "generated" && <AnswerContent answer={answer} citations={citations} />}
 
+        {verificationEnabled && (
+            <TurnstileWidget
+                resetKey={verificationResetKey}
+                onTokenChange={onVerificationTokenChange}
+            />
+        )}
+
         <button
             className="knowledge-answer__button"
             type="button"
@@ -390,7 +408,10 @@ const AnswerPanel = ({ state, answer, citations, errorMessage, onGenerate, canGe
                   : "검색 결과로 답변 생성"}
             <span aria-hidden="true">→</span>
         </button>
-        <p className="knowledge-answer__policy">공개 문서로만 답하고 출처를 표시합니다.</p>
+        <p className="knowledge-answer__policy">
+            공개 문서로만 답하고 출처를 표시합니다.
+            {verificationEnabled ? " 답변 요청은 자동 호출 여부를 확인합니다." : ""}
+        </p>
     </aside>
 )
 
@@ -407,6 +428,9 @@ const PortfolioKnowledgePage = () => {
     const documentType =
         documentTypes.find(([type]) => type === searchParams.get("type"))?.[0] ?? ""
     const [query, setQuery] = useState(searchedQuery)
+    const verificationEnabled = Boolean(turnstileSiteKey)
+    const [verificationToken, setVerificationToken] = useState("")
+    const [verificationResetKey, setVerificationResetKey] = useState(0)
     const suggestions = getSuggestionSet(projectId, serviceId)
     const { search, answer, generateAnswer, retrySearch } = usePortfolioKnowledge({
         query: searchedQuery,
@@ -414,8 +438,12 @@ const PortfolioKnowledgePage = () => {
         serviceId,
         documentType,
     })
+    const hasAnswerContext = search.state === "success" && search.results.length > 0
 
     useEffect(() => setQuery(searchedQuery), [searchedQuery, searchParams])
+    useEffect(() => {
+        if (!hasAnswerContext) setVerificationToken("")
+    }, [hasAnswerContext])
 
     const runSearch = (searchQuery, filters = { projectId, serviceId, documentType }) => {
         const normalizedQuery = searchQuery.trim()
@@ -442,6 +470,17 @@ const PortfolioKnowledgePage = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         runSearch(query)
+    }
+
+    const handleGenerateAnswer = async () => {
+        if (verificationEnabled && !verificationToken) return
+        try {
+            await generateAnswer(verificationToken)
+        } finally {
+            if (verificationEnabled) {
+                setVerificationResetKey((key) => key + 1)
+            }
+        }
     }
 
     return (
@@ -556,8 +595,13 @@ const PortfolioKnowledgePage = () => {
                     <SearchResults {...search} query={searchedQuery} onRetry={retrySearch} />
                     <AnswerPanel
                         {...answer}
-                        onGenerate={generateAnswer}
-                        canGenerate={search.state === "success" && search.results.length > 0}
+                        onGenerate={handleGenerateAnswer}
+                        canGenerate={
+                            hasAnswerContext && (!verificationEnabled || Boolean(verificationToken))
+                        }
+                        verificationEnabled={verificationEnabled && hasAnswerContext}
+                        verificationResetKey={verificationResetKey}
+                        onVerificationTokenChange={setVerificationToken}
                     />
                 </div>
             </main>

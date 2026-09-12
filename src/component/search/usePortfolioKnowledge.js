@@ -62,7 +62,7 @@ const usePortfolioKnowledge = ({ query, projectId, serviceId, documentType }) =>
         }
     }, [query, projectId, serviceId, documentType, retryCount])
 
-    const generateAnswer = async () => {
+    const generateAnswer = async (turnstileToken) => {
         if (search.state !== "success" || search.results.length === 0) {
             return
         }
@@ -78,6 +78,7 @@ const usePortfolioKnowledge = ({ query, projectId, serviceId, documentType }) =>
                 projectId,
                 serviceId,
                 documentType,
+                turnstileToken,
                 signal: controller.signal,
             })
 

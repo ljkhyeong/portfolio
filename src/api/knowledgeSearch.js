@@ -9,7 +9,7 @@ export class KnowledgeApiError extends Error {
     }
 }
 
-const postKnowledgeRequest = async (path, body, { signal } = {}) => {
+const postKnowledgeRequest = async (path, body, { signal, headers = {} } = {}) => {
     let response
 
     try {
@@ -17,6 +17,7 @@ const postKnowledgeRequest = async (path, body, { signal } = {}) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                ...headers,
             },
             body: JSON.stringify(body),
             signal,
@@ -91,6 +92,7 @@ export const generatePortfolioAnswer = ({
     serviceId,
     documentType,
     limit = 6,
+    turnstileToken,
     signal,
 }) =>
     postKnowledgeRequest(
@@ -100,5 +102,8 @@ export const generatePortfolioAnswer = ({
             ...compactFilters({ projectId, serviceId, documentType }),
             limit,
         },
-        { signal },
+        {
+            signal,
+            headers: turnstileToken ? { "X-Turnstile-Token": turnstileToken } : {},
+        },
     )
