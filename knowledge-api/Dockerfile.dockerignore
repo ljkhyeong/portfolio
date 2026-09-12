@@ -6,4 +6,4 @@
 !public/knowledge/portfolio.json
 knowledge-api/.gradle/
 knowledge-api/build/
-knowledge-api/.env
+knowledge-api/.env*

@@ -1,0 +1,15 @@
+management:
+    server:
+        port: ${MANAGEMENT_SERVER_PORT:9091}
+        address: ${MANAGEMENT_SERVER_ADDRESS:0.0.0.0}
+    endpoints:
+        web:
+            exposure:
+                include: health,info,metrics,prometheus
+    metrics:
+        tags:
+            application: ${spring.application.name}
+
+knowledge:
+    source:
+        sync-on-startup: ${KNOWLEDGE_SYNC_ON_STARTUP:true}

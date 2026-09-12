@@ -21,6 +21,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 USER 10001
-EXPOSE 8080
+EXPOSE 8080 9091
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

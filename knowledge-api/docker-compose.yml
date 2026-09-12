@@ -65,7 +65,7 @@ services:
             AI_TRUST_PROXY_HEADERS: ${AI_TRUST_PROXY_HEADERS:-false}
             MANAGEMENT_SERVER_PORT: 9091
             MANAGEMENT_SERVER_ADDRESS: 0.0.0.0
-            MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,metrics
+            MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,metrics,prometheus
         ports:
             - "127.0.0.1:8080:8080"
             - "127.0.0.1:9091:9091"
