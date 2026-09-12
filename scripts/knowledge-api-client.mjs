@@ -1,3 +1,9 @@
+import {
+    isAnswerResponse,
+    isSearchResponse,
+    isSearchResults,
+} from "../src/api/knowledgeResponse.js"
+
 const normalizeBaseUrl = (value) => {
     let url
     try {
@@ -41,7 +47,7 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
     const key = syncKey?.trim()
     const request = async (
         endpoint,
-        { method = "GET", body, authenticated = false, timeoutMs },
+        { method = "GET", body, authenticated = false, timeoutMs, validate },
     ) => {
         const headers = { Accept: "application/json" }
         if (body !== undefined) headers["Content-Type"] = "application/json"
@@ -63,11 +69,16 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
                 `${endpoint}: HTTP ${response.status} — API 주소·호출 제한을 확인하세요.`,
             )
         }
+        let payload
         try {
-            return await response.json()
+            payload = await response.json()
         } catch {
             throw new Error(`${endpoint}: JSON 응답을 읽지 못했습니다.`)
         }
+        if (validate && !validate(payload)) {
+            throw new Error(`${endpoint}: 응답 형식이 올바르지 않습니다. API 계약을 확인하세요.`)
+        }
+        return payload
     }
 
     return {
@@ -86,13 +97,20 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
                 timeoutMs: 600_000,
             }),
         search: (body) =>
-            request("/api/v1/knowledge/search", { method: "POST", body, timeoutMs: 120_000 }),
+            request("/api/v1/knowledge/search", {
+                method: "POST",
+                body,
+                timeoutMs: 120_000,
+                validate: isSearchResponse,
+            }),
         answer: (body) =>
             request("/api/v1/knowledge/answers", {
                 method: "POST",
                 body,
                 authenticated: Boolean(key),
                 timeoutMs: 120_000,
+                validate: (payload) =>
+                    isAnswerResponse(payload) && isSearchResults(payload.results),
             }),
     }
 }

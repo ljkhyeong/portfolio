@@ -68,6 +68,12 @@ for (const item of cases) {
         results: payload.results.map(({ projectId, title }) => ({ projectId, title })),
     })
 }
+if (verifiedSourceRevision !== null) {
+    const status = await client.readStatus(corpus)
+    if (!status.upToDate) {
+        throw new Error("평가 종료 시 색인이 현재 자료와 다릅니다. 동기화 후 다시 평가하세요.")
+    }
+}
 const searchable = rows.filter((row) => !row.unanswerable)
 const hitAt5 = searchable.filter((row) => row.hitAt5).length / searchable.length
 const mrrAt5 =

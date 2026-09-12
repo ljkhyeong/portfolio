@@ -4,6 +4,22 @@ import { createServer } from "node:http"
 import { expect, test, vi } from "vitest"
 import { createKnowledgeApiClient } from "./knowledge-api-client.mjs"
 
+const searchResult = {
+    projectId: "baton",
+    documentType: "problem_solution",
+    title: "알림 재처리",
+    snippet: "미전송 알림을 다시 처리합니다.",
+    route: "/projects/baton/relay",
+}
+const validAnswer = {
+    status: "GENERATED",
+    answer: "미전송 알림을 다시 처리합니다. [1]",
+    citations: [
+        { title: searchResult.title, route: searchResult.route, excerpt: searchResult.snippet },
+    ],
+    results: [searchResult],
+}
+
 test.each([
     "not-a-url",
     "file:///tmp/portfolio.json",
@@ -24,7 +40,7 @@ test("관리 키가 없으면 관리 API를 호출하지 않는다", async () =>
 })
 
 test("API 경로 접두어를 유지하고 익명 답변에 관리 키를 넣지 않는다", async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(new Response("{}"))
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(JSON.stringify(validAnswer)))
     const client = createKnowledgeApiClient({
         baseUrl: "https://example.com/portfolio/",
         fetchImpl,
@@ -39,6 +55,41 @@ test("API 경로 접두어를 유지하고 익명 답변에 관리 키를 넣지
         }),
     )
     expect(fetchImpl.mock.calls[0][1].headers).not.toHaveProperty("X-Knowledge-Sync-Key")
+})
+
+test.each([
+    ["search", { total: 1, results: {} }],
+    ["search", { total: 1, results: [] }],
+    ["search", { total: 1, results: [{ ...searchResult, title: {} }] }],
+    ["answer", { ...validAnswer, answer: null }],
+    ["answer", { ...validAnswer, answer: {} }],
+    ["answer", { ...validAnswer, citations: [{ title: "출처 주소 없음" }] }],
+    ["answer", { ...validAnswer, results: {} }],
+    ["answer", { ...validAnswer, results: [null] }],
+])("%s 평가에서 잘못된 응답을 거부한다: %j", async (operation, payload) => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(JSON.stringify(payload)))
+    const client = createKnowledgeApiClient({ baseUrl: "https://example.com", fetchImpl })
+
+    await expect(client[operation]({ query: "알림", question: "알림" })).rejects.toThrow(
+        "응답 형식",
+    )
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+})
+
+test.each([
+    ["search", { total: 1, results: [searchResult] }],
+    ["search", { total: 0, results: [] }],
+    ["answer", validAnswer],
+    ["answer", { status: "INSUFFICIENT_EVIDENCE", answer: null, citations: [], results: [] }],
+    [
+        "answer",
+        { status: "GENERATION_UNAVAILABLE", answer: null, citations: [], results: [searchResult] },
+    ],
+])("%s 평가의 정상 응답을 반환한다: %j", async (operation, payload) => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(JSON.stringify(payload)))
+    const client = createKnowledgeApiClient({ baseUrl: "https://example.com", fetchImpl })
+
+    await expect(client[operation]({ query: "알림", question: "알림" })).resolves.toEqual(payload)
 })
 
 test.each([204, 206, 401, 429, 503])("HTTP %i 응답을 성공으로 처리하지 않는다", async (status) => {

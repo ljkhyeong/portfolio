@@ -38,10 +38,11 @@ const isSearchResult = (item) =>
     isOptionalText(item.projectName) &&
     isOptionalText(item.serviceId)
 
+export const isSearchResults = (results) => Array.isArray(results) && results.every(isSearchResult)
+
 export const isSearchResponse = (payload) =>
     isRecord(payload) &&
-    Array.isArray(payload.results) &&
-    payload.results.every(isSearchResult) &&
+    isSearchResults(payload.results) &&
     Number.isSafeInteger(payload.total) &&
     payload.total === payload.results.length
 
