@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 import com.ljkhyeong.portfolio.knowledge.api.AnswerResponse;
 import com.ljkhyeong.portfolio.knowledge.api.ResponseMapper;
+import com.ljkhyeong.portfolio.knowledge.adapter.ai.SpringAiAnswerGenerationAdapter;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
@@ -36,6 +37,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.metadata.ChatGenerationMetadata;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.model.Generation;
+import org.springframework.ai.chat.prompt.ChatOptions;
+import org.springframework.ai.chat.prompt.Prompt;
 
 class KnowledgeAnswerServiceTest {
 
@@ -151,17 +160,32 @@ class KnowledgeAnswerServiceTest {
     }
 
     @Test
-    void AI_제공자_실패는_캐시하지_않는다() {
-        when(answerGenerationPort.generate(anyString(), anyList()))
-                .thenThrow(new AnswerGenerationUnavailableException("provider error"))
-                .thenReturn(generated("1"));
+    void 중단된_답변은_캐시하지_않고_새_요청의_정상_답변만_재사용한다() {
+        var model = mock(ChatModel.class);
+        when(model.getOptions()).thenReturn(ChatOptions.builder().build());
+        var message = new AssistantMessage("""
+                {"answerable":true,"paragraphs":[{"text":"알림을 다시 처리합니다.","citationIds":["1"]}]}
+                """);
+        when(model.call(any(Prompt.class))).thenReturn(
+                new ChatResponse(List.of(new Generation(message,
+                        ChatGenerationMetadata.builder().finishReason("length").build()))),
+                new ChatResponse(List.of(new Generation(message,
+                        ChatGenerationMetadata.builder().finishReason("stop").build()))));
+        var answering = new KnowledgeAnswerService(properties, searchService,
+                new SpringAiAnswerGenerationAdapter(ChatClient.builder(model)), new ResponseMapper(), meters);
 
-        AnswerResponse first = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
-        AnswerResponse second = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+        AnswerResponse first = answering.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
 
         assertThat(first.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE);
+        assertThat(first.answer()).isNull();
+        assertThat(first.results()).isNotEmpty();
+        verify(model).call(any(Prompt.class));
+
+        AnswerResponse second = answering.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+        AnswerResponse cached = answering.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
         assertThat(second.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATED);
-        verify(answerGenerationPort, times(2)).generate(anyString(), anyList());
+        assertThat(cached).isEqualTo(second);
+        verify(model, times(2)).call(any(Prompt.class));
     }
 
     @Test

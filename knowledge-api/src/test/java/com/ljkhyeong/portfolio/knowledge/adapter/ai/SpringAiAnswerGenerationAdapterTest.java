@@ -21,6 +21,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.metadata.ChatGenerationMetadata;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
@@ -32,8 +33,9 @@ import org.springframework.web.client.ResourceAccessException;
 
 class SpringAiAnswerGenerationAdapterTest {
 
-    @Test
-    void 시스템_지침과_공개_근거를_전달하고_답변을_정리한다() {
+    @ParameterizedTest
+    @ValueSource(strings = {"stop", "STOP"})
+    void 시스템_지침과_공개_근거를_전달하고_답변을_정리한다(String finishReason) {
         ChatModel chatModel = mock(ChatModel.class);
         when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
         when(chatModel.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(
@@ -41,7 +43,7 @@ class SpringAiAnswerGenerationAdapterTest {
                         {"answerable":true,"paragraphs":[
                           {"text":"알림 이벤트를 다시 처리합니다.","citationIds":["1"]}
                         ]}
-                        """))
+                        """), ChatGenerationMetadata.builder().finishReason(finishReason).build())
         )));
         var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
 
@@ -58,6 +60,39 @@ class SpringAiAnswerGenerationAdapterTest {
         assertThat(answer.answerable()).isTrue();
         assertThat(answer.paragraphs().getFirst().text()).isEqualTo("알림 이벤트를 다시 처리합니다.");
         assertThat(answer.paragraphs().getFirst().citationIds()).containsExactly("1");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"length", "LENGTH", "content_filter", "tool_calls", "function_call", "unknown", ""})
+    void JSON이_정상이어도_생성이_정상_종료되지_않으면_거부한다(String finishReason) {
+        ChatModel chatModel = mock(ChatModel.class);
+        when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
+        when(chatModel.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(
+                new Generation(new AssistantMessage("""
+                        {"answerable":true,"paragraphs":[{"text":"알림을 다시 처리합니다.","citationIds":["1"]}]}
+                        """), ChatGenerationMetadata.builder().finishReason(finishReason).build())
+        )));
+        var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
+
+        assertThatThrownBy(() -> adapter.generate("질문", List.of()))
+                .isInstanceOf(AnswerGenerationUnavailableException.class)
+                .hasMessageContaining("정상 종료");
+        verify(chatModel).call(any(Prompt.class));
+    }
+
+    @Test
+    void 종료_상태가_없으면_답변_가능_여부와_무관하게_거부한다() {
+        ChatModel chatModel = mock(ChatModel.class);
+        when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
+        when(chatModel.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(
+                new Generation(new AssistantMessage("{\"answerable\":false,\"paragraphs\":[]}"))
+        )));
+        var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
+
+        assertThatThrownBy(() -> adapter.generate("질문", List.of()))
+                .isInstanceOf(AnswerGenerationUnavailableException.class)
+                .hasMessageContaining("정상 종료");
+        verify(chatModel).call(any(Prompt.class));
     }
 
     @ParameterizedTest

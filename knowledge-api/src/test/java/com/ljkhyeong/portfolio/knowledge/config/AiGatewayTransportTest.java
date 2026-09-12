@@ -1,14 +1,17 @@
 package com.ljkhyeong.portfolio.knowledge.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.ljkhyeong.portfolio.knowledge.KnowledgeApiApplication;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
+import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.jupiter.api.Test;
@@ -33,6 +36,7 @@ class AiGatewayTransportTest {
                 .isEqualTo("https://gateway.ai.cloudflare.com/v1/account/portfolio/openai");
 
         List<Request> requests = new CopyOnWriteArrayList<>();
+        var finishReason = new AtomicReference<>("stop");
         HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1/account/portfolio/openai/", exchange -> {
             var headers = exchange.getRequestHeaders();
@@ -47,10 +51,10 @@ class AiGatewayTransportTest {
                       "usage":{"prompt_tokens":2,"total_tokens":2}}
                     """ : """
                     {"id":"chat-test","object":"chat.completion","created":1,"model":"gpt-5-mini",
-                     "choices":[{"index":0,"finish_reason":"stop","message":{"role":"assistant",
+                     "choices":[{"index":0,"finish_reason":"%s","message":{"role":"assistant",
                        "content":"{\\"answerable\\":false,\\"paragraphs\\":[]}"}}],
                      "usage":{"prompt_tokens":2,"completion_tokens":2,"total_tokens":4}}
-                    """;
+                    """.formatted(finishReason.get());
             byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
             exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(200, bytes.length);
@@ -79,6 +83,14 @@ class AiGatewayTransportTest {
                 assertThat(request.collectPayload()).isEqualTo("false");
                 assertThat(request.maxAttempts()).isEqualTo("1");
             });
+            for (String reason : List.of("length", "content_filter")) {
+                finishReason.set(reason);
+                int previousRequests = requests.size();
+                assertThatThrownBy(() -> context.getBean(AnswerGenerationPort.class).generate("알림 복구", List.of()))
+                        .isInstanceOf(AnswerGenerationUnavailableException.class)
+                        .hasMessageContaining("정상 종료");
+                assertThat(requests).hasSize(previousRequests + 1);
+            }
         } finally {
             server.stop(0);
         }

@@ -48,10 +48,15 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
                 .collect(Collectors.joining("\n\n"));
 
         try {
-            return chatClient.prompt()
+            var response = chatClient.prompt()
                     .user("질문:\n%s\n\n공개 근거:\n%s".formatted(question, evidence))
                     .call()
-                    .entity(GeneratedAnswer.class);
+                    .responseEntity(GeneratedAnswer.class);
+            var generation = response.getResponse() == null ? null : response.getResponse().getResult();
+            if (generation == null || !"stop".equalsIgnoreCase(generation.getMetadata().getFinishReason())) {
+                throw new AnswerGenerationUnavailableException("AI 답변 생성의 정상 종료를 확인하지 못했습니다.");
+            }
+            return response.getEntity();
         } catch (TransientAiException
                  | NonTransientAiException
                  | OpenAIException

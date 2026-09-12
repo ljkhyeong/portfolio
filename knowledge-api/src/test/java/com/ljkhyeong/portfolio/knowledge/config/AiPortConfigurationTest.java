@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.ai.chat.client.ChatClientBuilderCustomizer;
 import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.metadata.ChatGenerationMetadata;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
@@ -57,7 +58,8 @@ class AiPortConfigurationTest {
         ChatModel chatModel = mock(ChatModel.class);
         when(chatModel.getOptions()).thenReturn(ChatOptions.builder().build());
         when(chatModel.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(
-                new Generation(new AssistantMessage("{\"answerable\":false,\"paragraphs\":[]}"))
+                new Generation(new AssistantMessage("{\"answerable\":false,\"paragraphs\":[]}"),
+                        ChatGenerationMetadata.builder().finishReason("STOP").build())
         )));
         List<String> observations = new ArrayList<>();
         ObservationRegistry registry = ObservationRegistry.create();
