@@ -71,6 +71,8 @@ node --env-file=.env.integrations.local scripts/dispatch-knowledge-refresh.mjs
 
 검사는 허용된 공개 문서를 가져와 현재 자료와 비교합니다. 변경이 있으면 Actions 실패 결과와 `knowledge-source-refresh` 첨부 파일로 알립니다. 검토한 자료를 저장소에 반영하고 새 API 이미지에 포함한 뒤 기존 `knowledge:sync`로 색인을 확인합니다. 이 이벤트의 접수는 자료 반영이나 배포 완료를 뜻하지 않습니다.
 
+수집은 요청당 30초·문서당 1MiB로 제한하고, 잘못된 커밋·빈 본문·이메일/휴대전화가 감지되면 저장 전에 중단합니다. 모든 문서를 확인한 뒤 스냅샷을 교체하므로 일부 다운로드 실패로 기존 파일을 덮어쓰지 않습니다. 토큰은 GitHub 커밋 API에만 전달하며 리다이렉트를 따라가지 않습니다. 연락처 검사만으로 비공개 정보 검토를 대신하지는 않습니다.
+
 ## 원격 검색 자료 읽기
 
 기본값은 이미지에 포함된 `classpath:knowledge/portfolio.json`입니다. 웹과 API의 자료 버전을 맞추기 위해 이 구성을 유지합니다. 별도 저장소나 정적 호스팅의 JSON을 읽어야 할 때만 `KNOWLEDGE_SOURCE_LOCATION`에 최종 HTTPS 주소를 지정합니다. 일반 README가 아니라 이 저장소에서 생성한 공개 자료 형식이어야 합니다.

@@ -153,6 +153,10 @@ GitHub API 호출 한도가 필요한 환경에서는 `GITHUB_TOKEN` 또는 `GH_
 정기 최신화 검사는 기본 `github.token`을 사용하며, 원격 문서가 바뀌면 실패 결과와 비교용 파일을 남깁니다.
 검사가 운영 색인이나 저장소 문서를 자동으로 덮어쓰지는 않습니다.
 
+수집기는 GitHub의 SHA 전용 응답으로 커밋을 확인하고 저장소·참조별로 재사용합니다. 40자리 SHA, HTTP 200, UTF-8과 빈 본문 여부를 검사합니다. 요청은 본문 수신을 포함해 30초, 문서는 건당 1MiB로 제한하고 리다이렉트를 거부합니다. 토큰은 커밋 API에만 보내며 공개 원문 다운로드에는 보내지 않습니다. [GitHub SHA 응답](https://docs.github.com/en/rest/commits/commits#get-a-commit).
+
+이메일·휴대전화 검사를 스냅샷 저장 전에도 적용합니다. 한 문서라도 검사나 수집에 실패하면 기존 스냅샷을 유지합니다. 전체 성공 시 같은 디렉터리의 임시 파일을 완성한 뒤 교체하며, 본문과 출처가 그대로면 파일을 다시 쓰지 않습니다. 연락처 검사는 일부 형식만 감지하므로 비공개 정보가 없는지는 본문 diff로 별도 검토해야 합니다.
+
 외부 도구에서 `repository_dispatch`의 `knowledge-documents-changed` 이벤트를 보내도 같은 검사를 실행합니다. 전송 도구는 `scripts/dispatch-knowledge-refresh.mjs`, 환경변수 예시는 루트 `.env.integrations.example`입니다. `--dry-run`으로 실제 전송 없이 요청을 확인할 수 있습니다. 토큰·실행 절차는 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md)에 정리했습니다.
 
 증분 동기화는 본문, 제목, 링크 등 공개 입력 전체를 계산한 `sourceHash`로 변경 여부를 판단합니다. `contentHash`는 본문만의 변경 이력을 확인할 수 있도록 각 청크에 함께 저장합니다. 변경된 청크를 먼저 upsert한 뒤 더 이상 사용하지 않는 이전 청크를 삭제하므로 벌크 색인 실패 시 기존 전체 문서가 먼저 사라지지 않습니다. 문서 목록에서 빠진 항목은 Elasticsearch에서 삭제합니다.
