@@ -86,6 +86,8 @@ Content-Type: application/json
 
 응답의 `results`에는 `chunkId`, 프로젝트와 서비스, 문서 종류, 제목, 관련 문단, 원문 URL 또는 포트폴리오 경로와 RRF 점수가 포함됩니다. 목록은 문서별 최상위 문단 하나만 표시합니다.
 
+Elasticsearch 검색은 부분 결과를 허용하지 않도록 요청합니다. HTTP 200이어도 시간 초과·샤드 실패·조기 종료나 문서 본문 누락이 있으면 결과를 사용하지 않습니다. 키워드 검색이 불완전하면 `503 / SEARCH_UNAVAILABLE`로 종료하고, 벡터 검색만 실패하면 정상 키워드 결과를 유지합니다. [Elasticsearch 검색 응답](https://www.elastic.co/docs/api/doc/elasticsearch/v8/operation/operation-search).
+
 `projectIds`, `serviceIds`, `documentTypes`는 선택 필터입니다. BATON의 Core·GO·WATCH·RELAY·BRIEF·CAL·ROUND 문서만 조회할 때는 `projectIds`와 `serviceIds`를 함께 지정합니다. 검색과 답변 API에 같은 필터를 전달해야 결과와 답변 근거의 범위가 일치합니다.
 
 발췌문은 Elasticsearch unified highlighter가 찾은 본문 구간을 사용합니다. CommonMark로 제목·강조·링크 등 Markdown을 일반 텍스트로 바꾸고, 긴 글은 280자 안의 문장 또는 단어 경계에서 줄입니다. 일치 구간이 없는 벡터 검색 결과는 본문 앞부분을 표시합니다. [Elasticsearch 발췌 설정](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/highlighting-settings), [CommonMark Java](https://github.com/commonmark/commonmark-java).
@@ -176,6 +178,8 @@ GitHub API 호출 한도가 필요한 환경에서는 `GITHUB_TOKEN` 또는 `GH_
 동기화는 API 인스턴스당 한 번에 하나만 실행합니다. 진행 중인 동기화가 있으면 후속 요청은 자료 수집·임베딩·색인을 시작하지 않고 `409 / SYNC_IN_PROGRESS`로 종료합니다. 성공·실패 모두 잠금을 해제하며, 실행 중에는 상태 API의 `upToDate`를 `false`로 반환합니다. 관리 도구는 자동 재요청하지 않으므로 작업이 끝난 뒤 자료 상태를 확인하고 필요할 때 다시 실행합니다.
 
 이 잠금은 같은 인스턴스의 중복 실행만 막습니다. 여러 API 인스턴스가 같은 인덱스를 쓰는 경우에는 동기화 실행 주체를 하나로 정해야 합니다. 전체 색인의 원자적 교체나 실패 시 롤백을 제공하지는 않으며, 중간 실패는 재실행으로 보완합니다.
+
+색인 상태 조회는 정확한 전체 청크 건수를 요청해 실제 받은 건수와 비교합니다. 건수 누락·하한값·불일치, 부분 응답과 기존 조회 상한인 10,000청크 초과는 실패로 처리하며, 동기화는 임베딩·청크 갱신·삭제를 시작하지 않습니다. 10,000청크를 넘는 색인은 페이지 단위 전체 조회 구현이 필요합니다. 일반 문서 검색의 상위 결과 개수에는 이 전체 건수 비교를 적용하지 않습니다.
 
 최대 청크 길이와 겹침 범위는 Elasticsearch 인덱스 매핑에 호환성 지문으로 저장합니다. 두 값 중 하나를 바꾸면 기존 인덱스를 재사용하지 않으므로 `ELASTICSEARCH_INDEX`에 새 이름을 지정한 뒤 전체 문서를 다시 색인해야 합니다.
 
