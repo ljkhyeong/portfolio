@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
+import com.ljkhyeong.portfolio.knowledge.adapter.ai.SpringAiEmbeddingAdapter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
@@ -34,6 +35,28 @@ import org.junit.jupiter.params.provider.MethodSource;
 class KnowledgeSearchServiceTest {
 
     private final SimpleMeterRegistry meters = new SimpleMeterRegistry();
+
+    @Test
+    void 잘못된_임베딩은_키워드로_대체하고_캐시하지_않아_다음_요청에서_복구한다() {
+        var model = mock(org.springframework.ai.embedding.EmbeddingModel.class);
+        when(model.embed(anyList())).thenReturn(List.of()).thenReturn(List.of(new float[]{1, 0}));
+        var embedding = new SpringAiEmbeddingAdapter(model, "test-model", 2);
+        var index = mock(KnowledgeIndexPort.class);
+        when(index.searchBm25(anyString(), any(), anyInt()))
+                .thenReturn(List.of(new SearchHit(chunk("bm25-result"), 1)));
+        var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
+                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+
+        assertThat(service.search("알림 재처리", List.of(), List.of(), 6).hits())
+                .extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
+        verify(index, never()).searchKnn(anyList(), any(), anyInt(), anyInt());
+        service.search("알림 재처리", List.of(), List.of(), 6);
+
+        verify(model, times(2)).embed(anyList());
+        verify(index).searchKnn(eq(List.of(1f, 0f)), any(), anyInt(), anyInt());
+        assertThat(meters.get("knowledge.searches").tag("mode", "fallback").counter().count()).isEqualTo(1);
+        assertThat(meters.get("knowledge.searches").tag("mode", "hybrid").counter().count()).isEqualTo(1);
+    }
 
     @Test
     void 검색_목록은_문서별로_제한하고_답변용_문단은_유지한다() {

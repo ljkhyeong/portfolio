@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.ai;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,6 +21,40 @@ import org.springframework.ai.retry.TransientAiException;
 import org.springframework.web.client.ResourceAccessException;
 
 class SpringAiEmbeddingAdapterTest {
+
+    @ParameterizedTest
+    @MethodSource("invalidVectors")
+    void 잘못된_API_벡터를_검색과_색인에_전달하지_않는다(List<float[]> vectors) {
+        EmbeddingModel model = mock(EmbeddingModel.class);
+        when(model.embed(anyList())).thenReturn(vectors);
+        var adapter = new SpringAiEmbeddingAdapter(model, "test-model", 2);
+
+        assertThatThrownBy(() -> adapter.embed(List.of("알림 재처리")))
+                .isInstanceOf(EmbeddingUnavailableException.class);
+    }
+
+    @Test
+    void 유효한_벡터는_순서와_값을_유지한다() {
+        EmbeddingModel model = mock(EmbeddingModel.class);
+        when(model.embed(anyList())).thenReturn(List.of(new float[]{1, 0}, new float[]{0, -1}));
+        var adapter = new SpringAiEmbeddingAdapter(model, "test-model", 2);
+
+        assertThat(adapter.embed(List.of("첫 질문", "두 번째 질문")))
+                .containsExactly(List.of(1f, 0f), List.of(0f, -1f));
+    }
+
+    private static Stream<List<float[]>> invalidVectors() {
+        return Stream.of(
+                null,
+                List.of(),
+                List.of(new float[]{1, 0}, new float[]{0, 1}),
+                java.util.Collections.singletonList(null),
+                List.of(new float[]{1}),
+                List.of(new float[]{Float.NaN, 1}),
+                List.of(new float[]{Float.POSITIVE_INFINITY, 1}),
+                List.of(new float[]{0, -0f})
+        );
+    }
 
     @ParameterizedTest
     @MethodSource("providerFailures")

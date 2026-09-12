@@ -28,7 +28,11 @@ public class SpringAiEmbeddingAdapter implements EmbeddingPort {
             return List.of();
         }
         try {
-            return embeddingModel.embed(texts).stream()
+            List<float[]> vectors = embeddingModel.embed(texts);
+            if (vectors == null || vectors.size() != texts.size()) {
+                throw new EmbeddingUnavailableException("임베딩 응답 수가 요청 수와 다릅니다.");
+            }
+            return vectors.stream()
                     .map(this::toFloatList)
                     .toList();
         } catch (TransientAiException
@@ -55,9 +59,20 @@ public class SpringAiEmbeddingAdapter implements EmbeddingPort {
     }
 
     private List<Float> toFloatList(float[] vector) {
+        if (vector == null || vector.length != dimensions) {
+            throw new EmbeddingUnavailableException("임베딩 벡터 차원이 설정과 다릅니다.");
+        }
         List<Float> values = new java.util.ArrayList<>(vector.length);
+        boolean nonZero = false;
         for (float value : vector) {
+            if (!Float.isFinite(value)) {
+                throw new EmbeddingUnavailableException("임베딩 벡터에 유효하지 않은 수가 포함됐습니다.");
+            }
+            nonZero |= value != 0;
             values.add(value);
+        }
+        if (!nonZero) {
+            throw new EmbeddingUnavailableException("코사인 검색에 사용할 수 없는 영벡터입니다.");
         }
         return List.copyOf(values);
     }
