@@ -92,7 +92,7 @@ node --env-file=.env.integrations.local scripts/dispatch-knowledge-refresh.mjs
 `homeserver` 프로필 또는 기존 Compose를 사용하면 관리 포트 9091에서 다음 주소를 제공합니다.
 
 -   `/actuator/health/liveness`: 프로세스 상태
--   `/actuator/health/readiness`: 요청 수신 준비 상태와 Elasticsearch 연결
+-   `/actuator/health/readiness`: 요청 수신 준비 상태와 Elasticsearch 클러스터 상태
 -   `/actuator/prometheus`: HTTP·JVM·검색·답변·캐시 지표
 
 Prometheus는 API Pod의 9091 포트를 수집하고 Grafana는 Prometheus를 데이터 소스로 사용합니다. 외부 수집 서비스도 같은 Prometheus 형식을 지원하면 연결할 수 있습니다. [Spring Boot 공식 연동](https://docs.spring.io/spring-boot/reference/actuator/metrics.html#actuator.metrics.export.prometheus).
@@ -116,6 +116,8 @@ sum(rate(knowledge_cache_lookups_total{cache="answer",result=~"hit|miss"}[5m]))
 ```
 
 관리 포트는 클러스터 내부에서만 연결합니다. 외부 Ingress에는 업무 API의 8080 포트만 연결하고 `/internal/*`는 제외합니다. API 인스턴스를 여러 개 쓰면 Pod별 수집이 필요하며, 현재 호출 제한도 인스턴스별로 적용됩니다. 홈서버 기본 구성은 API 한 개입니다.
+
+readiness는 Elasticsearch의 `green`·`yellow`를 허용하고, 연결 실패·상태 조회 시간 초과·`red`·판정 불가 상태는 HTTP `503`으로 반환합니다. 복구되면 다음 확인부터 정상으로 전환합니다. liveness는 Elasticsearch와 분리하며, 자료 버전·색인 완료 여부는 기존 `knowledge:sync`로 확인합니다.
 
 ## 이미지와 k3s 연결 기준
 

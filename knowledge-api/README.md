@@ -208,7 +208,9 @@ AI 답변 생성은 기본적으로 인스턴스 전체 분당 30회, 클라이�
 
 현재 호출 제한 카운터는 인스턴스 메모리에 저장됩니다. 서버를 여러 대로 확장하면 인스턴스별로 한도가 따로 적용되지만, Turnstile을 켠 답변 요청은 각 인스턴스에서 같은 외부 검증을 거칩니다. 정확한 전체 호출 상한이 필요하면 API Gateway 또는 Redis 기반의 공유 호출 제한으로 교체해야 합니다. 역방향 프록시 뒤에서는 프록시가 외부의 전달 헤더를 덮어쓰도록 설정하고, 신뢰할 수 있는 구간에서만 `AI_TRUST_PROXY_HEADERS`를 활성화합니다.
 
-Compose의 Knowledge API 상태 확인은 Elasticsearch 연결을 포함한 `/actuator/health/readiness`를 사용합니다. Elasticsearch가 응답하지 않으면 readiness는 `DOWN`과 HTTP `503`을 반환합니다.
+Compose의 Knowledge API 상태 확인은 `/actuator/health/readiness`를 사용합니다. Elasticsearch 연결 실패·상태 조회 시간 초과·`red`·판정 불가 상태는 `DOWN`과 HTTP `503`을 반환합니다. HTTP 200이어도 응답 본문의 상태를 검사하며, `green`과 `yellow`는 요청 수신을 허용합니다. [Elasticsearch 상태 API](https://www.elastic.co/docs/api/doc/elasticsearch/v8/operation/operation-cluster-health).
+
+복구되면 다음 상태 확인부터 정상으로 전환합니다. `/actuator/health/liveness`는 Elasticsearch를 조회하지 않아 검색 서버 장애로 API 프로세스를 재시작하지 않습니다. readiness는 클러스터 상태를 검사하며, 자료 버전·색인 완료 여부는 `knowledge:sync`의 상태 검사로 확인합니다.
 
 `docker-compose.yml`의 Elasticsearch 보안 비활성화 설정은 로컬 개발용입니다. 공개 운영 환경에서는 TLS와 인증이 설정된 관리형 Elasticsearch를 사용하거나 Elasticsearch를 비공개 네트워크에 배치해야 합니다.
 
