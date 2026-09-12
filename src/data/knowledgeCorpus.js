@@ -10,6 +10,7 @@ export const KNOWLEDGE_DOCUMENT_TYPES = [
 ]
 
 export const PUBLIC_LOCAL_DOCUMENTS = [
+    "/docs/agent-feedback.md",
     "/docs/baton/core-hexagonal.md",
     "/docs/baton/go-idempotent-link.md",
     "/docs/baton/relay-attempt-recovery.md",

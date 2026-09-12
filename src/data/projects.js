@@ -1019,7 +1019,7 @@ const projects = [
             tradeoff:
                 "모듈 수는 늘지만 잘못된 의존을 빌드에서 찾을 수 있습니다. 일부 JPA 매핑은 도메인 모듈에 유지했습니다.",
         },
-        featuredProblemNumbers: ["02", "03", "12", "14"],
+        featuredProblemNumbers: ["02", "03", "12", "14", "16"],
         documentGroups: [
             {
                 id: "prd",
@@ -1064,6 +1064,12 @@ const projects = [
                 label: "업무 규칙과 웹 및 DB 코드 분리",
                 href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0021_Hexagonal_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98_%EC%A0%84%ED%99%98/adr.md",
                 note: "운영 모듈 6개와 test-support의 의존 방향 및 외부 연동 인터페이스 범위를 정한 기록",
+            },
+            {
+                type: "개발 검증",
+                label: "AI 코드 변경 검증 방식",
+                href: "/docs/agent-feedback.md",
+                note: "토스 기술 블로그에서 참고한 배경과 파일별 검사·전체 변경 검토·ArchUnit 적용 범위를 정리한 공개 요약",
             },
             {
                 type: "ADR",
@@ -1382,6 +1388,18 @@ const projects = [
                     "선택 유지·결제 전 장바구니 변경·재주문 조건 변경의 기존 브라우저 시나리오를 확인하고 선택 구매 화면을 로컬 촬영했습니다.",
                 boundary:
                     "이전 주문의 가격과 옵션을 보장하지 않습니다. 실제 Toss 결제는 별도 검증 대상입니다.",
+            },
+            {
+                number: "16",
+                title: "AI 코드 변경을 파일 검사와 구조 검사로 확인",
+                constraint:
+                    "작업이 길어질 때 개발 규칙을 놓칠 수 있어, 작성한 코드에 검사 결과를 바로 돌려주는 흐름이 필요했습니다.",
+                decision:
+                    "토스 기술 블로그의 피드백 루프를 참고해 파일 수정 후 포맷·컴파일 검사, 종료 전 전체 diff·ArchUnit 검사를 연결했습니다. 검사 범위는 파일 경로·확장자로 고르고, 코드 수정과 설계 판단은 작업 중인 에이전트가 맡습니다.",
+                validation:
+                    "훅과 수동 명령이 같은 검사기를 사용합니다. 작업 중 커밋·새 파일 포함과 변경 없는 검사 생략을 확인하는 회귀 테스트를 추가했고, 계층 의존 규칙을 CI에도 연결했습니다.",
+                boundary:
+                    "검사 선택에 별도 LLM을 호출하지 않습니다. 자동 검사는 선언한 의존 규칙을 확인하며, 업무 책임과 과한 추상화는 전체 diff를 검토해 판단합니다.",
             },
         ],
         stack: [

@@ -89,6 +89,29 @@ export const homeSkillGroups = [
         ],
     },
     {
+        id: "ai-development",
+        label: "AI 활용 개발",
+        summary:
+            "개인 프로젝트에서 작업이 길어져도 개발 규칙을 다시 확인하도록, 코드 수정 직후와 작업 종료 전에 검사 결과를 에이전트에 전달합니다.",
+        items: [
+            {
+                name: "변경 파일에 맞춘 검사",
+                detail: "파일 경로와 확장자로 검사 범위를 고르고, 포맷·컴파일 오류를 에이전트에 전달합니다. 검사 선택에 별도 LLM을 호출하지 않습니다.",
+                examples: [
+                    { label: "happyGallery", route: "/projects/happygallery#project-problems" },
+                ],
+            },
+            {
+                name: "계층 의존 규칙 자동 검사",
+                detail: "ArchUnit으로 Controller의 저장소 직접 접근, 도메인의 인프라 의존과 서비스의 구현체 직접 참조를 검사합니다.",
+            },
+            {
+                name: "작업 전체 변경 검토",
+                detail: "작업 중 커밋과 새 파일까지 모아 전체 diff를 검토합니다. 자동 검사 결과를 바탕으로 코드 수정과 설계 판단은 작업 중인 에이전트가 맡습니다.",
+            },
+        ],
+    },
+    {
         id: "frontend",
         label: "프론트엔드",
         summary:
