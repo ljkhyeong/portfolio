@@ -70,6 +70,17 @@ const ProjectLinks = ({ project, supporting = false }) => (
         >
             상세 보기 <span aria-hidden="true">→</span>
         </Link>
+        {project.liveSite && (
+            <a
+                className="project-repository-link"
+                href={project.liveSite.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${project.title} ${project.liveSite.label} 새 창에서 보기`}
+            >
+                {project.liveSite.label} <span aria-hidden="true">↗</span>
+            </a>
+        )}
         {project.homeRepository && (
             <a
                 className="project-repository-link"

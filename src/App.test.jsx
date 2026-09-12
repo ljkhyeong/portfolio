@@ -545,7 +545,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
             name: "happyGallery 클래스 목록에서 수업과 예약 회차를 확인하는 모습",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/AWS 운영은 종료/)).toBeInTheDocument()
+    expect(screen.getByText(/서비스를 배포하고 공개 홈페이지/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
             name: /업무 규칙과 웹 및 DB 코드 분리 대표 문서 새 창에서 보기/,

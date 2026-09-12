@@ -1120,7 +1120,7 @@ const projects = [
                 method: "실제 AWS 배포 및 비용 내역 확인",
                 rule: "트래픽과 무관하게 발생하는 상시 리소스 비용을 월별로 확인",
                 result: "운영 환경을 종료하고 비용 원인을 회고 문서로 정리",
-                scope: "AWS 운영 후 비용 문제로 종료",
+                scope: "과거 AWS 운영 후 비용 문제로 종료",
             },
             {
                 item: "8회권 환불, 미래 예약과 잔여 횟수 일치",
@@ -1206,7 +1206,7 @@ const projects = [
             "상품 주문·간편결제·클래스 예약과 스마트스토어 운영을 하나의 서비스로 구현했습니다.",
         status: {
             label: "운영 상태",
-            text: "공개 main a4dec4f4에 한국천문연구원 공휴일 갱신, Kakao 우편번호 검색과 회원 주문·예약 목록 조건 복원을 반영했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증이며 AWS 운영은 종료했습니다.",
+            text: "서비스를 배포하고 공개 홈페이지·작품·클래스 화면의 접속을 확인했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증입니다.",
         },
         visualCaption:
             "최신 UI에 E2E 테스트용 모의 API 응답을 넣은 화면입니다. 실제 네이버 판매자 계정이나 PG 운영 화면은 아닙니다.",
@@ -1420,6 +1420,7 @@ const projects = [
             "Spring Security / OAuth2",
         ],
         links: [
+            projectSummariesById.happygallery.liveSite,
             {
                 label: "GitHub 저장소",
                 href: "https://github.com/ljkhyeong/happyGallery",

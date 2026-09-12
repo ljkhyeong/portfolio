@@ -76,6 +76,11 @@ export const projectSummaries = [
         eyebrow: "공방 상품 판매 및 예약 서비스",
         homeSummary:
             "상품 주문, 클래스 예약과 스마트스토어 운영을 한 곳에서 처리하는 공방 서비스입니다.",
+        liveSite: {
+            label: "서비스 보기",
+            href: "https://happy-gallery.com",
+            note: "배포된 공방 홈페이지와 작품·클래스 안내",
+        },
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/happyGallery",
@@ -92,8 +97,8 @@ export const projectSummaries = [
         route: "/projects/happygallery",
         tags: ["Java 25", "Spring Boot 4.1", "React 19", "MySQL / Redis"],
         visual: "gallery",
-        stage: "개발 중",
-        visibility: "공개 저장소",
+        stage: "배포 완료",
+        visibility: "서비스·저장소 공개",
     },
     {
         id: "youth-policy-mate",

@@ -14,8 +14,7 @@ export const caseIntroductions = {
 
 export const caseResults = {
     baton: "서비스별 테스트와 Core–BRIEF·CAL·ROUND 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
-    happygallery:
-        "공개 main에서 공휴일 API 연동과 회원 목록 검색 조건 복원을 확인. 실제 네이버·Toss·NHN 계정 연동은 미검증",
+    happygallery: "공개 서비스 배포와 HTTPS 접속 확인. 실제 네이버·Toss·NHN 계정 연동은 미검증",
     "youth-policy-mate":
         "공개 정책 40건·질문 9종 확인. 햇살론유스 조건과 동일 정책의 원문 불일치 안내는 개발 브랜치 기준",
     "hope-commit": "v5.0.2 공개 및 자동화 테스트 343개 통과",

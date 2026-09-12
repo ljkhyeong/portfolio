@@ -264,7 +264,9 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     expect(screen.getByText(project.role)).toBeInTheDocument()
     expect(screen.getByText(/문서를 요구사항, 기술 선택, 테스트와 운영 절차로/)).toBeInTheDocument()
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
-    expect(evidenceLinks).toHaveTextContent("GitHub 저장소")
+    expect(
+        within(evidenceLinks).getByRole("link", { name: "서비스 보기 새 창에서 보기" }),
+    ).toHaveAttribute("href", "https://happy-gallery.com")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
     expect(screen.getByText("추가 문제 해결 11건 보기").closest("details")).not.toHaveAttribute(
         "open",
