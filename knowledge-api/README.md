@@ -114,6 +114,10 @@ X-Turnstile-Token: 브라우저에서 발급받은 일회용 토큰
 
 브라우저는 검색을 90초, AI 답변을 180초까지 기다립니다. 응답 본문을 읽는 시간도 포함하며, 초과하면 `REQUEST_TIMEOUT` 안내와 재시도 버튼을 표시합니다. 검색어·필터는 유지하고, 답변 실패 때는 기존 검색 결과도 유지합니다. 자동 재요청하지 않으며 화면 이동이나 조건 변경으로 취소한 요청은 오류로 표시하지 않습니다. 브라우저의 대기 중단이 서버·AI 작업의 취소나 과금 중단을 보장하지는 않습니다.
 
+웹은 HTTP 200 응답의 검색 목록·건수·표시 필드와 답변 상태·본문·출처를 검사합니다. 형식이 잘못됐거나 생성된 답변에 출처가 없으면 `INVALID_RESPONSE`로 안내하며 빈 검색 결과나 정상 답변으로 표시하지 않습니다. 출처는 HTTP(S) 주소 또는 사이트 내부 경로만 허용하고 URL의 인증 정보·제어 문자·역슬래시는 거부합니다.
+
+검색·답변 요청은 리다이렉트를 따르지 않습니다. 질문과 Turnstile 토큰이 이동 대상에 전달되지 않도록 `redirect: error`를 사용합니다. `VITE_KNOWLEDGE_API_BASE_URL`에는 리다이렉트 없는 최종 API 주소를 지정합니다. [브라우저 리다이렉트 차단](https://developer.mozilla.org/en-US/docs/Web/API/Response/redirected#disallowing_redirects).
+
 Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션과 메트릭·추적 설정을 적용합니다. `ChatClient.entity()`로 답변 가능 여부와 문단별 본문·근거 ID를 받습니다. 서비스는 각 문단의 근거 ID를 확인하고 인용 순서대로 `[1]` 번호와 출처 목록을 만듭니다. 제공하지 않은 ID, 인용이 없는 문단이나 잘못된 JSON은 `GENERATION_UNAVAILABLE`로 처리합니다. JSON 형식을 고치기 위한 추가 AI 호출은 하지 않습니다. [Spring AI ChatClient](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
 답변에는 목록에서 선택한 문서의 검색 문단을 문서당 최대 3개, 본문 합계 12,000자까지 전달합니다. `limit`은 검색 목록의 문서 수이며 AI 입력 문단 수와 다릅니다. 키워드 일치 문단 한 건을 먼저 확보한 뒤 문서별 대표 문단과 추가 문단을 순위에 따라 선택합니다. 같은 문서의 문단도 각각 인용할 수 있습니다.
