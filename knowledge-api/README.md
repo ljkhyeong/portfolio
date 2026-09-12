@@ -89,6 +89,7 @@ Content-Type: application/json
 ```http
 POST /api/v1/knowledge/answers
 Content-Type: application/json
+X-Turnstile-Token: 브라우저에서 발급받은 일회용 토큰
 
 {
   "question": "BATON 알림 아웃박스는 어떻게 복구하나요?",
@@ -112,6 +113,26 @@ Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션
 인용의 `excerpt`에는 AI에 전달한 전체 근거 문단을 일반 텍스트로 반환합니다. 검색 결과의 `snippet`만 280자로 줄이며, 화면에서 인용 번호를 누르면 전체 근거를 펼쳐 확인할 수 있습니다. 프런트엔드는 응답 본문을 읽는 중 취소된 요청을 중단하고, 잘못된 JSON을 빈 결과 대신 읽기 오류로 안내합니다. JSON이 아닌 오류 응답도 HTTP 상태에 따른 안내는 유지합니다.
 
 실제로 전달할 문단에 BM25 키워드 검색 근거가 없으면 AI를 호출하지 않습니다. 벡터 검색에서 선택한 대표 문단과 같은 문서의 다른 문단이 키워드 검색에 적중했다면, 그 문단을 함께 전달해 불필요한 답변 거절을 막습니다. 목록 밖 문서의 키워드 적중만으로 답변을 허용하지 않습니다.
+
+## 공개 답변 자동 호출 방지
+
+Cloudflare Turnstile을 선택적으로 사용해 비용이 큰 AI 답변 API의 자동 호출을 막습니다. 검색 API는 기존 호출 제한을 유지하고, `/api/v1/knowledge/answers`만 검증합니다. 브라우저 위젯에서 받은 토큰을 서버가 Cloudflare Siteverify API로 확인하며 성공 여부뿐 아니라 `hostname`과 `action=knowledge_answer`도 검사합니다. 토큰은 5분 동안 한 번만 사용할 수 있으므로 답변 요청이 끝나면 프런트엔드 위젯을 초기화합니다. [Turnstile 서버 검증](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/)
+
+프런트엔드와 API에 다음 값을 함께 설정합니다. 설정하지 않으면 기존 동작을 유지합니다.
+
+```bash
+# React 빌드 환경의 공개값
+VITE_KNOWLEDGE_TURNSTILE_SITE_KEY=...
+
+# Knowledge API의 비밀값
+KNOWLEDGE_TURNSTILE_ENABLED=true
+KNOWLEDGE_TURNSTILE_SECRET_KEY=...
+KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES=ljkportfolio.netlify.app
+```
+
+사이트 키는 브라우저에 공개되는 값이지만 비밀 키는 Knowledge API에만 둡니다. 로컬에서 Cloudflare 테스트 키를 사용할 때는 허용 호스트를 `localhost`로 바꿉니다. Siteverify 연결 실패는 `503`, 토큰·호스트·action 불일치는 `403`으로 반환하며 검증이 끝나기 전에는 OpenAI를 호출하지 않습니다.
+
+`npm run knowledge:evaluate -- --answers`는 `KNOWLEDGE_SYNC_KEY`를 답변 요청에 함께 보내 인증된 배포 평가임을 증명합니다. 이 키가 서버 설정과 일치할 때만 Turnstile을 우회합니다. 브라우저 CORS에는 해당 헤더를 허용하지 않습니다.
 
 ## 동기화
 
@@ -147,7 +168,7 @@ AI 답변 생성은 기본적으로 인스턴스 전체 분당 30회, 클라이�
 
 클라이언트 구분에는 기본적으로 소켓의 `remoteAddr`를 사용합니다. `AI_TRUST_PROXY_HEADERS=true`는 신뢰하는 프록시가 외부 입력의 `X-Forwarded-For`를 제거하고 새 값으로 설정하는 환경에서만 사용해야 합니다.
 
-현재 호출 제한 카운터는 인스턴스 메모리에 저장됩니다. 서버를 여러 대로 확장하면 인스턴스별로 한도가 따로 적용되므로 API Gateway 또는 Redis 기반의 공유 호출 제한으로 교체해야 합니다. 역방향 프록시 뒤에서는 프록시가 외부의 전달 헤더를 덮어쓰도록 설정하고, 신뢰할 수 있는 구간에서만 `AI_TRUST_PROXY_HEADERS`를 활성화합니다.
+현재 호출 제한 카운터는 인스턴스 메모리에 저장됩니다. 서버를 여러 대로 확장하면 인스턴스별로 한도가 따로 적용되지만, Turnstile을 켠 답변 요청은 각 인스턴스에서 같은 외부 검증을 거칩니다. 정확한 전체 호출 상한이 필요하면 API Gateway 또는 Redis 기반의 공유 호출 제한으로 교체해야 합니다. 역방향 프록시 뒤에서는 프록시가 외부의 전달 헤더를 덮어쓰도록 설정하고, 신뢰할 수 있는 구간에서만 `AI_TRUST_PROXY_HEADERS`를 활성화합니다.
 
 Compose의 Knowledge API 상태 확인은 Elasticsearch 연결을 포함한 `/actuator/health/readiness`를 사용합니다. Elasticsearch가 응답하지 않으면 readiness는 `DOWN`과 HTTP `503`을 반환합니다.
 

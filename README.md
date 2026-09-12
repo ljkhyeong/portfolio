@@ -81,8 +81,10 @@ npm run dev
 ```
 
 `VITE_KNOWLEDGE_API_BASE_URL`에는 로컬 또는 운영 Knowledge API 주소를 설정합니다. API
-키는 브라우저 환경 변수에 넣지 않습니다. Elasticsearch, Spring Boot API, OpenAI 및
-Ollama 프로필의 실행 방법은 `knowledge-api/README.md`를 확인합니다.
+키는 브라우저 환경 변수에 넣지 않습니다. 공개 AI 답변의 자동 호출을 막을 때는
+Cloudflare Turnstile 공개 사이트 키만 `VITE_KNOWLEDGE_TURNSTILE_SITE_KEY`에 설정합니다.
+Elasticsearch, Spring Boot API, OpenAI 및 Ollama 프로필과 Turnstile 서버 검증 설정은
+`knowledge-api/README.md`를 확인합니다.
 
 ## PDF
 
