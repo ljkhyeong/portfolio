@@ -95,6 +95,11 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
             } catch {
                 // 본문 정리 실패가 이미 받은 HTTP 오류와 대기 안내를 덮어쓰지 않게 한다.
             }
+            if (response.status === 409 && endpoint === "/internal/v1/knowledge/sync") {
+                throw new Error(
+                    `${endpoint}: HTTP 409 — 동기화가 이미 실행 중입니다. 완료 후 자료 상태를 확인하세요.`,
+                )
+            }
             throw new Error(
                 `${endpoint}: HTTP ${response.status} — API 주소·호출 제한을 확인하세요.${retryHint}`,
             )

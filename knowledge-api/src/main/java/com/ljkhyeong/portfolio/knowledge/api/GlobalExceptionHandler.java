@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
+import com.ljkhyeong.portfolio.knowledge.sync.KnowledgeSyncInProgressException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -88,6 +89,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleSyncForbidden(SyncForbiddenException exception) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiErrorResponse(
                 "SYNC_FORBIDDEN",
+                exception.getMessage(),
+                Map.of()
+        ));
+    }
+
+    @ExceptionHandler(KnowledgeSyncInProgressException.class)
+    public ResponseEntity<ApiErrorResponse> handleSyncInProgress(KnowledgeSyncInProgressException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiErrorResponse(
+                "SYNC_IN_PROGRESS",
                 exception.getMessage(),
                 Map.of()
         ));

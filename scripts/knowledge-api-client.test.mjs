@@ -103,6 +103,20 @@ test.each([204, 206, 401, 429, 503])("HTTP %i 응답을 성공으로 처리하�
     expect(fetchImpl).toHaveBeenCalledTimes(1)
 })
 
+test("동기화 409 응답은 진행 중 안내로 종료하고 자동 재요청하지 않는다", async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null, { status: 409 }))
+    const client = createKnowledgeApiClient({
+        baseUrl: "https://example.com",
+        syncKey: "test-only",
+        fetchImpl,
+    })
+
+    await expect(client.sync()).rejects.toThrow(
+        "/internal/v1/knowledge/sync: HTTP 409 — 동기화가 이미 실행 중입니다. 완료 후 자료 상태를 확인하세요.",
+    )
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+})
+
 test.each([
     [429, "45", " 45초 후 다시 실행하세요."],
     [503, "30", " 30초 후 다시 실행하세요."],

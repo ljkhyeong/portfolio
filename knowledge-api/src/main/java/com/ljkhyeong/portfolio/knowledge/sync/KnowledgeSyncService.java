@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
@@ -26,6 +27,7 @@ public class KnowledgeSyncService {
     private final EmbeddingPort embeddingPort;
     private final KnowledgeIndexPort indexPort;
     private final KnowledgeIndexInitializer indexInitializer;
+    private final AtomicBoolean syncInProgress = new AtomicBoolean();
 
     public KnowledgeSyncService(
             KnowledgeProperties properties,
@@ -44,6 +46,17 @@ public class KnowledgeSyncService {
     }
 
     public SyncResult syncConfiguredManifest() {
+        if (!syncInProgress.compareAndSet(false, true)) {
+            throw new KnowledgeSyncInProgressException();
+        }
+        try {
+            return syncManifest();
+        } finally {
+            syncInProgress.set(false);
+        }
+    }
+
+    private SyncResult syncManifest() {
         KnowledgeManifest manifest = manifestLoader.load(properties.source().location());
         if (manifest.documents().isEmpty() && !properties.source().allowEmpty()) {
             throw new IllegalArgumentException("빈 공개 지식 문서 목록은 동기화할 수 없습니다.");
@@ -100,7 +113,8 @@ public class KnowledgeSyncService {
                 .filter(document -> document.sourceHash().equals(indexed.get(document.documentId())))
                 .count();
         return new IndexStatus(manifest.sourceRevision(), manifest.documents().size(), indexed.size(),
-                matched, (!manifest.documents().isEmpty() || properties.source().allowEmpty())
+                matched, !syncInProgress.get()
+                        && (!manifest.documents().isEmpty() || properties.source().allowEmpty())
                         && matched == manifest.documents().size() && indexed.size() == matched);
     }
 

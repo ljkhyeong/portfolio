@@ -4,7 +4,9 @@ import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.document;
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -15,11 +17,16 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeManifest;
 import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,12 +57,93 @@ class KnowledgeSyncServiceTest {
     @Test
     void 자료를_읽지_못하면_색인과_임베딩을_변경하지_않는다() {
         when(loader.load(properties.source().location()))
-                .thenThrow(new IllegalArgumentException("공개 자료 읽기 실패"));
+                .thenThrow(new IllegalArgumentException("공개 자료 읽기 실패"))
+                .thenReturn(manifest(document("doc-1", "sha256:same")));
 
         assertThat(org.assertj.core.api.Assertions.catchThrowable(service::syncConfiguredManifest))
                 .isInstanceOf(IllegalArgumentException.class);
 
         verifyNoInteractions(indexPort, embeddingPort, chunker);
+
+        when(indexPort.findIndexedSourceHashes()).thenReturn(Map.of("doc-1", "sha256:source"));
+        assertThat(service.syncConfiguredManifest().unchangedDocuments()).isEqualTo(1);
+    }
+
+    @Test
+    void 동기화_중복_요청은_자료를_읽기_전에_거부하고_완료_후에는_다시_허용한다() throws Exception {
+        var manifest = manifest(document("doc-1", "sha256:same"));
+        CountDownLatch started = new CountDownLatch(1);
+        CountDownLatch release = new CountDownLatch(1);
+        AtomicInteger loads = new AtomicInteger();
+        when(loader.load(properties.source().location())).thenAnswer(invocation -> {
+            if (loads.incrementAndGet() == 1) {
+                started.countDown();
+                if (!release.await(5, TimeUnit.SECONDS)) throw new IllegalStateException("테스트 대기 시간 초과");
+            }
+            return manifest;
+        });
+        when(indexPort.findIndexedSourceHashes()).thenReturn(Map.of("doc-1", "sha256:source"));
+
+        try (var executor = Executors.newSingleThreadExecutor()) {
+            var running = executor.submit(service::syncConfiguredManifest);
+            try {
+                assertThat(started.await(5, TimeUnit.SECONDS)).isTrue();
+                assertThatThrownBy(service::syncConfiguredManifest)
+                        .isInstanceOf(KnowledgeSyncInProgressException.class)
+                        .hasMessageContaining("동기화가 이미 실행 중");
+                assertThat(loads.get()).isEqualTo(1);
+                verifyNoInteractions(indexPort, embeddingPort, chunker);
+            } finally {
+                release.countDown();
+            }
+            assertThat(running.get(5, TimeUnit.SECONDS).unchangedDocuments()).isEqualTo(1);
+        }
+        assertThat(service.syncConfiguredManifest().unchangedDocuments()).isEqualTo(1);
+        assertThat(service.status().upToDate()).isTrue();
+    }
+
+    @Test
+    void 동기화_중에는_본문_해시가_같아도_최신_상태로_표시하지_않는다() throws Exception {
+        when(loader.load(properties.source().location())).thenReturn(manifest(document("doc-1", "sha256:same")));
+        CountDownLatch started = new CountDownLatch(1);
+        CountDownLatch release = new CountDownLatch(1);
+        AtomicInteger reads = new AtomicInteger();
+        when(indexPort.findIndexedSourceHashes()).thenAnswer(invocation -> {
+            if (reads.incrementAndGet() == 1) {
+                started.countDown();
+                if (!release.await(5, TimeUnit.SECONDS)) throw new IllegalStateException("테스트 대기 시간 초과");
+            }
+            return Map.of("doc-1", "sha256:source");
+        });
+        try (var executor = Executors.newSingleThreadExecutor()) {
+            var running = executor.submit(service::syncConfiguredManifest);
+            try {
+                assertThat(started.await(5, TimeUnit.SECONDS)).isTrue();
+                assertThat(service.status().upToDate()).isFalse();
+            } finally {
+                release.countDown();
+            }
+            running.get(5, TimeUnit.SECONDS);
+        }
+        assertThat(service.status().upToDate()).isTrue();
+    }
+
+    @Test
+    void 벌크_색인이_실패하면_이전_청크를_삭제하지_않고_다음_동기화를_허용한다() {
+        var document = document("doc-1", "sha256:new");
+        var chunk = chunk("doc-1#000");
+        when(loader.load(properties.source().location())).thenReturn(manifest(document));
+        when(indexPort.findIndexedSourceHashes()).thenReturn(Map.of("doc-1", "sha256:old"));
+        when(chunker.split(document)).thenReturn(List.of(chunk));
+        when(embeddingPort.embed(List.of(chunk.content()))).thenReturn(List.of(List.of(1.0f, 0.0f)));
+        var failure = new KnowledgeIndexAccessException("테스트 벌크 색인 실패");
+        doThrow(failure).doNothing().when(indexPort).bulkIndex(anyList());
+
+        assertThatThrownBy(service::syncConfiguredManifest).isSameAs(failure);
+        verify(indexPort, never()).deleteStaleChunks("doc-1", List.of("doc-1#000"));
+
+        assertThat(service.syncConfiguredManifest().indexedDocuments()).isEqualTo(1);
+        verify(indexPort).deleteStaleChunks("doc-1", List.of("doc-1#000"));
     }
 
     @Test
