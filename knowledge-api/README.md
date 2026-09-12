@@ -187,6 +187,8 @@ GitHub API 호출 한도가 필요한 환경에서는 `GITHUB_TOKEN` 또는 `GH_
 
 문서 0건인 목록은 생성 오류로 간주해 기본적으로 동기화를 거부합니다. 전체 삭제가 의도된 별도 작업에서만 `KNOWLEDGE_ALLOW_EMPTY=true`를 설정합니다.
 
+자료의 `documents`는 배열이며 각 항목은 JSON 객체여야 합니다. 누락·`null`은 빈 목록으로 처리하지 않습니다. `visibility`는 `public`·`private`만 허용하고, `private` 문서는 색인에서 제외합니다. 공개 범위가 없거나 잘못됐으면 일부 문서를 누락한 채 진행하지 않고 전체 동기화를 중단합니다. `KNOWLEDGE_ALLOW_EMPTY=true`여도 형식 검사는 생략하지 않습니다.
+
 수동 동기화를 사용하려면 `KNOWLEDGE_SYNC_KEY`를 설정합니다.
 
 ```http
