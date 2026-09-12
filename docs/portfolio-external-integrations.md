@@ -75,6 +75,8 @@ node --env-file=.env.integrations.local scripts/dispatch-knowledge-refresh.mjs
 
 전송 도구는 15초 제한, 리다이렉트 거부, HTTP 204 확인을 적용합니다. 자동 재전송은 하지 않습니다. 응답을 받지 못한 경우 GitHub Actions에서 접수 여부를 확인한 뒤 필요하면 다시 보냅니다.
 
+문서 수집·이벤트 전송 도구는 GitHub의 초 단위 `Retry-After`를 안내합니다. HTTP `403`·`429`에서 `X-RateLimit-Remaining=0`이면 `X-RateLimit-Reset`까지의 대기 시간도 확인하며, 둘 다 있으면 더 긴 시간을 표시합니다. 유효한 헤더가 없으면 시간을 추정하지 않고 자동 재시도도 하지 않습니다. 오류 본문 정리에 실패해도 원래 HTTP 상태와 대기 안내를 유지합니다. [GitHub 호출 제한](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api).
+
 검사는 허용된 공개 문서를 가져와 현재 자료와 비교합니다. 변경이 있으면 Actions 실패 결과와 `knowledge-source-refresh` 첨부 파일로 알립니다. 검토한 자료를 저장소에 반영하고 새 API 이미지에 포함한 뒤 기존 `knowledge:sync`로 색인을 확인합니다. 이 이벤트의 접수는 자료 반영이나 배포 완료를 뜻하지 않습니다.
 
 수집은 요청당 30초·문서당 1MiB로 제한하고, 잘못된 커밋·빈 본문·이메일/휴대전화가 감지되면 저장 전에 중단합니다. 모든 문서를 확인한 뒤 스냅샷을 교체하므로 일부 다운로드 실패로 기존 파일을 덮어쓰지 않습니다. 토큰은 GitHub 커밋 API에만 전달하며 리다이렉트를 따라가지 않습니다. 연락처 검사만으로 비공개 정보 검토를 대신하지는 않습니다.
