@@ -4,6 +4,12 @@ import { KNOWLEDGE_DOCUMENT_TYPES, KNOWLEDGE_SCHEMA_VERSION } from "../src/data/
 const EMAIL_PATTERN = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i
 const PHONE_PATTERN = /(?:\+?82[-.\s]?)?0?1[016789][-.\s]?\d{3,4}[-.\s]?\d{4}/
 
+export const assertNoContactInformation = (content, sourceKey) => {
+    if (EMAIL_PATTERN.test(content) || PHONE_PATTERN.test(content)) {
+        throw new Error(`연락처가 포함된 문서는 공개 지식 목록에 넣을 수 없습니다: ${sourceKey}`)
+    }
+}
+
 export const normalizeKnowledgeContent = (content) =>
     content
         .normalize("NFC")
@@ -43,11 +49,7 @@ const assertPublicSource = (source) => {
         throw new Error(`지원하지 않는 문서 종류입니다: ${source.documentType}`)
     }
 
-    if (EMAIL_PATTERN.test(source.content) || PHONE_PATTERN.test(source.content)) {
-        throw new Error(
-            `연락처가 포함된 문서는 공개 지식 목록에 넣을 수 없습니다: ${source.sourceKey}`,
-        )
-    }
+    assertNoContactInformation(source.content, source.sourceKey)
 }
 
 const buildDocument = (source) => {
