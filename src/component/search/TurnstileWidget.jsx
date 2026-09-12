@@ -2,14 +2,20 @@ import { useEffect, useRef, useState } from "react"
 
 const TURNSTILE_SCRIPT_ID = "cloudflare-turnstile-script"
 const TURNSTILE_SCRIPT_URL = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+const TURNSTILE_LOAD_TIMEOUT_MS = 20_000
 
 export const turnstileSiteKey = (import.meta.env.VITE_KNOWLEDGE_TURNSTILE_SITE_KEY ?? "").trim()
 export const turnstileAction = "knowledge_answer"
 
 let turnstileLoadPromise
 
+const isTurnstileReady = () =>
+    ["render", "reset", "remove"].every(
+        (method) => typeof window.turnstile?.[method] === "function",
+    )
+
 const loadTurnstile = () => {
-    if (window.turnstile) {
+    if (isTurnstileReady()) {
         return Promise.resolve(window.turnstile)
     }
     if (turnstileLoadPromise) {
@@ -20,24 +26,28 @@ const loadTurnstile = () => {
         const existingScript = document.getElementById(TURNSTILE_SCRIPT_ID)
         const script = existingScript ?? document.createElement("script")
         const handleLoad = () => {
-            cleanup()
-            if (window.turnstile) {
+            if (isTurnstileReady()) {
+                cleanup()
                 resolve(window.turnstile)
                 return
             }
-            turnstileLoadPromise = undefined
-            reject(new Error("Turnstile API를 찾을 수 없습니다."))
+            fail("Turnstile API를 찾을 수 없습니다.")
         }
-        const handleError = () => {
+        const handleError = () => fail("Turnstile API를 불러오지 못했습니다.")
+        const fail = (message) => {
             cleanup()
             script.remove()
-            turnstileLoadPromise = undefined
-            reject(new Error("Turnstile API를 불러오지 못했습니다."))
+            reject(new Error(message))
         }
         const cleanup = () => {
+            clearTimeout(timeout)
             script.removeEventListener("load", handleLoad)
             script.removeEventListener("error", handleError)
         }
+        const timeout = setTimeout(
+            () => fail("Turnstile API 로딩 시간이 초과됐습니다."),
+            TURNSTILE_LOAD_TIMEOUT_MS,
+        )
 
         script.addEventListener("load", handleLoad)
         script.addEventListener("error", handleError)
@@ -48,6 +58,8 @@ const loadTurnstile = () => {
             script.defer = true
             document.head.append(script)
         }
+    }).finally(() => {
+        turnstileLoadPromise = undefined
     })
 
     return turnstileLoadPromise
