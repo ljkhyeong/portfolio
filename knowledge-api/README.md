@@ -48,6 +48,10 @@ API 키는 백엔드 환경 변수에만 설정하며 React의 `VITE_*` 환경 �
 
 OpenAI 요청은 기본 30초 안에 완료되지 않으면 중단하고 추론 토큰을 포함한 답변 출력을 최대 2,000토큰으로 제한합니다. OpenAI SDK 자체 재시도는 끄고 Spring AI에서만 최대 2회 시도해 두 재시도 계층이 중첩되지 않게 합니다. `OPENAI_REQUEST_TIMEOUT`, `OPENAI_MAX_COMPLETION_TOKENS`, `AI_RETRY_MAX_ATTEMPTS`로 조정할 수 있습니다. SDK 재시도를 다시 켜야 하는 별도 환경에서만 `OPENAI_SDK_MAX_RETRIES`를 변경합니다. [Spring AI OpenAI 설정](https://docs.spring.io/spring-ai/reference/api/embeddings/openai-embeddings.html#_configuration_properties)
 
+Cloudflare AI Gateway를 경유하려면 `openai,ai-gateway` 프로필과 `.env.ai-gateway.example`의 값을 사용합니다. 홈서버는 `homeserver,openai,ai-gateway` 순서로 지정합니다. 답변·임베딩 모두 같은 Gateway로 전달하며 OpenAI 키와 Gateway 인증 토큰을 구분합니다. Gateway 추가 재시도는 1회, 캐시 건너뛰기·원문 로그 미수집 헤더를 적용합니다. 구체적인 설정은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md#선택-cloudflare-ai-gateway)에 정리했습니다.
+
+임베딩 응답은 요청 개수, 설정 차원, 유한한 숫자와 영벡터 여부를 확인합니다. 잘못된 벡터는 캐시·색인에 넣지 않습니다. 검색은 BM25 결과로 대체하고 다음 요청에서 임베딩을 다시 시도하며, 색인 작업은 해당 문서를 쓰기 전에 실패로 종료합니다.
+
 ## Ollama 로컬 프로필
 
 Ollama 컨테이너와 모델을 먼저 준비합니다.

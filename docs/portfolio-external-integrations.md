@@ -4,13 +4,44 @@
 
 ## 연동 구성
 
-| 목적                               | 연동                 | 코드 상태                             | 사용자가 설정할 값            |
-| ---------------------------------- | -------------------- | ------------------------------------- | ----------------------------- |
-| 공개 문서 답변·질문 임베딩         | OpenAI + Spring AI   | 기존 구현, 시간 제한·재시도·캐시 적용 | API 키, 프로필                |
-| 공개 기술문서 읽기                 | GitHub API           | 기존 허용 목록·커밋 고정 방식         | 필요 시 조회 토큰             |
-| 문서 변경 시 최신화 검사           | GitHub 이벤트 API    | 이번에 추가                           | 이벤트 발신 도구의 전용 토큰  |
-| AI 답변 자동 호출 방지             | Cloudflare Turnstile | 기존 위젯·서버 검증 구현              | 사이트 키·비밀 키·허용 호스트 |
-| 검색 장애·응답 시간·캐시 지표 수집 | Prometheus HTTP 수집 | 이번에 추가                           | 수집 대상, Grafana 연결       |
+| 목적                               | 연동                  | 코드 상태                             | 사용자가 설정할 값            |
+| ---------------------------------- | --------------------- | ------------------------------------- | ----------------------------- |
+| 공개 문서 답변·질문 임베딩         | OpenAI + Spring AI    | 기존 구현, 시간 제한·재시도·캐시 적용 | API 키, 프로필                |
+| 공개 기술문서 읽기                 | GitHub API            | 기존 허용 목록·커밋 고정 방식         | 필요 시 조회 토큰             |
+| 문서 변경 시 최신화 검사           | GitHub 이벤트 API     | 이벤트 수신·전송 도구 구현            | 이벤트 발신 도구의 전용 토큰  |
+| AI 답변 자동 호출 방지             | Cloudflare Turnstile  | 기존 위젯·서버 검증 구현              | 사이트 키·비밀 키·허용 호스트 |
+| 검색 장애·응답 시간·캐시 지표 수집 | Prometheus HTTP 수집  | 수집 API·관리 포트 분리 구현          | 수집 대상, Grafana 연결       |
+| OpenAI 호출 정책·사용량 관리       | Cloudflare AI Gateway | 선택 프로필·공통 인증 헤더 구현       | 계정 ID, Gateway ID·토큰      |
+
+## 선택: Cloudflare AI Gateway
+
+답변과 임베딩 요청을 Cloudflare의 OpenAI 전용 Gateway로 보낼 수 있습니다. 외부 서비스의 호출 제한과 사용량 조회 기능을 사용하며, 기존 OpenAI 키·모델·임베딩 차원은 유지합니다. 프로필을 추가하지 않으면 OpenAI 직접 호출을 유지합니다. [Cloudflare OpenAI 연동](https://developers.cloudflare.com/ai-gateway/usage/providers/openai/).
+
+`knowledge-api/.env.ai-gateway.example`을 참고해 API 환경변수에 아래 값을 설정합니다. OpenAI API 키와 Gateway Run 권한의 Cloudflare 토큰이 모두 필요합니다. 이 프로필은 키를 요청에 전달하는 방식이며 Cloudflare에 키를 보관하거나 통합 결제를 설정하지 않습니다.
+
+```bash
+SPRING_PROFILES_ACTIVE=homeserver,openai,ai-gateway
+AI_PROFILE=openai
+OPENAI_API_KEY=<OpenAI 키>
+CLOUDFLARE_ACCOUNT_ID=<계정 ID>
+CLOUDFLARE_AI_GATEWAY_ID=<Gateway ID>
+CLOUDFLARE_AI_GATEWAY_TOKEN=<Gateway 인증 토큰>
+ELASTICSEARCH_INDEX=portfolio-knowledge-openai-v3
+```
+
+Compose도 `SPRING_PROFILES_ACTIVE`와 세 가지 Cloudflare 변수를 전달합니다. `ai-gateway`는 `openai`와 함께 켜야 하며 빈 토큰·잘못된 ID는 기동 단계에서 거부합니다. 기존 Turnstile 사이트 키·비밀 키와는 별개입니다.
+
+요청 주소는 `https://gateway.ai.cloudflare.com/v1/<계정 ID>/<Gateway ID>/openai`입니다. OpenAI 키는 `Authorization`, Gateway 토큰은 `cf-aig-authorization`에 전달합니다. 다음 헤더를 기본 적용합니다.
+
+| 헤더                         | 값      | 목적                                   |
+| ---------------------------- | ------- | -------------------------------------- |
+| `cf-aig-max-attempts`        | `1`     | Spring AI와 Gateway의 재시도 중첩 방지 |
+| `cf-aig-skip-cache`          | `true`  | 기존 애플리케이션 캐시 정책 유지       |
+| `cf-aig-collect-log-payload` | `false` | 질문·근거·답변 본문 로그 저장 제외     |
+
+요청은 Cloudflare를 경유하며 본문 로그 제외와 별개로 요청량·토큰 수 등 메타데이터는 Gateway 설정에 따라 기록됩니다. Gateway 장애가 나면 기존 검색·답변 대체 처리를 사용하고 직접 OpenAI 호출로 자동 우회하지 않습니다. [요청 헤더](https://developers.cloudflare.com/ai-gateway/usage/rest-api/#per-request-configuration), [로그 본문 설정](https://developers.cloudflare.com/ai-gateway/observability/logging/).
+
+운영 연결 뒤 답변과 임베딩 양쪽의 인증·호출 정책을 확인합니다. 로컬 검증에서는 실제 Spring AI 클라이언트를 HTTP 대역 서버에 연결해 경로·헤더·응답 처리를 확인하며 운영 계정은 호출하지 않습니다.
 
 ## GitHub 문서 변경 이벤트
 
