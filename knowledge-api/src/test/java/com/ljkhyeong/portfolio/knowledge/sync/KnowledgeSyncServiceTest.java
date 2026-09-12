@@ -147,6 +147,19 @@ class KnowledgeSyncServiceTest {
     }
 
     @Test
+    void 색인_목록이_불완전하면_임베딩과_청크_갱신을_시작하지_않는다() {
+        when(loader.load(properties.source().location())).thenReturn(manifest(document("doc-1", "sha256:new")));
+        var failure = new KnowledgeIndexAccessException("색인 청크 전체를 확인하지 못했습니다.");
+        when(indexPort.findIndexedSourceHashes()).thenThrow(failure);
+
+        assertThatThrownBy(service::syncConfiguredManifest).isSameAs(failure);
+        verify(embeddingPort, never()).embed(anyList());
+        verify(indexPort, never()).bulkIndex(anyList());
+        verify(indexPort, never()).deleteByDocumentId(org.mockito.ArgumentMatchers.anyString());
+        verifyNoInteractions(chunker);
+    }
+
+    @Test
     void 빈_자료를_허용하지_않으면_빈_색인도_최신으로_판정하지_않는다() {
         when(loader.load(properties.source().location())).thenReturn(
                 new KnowledgeManifest("1.0", "sha256:revision", List.of(), List.of(), List.of()));

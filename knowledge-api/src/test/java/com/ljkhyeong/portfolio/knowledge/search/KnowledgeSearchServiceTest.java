@@ -13,6 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -25,6 +26,7 @@ import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,38 @@ import org.junit.jupiter.params.provider.MethodSource;
 class KnowledgeSearchServiceTest {
 
     private final SimpleMeterRegistry meters = new SimpleMeterRegistry();
+
+    @Test
+    void 키워드_조회가_불완전하면_검색을_중단하고_임베딩을_호출하지_않는다() {
+        var embedding = mock(EmbeddingPort.class);
+        var index = mock(KnowledgeIndexPort.class);
+        var failure = new KnowledgeIndexAccessException("Elasticsearch 조회가 완료되지 않았습니다.");
+        when(index.searchBm25(anyString(), any(), anyInt())).thenThrow(failure);
+        var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
+                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+
+        assertThatThrownBy(() -> service.search("알림", List.of(), List.of(), 6)).isSameAs(failure);
+        verifyNoInteractions(embedding);
+        verify(index, never()).searchKnn(anyList(), any(), anyInt(), anyInt());
+    }
+
+    @Test
+    void 벡터_조회만_불완전하면_정상_키워드_결과를_유지한다() {
+        var embedding = mock(EmbeddingPort.class);
+        when(embedding.available()).thenReturn(true);
+        when(embedding.embed(anyList())).thenReturn(List.of(List.of(1f, 0f)));
+        var index = mock(KnowledgeIndexPort.class);
+        when(index.searchBm25(anyString(), any(), anyInt()))
+                .thenReturn(List.of(new SearchHit(chunk("bm25-result"), 1)));
+        when(index.searchKnn(anyList(), any(), anyInt(), anyInt()))
+                .thenThrow(new KnowledgeIndexAccessException("Elasticsearch 조회가 완료되지 않았습니다."));
+        var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
+                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+
+        assertThat(service.search("알림", List.of(), List.of(), 6).hits())
+                .extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
+        assertThat(meters.get("knowledge.searches").tag("mode", "fallback").counter().count()).isEqualTo(1);
+    }
 
     @Test
     void 잘못된_임베딩은_키워드로_대체하고_캐시하지_않아_다음_요청에서_복구한다() {

@@ -28,6 +28,7 @@ import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.core.search.HighlighterOrder;
+import co.elastic.clients.elasticsearch.core.search.TotalHitsRelation;
 import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
 import co.elastic.clients.json.JsonData;
 import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
@@ -52,6 +53,8 @@ import org.springframework.util.StringUtils;
 
 @Repository
 public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
+
+    private static final int INDEXED_CHUNK_SCAN_LIMIT = 10_000;
 
     private final KnowledgeProperties properties;
     private final RestClientTransport transport;
@@ -120,7 +123,9 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 "Elasticsearch 조회에 실패했습니다.",
                 () -> client.search(request -> request
                                 .index(indexName())
-                                .size(10_000)
+                                .size(INDEXED_CHUNK_SCAN_LIMIT)
+                                .allowPartialSearchResults(false)
+                                .trackTotalHits(total -> total.enabled(true))
                                 .source(source -> source.filter(filter -> filter.includes(
                                         "documentId",
                                         "sourceHash",
@@ -130,11 +135,17 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                         IndexedChunkDocument.class
                 )
         );
+        verifySearchResponse(response);
+        var total = response.hits().total();
+        if (total == null || total.relation() != TotalHitsRelation.Eq
+                || total.value() > INDEXED_CHUNK_SCAN_LIMIT || total.value() != response.hits().hits().size()) {
+            throw new KnowledgeIndexAccessException(
+                    "색인 청크 전체를 확인하지 못했습니다. 전체 건수·반환 건수와 10,000개 조회 한도를 확인하세요.");
+        }
 
         Map<String, IndexedDocumentState> states = new LinkedHashMap<>();
         response.hits().hits().stream()
                 .map(hit -> hit.source())
-                .filter(java.util.Objects::nonNull)
                 .forEach(document -> states
                         .computeIfAbsent(valueOrEmpty(document.documentId()), ignored -> new IndexedDocumentState())
                         .add(
@@ -271,19 +282,31 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
     ) {
         SearchResponse<IndexedChunkDocument> response = execute(
                 "Elasticsearch 검색에 실패했습니다.",
-                () -> client.search(requestFactory, IndexedChunkDocument.class)
+                () -> client.search(request -> requestFactory.apply(request.allowPartialSearchResults(false)),
+                        IndexedChunkDocument.class)
         );
+        verifySearchResponse(response);
         List<SearchHit> results = new ArrayList<>();
         response.hits().hits().forEach(hit -> {
-            if (hit.source() != null) {
-                results.add(new SearchHit(
-                        toChunk(hit.source()),
-                        hit.score() == null ? 0 : hit.score(),
-                        hit.highlight().getOrDefault("content", List.of()).stream().findFirst().orElse(null)
-                ));
-            }
+            results.add(new SearchHit(
+                    toChunk(hit.source()),
+                    hit.score() == null ? 0 : hit.score(),
+                    hit.highlight().getOrDefault("content", List.of()).stream().findFirst().orElse(null)
+            ));
         });
         return List.copyOf(results);
+    }
+
+    private void verifySearchResponse(SearchResponse<?> response) {
+        if (response.timedOut() || response.shards().failed().longValue() > 0
+                || !response.shards().failures().isEmpty() || Boolean.TRUE.equals(response.terminatedEarly())) {
+            throw new KnowledgeIndexAccessException(
+                    "Elasticsearch 조회가 완료되지 않았습니다: 시간 초과=%s, 실패 샤드=%s, 조기 종료=%s"
+                            .formatted(response.timedOut(), response.shards().failed(), response.terminatedEarly()));
+        }
+        if (response.hits().hits().stream().anyMatch(hit -> hit.source() == null)) {
+            throw new KnowledgeIndexAccessException("Elasticsearch 검색 응답에 문서 본문이 없습니다.");
+        }
     }
 
     private boolean indexExists() {
