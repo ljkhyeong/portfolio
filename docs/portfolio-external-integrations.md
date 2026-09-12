@@ -9,9 +9,11 @@
 | 공개 문서 답변·질문 임베딩         | OpenAI + Spring AI    | 기존 구현, 시간 제한·재시도·캐시 적용 | API 키, 프로필                |
 | 공개 기술문서 읽기                 | GitHub API            | 기존 허용 목록·커밋 고정 방식         | 필요 시 조회 토큰             |
 | 문서 변경 시 최신화 검사           | GitHub 이벤트 API     | 이벤트 수신·전송 도구 구현            | 이벤트 발신 도구의 전용 토큰  |
-| AI 답변 자동 호출 방지             | Cloudflare Turnstile  | 기존 위젯·서버 검증 구현              | 사이트 키·비밀 키·허용 호스트 |
+| AI 답변 자동 호출 방지             | Cloudflare Turnstile  | 서버 오류 분류·멱등 재시도 적용       | 사이트 키·비밀 키·허용 호스트 |
 | 검색 장애·응답 시간·캐시 지표 수집 | Prometheus HTTP 수집  | 수집 API·관리 포트 분리 구현          | 수집 대상, Grafana 연결       |
 | OpenAI 호출 정책·사용량 관리       | Cloudflare AI Gateway | 선택 프로필·공통 인증 헤더 구현       | 계정 ID, Gateway ID·토큰      |
+
+Turnstile의 연결 오류·HTTP 5xx·`internal-error`는 같은 멱등 키로 한 번만 재시도합니다. 토큰 오류는 `403`, 서버·연동 설정 오류는 `503`으로 구분합니다. 비밀 키 오류·HTTP 429·잘못된 응답은 즉시 재시도하지 않으며, 검증 불가 상태에서 AI 답변을 허용하지 않습니다. [Cloudflare 검증 계약](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/).
 
 ## 선택: Cloudflare AI Gateway
 
@@ -68,6 +70,14 @@ node --env-file=.env.integrations.local scripts/dispatch-knowledge-refresh.mjs
 전송 도구는 15초 제한, 리다이렉트 거부, HTTP 204 확인을 적용합니다. 자동 재전송은 하지 않습니다. 응답을 받지 못한 경우 GitHub Actions에서 접수 여부를 확인한 뒤 필요하면 다시 보냅니다.
 
 검사는 허용된 공개 문서를 가져와 현재 자료와 비교합니다. 변경이 있으면 Actions 실패 결과와 `knowledge-source-refresh` 첨부 파일로 알립니다. 검토한 자료를 저장소에 반영하고 새 API 이미지에 포함한 뒤 기존 `knowledge:sync`로 색인을 확인합니다. 이 이벤트의 접수는 자료 반영이나 배포 완료를 뜻하지 않습니다.
+
+## 원격 검색 자료 읽기
+
+기본값은 이미지에 포함된 `classpath:knowledge/portfolio.json`입니다. 웹과 API의 자료 버전을 맞추기 위해 이 구성을 유지합니다. 별도 저장소나 정적 호스팅의 JSON을 읽어야 할 때만 `KNOWLEDGE_SOURCE_LOCATION`에 최종 HTTPS 주소를 지정합니다. 일반 README가 아니라 이 저장소에서 생성한 공개 자료 형식이어야 합니다.
+
+원격 연결은 기본 3초, 읽기 대기는 10초로 제한합니다. HTTP 200만 허용하고 리다이렉트는 거부합니다. 로컬·원격 자료 모두 8MiB까지 읽으며 `Content-Length`가 없는 응답도 제한합니다. 읽기 제한은 전체 다운로드 시간이 아닌 데이터 수신 대기 시간입니다.
+
+환경변수 `KNOWLEDGE_SOURCE_CONNECT_TIMEOUT_SECONDS`, `KNOWLEDGE_SOURCE_READ_TIMEOUT_SECONDS`, `KNOWLEDGE_SOURCE_MAX_BYTES`로 조정합니다. 다운로드 실패·용량 초과·잘못된 JSON은 색인 변경 전에 중단합니다. 원격 자료를 사용해도 기존 자료 버전 확인과 공개 문서 검토 절차는 유지합니다.
 
 ## Prometheus / Grafana 연결
 

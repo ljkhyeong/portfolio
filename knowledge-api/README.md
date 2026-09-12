@@ -136,7 +136,9 @@ KNOWLEDGE_TURNSTILE_SECRET_KEY=...
 KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES=ljkportfolio.netlify.app
 ```
 
-사이트 키는 브라우저에 공개되는 값이지만 비밀 키는 Knowledge API에만 둡니다. 로컬에서 Cloudflare 테스트 키를 사용할 때는 허용 호스트를 `localhost`로 바꿉니다. Siteverify 연결 실패는 `503`, 토큰·호스트·action 불일치는 `403`으로 반환하며 검증이 끝나기 전에는 OpenAI를 호출하지 않습니다.
+사이트 키는 브라우저에 공개되는 값이지만 비밀 키는 Knowledge API에만 둡니다. 로컬에서 Cloudflare 테스트 키를 사용할 때는 허용 호스트를 `localhost`로 바꿉니다. Siteverify 연결·서버·설정 오류는 `503`, 토큰·호스트·action 불일치는 `403`으로 반환하며 검증이 끝나기 전에는 OpenAI를 호출하지 않습니다.
+
+연결 오류, HTTP 5xx와 `internal-error`는 같은 토큰·멱등 키로 한 번만 재시도합니다. 토큰 만료·중복, 잘못된 비밀 키, HTTP 429·그 밖의 4xx, 응답 형식 오류는 재시도하지 않습니다. 알 수 없는 오류도 인증 성공으로 처리하지 않고 `503`으로 종료합니다. [Siteverify 오류 코드·멱등 키](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/#error-codes-reference).
 
 `npm run knowledge:evaluate -- --answers`는 `KNOWLEDGE_SYNC_KEY`를 답변 요청에 함께 보내 인증된 배포 평가임을 증명합니다. 이 키가 서버 설정과 일치할 때만 Turnstile을 우회합니다. 브라우저 CORS에는 해당 헤더를 허용하지 않습니다.
 
@@ -167,6 +169,10 @@ X-Knowledge-Sync-Key: 설정한 값
 ```
 
 외부 주소를 요청 본문으로 받지 않고 서버에 설정된 `KNOWLEDGE_SOURCE_LOCATION`만 읽습니다.
+
+기본 자료는 JAR에 포함된 JSON입니다. 원격 URL을 지정하면 연결은 기본 3초, 읽기 대기는 10초로 제한하고 HTTP 200만 받습니다. 리다이렉트는 따라가지 않으므로 최종 HTTPS 주소를 설정합니다. 읽기 시간은 전체 다운로드 시간이 아니라 데이터가 도착하지 않는 대기 시간입니다.
+
+로컬·원격 자료 모두 기본 8MiB까지만 읽습니다. `Content-Length`가 없는 응답도 제한하며, 다운로드·JSON 검증에 실패하면 색인을 변경하지 않습니다. `.env.example`의 `KNOWLEDGE_SOURCE_CONNECT_TIMEOUT_SECONDS`, `KNOWLEDGE_SOURCE_READ_TIMEOUT_SECONDS`(각 1~300초), `KNOWLEDGE_SOURCE_MAX_BYTES`(1~67,108,864바이트)로 조정합니다.
 
 ## 비용 제한과 프록시 주소
 
