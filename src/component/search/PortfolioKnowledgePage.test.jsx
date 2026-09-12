@@ -316,6 +316,17 @@ test.each([
 
 test.each([
     [503, "REQUEST_FAILED", "현재 AI 답변 서버에 연결할 수 없습니다."],
+    [
+        503,
+        "HUMAN_VERIFICATION_UNAVAILABLE",
+        "자동 요청 방지 확인을 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
+    ],
+    [
+        503,
+        "HUMAN_VERIFICATION_UNAVAILABLE",
+        "자동 요청 방지 확인을 사용할 수 없습니다. 30초 후 다시 시도해 주세요.",
+        30,
+    ],
     [429, "REQUEST_FAILED", "AI 답변 요청이 많습니다. 45초 후 다시 시도해 주세요.", 45],
     [
         503,

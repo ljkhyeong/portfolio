@@ -60,19 +60,41 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
             if (!key) throw new Error("KNOWLEDGE_SYNC_KEY를 설정하세요.")
             headers["X-Knowledge-Sync-Key"] = key
         }
+        const requestBody = body !== undefined ? JSON.stringify(body) : undefined
+        const signal = AbortSignal.timeout(timeoutMs)
+        const checkTimeout = () => {
+            if (signal.aborted) {
+                throw new Error(
+                    `${endpoint}: ${timeoutMs / 1000}초 안에 응답을 받지 못했습니다. 서버 상태를 확인하세요.`,
+                )
+            }
+        }
         // 관리 키와 질문을 리다이렉트 대상에 전달하지 않는다.
-        const response = await fetchImpl(`${base}${endpoint}`, {
-            method,
-            headers,
-            ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
-            redirect: "error",
-            signal: AbortSignal.timeout(timeoutMs),
-        })
+        let response
+        try {
+            response = await fetchImpl(`${base}${endpoint}`, {
+                method,
+                headers,
+                ...(requestBody !== undefined ? { body: requestBody } : {}),
+                redirect: "error",
+                signal,
+            })
+        } catch {
+            checkTimeout()
+            throw new Error(
+                `${endpoint}: API에 연결하지 못했습니다. 최종 API 주소·네트워크·TLS 설정을 확인하세요.`,
+            )
+        }
+        checkTimeout()
         if (response.status !== 200) {
             const retryAfterSeconds = getRetryAfterSeconds(response)
             const retryHint =
                 retryAfterSeconds > 0 ? ` ${retryAfterSeconds}초 후 다시 실행하세요.` : ""
-            await response.body?.cancel()
+            try {
+                await response.body?.cancel()
+            } catch {
+                // 본문 정리 실패가 이미 받은 HTTP 오류와 대기 안내를 덮어쓰지 않게 한다.
+            }
             throw new Error(
                 `${endpoint}: HTTP ${response.status} — API 주소·호출 제한을 확인하세요.${retryHint}`,
             )
@@ -80,9 +102,16 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
         let payload
         try {
             payload = await response.json()
-        } catch {
-            throw new Error(`${endpoint}: JSON 응답을 읽지 못했습니다.`)
+        } catch (error) {
+            checkTimeout()
+            if (error instanceof SyntaxError) {
+                throw new Error(`${endpoint}: JSON 응답을 읽지 못했습니다.`)
+            }
+            throw new Error(
+                `${endpoint}: 응답 본문을 받지 못했습니다. 서버·네트워크 상태를 확인하세요.`,
+            )
         }
+        checkTimeout()
         if (validate && !validate(payload)) {
             throw new Error(`${endpoint}: 응답 형식이 올바르지 않습니다. API 계약을 확인하세요.`)
         }

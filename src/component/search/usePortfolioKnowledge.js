@@ -13,6 +13,10 @@ const getRequestErrorMessage = (error, action) => {
         return `${action} 요청이 많습니다. ${retryHint}`
     }
 
+    if (error.status === 503 && error.code === "HUMAN_VERIFICATION_UNAVAILABLE") {
+        return `자동 요청 방지 확인을 사용할 수 없습니다. ${retryHint}`
+    }
+
     if (error.status === 503 || error.code === "NETWORK_ERROR") {
         return `현재 ${action} 서버에 연결할 수 없습니다. ${retryHint}`
     }

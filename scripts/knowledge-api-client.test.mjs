@@ -150,6 +150,76 @@ test("잘못된 JSON 응답을 재시도하지 않는다", async () => {
 })
 
 test.each([
+    ["search", 90, "/api/v1/knowledge/search", "헤더"],
+    ["answer", 180, "/api/v1/knowledge/answers", "본문"],
+    ["readStatus", 30, "/internal/v1/knowledge/status", "본문"],
+    ["sync", 600, "/internal/v1/knowledge/sync", "헤더"],
+])(
+    "%s의 %s초 제한을 넘으면 %s의 %s 수신 지연을 안내한다",
+    async (operation, seconds, endpoint, phase) => {
+        const controller = new AbortController()
+        const timeout = vi.spyOn(AbortSignal, "timeout").mockReturnValue(controller.signal)
+        const fail = () => {
+            controller.abort(new DOMException("테스트 제한 시간", "TimeoutError"))
+            // 본문 수신 중에는 TimeoutError 대신 AbortError로 거부될 수도 있다.
+            throw new DOMException("테스트 수신 중단", "AbortError")
+        }
+        const fetchImpl = vi.fn(async () => {
+            if (phase === "헤더") fail()
+            return { status: 200, json: fail }
+        })
+        const client = createKnowledgeApiClient({
+            baseUrl: "https://example.com",
+            syncKey: "test-only",
+            fetchImpl,
+        })
+        try {
+            await expect(client[operation]({ query: "알림", question: "알림" })).rejects.toThrow(
+                `${endpoint}: ${seconds}초 안에 응답을 받지 못했습니다. 서버 상태를 확인하세요.`,
+            )
+            expect(fetchImpl).toHaveBeenCalledTimes(1)
+        } finally {
+            timeout.mockRestore()
+        }
+    },
+)
+
+test.each([
+    ["헤더", "API에 연결하지 못했습니다. 최종 API 주소·네트워크·TLS 설정을 확인하세요."],
+    ["본문", "응답 본문을 받지 못했습니다. 서버·네트워크 상태를 확인하세요."],
+])("%s 수신 중 연결 오류를 JSON 오류와 구분한다", async (phase, message) => {
+    const fail = () => {
+        throw new TypeError("fetch failed")
+    }
+    const fetchImpl = vi.fn(async () => {
+        if (phase === "헤더") fail()
+        return { status: 200, json: fail }
+    })
+    const client = createKnowledgeApiClient({ baseUrl: "https://example.com", fetchImpl })
+
+    await expect(client.search({ query: "알림" })).rejects.toThrow(
+        `/api/v1/knowledge/search: ${message}`,
+    )
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+})
+
+test("오류 응답의 본문 정리가 실패해도 HTTP 상태와 대기 안내를 유지한다", async () => {
+    const cancel = vi.fn().mockRejectedValue(new TypeError("stream closed"))
+    const fetchImpl = vi.fn().mockResolvedValue({
+        status: 429,
+        headers: new Headers({ "Retry-After": "45" }),
+        body: { cancel },
+    })
+    const client = createKnowledgeApiClient({ baseUrl: "https://example.com", fetchImpl })
+
+    await expect(client.search({ query: "알림" })).rejects.toThrow(
+        "/api/v1/knowledge/search: HTTP 429 — API 주소·호출 제한을 확인하세요. 45초 후 다시 실행하세요.",
+    )
+    expect(cancel).toHaveBeenCalledOnce()
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+})
+
+test.each([
     ["readStatus", 302, "GET"],
     ["sync", 307, "POST"],
     ["search", 303, "POST"],
