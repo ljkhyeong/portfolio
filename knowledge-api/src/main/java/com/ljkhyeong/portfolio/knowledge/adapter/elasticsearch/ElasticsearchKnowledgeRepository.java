@@ -15,6 +15,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.Conflicts;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.HealthStatus;
 import co.elastic.clients.elasticsearch._types.Refresh;
 import co.elastic.clients.elasticsearch._types.mapping.DenseVectorSimilarity;
 import co.elastic.clients.elasticsearch._types.mapping.DynamicMapping;
@@ -68,10 +69,15 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
     }
 
     public void checkHealth() {
-        execute(
+        var response = execute(
                 "Elasticsearch 상태를 확인하지 못했습니다.",
                 () -> client.cluster().health(request -> request.local(true).timeout(timeout -> timeout.time("2s")))
         );
+        if (response.timedOut() || (response.status() != HealthStatus.Green && response.status() != HealthStatus.Yellow)) {
+            throw new KnowledgeIndexAccessException(
+                    "Elasticsearch가 요청을 처리할 준비가 되지 않았습니다: 상태=%s, 시간 초과=%s"
+                            .formatted(response.status(), response.timedOut()));
+        }
     }
 
     @Override
