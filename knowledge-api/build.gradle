@@ -46,6 +46,7 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:4.1.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.tngtech.archunit:archunit-junit5:1.5.0'
     testImplementation 'org.testcontainers:junit-jupiter:1.21.3'
     testImplementation 'org.testcontainers:elasticsearch:1.21.3'
 }
