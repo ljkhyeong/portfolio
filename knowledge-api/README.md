@@ -112,6 +112,8 @@ X-Turnstile-Token: 브라우저에서 발급받은 일회용 토큰
 -   `INSUFFICIENT_EVIDENCE`: 관련 공개 근거가 부족해 답변을 만들지 않습니다.
 -   `GENERATION_UNAVAILABLE`: AI 제공자 오류 또는 설정 없음으로 답변을 만들지 않고 검색 결과만 반환합니다.
 
+브라우저는 검색을 90초, AI 답변을 180초까지 기다립니다. 응답 본문을 읽는 시간도 포함하며, 초과하면 `REQUEST_TIMEOUT` 안내와 재시도 버튼을 표시합니다. 검색어·필터는 유지하고, 답변 실패 때는 기존 검색 결과도 유지합니다. 자동 재요청하지 않으며 화면 이동이나 조건 변경으로 취소한 요청은 오류로 표시하지 않습니다. 브라우저의 대기 중단이 서버·AI 작업의 취소나 과금 중단을 보장하지는 않습니다.
+
 Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션과 메트릭·추적 설정을 적용합니다. `ChatClient.entity()`로 답변 가능 여부와 문단별 본문·근거 ID를 받습니다. 서비스는 각 문단의 근거 ID를 확인하고 인용 순서대로 `[1]` 번호와 출처 목록을 만듭니다. 제공하지 않은 ID, 인용이 없는 문단이나 잘못된 JSON은 `GENERATION_UNAVAILABLE`로 처리합니다. JSON 형식을 고치기 위한 추가 AI 호출은 하지 않습니다. [Spring AI ChatClient](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
 
 답변에는 목록에서 선택한 문서의 검색 문단을 문서당 최대 3개, 본문 합계 12,000자까지 전달합니다. `limit`은 검색 목록의 문서 수이며 AI 입력 문단 수와 다릅니다. 키워드 일치 문단 한 건을 먼저 확보한 뒤 문서별 대표 문단과 추가 문단을 순위에 따라 선택합니다. 같은 문서의 문단도 각각 인용할 수 있습니다.
@@ -137,6 +139,8 @@ KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES=ljkportfolio.netlify.app
 ```
 
 사이트 키는 브라우저에 공개되는 값이지만 비밀 키는 Knowledge API에만 둡니다. 로컬에서 Cloudflare 테스트 키를 사용할 때는 허용 호스트를 `localhost`로 바꿉니다. Siteverify 연결·서버·설정 오류는 `503`, 토큰·호스트·action 불일치는 `403`으로 반환하며 검증이 끝나기 전에는 OpenAI를 호출하지 않습니다.
+
+브라우저 위젯의 스크립트 로딩은 20초로 제한합니다. 네트워크 오류·시간 초과·API 누락 시 실패한 스크립트를 제거하고 `확인 다시 불러오기` 버튼으로 새로 로드합니다. 검증 토큰이 없으면 AI 답변 버튼은 비활성 상태를 유지합니다.
 
 연결 오류, HTTP 5xx와 `internal-error`는 같은 토큰·멱등 키로 한 번만 재시도합니다. 토큰 만료·중복, 잘못된 비밀 키, HTTP 429·그 밖의 4xx, 응답 형식 오류는 재시도하지 않습니다. 알 수 없는 오류도 인증 성공으로 처리하지 않고 `503`으로 종료합니다. [Siteverify 오류 코드·멱등 키](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/#error-codes-reference).
 

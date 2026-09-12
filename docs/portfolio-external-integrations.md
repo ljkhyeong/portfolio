@@ -15,6 +15,8 @@
 
 Turnstile의 연결 오류·HTTP 5xx·`internal-error`는 같은 멱등 키로 한 번만 재시도합니다. 토큰 오류는 `403`, 서버·연동 설정 오류는 `503`으로 구분합니다. 비밀 키 오류·HTTP 429·잘못된 응답은 즉시 재시도하지 않으며, 검증 불가 상태에서 AI 답변을 허용하지 않습니다. [Cloudflare 검증 계약](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/).
 
+웹의 대기 상한은 검색 90초·AI 답변 180초·Turnstile 스크립트 로딩 20초입니다. 실패하면 화면에서 수동으로 다시 시도하며, 답변 실패 시 검색 결과는 유지합니다. 브라우저 요청을 중단해도 서버·AI 작업이 계속될 수 있습니다. 재시도 동작은 [Knowledge API 안내](../knowledge-api/README.md#근거-기반-답변)를 참고합니다.
+
 ## 선택: Cloudflare AI Gateway
 
 답변과 임베딩 요청을 Cloudflare의 OpenAI 전용 Gateway로 보낼 수 있습니다. 외부 서비스의 호출 제한과 사용량 조회 기능을 사용하며, 기존 OpenAI 키·모델·임베딩 차원은 유지합니다. 프로필을 추가하지 않으면 OpenAI 직접 호출을 유지합니다. [Cloudflare OpenAI 연동](https://developers.cloudflare.com/ai-gateway/usage/providers/openai/).
