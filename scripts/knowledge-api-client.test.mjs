@@ -103,6 +103,41 @@ test.each([204, 206, 401, 429, 503])("HTTP %i 응답을 성공으로 처리하�
     expect(fetchImpl).toHaveBeenCalledTimes(1)
 })
 
+test.each([
+    [429, "45", " 45초 후 다시 실행하세요."],
+    [503, "30", " 30초 후 다시 실행하세요."],
+    [429, "invalid", ""],
+    [429, "0", ""],
+    [401, "45", ""],
+])("HTTP %i의 대기 시간(%s)을 안내하되 자동 재요청하지 않는다", async (status, value, hint) => {
+    const fetchImpl = vi
+        .fn()
+        .mockResolvedValue(
+            new Response("<html>일시 중단</html>", { status, headers: { "Retry-After": value } }),
+        )
+    const client = createKnowledgeApiClient({ baseUrl: "https://example.com", fetchImpl })
+
+    await expect(client.search({ query: "알림" })).rejects.toThrow(
+        `/api/v1/knowledge/search: HTTP ${status} — API 주소·호출 제한을 확인하세요.${hint}`,
+    )
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+})
+
+test.each([
+    ["search", 90_000, { results: [], total: 0 }],
+    ["answer", 180_000, validAnswer],
+])("%s 평가에 웹과 같은 제한 시간을 적용한다", async (operation, timeoutMs, payload) => {
+    const timeout = vi.spyOn(AbortSignal, "timeout").mockReturnValue(new AbortController().signal)
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(JSON.stringify(payload)))
+    const client = createKnowledgeApiClient({ baseUrl: "https://example.com", fetchImpl })
+    try {
+        await client[operation]({ query: "알림", question: "알림" })
+        expect(timeout).toHaveBeenCalledWith(timeoutMs)
+    } finally {
+        timeout.mockRestore()
+    }
+})
+
 test("잘못된 JSON 응답을 재시도하지 않는다", async () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response("invalid-json"))
     const client = createKnowledgeApiClient({

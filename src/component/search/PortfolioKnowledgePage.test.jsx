@@ -316,14 +316,23 @@ test.each([
 
 test.each([
     [503, "REQUEST_FAILED", "현재 AI 답변 서버에 연결할 수 없습니다."],
+    [429, "REQUEST_FAILED", "AI 답변 요청이 많습니다. 45초 후 다시 시도해 주세요.", 45],
+    [
+        503,
+        "REQUEST_FAILED",
+        "현재 AI 답변 서버에 연결할 수 없습니다. 30초 후 다시 시도해 주세요.",
+        30,
+    ],
     [0, "REQUEST_TIMEOUT", "응답이 늦어 요청을 중단했습니다. 잠시 후 다시 시도해 주세요."],
     [200, "INVALID_RESPONSE", "서버 응답 형식이 올바르지 않습니다. 다시 시도해 주세요."],
 ])(
     "AI 답변 오류(%s, %s) 뒤 검색 결과와 필터를 유지한 채 답변만 다시 시도한다",
-    async (status, code, message) => {
+    async (status, code, message, retryAfterSeconds) => {
         searchPortfolioKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
         generatePortfolioAnswer
-            .mockRejectedValueOnce(Object.assign(new Error(message), { status, code }))
+            .mockRejectedValueOnce(
+                Object.assign(new Error(message), { status, code, retryAfterSeconds }),
+            )
             .mockResolvedValueOnce({
                 status: "GENERATED",
                 answer: "같은 결제 키로 처리 결과를 확인합니다.",
@@ -525,18 +534,28 @@ test("검색 결과가 없으면 검색 범위를 바꾸는 방법을 안내하�
 test.each([
     [429, "검색 요청이 많습니다. 잠시 후 다시 시도해 주세요."],
     [503, "현재 검색 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요."],
-])("검색 API가 %s를 반환하면 다시 시도할 방법을 안내한다", async (status, message) => {
-    searchPortfolioKnowledge.mockRejectedValue(
-        Object.assign(new Error("요청 실패"), { status, code: "REQUEST_FAILED" }),
-    )
+    [429, "검색 요청이 많습니다. 45초 후 다시 시도해 주세요.", 45],
+    [503, "현재 검색 서버에 연결할 수 없습니다. 30초 후 다시 시도해 주세요.", 30],
+])(
+    "검색 API가 %s를 반환하면 다시 시도할 방법을 안내한다",
+    async (status, message, retryAfterSeconds) => {
+        searchPortfolioKnowledge.mockRejectedValue(
+            Object.assign(new Error("요청 실패"), {
+                status,
+                code: "REQUEST_FAILED",
+                retryAfterSeconds,
+            }),
+        )
 
-    renderPage()
+        renderPage()
 
-    await act(async () => {
-        userEvent.type(screen.getByLabelText("확인하고 싶은 내용을 입력하세요."), "검색 질문")
-        userEvent.click(screen.getByRole("button", { name: "문서 검색" }))
-    })
+        await act(async () => {
+            userEvent.type(screen.getByLabelText("확인하고 싶은 내용을 입력하세요."), "검색 질문")
+            userEvent.click(screen.getByRole("button", { name: "문서 검색" }))
+        })
 
-    expect(await screen.findByRole("alert")).toHaveTextContent(message)
-    expect(screen.getByRole("button", { name: "검색 다시 시도" })).toBeVisible()
-})
+        expect(await screen.findByRole("alert")).toHaveTextContent(message)
+        expect(screen.getByRole("button", { name: "검색 다시 시도" })).toBeVisible()
+        expect(searchPortfolioKnowledge).toHaveBeenCalledOnce()
+    },
+)

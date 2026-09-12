@@ -3,6 +3,11 @@ import {
     isSearchResponse,
     isSearchResults,
 } from "../src/api/knowledgeResponse.js"
+import {
+    ANSWER_TIMEOUT_MS,
+    getRetryAfterSeconds,
+    SEARCH_TIMEOUT_MS,
+} from "../src/api/knowledgeRequestPolicy.js"
 
 const normalizeBaseUrl = (value) => {
     let url
@@ -64,9 +69,12 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
             signal: AbortSignal.timeout(timeoutMs),
         })
         if (response.status !== 200) {
+            const retryAfterSeconds = getRetryAfterSeconds(response)
+            const retryHint =
+                retryAfterSeconds > 0 ? ` ${retryAfterSeconds}초 후 다시 실행하세요.` : ""
             await response.body?.cancel()
             throw new Error(
-                `${endpoint}: HTTP ${response.status} — API 주소·호출 제한을 확인하세요.`,
+                `${endpoint}: HTTP ${response.status} — API 주소·호출 제한을 확인하세요.${retryHint}`,
             )
         }
         let payload
@@ -100,7 +108,7 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
             request("/api/v1/knowledge/search", {
                 method: "POST",
                 body,
-                timeoutMs: 120_000,
+                timeoutMs: SEARCH_TIMEOUT_MS,
                 validate: isSearchResponse,
             }),
         answer: (body) =>
@@ -108,7 +116,7 @@ export function createKnowledgeApiClient({ baseUrl, syncKey, fetchImpl = fetch }
                 method: "POST",
                 body,
                 authenticated: Boolean(key),
-                timeoutMs: 120_000,
+                timeoutMs: ANSWER_TIMEOUT_MS,
                 validate: (payload) =>
                     isAnswerResponse(payload) && isSearchResults(payload.results),
             }),

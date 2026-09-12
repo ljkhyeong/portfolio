@@ -5,12 +5,16 @@ const emptySearch = { state: "idle", results: [], total: 0, errorMessage: "" }
 const emptyAnswer = { state: "idle", answer: "", citations: [], errorMessage: "" }
 
 const getRequestErrorMessage = (error, action) => {
+    const retryHint =
+        Number.isSafeInteger(error.retryAfterSeconds) && error.retryAfterSeconds > 0
+            ? `${error.retryAfterSeconds}초 후 다시 시도해 주세요.`
+            : "잠시 후 다시 시도해 주세요."
     if (error.status === 429) {
-        return `${action} 요청이 많습니다. 잠시 후 다시 시도해 주세요.`
+        return `${action} 요청이 많습니다. ${retryHint}`
     }
 
     if (error.status === 503 || error.code === "NETWORK_ERROR") {
-        return `현재 ${action} 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.`
+        return `현재 ${action} 서버에 연결할 수 없습니다. ${retryHint}`
     }
 
     return error.message || `${action} 요청을 처리하지 못했습니다.`

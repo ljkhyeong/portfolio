@@ -24,8 +24,11 @@ describe.each([
     ["답변", generatePortfolioAnswer, 180_000],
 ])("%s API 응답 처리", (_label, request, timeoutMs) => {
     const send = (signal) => request({ query: "알림 재처리", question: "알림 재처리", signal })
-    const respond = (status, json) => {
-        vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: status < 400, status, json }))
+    const respond = (status, json, headers = new Headers()) => {
+        vi.stubGlobal(
+            "fetch",
+            vi.fn().mockResolvedValue({ ok: status < 400, status, json, headers }),
+        )
     }
 
     test.each(["응답 헤더", "응답 본문"])(
@@ -178,7 +181,19 @@ describe.each([
             status: 429,
             code: "RATE_LIMITED",
             message: "호출 제한",
+            retryAfterSeconds: null,
         })
+    })
+
+    test.each([429, 503])("HTTP %i 본문을 읽지 못해도 대기 시간을 전달한다", async (status) => {
+        respond(
+            status,
+            vi.fn().mockRejectedValue(new SyntaxError("HTML 오류 페이지")),
+            new Headers({ "Retry-After": "45" }),
+        )
+
+        await expect(send()).rejects.toMatchObject({ status, retryAfterSeconds: 45 })
+        expect(fetch).toHaveBeenCalledTimes(1)
     })
 
     test.each([201, 206])("정상 JSON이라도 계약에 없는 HTTP %i 응답은 거부한다", async (status) => {

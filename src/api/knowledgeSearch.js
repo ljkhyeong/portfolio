@@ -1,15 +1,22 @@
 import { isAnswerResponse, isSearchResponse } from "./knowledgeResponse"
+import {
+    ANSWER_TIMEOUT_MS,
+    getRetryAfterSeconds,
+    SEARCH_TIMEOUT_MS,
+} from "./knowledgeRequestPolicy"
 
 const API_BASE_URL = (import.meta.env.VITE_KNOWLEDGE_API_BASE_URL ?? "").replace(/\/$/, "")
-const SEARCH_TIMEOUT_MS = 90_000
-const ANSWER_TIMEOUT_MS = 180_000
 
 export class KnowledgeApiError extends Error {
-    constructor(message, { status = 0, code = "KNOWLEDGE_API_ERROR" } = {}) {
+    constructor(
+        message,
+        { status = 0, code = "KNOWLEDGE_API_ERROR", retryAfterSeconds = null } = {},
+    ) {
         super(message)
         this.name = "KnowledgeApiError"
         this.status = status
         this.code = code
+        this.retryAfterSeconds = retryAfterSeconds
     }
 }
 
@@ -82,6 +89,7 @@ const postKnowledgeRequest = async (path, body, { signal, headers = {}, timeoutM
                     : "요청을 처리하지 못했습니다.",
                 {
                     status: response.status,
+                    retryAfterSeconds: getRetryAfterSeconds(response),
                     code:
                         typeof payload?.code === "string" && payload.code.trim()
                             ? payload.code
