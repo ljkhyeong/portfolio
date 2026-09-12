@@ -52,7 +52,7 @@
         "id": "deadline",
         "question": "청년정책의 날짜 마감과 시각 마감은 어떻게 구분하나요?",
         "projectId": "youth-policy-mate",
-        "titleIncludes": "날짜 마감",
+        "titleIncludes": "마감 날짜·시각",
         "criteria": "마감 기준과 미확인 마감일의 제외를 설명한다."
     },
     {
@@ -129,7 +129,7 @@
         "id": "intent",
         "question": "IntentTrace는 기록을 어떤 커밋과 코드 위치에 연결하나요?",
         "projectId": "intent-trace",
-        "titleIncludes": "전체 커밋 해시",
+        "titleIncludes": "변경 근거를 커밋과 코드 위치",
         "criteria": "전체 커밋 해시와 코드 위치를 근거로 설명한다."
     },
     {

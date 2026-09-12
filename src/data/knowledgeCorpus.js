@@ -57,6 +57,10 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/intent-trace/blob/main/SECURITY.md",
 ]
 
+export const PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY = [
+    "https://github.com/ljkhyeong/happyGallery/blob/main/docs/PRD/0001_%EA%B8%B0%EC%A4%80_%EC%8A%A4%ED%8E%99/spec.md",
+]
+
 const PORTFOLIO_ORIGIN = "https://ljkportfolio.netlify.app"
 
 const joinContent = (parts) =>

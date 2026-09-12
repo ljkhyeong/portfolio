@@ -1,40 +1,33 @@
 import { readFile, writeFile } from "node:fs/promises"
-import { PUBLIC_EXTERNAL_DOCUMENTS } from "../src/data/knowledgeCorpus.js"
+import {
+    PUBLIC_EXTERNAL_DOCUMENTS,
+    PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY,
+} from "../src/data/knowledgeCorpus.js"
 
-const selectedNames = [
-    "0003_health-change-event-delivery/adr.md",
-    "public-staging-event-delivery.md",
-    "0006_baton-brief-application-boundary/adr.md",
-    "0009_weekly-latest-edition/spec.md",
-    "eligibility-decision.md",
-    "deadline-reminder-candidates.md",
-    "ai-reservation-recovery-heartbeat.md",
-    "admin-collection-exceptions.md",
-    "ADR-0012-github-context-read.md",
-    "0033_결제_confirm_트랜잭션과_보상_경계/adr.md",
-    "0032_알림_Outbox_전달_보장/adr.md",
-    "0047_스마트스토어_재고_동기화/adr.md",
-]
-const selected = PUBLIC_EXTERNAL_DOCUMENTS.filter((href) =>
-    selectedNames.some((name) => decodeURIComponent(href).endsWith(name)),
-)
-if (selected.length !== selectedNames.length)
-    throw new Error("선택한 공개 문서의 허용 목록을 확인하세요.")
 const revisions = new Map()
 const output = new URL("../docs/knowledge-document-snapshots.json", import.meta.url)
+const githubToken = process.env.GITHUB_TOKEN?.trim() || process.env.GH_TOKEN?.trim()
+const githubHeaders = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+    ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
+}
 const previousText = await readFile(output, "utf8").catch((error) => {
     if (error.code === "ENOENT") return "{}"
     throw error
 })
 const previous = JSON.parse(previousText)
 const snapshots = {}
-for (const href of selected) {
+const snapshotTargets = PUBLIC_EXTERNAL_DOCUMENTS.filter(
+    (href) => !PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY.includes(href),
+)
+for (const href of snapshotTargets) {
     const [, owner, repository, , branch, ...segments] = new URL(href).pathname.split("/")
     const repo = `${owner}/${repository}`
     if (!revisions.has(repo)) {
         const response = await fetch(`https://api.github.com/repos/${repo}/commits/${branch}`, {
             signal: AbortSignal.timeout(30_000),
-            headers: { Accept: "application/vnd.github+json" },
+            headers: githubHeaders,
         })
         if (!response.ok) throw new Error(`${repo}: HTTP ${response.status}`)
         revisions.set(repo, (await response.json()).sha)
@@ -61,5 +54,5 @@ for (const href of selected) {
 const serialized = `${JSON.stringify(snapshots, null, 4)}\n`
 if (previousText !== serialized) await writeFile(output, serialized)
 console.log(
-    `공개 문서 ${selected.length}건을 커밋에 고정했습니다. 본문 diff를 검토한 뒤 검색 자료를 생성하세요.`,
+    `공개 문서 ${snapshotTargets.length}건을 커밋에 고정했습니다. 연락처 포함 문서 ${PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY.length}건은 설명만 유지합니다.`,
 )

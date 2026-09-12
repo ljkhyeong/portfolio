@@ -115,9 +115,14 @@ Spring AI가 자동 설정한 `ChatClient.Builder`를 주입받아 공통 옵션
 
 ## 동기화
 
-루트의 `npm run knowledge:refresh-docs`는 허용 목록 중 공개 문서 10건을 가져와
+루트의 `npm run knowledge:refresh-docs`는 허용 목록의 공개 문서를 GitHub에서 가져와
 `docs/knowledge-document-snapshots.json`에 원본 커밋과 함께 저장합니다. 본문 diff를 검토한 뒤
 `npm run knowledge:generate`로 검색 자료를 생성합니다. 일반 빌드에서는 보관된 본문만 사용하며 외부 문서를 다시 내려받지 않습니다.
+연락처 형식이 포함된 문서는 본문을 복제하지 않고 기존 제목·설명만 색인합니다.
+
+GitHub API 호출 한도가 필요한 환경에서는 `GITHUB_TOKEN` 또는 `GH_TOKEN`을 설정합니다. GitHub Actions의
+정기 최신화 검사는 기본 `github.token`을 사용하며, 원격 문서가 바뀌면 실패 결과와 비교용 파일을 남깁니다.
+검사가 운영 색인이나 저장소 문서를 자동으로 덮어쓰지는 않습니다.
 
 증분 동기화는 본문, 제목, 링크 등 공개 입력 전체를 계산한 `sourceHash`로 변경 여부를 판단합니다. `contentHash`는 본문만의 변경 이력을 확인할 수 있도록 각 청크에 함께 저장합니다. 변경된 청크를 먼저 upsert한 뒤 더 이상 사용하지 않는 이전 청크를 삭제하므로 벌크 색인 실패 시 기존 전체 문서가 먼저 사라지지 않습니다. 문서 목록에서 빠진 항목은 Elasticsearch에서 삭제합니다.
 

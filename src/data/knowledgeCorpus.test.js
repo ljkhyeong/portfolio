@@ -7,6 +7,7 @@ import {
     createKnowledgeSources,
     KNOWLEDGE_DOCUMENT_TYPES,
     PUBLIC_EXTERNAL_DOCUMENTS,
+    PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY,
     PUBLIC_LOCAL_DOCUMENTS,
 } from "./knowledgeCorpus"
 import { buildKnowledgeCorpus } from "../../scripts/knowledge-corpus-core.mjs"
@@ -26,7 +27,7 @@ const createCorpus = () =>
     buildKnowledgeCorpus(createKnowledgeSources(projectList, { localDocumentContentByHref }))
 
 describe("공개 지식 문서 목록", () => {
-    it("선택한 외부 문서는 커밋에 고정된 본문을 색인하고 나머지 문서는 설명만 포함한다", () => {
+    it("연락처 포함 문서를 제외한 외부 문서를 커밋에 고정해 색인한다", () => {
         const externalDocumentSnapshots = JSON.parse(
             readFileSync(
                 path.join(repositoryRoot, "docs/knowledge-document-snapshots.json"),
@@ -39,6 +40,11 @@ describe("공개 지식 문서 목록", () => {
                 externalDocumentSnapshots,
             }),
         )
+        expect(Object.keys(externalDocumentSnapshots)).toEqual(
+            PUBLIC_EXTERNAL_DOCUMENTS.filter(
+                (href) => !PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY.includes(href),
+            ),
+        )
         for (const [href, snapshot] of Object.entries(externalDocumentSnapshots)) {
             expect(PUBLIC_EXTERNAL_DOCUMENTS).toContain(href)
             expect(snapshot.sourceUrl).toContain(`/blob/${snapshot.revision}/`)
@@ -47,11 +53,12 @@ describe("공개 지식 문서 목록", () => {
             expect(document.content).toContain(snapshot.content.trim().split("\n")[0])
             expect(document.evidenceLevel).toBe("public_document")
         }
-        expect(
-            corpus.documents.some(
-                (document) => document.evidenceLevel === "public_document_metadata",
-            ),
-        ).toBe(true)
+        const metadataOnlyDocuments = corpus.documents.filter(
+            (document) => document.evidenceLevel === "public_document_metadata",
+        )
+        expect(metadataOnlyDocuments.map((document) => document.sourceUrl)).toEqual(
+            PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY,
+        )
     })
     it("공개한 프로젝트 설명과 접근 가능한 대표 문서만 포함한다", () => {
         const corpus = createCorpus()
