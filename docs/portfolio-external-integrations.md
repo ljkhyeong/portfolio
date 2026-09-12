@@ -144,4 +144,6 @@ API 이미지에는 현재 `public/knowledge/portfolio.json`이 포함됩니다.
 
 사용자 설정이 끝나면 관리망에서 readiness와 Prometheus 응답을 확인하고, 저장소 루트에서 `npm run knowledge:sync` 및 `npm run knowledge:evaluate -- --url <API 주소>`로 자료 버전과 검색 품질을 확인합니다. 두 명령의 API 주소·동기화 키는 기존 README에 나온 환경변수를 사용합니다.
 
+두 도구 모두 리다이렉트를 거부하므로 최종 API 주소를 사용합니다. 외부 연결에는 HTTPS를 사용하고 키는 URL이 아닌 환경변수로 전달합니다. 자료 상태의 자료형·문서 수·버전이 잘못되면 작업을 시작하지 않으며, 동기화 후에도 같은 검사를 통과해야 성공으로 보고합니다. 일반 검색 평가에는 동기화 키를 보내지 않습니다.
+
 GitHub 이벤트 전송은 Actions 실행 여부와 변경 첨부 파일로 확인합니다. 실제 OpenAI와 Turnstile 응답은 키를 설정한 환경에서 확인해야 합니다. 코드의 대역 테스트·빌드 성공만으로 운영 연동 완료를 판정하지 않습니다.
