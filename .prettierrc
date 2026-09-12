@@ -2,5 +2,14 @@
     "semi": false,
     "printWidth": 100,
     "useTabs": false,
-    "tabWidth": 4
+    "tabWidth": 4,
+    "overrides": [
+        {
+            "files": "public/knowledge/portfolio.json",
+            "options": {
+                "parser": "json-stringify",
+                "tabWidth": 2
+            }
+        }
+    ]
 }
