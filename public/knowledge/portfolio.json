@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:64e4c187a78f",
+  "sourceRevision": "sha256:b97a66843cfc",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -940,7 +940,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:a61c3e4261f4",
+      "sourceRevision": "sha256:515601c5a257",
       "documentId": "knowledge_e35aae37f4a24244d1c3cdc7",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -948,13 +948,13 @@
       "documentType": "project_overview",
       "title": "happyGallery 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: happyGallery\n\n공방 상품 판매 및 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드·간편결제, 스마트스토어 주문·재고 동기화와 공휴일·주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 요구사항 정리, Java 및 Spring Boot API, React 화면, 결제 및 스마트스토어 연동과 자동화 테스트\n\n주요 구현 및 해결: 상품 주문·간편결제·클래스 예약과 스마트스토어 운영을 하나의 서비스로 구현했습니다.\n\n현재 상태: 공개 main a4dec4f4에 한국천문연구원 공휴일 갱신, Kakao 우편번호 검색과 회원 주문·예약 목록 조건 복원을 반영했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증이며 AWS 운영은 종료했습니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
+      "content": "프로젝트: happyGallery\n\n공방 상품 판매 및 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드·간편결제, 스마트스토어 주문·재고 동기화와 공휴일·주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 진행 중\n\n구분: 개인 프로젝트\n\n공개 범위: 서비스·저장소 공개\n\n담당: 요구사항 정리, Java 및 Spring Boot API, React 화면, 결제 및 스마트스토어 연동과 자동화 테스트\n\n주요 구현 및 해결: 상품 주문·간편결제·클래스 예약과 스마트스토어 운영을 하나의 서비스로 구현했습니다.\n\n현재 상태: 서비스를 배포하고 공개 홈페이지·작품·클래스 화면의 접속을 확인했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증입니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-overview",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "a61c3e4261f423afc718450f791a4b83796c33206798721069f547f6c968f2fe",
-      "contentHash": "db4ffc249cc7ae9cc3048967ce2519bfc97c189ce2489912d2c49c85feb61448"
+      "sourceHash": "515601c5a257faf831a96e243ef6f1722303ec0c47049e7f6f6f603c204a2f26",
+      "contentHash": "c6b819ee9ffd50052384a920effeb2231569cc12e1f5d1610a38f72ed8defe6b"
     },
     {
       "schemaVersion": "1.0",
@@ -1264,7 +1264,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:96c7c4e55e37",
+      "sourceRevision": "sha256:d15f48eedc47",
       "documentId": "knowledge_069fcc9a088dddfe23150101",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -1272,13 +1272,13 @@
       "documentType": "implementation_evidence",
       "title": "AWS 운영 이력",
       "heading": "테스트 범위 및 운영 이력",
-      "content": "프로젝트: happyGallery\n\n확인 대상: AWS 운영 이력\n\n확인 방법: 실제 AWS 배포 및 비용 내역 확인\n\n확인 조건: 트래픽과 무관하게 발생하는 상시 리소스 비용을 월별로 확인\n\n결과: 운영 환경을 종료하고 비용 원인을 회고 문서로 정리\n\n공개 범위: AWS 운영 후 비용 문제로 종료",
+      "content": "프로젝트: happyGallery\n\n확인 대상: AWS 운영 이력\n\n확인 방법: 실제 AWS 배포 및 비용 내역 확인\n\n확인 조건: 트래픽과 무관하게 발생하는 상시 리소스 비용을 월별로 확인\n\n결과: 운영 환경을 종료하고 비용 원인을 회고 문서로 정리\n\n공개 범위: 과거 AWS 운영 후 비용 문제로 종료",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-proof",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "verified_summary",
-      "sourceHash": "96c7c4e55e3709ff0ade8c8f569933e2f867f2a052c0e4275434cc8fd7fc5ad2",
-      "contentHash": "691204043df5ae7d5caf1144802eb7b615adf56b28bf781e05b8bdd3ba5bfab6"
+      "sourceHash": "d15f48eedc4702b8740e72d4f2b305e4fc8039b9603d9c719c2766f3383a454c",
+      "contentHash": "9715be21a635a53b1f408c34e8643c2916cb6804f295199c4fd2fca3fa92db3e"
     },
     {
       "schemaVersion": "1.0",
