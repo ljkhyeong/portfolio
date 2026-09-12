@@ -147,6 +147,8 @@ GitHub API 호출 한도가 필요한 환경에서는 `GITHUB_TOKEN` 또는 `GH_
 정기 최신화 검사는 기본 `github.token`을 사용하며, 원격 문서가 바뀌면 실패 결과와 비교용 파일을 남깁니다.
 검사가 운영 색인이나 저장소 문서를 자동으로 덮어쓰지는 않습니다.
 
+외부 도구에서 `repository_dispatch`의 `knowledge-documents-changed` 이벤트를 보내도 같은 검사를 실행합니다. 전송 도구는 `scripts/dispatch-knowledge-refresh.mjs`, 환경변수 예시는 루트 `.env.integrations.example`입니다. `--dry-run`으로 실제 전송 없이 요청을 확인할 수 있습니다. 토큰·실행 절차는 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md)에 정리했습니다.
+
 증분 동기화는 본문, 제목, 링크 등 공개 입력 전체를 계산한 `sourceHash`로 변경 여부를 판단합니다. `contentHash`는 본문만의 변경 이력을 확인할 수 있도록 각 청크에 함께 저장합니다. 변경된 청크를 먼저 upsert한 뒤 더 이상 사용하지 않는 이전 청크를 삭제하므로 벌크 색인 실패 시 기존 전체 문서가 먼저 사라지지 않습니다. 문서 목록에서 빠진 항목은 Elasticsearch에서 삭제합니다.
 
 최대 청크 길이와 겹침 범위는 Elasticsearch 인덱스 매핑에 호환성 지문으로 저장합니다. 두 값 중 하나를 바꾸면 기존 인덱스를 재사용하지 않으므로 `ELASTICSEARCH_INDEX`에 새 이름을 지정한 뒤 전체 문서를 다시 색인해야 합니다.
@@ -244,7 +246,11 @@ curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.cache.lookups
 curl -fsS 'http://127.0.0.1:9091/actuator/metrics/http.server.requests?tag=uri:/api/v1/knowledge/answers'
 ```
 
-아직 실행되지 않은 경로의 지표는 생성 전이므로 404일 수 있습니다. JAR 직접 실행은 기본 Actuator 설정을 유지합니다. 운영 지표를 켤 때는 `MANAGEMENT_SERVER_PORT=9091`, `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`, `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,metrics`를 함께 설정합니다. [Spring Boot 지표](https://docs.spring.io/spring-boot/reference/actuator/metrics.html)와 [관리 포트 설정](https://docs.spring.io/spring-boot/reference/actuator/monitoring.html)을 사용하며 별도 모니터링 서버는 추가하지 않습니다.
+아직 실행되지 않은 경로의 지표는 생성 전이므로 404일 수 있습니다. Compose 또는 `homeserver` 프로필은 9091 포트의 `/actuator/prometheus`에서 Prometheus 수집 형식도 제공합니다. 수집기는 이 주소를 조회하고 Grafana는 수집된 지표를 표시합니다. [Spring Boot Prometheus 연동](https://docs.spring.io/spring-boot/reference/actuator/metrics.html#actuator.metrics.export.prometheus).
+
+JAR 직접 실행은 기본 Actuator 설정을 유지합니다. 컨테이너에서는 `homeserver` 프로필을 사용하고, 호스트에서 JAR를 실행할 때는 `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`로 관리 포트를 제한합니다. `homeserver`를 사용하지 않고 별도 설정할 때는 `MANAGEMENT_SERVER_PORT=9091`, `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`, `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,metrics,prometheus`를 함께 지정합니다. [관리 포트 설정](https://docs.spring.io/spring-boot/reference/actuator/monitoring.html).
+
+홈서버용 환경변수는 `.env.homeserver.example`, 이미지 빌드와 k3s 연결 기준은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md)를 참고합니다.
 
 ## 배포 후 수동 검증
 
