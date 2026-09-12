@@ -30,6 +30,7 @@ import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort.AnswerParagra
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort.GeneratedAnswer;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.mockito.ArgumentCaptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,13 +40,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 class KnowledgeAnswerServiceTest {
 
     private final KnowledgeProperties properties = knowledgeProperties();
+    private final SimpleMeterRegistry meters = new SimpleMeterRegistry();
     private final KnowledgeSearchService searchService = mock(KnowledgeSearchService.class);
     private final AnswerGenerationPort answerGenerationPort = mock(AnswerGenerationPort.class);
     private final KnowledgeAnswerService service = new KnowledgeAnswerService(
             properties,
             searchService,
             answerGenerationPort,
-            new ResponseMapper()
+            new ResponseMapper(),
+            meters
     );
 
     @BeforeEach
@@ -80,6 +83,8 @@ class KnowledgeAnswerServiceTest {
 
         assertThat(second.answer()).isEqualTo(first.answer());
         assertThat(second.citations()).isEqualTo(first.citations());
+        assertThat(cacheLookups("answer", "miss")).isEqualTo(1);
+        assertThat(cacheLookups("answer", "hit")).isEqualTo(1);
         verify(answerGenerationPort).generate(anyString(), anyList());
     }
 
@@ -122,6 +127,8 @@ class KnowledgeAnswerServiceTest {
             assertThat(second.get(2, TimeUnit.SECONDS).status())
                     .isEqualTo(AnswerResponse.AnswerStatus.GENERATED);
         }
+        assertThat(cacheLookups("answer", "miss")).isEqualTo(1);
+        assertThat(cacheLookups("answer", "hit")).isEqualTo(1);
         verify(answerGenerationPort).generate(anyString(), anyList());
     }
 
@@ -161,7 +168,7 @@ class KnowledgeAnswerServiceTest {
     void 답변_캐시_상한이_0이면_답변을_재사용하지_않는다() {
         KnowledgeProperties noCacheProperties = knowledgeProperties("ai.answer-cache-max-entries", "0");
         KnowledgeAnswerService noCacheService = new KnowledgeAnswerService(
-                noCacheProperties, searchService, answerGenerationPort, new ResponseMapper()
+                noCacheProperties, searchService, answerGenerationPort, new ResponseMapper(), meters
         );
         when(answerGenerationPort.generate(anyString(), anyList()))
                 .thenReturn(generated("1"));
@@ -169,6 +176,7 @@ class KnowledgeAnswerServiceTest {
         noCacheService.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
         noCacheService.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
 
+        assertThat(cacheLookups("answer", "disabled")).isEqualTo(2);
         verify(answerGenerationPort, times(2)).generate(anyString(), anyList());
     }
 
@@ -329,7 +337,9 @@ class KnowledgeAnswerServiceTest {
         var realSearch = new KnowledgeSearchService(properties, embedding,
                 mock(com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer.class), index,
                 new RrfRanker(), new io.micrometer.core.instrument.simple.SimpleMeterRegistry());
-        var answerService = new KnowledgeAnswerService(properties, realSearch, answerGenerationPort, new ResponseMapper());
+        var answerService = new KnowledgeAnswerService(
+                properties, realSearch, answerGenerationPort, new ResponseMapper(), meters
+        );
         when(answerGenerationPort.generate(anyString(), anyList())).thenReturn(generated("1", "2"));
 
         AnswerResponse response = answerService.answer("실패한 알림 재처리", List.of(), List.of(), 1);
@@ -394,6 +404,14 @@ class KnowledgeAnswerServiceTest {
         ArgumentCaptor<List<AnswerGenerationPort.AnswerContext>> captor = ArgumentCaptor.forClass(List.class);
         verify(answerGenerationPort).generate(anyString(), captor.capture());
         return captor.getValue();
+    }
+
+    private double cacheLookups(String cache, String result) {
+        return meters.get("knowledge.cache.lookups")
+                .tag("cache", cache)
+                .tag("result", result)
+                .counter()
+                .count();
     }
 
     private static Stream<GeneratedAnswer> incompleteAnswers() {

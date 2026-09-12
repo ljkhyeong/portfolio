@@ -1,12 +1,13 @@
 package com.ljkhyeong.portfolio.knowledge.search;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Locale;
-import java.util.Set;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -103,8 +104,7 @@ public class KnowledgeSearchService {
 
         String mode = "hybrid";
         try {
-            List<Float> queryVector = queryVectors.get(normalizedQuery,
-                    key -> List.copyOf(embeddingPort.embed(List.of(key)).getFirst()));
+            List<Float> queryVector = queryVector(normalizedQuery);
             rankings.add(indexPort.searchKnn(queryVector, filter, candidateLimit, candidateLimit * 2));
         } catch (EmbeddingUnavailableException | KnowledgeIndexAccessException exception) {
             mode = "fallback";
@@ -113,6 +113,23 @@ public class KnowledgeSearchService {
 
         meters.counter("knowledge.searches", "mode", mode).increment();
         return result(rankings, bm25, limit);
+    }
+
+    private List<Float> queryVector(String query) {
+        AtomicBoolean loaded = new AtomicBoolean();
+        List<Float> vector = queryVectors.get(query, key -> {
+            loaded.set(true);
+            recordCacheLookup("query_embedding", "miss");
+            return List.copyOf(embeddingPort.embed(List.of(key)).getFirst());
+        });
+        if (!loaded.get()) {
+            recordCacheLookup("query_embedding", "hit");
+        }
+        return vector;
+    }
+
+    private void recordCacheLookup(String cache, String result) {
+        meters.counter("knowledge.cache.lookups", "cache", cache, "result", result).increment();
     }
 
     private KnowledgeSearchResult result(List<List<SearchHit>> rankings, List<SearchHit> bm25, int limit) {

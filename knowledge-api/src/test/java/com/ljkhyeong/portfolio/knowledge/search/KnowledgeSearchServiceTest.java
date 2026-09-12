@@ -65,6 +65,8 @@ class KnowledgeSearchServiceTest {
         service.search("결제 재처리", List.of("happygallery"), List.of(), 6);
 
         assertThat(meters.get("knowledge.searches").tag("mode", "hybrid").counter().count()).isEqualTo(2);
+        assertThat(cacheLookups("query_embedding", "miss")).isEqualTo(1);
+        assertThat(cacheLookups("query_embedding", "hit")).isEqualTo(1);
         verify(embedding).embed(List.of("결제 재처리"));
         verify(index, times(2)).searchBm25(anyString(), any(), anyInt());
         verify(index).searchKnn(eq(List.of(1.0f, 0.0f)),
@@ -183,6 +185,14 @@ class KnowledgeSearchServiceTest {
                         )
                 )
         );
+    }
+
+    private double cacheLookups(String cache, String result) {
+        return meters.get("knowledge.cache.lookups")
+                .tag("cache", cache)
+                .tag("result", result)
+                .counter()
+                .count();
     }
 
 }

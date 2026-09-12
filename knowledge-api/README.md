@@ -228,17 +228,19 @@ AI 답변은 질문과 실제 전달 근거가 모두 같을 때만 기본 2분�
 
 Compose는 업무 API를 `127.0.0.1:8080`, Actuator를 `127.0.0.1:9091`에 연결합니다. 컨테이너 상태 확인도 9091의 `/actuator/health/readiness`를 사용합니다. 외부 프록시는 업무 포트만 연결하고 운영 지표 포트는 공개하지 않습니다.
 
-| 지표                   | 용도                                                                                           |
-| ---------------------- | ---------------------------------------------------------------------------------------------- |
-| `http.server.requests` | Spring 기본 요청 수·응답 시간·HTTP 오류. `uri`와 `status`로 구분                               |
-| `knowledge.answers`    | HTTP 200으로 반환한 `GENERATED`, `INSUFFICIENT_EVIDENCE`, `GENERATION_UNAVAILABLE` 횟수        |
-| `knowledge.searches`   | 결과를 반환한 검색 실행의 `keyword`, `hybrid`, `fallback` 횟수. 답변에 필요한 내부 검색도 포함 |
+| 지표                      | 용도                                                                                           |
+| ------------------------- | ---------------------------------------------------------------------------------------------- |
+| `http.server.requests`    | Spring 기본 요청 수·응답 시간·HTTP 오류. `uri`와 `status`로 구분                               |
+| `knowledge.answers`       | HTTP 200으로 반환한 `GENERATED`, `INSUFFICIENT_EVIDENCE`, `GENERATION_UNAVAILABLE` 횟수        |
+| `knowledge.searches`      | 결과를 반환한 검색 실행의 `keyword`, `hybrid`, `fallback` 횟수. 답변에 필요한 내부 검색도 포함 |
+| `knowledge.cache.lookups` | 답변·질문 임베딩 캐시의 `hit`, `miss`, `disabled` 횟수                                         |
 
-`keyword`는 AI를 설정하지 않은 검색이고, `fallback`은 임베딩 또는 벡터 검색 실패로 키워드 검색 결과를 반환한 경우입니다. 질문과 문서 ID는 지표 태그에 저장하지 않습니다. 생성 불가 비율은 `GENERATION_UNAVAILABLE / 전체 답변 결과`, 검색 대체 비율은 `fallback / (hybrid + fallback)`으로 비교합니다. 지표는 프로세스 재시작 때 초기화되며 장기 보관은 운영 모니터링 시스템에서 구성합니다.
+`keyword`는 AI를 설정하지 않은 검색이고, `fallback`은 임베딩 또는 벡터 검색 실패로 키워드 검색 결과를 반환한 경우입니다. 질문과 문서 ID는 지표 태그에 저장하지 않습니다. 생성 불가 비율은 `GENERATION_UNAVAILABLE / 전체 답변 결과`, 검색 대체 비율은 `fallback / (hybrid + fallback)`, 캐시 적중률은 `hit / (hit + miss)`로 비교합니다. `disabled`는 적중률에서 제외합니다. 지표는 프로세스 재시작 때 초기화되며 장기 보관은 운영 모니터링 시스템에서 구성합니다.
 
 ```bash
 curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.answers
 curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.searches
+curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.cache.lookups
 curl -fsS 'http://127.0.0.1:9091/actuator/metrics/http.server.requests?tag=uri:/api/v1/knowledge/answers'
 ```
 

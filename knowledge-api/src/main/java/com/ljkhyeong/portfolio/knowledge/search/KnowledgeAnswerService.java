@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -19,6 +20,7 @@ import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.util.Hashing;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ public class KnowledgeAnswerService {
     private final KnowledgeSearchService searchService;
     private final AnswerGenerationPort answerGenerationPort;
     private final ResponseMapper responseMapper;
+    private final MeterRegistry meters;
     private final Cache<String, GeneratedContent> generatedAnswers;
     private final boolean answerCacheEnabled;
 
@@ -42,12 +45,14 @@ public class KnowledgeAnswerService {
             KnowledgeProperties properties,
             KnowledgeSearchService searchService,
             AnswerGenerationPort answerGenerationPort,
-            ResponseMapper responseMapper
+            ResponseMapper responseMapper,
+            MeterRegistry meters
     ) {
         this.properties = properties;
         this.searchService = searchService;
         this.answerGenerationPort = answerGenerationPort;
         this.responseMapper = responseMapper;
+        this.meters = meters;
         this.answerCacheEnabled = properties.ai().answerCacheMaxEntries() > 0
                 && properties.ai().answerCacheTtlSeconds() > 0;
         this.generatedAnswers = Caffeine.newBuilder()
@@ -107,12 +112,7 @@ public class KnowledgeAnswerService {
         }
 
         try {
-            GeneratedContent generated = answerCacheEnabled
-                    ? generatedAnswers.get(
-                            answerCacheKey(question, contexts),
-                            ignored -> generateContent(question, contexts, evidenceById.keySet())
-                    )
-                    : generateContent(question, contexts, evidenceById.keySet());
+            GeneratedContent generated = answerContent(question, contexts, evidenceById.keySet());
             if (!generated.answerable()) {
                 return new AnswerResponse(
                         question,
@@ -136,6 +136,34 @@ public class KnowledgeAnswerService {
             log.warn("AI 답변을 제공하지 못해 검색 결과만 반환합니다.", exception);
             return generationUnavailable(question, searchResults);
         }
+    }
+
+    private GeneratedContent answerContent(
+            String question,
+            List<AnswerGenerationPort.AnswerContext> contexts,
+            Set<String> evidenceIds
+    ) {
+        if (!answerCacheEnabled) {
+            recordCacheLookup("answer", "disabled");
+            return generateContent(question, contexts, evidenceIds);
+        }
+        AtomicBoolean loaded = new AtomicBoolean();
+        GeneratedContent content = generatedAnswers.get(
+                answerCacheKey(question, contexts),
+                ignored -> {
+                    loaded.set(true);
+                    recordCacheLookup("answer", "miss");
+                    return generateContent(question, contexts, evidenceIds);
+                }
+        );
+        if (!loaded.get()) {
+            recordCacheLookup("answer", "hit");
+        }
+        return content;
+    }
+
+    private void recordCacheLookup(String cache, String result) {
+        meters.counter("knowledge.cache.lookups", "cache", cache, "result", result).increment();
     }
 
     private GeneratedContent generateContent(
