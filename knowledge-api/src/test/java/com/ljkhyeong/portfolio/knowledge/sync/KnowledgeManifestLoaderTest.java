@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.sync;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.document;
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -58,7 +61,8 @@ class KnowledgeManifestLoaderTest {
         };
         try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
             validator.afterPropertiesSet();
-            KnowledgeManifestLoader loader = new KnowledgeManifestLoader(resourceLoader, new JsonMapper(), validator);
+            KnowledgeManifestLoader loader = new KnowledgeManifestLoader(
+                    resourceLoader, new JsonMapper(), validator, knowledgeProperties());
 
             var manifest = loader.load("memory:portfolio.json");
 
@@ -82,11 +86,41 @@ class KnowledgeManifestLoaderTest {
         when(resources.getResource("memory:invalid.json")).thenReturn(new ByteArrayResource(json));
         try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
             validator.afterPropertiesSet();
-            var loader = new KnowledgeManifestLoader(resources, mapper, validator);
+            var loader = new KnowledgeManifestLoader(resources, mapper, validator, knowledgeProperties());
 
             assertThatThrownBy(() -> loader.load("memory:invalid.json"))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("title");
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"null", "{\"schemaVersion\":", "invalid-json"})
+    void 잘못된_JSON과_빈_자료를_거부한다(String json) {
+        ResourceLoader resources = mock(ResourceLoader.class);
+        when(resources.getResource("memory:invalid.json"))
+                .thenReturn(new ByteArrayResource(json.getBytes(StandardCharsets.UTF_8)));
+        try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
+            validator.afterPropertiesSet();
+            var loader = new KnowledgeManifestLoader(resources, new JsonMapper(), validator, knowledgeProperties());
+
+            assertThatThrownBy(() -> loader.load("memory:invalid.json"))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Test
+    void 로컬_자료에도_동일한_용량_제한을_적용한다() {
+        ResourceLoader resources = mock(ResourceLoader.class);
+        when(resources.getResource("memory:large.json")).thenReturn(new ByteArrayResource(new byte[65]));
+        try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
+            validator.afterPropertiesSet();
+            var loader = new KnowledgeManifestLoader(resources, new JsonMapper(), validator,
+                    knowledgeProperties("source.max-bytes", "64"));
+
+            assertThatThrownBy(() -> loader.load("memory:large.json"))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("용량 제한");
         }
     }
 

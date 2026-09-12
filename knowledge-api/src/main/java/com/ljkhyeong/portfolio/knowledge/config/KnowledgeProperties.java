@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.ljkhyeong.portfolio.knowledge.util.Hashing;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -28,6 +29,9 @@ public record KnowledgeProperties(
             @DefaultValue("false") boolean syncOnStartup,
             @DefaultValue("") String syncKey,
             @DefaultValue("false") boolean allowEmpty,
+            @Positive @Max(300) @DefaultValue("3") int connectTimeoutSeconds,
+            @Positive @Max(300) @DefaultValue("10") int readTimeoutSeconds,
+            @Positive @Max(67108864) @DefaultValue("8388608") int maxBytes,
             @Min(200) @DefaultValue("1200") int maxChunkCharacters,
             @PositiveOrZero @DefaultValue("150") int overlapCharacters
     ) {

@@ -2,18 +2,23 @@ package com.ljkhyeong.portfolio.knowledge.sync;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URLConnection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeManifest;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSourceDocument;
 import jakarta.validation.Validator;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import tools.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
 
 @Component
 public class KnowledgeManifestLoader {
@@ -23,22 +28,67 @@ public class KnowledgeManifestLoader {
     private final ResourceLoader resourceLoader;
     private final ObjectMapper objectMapper;
     private final Validator validator;
+    private final KnowledgeProperties.Source configuration;
 
-    public KnowledgeManifestLoader(ResourceLoader resourceLoader, ObjectMapper objectMapper, Validator validator) {
+    public KnowledgeManifestLoader(ResourceLoader resourceLoader, ObjectMapper objectMapper, Validator validator,
+                                   KnowledgeProperties properties) {
         this.resourceLoader = resourceLoader;
         this.objectMapper = objectMapper;
         this.validator = validator;
+        this.configuration = properties.source();
     }
 
     public KnowledgeManifest load(String location) {
         Resource resource = resourceLoader.getResource(location);
 
-        try (InputStream inputStream = resource.getInputStream()) {
-            KnowledgeManifest manifest = objectMapper.readValue(inputStream, KnowledgeManifest.class);
-            return validateAndKeepPublicDocuments(manifest);
-        } catch (IOException exception) {
-            throw new IllegalArgumentException("공개 지식 문서 목록을 읽지 못했습니다: " + location, exception);
+        try {
+            if (resource instanceof UrlResource) {
+                return loadUrl(resource);
+            }
+            try (InputStream inputStream = resource.getInputStream()) {
+                return readManifest(inputStream);
+            }
+        } catch (IOException | JacksonException exception) {
+            throw new IllegalArgumentException("공개 지식 문서 목록을 읽지 못했습니다.", exception);
         }
+    }
+
+    private KnowledgeManifest loadUrl(Resource resource) throws IOException {
+        URLConnection connection = resource.getURL().openConnection();
+        connection.setConnectTimeout(configuration.connectTimeoutSeconds() * 1000);
+        connection.setReadTimeout(configuration.readTimeoutSeconds() * 1000);
+        connection.setUseCaches(false);
+        HttpURLConnection http = connection instanceof HttpURLConnection value ? value : null;
+        try {
+            if (http != null) {
+                http.setInstanceFollowRedirects(false);
+                if (http.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    throw new IOException("공개 자료 서버의 HTTP 응답: " + http.getResponseCode());
+                }
+            }
+            if (connection.getContentLengthLong() > configuration.maxBytes()) {
+                throw new IllegalArgumentException("공개 지식 문서 목록이 읽기 용량 제한을 초과했습니다.");
+            }
+            try (InputStream inputStream = connection.getInputStream()) {
+                return readManifest(inputStream);
+            }
+        } finally {
+            if (http != null) {
+                http.disconnect();
+            }
+        }
+    }
+
+    private KnowledgeManifest readManifest(InputStream inputStream) throws IOException {
+        byte[] bytes = inputStream.readNBytes(configuration.maxBytes() + 1);
+        if (bytes.length > configuration.maxBytes()) {
+            throw new IllegalArgumentException("공개 지식 문서 목록이 읽기 용량 제한을 초과했습니다.");
+        }
+        KnowledgeManifest manifest = objectMapper.readValue(bytes, KnowledgeManifest.class);
+        if (manifest == null) {
+            throw new IllegalArgumentException("공개 지식 문서 목록이 비어 있습니다.");
+        }
+        return validateAndKeepPublicDocuments(manifest);
     }
 
     private KnowledgeManifest validateAndKeepPublicDocuments(KnowledgeManifest manifest) {

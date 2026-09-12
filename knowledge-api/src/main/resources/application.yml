@@ -34,6 +34,9 @@ knowledge:
         sync-on-startup: ${KNOWLEDGE_SYNC_ON_STARTUP:false}
         sync-key: ${KNOWLEDGE_SYNC_KEY:}
         allow-empty: ${KNOWLEDGE_ALLOW_EMPTY:false}
+        connect-timeout-seconds: ${KNOWLEDGE_SOURCE_CONNECT_TIMEOUT_SECONDS:3}
+        read-timeout-seconds: ${KNOWLEDGE_SOURCE_READ_TIMEOUT_SECONDS:10}
+        max-bytes: ${KNOWLEDGE_SOURCE_MAX_BYTES:8388608}
         max-chunk-characters: 1200
         overlap-characters: 150
     elasticsearch:

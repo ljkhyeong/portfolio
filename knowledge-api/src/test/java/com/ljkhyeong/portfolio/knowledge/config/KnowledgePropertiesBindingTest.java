@@ -96,6 +96,9 @@ class KnowledgePropertiesBindingTest {
             assertThat(properties.source().syncOnStartup()).isFalse();
             assertThat(properties.ai().provider()).isEqualTo(KnowledgeProperties.AiProvider.DISABLED);
             assertThat(properties.source().maxChunkCharacters()).isEqualTo(1200);
+            assertThat(properties.source().connectTimeoutSeconds()).isEqualTo(3);
+            assertThat(properties.source().readTimeoutSeconds()).isEqualTo(10);
+            assertThat(properties.source().maxBytes()).isEqualTo(8 * 1024 * 1024);
             assertThat(properties.elasticsearch().readTimeoutSeconds()).isEqualTo(10);
         });
     }
@@ -105,6 +108,12 @@ class KnowledgePropertiesBindingTest {
             "knowledge.source.max-chunk-characters=199",
             "knowledge.source.overlap-characters=-1",
             "knowledge.source.overlap-characters=1200",
+            "knowledge.source.connect-timeout-seconds=0",
+            "knowledge.source.connect-timeout-seconds=301",
+            "knowledge.source.read-timeout-seconds=0",
+            "knowledge.source.read-timeout-seconds=301",
+            "knowledge.source.max-bytes=0",
+            "knowledge.source.max-bytes=67108865",
             "knowledge.ai.embedding-dimensions=0",
             "knowledge.ai.answer-cache-ttl-seconds=-1",
             "knowledge.ai.answer-cache-max-entries=-1",

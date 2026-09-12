@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -44,6 +45,17 @@ class KnowledgeSyncServiceTest {
         when(embeddingPort.modelId()).thenReturn("test-model");
         when(embeddingPort.dimensions()).thenReturn(2);
         when(embeddingPort.available()).thenReturn(true);
+    }
+
+    @Test
+    void 자료를_읽지_못하면_색인과_임베딩을_변경하지_않는다() {
+        when(loader.load(properties.source().location()))
+                .thenThrow(new IllegalArgumentException("공개 자료 읽기 실패"));
+
+        assertThat(org.assertj.core.api.Assertions.catchThrowable(service::syncConfiguredManifest))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        verifyNoInteractions(indexPort, embeddingPort, chunker);
     }
 
     @Test
