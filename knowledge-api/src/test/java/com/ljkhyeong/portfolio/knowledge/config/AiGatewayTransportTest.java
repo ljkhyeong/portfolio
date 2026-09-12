@@ -13,6 +13,7 @@ import com.ljkhyeong.portfolio.knowledge.KnowledgeApiApplication;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
+import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.model.openai.autoconfigure.OpenAiCommonProperties;
@@ -37,6 +38,9 @@ class AiGatewayTransportTest {
 
         List<Request> requests = new CopyOnWriteArrayList<>();
         var finishReason = new AtomicReference<>("stop");
+        var embeddingData = new AtomicReference<>("""
+                {"object":"embedding","index":0,"embedding":[1.0,0.0]}
+                """);
         HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1/account/portfolio/openai/", exchange -> {
             var headers = exchange.getRequestHeaders();
@@ -46,10 +50,9 @@ class AiGatewayTransportTest {
                     headers.getFirst("cf-aig-collect-log-payload"), headers.getFirst("cf-aig-max-attempts")));
             exchange.getRequestBody().readAllBytes();
             String response = path.endsWith("/embeddings") ? """
-                    {"object":"list","model":"text-embedding-3-large","data":[
-                      {"object":"embedding","index":0,"embedding":[1.0,0.0]}],
+                    {"object":"list","model":"text-embedding-3-large","data":[%s],
                       "usage":{"prompt_tokens":2,"total_tokens":2}}
-                    """ : """
+                    """.formatted(embeddingData.get()) : """
                     {"id":"chat-test","object":"chat.completion","created":1,"model":"gpt-5-mini",
                      "choices":[{"index":0,"finish_reason":"%s","message":{"role":"assistant",
                        "content":"{\\"answerable\\":false,\\"paragraphs\\":[]}"}}],
@@ -83,6 +86,23 @@ class AiGatewayTransportTest {
                 assertThat(request.collectPayload()).isEqualTo("false");
                 assertThat(request.maxAttempts()).isEqualTo("1");
             });
+            embeddingData.set("""
+                    {"object":"embedding","index":1,"embedding":[0.0,1.0]},
+                    {"object":"embedding","index":0,"embedding":[1.0,0.0]}
+                    """);
+            assertThat(context.getBean(EmbeddingPort.class).embed(List.of("첫 문단", "두 번째 문단")))
+                    .containsExactly(List.of(1f, 0f), List.of(0f, 1f));
+            assertThat(requests).hasSize(3);
+            for (String indexField : List.of("\"index\":0,", "\"index\":-1,", "\"index\":2,", "")) {
+                embeddingData.set("""
+                        {"object":"embedding","index":0,"embedding":[1.0,0.0]},
+                        {"object":"embedding",%s"embedding":[0.0,1.0]}
+                        """.formatted(indexField));
+                int previousRequests = requests.size();
+                assertThatThrownBy(() -> context.getBean(EmbeddingPort.class).embed(List.of("첫 문단", "두 번째 문단")))
+                        .isInstanceOf(EmbeddingUnavailableException.class);
+                assertThat(requests).hasSize(previousRequests + 1);
+            }
             for (String reason : List.of("length", "content_filter")) {
                 finishReason.set(reason);
                 int previousRequests = requests.size();

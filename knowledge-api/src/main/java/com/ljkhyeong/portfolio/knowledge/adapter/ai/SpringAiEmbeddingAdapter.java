@@ -6,6 +6,8 @@ import com.openai.errors.OpenAIException;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.embedding.Embedding;
+import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.ai.retry.NonTransientAiException;
 import org.springframework.ai.retry.TransientAiException;
 import org.springframework.web.client.RestClientException;
@@ -28,13 +30,21 @@ public class SpringAiEmbeddingAdapter implements EmbeddingPort {
             return List.of();
         }
         try {
-            List<float[]> vectors = embeddingModel.embed(texts);
-            if (vectors == null || vectors.size() != texts.size()) {
+            EmbeddingResponse response = embeddingModel.embedForResponse(texts);
+            List<Embedding> results = response == null ? null : response.getResults();
+            if (results == null || results.size() != texts.size()) {
                 throw new EmbeddingUnavailableException("임베딩 응답 수가 요청 수와 다릅니다.");
             }
-            return vectors.stream()
-                    .map(this::toFloatList)
-                    .toList();
+            List<List<Float>> vectors = new java.util.ArrayList<>(java.util.Collections.nCopies(texts.size(), null));
+            for (Embedding result : results) {
+                Integer index = result == null ? null : result.getIndex();
+                if (index == null || index < 0 || index >= texts.size() || vectors.get(index) != null) {
+                    throw new EmbeddingUnavailableException("임베딩 응답 순번이 누락·중복됐거나 요청 범위를 벗어났습니다.");
+                }
+                // 응답 배열 위치가 아닌 제공자의 순번으로 원문과 벡터를 연결한다.
+                vectors.set(index, toFloatList(result.getOutput()));
+            }
+            return List.copyOf(vectors);
         } catch (TransientAiException
                  | NonTransientAiException
                  | OpenAIException

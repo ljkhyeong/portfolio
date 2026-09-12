@@ -33,6 +33,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.ai.embedding.Embedding;
+import org.springframework.ai.embedding.EmbeddingResponse;
 
 class KnowledgeSearchServiceTest {
 
@@ -70,10 +72,12 @@ class KnowledgeSearchServiceTest {
         assertThat(meters.get("knowledge.searches").tag("mode", "fallback").counter().count()).isEqualTo(1);
     }
 
-    @Test
-    void 잘못된_임베딩은_키워드로_대체하고_캐시하지_않아_다음_요청에서_복구한다() {
+    @ParameterizedTest
+    @MethodSource("invalidEmbeddingResponses")
+    void 잘못된_임베딩은_키워드로_대체하고_캐시하지_않아_다음_요청에서_복구한다(EmbeddingResponse response) {
         var model = mock(org.springframework.ai.embedding.EmbeddingModel.class);
-        when(model.embed(anyList())).thenReturn(List.of()).thenReturn(List.of(new float[]{1, 0}));
+        when(model.embedForResponse(anyList())).thenReturn(response)
+                .thenReturn(new EmbeddingResponse(List.of(new Embedding(new float[]{1, 0}, 0))));
         var embedding = new SpringAiEmbeddingAdapter(model, "test-model", 2);
         var index = mock(KnowledgeIndexPort.class);
         when(index.searchBm25(anyString(), any(), anyInt()))
@@ -85,11 +89,18 @@ class KnowledgeSearchServiceTest {
                 .extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
         verify(index, never()).searchKnn(anyList(), any(), anyInt(), anyInt());
         service.search("알림 재처리", List.of(), List.of(), 6);
+        service.search("알림 재처리", List.of(), List.of(), 6);
 
-        verify(model, times(2)).embed(anyList());
-        verify(index).searchKnn(eq(List.of(1f, 0f)), any(), anyInt(), anyInt());
+        verify(model, times(2)).embedForResponse(anyList());
+        verify(index, times(2)).searchKnn(eq(List.of(1f, 0f)), any(), anyInt(), anyInt());
         assertThat(meters.get("knowledge.searches").tag("mode", "fallback").counter().count()).isEqualTo(1);
-        assertThat(meters.get("knowledge.searches").tag("mode", "hybrid").counter().count()).isEqualTo(1);
+        assertThat(meters.get("knowledge.searches").tag("mode", "hybrid").counter().count()).isEqualTo(2);
+        assertThat(cacheLookups("query_embedding", "hit")).isEqualTo(1);
+    }
+
+    private static Stream<EmbeddingResponse> invalidEmbeddingResponses() {
+        return Stream.of(new EmbeddingResponse(List.of()),
+                new EmbeddingResponse(List.of(new Embedding(new float[]{1, 0}, 1))));
     }
 
     @Test

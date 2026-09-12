@@ -6,6 +6,7 @@ import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -23,13 +24,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
+import com.ljkhyeong.portfolio.knowledge.adapter.ai.SpringAiEmbeddingAdapter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeManifest;
 import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
+import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.embedding.Embedding;
+import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.embedding.EmbeddingResponse;
 
 class KnowledgeSyncServiceTest {
 
@@ -144,6 +150,36 @@ class KnowledgeSyncServiceTest {
 
         assertThat(service.syncConfiguredManifest().indexedDocuments()).isEqualTo(1);
         verify(indexPort).deleteStaleChunks("doc-1", List.of("doc-1#000"));
+    }
+
+    @Test
+    void 임베딩_순번_오류는_쓰기를_중단하고_다음_동기화에서_올바른_문단에_연결한다() {
+        var document = document("doc-1", "sha256:new");
+        var first = chunk("doc-1#000", "doc-1", "첫 문단");
+        var second = chunk("doc-1#001", "doc-1", "두 번째 문단");
+        when(loader.load(properties.source().location())).thenReturn(manifest(document));
+        when(indexPort.findIndexedSourceHashes()).thenReturn(Map.of("doc-1", "sha256:old", "old-doc", "sha256:old"));
+        when(chunker.split(document)).thenReturn(List.of(first, second));
+        var model = mock(EmbeddingModel.class);
+        when(model.embedForResponse(List.of("첫 문단", "두 번째 문단")))
+                .thenReturn(new EmbeddingResponse(List.of(
+                        new Embedding(new float[]{1, 0}, 0), new Embedding(new float[]{0, 1}, 0))))
+                .thenReturn(new EmbeddingResponse(List.of(
+                        new Embedding(new float[]{0, 1}, 1), new Embedding(new float[]{1, 0}, 0))));
+        var adapter = new SpringAiEmbeddingAdapter(model, "test-model", 2);
+        var sync = new KnowledgeSyncService(properties, loader, chunker, adapter,
+                new KnowledgeIndexInitializer(properties, adapter, indexPort), indexPort);
+
+        assertThatThrownBy(sync::syncConfiguredManifest).isInstanceOf(EmbeddingUnavailableException.class);
+        verify(indexPort, never()).bulkIndex(anyList());
+        verify(indexPort, never()).deleteStaleChunks(anyString(), anyList());
+        verify(indexPort, never()).deleteByDocumentId(anyString());
+
+        assertThat(sync.syncConfiguredManifest().indexedChunks()).isEqualTo(2);
+        verify(indexPort).bulkIndex(List.of(
+                first.withEmbedding("test-model", List.of(1f, 0f)),
+                second.withEmbedding("test-model", List.of(0f, 1f))));
+        verify(model, times(2)).embedForResponse(List.of("첫 문단", "두 번째 문단"));
     }
 
     @Test
