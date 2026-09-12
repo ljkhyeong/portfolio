@@ -3,6 +3,7 @@ package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import org.junit.jupiter.api.Test;
 
 class ElasticsearchDeleteResponseTest {
@@ -34,7 +35,7 @@ class ElasticsearchDeleteResponseTest {
                 versionConflicts,
                 failureCount
         ))
-                .isInstanceOf(ElasticsearchAccessException.class)
+                .isInstanceOf(KnowledgeIndexAccessException.class)
                 .hasMessageContaining("문서 삭제가 완료되지 않았습니다");
     }
 }

@@ -2,6 +2,7 @@ package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
 import static org.mockito.Mockito.doThrow;
 
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -19,7 +20,7 @@ class ElasticsearchReadinessTest {
 
     @Test
     void Elasticsearch가_응답하지_않으면_readiness는_503을_반환한다() {
-        doThrow(new ElasticsearchAccessException("connection refused"))
+        doThrow(new KnowledgeIndexAccessException("connection refused"))
                 .when(repository).checkHealth();
 
         RestTestClient.bindToServer()

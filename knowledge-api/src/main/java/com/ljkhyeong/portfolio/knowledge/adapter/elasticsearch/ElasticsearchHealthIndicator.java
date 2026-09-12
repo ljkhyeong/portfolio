@@ -1,5 +1,6 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import org.springframework.boot.health.contributor.Health;
 import org.springframework.boot.health.contributor.HealthIndicator;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class ElasticsearchHealthIndicator implements HealthIndicator {
         try {
             repository.checkHealth();
             return Health.up().build();
-        } catch (ElasticsearchAccessException exception) {
+        } catch (KnowledgeIndexAccessException exception) {
             return Health.down(exception).build();
         }
     }

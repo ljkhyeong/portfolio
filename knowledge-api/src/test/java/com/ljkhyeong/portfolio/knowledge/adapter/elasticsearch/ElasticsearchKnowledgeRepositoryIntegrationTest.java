@@ -11,6 +11,7 @@ import java.time.Duration;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -144,7 +145,7 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
     @Test
     void 청크_설정_지문이_다른_기존_인덱스는_재사용하지_않는다() {
         assertThatThrownBy(() -> repository.ensureIndex("test-model", 2, "sha256:changed-chunking"))
-                .isInstanceOf(ElasticsearchAccessException.class)
+                .isInstanceOf(KnowledgeIndexAccessException.class)
                 .hasMessageContaining("청크 설정");
     }
 }

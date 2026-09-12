@@ -3,7 +3,7 @@ package com.ljkhyeong.portfolio.knowledge.api;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchAccessException;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -74,8 +74,8 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    @ExceptionHandler(ElasticsearchAccessException.class)
-    public ResponseEntity<ApiErrorResponse> handleElasticsearch(ElasticsearchAccessException exception) {
+    @ExceptionHandler(KnowledgeIndexAccessException.class)
+    public ResponseEntity<ApiErrorResponse> handleElasticsearch(KnowledgeIndexAccessException exception) {
         log.error("검색 저장소 요청 실패", exception);
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ApiErrorResponse(
                 "SEARCH_UNAVAILABLE",

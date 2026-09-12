@@ -38,6 +38,7 @@ import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import jakarta.annotation.PreDestroy;
 import org.apache.http.HttpHost;
@@ -189,7 +190,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 () -> client.bulk(request.build())
         );
         if (response.errors()) {
-            throw new ElasticsearchAccessException("Elasticsearch 벌크 색인 실패: " + bulkFailureSummary(response));
+            throw new KnowledgeIndexAccessException("Elasticsearch 벌크 색인 실패: " + bulkFailureSummary(response));
         }
     }
 
@@ -244,7 +245,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         try {
             transport.close();
         } catch (IOException exception) {
-            throw new ElasticsearchAccessException("Elasticsearch 연결을 종료하지 못했습니다.", exception);
+            throw new KnowledgeIndexAccessException("Elasticsearch 연결을 종료하지 못했습니다.", exception);
         }
     }
 
@@ -312,7 +313,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 || currentDimensions != dimensions
                 || !chunkingFingerprint.equals(currentChunkingFingerprint)
                 || analyzerValue == null || !"nori".equals(analyzerValue.to(String.class))) {
-            throw new ElasticsearchAccessException(
+            throw new KnowledgeIndexAccessException(
                     "현재 인덱스의 임베딩 모델, 차원, 청크 설정 또는 한국어 분석기가 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
             );
         }
@@ -396,7 +397,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
 
     static void verifyDeleteByQueryResponse(boolean timedOut, long versionConflicts, int failureCount) {
         if (timedOut || versionConflicts > 0 || failureCount > 0) {
-            throw new ElasticsearchAccessException(
+            throw new KnowledgeIndexAccessException(
                     "Elasticsearch 문서 삭제가 완료되지 않았습니다. timedOut=%s, versionConflicts=%d, failures=%d"
                             .formatted(timedOut, versionConflicts, failureCount)
             );
@@ -431,20 +432,20 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }
     }
 
-    private ElasticsearchAccessException accessException(String message, Exception exception) {
+    private KnowledgeIndexAccessException accessException(String message, Exception exception) {
         if (exception instanceof ElasticsearchException elasticsearchException) {
-            return new ElasticsearchAccessException(
+            return new KnowledgeIndexAccessException(
                     message + " 상태 코드: " + elasticsearchException.status(),
                     exception
             );
         }
         if (exception instanceof ResponseException responseException) {
-            return new ElasticsearchAccessException(
+            return new KnowledgeIndexAccessException(
                     message + " 상태 코드: " + responseException.getResponse().getStatusLine().getStatusCode(),
                     exception
             );
         }
-        return new ElasticsearchAccessException(message, exception);
+        return new KnowledgeIndexAccessException(message, exception);
     }
 
     private String indexName() {

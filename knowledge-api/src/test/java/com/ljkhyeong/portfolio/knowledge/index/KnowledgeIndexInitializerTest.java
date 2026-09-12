@@ -13,8 +13,8 @@ import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 import com.ljkhyeong.portfolio.knowledge.adapter.ai.UnavailableEmbeddingAdapter;
-import com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch.ElasticsearchAccessException;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import org.junit.jupiter.api.Test;
 
@@ -48,10 +48,10 @@ class KnowledgeIndexInitializerTest {
 
     @Test
     void 최초_초기화_실패는_다음_검색에서_재시도한다() {
-        doThrow(new ElasticsearchAccessException("connection refused")).doNothing()
+        doThrow(new KnowledgeIndexAccessException("connection refused")).doNothing()
                 .when(indexPort).ensureIndex("disabled", 1024, fingerprint);
 
-        assertThatThrownBy(initializer::ensureInitialized).isInstanceOf(ElasticsearchAccessException.class);
+        assertThatThrownBy(initializer::ensureInitialized).isInstanceOf(KnowledgeIndexAccessException.class);
         initializer.ensureInitialized();
         initializer.ensureInitialized();
 
@@ -60,11 +60,11 @@ class KnowledgeIndexInitializerTest {
 
     @Test
     void 재검사_실패_후에는_이전_초기화_결과를_재사용하지_않는다() {
-        doNothing().doThrow(new ElasticsearchAccessException("incompatible index")).doNothing()
+        doNothing().doThrow(new KnowledgeIndexAccessException("incompatible index")).doNothing()
                 .when(indexPort).ensureIndex("disabled", 1024, fingerprint);
         initializer.ensureInitialized();
 
-        assertThatThrownBy(initializer::refresh).isInstanceOf(ElasticsearchAccessException.class);
+        assertThatThrownBy(initializer::refresh).isInstanceOf(KnowledgeIndexAccessException.class);
         initializer.ensureInitialized();
 
         verify(indexPort, times(3)).ensureIndex("disabled", 1024, fingerprint);

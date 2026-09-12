@@ -16,6 +16,7 @@ import co.elastic.clients.util.ObjectBuilder;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.ErrorResponse;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import org.junit.jupiter.api.AfterEach;
 import org.mockito.ArgumentMatchers;
 import org.junit.jupiter.api.Test;
@@ -44,14 +45,14 @@ class ElasticsearchExceptionTranslationTest {
         )).thenThrow(failure);
 
         assertThatThrownBy(() -> repository.searchKnn(List.of(1.0f), filter, 5, 10))
-                .isInstanceOf(ElasticsearchAccessException.class)
+                .isInstanceOf(KnowledgeIndexAccessException.class)
                 .hasCause(failure);
     }
 
     @Test
     void SDK_요청_생성_오류를_저장소_장애로_바꾸지_않는다() {
         assertThatThrownBy(() -> repository.searchKnn(null, filter, 5, 10))
-                .isNotInstanceOf(ElasticsearchAccessException.class)
+                .isNotInstanceOf(KnowledgeIndexAccessException.class)
                 .isInstanceOf(RuntimeException.class);
     }
 
