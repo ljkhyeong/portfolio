@@ -106,6 +106,8 @@ class KnowledgePropertiesBindingTest {
             "knowledge.source.overlap-characters=-1",
             "knowledge.source.overlap-characters=1200",
             "knowledge.ai.embedding-dimensions=0",
+            "knowledge.ai.answer-cache-ttl-seconds=-1",
+            "knowledge.ai.answer-cache-max-entries=-1",
             "knowledge.ai.provider=opneai",
             "knowledge.search.default-limit=0",
             "knowledge.search.rrf-k=-1",

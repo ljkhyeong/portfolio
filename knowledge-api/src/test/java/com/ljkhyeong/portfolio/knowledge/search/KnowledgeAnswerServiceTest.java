@@ -9,12 +9,16 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import com.ljkhyeong.portfolio.knowledge.api.AnswerResponse;
@@ -64,6 +68,108 @@ class KnowledgeAnswerServiceTest {
         assertThat(response.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE);
         assertThat(response.answer()).isNull();
         assertThat(response.results()).hasSize(1);
+    }
+
+    @Test
+    void 같은_질문과_근거의_검증된_답변을_재사용한다() {
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn(generated("1"));
+
+        AnswerResponse first = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+        AnswerResponse second = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        assertThat(second.answer()).isEqualTo(first.answer());
+        assertThat(second.citations()).isEqualTo(first.citations());
+        verify(answerGenerationPort).generate(anyString(), anyList());
+    }
+
+    @Test
+    void 같은_질문과_근거의_동시_요청을_한_번만_생성한다() throws Exception {
+        CountDownLatch searchesCompleted = new CountDownLatch(2);
+        CountDownLatch generationStarted = new CountDownLatch(1);
+        CountDownLatch generationRelease = new CountDownLatch(1);
+        KnowledgeSearchResult result = new KnowledgeSearchResult(
+                List.of(new SearchHit(chunk("evidence-1"), 1)),
+                List.of(new SearchHit(chunk("evidence-1"), 1)),
+                Set.of("evidence-1")
+        );
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
+                .thenAnswer(invocation -> {
+                    searchesCompleted.countDown();
+                    return result;
+                });
+        when(answerGenerationPort.generate(anyString(), anyList())).thenAnswer(invocation -> {
+            generationStarted.countDown();
+            if (!generationRelease.await(2, TimeUnit.SECONDS)) {
+                throw new IllegalStateException("동시 요청 대기 시간이 초과됐습니다.");
+            }
+            return generated("1");
+        });
+
+        try (var executor = Executors.newFixedThreadPool(2)) {
+            var first = executor.submit(() -> service.answer(
+                    "알림은 어떻게 복구하나요?", List.of(), List.of(), 6
+            ));
+            assertThat(generationStarted.await(2, TimeUnit.SECONDS)).isTrue();
+            var second = executor.submit(() -> service.answer(
+                    "알림은 어떻게 복구하나요?", List.of(), List.of(), 6
+            ));
+            assertThat(searchesCompleted.await(2, TimeUnit.SECONDS)).isTrue();
+            generationRelease.countDown();
+
+            assertThat(first.get(2, TimeUnit.SECONDS).status())
+                    .isEqualTo(AnswerResponse.AnswerStatus.GENERATED);
+            assertThat(second.get(2, TimeUnit.SECONDS).status())
+                    .isEqualTo(AnswerResponse.AnswerStatus.GENERATED);
+        }
+        verify(answerGenerationPort).generate(anyString(), anyList());
+    }
+
+    @Test
+    void 같은_질문이어도_전달_근거가_바뀌면_답변을_다시_생성한다() {
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn(generated("1"));
+
+        service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        SearchHit changed = new SearchHit(chunk(
+                "evidence-1", "doc-1", "알림 처리 상태를 조회해 실패 건만 다시 처리합니다."
+        ), 1);
+        when(searchService.search(anyString(), anyList(), anyList(), anyList(), any()))
+                .thenReturn(new KnowledgeSearchResult(List.of(changed), List.of(changed), Set.of("evidence-1")));
+
+        service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        verify(answerGenerationPort, times(2)).generate(anyString(), anyList());
+    }
+
+    @Test
+    void AI_제공자_실패는_캐시하지_않는다() {
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenThrow(new AnswerGenerationUnavailableException("provider error"))
+                .thenReturn(generated("1"));
+
+        AnswerResponse first = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+        AnswerResponse second = service.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        assertThat(first.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE);
+        assertThat(second.status()).isEqualTo(AnswerResponse.AnswerStatus.GENERATED);
+        verify(answerGenerationPort, times(2)).generate(anyString(), anyList());
+    }
+
+    @Test
+    void 답변_캐시_상한이_0이면_답변을_재사용하지_않는다() {
+        KnowledgeProperties noCacheProperties = knowledgeProperties("ai.answer-cache-max-entries", "0");
+        KnowledgeAnswerService noCacheService = new KnowledgeAnswerService(
+                noCacheProperties, searchService, answerGenerationPort, new ResponseMapper()
+        );
+        when(answerGenerationPort.generate(anyString(), anyList()))
+                .thenReturn(generated("1"));
+
+        noCacheService.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+        noCacheService.answer("알림은 어떻게 복구하나요?", List.of(), List.of(), 6);
+
+        verify(answerGenerationPort, times(2)).generate(anyString(), anyList());
     }
 
     @Test
@@ -275,7 +381,7 @@ class KnowledgeAnswerServiceTest {
         // 인용 ID로 실제 전달한 청크를 확인해 문서별 상한과 키워드 근거 확보를 검증한다.
         when(answerGenerationPort.generate(anyString(), anyList()))
                 .thenReturn(generated(contexts.stream().map(AnswerGenerationPort.AnswerContext::citationId).toArray(String[]::new)));
-        AnswerResponse response = service.answer("복구 정책", List.of(), List.of(), 6);
+        AnswerResponse response = service.answer("복구 정책 전체", List.of(), List.of(), 6);
         assertThat(response.citations()).extracting(AnswerResponse.CitationResponse::chunkId)
                 .contains("0#3").doesNotHaveDuplicates();
         assertThat(response.citations().stream().collect(java.util.stream.Collectors.groupingBy(

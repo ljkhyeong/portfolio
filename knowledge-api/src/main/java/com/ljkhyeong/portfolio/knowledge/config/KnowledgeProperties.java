@@ -71,6 +71,8 @@ public record KnowledgeProperties(
             @DefaultValue("disabled") String embeddingModelId,
             @Positive @DefaultValue("1024") int embeddingDimensions,
             @Positive @DefaultValue("6") int answerContextLimit,
+            @PositiveOrZero @DefaultValue("120") int answerCacheTtlSeconds,
+            @PositiveOrZero @DefaultValue("128") int answerCacheMaxEntries,
             @DefaultValue("30") int globalAnswersPerMinute,
             @DefaultValue("5") int clientAnswersPerMinute,
             @DefaultValue("300") int globalSearchesPerMinute,

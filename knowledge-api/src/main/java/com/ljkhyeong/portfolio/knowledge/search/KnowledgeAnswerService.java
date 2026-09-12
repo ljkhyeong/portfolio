@@ -1,5 +1,6 @@
 package com.ljkhyeong.portfolio.knowledge.search;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -8,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ljkhyeong.portfolio.knowledge.api.AnswerResponse;
 import com.ljkhyeong.portfolio.knowledge.api.ResponseMapper;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
@@ -15,6 +18,7 @@ import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
+import com.ljkhyeong.portfolio.knowledge.util.Hashing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,8 @@ public class KnowledgeAnswerService {
     private final KnowledgeSearchService searchService;
     private final AnswerGenerationPort answerGenerationPort;
     private final ResponseMapper responseMapper;
+    private final Cache<String, GeneratedContent> generatedAnswers;
+    private final boolean answerCacheEnabled;
 
     public KnowledgeAnswerService(
             KnowledgeProperties properties,
@@ -42,6 +48,12 @@ public class KnowledgeAnswerService {
         this.searchService = searchService;
         this.answerGenerationPort = answerGenerationPort;
         this.responseMapper = responseMapper;
+        this.answerCacheEnabled = properties.ai().answerCacheMaxEntries() > 0
+                && properties.ai().answerCacheTtlSeconds() > 0;
+        this.generatedAnswers = Caffeine.newBuilder()
+                .maximumSize(properties.ai().answerCacheMaxEntries())
+                .expireAfterWrite(Duration.ofSeconds(properties.ai().answerCacheTtlSeconds()))
+                .build();
     }
 
     public AnswerResponse answer(
@@ -95,10 +107,12 @@ public class KnowledgeAnswerService {
         }
 
         try {
-            var generated = answerGenerationPort.generate(question, contexts);
-            if (generated == null || generated.answerable() == null) {
-                throw new AnswerGenerationUnavailableException("AI 답변의 답변 가능 여부가 없습니다.");
-            }
+            GeneratedContent generated = answerCacheEnabled
+                    ? generatedAnswers.get(
+                            answerCacheKey(question, contexts),
+                            ignored -> generateContent(question, contexts, evidenceById.keySet())
+                    )
+                    : generateContent(question, contexts, evidenceById.keySet());
             if (!generated.answerable()) {
                 return new AnswerResponse(
                         question,
@@ -108,15 +122,13 @@ public class KnowledgeAnswerService {
                         searchResults
                 );
             }
-            Map<String, Integer> citationNumbers = new LinkedHashMap<>();
-            String answer = renderAnswer(generated.paragraphs(), evidenceById.keySet(), citationNumbers);
-            List<AnswerResponse.CitationResponse> citations = citationNumbers.keySet().stream()
+            List<AnswerResponse.CitationResponse> citations = generated.citationIds().stream()
                     .map(id -> citation(evidenceById.get(id)))
                     .toList();
             return new AnswerResponse(
                     question,
                     AnswerResponse.AnswerStatus.GENERATED,
-                    answer,
+                    generated.answer(),
                     citations,
                     searchResults
             );
@@ -124,6 +136,40 @@ public class KnowledgeAnswerService {
             log.warn("AI 답변을 제공하지 못해 검색 결과만 반환합니다.", exception);
             return generationUnavailable(question, searchResults);
         }
+    }
+
+    private GeneratedContent generateContent(
+            String question,
+            List<AnswerGenerationPort.AnswerContext> contexts,
+            Set<String> evidenceIds
+    ) {
+        var generated = answerGenerationPort.generate(question, contexts);
+        if (generated == null || generated.answerable() == null) {
+            throw new AnswerGenerationUnavailableException("AI 답변의 답변 가능 여부가 없습니다.");
+        }
+        if (!generated.answerable()) {
+            return new GeneratedContent(false, null, List.of());
+        }
+        Map<String, Integer> citationNumbers = new LinkedHashMap<>();
+        String answer = renderAnswer(generated.paragraphs(), evidenceIds, citationNumbers);
+        return new GeneratedContent(true, answer, List.copyOf(citationNumbers.keySet()));
+    }
+
+    private String answerCacheKey(String question, List<AnswerGenerationPort.AnswerContext> contexts) {
+        StringBuilder input = new StringBuilder();
+        appendFingerprintPart(input, question);
+        for (var context : contexts) {
+            appendFingerprintPart(input, context.citationId());
+            appendFingerprintPart(input, context.title());
+            appendFingerprintPart(input, context.heading());
+            appendFingerprintPart(input, context.content());
+        }
+        return Hashing.sha256(input.toString());
+    }
+
+    private void appendFingerprintPart(StringBuilder input, String value) {
+        String part = value == null ? "" : value;
+        input.append(part.length()).append(':').append(part);
     }
 
     private List<SearchHit> selectEvidence(KnowledgeSearchResult result) {
@@ -205,5 +251,8 @@ public class KnowledgeAnswerService {
                 List.of(),
                 searchResults
         );
+    }
+
+    private record GeneratedContent(boolean answerable, String answer, List<String> citationIds) {
     }
 }
