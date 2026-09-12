@@ -2,6 +2,8 @@ name: 공개 검색 문서 최신화 확인
 
 on:
     workflow_dispatch:
+    repository_dispatch:
+        types: [knowledge-documents-changed]
     schedule:
         - cron: "17 3 * * 1"
 
@@ -10,7 +12,7 @@ permissions:
 
 concurrency:
     group: knowledge-source-refresh
-    cancel-in-progress: true
+    cancel-in-progress: false
 
 jobs:
     verify:
