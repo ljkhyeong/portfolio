@@ -13,13 +13,16 @@ spring:
             embedding: openai
         openai:
             api-key: ${OPENAI_API_KEY}
+            timeout: ${OPENAI_REQUEST_TIMEOUT:30s}
+            max-retries: ${OPENAI_SDK_MAX_RETRIES:0}
             chat:
                 model: ${OPENAI_CHAT_MODEL:gpt-5-mini}
+                max-completion-tokens: ${OPENAI_MAX_COMPLETION_TOKENS:2000}
             embedding:
                 model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-large}
                 dimensions: ${OPENAI_EMBEDDING_DIMENSIONS:1024}
         retry:
-            max-attempts: 2
+            max-attempts: ${AI_RETRY_MAX_ATTEMPTS:2}
             backoff:
                 initial-interval: 500ms
                 max-interval: 2s

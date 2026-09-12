@@ -46,6 +46,8 @@ docker compose up --build
 
 API 키는 백엔드 환경 변수에만 설정하며 React의 `VITE_*` 환경 변수에 넣지 않습니다.
 
+OpenAI 요청은 기본 30초 안에 완료되지 않으면 중단하고 추론 토큰을 포함한 답변 출력을 최대 2,000토큰으로 제한합니다. OpenAI SDK 자체 재시도는 끄고 Spring AI에서만 최대 2회 시도해 두 재시도 계층이 중첩되지 않게 합니다. `OPENAI_REQUEST_TIMEOUT`, `OPENAI_MAX_COMPLETION_TOKENS`, `AI_RETRY_MAX_ATTEMPTS`로 조정할 수 있습니다. SDK 재시도를 다시 켜야 하는 별도 환경에서만 `OPENAI_SDK_MAX_RETRIES`를 변경합니다. [Spring AI OpenAI 설정](https://docs.spring.io/spring-ai/reference/api/embeddings/openai-embeddings.html#_configuration_properties)
+
 ## Ollama 로컬 프로필
 
 Ollama 컨테이너와 모델을 먼저 준비합니다.
