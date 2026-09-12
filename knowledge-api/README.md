@@ -164,7 +164,7 @@ docker build -f elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:8.
 ./gradlew bootJar
 ```
 
-단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. 통합 테스트는 위에서 빌드한 Nori 이미지에서 임베딩 유무, 한국어 조사, BM25 및 kNN 검색을 확인합니다.
+단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. `DependencyRulesTest`는 Domain·Port의 독립성과 Controller·Service의 계층 간 의존 규칙을 확인합니다. 통합 테스트는 위에서 빌드한 Nori 이미지에서 임베딩 유무, 한국어 조사, BM25 및 kNN 검색을 확인합니다.
 
 ## 검색 품질과 배포 자료 확인
 

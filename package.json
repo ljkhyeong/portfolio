@@ -14,6 +14,9 @@
     "scripts": {
         "dev": "vite",
         "start": "vite",
+        "check:file": "node scripts/agent-feedback-check.mjs file",
+        "check:diff": "node scripts/agent-feedback-check.mjs diff",
+        "check:finish": "node scripts/agent-feedback-check.mjs finish",
         "knowledge:generate": "node scripts/generate-knowledge-corpus.mjs",
         "sitemap:generate": "node scripts/generate-sitemap.mjs",
         "sitemap:check": "node scripts/check-sitemap.mjs",
