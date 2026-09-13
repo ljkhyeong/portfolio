@@ -66,6 +66,7 @@ export const projectOgSourceTargets = [
     "src/component/share/og-entry.jsx",
     "src/component/share/ProjectOgPreview.jsx",
     "src/data/projectOg.js",
+    "src/data/projectSummaries.js",
     "src/css/ProjectOg.css",
     "src/component/project/diagrams/BatonServiceFlowDiagram.jsx",
     "src/component/project/diagrams/useCenteredDiagramViewport.js",

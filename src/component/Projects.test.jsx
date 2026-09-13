@@ -20,7 +20,7 @@ test("대표 프로젝트의 문제, 구현과 검증 범위를 함께 보여준
     expect(screen.getByLabelText("happyGallery 문제, 구현과 검증")).toHaveTextContent(
         "실제 네이버·Toss·NHN 계정 연동은 미검증",
     )
-    expect(screen.getByLabelText("BATON 진행 및 공개 상태")).toHaveTextContent("일부 저장소 공개")
+    expect(screen.getByLabelText("BATON 진행 및 공개 상태")).toHaveTextContent("공개 저장소 6개")
     expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
         "담당 구현과 테스트 요약 공개",
     )

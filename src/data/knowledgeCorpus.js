@@ -40,6 +40,8 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/deadline-reminder-candidates.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-reservation-recovery-heartbeat.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/admin-collection-exceptions.md",
+    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/policy-rule-data.md",
+    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-drafts.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/README.ko.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/plugins/hope/skills/commit/SKILL.md",
     "https://github.com/ljkhyeong/hope-commit/blob/main/SECURITY.md",
@@ -59,6 +61,9 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
 
 export const PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY = [
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/PRD/0001_%EA%B8%B0%EC%A4%80_%EC%8A%A4%ED%8E%99/spec.md",
+    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/admin-collection-exceptions.md",
+    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/policy-rule-data.md",
+    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-drafts.md",
 ]
 
 const PORTFOLIO_ORIGIN = "https://ljkportfolio.netlify.app"

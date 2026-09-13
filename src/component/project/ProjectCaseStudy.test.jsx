@@ -121,13 +121,13 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
     const repositoryLinks = [
-        ["Core", "https://github.com/ljkhyeong/baton", "비공개 저장소"],
-        ["GO", "https://github.com/ljkhyeong/baton-go", "비공개 저장소"],
+        ["Core", "https://github.com/ljkhyeong/baton", "공개 저장소"],
+        ["GO", "https://github.com/ljkhyeong/baton-go", "공개 저장소"],
         ["WATCH", "https://github.com/ljkhyeong/baton-watch", "공개 저장소"],
         ["RELAY", "https://github.com/ljkhyeong/baton-relay", "비공개 저장소"],
         ["BRIEF", "https://github.com/ljkhyeong/baton-brief", "공개 저장소"],
         ["CAL", "https://github.com/ljkhyeong/baton-cal", "공개 저장소"],
-        ["ROUND", "https://github.com/ljkhyeong/webrtc-study", "비공개 저장소"],
+        ["ROUND", "https://github.com/ljkhyeong/webrtc-study", "공개 저장소"],
     ]
 
     expect(evidenceLinks).toHaveTextContent("Core 저장소")
@@ -336,7 +336,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByText(
-            "정책의 접수 상태와 조건을 확인하고, 수집 실패를 재처리하며 관심 정책의 일정·알림을 제공하는 웹앱입니다.",
+            "내 조건에 맞는 정책을 찾고, 저장한 정책의 변경 내용과 마감 일정·알림을 확인하는 웹앱입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
@@ -368,7 +368,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정·알림 처리")).toBeInTheDocument()
     expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /공개 정책 40건.*정책 9종.*7종의 연령 비교.*실제 OAuth·이메일·AI 공급자/,
+        /정책 조건의 버전 관리.*실제 OAuth·OpenAI·Resend/,
     )
     expect(
         within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(
@@ -380,7 +380,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
             name: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText("추가 문제 해결 2건 보기").closest("details")).not.toHaveAttribute(
+    expect(screen.getByText("추가 문제 해결 4건 보기").closest("details")).not.toHaveAttribute(
         "open",
     )
     const stack = screen.getByRole("list", { name: "청년정책메이트 기술 스택" })
@@ -417,7 +417,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
         }),
     ).toBeInTheDocument()
     expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /v0\.7\.0.*0\.12\.3-SNAPSHOT.*GitHub 이슈·PR·CI 조회.*실제 게시·공개 운영은 미검증/,
+        /v0\.7\.0.*개발 브랜치 125684c.*IntelliJ 기록 검색.*실제 GitHub 게시·공개 운영은 미검증/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
@@ -587,7 +587,7 @@ test.each([
     [
         "relay",
         "RELAY",
-        "Core 이벤트를 Discord, Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
+        "Core 이벤트를 Discord·Slack·Webhook·AWS SQS FIFO로 전달하고 성공·실패·결과 미확인을 구분합니다.",
         /이전 서버의 늦은 결과 차단/,
     ],
     [
@@ -605,7 +605,7 @@ test.each([
     [
         "round",
         "ROUND",
-        "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.",
+        "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, Cloudflare TURN 또는 coturn 접속 정보를 제공합니다.",
         /이전 연결 메시지 차단/,
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
@@ -680,24 +680,24 @@ test.each([
         "https://github.com/ljkhyeong/baton-brief",
         /BRIEF 공개 저장소 보기/,
         [
-            /점검 상태와 보고서 이력·비교.*거절한 이벤트와 지원하지 않는 버전/,
-            /공개 main 5b7d880과 Core의 로컬 연동 기록/,
+            /점검 상태와 보고서 이력·비교.*업무 종류·주간·시간대 필터.*304/,
+            /공개 main 2a96b04와 Core의 로컬 교차 검증 기록/,
             /공인 DNS와 원격 환경의 전체 서비스 연결은 미검증/,
         ],
-        /공개 main과 최신 로컬 main의 차이는 현재 상태 설명에 구분/,
+        /주간 보고서·점검 항목 조회, 이벤트 수신과 검증 기록/,
     ],
     [
         "cal",
         "CAL",
         "중복·이전 버전 일정의 반영 방지",
-        "https://github.com/ljkhyeong/baton-cal/tree/3c2936d",
+        "https://github.com/ljkhyeong/baton-cal/tree/817720d",
         /CAL 공개 main 고정 커밋 보기/,
         [
-            /Core 요청 형식과 CAL 컨테이너 연동.*Google·Apple·Outlook.*개인 구독 일괄 해지/,
-            /개발 규격은 1.1.0-rc.2.*게시된 후보는 1.1.0-rc.1.*정식 규격은 1.0.0/,
+            /Core 교차 테스트 5개.*최대 100건을 한 트랜잭션/,
+            /게시된 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
             /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증/,
         ],
-        /개발 규격 1.1.0-rc.2와 앱별 구독 안내 및 운영 스모크를 확인한 공개 main/,
+        /일정 묶음 처리와 후보 규격 1.1.0-rc.2를 확인한 공개 main/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",
@@ -737,8 +737,11 @@ test("BATON ROUND 상세는 Core의 방 입장 확인과 ROUND의 WebRTC 처리�
     expect(
         screen.getAllByText(/실제 Cloudflare TURN 중계 전용 연결.*6명 장시간 접속/).length,
     ).toBeGreaterThan(0)
-    expect(screen.getByText("비공개 저장소 / 설계와 테스트 요약 공개")).toBeInTheDocument()
-    expect(screen.queryByRole("link", { name: /ROUND.*저장소/ })).not.toBeInTheDocument()
+    expect(screen.getByText("공개 저장소")).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /ROUND 공개 저장소/ })).toHaveAttribute(
+        "href",
+        "https://github.com/ljkhyeong/webrtc-study",
+    )
 })
 
 test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과 지연 개선을 보여준다", async () => {

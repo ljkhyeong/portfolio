@@ -12,7 +12,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "구현 상태",
-                text: "2026년 9월 8일 로컬 main 1062c18을 확인했습니다. 애플리케이션 46개·웹 124개·MySQL 43개 테스트 기록을 근거로 삼았습니다.",
+                text: "공개 main bf93dc3 기준입니다. 관리용 상태·기간 필터와 일괄 조회, 링크 상태 안내·재시도 화면을 제공합니다.",
             },
             {
                 kind: "unverified",
@@ -49,7 +49,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main e2ad4b0 기준입니다. V6 적용·백업 복원과 부하·프로세스 복구는 로컬에서 확인했습니다. Grafana Cloud 계정·대시보드와 Core 콜백 연결은 미검증입니다.",
+                text: "공개 main 697e60b 기준입니다. DB 제약·백업 복원·부하·프로세스 복구는 로컬 검증 기록을 확인했습니다.",
             },
             {
                 kind: "unverified",
@@ -80,12 +80,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "로컬 구현에서 이벤트 재수신 차단, 서버 중단 후 시도 UUID·멱등 키 유지와 결과 수동 확정을 확인했습니다. Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 복구 절차도 구현했습니다.",
+                text: "이벤트 중복 수신 차단과 중단 후 시도 UUID·멱등 키 유지를 검증했습니다. Discord·Slack·Webhook·SQS 전달과 결과 수동 확정을 구현했습니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "실제 Discord·AWS 전송과 외부 운영 알림 연결, 운영 환경의 백업 RPO·RTO는 미검증입니다.",
+                text: "실제 Discord·Slack·AWS 전송과 운영 환경의 백업 RPO·RTO는 미검증입니다.",
             },
         ],
         flow: {
@@ -112,12 +112,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "점검 상태와 보고서 이력·비교, 주간 이월·신규·해결 내역을 확인했습니다. 거절한 이벤트와 지원하지 않는 버전을 집계하는 지표, 이벤트 누락 경보도 추가했습니다.",
+                text: "점검 상태와 보고서 이력·비교, 주간 이월·신규·해결 내역을 검증했습니다. 업무 종류·주간·시간대 필터와 변경 없는 비교 결과의 304 응답도 지원합니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "2026년 9월 8일 공개 main 5b7d880과 Core의 로컬 연동 기록을 확인했습니다. 공개 호스트는 설정했지만 서버·DNS·인증서는 준비 전입니다.",
+                text: "공개 main 2a96b04와 Core의 로컬 교차 검증 기록 기준입니다. 실제 원격 서비스 연결은 미검증입니다.",
             },
             {
                 kind: "unverified",
@@ -148,12 +148,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "Core 요청 형식과 CAL 컨테이너 연동, 입력 제한, HTTP 캐시와 복구를 확인했습니다. Google·Apple·Outlook 등록 안내와 개인 구독 일괄 해지도 추가했습니다.",
+                text: "Core 교차 테스트 5개와 HTTP 캐시·복구 검증 기록을 확인했습니다. 최대 100건을 한 트랜잭션으로 받고 변경된 시즌의 캘린더를 한 번씩 갱신합니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 3c2936d의 개발 규격은 1.1.0-rc.2입니다. 게시된 후보는 1.1.0-rc.1, 정식 규격은 1.0.0입니다.",
+                text: "공개 main 817720d와 게시된 후보 규격 1.1.0-rc.2 기준입니다. 정식 규격은 1.0.0입니다.",
             },
             {
                 kind: "unverified",
@@ -184,7 +184,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "브라우저·Core 연동을 검증하고 손들기·공용 타이머·주제, QR 초대, 채팅 검색어 강조와 입력 초점 복원을 구현했습니다. 로컬 서버에 가상 카메라 참가자 2명을 연결해 화면을 확인했습니다.",
+                text: "브라우저·Core 연동의 기존 검증 기록을 확인했습니다. 공개 main bdf63eb에는 스피커 소리 확인, 공유 화면 작은 창·통화 제어와 대화 전체 복사를 구현했습니다.",
             },
             {
                 kind: "limited",
@@ -194,13 +194,13 @@ export const batonServicePresentations = {
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.",
+                text: "실제 TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.",
             },
         ],
         flow: {
             title: "입장은 Core가, 연결 메시지는 ROUND가 담당합니다",
             description:
-                "Core가 발급한 RS256 입장 토큰을 ROUND가 검증한 뒤 WebSocket으로 연결 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고 직접 연결이 어려우면 Cloudflare TURN을 사용합니다.",
+                "Core가 발급한 RS256 입장 토큰을 ROUND가 검증한 뒤 WebSocket으로 연결 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고, 연결이 어려우면 Cloudflare TURN 또는 coturn을 사용합니다.",
             note: "미디어는 시그널링 서버를 거치지 않습니다. 현재 연결 순번과 다른 SDP·ICE 메시지는 버립니다.",
             compact: {
                 input: ["Core 입장 토큰", "RS256 서명 검증"],

@@ -1,3 +1,5 @@
+export const youthPolicyCoverage = { policies: 40, questionPolicies: 11, agePolicies: 9 }
+
 export const projectSummaries = [
     {
         id: "baton",
@@ -27,7 +29,7 @@ export const projectSummaries = [
         tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / AWS SQS FIFO"],
         visual: "baton",
         stage: "개발 중",
-        visibility: "일부 저장소 공개",
+        visibility: "공개 저장소 6개",
         serviceLinks: [
             { id: "go", name: "GO", route: "/projects/baton/go" },
             { id: "watch", name: "WATCH", route: "/projects/baton/watch" },
@@ -114,8 +116,7 @@ export const projectSummaries = [
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
-        summary:
-            "공개 정책 40건을 검색하고 검토한 정책 9종의 신청 요건을 확인합니다. 관심 정책 일정·알림, 관리자용 수집 실패 재처리와 정책 정보 보정을 구현했습니다.",
+        summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고 ${youthPolicyCoverage.questionPolicies}종의 신청 요건을 확인합니다. 저장한 정책의 변경 비교·마감 일정·알림과 관리자용 조건 규칙 검토를 제공합니다.`,
         period: "2026.08.30 — 진행 중",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
@@ -161,7 +162,7 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경 요청·근거·검증 기록",
         summary:
-            "AI에게 전달한 요청, 코드 변경 근거와 검증 결과를 파일·줄 위치에 남깁니다. 웹·IDE에서 기록을 찾고 GitHub 원본 코드, 이슈·PR과 CI 결과를 함께 확인할 수 있습니다.",
+            "AI 코드의 변경 이유와 검증 결과를 커밋·파일·줄에 연결해 남깁니다. 웹·IDE에서 기록을 검색하고 원본 코드, 이슈·PR과 CI 결과를 함께 확인합니다.",
         period: "2026.08.27 — 진행 중",
         route: "/projects/intent-trace",
         tags: [

@@ -1,4 +1,5 @@
 import { useId } from "react"
+import { youthPolicyCoverage } from "../../../data/projectSummaries"
 import useCenteredDiagramViewport from "./useCenteredDiagramViewport"
 
 const diagrams = {
@@ -346,7 +347,9 @@ const diagrams = {
                 height: 104,
                 tag: "PUBLIC DATA",
                 title: ["수집한 정책·검토한 질문"],
-                detail: ["공개 정책 40건 · 질문 9종"],
+                detail: [
+                    `정책 ${youthPolicyCoverage.policies}건 · 질문 ${youthPolicyCoverage.questionPolicies}종`,
+                ],
                 kind: "external",
             },
             {
@@ -399,7 +402,7 @@ const diagrams = {
             { d: "M592 340 H712" },
             { d: "M592 484 H712" },
         ],
-        note: "조건 질문은 검토한 정책 9종의 일부 요건만 확인합니다. 원문 충돌은 별도 안내하며, 최종 신청 자격은 공식 안내에서 확인해야 합니다.",
+        note: `조건 질문은 검토한 정책 ${youthPolicyCoverage.questionPolicies}종의 일부 요건만 확인합니다. 원문 충돌은 별도 안내하며, 최종 신청 자격은 공식 안내에서 확인해야 합니다.`,
     },
 }
 

@@ -1,4 +1,5 @@
 import { warrantPerformanceSummary } from "./warrantEvidence"
+import { youthPolicyCoverage } from "./projectSummaries"
 
 const featuredProblems = {
     baton: {
@@ -43,8 +44,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "서버 단위 테스트",
         result: "조건 충족 및 불충족, 정책 미해석, 사용자 정보 누락과 일부 구간 중첩을 구분했습니다.",
-        limitation:
-            "공개 정책 40건을 조회하고, 검토한 정책 9종의 일부 신청 요건을 확인합니다. 최종 신청 자격은 공식 안내에서 확인해야 합니다.",
+        limitation: `정책 ${youthPolicyCoverage.policies}건을 조회하고, 검토한 정책 ${youthPolicyCoverage.questionPolicies}종의 일부 신청 요건을 확인합니다. 최종 신청 자격은 공식 안내에서 확인해야 합니다.`,
     },
     "hope-commit": {
         problemNumber: "03",

@@ -50,7 +50,7 @@ const routeMetaContent = {
     "/projects/baton/round": {
         title: "BATON ROUND | 임정규 포트폴리오",
         description:
-            "RS256 Core 입장 토큰을 검증해 최대 6명의 참가자 간 WebRTC 연결 메시지를 전달하고 Cloudflare TURN 접속 정보를 제공하는 ROUND 마이크로서비스",
+            "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고 Cloudflare TURN 또는 coturn을 지원하는 ROUND 서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {
@@ -68,7 +68,7 @@ const routeMetaContent = {
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "공개 정책의 접수 상태와 신청 조건을 확인하고 관심 정책 일정·알림, 수집 실패 재처리와 정책 정보 보정을 구현한 서울 청년정책 웹앱",
+            "내 조건에 맞는 서울 청년정책을 찾고 저장한 정책의 변경 내용·마감·알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
@@ -80,7 +80,7 @@ const routeMetaContent = {
     "/projects/intent-trace": {
         title: "IntentTrace | 임정규 포트폴리오",
         description:
-            "AI 코드 변경 근거와 검증을 코드 위치에 연결하고 GitHub 이슈·PR·CI 조회와 Markdown 저장을 제공하는 개발 도구",
+            "AI 코드의 변경 이유와 검증 결과를 웹·IDE에서 검색하고, 파일명·줄 변경 뒤의 코드 위치와 GitHub 이슈·PR·CI를 함께 확인하는 개발 도구",
         image: "/og-cover.png",
     },
     "/projects/defense": {

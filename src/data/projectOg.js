@@ -1,10 +1,12 @@
+import { youthPolicyCoverage } from "./projectSummaries.js"
+
 export const projectOgCards = [
     {
         id: "baton",
         route: "/projects/baton",
         title: ["BATON"],
         category: "개인 프로젝트 / 역할·업무·인수인계",
-        description: "역할·업무·인수인계는 Core에,\n독립 기능은 6개 서비스에 저장합니다.",
+        description: "역할·업무·인수인계는 Core가,\n링크·알림·통화는 독립 서비스가 처리합니다.",
         caption: "조직 업무를 맡는 Core와 6개 독립 서비스",
         labels: ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"],
     },
@@ -39,12 +41,15 @@ export const projectOgCards = [
         route: "/projects/youth-policy-mate",
         title: ["청년정책메이트"],
         category: "웹앱 / 서울 청년정책",
-        description: "정책 상태와 신청 조건을 확인하고\n수집 실패 재처리와 일정 알림을 제공합니다.",
-        caption: "조건 확인·수집 재처리·일정 알림",
+        description: "내 조건에 맞는 정책을 찾고\n저장한 정책의 변경 내용과 마감을 확인합니다.",
+        caption: "조건 확인·정책 변경 비교·마감 알림",
         steps: [
             ["공개 정책 조회", "접수 상태·질문 제공 여부 검색"],
-            ["검토한 조건 질문", "정책 9종의 일부 요건과 근거"],
-            ["정책 상태 관리", "원문 충돌·수집 실패·일정·알림"],
+            [
+                "검토한 조건 질문",
+                `정책 ${youthPolicyCoverage.questionPolicies}종의 일부 요건과 근거`,
+            ],
+            ["정책 변경과 마감", "저장 시점과 비교·일정·알림"],
         ],
     },
     {
@@ -65,12 +70,12 @@ export const projectOgCards = [
         route: "/projects/intent-trace",
         title: ["IntentTrace"],
         category: "개발 도구 / AI 코드 변경 기록",
-        description: "변경 근거와 검증을 코드 위치에 연결하고\nGitHub 자료와 함께 확인합니다.",
-        caption: "기록 공개·GitHub 자료 조회·Markdown 저장",
+        description: "코드의 변경 이유와 검증 결과를 남기고\n파일명과 줄이 바뀐 뒤에도 추적합니다.",
+        caption: "변경 기록 검색·코드 위치 추적·GitHub 자료 조회",
         steps: [
             ["요청과 변경 기록", "변경 근거와 출처, 코드 위치, 검증 결과"],
-            ["GitHub 자료 조회", "이슈·PR 내용과 기존 CI 결과"],
-            ["팀 공개와 저장", "코드 변경 시 차단·Markdown 내려받기"],
+            ["웹·IDE에서 검색", "검색어·상태·파일로 기록 조회"],
+            ["코드 위치 추적", "내용이 일치하는 파일명·줄 변경 추적"],
         ],
     },
     {

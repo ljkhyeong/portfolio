@@ -20,17 +20,11 @@ PostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일
 
 일정 JSON 형식 1.0.0 기준으로 Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 보내 생성, 변경, 취소와 순서가 바뀐 전달이 올바르게 처리되는지도 별도로 확인했습니다.
 
-## 현재 범위
+## 현재 범위 — 2026-09-12
 
--   정식 JSON 규격 `1.0.0`: 정식 버전 기준이며 Core 일정 JSON과 CAL 컨테이너의 호환성 검증 완료
--   사전 릴리스 `1.1.0-rc.1`: 2026년 9월 2일 태그 `contracts-v1.1.0-rc.1`과 규격 ZIP 게시 완료. 정식 버전 전환 전
--   Core 연동: `1.1.0-rc.1`의 일정, 시즌 이름과 복구 요청 형식 및 ZIP 해시를 고정하고 CAL 컨테이너와 연동 검증 완료
--   운영 상태: 실제 캘린더 앱 구독, 운영 자격 증명을 사용한 공개 구독과 DB 복구 후 전체 일정 재전송은 미검증
+-   정식 규격은 `1.0.0`이며, [후보 규격 1.1.0-rc.2](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.2)와 규격 ZIP을 게시했습니다.
+-   [공개 main 817720d](https://github.com/ljkhyeong/baton-cal/tree/817720d)는 개인 구독·일괄 해지, 응답 유실 복구와 최대 100건 일정 묶음 수신을 지원합니다.
+-   묶음은 한 트랜잭션으로 처리하고 오류가 있으면 전체 롤백합니다. 변경된 시즌의 캘린더는 한 번씩 갱신해 같은 시즌의 반복 변환을 줄입니다.
+-   Core가 후보 규격 ZIP·해시를 고정하고 일정·구독·시즌 이름·백업 복원·재전달을 확인한 교차 테스트 5개 통과 기록을 확인했습니다.
 
-게시 상태는 [사전 릴리스](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.1)와 [공개 커밋 978f0d4의 릴리스 및 연동 기록](https://github.com/ljkhyeong/baton-cal/blob/978f0d4/docs/contract-release-history.md)을 기준으로 2026년 9월 5일 확인했습니다.
-
-`1.1.0-rc.1`은 JSON 전체 128 KiB, 필드명 64자, 중첩 16단계, 숫자 10자리와 토큰 256개로 입력을 제한합니다.
-
-## 개인 구독 확장 — 2026-09-08
-
-공개 `main`의 `3c2936d`에는 `1.1.0-rc.2` 개발 소스의 개인 구독·목록·일괄 해지와 응답 유실 복구가 있습니다. Google Calendar·Apple Calendar·Outlook의 앱별 등록 안내도 Core에 연결했습니다. 게시된 후보는 `1.1.0-rc.1`, 정식 규격은 `1.0.0`이며 개발 소스를 정식 릴리스로 소개하지 않습니다. 실제 캘린더 계정 등록과 공개 운영은 미검증입니다.
+Google Calendar·Apple Calendar·Outlook 등록 안내를 제공하지만 실제 계정 구독, 공개 HTTPS와 운영 환경의 전체 일정 복구는 미검증입니다. 규격 게시를 실제 서비스 운영과 구분합니다.

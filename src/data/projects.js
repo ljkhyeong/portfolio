@@ -1,4 +1,4 @@
-import { projectSummaries, projectSummariesById } from "./projectSummaries"
+import { projectSummaries, projectSummariesById, youthPolicyCoverage } from "./projectSummaries"
 import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence"
 
 const projects = [
@@ -183,8 +183,13 @@ const projects = [
                 database: "MySQL",
                 primary: true,
                 screenshotNote: "화면 검증용 테스트 데이터입니다.",
-                visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "로컬 구현 89d323df에서 여러 팀 업무, 자료 재확인, 안 읽은 알림 필터와 주간 보고서를 확인했습니다. 무료 공휴일 연동은 기본 비활성이며 실제 외부 계정과 공개 환경 전체 연결은 미검증입니다.",
+                repository: {
+                    href: "https://github.com/ljkhyeong/baton",
+                    label: "CORE 공개 저장소",
+                    note: "구현 코드, 설계 문서와 테스트",
+                },
+                visibility: "공개 저장소",
+                status: "공개 main c566410b에 여러 팀의 업무 필터, 기록 검색·재확인과 주간 보고서 공유·인쇄를 구현했습니다. Core–BRIEF·CAL·ROUND 연동은 로컬 검증 기록 기준이며 공개 환경 전체 연결은 미검증입니다.",
                 screenshots: [
                     {
                         id: "today",
@@ -277,8 +282,13 @@ const projects = [
                 recoveryBoundary:
                     "같은 UUID와 링크 조건이면 기존 링크를 반환하고, 같은 UUID의 조건이 하나라도 다르면 충돌로 차단",
                 database: "MySQL",
-                visibility: "비공개 저장소 / 최신 로컬 구현 요약 공개",
-                status: "로컬 main 1062c18에서 관리용 일괄 조회, Redis 공유 요청률 제한, HMAC 키 교체와 만료 링크 정리를 확인했습니다. 실제 클러스터·공개 배포는 미검증입니다.",
+                repository: {
+                    href: "https://github.com/ljkhyeong/baton-go",
+                    label: "GO 공개 저장소",
+                    note: "구현 코드, 설계 문서와 테스트",
+                },
+                visibility: "공개 저장소",
+                status: "공개 main bf93dc3에 링크 상태 안내와 재시도 화면, 관리용 필터·일괄 조회와 HMAC 키 교체를 구현했습니다. 실제 클러스터·공개 배포는 미검증입니다.",
                 tradeoff:
                     "UUID 처리 기록과 HMAC 키를 같은 시점으로 백업해야 합니다. DB 복구 시점의 키가 없으면 기존 링크를 그대로 유지할 수 없습니다.",
                 screenshots: [
@@ -340,11 +350,11 @@ const projects = [
                     "한 서버의 처리 기한이 지나면 기존 시도를 닫고 새 점검 시도를 만들어 다른 서버가 처리",
                 database: "PostgreSQL",
                 visibility: "공개 저장소",
-                status: "공개 main e2ad4b0에서 결과 필수값이 빠진 9개 DB 조합을 V6 제약으로 차단했습니다. 백업 복원·부하·프로세스 복구와 Grafana Cloud Free 설정도 확인했습니다. 실제 외부 대시보드·알림과 Core 콜백 연결은 미검증입니다.",
+                status: "공개 main 697e60b에서 URL 점검·재처리, 결과 필수값 제약과 복구 도구를 확인했습니다. 외부 대시보드·알림과 공개 환경의 Core 콜백 연결은 미검증입니다.",
                 tradeoff:
                     "처리 기한이 짧으면 중복 점검이 늘고, 길면 중단 작업의 재실행이 늦어집니다. 대기 및 실패 건수를 보고 기한을 조정해야 합니다.",
                 repository: {
-                    href: "https://github.com/ljkhyeong/baton-watch/tree/e2ad4b0",
+                    href: "https://github.com/ljkhyeong/baton-watch/tree/697e60b",
                     label: "WATCH 공개 main 고정 커밋",
                     note: "URL 점검·복구, DB 결과 제약과 운영 검증 도구를 확인한 공개 main 커밋입니다.",
                 },
@@ -368,9 +378,9 @@ const projects = [
                 name: "RELAY",
                 kind: "MICROSERVICE",
                 route: "/projects/baton/relay",
-                role: "Discord·Webhook 및 AWS SQS FIFO 이벤트 전달",
+                role: "Discord·Slack·Webhook·AWS SQS FIFO 이벤트 전달",
                 summary:
-                    "Core 이벤트를 Discord, Webhook 또는 AWS SQS FIFO로 전달하고 성공, 실패와 결과 미확인을 나눠 저장합니다.",
+                    "Core 이벤트를 Discord·Slack·Webhook·AWS SQS FIFO로 전달하고 성공·실패·결과 미확인을 구분합니다.",
                 contribution:
                     "이벤트 ID를 저장해 재수신 시 새 전송 작업을 만들지 않습니다. 서버가 중단되면 기존 시도 UUID와 외부 서비스의 멱등 키를 유지하고, 처리 서버만 변경합니다.",
                 stack: [
@@ -387,7 +397,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "중복 수신 방지, Discord·Webhook·SQS 전달, 결과 미확인 보류, 설정 오류 구독 조회와 pgBackRest 시점 복구",
+                detail: "제공자별 전송·재시도, 결과 미확인 보류, 설정 오류 조회와 pgBackRest 시점 복구",
                 evidence:
                     "이벤트 재수신 시 작업 중복 생성 방지, 서버 중단 후 기존 시도 UUID·외부 서비스 멱등 키 유지와 처리 서버 변경 검증",
                 input: "이벤트 ID, 이벤트 종류, 데이터 형식 버전, 대상 업무 식별자와 발생 시각",
@@ -397,7 +407,7 @@ const projects = [
                     "전송 전 일시 실패만 재시도합니다. 결과 미확인은 다시 보내지 않고 운영자가 외부 기록을 확인해 상태만 확정합니다.",
                 database: "PostgreSQL",
                 visibility: "비공개 저장소 / 확인한 로컬 구현 요약 공개",
-                status: "로컬 구현 5f97e0a에서 Discord·Webhook·SQS 전달, 설정 오류 구독 조회와 pgBackRest 암호화 백업·시점 복구를 확인했습니다. 실제 Discord·AWS 전송과 운영 환경의 RPO·RTO는 미검증입니다.",
+                status: "로컬 구현 18377157에 Discord·Slack·Webhook·SQS 전달과 제공자별 재시도, 결과 미확인 보류를 구현했습니다. 실제 채널 발송과 운영 환경의 RPO·RTO는 미검증입니다.",
                 tradeoff:
                     "결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
                 repository: {
@@ -441,7 +451,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "Core 상태 반영, 주간 미해결 이월·신규·해결 구분, 해결 내역과 발행 보고서 이력 보존",
+                detail: "업무 종류·주간·시간대별 조회, 미해결 이월·신규·해결 구분과 보고서 비교·이력 보존",
                 evidence:
                     "중복 및 과거 이벤트 차단, 점검 항목 요약 및 필터와 발행 보고서 불변성을 PostgreSQL 및 Core 교차 서비스 테스트로 확인했습니다.",
                 input: "Core의 5개 점검 결과: 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계",
@@ -451,14 +461,14 @@ const projects = [
                 recoveryBoundary:
                     "같은 이벤트와 과거 버전은 반영하지 않고 저장한 이벤트 전체를 읽어 같은 점검 항목을 다시 생성",
                 database: "PostgreSQL",
-                visibility: "공개 저장소 / 최신 기능은 로컬 구현 기준",
-                status: "공개 main 5b7d880에서 주간 이월·신규·해결 내역과 이벤트 거부·버전 오류 경보를 확인했습니다. Core 로컬 연동은 검증했으며 공인 DNS·원격 배포는 미검증입니다.",
+                visibility: "공개 저장소",
+                status: "공개 main 2a96b04에 업무 종류·주간·시간대 필터와 보고서 비교의 조건부 조회를 반영했습니다. Core 연동은 로컬 검증 기록 기준이며 원격 배포는 미검증입니다.",
                 tradeoff:
                     "v1과 v2 이벤트를 함께 처리합니다. 신호가 늘면 Core 이벤트 계약과 BRIEF 반영 및 보고서 비교 규칙을 함께 변경해야 합니다.",
                 repository: {
                     href: "https://github.com/ljkhyeong/baton-brief",
                     label: "BRIEF 공개 저장소",
-                    note: "공개 main과 최신 로컬 main의 차이는 현재 상태 설명에 구분했습니다.",
+                    note: "주간 보고서·점검 항목 조회, 이벤트 수신과 검증 기록",
                 },
                 screenshots: [
                     {
@@ -510,7 +520,7 @@ const projects = [
                     "Flyway",
                     "Testcontainers",
                 ],
-                detail: "개인 캘린더 구독·목록·일괄 해지, 응답 유실 시 구독 복구와 읽기 전용 .ics 캐시",
+                detail: "최대 100건 일정 묶음 반영, 개인 구독·일괄 해지와 읽기 전용 .ics 캐시",
                 evidence:
                     "Core 1.0.0 생성 코드의 일정 JSON으로 중복 및 과거 일정 차단과 iCalendar 변환 검증",
                 input: "Core 일정의 최신 전체 데이터와 버전 번호, 구독 생성, 토큰 교체 및 구독 폐기 요청",
@@ -520,14 +530,14 @@ const projects = [
                 recoveryBoundary:
                     "중복 및 과거 버전 번호는 반영하지 않고 DB에 저장한 일정으로 같은 iCalendar 피드를 다시 생성",
                 database: "PostgreSQL",
-                visibility: "공개 저장소 / 정식 JSON 규격 1.0.0 / 릴리스 후보 JSON 규격 1.1.0-rc.1",
-                status: "공개 main 3c2936d의 1.1.0-rc.2 개발 소스에 개인 구독·일괄 해지, 응답 유실 복구와 앱별 등록 안내를 구현했습니다. 게시된 후보는 1.1.0-rc.1이며 실제 캘린더 앱·공개 운영은 미검증입니다.",
+                visibility: "공개 저장소 / 정식 규격 1.0.0 / 후보 규격 1.1.0-rc.2",
+                status: "공개 main 817720d에 최대 100건 일정 묶음 수신과 시즌별 일괄 반영을 구현했습니다. 후보 규격 1.1.0-rc.2를 게시하고 Core 교차 테스트를 통과했으며 실제 캘린더 앱 구독은 미검증입니다.",
                 tradeoff:
                     "읽기 전용 구독은 외부 캘린더에서 쉽게 사용할 수 있지만, 비동기 반영 지연과 앱별 시간대·캐시 동작을 확인해야 합니다.",
                 repository: {
-                    href: "https://github.com/ljkhyeong/baton-cal/tree/3c2936d",
+                    href: "https://github.com/ljkhyeong/baton-cal/tree/817720d",
                     label: "CAL 공개 main 고정 커밋",
-                    note: "개발 규격 1.1.0-rc.2와 앱별 구독 안내 및 운영 스모크를 확인한 공개 main입니다.",
+                    note: "일정 묶음 처리와 후보 규격 1.1.0-rc.2를 확인한 공개 main입니다.",
                 },
                 documentation: [
                     {
@@ -553,7 +563,7 @@ const projects = [
                 route: "/projects/baton/round",
                 role: "WebRTC 스터디룸",
                 summary:
-                    "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, 직접 연결이 어려우면 Cloudflare TURN 접속 정보를 제공합니다.",
+                    "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, Cloudflare TURN 또는 coturn 접속 정보를 제공합니다.",
                 contribution:
                     "React 입장·통화 화면, protocol v3, 재연결과 채팅 수신 확인을 처리하는 RTC 코어, Spring WebSocket 시그널링과 만료 시간이 짧은 Cloudflare TURN 자격 증명 발급을 구현했습니다.",
                 stack: [
@@ -564,10 +574,10 @@ const projects = [
                     "Java 21",
                     "Spring Boot 4.1",
                     "Spring WebSocket",
-                    "Cloudflare TURN / Caddy",
+                    "Cloudflare TURN / coturn / Caddy",
                     "Playwright",
                 ],
-                detail: "최대 6명 WebRTC, QR 초대, 손들기 순서·공용 타이머·주제, 채팅 검색어 강조와 화면 공유 확대",
+                detail: "입장 전 장치·소리 확인, 화면 공유 작은 창, 참가자별 재연결과 수신 확인을 포함한 채팅",
                 evidence:
                     "Chromium 카메라·마이크 제어와 화면 공유, WebKit 호환성, BATON 연동용 edge 프록시와 배포 검증을 CI 작업으로 분리했습니다. WebKit mDNS와 restic 누락도 보완했습니다.",
                 input: "방 ID·참가자 ID·만료 시각이 담긴 Core의 단기 입장 토큰(RS256)",
@@ -577,8 +587,13 @@ const projects = [
                 recoveryBoundary:
                     "연결을 새로 만들 때마다 순번을 올리고 이전 연결에서 늦게 온 메시지는 버립니다. 같은 참가자가 새 입장 토큰으로 접속하면 이전 WebSocket 세션을 종료합니다.",
                 database: "DB 없음 / 방과 참가자 연결 상태는 프로세스 메모리에 저장",
-                visibility: "비공개 저장소 / 설계와 테스트 요약 공개",
-                status: "로컬 구현 78d8c16에서 QR 초대, 손들기·공용 타이머·주제, 채팅 검색어 강조와 입력 초점 복원을 확인했습니다. 실제 TURN·Safari 실기기·외부망·6명 장시간 접속은 미검증입니다.",
+                repository: {
+                    href: "https://github.com/ljkhyeong/webrtc-study",
+                    label: "ROUND 공개 저장소",
+                    note: "구현 코드, 설계 문서와 테스트",
+                },
+                visibility: "공개 저장소",
+                status: "공개 main bdf63eb에 스피커 소리 확인, 화면 공유 작은 창과 통화 제어, 대화 전체 복사와 coturn 연동을 구현했습니다. 실제 TURN·Safari 실기기·외부망·6명 장시간 접속은 미검증입니다.",
                 tradeoff:
                     "참가자끼리 직접 연결하는 mesh 구조는 인원이 늘수록 각 브라우저의 업로드와 CPU 사용량이 증가합니다. 방 상태가 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
                 screenshots: [
@@ -655,14 +670,14 @@ const projects = [
                 method: "도메인 규칙 및 저장소 통합 테스트",
                 rule: "준비 → 전달 → 수락 순서, 준비 또는 전달 단계의 취소, 이전 상태로 되돌리는 요청과 같은 역할에 열린 인수인계 2건을 동시에 생성하는 요청을 각각 실행",
                 result: "준비 → 전달 → 수락 순서를 적용하고 준비 또는 전달 단계만 취소를 허용하며, 역할별 진행 중인 인수인계를 1건으로 유지",
-                scope: "Core 비공개 저장소 · 상태 전이 및 DB 제약 확인 · 2026.08.27 커밋 상태 기준",
+                scope: "Core 당시 비공개 저장소 · 상태 전이 및 DB 제약 확인 · 2026.08.27 커밋 상태 기준",
             },
             {
                 item: "GO 링크 중복 생성 방지",
                 method: "Testcontainers 통합 테스트",
                 rule: "같은 UUID와 요청으로 8건을 동시에 실행",
                 result: "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
-                scope: "GO 비공개 저장소 main 1062c18 · BATON 런타임 연결은 미검증",
+                scope: "GO 당시 비공개 저장소 main 1062c18 · BATON 런타임 연결은 미검증",
             },
             {
                 item: "WATCH 안전한 URL 점검",
@@ -697,7 +712,7 @@ const projects = [
                 method: "현재 main의 Chromium·WebKit·BATON 연동용 edge 프록시 및 배포 검증 구성 확인",
                 rule: "RS256 입장 토큰으로 최대 6명 mesh 연결, 카메라 및 마이크 제어, 화면 공유와 재연결 및 WebKit 장치 동의, 채팅과 모바일 화면 배치 시나리오를 실행",
                 result: "이전 실패 원인이었던 WebKit 직접 연결용 mDNS와 배포 검증용 restic 설치를 현재 main에 추가하고 시그널링 및 RTC 상태 책임을 분리했습니다.",
-                scope: "비공개 main 78d8c16 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
+                scope: "당시 비공개 main 78d8c16 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
             },
             {
                 item: "여러 팀의 내 업무와 최근 서비스 확장",
@@ -713,7 +728,7 @@ const projects = [
             "여러 팀의 오늘 할 일과 인수인계 문서를 Core에 모으고, 짧은 링크·URL 점검·이벤트 전달·주간 보고서·캘린더·WebRTC를 독립 서비스로 구현했습니다.",
         status: {
             label: "현재 상태",
-            text: "Core와 6개 서비스에 관리용 일괄 조회, DB 결과 제약, Discord 전달, 백업·복구와 캘린더 등록 안내를 추가했습니다. Core–BRIEF·CAL·ROUND 연동은 로컬에서 확인했으며 공개 환경 전체 연결과 장기 운영은 미검증입니다.",
+            text: "여러 팀의 업무·자료 재확인, 주간 보고서 필터·공유와 개인 캘린더 구독을 구현했습니다. Core–BRIEF·CAL·ROUND 연동은 로컬에서 확인했으며 공개 환경 전체 연결은 미검증입니다.",
         },
         visualCaption:
             "조직 데이터는 Core에 저장하고 서비스별 DB를 분리합니다. ROUND 방 상태는 메모리에 둡니다.",
@@ -725,7 +740,7 @@ const projects = [
                 title: "Core와 6개 서비스의 책임 및 저장소 분리",
                 constraint: "각 기능은 입력, 보안 검사와 실패 처리 방식이 달랐습니다.",
                 decision:
-                    "Core는 조직·역할·반복 업무·인수인계 데이터를 저장합니다. 6개 서비스는 각자 DB를 사용해 독립 실행하며, 상태 변경 이벤트는 업무 데이터와 함께 저장한 뒤 전송합니다.",
+                    "Core는 조직·역할·반복 업무·인수인계 데이터를 관리합니다. 영속 데이터는 서비스별 DB에, ROUND의 통화 상태는 메모리에 보관합니다. 업무 상태와 전송할 이벤트는 같은 트랜잭션에 저장합니다.",
                 validation:
                     "GO는 같은 UUID의 링크 1건, WATCH는 사설망 URL 차단, RELAY는 같은 이벤트 ID의 수신 이력 1건, BRIEF는 ACTIVE 및 RESOLVED 반영, CAL은 과거 버전 미반영, ROUND는 이전 연결 메시지 차단을 확인했습니다.",
                 boundary:
@@ -851,9 +866,9 @@ const projects = [
                 constraint:
                     "네트워크 재시도로 같은 일정 JSON이 다시 오거나 과거 버전 번호가 늦게 도착하면 최신 캘린더가 이전 일정으로 돌아갈 수 있습니다.",
                 decision:
-                    "이벤트 ID, 일정 ID, 버전 번호와 해시를 비교해 중복 및 과거 일정을 무시했습니다.",
+                    "이벤트 ID·일정 ID·버전·해시로 중복과 과거 일정을 걸러냅니다. 최대 100건을 한 트랜잭션으로 받고 변경된 시즌의 캘린더를 한 번씩 갱신합니다.",
                 validation:
-                    "동일 내용 재전송, 낮은 버전 번호, 같은 버전 번호의 다른 내용과 트랜잭션 실패 후 재시도를 PostgreSQL 통합 테스트로 확인했습니다.",
+                    "묶음 내 오류의 전체 롤백, 중복·과거 일정 차단과 시즌별 갱신을 검증했습니다. 후보 규격 1.1.0-rc.2의 Core 교차 테스트 5개 통과 기록도 확인했습니다.",
                 boundary:
                     "BATON과 CAL은 비동기로 연동하므로 일정 반영이 지연될 수 있습니다. 공개 운영 전에는 자격 증명 교체와 모든 일정의 최신 값을 다시 보내는 순서를 함께 검증해야 합니다.",
             },
@@ -877,7 +892,7 @@ const projects = [
                 constraint:
                     "브라우저 연결을 다시 만들거나 네트워크 경로를 다시 찾은 뒤, 이전 연결의 설명(SDP)과 경로 후보(ICE)가 늦게 도착하면 새 연결 상태를 손상시킬 수 있습니다.",
                 decision:
-                    "연결마다 순번을 부여하고 answer와 ICE에도 같은 값을 넣어 이전 연결의 메시지를 버렸습니다.",
+                    "연결마다 순번을 부여해 이전 answer와 ICE 메시지를 버립니다. 실패한 참가자만 다시 연결하고 정상 통화·로컬 장치·채팅 기록은 유지합니다.",
                 validation:
                     "연결 중단, ICE 재시작과 피어 재생성 사이에 이전 연결 순번의 answer 및 ICE를 늦게 전달해 현재 연결 시도의 메시지만 반영되는지 WebRTC 연결 모듈 자동화 테스트로 확인했습니다.",
                 boundary: "클라이언트와 서버의 연결 메시지 규격을 함께 배포해야 합니다.",
@@ -917,13 +932,13 @@ const projects = [
                 label: "BATON Core GitHub 저장소",
                 shortLabel: "Core 저장소",
                 href: "https://github.com/ljkhyeong/baton",
-                note: "조직·역할·반복 업무·결정·인수인계 문서 · 비공개 저장소",
+                note: "조직·역할·반복 업무·결정·인수인계 문서 · 공개 저장소",
             },
             {
                 label: "BATON GO GitHub 저장소",
                 shortLabel: "GO 저장소",
                 href: "https://github.com/ljkhyeong/baton-go",
-                note: "허용 경로의 짧은 링크 발급과 관리 · 비공개 저장소",
+                note: "허용 경로의 짧은 링크 발급과 관리 · 공개 저장소",
             },
             {
                 label: "BATON WATCH GitHub 저장소",
@@ -935,7 +950,7 @@ const projects = [
                 label: "BATON RELAY GitHub 저장소",
                 shortLabel: "RELAY 저장소",
                 href: "https://github.com/ljkhyeong/baton-relay",
-                note: "RabbitMQ 수신, Discord·Webhook 및 AWS SQS FIFO 전달 · 비공개 저장소",
+                note: "RabbitMQ 수신, Discord·Slack·Webhook·AWS SQS FIFO 전달 · 비공개 저장소",
             },
             {
                 label: "BATON BRIEF GitHub 저장소",
@@ -953,7 +968,7 @@ const projects = [
                 label: "BATON ROUND GitHub 저장소",
                 shortLabel: "ROUND 저장소",
                 href: "https://github.com/ljkhyeong/webrtc-study",
-                note: "WebRTC 스터디룸과 Spring WebSocket 시그널링 · 비공개 저장소",
+                note: "WebRTC 스터디룸과 Spring WebSocket 시그널링 · 공개 저장소",
             },
         ],
     },
@@ -1079,7 +1094,7 @@ const projects = [
             },
             {
                 type: "ADR",
-                label: "8회권 사용, 취소 및 환불 정책",
+                label: "이용권 사용, 취소 및 환불 정책",
                 href: "https://github.com/ljkhyeong/happyGallery/blob/main/docs/ADR/0011_이용권_사용_소모_환불_결정/adr.md",
                 note: "미래 예약 자동 취소, 환불할 이용 횟수 계산과 동시 처리의 잠금 순서를 정한 기록",
             },
@@ -1209,7 +1224,7 @@ const projects = [
             text: "서비스를 배포하고 공개 홈페이지·작품·클래스 화면의 접속을 확인했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증입니다.",
         },
         visualCaption:
-            "최신 UI에 E2E 테스트용 모의 API 응답을 넣은 화면입니다. 실제 네이버 판매자 계정이나 PG 운영 화면은 아닙니다.",
+            "기능 설명용 테스트 데이터로 촬영한 화면입니다. 실제 네이버 판매자 계정이나 PG 운영 화면은 아닙니다.",
         problems: [
             {
                 number: "01",
@@ -1272,25 +1287,25 @@ const projects = [
             },
             {
                 number: "06",
-                title: "AWS 비용 분석과 로컬 k3s 전환 준비",
+                title: "AWS 비용 분석과 후속 배포·복구 구성",
                 constraint:
                     "CloudFront, ALB, ECS, RDS와 Valkey 기반 환경을 실제 가동했지만 트래픽과 무관한 상시 비용이 계속 발생했습니다.",
                 decision:
-                    "Cost Explorer로 상시 비용을 확인해 AWS 리소스를 종료했습니다. 이후 단일 노트북 k3s 배포와 암호화 백업 절차를 준비했습니다.",
+                    "Cost Explorer로 상시 비용을 확인해 AWS 리소스를 종료했습니다. 후속 k3s 배포에는 진행 중 요청의 종료 대기, 롤링 교체와 DB·이미지 백업 절차를 구현했습니다.",
                 validation:
-                    "AWS 리소스별 비용과 종료 상태를 회고에 남겼습니다. k3s 배포 파일과 배포 및 복구 스크립트의 문법 및 구성 검사 기준과 운영 절차서를 준비했습니다.",
+                    "공개 서비스의 HTTPS 접속을 확인했습니다. 롤링 교체와 백업·복구 도구는 로컬 구성 검사와 검증 기록을 확인했습니다.",
                 boundary:
-                    "단일 노드는 비용과 통제에는 유리하지만 고가용성을 제공하지 않습니다. 실제 Linux 장비의 DNS, TLS, Secret, PVC, 외부 백업과 복구 훈련은 아직 완료하지 않았습니다.",
+                    "단일 노드는 고가용성을 제공하지 않습니다. 장기 가동과 실제 장애 상황의 복구 시간은 검증하지 않았습니다.",
             },
             {
                 number: "07",
-                title: "8회권 환불 시 예약 취소와 잔여 횟수 처리",
+                title: "이용권 변경 후에도 기존 구매·환불 조건 보존",
                 constraint:
-                    "8회권 전체 환불과 예약 사용 및 취소가 동시에 실행되면 환불할 이용 횟수, 미래 예약과 사용 이력이 서로 달라질 수 있었습니다.",
+                    "판매 이용권을 8회에서 4회로 바꾸더라도 기존 구매와 결제 대기 건의 횟수·금액은 유지해야 합니다. 환불과 예약이 동시에 실행될 때 이용 이력도 일치해야 합니다.",
                 decision:
-                    "환불 횟수를 잔여 이용 횟수와 취소한 미래 예약 수의 합으로 계산했습니다. 이용권과 예약을 순서대로 잠그고 취소, 이용 횟수 차감과 사용 이력을 함께 저장했습니다.",
+                    "구매 당시 상품·횟수·금액을 저장하고, 이용권과 예약을 순서대로 잠가 취소·횟수 차감·사용 이력을 함께 반영합니다. 환불액은 구매 금액과 환불할 횟수로 계산합니다.",
                 validation:
-                    "미래 예약 2건과 잔여 6회를 합쳐 8회분 환불이 생성되고 동시 예약에도 이용 횟수와 사용 이력이 일치하는지 확인했습니다.",
+                    "4회권과 기존 8회권의 비례 환불, 전환 전에 준비한 8회권 결제의 조건 유지와 원 단위 전액 환불 테스트를 확인했습니다.",
                 boundary:
                     "결제사 환불 완료 전에도 예약 취소와 이용 횟수 차감이 먼저 끝날 수 있습니다. 환불 상태를 DB에 보존하고 자동 복구와 관리자 재처리로 금전 환불을 이어가야 합니다.",
             },
@@ -1459,8 +1474,8 @@ const projects = [
                 id: "policies",
                 src: "youth-policy-mate-policies.webp",
                 label: "실제 정책 목록",
-                caption: "공개 정책 40건의 접수 상태·질문 제공 여부 필터와 검색",
-                alt: "공개 정책 40건을 접수 상태와 질문 제공 여부로 검색하는 화면",
+                caption: `공개 정책 ${youthPolicyCoverage.policies}건의 접수 상태·질문 제공 여부 필터와 검색`,
+                alt: `공개 정책 ${youthPolicyCoverage.policies}건을 접수 상태와 질문 제공 여부로 검색하는 화면`,
                 width: 780,
                 height: 1688,
             },
@@ -1488,10 +1503,9 @@ const projects = [
             title: "Next.js와 Spring Boot를 분리하고, 서버 DTO에서 TypeScript API 타입을 생성합니다.",
             description:
                 "정책 수집, 조건 판정, 회원 저장과 알림을 기능별로 나누고 JDBC·PostgreSQL 트랜잭션으로 처리합니다. 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성합니다.",
-            tradeoff:
-                "정책 40건을 수집했으며 조건 질문은 검토한 정책 9종의 일부 공통 요건만 다룹니다.",
+            tradeoff: `정책 ${youthPolicyCoverage.policies}건을 수집했으며 질문은 검토한 정책 ${youthPolicyCoverage.questionPolicies}종의 일부 공통 요건만 다룹니다.`,
         },
-        featuredProblemNumbers: ["01", "03", "04", "06"],
+        featuredProblemNumbers: ["01", "03", "04", "07"],
         documentGroups: [
             {
                 id: "prd",
@@ -1566,42 +1580,54 @@ const projects = [
                 href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/admin-collection-exceptions.md",
                 note: "페이지 실패·개정·재처리 이력과 정책명·운영 기관 보정 및 충돌 처리",
             },
+            {
+                type: "구현 기록",
+                label: "정책 조건의 버전 관리와 검토",
+                href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/policy-rule-data.md",
+                note: "질문·판정표의 버전 관리와 원문 변경 시 재검토",
+            },
+            {
+                type: "구현 기록",
+                label: "AI 추출과 검토용 초안 저장",
+                href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-drafts.md",
+                note: "OpenAI 호출·예산 예약·응답 보관과 관리자 검토 후 적용",
+            },
         ],
         proofs: [
             {
                 item: "공개 정책 조회와 정책별 조건 질문",
                 method: "현재 로컬 앱과 서버 구현·테스트 대조",
                 rule: "수집한 정책 목록·상세와 조건 질문 필터를 조회하고 검토 대상 정책을 확인",
-                result: "공개 정책 40건을 조회하고 검토한 9종의 정책에만 조건 질문을 제공합니다. 이 중 7종은 연령을 비교하며, 햇살론유스는 이용 대상·소득·생애 보증한도도 구분합니다.",
-                scope: "로컬 개발 브랜치 6f33f72 · 구현 커밋 5675733 · 전체 서울 정책과 최종 신청 자격 판정은 아님",
+                result: `정책 ${youthPolicyCoverage.policies}건을 조회하고 ${youthPolicyCoverage.questionPolicies}종에 조건 질문을 제공합니다. ${youthPolicyCoverage.agePolicies}종은 연령을 비교하며 질문과 판정에 같은 버전 규칙을 사용합니다.`,
+                scope: "2026.09.13 로컬 정책 목록과 개발 브랜치 4f7d030의 구현 확인 · 최종 신청 자격 판정은 아님",
             },
             {
                 item: "관심 정책 저장과 일정·알림",
                 method: "회원 정책 흐름과 PostgreSQL 통합 테스트 기록",
                 rule: "회원별 저장·해제, 신청 일정, 알림 읽음 처리와 예약 취소 흐름을 확인",
-                result: "회원별 관심 정책과 일정을 연결하고 저장 해제·동의 변경에 따른 알림 취소 및 서비스 내 알림을 구현했습니다.",
+                result: "저장한 정책의 변경 내용을 비교하고 검색·접수 상태·마감순으로 조회합니다. 안 읽은 알림 필터와 모두 읽음, 저장 해제·동의 변경에 따른 알림 취소를 구현했습니다.",
                 scope: "로컬 구현·자동화 검증 기준 · 실제 카카오·네이버 로그인은 미검증",
             },
             {
                 item: "이메일 동의와 발송 작업 복구",
                 method: "이메일 구현 문서와 Outbox 통합 테스트 기록",
                 rule: "주소 확인, 수신 동의, 암호화 저장, 예약·취소와 중단된 발송 작업을 확인",
-                result: "검증한 이메일과 수신 동의를 기준으로 발송 작업을 저장하고 SMTP 어댑터와 재처리를 구현했습니다.",
+                result: "SMTP·Resend 발송 어댑터, 서명 웹훅과 발송 상태 조회를 구현했습니다. 로그인 없는 수신 해제와 이메일 암호화 키 교체도 지원합니다.",
                 scope: "모의 발송과 로컬 검증 기준 · 실제 발신 도메인·외부 수신함 전달은 미검증",
             },
             {
                 item: "AI 비용 예약과 중단 작업 복구",
-                method: "PostgreSQL 통합 테스트와 모의 AI 실행기",
+                method: "PostgreSQL 통합 테스트와 모의 OpenAI HTTP 서버 검증 기록",
                 rule: "호출 전 비용 예약, 응답 미확인, 정산과 처리 권한이 만료된 작업자의 늦은 결과를 확인",
-                result: "예산을 먼저 예약하고 결과 미확인 시 유지합니다. 현재 요청·정책 개정과 맞지 않는 늦은 결과는 적용하지 않습니다.",
-                scope: "실제 AI 공급자 요청·청구와 운영용 작업 스케줄러는 미연결",
+                result: "비용 예약 후 OpenAI를 호출하고 응답을 보관해 초안 저장을 재개합니다. 발송 기록만 있고 응답이 없으면 재호출하지 않으며 관리자 검토 전에는 규칙을 적용하지 않습니다.",
+                scope: "OpenAI 어댑터·자동 처리 스케줄러 구현 · 기본 비활성 · 실제 모델 품질과 요청별 청구 대사는 미검증",
             },
             {
                 item: "수집 실패 재처리와 원문 충돌 안내",
                 method: "PostgreSQL 정책 API·브라우저 시나리오와 구현 문서 대조",
                 rule: "페이지 실패 조회, 개정 비교, 사유를 남긴 재처리·보정과 새 원본 충돌 및 상세 안내를 확인",
                 result: "원본과 보정을 분리해 저장하고 새 원본과 충돌하면 현재 공개 값을 유지합니다. 검토한 원문 차이는 정책 상세에 근거 링크와 함께 표시합니다.",
-                scope: "공개 main 1b7fbdd와 로컬 개발 브랜치 6f33f72 · 실제 관리자 계정 연결은 미완료",
+                scope: "공개 main 24c924c의 구현·검증 기록 기준 · 실제 관리자 계정 연결은 미완료",
             },
         ],
         category: "개인 웹앱 프로젝트",
@@ -1610,7 +1636,7 @@ const projects = [
             "확인하지 못한 조건과 마감일은 ‘추가 확인 필요’로 표시하고, 이전 정책·AI 결과가 최신 데이터를 덮지 않도록 처리합니다.",
         status: {
             label: "현재 상태",
-            text: "공개 main 1b7fbdd에서 접수 상태·개인 조건 검색과 관리자용 수집 실패 재처리를 구현했고, 로컬 DB의 공개 정책 40건을 확인했습니다. 로컬 브랜치 6f33f72의 구현 커밋 5675733에는 정책 9종의 조건 질문, 7종의 연령 비교와 원문 충돌 안내를 추가했습니다. 실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증입니다.",
+            text: "공개 main 24c924c에 정책 조건의 버전 관리, AI 초안 검토와 개인 정책 변경 비교를 반영했습니다. 후속 개발 브랜치 4f7d030에는 이메일 발송 상태 조회·수신 해제·키 교체를 구현했습니다. 실제 OAuth·OpenAI·Resend 운영 연동은 미검증입니다.",
         },
         visualCaption:
             "실제 공개 정책을 저장한 로컬 DB로 촬영한 모바일 화면입니다. 조건 질문은 일부 요건을 확인하며 최종 신청 자격은 공식 안내에서 확인합니다.",
@@ -1622,8 +1648,7 @@ const projects = [
                     "정책 조건을 해석하지 못했거나 사용자 정보가 없을 때 단순 참과 거짓으로 처리하면 신청 가능 여부를 잘못 안내할 수 있습니다.",
                 decision:
                     "연령, 거주, 취업과 소득을 항목별로 비교하고 가능, 불가, 추가 확인 필요로 집계했습니다. 판정에는 정책 개정, 조건 정의와 기준일을 함께 남깁니다.",
-                validation:
-                    "조건 충족·불충족·정보 누락의 집계 규칙을 테스트하고 실제 정책 9종의 검토한 질문과 연결했습니다.",
+                validation: `조건 충족·불충족·정보 누락을 구분하고 정책 ${youthPolicyCoverage.questionPolicies}종의 질문·판정 데이터를 연결했습니다.`,
                 boundary:
                     "질문은 검토한 정책의 일부 공통 요건만 다룹니다. 환급액·예외·모집 기간 등 최종 신청 조건은 공식 안내에서 확인해야 합니다.",
             },
@@ -1637,7 +1662,7 @@ const projects = [
                 validation:
                     "미확인 마감 제외, 중복 예약 방지, 저장 해제와 동의 변경 뒤 취소를 서버 테스트로 확인했습니다.",
                 boundary:
-                    "서비스 내 알림과 SMTP 어댑터를 구현했으며 실제 이메일 수신함 전달은 검증하지 않았습니다.",
+                    "서비스 내 알림과 SMTP·Resend 어댑터를 구현했습니다. 실제 발신 도메인과 외부 수신함 전달은 미검증입니다.",
             },
             {
                 number: "03",
@@ -1649,7 +1674,7 @@ const projects = [
                 validation:
                     "실제 정책 수집·개정 저장과 모의 AI 후보 처리에서 이전 개정 및 오래된 요청 결과의 반영 차단을 확인했습니다.",
                 boundary:
-                    "정책 수집과 DB 저장은 연결했습니다. 실제 AI 공급자 호출과 청구 처리는 미연결입니다.",
+                    "OpenAI 호출·응답 보관·규칙 초안 저장과 자동 처리 스케줄러를 연결했습니다. 실제 API 키를 사용한 생성 품질과 운영 검증은 남아 있습니다.",
             },
             {
                 number: "04",
@@ -1661,7 +1686,7 @@ const projects = [
                 validation:
                     "예약 및 정산, 결과 미확인, 작업자 교체, 처리 기한 갱신 실패와 이전 작업자의 늦은 결과를 PostgreSQL 통합 테스트와 모의 실행기로 확인했습니다.",
                 boundary:
-                    "비용 예약·복구 모델과 모의 공급자를 검증했습니다. 실제 AI 요청, 청구 조회와 운영용 작업 스케줄러는 연결하지 않았습니다.",
+                    "OpenAI HTTP 어댑터와 자동 처리 스케줄러는 모의 공급자로 검증했습니다. 월 비용 조회를 요청별 청구액으로 간주하지 않으며 실제 청구 대사는 남아 있습니다.",
             },
             {
                 number: "05",
@@ -1686,6 +1711,29 @@ const projects = [
                     "중복 재처리, 원본·직전 개정 비교, 보정 사유와 작업자 기록, 새 원본 충돌 및 정책 상세의 원문 차이 안내를 PostgreSQL API와 브라우저 시나리오로 확인했습니다.",
                 boundary:
                     "현재 보정 범위는 공개 정책의 정책명과 운영 기관입니다. 실제 관리자 계정 연결과 다른 정책의 원문 검토는 남아 있습니다.",
+            },
+            {
+                number: "07",
+                title: "정책 조건을 코드 대신 버전 데이터로 관리",
+                constraint:
+                    "공고의 연령·기간·예외가 바뀔 때마다 정책별 Java 코드를 수정하면 질문과 판정이 어긋나기 쉽습니다.",
+                decision:
+                    "질문·선택지·판정표·근거를 변경 불가 버전으로 저장합니다. 관리자 검토 후 새 버전을 적용하고 원문 변경·기간 만료 시 기존 규칙의 사용을 중단합니다.",
+                validation:
+                    "기존 정책의 데이터 전환, 질문·목록의 동일 규칙 사용, 원문 변경 차단과 동시 적용 충돌 테스트를 확인했습니다.",
+                boundary:
+                    "새 비교 방식은 공통 코드 보완이 필요합니다. AI는 초안만 만들며 공고의 의미와 예외는 관리자가 검토합니다.",
+            },
+            {
+                number: "08",
+                title: "저장한 정책의 변경 내용을 저장 시점과 비교",
+                constraint:
+                    "저장 후 여러 번 개정된 정책을 직전 공고와만 비교하면 사용자가 처음 확인한 내용과의 차이를 놓칠 수 있습니다.",
+                decision:
+                    "관심 정책에 저장한 개정과 현재 공개 개정을 비교해 바뀐 항목만 보여줍니다. 비교 조회는 저장 기준·읽음 상태·알림 예약을 바꾸지 않습니다.",
+                validation:
+                    "회원 소유권·개정 비교의 PostgreSQL 테스트와 데스크톱·모바일 화면 검증 기록을 확인했습니다.",
+                boundary: "다른 정책번호로 등록된 다음 연도·회차 공고는 자동 연결하지 않습니다.",
             },
         ],
         stack: [
@@ -1935,7 +1983,7 @@ const projects = [
             tradeoff:
                 "기록 공개 시 제출한 해시를 확인하고 GitHub 원본 코드와 비교합니다. 이슈·PR·CI는 읽기만 하며, 서버는 테스트 실행 사실까지 검증하지 않습니다. 메모리 세션을 쓰는 단일 인스턴스만 지원합니다.",
         },
-        featuredProblemNumbers: ["01", "02", "05", "06"],
+        featuredProblemNumbers: ["01", "02", "05", "07"],
         documentGroups: [
             {
                 id: "prd",
@@ -2092,7 +2140,7 @@ const projects = [
             "사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.",
         status: {
             label: "현재 상태",
-            text: "공개 릴리스는 v0.7.0이며 main e234584의 서버·IntelliJ는 0.12.3-SNAPSHOT, Zed 연결 도구는 0.12.2입니다. GitHub 이슈·PR·CI 조회와 웹 Markdown 저장을 추가했으며 실제 게시·공개 운영은 미검증입니다.",
+            text: "공개 릴리스는 v0.7.0입니다. 개발 브랜치 125684c에는 IntelliJ 기록 검색·폐기 기록 조회, 웹 코드 위치 추적과 GitHub PR·커밋 연결 진단을 구현했습니다. 실제 GitHub 게시·공개 운영은 미검증입니다.",
         },
         visualCaption:
             "원문 대화와 숨은 추론은 저장하지 않습니다. 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
@@ -2139,7 +2187,7 @@ const projects = [
                 constraint:
                     "팀 기록에는 저장소별 비공개 초안이 있어 단순 공유 토큰만으로 작성자와 읽기 및 쓰기 권한을 구분할 수 없습니다.",
                 decision:
-                    "GitHub OAuth로 사용자를 확인하고 저장소 권한을 요청마다 조회합니다. GitHub user token과 its_ 세션은 메모리에만 보관합니다.",
+                    "GitHub OAuth로 사용자를 확인하고 저장소 권한을 요청마다 조회합니다. 토큰과 세션은 메모리에 보관하고 승인 취소 웹훅이나 사용자 요청으로 세션을 종료합니다.",
                 validation:
                     "PKCE와 state, 토큰 갱신, 작성자 소유권 및 저장소 읽기와 쓰기 권한을 테스트했습니다.",
                 boundary:
@@ -2151,11 +2199,11 @@ const projects = [
                 constraint:
                     "변경 기록이 별도 화면에만 있으면 PR 리뷰와 이후 코드 탐색 중 필요한 시점에 찾기 어렵습니다.",
                 decision:
-                    "PR HEAD가 기록 커밋과 같을 때 Check Run으로 게시합니다. 웹·IntelliJ·Zed에서는 저장소·파일·줄을 기준으로 관련 기록을 찾고 코드 비교와 변경 이력을 확인합니다.",
+                    "PR HEAD가 기록 커밋과 같을 때 Check Run으로 게시합니다. 웹·IntelliJ에서 검색어·상태·파일로 기록을 찾고, 검색 조건을 유지한 채 상세·원본·이력으로 이동합니다.",
                 validation:
                     "웹의 권한·필터·부분 조회·재개와 IntelliJ·Zed 연결 검증 기록을 확인했습니다. 웹 화면은 서버 테스트가 생성한 HTML로 촬영했습니다.",
                 boundary:
-                    "IntelliJ에서 기록 생성과 콜백 토큰 자동 수신은 제공하지 않습니다. 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증을 마치지 못했습니다.",
+                    "IntelliJ의 최신 검색·필터는 자동화 테스트 기준이며 실제 IDE의 수동 확인은 남아 있습니다. 기록 생성과 콜백 토큰 자동 수신은 제공하지 않습니다.",
             },
             {
                 number: "06",
@@ -2168,6 +2216,18 @@ const projects = [
                     "저장소·번호·커밋 불일치, 권한 부족, 페이지 이동과 로그인 후 복귀를 테스트했습니다. Markdown 본문·헤더·파일명과 비공개 기록 차단도 확인했습니다.",
                 boundary:
                     "CI를 새로 실행하거나 로그·아티팩트를 저장하지 않습니다. 실제 브라우저 저장 대화상자와 외부 GitHub 게시·배포는 확인하지 않았습니다.",
+            },
+            {
+                number: "07",
+                title: "파일명과 줄이 바뀌어도 변경 근거 추적",
+                constraint:
+                    "파일 이름이나 줄 위치가 바뀌면 같은 코드에 남긴 변경 기록을 찾기 어렵습니다. 유사한 코드에 잘못 연결할 가능성도 있습니다.",
+                decision:
+                    "파일명이 바뀌어도 내용 해시가 같으면 연결하고, 줄이 이동한 코드는 전체 줄이 한 곳에서만 일치할 때 연결합니다. 원본·조회 커밋의 위치를 함께 보여주고 과거 테스트를 현재 검증으로 표시하지 않습니다.",
+                validation:
+                    "이름 변경·줄 이동·중복 코드 조각과 페이지별 조회의 서버 통합 테스트를 확인했습니다. IntelliJ는 조회 당시 서버·커밋·파일·줄로 웹 이력 화면을 엽니다.",
+                boundary:
+                    "수정되거나 여러 곳에 중복된 코드는 유사도로 추정해 연결하지 않습니다. 작업 중인 파일이 HEAD와 다르면 현재 줄 조회를 중단합니다.",
             },
         ],
         stack: [

@@ -101,10 +101,8 @@ describe("공개 지식 문서 목록", () => {
                 document.documentType === "service_overview",
         )
 
-        expect(batonOverview.content).toContain("공개 범위: 일부 저장소 공개")
-        expect(roundOverview.content).toContain(
-            "저장소 공개 범위: 비공개 저장소 / 설계와 테스트 요약 공개",
-        )
+        expect(batonOverview.content).toContain("공개 범위: 공개 저장소 6개")
+        expect(roundOverview.content).toContain("저장소 공개 범위: 공개 저장소")
         expect(roundOverview.content).toContain(
             "검증 요약: Chromium 카메라·마이크 제어와 화면 공유",
         )
@@ -117,7 +115,7 @@ describe("공개 지식 문서 목록", () => {
         )
 
         expect(intentTraceOverview.content).toContain("변경 근거와 검증 결과를 코드 위치에")
-        expect(intentTraceOverview.content).toContain("서버·IntelliJ는 0.12.3-SNAPSHOT")
+        expect(intentTraceOverview.content).toContain("개발 브랜치 125684c")
 
         const youthPolicyOverview = corpus.documents.find(
             (document) =>
@@ -126,10 +124,8 @@ describe("공개 지식 문서 목록", () => {
         )
 
         expect(youthPolicyOverview.content).toContain("구분: 개인 웹앱 프로젝트")
-        expect(youthPolicyOverview.content).toContain("공개 정책 40건")
-        expect(youthPolicyOverview.content).toContain(
-            "실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증",
-        )
+        expect(youthPolicyOverview.content).toContain("정책 40건")
+        expect(youthPolicyOverview.content).toContain("실제 OAuth·OpenAI·Resend 운영 연동은 미검증")
 
         const firstProblem = corpus.documents.find(
             (document) => document.documentType === "problem_solution",

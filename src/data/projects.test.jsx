@@ -88,7 +88,7 @@ describe("project summary data", () => {
 
         expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
         expect(intentTrace.status.text).toContain("v0.7.0")
-        expect(intentTrace.status.text).toContain("0.12.3-SNAPSHOT")
+        expect(intentTrace.status.text).toContain("개발 브랜치 125684c")
         expect(intentTrace.architecture.tradeoff).toContain("GitHub 원본 코드와 비교")
         expect(intentTrace.proofs).toEqual(
             expect.arrayContaining([
@@ -122,16 +122,16 @@ describe("project summary data", () => {
             youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
         ).toEqual(["780x1688", "780x1688", "780x1688", "390x844"])
         expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
-        expect(youthPolicyMate.status.text).toContain("공개 정책 40건")
-        expect(youthPolicyMate.status.text).toContain("정책 9종의 조건 질문")
-        expect(youthPolicyMate.status.text).toContain("7종의 연령 비교")
-        expect(youthPolicyMate.status.text).toContain("실제 OAuth·이메일·AI 공급자")
+        expect(youthPolicyMate.proofs[0].result).toContain("정책 40건")
+        expect(youthPolicyMate.proofs[0].result).toContain("11종에 조건 질문")
+        expect(youthPolicyMate.proofs[0].result).toContain("9종은 연령을 비교")
+        expect(youthPolicyMate.status.text).toContain("실제 OAuth·OpenAI·Resend")
         expect(youthPolicyMate.stack).toContain("Spring JDBC")
         expect(youthPolicyMate.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
                     item: "공개 정책 조회와 정책별 조건 질문",
-                    scope: expect.stringContaining("로컬 개발 브랜치 6f33f72"),
+                    scope: expect.stringContaining("개발 브랜치 4f7d030"),
                 }),
             ]),
         )
@@ -236,8 +236,8 @@ describe("project summary data", () => {
             decision: expect.stringContaining("독립 트랜잭션"),
         })
         expect(passRefundProblem).toMatchObject({
-            title: "8회권 환불 시 예약 취소와 잔여 횟수 처리",
-            decision: expect.stringContaining("순서대로 잠그고"),
+            title: "이용권 변경 후에도 기존 구매·환불 조건 보존",
+            decision: expect.stringContaining("순서대로 잠가"),
             boundary: expect.stringContaining("관리자 재처리"),
         })
         expect(happyGallery.featuredProblemNumbers).not.toContain("07")
@@ -249,7 +249,7 @@ describe("project summary data", () => {
         expect(happyGallery.documents).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ label: "결제 승인 실패 이력과 중복 처리 방지" }),
-                expect.objectContaining({ label: "8회권 사용, 취소 및 환불 정책" }),
+                expect.objectContaining({ label: "이용권 사용, 취소 및 환불 정책" }),
             ]),
         )
         expect(happyGallery.screenshots.map(({ width, height }) => `${width}x${height}`)).toEqual([

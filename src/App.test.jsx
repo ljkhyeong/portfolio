@@ -590,9 +590,7 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
         }),
     ).toBeInTheDocument()
     expect(screenshots).toHaveAccessibleDescription(/온통청년에서 수집해 저장한 공개 데이터/)
-    expect(
-        screen.getByText(/실제 OAuth·이메일·AI 공급자와 관리자 계정은 미검증/),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/실제 OAuth·OpenAI·Resend 운영 연동은 미검증/)).toBeInTheDocument()
 })
 
 test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범위를 구분한다", async () => {

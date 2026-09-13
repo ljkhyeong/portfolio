@@ -48,8 +48,8 @@ export const homeSkillGroups = [
                 ],
             },
             {
-                name: "정책 신청 조건 판정과 AI 결과 검증",
-                detail: "확인하지 못한 신청 조건은 ‘추가 확인 필요’로 표시합니다. 현재 정책 개정과 요청 순번에 맞는 AI 결과만 반영합니다.",
+                name: "정책 조건의 버전 관리와 AI 초안 검토",
+                detail: "질문과 판정 규칙을 버전 데이터로 관리합니다. AI 결과는 현재 공고·요청과 대조해 초안으로 저장하고, 관리자 검토 후 적용합니다.",
                 examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
             },
         ],

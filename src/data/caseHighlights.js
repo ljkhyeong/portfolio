@@ -1,10 +1,11 @@
 import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence"
+import { youthPolicyCoverage } from "./projectSummaries"
 
 export const caseIntroductions = {
     baton: "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과 자료 재확인 일정을 모아 보는 서비스입니다.",
     happygallery: "상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.",
     "youth-policy-mate":
-        "정책의 접수 상태와 조건을 확인하고, 수집 실패를 재처리하며 관심 정책의 일정·알림을 제공하는 웹앱입니다.",
+        "내 조건에 맞는 정책을 찾고, 저장한 정책의 변경 내용과 마감 일정·알림을 확인하는 웹앱입니다.",
     "hope-commit": "SeungIl 님의 Hope 6.0.0을 포크해 로컬 커밋 HTML 리뷰를 추가했습니다.",
     "intent-trace": "AI 코드 변경의 요청·근거와 검증 결과를 코드 위치에 연결해 남기는 도구입니다.",
     warrant: "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다.",
@@ -15,10 +16,9 @@ export const caseIntroductions = {
 export const caseResults = {
     baton: "서비스별 테스트와 Core–BRIEF·CAL·ROUND 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
     happygallery: "공개 서비스 배포와 HTTPS 접속 확인. 실제 네이버·Toss·NHN 계정 연동은 미검증",
-    "youth-policy-mate":
-        "공개 정책 40건·질문 9종 확인. 햇살론유스 조건과 동일 정책의 원문 불일치 안내는 개발 브랜치 기준",
+    "youth-policy-mate": `질문 ${youthPolicyCoverage.questionPolicies}종·연령 비교 ${youthPolicyCoverage.agePolicies}종 구현. 조건 규칙의 버전 관리와 AI 초안 검토·적용을 로컬 검증`,
     "hope-commit": "v5.0.2 공개 및 자동화 테스트 343개 통과",
-    "intent-trace": "v0.7.0 공개. GitHub 이슈·PR·CI 조회와 Markdown 저장을 main에서 확인",
+    "intent-trace": "v0.7.0 공개. 개발 버전의 IDE 검색·코드 위치 추적과 GitHub 연결 진단을 검증",
     warrant: warrantPerformanceSummary,
     defense: "군교정 DB 반영, CSRF 요청 차단과 저장소 직접 업로드 확인",
     webrtc: "팀 시연에서 HLS 지연 약 35초 → 17초",
