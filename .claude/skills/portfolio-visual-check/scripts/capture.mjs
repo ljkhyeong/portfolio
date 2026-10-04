@@ -136,6 +136,25 @@ const scrollThrough = async (page) => {
         }
         window.scrollTo(0, 0)
     })
+    // 전체 페이지 캡처에 빈 이미지 상자가 찍히지 않도록 지연 로딩 이미지의 디코딩을 기다린다.
+    // display: none인 이미지는 지연 로딩이 시작되지 않으므로 렌더링된 이미지만 확인한다.
+    await page
+        .waitForFunction(
+            () =>
+                [...document.images]
+                    .filter((image) => image.getClientRects().length > 0)
+                    .every((image) => image.complete),
+            null,
+            { timeout: 10_000 },
+        )
+        .catch(() => {})
+    await page.evaluate(() =>
+        Promise.all(
+            [...document.images]
+                .filter((image) => image.complete && image.naturalWidth > 0)
+                .map((image) => image.decode().catch(() => {})),
+        ),
+    )
 }
 
 const inspectPage = (contrastSelector) => {
@@ -226,6 +245,45 @@ const inspectPage = (contrastSelector) => {
             svgTextOverflow.push(finding)
         } else {
             svgLabelWarnings.push(finding)
+        }
+    }
+
+    // 나중에 그린 불투명 사각형(노드 등)이 글자를 덮으면 글자가 잘려 보인다.
+    const isOpaque = (element) => {
+        const style = getComputedStyle(element)
+        const fill = style.fill
+        return (
+            fill !== "none" &&
+            !/rgba\([^)]*,\s*0\)$/.test(fill) &&
+            Number(style.fillOpacity) > 0 &&
+            Number(style.opacity) > 0
+        )
+    }
+    const svgTextOccluded = []
+    for (const svg of document.querySelectorAll("svg")) {
+        const texts = [...svg.querySelectorAll("text")]
+        const rects = [...svg.querySelectorAll("rect")].filter(
+            (rect) => !rect.closest("defs, marker, clipPath, mask") && isOpaque(rect),
+        )
+        for (const text of texts) {
+            const textRect = text.getBoundingClientRect()
+            if (textRect.width < 2) {
+                continue
+            }
+            const cover = rects.find((rect) => {
+                if (!(text.compareDocumentPosition(rect) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+                    return false
+                }
+                const box = rect.getBoundingClientRect()
+                const width =
+                    Math.min(textRect.right, box.right) - Math.max(textRect.left, box.left)
+                const height =
+                    Math.min(textRect.bottom, box.bottom) - Math.max(textRect.top, box.top)
+                return width > 2 && height > textRect.height * 0.4
+            })
+            if (cover) {
+                svgTextOccluded.push({ text: text.textContent.trim().slice(0, 40) })
+            }
         }
     }
 
@@ -357,6 +415,7 @@ const inspectPage = (contrastSelector) => {
         brokenImages,
         svgTextOverflow: svgTextOverflow.slice(0, 20),
         svgLabelWarnings: svgLabelWarnings.slice(0, 20),
+        svgTextOccluded: svgTextOccluded.slice(0, 20),
         contrastFailures: contrastFailures.slice(0, 20),
         notFound,
     }
@@ -430,6 +489,12 @@ const main = async () => {
                 messages = []
                 const url = new URL(route, options.base).href
                 await page.goto(url, { waitUntil: "load", timeout: 30_000 })
+                // 상세·검색·인쇄 화면은 지연 로딩되므로 로딩 표시가 사라질 때까지 기다린다.
+                await page
+                    .waitForFunction(() => !document.querySelector(".route-loading"), null, {
+                        timeout: 15_000,
+                    })
+                    .catch(() => {})
                 await page.evaluate(() => document.fonts.ready)
                 if (options.expand) {
                     await page.evaluate(() =>
@@ -486,6 +551,7 @@ const main = async () => {
                     inspection.documentOverflow > 1 ||
                     inspection.brokenImages.length > 0 ||
                     inspection.svgTextOverflow.length > 0 ||
+                    inspection.svgTextOccluded.length > 0 ||
                     inspection.contrastFailures.length > 0 ||
                     (inspection.notFound && knownRoutes.includes(route)) ||
                     errors.length > 0
@@ -531,6 +597,7 @@ const main = async () => {
             failure.documentOverflow > 1 && `가로 넘침 ${failure.documentOverflow}px`,
             failure.brokenImages.length && `깨진 이미지 ${failure.brokenImages.length}개`,
             failure.svgTextOverflow.length && `도식 글자 넘침 ${failure.svgTextOverflow.length}개`,
+            failure.svgTextOccluded.length && `도식 글자 가림 ${failure.svgTextOccluded.length}개`,
             failure.contrastFailures.length && `대비 부족 ${failure.contrastFailures.length}개`,
             failure.notFound && "404 화면",
             failure.errors.length && `브라우저 오류 ${failure.errors.length}개`,
