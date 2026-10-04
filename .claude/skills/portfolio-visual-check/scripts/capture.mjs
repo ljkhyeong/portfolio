@@ -488,7 +488,8 @@ const main = async () => {
                 }
             })
 
-            for (const route of routes) {
+            // 개발 서버가 파일 변경으로 페이지를 새로고침하면 실행 문맥이 사라지므로 최대 세 번까지 다시 검사한다.
+            const inspectRoute = async (route) => {
                 messages = []
                 const url = new URL(route, options.base).href
                 await page.goto(url, { waitUntil: "load", timeout: 30_000 })
@@ -564,6 +565,22 @@ const main = async () => {
                     ? ` (라벨 마스크 밖 글자 ${inspection.svgLabelWarnings.length}개, 캡처로 확인)`
                     : ""
                 process.stdout.write(`${failed ? "실패" : "통과"} ${route} @${width}${warning}\n`)
+            }
+            for (const route of routes) {
+                for (let attempt = 1; ; attempt += 1) {
+                    try {
+                        await inspectRoute(route)
+                        break
+                    } catch (error) {
+                        const reloaded = /Execution context was destroyed|navigation/i.test(
+                            String(error),
+                        )
+                        if (!reloaded || attempt >= 3) {
+                            throw error
+                        }
+                        await page.waitForTimeout(500)
+                    }
+                }
             }
             await context.close()
         }
