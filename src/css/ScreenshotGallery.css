@@ -112,10 +112,9 @@
     border-radius: 6px;
     background: rgba(13, 17, 23, 0.88);
     color: #fff;
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.08em;
     opacity: 0;
     transform: translateY(4px);
     transition:
@@ -149,10 +148,9 @@
 
 .screenshot-gallery__item figcaption span {
     color: #58a6ff;
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 10px;
     font-weight: 750;
-    letter-spacing: 0.06em;
     white-space: nowrap;
 }
 

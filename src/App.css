@@ -12,10 +12,8 @@ code {
     place-items: center;
     background: var(--portfolio-bg);
     color: var(--portfolio-muted);
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: var(--portfolio-small);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
 }
 
 .not-found {

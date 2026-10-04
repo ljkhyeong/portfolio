@@ -278,7 +278,7 @@
     display: block;
     margin-bottom: 7px;
     color: var(--ink);
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 11px;
 }
 
@@ -358,6 +358,7 @@
 
 .baton-service-footer > span {
     color: var(--muted);
+    font-family: var(--sans);
 }
 
 .baton-service-footer > div {

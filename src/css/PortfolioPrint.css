@@ -55,7 +55,7 @@ body.portfolio-print-mode {
     background: rgba(13, 17, 23, 0.94);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
     color: #b1bac4;
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-family: var(--sans);
     font-size: 12px;
     backdrop-filter: blur(16px);
 }

@@ -53,10 +53,10 @@
 
 .project-switcher__count {
     color: var(--muted);
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 13px;
+    font-variant-numeric: tabular-nums;
     font-weight: 700;
-    letter-spacing: 0.04em;
     white-space: nowrap;
 }
 
@@ -95,10 +95,9 @@
     padding: 8px 10px;
     border-bottom: 1px solid var(--line);
     color: var(--muted);
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.04em;
 }
 
 .project-switcher__group ol {

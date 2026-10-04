@@ -280,12 +280,10 @@
 
 .case-status > span {
     padding-top: 2px;
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-family: var(--sans);
     color: var(--accent-on-light, #a9341c);
     font-size: 14px;
     font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
 }
 
 .case-status p {
@@ -403,10 +401,9 @@
     display: block;
     margin: 0 0 6px;
     color: var(--muted, #59636e);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-family: var(--sans);
     font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.02em;
 }
 
 .project-evidence-list__scope p,
@@ -764,11 +761,10 @@
 .case-next a > span:first-child {
     margin-bottom: 22px;
     color: rgba(243, 241, 234, 0.58);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-family: var(--sans);
     font-size: 11px;
+    font-variant-numeric: tabular-nums;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
 }
 
 .case-next strong {
@@ -972,11 +968,9 @@
 
 .case-architecture__intro > span {
     color: var(--accent-on-light, #a9341c);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-family: var(--sans);
     font-size: 11px;
     font-weight: 750;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
 }
 
 .case-architecture__intro h3 {
@@ -1012,9 +1006,8 @@
     display: block;
     margin-bottom: 6px;
     color: var(--ink, #171713);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
+    font-family: var(--sans);
     font-size: 10px;
-    letter-spacing: 0.06em;
 }
 
 /* 교육 프로젝트 상세를 주요 프로젝트 다음에 간결하게 배치 */

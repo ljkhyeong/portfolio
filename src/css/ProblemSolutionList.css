@@ -155,7 +155,7 @@
 .problem-solution-list__item dt {
     margin-bottom: 7px;
     color: var(--accent-on-light, var(--accent));
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 14px;
     font-weight: 750;
     line-height: 1.4;

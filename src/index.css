@@ -10,7 +10,10 @@
     --muted: #59636e;
     --line: #d0d7de;
     --line-light: rgba(255, 255, 255, 0.14);
-    --mono: "SFMono-Regular", "SF Mono", Menlo, Monaco, Consolas, monospace;
+    /* 고정폭 글꼴에는 한글이 없어 한글만 시스템 monospace로 넘어가면 글자 사이가 벌어진다.
+       한글은 본문 글꼴로 대체되도록 Pretendard를 monospace 앞에 둔다. */
+    --mono: "SFMono-Regular", "SF Mono", Menlo, Monaco, Consolas, "Pretendard Variable", Pretendard,
+        monospace;
     --serif: "Newsreader", Georgia, serif;
     --sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
