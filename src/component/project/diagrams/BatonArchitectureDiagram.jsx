@@ -1,31 +1,28 @@
+import { projectSummariesById } from "../../../data/projectSummaries"
 import useCenteredDiagramViewport from "./useCenteredDiagramViewport"
 
 const NODE_DEFINITIONS = [
     {
         id: "go",
         fallbackName: "GO",
-        shortRole: "허용 경로의 짧은 링크",
         x: 40,
         y: 48,
     },
     {
         id: "watch",
         fallbackName: "WATCH",
-        shortRole: "외부 URL 상태 점검",
         x: 40,
         y: 232,
     },
     {
         id: "relay",
         fallbackName: "RELAY",
-        shortRole: "서비스 간 이벤트 전달",
         x: 40,
         y: 400,
     },
     {
         id: "core",
         fallbackName: "Core",
-        shortRole: "조직, 역할 및 인수인계",
         x: 380,
         y: 232,
         focal: true,
@@ -33,21 +30,18 @@ const NODE_DEFINITIONS = [
     {
         id: "brief",
         fallbackName: "BRIEF",
-        shortRole: "운영 점검 및 주간 보고서",
         x: 720,
         y: 48,
     },
     {
         id: "cal",
         fallbackName: "CAL",
-        shortRole: "읽기 전용 캘린더 구독",
         x: 720,
         y: 232,
     },
     {
         id: "round",
         fallbackName: "ROUND",
-        shortRole: "WebRTC 스터디룸",
         x: 720,
         y: 400,
     },
@@ -147,6 +141,13 @@ const CONNECTIONS = [
         variant: "default",
     },
 ]
+
+const batonSummary = projectSummariesById.baton
+const serviceRoles = Object.fromEntries(
+    batonSummary.serviceLinks.map((service) => [service.id, service.role]),
+)
+const roleOf = (definition) =>
+    definition.id === "core" ? batonSummary.coreRole : serviceRoles[definition.id]
 
 const createServiceIndex = (services) =>
     new Map(services.map((service) => [service.primary ? "core" : service.id, service]))
@@ -289,7 +290,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                     className={`baton-architecture__node${
                                         definition.focal ? " baton-architecture__node--focal" : ""
                                     }`}
-                                    aria-label={`${service.name}: ${definition.shortRole}`}
+                                    aria-label={`${service.name}: ${roleOf(definition)}`}
                                 >
                                     <rect
                                         className="baton-architecture__node-mask"
@@ -337,7 +338,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                         y={definition.y + 80}
                                         textAnchor="middle"
                                     >
-                                        {definition.shortRole}
+                                        {roleOf(definition)}
                                     </text>
                                 </g>
                             )

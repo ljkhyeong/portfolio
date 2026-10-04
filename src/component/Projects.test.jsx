@@ -95,7 +95,7 @@ test("간단한 소개에도 유형, 진행 상태와 원작 포크 출처를 �
     expect(articleOf("Hope Commit")).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
 })
 
-test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제목과 미리보기를 연결한다", () => {
+test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제목을 상세로 연결한다", () => {
     renderProjects()
 
     const warrant = screen
@@ -112,10 +112,6 @@ test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제�
     expect(defense).toHaveTextContent("군사법원, 군검찰, 군경찰, 군교정")
     const baton = screen.getByRole("heading", { name: "BATON", level: 4 })
     expect(within(baton).getByRole("link")).toHaveAttribute("href", "/projects/baton")
-    expect(screen.getByRole("link", { name: "BATON 미리보기에서 상세 보기" })).toHaveAttribute(
-        "href",
-        "/projects/baton",
-    )
 })
 
 test("BATON 서비스는 Core에서 분리된 하나의 서비스 맵으로 연결한다", () => {
@@ -124,7 +120,8 @@ test("BATON 서비스는 Core에서 분리된 하나의 서비스 맵으로 연�
     const serviceMap = screen.getByRole("navigation", { name: "BATON 마이크로서비스 상세" })
     const services = ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"]
 
-    expect(serviceMap).toHaveTextContent("CORE")
+    expect(serviceMap).toHaveTextContent("Core")
+    expect(serviceMap).toHaveTextContent("조직, 역할 및 인수인계")
     services.forEach((service) => {
         expect(
             within(serviceMap).getByRole("link", {

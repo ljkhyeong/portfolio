@@ -87,14 +87,6 @@ body.portfolio-print-mode {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
-.portfolio-web-print .project-card__visual--image img {
-    position: static;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
 @media (max-width: 760px) {
     body.portfolio-print-mode {
         padding: 0;
@@ -262,7 +254,7 @@ body.portfolio-print-mode {
         max-width: none;
     }
 
-    .portfolio-web-print .project-card__visual-link,
+    .portfolio-web-print .project-glance--steps,
     .portfolio-web-print .project-categories {
         display: none;
     }
@@ -308,9 +300,9 @@ body.portfolio-print-mode {
         color: var(--accent);
     }
 
-    .portfolio-web-print .project-card__services {
-        margin: 14px -18px -18px;
-        padding: 10px 18px;
+    .portfolio-web-print .project-glance--system {
+        margin-top: 14px;
+        break-inside: avoid;
     }
 
     .portfolio-web-print .project-group + .project-group {
@@ -338,30 +330,17 @@ body.portfolio-print-mode {
         margin-top: 12px;
     }
 
-    .portfolio-web-print .timeline--split {
+    .portfolio-web-print .timeline--learning {
         grid-template-columns: minmax(0, 1fr);
-        grid-template-areas:
-            "career"
-            "education"
-            "activities";
         gap: 16px;
     }
 
-    .portfolio-web-print .timeline--split > .timeline__group {
+    .portfolio-web-print .timeline--learning > .timeline__group {
         overflow: visible;
     }
 
     .portfolio-web-print .timeline__item--compact {
         padding: 16px 18px 18px;
-    }
-
-    .portfolio-web-print .career-company {
-        padding: 18px 20px 20px;
-    }
-
-    .portfolio-web-print .career-track__item article {
-        padding-top: 18px;
-        padding-bottom: 18px;
     }
 
     .portfolio-web-print .timeline__group--activities {
@@ -476,14 +455,7 @@ body.portfolio-print-mode {
         margin-top: 12px;
     }
 
-    .portfolio-web-print
-        :is(
-            .career-company,
-            .career-track__item,
-            .timeline__item,
-            .capability,
-            .site-footer__contact
-        ) {
+    .portfolio-web-print :is(.home-career, .timeline__item, .capability, .site-footer__contact) {
         break-inside: avoid-page;
         page-break-inside: avoid;
     }

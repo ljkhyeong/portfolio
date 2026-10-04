@@ -109,30 +109,109 @@
     color: var(--accent);
     font-weight: 600;
 }
-.project-card__visual-link {
-    display: block;
-    margin-top: 20px;
+/* 대표 프로젝트 구조: BATON은 서비스 지도, happyGallery는 처리 순서 */
+.project-glance {
+    margin: 24px 0 0;
 }
-.project-card__visual {
-    margin: 0;
+.project-glance strong {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 650;
 }
-.project-card__preview {
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-}
-.project-card__preview img {
-    display: block;
-    width: 100%;
-    height: 110px;
-    object-fit: cover;
-    object-position: top;
-}
-.project-card__visual figcaption {
-    margin-top: 8px;
+.project-glance span {
     color: var(--muted);
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.5;
+    word-break: keep-all;
+}
+.project-glance--system {
+    display: grid;
+    gap: 8px;
+}
+.project-glance__core,
+.project-glance--system a {
+    display: grid;
+    align-content: center;
+    gap: 2px;
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+}
+.project-glance__core {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+.project-glance--system ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.project-glance--system a {
+    height: 100%;
+    color: inherit;
+    transition: border-color 150ms ease;
+}
+.project-glance--system a:hover,
+.project-glance--system a:focus-visible {
+    border-color: var(--accent);
+}
+.project-glance--system a:hover strong,
+.project-glance--system a:focus-visible strong {
+    color: var(--accent);
+}
+.project-glance--steps figcaption {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+.project-glance--steps ol {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: glance-step;
+}
+.project-glance--steps li {
+    position: relative;
+    display: grid;
+    gap: 2px;
+    padding-left: 38px;
+    counter-increment: glance-step;
+}
+.project-glance--steps li::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border: 1px solid var(--line-strong, var(--line));
+    border-radius: 50%;
+    color: var(--muted);
+    content: counter(glance-step);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+.project-glance--steps li:not(:last-child)::after {
+    position: absolute;
+    top: 28px;
+    bottom: -12px;
+    left: 12px;
+    width: 1px;
+    background: var(--line);
+    content: "";
+}
+@media (prefers-reduced-motion: reduce) {
+    .project-glance--system a {
+        transition: none;
+    }
 }
 .project-card__facts {
     display: grid;
@@ -194,33 +273,6 @@
     gap: 8px;
     color: var(--accent);
     font-size: 15px;
-}
-.project-card__services {
-    margin-top: 8px;
-}
-.project-card__service-map {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    font-size: 14px;
-}
-.project-card__service-map strong {
-    color: var(--muted);
-    font-weight: 500;
-}
-.project-card__service-map ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 16px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-.project-card__service-map a {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    color: var(--accent);
 }
 .project-section-heading {
     display: flex;
@@ -332,14 +384,10 @@
     .project-card__title {
         font-size: 26px;
     }
-    .project-card__visual-link {
+    /* 처리 순서는 바로 아래 문제·구현 설명과 겹치므로 좁은 화면에서는 생략한다.
+       서비스 지도는 서비스 상세로 가는 링크이므로 유지한다. */
+    .project-glance--steps {
         display: none;
-    }
-    /* 서비스 6개를 3개씩 두 줄로 맞춰 마지막 하나만 줄바꿈되지 않게 한다. */
-    .project-card__service-map ul {
-        display: grid;
-        grid-template-columns: repeat(3, max-content);
-        gap: 0 20px;
     }
     .project-card__facts > div {
         grid-template-columns: 32px minmax(0, 1fr);

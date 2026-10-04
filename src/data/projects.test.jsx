@@ -25,7 +25,17 @@ describe("project summary data", () => {
             .filter((service) => !service.primary)
             .map(({ id, name, route }) => ({ id, name, route }))
 
-        expect(projectSummariesById.baton.serviceLinks).toEqual(detailedServiceLinks)
+        expect(
+            projectSummariesById.baton.serviceLinks.map(({ id, name, route }) => ({
+                id,
+                name,
+                route,
+            })),
+        ).toEqual(detailedServiceLinks)
+        // 메인 서비스 지도와 상세 아키텍처 도식이 함께 쓰는 역할 문구가 빠지지 않아야 한다.
+        projectSummariesById.baton.serviceLinks.forEach((service) => {
+            expect(service.role).toEqual(expect.any(String))
+        })
         expect(detailedServiceLinks.map((service) => service.id)).toEqual([
             "go",
             "watch",

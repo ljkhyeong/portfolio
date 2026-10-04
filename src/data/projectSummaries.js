@@ -31,13 +31,35 @@ export const projectSummaries = [
         visual: "baton",
         stage: "개발 중",
         visibility: "공개 저장소 6개",
+        // 메인 서비스 지도와 상세 아키텍처 도식이 같은 역할 문구를 사용한다.
+        coreRole: "조직, 역할 및 인수인계",
         serviceLinks: [
-            { id: "go", name: "GO", route: "/projects/baton/go" },
-            { id: "watch", name: "WATCH", route: "/projects/baton/watch" },
-            { id: "relay", name: "RELAY", route: "/projects/baton/relay" },
-            { id: "brief", name: "BRIEF", route: "/projects/baton/brief" },
-            { id: "cal", name: "CAL", route: "/projects/baton/cal" },
-            { id: "round", name: "ROUND", route: "/projects/baton/round" },
+            { id: "go", name: "GO", route: "/projects/baton/go", role: "허용 경로의 짧은 링크" },
+            {
+                id: "watch",
+                name: "WATCH",
+                route: "/projects/baton/watch",
+                role: "외부 URL 상태 점검",
+            },
+            {
+                id: "relay",
+                name: "RELAY",
+                route: "/projects/baton/relay",
+                role: "서비스 간 이벤트 전달",
+            },
+            {
+                id: "brief",
+                name: "BRIEF",
+                route: "/projects/baton/brief",
+                role: "운영 점검 및 주간 보고서",
+            },
+            {
+                id: "cal",
+                name: "CAL",
+                route: "/projects/baton/cal",
+                role: "읽기 전용 캘린더 구독",
+            },
+            { id: "round", name: "ROUND", route: "/projects/baton/round", role: "WebRTC 스터디룸" },
         ],
     },
     {

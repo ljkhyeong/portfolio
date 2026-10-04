@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { homeProjectCategories, projectSummaries } from "../data/projectSummaries"
 import { caseResults, caseIntroductions } from "../data/caseHighlights"
-import { assetPath } from "../utils/assetPath"
+import featuredProblems from "../data/featuredProblems"
 import "../css/Projects.css"
 
 const PROJECT_TYPE_LABELS = {
@@ -10,23 +10,6 @@ const PROJECT_TYPE_LABELS = {
     tooling: "오픈소스 및 개발 도구",
     webapp: "웹앱",
     education: "교육 프로젝트",
-}
-
-const PROJECT_VISUALS = {
-    baton: {
-        src: "baton-core-today.webp",
-        alt: "BATON 오늘 화면에서 업무 회차와 미완료 업무 및 수락 대기 인수인계를 확인하는 모습",
-        width: 1440,
-        height: 900,
-        caption: "업무 회차, 미완료 업무와 수락 대기 인수인계",
-    },
-    gallery: {
-        src: "happygallery-product-options.webp",
-        alt: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
-        width: 1440,
-        height: 960,
-        caption: "상품 옵션, 조합별 가격과 재고 확인",
-    },
 }
 
 const ProjectFacts = ({ project }) => (
@@ -95,57 +78,56 @@ const ProjectLinks = ({ project, supporting = false }) => (
     </div>
 )
 
-const ProjectServices = ({ project }) => {
-    if (!project.serviceLinks) {
-        return null
+// 대표 프로젝트의 구조를 작은 화면 캡처 대신 읽을 수 있는 크기의 지도와 처리 순서로 보여 준다.
+const BatonSystemMap = ({ project }) => (
+    <nav className="project-glance project-glance--system" aria-label="BATON 마이크로서비스 상세">
+        <div className="project-glance__core">
+            <strong>Core</strong>
+            <span>{project.coreRole}</span>
+        </div>
+        <ul>
+            {project.serviceLinks.map((service) => (
+                <li key={service.id}>
+                    <Link
+                        to={service.route}
+                        aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
+                    >
+                        <strong>{service.name}</strong>
+                        <span>{service.role}</span>
+                    </Link>
+                </li>
+            ))}
+        </ul>
+    </nav>
+)
+
+const ProcessingSteps = ({ label, steps }) => (
+    <figure className="project-glance project-glance--steps">
+        <figcaption>{label}</figcaption>
+        <ol>
+            {steps.map((step) => (
+                <li key={step.title}>
+                    <strong>{step.title}</strong>
+                    <span>{step.description}</span>
+                </li>
+            ))}
+        </ol>
+    </figure>
+)
+
+const ProjectGlance = ({ project }) => {
+    if (project.serviceLinks) {
+        return <BatonSystemMap project={project} />
     }
-
-    return (
-        <nav className="project-card__services" aria-label="BATON 마이크로서비스 상세">
-            <div className="project-card__service-map">
-                <strong>CORE</strong>
-                <span aria-hidden="true">→</span>
-                <ul>
-                    {project.serviceLinks.map((service) => (
-                        <li key={service.id}>
-                            <Link
-                                to={service.route}
-                                aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
-                            >
-                                {service.name}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </nav>
-    )
-}
-
-const ScreenshotVisual = ({ project }) => {
-    const visual = PROJECT_VISUALS[project.visual]
-
-    if (!visual) {
-        return null
+    if (project.id === "happygallery") {
+        return (
+            <ProcessingSteps
+                label="결제·환불 처리 순서"
+                steps={featuredProblems.happygallery.steps}
+            />
+        )
     }
-
-    return (
-        <figure
-            className={`project-card__visual project-card__visual--image project-card__visual--${project.visual}`}
-        >
-            <div className="project-card__preview">
-                <img
-                    src={assetPath(visual.src)}
-                    alt={visual.alt}
-                    width={visual.width}
-                    height={visual.height}
-                    loading="lazy"
-                    decoding="async"
-                />
-            </div>
-            <figcaption>{visual.caption}</figcaption>
-        </figure>
-    )
+    return null
 }
 
 const FeaturedProjectCard = ({ project }) => (
@@ -167,21 +149,12 @@ const FeaturedProjectCard = ({ project }) => (
                     )}
                     {project.homeSummary}
                 </p>
-                {PROJECT_VISUALS[project.visual] && (
-                    <Link
-                        className="project-card__visual-link"
-                        to={project.route}
-                        aria-label={`${project.title} 미리보기에서 상세 보기`}
-                    >
-                        <ScreenshotVisual project={project} />
-                    </Link>
-                )}
+                <ProjectGlance project={project} />
             </header>
             <div className="project-card__content">
                 <ProjectFacts project={project} />
                 <ProjectMeta project={project} />
                 <ProjectLinks project={project} />
-                <ProjectServices project={project} />
             </div>
         </article>
     </li>
