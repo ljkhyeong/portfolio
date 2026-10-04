@@ -410,11 +410,6 @@ const projects = [
                 status: "로컬 구현 18377157에 Discord·Slack·Webhook·SQS 전달과 제공자별 재시도, 결과 미확인 보류를 구현했습니다. 실제 채널 발송과 운영 환경의 RPO·RTO는 미검증입니다.",
                 tradeoff:
                     "결과 미확인 건은 중복 전달을 막기 위해 자동 재전송하지 않습니다. 운영자가 외부 기록을 확인해 상태를 확정해야 합니다.",
-                repository: {
-                    href: "https://github.com/ljkhyeong/baton-relay/tree/5f97e0a",
-                    label: "RELAY 비공개 저장소",
-                    note: "저장소는 비공개이며, 구현과 검증 범위는 이 페이지에 요약했습니다.",
-                },
                 documentation: [
                     {
                         label: "PRD",
@@ -949,7 +944,6 @@ const projects = [
             {
                 label: "BATON RELAY GitHub 저장소",
                 shortLabel: "RELAY 저장소",
-                href: "https://github.com/ljkhyeong/baton-relay",
                 note: "RabbitMQ 수신, Discord·Slack·Webhook·AWS SQS FIFO 전달 · 비공개 저장소",
             },
             {

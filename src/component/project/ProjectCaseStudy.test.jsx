@@ -124,7 +124,6 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         ["Core", "https://github.com/ljkhyeong/baton", "공개 저장소"],
         ["GO", "https://github.com/ljkhyeong/baton-go", "공개 저장소"],
         ["WATCH", "https://github.com/ljkhyeong/baton-watch", "공개 저장소"],
-        ["RELAY", "https://github.com/ljkhyeong/baton-relay", "비공개 저장소"],
         ["BRIEF", "https://github.com/ljkhyeong/baton-brief", "공개 저장소"],
         ["CAL", "https://github.com/ljkhyeong/baton-cal", "공개 저장소"],
         ["ROUND", "https://github.com/ljkhyeong/webrtc-study", "공개 저장소"],
@@ -154,6 +153,13 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
                 .closest("li"),
         ).toHaveTextContent(visibility)
     })
+    // 비공개 저장소는 방문자에게 404가 되므로 링크 없이 공개 범위만 안내한다.
+    expect(
+        within(relatedLinks).queryByRole("link", { name: "BATON RELAY GitHub 저장소" }),
+    ).not.toBeInTheDocument()
+    expect(
+        within(relatedLinks).getByText("BATON RELAY GitHub 저장소").closest("li"),
+    ).toHaveTextContent("비공개 저장소")
 
     const additionalProblems = screen.getByText("추가 문제 해결 10건 보기").closest("details")
     const featuredProblemList = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })

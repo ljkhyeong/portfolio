@@ -72,6 +72,15 @@
     letter-spacing: -0.02em;
 }
 
+/* 이동할 수 없는 비공개 저장소는 링크 색 없이 이름만 보여 준다. */
+.case-meta__link-text {
+    display: block;
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
 .case-meta__links a span:last-child {
     transition: transform 180ms ease;
 }

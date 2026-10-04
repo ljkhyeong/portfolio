@@ -26,11 +26,16 @@ const CaseMetaSection = ({
             {links.length > 0 ? (
                 <ul>
                     {links.map((link) => (
-                        <li key={link.href}>
-                            <a href={link.href} target="_blank" rel="noreferrer">
-                                <span>{link.label}</span>
-                                <span aria-hidden="true">↗</span>
-                            </a>
+                        <li key={link.label}>
+                            {/* 비공개 저장소는 방문자에게 404가 되므로 주소 없이 이름만 표시한다. */}
+                            {link.href ? (
+                                <a href={link.href} target="_blank" rel="noreferrer">
+                                    <span>{link.label}</span>
+                                    <span aria-hidden="true">↗</span>
+                                </a>
+                            ) : (
+                                <span className="case-meta__link-text">{link.label}</span>
+                            )}
                             {link.note ? <p>{link.note}</p> : null}
                         </li>
                     ))}
