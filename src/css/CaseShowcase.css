@@ -892,8 +892,12 @@ main.case-showcase .portfolio-flow .editorial-diagram__zone-label,
 main.case-showcase .portfolio-flow .editorial-diagram__tag,
 main.case-showcase .portfolio-flow .editorial-diagram__connector-label,
 main.case-showcase .portfolio-flow .editorial-diagram__node-meta {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 10px;
+}
+
+main.case-showcase .portfolio-flow .editorial-diagram__tag {
+    font-family: var(--mono);
 }
 
 main.case-showcase .portfolio-flow .editorial-diagram__node-title {

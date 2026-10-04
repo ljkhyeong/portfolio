@@ -91,13 +91,18 @@
     fill: var(--diagram-paper);
 }
 
-.editorial-diagram__zone-label,
+/* 영문 대문자 태그만 고정폭 글꼴과 자간을 쓴다. 한글 라벨은 넓은 공백 없이 본문 글꼴로 표시한다. */
 .editorial-diagram__tag,
-.editorial-diagram__connector-label,
-.editorial-diagram__node-meta,
-.editorial-diagram__legend,
 .editorial-diagram__legend-title {
     font-family: var(--mono);
+    letter-spacing: 0.08em;
+}
+
+.editorial-diagram__zone-label,
+.editorial-diagram__connector-label,
+.editorial-diagram__node-meta,
+.editorial-diagram__legend {
+    font-family: var(--sans);
 }
 
 .editorial-diagram__zone-label,
@@ -106,7 +111,6 @@
     fill: var(--diagram-soft);
     font-size: 8px;
     font-weight: 700;
-    letter-spacing: 0.08em;
 }
 
 .editorial-diagram__connector {
@@ -141,7 +145,6 @@
 .editorial-diagram__connector-label {
     fill: var(--diagram-muted);
     font-size: 8px;
-    letter-spacing: 0.03em;
 }
 
 .editorial-diagram__marker--accent {
@@ -163,6 +166,11 @@
     fill: var(--diagram-accent-tint);
     stroke: var(--diagram-accent);
     stroke-width: 1.2;
+}
+
+/* 강조 노드의 배경이 밝아져 보조색 태그는 대비가 부족하므로 강조색을 쓴다. */
+.editorial-diagram__node--focal > .editorial-diagram__tag {
+    fill: var(--diagram-accent);
 }
 
 .editorial-diagram__node--external > rect {
@@ -282,6 +290,8 @@
     font-family: var(--mono);
     font-size: 8px;
     letter-spacing: 0.03em;
+    /* 글자 x 좌표는 라벨 배경의 중앙이다. */
+    text-anchor: middle;
 }
 
 .baton-architecture__node-mask,

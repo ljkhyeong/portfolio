@@ -2,6 +2,18 @@ import { useId } from "react"
 import { youthPolicyCoverage } from "../../../data/projectSummaries"
 import useCenteredDiagramViewport from "./useCenteredDiagramViewport"
 
+// 라벨 배경은 글자 길이에 맞춘다. 상세 화면의 10px 본문 글꼴로 측정하면 한글은 약 9,
+// 영문·숫자는 약 6.5, 공백은 약 3 단위를 차지한다. 좌우 여백 8을 더한다.
+const LABEL_PADDING = 16
+const estimateLabelWidth = (label) =>
+    Math.ceil(
+        [...label].reduce(
+            (width, character) =>
+                width + (/[가-힣]/.test(character) ? 9 : character === " " ? 3 : 6.5),
+            LABEL_PADDING,
+        ),
+    )
+
 const diagrams = {
     defense: {
         eyebrow: "ARCHITECTURE / CLOSED NETWORK",
@@ -12,9 +24,9 @@ const diagrams = {
             "세 기관에서 수신한 인적정보와 영장정보를 연계 배치가 검증해 군교정 데이터베이스에 반영하고, 중단된 경우 확인한 단계부터 다시 실행하는 흐름입니다.",
         height: 480,
         zones: [
-            { x: 24, y: 40, width: 216, height: 352, label: "요청 기관", labelWidth: 88 },
-            { x: 296, y: 40, width: 248, height: 352, label: "연계 및 배치", labelWidth: 104 },
-            { x: 600, y: 40, width: 336, height: 352, label: "군교정 업무망", labelWidth: 112 },
+            { x: 24, y: 40, width: 216, height: 352, label: "요청 기관" },
+            { x: 296, y: 40, width: 248, height: 352, label: "연계 및 배치" },
+            { x: 600, y: 40, width: 336, height: 352, label: "군교정 업무망" },
         ],
         nodes: [
             {
@@ -88,7 +100,6 @@ const diagrams = {
                 label: "중단 단계 확인 후 재실행",
                 labelX: 554,
                 labelY: 326,
-                labelWidth: 168,
             },
         ],
         note: "실선은 정상 처리, 점선은 중단된 배치의 재실행 경로입니다.",
@@ -102,9 +113,9 @@ const diagrams = {
             "강의 영상 입력을 mediasoup에서 WebRTC 실시간 전송과 RTP 출력으로 나누고, RTP는 FFmpeg와 GStreamer에서 HLS로 변환해 React 다시보기 화면에 제공하는 흐름입니다.",
         height: 480,
         zones: [
-            { x: 24, y: 40, width: 208, height: 352, label: "미디어 라우터", labelWidth: 104 },
-            { x: 280, y: 40, width: 400, height: 352, label: "미디어 처리", labelWidth: 96 },
-            { x: 728, y: 40, width: 208, height: 352, label: "React 클라이언트", labelWidth: 128 },
+            { x: 24, y: 40, width: 208, height: 352, label: "미디어 라우터" },
+            { x: 280, y: 40, width: 400, height: 352, label: "미디어 처리" },
+            { x: 728, y: 40, width: 208, height: 352, label: "React 클라이언트" },
         ],
         nodes: [
             {
@@ -190,8 +201,8 @@ const diagrams = {
             "사용자 요청과 코드 근거를 기록하고, 작성자 확인 뒤 공개 요청 때 제출된 코드 상태를 비교해 일치하면 공개하고 다르면 거절합니다. 새 기록으로 대체한 기존 기록에는 대체 상태와 새 기록의 링크를 남깁니다.",
         height: 552,
         zones: [
-            { x: 24, y: 40, width: 912, height: 288, label: "기록 공개", labelWidth: 88 },
-            { x: 24, y: 360, width: 912, height: 152, label: "기록 대체", labelWidth: 88 },
+            { x: 24, y: 40, width: 912, height: 288, label: "기록 공개" },
+            { x: 24, y: 360, width: 912, height: 152, label: "기록 대체" },
         ],
         nodes: [
             {
@@ -285,14 +296,12 @@ const diagrams = {
                 label: "일치",
                 labelX: 724,
                 labelY: 128,
-                labelWidth: 48,
             },
             {
                 d: "M592 192 V232",
                 label: "불일치",
                 labelX: 636,
                 labelY: 216,
-                labelWidth: 64,
             },
             { d: "M256 440 H360" },
             { d: "M568 440 H712" },
@@ -308,14 +317,13 @@ const diagrams = {
             "Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 관심 정책 저장, 일정과 알림을 처리합니다. 정책·회원·알림 상태는 JDBC로 PostgreSQL에 저장합니다.",
         height: 608,
         zones: [
-            { x: 24, y: 40, width: 912, height: 160, label: "조건 입력 화면", labelWidth: 120 },
+            { x: 24, y: 40, width: 912, height: 160, label: "조건 입력 화면" },
             {
                 x: 24,
                 y: 236,
                 width: 912,
                 height: 328,
                 label: "정책 API와 회원 기능",
-                labelWidth: 168,
             },
         ],
         nodes: [
@@ -512,7 +520,7 @@ const PortfolioFlowDiagram = ({ variant }) => {
                                     className="editorial-diagram__label-mask"
                                     x={zone.x + 16}
                                     y={zone.y - 4}
-                                    width={zone.labelWidth}
+                                    width={estimateLabelWidth(zone.label)}
                                     height="24"
                                     rx="2"
                                 />
@@ -539,9 +547,9 @@ const PortfolioFlowDiagram = ({ variant }) => {
                                     <g className="portfolio-flow__edge-label">
                                         <rect
                                             className="editorial-diagram__label-mask"
-                                            x={edge.labelX - (edge.labelWidth ?? 72) / 2}
+                                            x={edge.labelX - estimateLabelWidth(edge.label) / 2}
                                             y={edge.labelY - 18}
-                                            width={edge.labelWidth ?? 72}
+                                            width={estimateLabelWidth(edge.label)}
                                             height="24"
                                             rx="2"
                                         />

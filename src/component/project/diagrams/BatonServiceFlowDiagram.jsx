@@ -119,13 +119,14 @@ const fullFlows = {
         edges: [
             edge("M200 200 H256", undefined, undefined, undefined, false, "accent"),
             edge("M440 200 H496", undefined, undefined, undefined, false, "accent"),
-            edge("M672 184 H696 Q704 184 704 176 V72 Q704 64 712 64 H736", "성공 확인", 724, 48),
+            // 분기 라벨은 노드 사이의 세로 연결선에 두어 결과 노드에 가려지지 않게 한다.
+            edge("M672 184 H696 Q704 184 704 176 V72 Q704 64 712 64 H736", "성공 확인", 704, 136),
             edge("M672 200 H736", "실패 확인", 704, 184),
             edge(
                 "M672 216 H696 Q704 216 704 224 V328 Q704 336 712 336 H736",
                 "응답 유실",
-                724,
-                320,
+                704,
+                276,
             ),
         ],
     },
