@@ -288,6 +288,8 @@ const inspectPage = (contrastSelector) => {
     }
 
     const notFound = Boolean(document.querySelector("main.not-found"))
+    // 렌더링 전이나 새로고침 중에 검사하면 빈 화면이 모든 검사를 통과하므로 따로 실패로 본다.
+    const blank = document.body.innerText.trim().length < 20
 
     const parseColor = (value) => {
         const match = value?.match(/rgba?\(([^)]+)\)/)
@@ -418,6 +420,7 @@ const inspectPage = (contrastSelector) => {
         svgTextOccluded: svgTextOccluded.slice(0, 20),
         contrastFailures: contrastFailures.slice(0, 20),
         notFound,
+        blank,
     }
 }
 
@@ -554,6 +557,7 @@ const main = async () => {
                     inspection.svgTextOccluded.length > 0 ||
                     inspection.contrastFailures.length > 0 ||
                     (inspection.notFound && knownRoutes.includes(route)) ||
+                    inspection.blank ||
                     errors.length > 0
                 results.push({ route, width, failed, ...inspection, errors, shots })
                 const warning = inspection.svgLabelWarnings.length
@@ -600,6 +604,7 @@ const main = async () => {
             failure.svgTextOccluded.length && `도식 글자 가림 ${failure.svgTextOccluded.length}개`,
             failure.contrastFailures.length && `대비 부족 ${failure.contrastFailures.length}개`,
             failure.notFound && "404 화면",
+            failure.blank && "빈 화면",
             failure.errors.length && `브라우저 오류 ${failure.errors.length}개`,
         ].filter(Boolean)
         process.stdout.write(`- ${failure.route} @${failure.width}: ${reasons.join(", ")}\n`)
