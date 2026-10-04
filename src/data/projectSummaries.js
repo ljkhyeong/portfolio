@@ -3,7 +3,8 @@ export const youthPolicyCoverage = { policies: 40, questionPolicies: 11, agePoli
 export const projectSummaries = [
     {
         id: "baton",
-        homeCategory: "web",
+        homeCategory: "personal",
+        homeTypeLabel: "웹 서비스",
         index: "01",
         projectType: "personal",
         presentation: "featured",
@@ -69,7 +70,8 @@ export const projectSummaries = [
     },
     {
         id: "happygallery",
-        homeCategory: "web",
+        homeCategory: "personal",
+        homeTypeLabel: "웹 서비스",
         index: "02",
         projectType: "personal",
         presentation: "featured",
@@ -104,8 +106,8 @@ export const projectSummaries = [
     },
     {
         id: "youth-policy-mate",
-        homeCategory: "webapp",
-        homeTypeLabel: "개인 프로젝트",
+        homeCategory: "more",
+        homeTypeLabel: "모바일 웹앱",
         index: "01",
         projectType: "webapp",
         presentation: "webapp-case",
@@ -126,8 +128,8 @@ export const projectSummaries = [
     },
     {
         id: "hope-commit",
-        homeCategory: "ai-skill",
-        homeTypeLabel: "Codex / Claude Code 스킬",
+        homeCategory: "more",
+        homeTypeLabel: "AI 스킬 / Codex·Claude Code",
         index: "01",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -149,8 +151,8 @@ export const projectSummaries = [
     },
     {
         id: "intent-trace",
-        homeCategory: "plugin",
-        homeTypeLabel: "IntelliJ / Zed / MCP 연동",
+        homeCategory: "more",
+        homeTypeLabel: "IDE 플러그인 / IntelliJ·Zed·MCP",
         index: "02",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -197,7 +199,7 @@ export const projectSummaries = [
     },
     {
         id: "webrtc",
-        homeCategory: "web",
+        homeCategory: "more",
         index: "2023 교육 프로젝트",
         projectType: "education",
         presentation: "prior-experience",
@@ -218,12 +220,11 @@ export const projectSummaries = [
     },
 ]
 
+// 메인은 경력, 대표 개인 프로젝트, 나머지 순서로 읽게 한다. 세부 유형은 각 행의 라벨로 표시한다.
 export const homeProjectCategories = [
     { id: "career", label: "경력 프로젝트" },
-    { id: "web", label: "웹" },
-    { id: "webapp", label: "웹앱" },
-    { id: "plugin", label: "플러그인" },
-    { id: "ai-skill", label: "AI 스킬" },
+    { id: "personal", label: "개인 프로젝트" },
+    { id: "more", label: "그 밖의 프로젝트" },
 ]
 
 export const projectSummariesById = Object.fromEntries(

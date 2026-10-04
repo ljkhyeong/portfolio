@@ -50,15 +50,17 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     expect(screen.queryByRole("link", { name: /군사법.*GitHub/ })).not.toBeInTheDocument()
 })
 
-test("프로젝트 유형별로 빠짐없이 한 번씩 표시하고 바로가기를 연결한다", () => {
+test("경력, 개인과 그 밖의 프로젝트를 빠짐없이 한 번씩 표시하고 바로가기를 연결한다", () => {
     renderProjects()
 
     const categories = [
         ["career", "경력 프로젝트", ["전송형 전자영장 시스템", "차세대 군사법 정보 시스템"]],
-        ["web", "웹", ["BATON", "happyGallery", "WebRTC/HLS 현장강의 보조 서비스"]],
-        ["webapp", "웹앱", ["청년정책메이트"]],
-        ["plugin", "플러그인", ["IntentTrace"]],
-        ["ai-skill", "AI 스킬", ["Hope Commit"]],
+        ["personal", "개인 프로젝트", ["BATON", "happyGallery"]],
+        [
+            "more",
+            "그 밖의 프로젝트",
+            ["청년정책메이트", "Hope Commit", "IntentTrace", "WebRTC/HLS 현장강의 보조 서비스"],
+        ],
     ]
     const navigation = within(screen.getByRole("navigation", { name: "프로젝트 유형 바로가기" }))
     categories.forEach(([id, label, titles]) => {
@@ -79,16 +81,18 @@ test("프로젝트 유형별로 빠짐없이 한 번씩 표시하고 바로가�
     )
 })
 
-test("간단한 소개에도 진행 상태와 원작 포크 출처를 표시한다", () => {
+test("간단한 소개에도 유형, 진행 상태와 원작 포크 출처를 표시한다", () => {
     renderProjects()
 
+    const articleOf = (title) =>
+        screen.getByRole("link", { name: `${title} 프로젝트 상세 보기` }).closest("article")
     const youth = screen.getByRole("link", { name: "청년정책메이트 프로젝트 상세 보기" })
     expect(youth).toHaveAttribute("href", "/projects/youth-policy-mate")
-    expect(youth.closest("article")).toHaveTextContent("개발 중")
+    expect(youth.closest("article")).toHaveTextContent("모바일 웹앱 / 개발 중")
     expect(youth.closest("article")).toHaveTextContent("웹앱입니다")
-    expect(
-        screen.getByRole("link", { name: "Hope Commit 프로젝트 상세 보기" }).closest("article"),
-    ).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
+    expect(articleOf("IntentTrace")).toHaveTextContent("IDE 플러그인")
+    expect(articleOf("Hope Commit")).toHaveTextContent("AI 스킬")
+    expect(articleOf("Hope Commit")).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
 })
 
 test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제목과 미리보기를 연결한다", () => {

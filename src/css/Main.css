@@ -102,7 +102,6 @@
     color: var(--muted);
     font-size: var(--portfolio-caption, 14px);
     font-weight: 600;
-    letter-spacing: 0.04em;
 }
 
 .experience-section,
@@ -547,11 +546,12 @@
 }
 
 @media (max-width: 560px) {
+    /* 위쪽 섹션과 같은 공통 여백 토큰을 써서 모바일 왼쪽 선을 맞춘다. */
     .experience-section,
     .capability-section,
     .site-footer {
-        padding-right: 20px;
-        padding-left: 20px;
+        padding-right: var(--portfolio-gutter);
+        padding-left: var(--portfolio-gutter);
     }
 
     .experience-section,
