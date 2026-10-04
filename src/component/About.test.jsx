@@ -10,25 +10,22 @@ const renderAbout = () =>
         </MemoryRouter>,
     )
 
-test("경력은 회사 소개를 줄이고 각 프로젝트의 담당 업무와 상세 링크를 보여준다", () => {
+test("학습 영역은 교육과 개인 활동만 보여주고 경력은 반복하지 않는다", () => {
     renderAbout()
 
-    const projectList = screen.getByLabelText("BEINTECH 수행 프로젝트")
-    const careerSection = projectList.closest("section")
-    const projects = within(projectList).getAllByRole("listitem", { hidden: true })
+    const learningSection = screen
+        .getByRole("heading", { level: 2, name: "학습" })
+        .closest("section")
 
-    expect(careerSection).toHaveTextContent(careers[0].homeDescription)
-    expect(careerSection).not.toHaveTextContent(careers[0].description)
-    expect(screen.queryByText("경력과 학습")).not.toBeInTheDocument()
-    expect(screen.getByRole("heading", { level: 2, name: "경력 및 학습" })).toBeInTheDocument()
-    expect(projects[0]).toHaveTextContent("기관별 요청 변환 및 제출 자료 반영 서버 개발")
-    expect(projects[1]).toHaveTextContent("기관 자료 검증 배치 개발 및 중단 배치 재실행")
+    expect(screen.queryByRole("heading", { name: "경력 및 학습" })).not.toBeInTheDocument()
     expect(
-        within(projects[0]).getByLabelText("전송형 전자영장 시스템 담당 업무 상세 보기"),
-    ).toHaveAttribute("href", "/projects/e-warrant")
+        within(learningSection).getByRole("heading", { level: 3, name: "교육" }),
+    ).toBeInTheDocument()
     expect(
-        within(projects[1]).getByLabelText("차세대 군사법 정보 시스템 담당 업무 상세 보기"),
-    ).toHaveAttribute("href", "/projects/defense")
+        within(learningSection).getByRole("heading", { level: 3, name: "개인 활동" }),
+    ).toBeInTheDocument()
+    expect(learningSection).not.toHaveTextContent(careers[0].organization)
+    expect(learningSection).not.toHaveTextContent(careers[0].homeDescription)
 })
 
 test("공통 기술은 이름만 표시하고 구체적인 구현 경험에 프로젝트 사례를 연결한다", () => {

@@ -6,8 +6,9 @@ import PortfolioNavigation from "./PortfolioNavigation"
 import "../css/HomeHero.css"
 
 const HOME_SECTIONS = [
+    { id: "career", label: "경력" },
     { id: "work", label: "프로젝트" },
-    { id: "experience", label: "경력 및 학습" },
+    { id: "experience", label: "학습" },
     { id: "capabilities", label: "기술" },
 ]
 

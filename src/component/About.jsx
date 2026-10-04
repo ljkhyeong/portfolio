@@ -1,52 +1,7 @@
 import { Link } from "react-router-dom"
-import { careers, education, personalActivities } from "../data/profile"
+import { education, personalActivities } from "../data/profile"
 import { homeSkillGroups } from "../data/homeSkills"
 import { projectSummariesById } from "../data/projectSummaries"
-
-const CareerGroup = ({ career }) => {
-    const projects = career.projectIds.map((projectId) => projectSummariesById[projectId])
-
-    return (
-        <section className="timeline__group timeline__group--career" aria-labelledby="career-title">
-            <h3 className="timeline__group-title" id="career-title">
-                경력
-            </h3>
-            <header className="career-company">
-                <div>
-                    <span>{career.position}, 재직 중</span>
-                    <strong>{career.organization}</strong>
-                </div>
-                <time>{career.period}</time>
-                <p>{career.homeDescription}</p>
-            </header>
-            <ol className="career-track" aria-label={`${career.organization} 수행 프로젝트`}>
-                {projects.map((project, index) => (
-                    <li
-                        className={
-                            index === 0 ? "career-track__item is-current" : "career-track__item"
-                        }
-                        key={project.id}
-                    >
-                        <article>
-                            <div className="career-track__meta">
-                                <time>{project.period}</time>
-                                {index === 0 ? <span>진행 중</span> : <span>완료</span>}
-                            </div>
-                            <h4>{project.title}</h4>
-                            <p>{career.projectResponsibilities[project.id]}</p>
-                            <Link
-                                to={project.route}
-                                aria-label={`${project.title} 담당 업무 상세 보기`}
-                            >
-                                상세 보기 <span aria-hidden="true">→</span>
-                            </Link>
-                        </article>
-                    </li>
-                ))}
-            </ol>
-        </section>
-    )
-}
 
 const CapabilityItems = ({ group }) => (
     <ul aria-label={`${group.label} 기술 및 적용 사례`}>
@@ -102,71 +57,66 @@ const About = () => {
                 aria-labelledby="experience-title"
             >
                 <div className="experience-section__intro">
-                    <h2 id="experience-title">경력 및 학습</h2>
+                    <h2 id="experience-title">학습</h2>
                 </div>
 
-                <div className="timeline timeline--split" aria-label="경력, 교육 및 개인 활동">
-                    {careers.map((career) => (
-                        <CareerGroup career={career} key={career.id} />
-                    ))}
+                {/* 경력은 메인 상단의 경력 요약에서 한 번만 보여 주고, 여기에는 교육과 개인 활동을 둔다. */}
+                <div className="timeline timeline--learning" aria-label="교육 및 개인 활동">
+                    <section
+                        className="timeline__group timeline__group--education"
+                        aria-labelledby="education-title"
+                    >
+                        <h3 className="timeline__group-title" id="education-title">
+                            교육
+                        </h3>
+                        <article className="timeline__item timeline__item--compact">
+                            <div className="timeline__period">{education.period}</div>
+                            <div className="timeline__content">
+                                <span>
+                                    {education.organization}, {education.meta}
+                                </span>
+                                <h4>{projectSummariesById[education.projectId].title}</h4>
+                                <p>{education.description}</p>
+                                <Link to="/projects/webrtc">교육 프로젝트 상세 보기 →</Link>
+                            </div>
+                        </article>
+                    </section>
 
-                    <div className="timeline__supporting">
-                        <section
-                            className="timeline__group timeline__group--education"
-                            aria-labelledby="education-title"
-                        >
-                            <h3 className="timeline__group-title" id="education-title">
-                                교육
-                            </h3>
-                            <article className="timeline__item timeline__item--compact">
-                                <div className="timeline__period">{education.period}</div>
+                    <section
+                        className="timeline__group timeline__group--activities"
+                        aria-labelledby="activities-title"
+                    >
+                        <h3 className="timeline__group-title" id="activities-title">
+                            개인 활동
+                        </h3>
+                        {personalActivities.map((activity) => (
+                            <article
+                                className="timeline__item timeline__item--compact"
+                                key={activity.id}
+                            >
+                                <div className="timeline__period">그룹 스터디</div>
                                 <div className="timeline__content">
                                     <span>
-                                        {education.organization}, {education.meta}
+                                        {activity.type}, {activity.role}
                                     </span>
-                                    <h4>{projectSummariesById[education.projectId].title}</h4>
-                                    <p>{education.description}</p>
-                                    <Link to="/projects/webrtc">교육 프로젝트 상세 보기 →</Link>
+                                    <h4>{activity.title}</h4>
+                                    <p>{activity.summary}</p>
+                                    <div className="timeline__links">
+                                        {activity.links.map((link) => (
+                                            <a
+                                                href={link.href}
+                                                key={link.href}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                {link.label} ↗
+                                            </a>
+                                        ))}
+                                    </div>
                                 </div>
                             </article>
-                        </section>
-
-                        <section
-                            className="timeline__group timeline__group--activities"
-                            aria-labelledby="activities-title"
-                        >
-                            <h3 className="timeline__group-title" id="activities-title">
-                                개인 활동
-                            </h3>
-                            {personalActivities.map((activity) => (
-                                <article
-                                    className="timeline__item timeline__item--compact"
-                                    key={activity.id}
-                                >
-                                    <div className="timeline__period">그룹 스터디</div>
-                                    <div className="timeline__content">
-                                        <span>
-                                            {activity.type}, {activity.role}
-                                        </span>
-                                        <h4>{activity.title}</h4>
-                                        <p>{activity.summary}</p>
-                                        <div className="timeline__links">
-                                            {activity.links.map((link) => (
-                                                <a
-                                                    href={link.href}
-                                                    key={link.href}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                >
-                                                    {link.label} ↗
-                                                </a>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </article>
-                            ))}
-                        </section>
-                    </div>
+                        ))}
+                    </section>
                 </div>
             </section>
 

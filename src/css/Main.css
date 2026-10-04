@@ -51,14 +51,18 @@
     font-weight: 600;
 }
 
-.home-career a {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    color: var(--accent);
-    font-size: 14px;
-    text-decoration: underline;
+/* 업무 제목이 상세로 가는 링크다. 제목 모양을 유지하고 마우스와 키보드 초점에서만 밑줄을 보인다. */
+.home-career h3 a {
+    color: inherit;
+    text-decoration-color: var(--accent);
+    text-decoration-line: none;
     text-underline-offset: 4px;
+}
+
+.home-career h3 a:hover,
+.home-career h3 a:focus-visible {
+    color: var(--accent);
+    text-decoration-line: underline;
 }
 
 @media (max-width: 800px) {
@@ -87,6 +91,7 @@
 }
 
 #top,
+#career,
 #work,
 #experience,
 #capabilities,
@@ -131,21 +136,15 @@
     line-height: var(--portfolio-section-leading);
 }
 
-.timeline--split {
+.timeline--learning {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 80px;
     align-items: start;
 }
 
-.timeline__group,
-.timeline__supporting {
+.timeline__group {
     min-width: 0;
-}
-
-.timeline__supporting {
-    display: grid;
-    gap: 56px;
 }
 
 .timeline__group-title {
@@ -155,105 +154,14 @@
     line-height: 1.4;
 }
 
-.career-company {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 16px 24px;
-}
-
-.career-company span,
-.career-company time,
 .timeline__period,
-.timeline__content > span,
-.career-track__meta time {
+.timeline__content > span {
     color: var(--muted);
     font-size: var(--portfolio-small, 16px);
     font-weight: 400;
     line-height: 1.6;
 }
 
-.career-company span {
-    display: block;
-}
-
-.career-company strong {
-    display: block;
-    margin-top: 8px;
-    font-size: var(--portfolio-section-title, 36px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.25;
-}
-
-.career-company p {
-    grid-column: 1 / -1;
-    margin: 0;
-    color: var(--muted);
-    font-size: var(--portfolio-body, 18px);
-    line-height: 1.75;
-    word-break: keep-all;
-}
-
-.career-track {
-    position: relative;
-    margin: 32px 0 0;
-    padding: 0;
-    list-style: none;
-}
-
-.career-track::before {
-    position: absolute;
-    top: 33px;
-    bottom: 32px;
-    left: 6px;
-    width: 1px;
-    background: var(--line);
-    content: "";
-}
-
-.career-track__item {
-    position: relative;
-    padding-left: 32px;
-}
-
-.career-track__item::before {
-    position: absolute;
-    top: 32px;
-    left: 2px;
-    width: 9px;
-    height: 9px;
-    border: 2px solid var(--paper);
-    border-radius: 50%;
-    background: var(--muted);
-    content: "";
-}
-
-.career-track__item.is-current::before {
-    background: var(--accent);
-}
-
-.career-track__item article {
-    padding: 24px 0;
-}
-
-.career-track__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 16px;
-}
-
-.career-track__meta span {
-    color: var(--muted);
-    font-size: var(--portfolio-caption, 14px);
-}
-
-.career-track__item.is-current .career-track__meta span {
-    color: var(--accent);
-}
-
-.career-track__item h4,
 .timeline__content h4 {
     margin: 12px 0;
     color: var(--ink);
@@ -264,7 +172,6 @@
     word-break: keep-all;
 }
 
-.career-track__item p,
 .timeline__content p {
     margin: 0;
     color: var(--muted);
@@ -273,7 +180,6 @@
     word-break: keep-all;
 }
 
-.career-track__item a,
 .timeline__content > a,
 .timeline__links a,
 .capability__examples a {
@@ -287,12 +193,10 @@
     text-underline-offset: 5px;
 }
 
-.career-track__item a,
 .timeline__content > a {
     margin-top: 10px;
 }
 
-.career-track__item a:hover,
 .timeline__content > a:hover,
 .timeline__links a:hover,
 .capability__examples a:hover {
@@ -504,7 +408,7 @@
 }
 
 @media (max-width: 1080px) {
-    .timeline--split {
+    .timeline--learning {
         gap: 48px;
     }
 
@@ -515,13 +419,11 @@
 }
 
 @media (max-width: 900px) {
-    .timeline--split,
     .site-footer {
         grid-template-columns: 1fr;
     }
 
-    .timeline__supporting {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .timeline--learning {
         gap: 40px;
     }
 
@@ -537,6 +439,7 @@
     }
 
     #top,
+    #career,
     #work,
     #experience,
     #capabilities,
@@ -566,17 +469,8 @@
         margin-bottom: 36px;
     }
 
-    .timeline__supporting,
-    .career-company {
+    .timeline--learning {
         grid-template-columns: 1fr;
-    }
-
-    .career-company {
-        gap: 12px;
-    }
-
-    .career-company time {
-        grid-row: 2;
     }
 
     .capability-list--desktop {
@@ -686,10 +580,6 @@
 }
 
 @media print {
-    .timeline__supporting {
-        display: contents;
-    }
-
     .site-footer__references {
         display: none;
     }
