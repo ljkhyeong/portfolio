@@ -1,0 +1,1603 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>포트폴리오 디자인 후보</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+        <style>
+            /* 비교 문서 자체의 스타일. 후보 화면과 섞이지 않도록 중립 회색을 쓴다. */
+            :root {
+                --doc-bg: #eceef1;
+                --doc-ink: #1d2127;
+                --doc-muted: #5d6570;
+                --doc-line: #d3d8de;
+                --sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", sans-serif;
+                --mono: "SFMono-Regular", "SF Mono", Menlo, Consolas, "Pretendard Variable",
+                    monospace;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--doc-bg);
+                color: var(--doc-ink);
+                font-family: var(--sans);
+                line-height: 1.6;
+            }
+            .doc {
+                width: min(1640px, 100% - 48px);
+                margin: 0 auto;
+                padding: 56px 0 96px;
+            }
+            .doc > header h1 {
+                margin: 0 0 12px;
+                font-size: 32px;
+                letter-spacing: -0.03em;
+            }
+            .doc > header p {
+                max-width: 860px;
+                margin: 0 0 8px;
+                color: var(--doc-muted);
+            }
+            .recommendation {
+                max-width: 860px;
+                margin-top: 20px;
+                padding: 16px 20px;
+                border-left: 3px solid #1f4fd1;
+                background: #fff;
+            }
+            .candidate {
+                margin-top: 72px;
+            }
+            .candidate__head {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+                gap: 32px;
+                margin-bottom: 24px;
+            }
+            .candidate__head h2 {
+                margin: 0 0 8px;
+                font-size: 26px;
+                letter-spacing: -0.02em;
+            }
+            .candidate__head p {
+                margin: 0;
+                color: var(--doc-muted);
+            }
+            .tokens {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 14px;
+            }
+            .tokens span {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 4px 10px 4px 6px;
+                border: 1px solid var(--doc-line);
+                border-radius: 999px;
+                background: #fff;
+                font-size: 12px;
+            }
+            .tokens i {
+                width: 14px;
+                height: 14px;
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                border-radius: 50%;
+            }
+            .judgement {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 16px;
+            }
+            .judgement div {
+                padding: 14px 16px;
+                border: 1px solid var(--doc-line);
+                background: #fff;
+            }
+            .judgement h3 {
+                margin: 0 0 6px;
+                font-size: 14px;
+            }
+            .judgement ul {
+                margin: 0;
+                padding-left: 18px;
+                color: var(--doc-muted);
+                font-size: 14px;
+            }
+            .frames {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 390px;
+                gap: 24px;
+                align-items: start;
+            }
+            .frame-label {
+                margin: 0 0 8px;
+                color: var(--doc-muted);
+                font-size: 13px;
+            }
+            .frame-fit {
+                width: fit-content;
+                overflow: hidden;
+                border: 1px solid var(--doc-line);
+                box-shadow: 0 12px 32px rgba(20, 30, 45, 0.12);
+            }
+            .frame {
+                container-type: inline-size;
+                width: 1200px;
+            }
+            .frame--mobile {
+                width: min(390px, 100%);
+                border: 1px solid var(--doc-line);
+                box-shadow: 0 12px 32px rgba(20, 30, 45, 0.12);
+            }
+            @media (max-width: 1100px) {
+                .candidate__head,
+                .frames {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+                .judgement {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* ── 공통 시안 구조 ───────────────────────────────── */
+            .mock {
+                font-family: var(--sans);
+                word-break: keep-all;
+                overflow-wrap: anywhere;
+                -webkit-font-smoothing: antialiased;
+            }
+            .mock a {
+                color: inherit;
+                text-decoration: none;
+            }
+            .mock h1,
+            .mock h2,
+            .mock h3,
+            .mock p,
+            .mock ul,
+            .mock ol,
+            .mock dl,
+            .mock dd {
+                margin: 0;
+            }
+            .mock ul,
+            .mock ol {
+                padding: 0;
+                list-style: none;
+            }
+            .m-nav {
+                display: flex;
+                align-items: center;
+                gap: 28px;
+                padding: 18px 48px;
+            }
+            .m-nav__id {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-right: auto;
+                font-weight: 700;
+            }
+            .m-nav__id small {
+                font-weight: 400;
+            }
+            .m-avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: #f4d35e;
+            }
+            .m-nav__links {
+                display: flex;
+                gap: 22px;
+                font-size: 15px;
+            }
+            .m-wrap {
+                padding: 0 48px;
+            }
+            @container (max-width: 640px) {
+                .m-nav {
+                    flex-wrap: wrap;
+                    gap: 12px 18px;
+                    padding: 16px 20px;
+                }
+                .m-nav__links {
+                    order: 3;
+                    width: 100%;
+                    justify-content: space-between;
+                    font-size: 14px;
+                }
+                .m-nav__id small {
+                    display: none;
+                }
+                .m-wrap {
+                    padding: 0 20px;
+                }
+            }
+
+            /* ── A. 현재 방향 다듬기 ───────────────────────────── */
+            .cand-a {
+                --bg: #171a19;
+                --surface: #222925;
+                --ink: #f4f6f4;
+                --muted: #b2beb6;
+                --line: #39433d;
+                --accent: #a6d9bd;
+                --accent-soft: #32483b;
+                --sign: #f4d35e;
+                background: var(--bg);
+                color: var(--ink);
+            }
+            .cand-a .m-nav {
+                border-bottom: 1px solid var(--line);
+            }
+            .cand-a .m-nav__links a:first-child {
+                color: var(--accent);
+            }
+            .cand-a .a-hero {
+                padding: 72px 0 48px;
+            }
+            .cand-a .a-hero h1 {
+                max-width: 900px;
+                font-size: 68px;
+                font-weight: 750;
+                letter-spacing: -0.045em;
+                line-height: 1.12;
+            }
+            .cand-a .a-hero p {
+                max-width: 680px;
+                margin-top: 24px;
+                color: var(--muted);
+                font-size: 19px;
+                line-height: 1.75;
+            }
+            .cand-a .a-flow {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                margin-top: 48px;
+                border-top: 1px solid var(--line);
+            }
+            .cand-a .a-flow li {
+                padding: 18px 20px 0 0;
+            }
+            .cand-a .a-flow b {
+                display: block;
+                color: var(--accent);
+                font-size: 13px;
+                font-variant-numeric: tabular-nums;
+            }
+            .cand-a .a-flow strong {
+                display: block;
+                margin-top: 6px;
+                font-size: 17px;
+            }
+            .cand-a .a-flow span {
+                color: var(--muted);
+                font-size: 14px;
+            }
+            .cand-a .a-flow li:first-child {
+                border-top: 2px solid var(--sign);
+                margin-top: -1px;
+            }
+            .cand-a .a-career {
+                display: grid;
+                grid-template-columns: 0.8fr 1.2fr 1.2fr;
+                gap: 32px;
+                padding: 26px 30px;
+                border-left: 3px solid var(--sign);
+                background: var(--surface);
+            }
+            .cand-a .a-career h2 {
+                font-size: 22px;
+            }
+            .cand-a .a-career small {
+                display: block;
+                margin-top: 4px;
+                color: var(--muted);
+                font-size: 14px;
+            }
+            .cand-a .a-career h3 {
+                margin-top: 6px;
+                font-size: 17px;
+            }
+            .cand-a .a-career p {
+                margin-top: 4px;
+                color: var(--muted);
+                font-size: 14px;
+            }
+            .cand-a .a-career em {
+                color: var(--accent);
+                font-style: normal;
+                font-weight: 600;
+            }
+            .cand-a .a-section {
+                padding: 72px 0;
+            }
+            .cand-a .a-section > h2 {
+                margin-bottom: 28px;
+                font-size: 36px;
+                font-weight: 550;
+                letter-spacing: -0.035em;
+            }
+            .cand-a .a-card {
+                display: grid;
+                grid-template-columns: 300px minmax(0, 1fr);
+                gap: 52px;
+                padding: 32px 0;
+                border-top: 1px solid var(--line);
+            }
+            .cand-a .a-card__type {
+                color: var(--accent);
+                font-size: 14px;
+            }
+            .cand-a .a-card h3 {
+                margin: 4px 0 12px;
+                font-size: 34px;
+                letter-spacing: -0.03em;
+            }
+            .cand-a .a-card__intro {
+                color: var(--muted);
+                font-size: 16px;
+                line-height: 1.75;
+            }
+            .cand-a .a-map {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+                margin-top: 20px;
+            }
+            .cand-a .a-map div {
+                padding: 8px 10px;
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                font-size: 13px;
+            }
+            .cand-a .a-map div:first-child {
+                grid-column: 1 / -1;
+                border-color: var(--accent);
+                background: var(--accent-soft);
+            }
+            .cand-a .a-map span {
+                display: block;
+                color: var(--muted);
+                font-size: 12px;
+            }
+            .cand-a .a-facts div {
+                display: grid;
+                grid-template-columns: 48px minmax(0, 1fr);
+                gap: 12px;
+                padding: 6px 0;
+                font-size: 16px;
+            }
+            .cand-a .a-facts dt {
+                color: var(--muted);
+                font-size: 14px;
+            }
+            .cand-a .a-facts div:last-child dd {
+                color: var(--muted);
+            }
+            .cand-a .a-meta {
+                margin-top: 14px;
+                color: var(--muted);
+                font-size: 14px;
+            }
+            .cand-a .a-links {
+                display: flex;
+                gap: 20px;
+                margin-top: 18px;
+                font-size: 15px;
+            }
+            .cand-a .a-links a {
+                border-bottom: 1px solid var(--accent);
+                color: var(--accent);
+            }
+            @container (max-width: 640px) {
+                .cand-a .a-hero {
+                    padding: 40px 0 32px;
+                }
+                .cand-a .a-hero h1 {
+                    font-size: 34px;
+                }
+                .cand-a .a-hero p {
+                    font-size: 16px;
+                }
+                .cand-a .a-flow {
+                    grid-template-columns: 1fr 1fr;
+                    row-gap: 14px;
+                }
+                .cand-a .a-flow span {
+                    display: none;
+                }
+                .cand-a .a-career,
+                .cand-a .a-card {
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                }
+                .cand-a .a-career {
+                    padding: 22px;
+                }
+                .cand-a .a-section {
+                    padding: 48px 0;
+                }
+                .cand-a .a-section > h2 {
+                    font-size: 30px;
+                }
+                .cand-a .a-card h3 {
+                    font-size: 28px;
+                }
+            }
+
+            /* ── B. 밝은 기술 문서 ─────────────────────────────── */
+            .cand-b {
+                --bg: #ffffff;
+                --surface: #f4f6f8;
+                --ink: #14181d;
+                --muted: #58616c;
+                --line: #e2e6eb;
+                --accent: #1f4fd1;
+                --ok: #1a7f37;
+                --ok-soft: #e6f4ea;
+                --run: #8a5a00;
+                --run-soft: #fbf1dc;
+                --done: #57606a;
+                --done-soft: #eef1f4;
+                background: var(--bg);
+                color: var(--ink);
+            }
+            .cand-b .m-nav {
+                border-bottom: 1px solid var(--line);
+            }
+            .cand-b .m-nav__links a:first-child {
+                color: var(--accent);
+                font-weight: 600;
+            }
+            .cand-b .b-pdf {
+                padding: 6px 12px;
+                border: 1px solid var(--ink);
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .cand-b .b-hero {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 420px;
+                gap: 64px;
+                align-items: end;
+                padding: 72px 0 56px;
+            }
+            .cand-b .b-hero h1 {
+                font-size: 58px;
+                font-weight: 800;
+                letter-spacing: -0.05em;
+                line-height: 1.14;
+            }
+            .cand-b .b-hero p {
+                margin-top: 22px;
+                color: var(--muted);
+                font-size: 18px;
+                line-height: 1.75;
+            }
+            .cand-b .b-career {
+                padding: 22px 24px;
+                border-radius: 10px;
+                background: var(--surface);
+            }
+            .cand-b .b-career h2 {
+                font-size: 20px;
+            }
+            .cand-b .b-career > p {
+                margin: 2px 0 14px;
+                color: var(--muted);
+                font-size: 14px;
+            }
+            .cand-b .b-career li {
+                padding: 12px 0;
+                border-top: 1px solid var(--line);
+            }
+            .cand-b .b-career small {
+                color: var(--muted);
+                font-size: 13px;
+                font-variant-numeric: tabular-nums;
+            }
+            .cand-b .b-career strong {
+                display: block;
+                margin-top: 2px;
+                font-size: 16px;
+            }
+            .cand-b .b-career span {
+                color: var(--accent);
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .cand-b .b-section {
+                padding: 8px 0 72px;
+            }
+            .cand-b .b-section > h2 {
+                font-size: 30px;
+                font-weight: 700;
+                letter-spacing: -0.03em;
+            }
+            .cand-b .b-section > p {
+                margin: 6px 0 22px;
+                color: var(--muted);
+                font-size: 15px;
+            }
+            .cand-b table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 15px;
+            }
+            .cand-b th {
+                padding: 10px 12px;
+                border-bottom: 1px solid var(--ink);
+                color: var(--muted);
+                font-size: 13px;
+                font-weight: 600;
+                text-align: left;
+            }
+            .cand-b td {
+                padding: 14px 12px;
+                border-bottom: 1px solid var(--line);
+                vertical-align: top;
+                line-height: 1.6;
+            }
+            .cand-b td:first-child strong {
+                display: block;
+                font-size: 16px;
+            }
+            .cand-b td:first-child small {
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .cand-b td:last-child {
+                color: var(--muted);
+            }
+            .cand-b .pill {
+                display: inline-block;
+                padding: 2px 9px;
+                border-radius: 999px;
+                font-size: 12px;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+            .cand-b .pill--ok {
+                background: var(--ok-soft);
+                color: var(--ok);
+            }
+            .cand-b .pill--run {
+                background: var(--run-soft);
+                color: var(--run);
+            }
+            .cand-b .pill--done {
+                background: var(--done-soft);
+                color: var(--done);
+            }
+            .cand-b tr.is-group td {
+                padding: 22px 12px 8px;
+                border-bottom: 0;
+                color: var(--ink);
+                font-size: 13px;
+                font-weight: 700;
+            }
+            @container (max-width: 640px) {
+                .cand-b .b-hero {
+                    grid-template-columns: 1fr;
+                    gap: 28px;
+                    padding: 40px 0 36px;
+                }
+                .cand-b .b-hero h1 {
+                    font-size: 34px;
+                }
+                .cand-b .b-hero p {
+                    font-size: 16px;
+                }
+                .cand-b thead {
+                    display: none;
+                }
+                .cand-b table,
+                .cand-b tbody,
+                .cand-b tr,
+                .cand-b td {
+                    display: block;
+                }
+                .cand-b tr:not(.is-group) {
+                    padding: 14px 0;
+                    border-bottom: 1px solid var(--line);
+                }
+                .cand-b td {
+                    padding: 2px 0;
+                    border: 0;
+                }
+                .cand-b td:nth-child(2) {
+                    display: none;
+                }
+                .cand-b tr.is-group td {
+                    padding: 20px 0 2px;
+                }
+            }
+
+            /* ── C. 검증 단계 레일 ─────────────────────────────── */
+            .cand-c {
+                --bg: #161a21;
+                --surface: #1e242d;
+                --ink: #eef1f5;
+                --muted: #a3adba;
+                --line: #313a46;
+                --ok: #4cc38a;
+                --local: #f0b54a;
+                --off: #6b7685;
+                --accent: #8ab4ff;
+                background: var(--bg);
+                color: var(--ink);
+            }
+            .cand-c .m-nav {
+                border-bottom: 1px solid var(--line);
+            }
+            .cand-c .m-nav__links a:first-child {
+                color: var(--accent);
+            }
+            .cand-c .c-hero {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 500px;
+                gap: 48px;
+                align-items: center;
+                padding: 64px 0 48px;
+            }
+            .cand-c .c-hero h1 {
+                font-size: 56px;
+                font-weight: 750;
+                letter-spacing: -0.045em;
+                line-height: 1.15;
+            }
+            .cand-c .c-hero p {
+                margin-top: 20px;
+                color: var(--muted);
+                font-size: 18px;
+                line-height: 1.75;
+            }
+            .cand-c .c-state svg {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+            .cand-c .c-state text {
+                fill: var(--ink);
+                font-family: var(--sans);
+                font-size: 15px;
+                font-weight: 600;
+            }
+            .cand-c .c-state .sub {
+                fill: var(--muted);
+                font-size: 12px;
+                font-weight: 400;
+            }
+            .cand-c .c-state .mono {
+                fill: var(--muted);
+                font-family: var(--mono);
+                font-size: 11px;
+                font-weight: 400;
+            }
+            .cand-c .c-legend {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px 18px;
+                margin-top: 26px;
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .cand-c .c-legend span::before,
+            .cand-c .rail li::before {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                margin-right: 6px;
+                border: 2px solid var(--off);
+                border-radius: 50%;
+                content: "";
+                vertical-align: -1px;
+            }
+            .cand-c .c-legend .is-ok::before,
+            .cand-c .rail .is-ok::before {
+                border-color: var(--ok);
+                background: var(--ok);
+            }
+            .cand-c .c-legend .is-local::before,
+            .cand-c .rail .is-local::before {
+                border-color: var(--local);
+                background: var(--local);
+            }
+            .cand-c .c-career {
+                display: grid;
+                grid-template-columns: 0.8fr 1.2fr 1.2fr;
+                gap: 28px;
+                padding: 22px 26px;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                background: var(--surface);
+            }
+            .cand-c .c-career h2 {
+                font-size: 20px;
+            }
+            .cand-c .c-career small {
+                display: block;
+                color: var(--muted);
+                font-size: 13px;
+                font-variant-numeric: tabular-nums;
+            }
+            .cand-c .c-career h3 {
+                margin-top: 4px;
+                font-size: 16px;
+            }
+            .cand-c .c-career p {
+                margin-top: 4px;
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .cand-c .c-section {
+                padding: 64px 0;
+            }
+            .cand-c .c-section > h2 {
+                margin-bottom: 20px;
+                font-size: 32px;
+                font-weight: 650;
+                letter-spacing: -0.035em;
+            }
+            .cand-c .c-card {
+                padding: 28px 0;
+                border-top: 1px solid var(--line);
+            }
+            .cand-c .c-card__top {
+                display: grid;
+                grid-template-columns: 300px minmax(0, 1fr);
+                gap: 48px;
+            }
+            .cand-c .c-card h3 {
+                font-size: 30px;
+                letter-spacing: -0.03em;
+            }
+            .cand-c .c-card__type {
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .cand-c .c-card__intro {
+                margin-top: 8px;
+                color: var(--muted);
+                font-size: 15px;
+                line-height: 1.7;
+            }
+            .cand-c .c-card dl div {
+                display: grid;
+                grid-template-columns: 44px minmax(0, 1fr);
+                gap: 10px;
+                padding: 4px 0;
+                font-size: 15px;
+            }
+            .cand-c .c-card dt {
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .cand-c .rail {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                margin-top: 22px;
+                border-top: 1px solid var(--line);
+            }
+            .cand-c .rail li {
+                position: relative;
+                padding: 12px 14px 0 0;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .cand-c .rail li span {
+                display: block;
+                margin: 2px 0 0 16px;
+                color: var(--muted);
+                font-size: 12px;
+                font-weight: 400;
+            }
+            .cand-c .rail .is-off {
+                color: var(--muted);
+            }
+            @container (max-width: 640px) {
+                .cand-c .c-hero,
+                .cand-c .c-card__top,
+                .cand-c .c-career {
+                    grid-template-columns: 1fr;
+                    gap: 18px;
+                }
+                .cand-c .c-hero {
+                    padding: 40px 0 32px;
+                }
+                .cand-c .c-hero h1 {
+                    font-size: 34px;
+                }
+                .cand-c .c-hero p {
+                    font-size: 16px;
+                }
+                .cand-c .rail {
+                    grid-template-columns: 1fr 1fr;
+                    row-gap: 10px;
+                }
+                .cand-c .c-section {
+                    padding: 44px 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="doc">
+            <header>
+                <h1>포트폴리오 디자인 후보</h1>
+                <p>
+                    2026-10-05 메인 정리 이후의 시각 방향 후보입니다. 모든 시안은 현재 포트폴리오
+                    데이터의 실제 문구와 수치를 사용했고, 같은 마크업이 1200px과 390px 프레임에서
+                    각각 배치됩니다.
+                </p>
+                <p>
+                    판단 기준은 채용 담당자와 기술 면접관이 경력, 문제·구현·검증 범위를 빨리
+                    찾는가입니다. 시각적 개성은 그 다음 기준입니다.
+                </p>
+                <div class="recommendation">
+                    <strong
+                        >추천: B를 기본으로, C의 검증 단계 레일을 프로젝트 상세에만
+                        가져오기.</strong
+                    >
+                    웹과 PDF가 같은 밝은 테마를 쓰게 되어 관리할 디자인이 하나로 줄고, 전체
+                    프로젝트의 상태를 표 하나로 비교할 수 있습니다. A는 위험이 가장 작은 대안입니다.
+                </div>
+            </header>
+
+            <!-- A ─────────────────────────────────────────── -->
+            <section class="candidate" data-candidate="a">
+                <div class="candidate__head">
+                    <div>
+                        <h2>A. 현재 방향 다듬기</h2>
+                        <p>
+                            어두운 녹색 바탕, 민트 강조, 노란 아바타를 유지합니다. 처리 흐름을 제목
+                            아래 가로 4단계로 옮겨 제목이 첫 화면 전체 폭을 쓰게 하고, 링크 끝
+                            화살표와 영문 대문자 라벨을 걷어냅니다.
+                        </p>
+                        <div class="tokens">
+                            <span><i style="background: #171a19"></i>#171a19 바탕</span>
+                            <span><i style="background: #222925"></i>#222925 표면</span>
+                            <span><i style="background: #a6d9bd"></i>#a6d9bd 강조</span>
+                            <span><i style="background: #f4d35e"></i>#f4d35e 서명색</span>
+                            <span>Pretendard 750 / 400</span>
+                        </div>
+                    </div>
+                    <div class="judgement">
+                        <div>
+                            <h3>좋은 점</h3>
+                            <ul>
+                                <li>CSS 토큰과 구조를 그대로 써서 작업과 위험이 가장 작음</li>
+                                <li>지금까지 승인한 배치와 도식 색을 유지</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>아쉬운 점</h3>
+                            <ul>
+                                <li>어두운 바탕에 강조색 하나는 개발자 포트폴리오에서 흔한 구성</li>
+                                <li>웹(어두움)과 PDF(밝음) 디자인을 계속 따로 관리</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>영향 범위</h3>
+                            <ul>
+                                <li>메인 헤더·Hero·링크 스타일</li>
+                                <li>홈 공유 이미지와 PDF 1페이지</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="frames">
+                    <div>
+                        <p class="frame-label">데스크톱 1200px</p>
+                        <div class="frame-fit"><div class="frame" data-slot="a"></div></div>
+                    </div>
+                    <div>
+                        <p class="frame-label">모바일 390px</p>
+                        <div class="frame frame--mobile" data-slot="a"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- B ─────────────────────────────────────────── -->
+            <section class="candidate" data-candidate="b">
+                <div class="candidate__head">
+                    <div>
+                        <h2>B. 밝은 기술 문서</h2>
+                        <p>
+                            인쇄본과 같은 밝은 바탕에 진한 글자와 코발트 강조를 씁니다. 첫 화면
+                            오른쪽에 경력을 두고, 프로젝트 목록 첫머리에 8개 프로젝트의 진행 상태와
+                            확인한 결과를 한 표로 보여 줍니다. 상태 색은 장식이 아니라 배포
+                            완료·진행·종료를 뜻합니다.
+                        </p>
+                        <div class="tokens">
+                            <span><i style="background: #ffffff"></i>#ffffff 바탕</span>
+                            <span><i style="background: #f4f6f8"></i>#f4f6f8 표면</span>
+                            <span><i style="background: #14181d"></i>#14181d 글자</span>
+                            <span><i style="background: #1f4fd1"></i>#1f4fd1 강조</span>
+                            <span><i style="background: #1a7f37"></i>배포 완료</span>
+                            <span><i style="background: #8a5a00"></i>진행</span>
+                            <span>Pretendard 800 / 400</span>
+                        </div>
+                    </div>
+                    <div class="judgement">
+                        <div>
+                            <h3>좋은 점</h3>
+                            <ul>
+                                <li>긴 한국어 설명을 밝은 바탕에서 더 편하게 읽음</li>
+                                <li>웹과 PDF가 같은 테마를 써서 관리할 디자인이 하나로 줄어듦</li>
+                                <li>8개 프로젝트의 상태와 검증 범위를 한눈에 비교</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>아쉬운 점</h3>
+                            <ul>
+                                <li>지금의 어두운 인상과 노란 아바타 대비가 약해짐</li>
+                                <li>상세 도식의 어두운 색 재정의를 밝은 색으로 다시 맞춰야 함</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>영향 범위</h3>
+                            <ul>
+                                <li>PortfolioTheme·CaseShowcase 색 토큰 전체, 도식 색</li>
+                                <li>공유 이미지 15개 재생성, 화면 전수 확인</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="frames">
+                    <div>
+                        <p class="frame-label">데스크톱 1200px</p>
+                        <div class="frame-fit"><div class="frame" data-slot="b"></div></div>
+                    </div>
+                    <div>
+                        <p class="frame-label">모바일 390px</p>
+                        <div class="frame frame--mobile" data-slot="b"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- C ─────────────────────────────────────────── -->
+            <section class="candidate" data-candidate="c">
+                <div class="candidate__head">
+                    <div>
+                        <h2>C. 검증 단계 레일</h2>
+                        <p>
+                            첫 화면에 요청의 상태 전이(중복 확인, 상태 저장, 중단 후 재처리)를 상태
+                            다이어그램으로 그리고, 각 프로젝트에 구현부터 실제 연동까지 어디까지
+                            확인했는지를 단계 레일로 표시합니다. 색은 확인됨·로컬 확인·미검증을
+                            뜻합니다.
+                        </p>
+                        <div class="tokens">
+                            <span><i style="background: #161a21"></i>#161a21 바탕</span>
+                            <span><i style="background: #1e242d"></i>#1e242d 표면</span>
+                            <span><i style="background: #4cc38a"></i>확인됨</span>
+                            <span><i style="background: #f0b54a"></i>로컬 확인</span>
+                            <span><i style="background: #6b7685"></i>미검증</span>
+                            <span>Pretendard / 식별자만 고정폭</span>
+                        </div>
+                    </div>
+                    <div class="judgement">
+                        <div>
+                            <h3>좋은 점</h3>
+                            <ul>
+                                <li>
+                                    "어디까지 확인했는가"라는 이 포트폴리오의 강점이 그림으로 보임
+                                </li>
+                                <li>첫 화면만 봐도 백엔드 상태 관리 경험이 드러남</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>아쉬운 점</h3>
+                            <ul>
+                                <li>
+                                    레일의 각 단계가 근거와 정확히 맞아야 해 데이터 관리가 늘어남
+                                </li>
+                                <li>여전히 어두운 테마라 PDF와 디자인이 둘로 나뉨</li>
+                                <li>
+                                    모바일에서는 상태 다이어그램이 작아져 세로 배치로 다시 그려야 함
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>영향 범위</h3>
+                            <ul>
+                                <li>프로젝트 데이터에 단계별 검증 상태 필드 추가</li>
+                                <li>메인 Hero·카드, 상세 상단, 공유 이미지</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="frames">
+                    <div>
+                        <p class="frame-label">데스크톱 1200px</p>
+                        <div class="frame-fit"><div class="frame" data-slot="c"></div></div>
+                    </div>
+                    <div>
+                        <p class="frame-label">모바일 390px</p>
+                        <div class="frame frame--mobile" data-slot="c"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 시안 마크업. 같은 내용을 데스크톱과 모바일 프레임에 복제한다. -->
+        <template id="mock-a">
+            <div class="mock cand-a">
+                <nav class="m-nav">
+                    <a class="m-nav__id"
+                        ><img
+                            class="m-avatar"
+                            src="../../public/ljkhyeong-avatar.png"
+                            alt=""
+                        />임정규 <small>백엔드 개발자</small></a
+                    >
+                    <div class="m-nav__links">
+                        <a>경력</a><a>프로젝트</a><a>학습</a><a>기술</a><a>문서 검색</a>
+                    </div>
+                    <a>PDF</a>
+                </nav>
+                <div class="m-wrap">
+                    <header class="a-hero">
+                        <h1>중복 실행을 막고 중단된 작업을 재처리하는 백엔드 개발자입니다.</h1>
+                        <p>
+                            공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는
+                            결제·이벤트 중복 처리 방지와 중단 작업 재처리를 구현했습니다.
+                        </p>
+                        <ol class="a-flow">
+                            <li>
+                                <b>01</b><strong>요청 수신</strong
+                                ><span>요청 식별값과 처리 대상을 확인</span>
+                            </li>
+                            <li>
+                                <b>02</b><strong>중복 확인</strong
+                                ><span>처리한 요청은 기존 결과를 재사용</span>
+                            </li>
+                            <li>
+                                <b>03</b><strong>상태 저장</strong
+                                ><span>처리 상태와 재처리 기준을 DB에 기록</span>
+                            </li>
+                            <li>
+                                <b>04</b><strong>중단 후 재처리</strong
+                                ><span>미완료 작업을 재처리 기준에 따라 다시 실행</span>
+                            </li>
+                        </ol>
+                    </header>
+                    <section class="a-career">
+                        <div>
+                            <h2>BEINTECH</h2>
+                            <small>백엔드 개발자 / 2024.06 — 현재</small>
+                        </div>
+                        <div>
+                            <small>현재 업무 · 2026.03.24 — 진행 중</small>
+                            <h3>전송형 전자영장 시스템</h3>
+                            <p><em>LG CNS 컨소시엄 참여 · 5개 기관 연계 시스템</em></p>
+                            <p>기관별 요청 변환 및 제출 자료 반영 서버 개발</p>
+                        </div>
+                        <div>
+                            <small>이전 업무 · 2024.06.23 — 2026.01.30</small>
+                            <h3>차세대 군사법 정보 시스템</h3>
+                            <p><em>국방부 산하 4개 기관 연계 시스템</em></p>
+                            <p>기관 자료 검증 배치 개발 및 중단 배치 재실행</p>
+                        </div>
+                    </section>
+                    <section class="a-section">
+                        <h2>개인 프로젝트</h2>
+                        <article class="a-card">
+                            <div>
+                                <span class="a-card__type">웹 서비스</span>
+                                <h3>BATON</h3>
+                                <p class="a-card__intro">
+                                    역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과 자료
+                                    재확인 일정을 모아 보는 서비스입니다.
+                                </p>
+                                <div class="a-map">
+                                    <div>Core<span>조직, 역할 및 인수인계</span></div>
+                                    <div>GO<span>허용 경로의 짧은 링크</span></div>
+                                    <div>WATCH<span>외부 URL 상태 점검</span></div>
+                                    <div>RELAY<span>서비스 간 이벤트 전달</span></div>
+                                    <div>BRIEF<span>운영 점검 및 주간 보고서</span></div>
+                                    <div>CAL<span>읽기 전용 캘린더 구독</span></div>
+                                    <div>ROUND<span>WebRTC 스터디룸</span></div>
+                                </div>
+                            </div>
+                            <div>
+                                <dl class="a-facts">
+                                    <div>
+                                        <dt>문제</dt>
+                                        <dd>
+                                            같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달
+                                            작업이 중복 생성될 수 있음
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>구현</dt>
+                                        <dd>
+                                            요청 UUID와 이벤트 ID로 중복 생성을 방지. 중단된 전송
+                                            작업은 같은 식별자로 다른 서버가 이어서 처리하고, 결과
+                                            미확인 건은 자동 재전송하지 않음
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>검증</dt>
+                                        <dd>
+                                            서비스별 테스트와 Core–BRIEF·CAL·ROUND 연동을 로컬 확인.
+                                            공개 환경 전체 연동은 미검증
+                                        </dd>
+                                    </div>
+                                </dl>
+                                <p class="a-meta">
+                                    개발 중 · 공개 저장소 6개 · 2026.07.20 — 진행 중
+                                </p>
+                                <div class="a-links"><a>상세 보기</a><a>GitHub</a></div>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </template>
+
+        <template id="mock-b">
+            <div class="mock cand-b">
+                <nav class="m-nav">
+                    <a class="m-nav__id"
+                        ><img
+                            class="m-avatar"
+                            src="../../public/ljkhyeong-avatar.png"
+                            alt=""
+                        />임정규 <small>백엔드 개발자</small></a
+                    >
+                    <div class="m-nav__links">
+                        <a>경력</a><a>프로젝트</a><a>학습</a><a>기술</a><a>문서 검색</a>
+                    </div>
+                    <a class="b-pdf">PDF</a>
+                </nav>
+                <div class="m-wrap">
+                    <header class="b-hero">
+                        <div>
+                            <h1>
+                                중복 실행을 막고<br />중단된 작업을 재처리하는<br />백엔드
+                                개발자입니다.
+                            </h1>
+                            <p>
+                                공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는
+                                결제·이벤트 중복 처리 방지와 중단 작업 재처리를 구현했습니다.
+                            </p>
+                        </div>
+                        <section class="b-career">
+                            <h2>BEINTECH</h2>
+                            <p>
+                                백엔드 개발자 / 2024.06 — 현재 · 공공 SI 연계 서버와 배치 개발 및
+                                운영
+                            </p>
+                            <ul>
+                                <li>
+                                    <small>현재 업무 · 2026.03.24 — 진행 중</small>
+                                    <strong>전송형 전자영장 시스템</strong>
+                                    <span>LG CNS 컨소시엄 참여 · 5개 기관 연계 시스템</span>
+                                </li>
+                                <li>
+                                    <small>이전 업무 · 2024.06.23 — 2026.01.30</small>
+                                    <strong>차세대 군사법 정보 시스템</strong>
+                                    <span>국방부 산하 4개 기관 연계 시스템</span>
+                                </li>
+                            </ul>
+                        </section>
+                    </header>
+                    <section class="b-section">
+                        <h2>프로젝트</h2>
+                        <p>
+                            프로젝트마다 진행 상태와 직접 확인한 결과입니다. 이름을 누르면 상세로
+                            이동합니다.
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 26%">프로젝트</th>
+                                    <th style="width: 16%">구분</th>
+                                    <th style="width: 12%">상태</th>
+                                    <th>확인한 결과</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="is-group">
+                                    <td colspan="4">경력 프로젝트</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>전송형 전자영장 시스템</strong
+                                        ><small>LG CNS 컨소시엄 · 5개 기관</small>
+                                    </td>
+                                    <td>BEINTECH / 공공 SI</td>
+                                    <td><span class="pill pill--run">진행 중</span></td>
+                                    <td>
+                                        100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류,
+                                        DB 잠금 문제 없이 전량 처리했습니다.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>차세대 군사법 정보 시스템</strong
+                                        ><small>국방부 산하 4개 기관</small>
+                                    </td>
+                                    <td>BEINTECH / 국방부 SI</td>
+                                    <td><span class="pill pill--done">종료</span></td>
+                                    <td>
+                                        군교정 DB 반영, CSRF 요청 차단과 저장소 직접 업로드 확인
+                                    </td>
+                                </tr>
+                                <tr class="is-group">
+                                    <td colspan="4">개인 프로젝트</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>BATON</strong
+                                        ><small>Core와 6개 마이크로서비스</small>
+                                    </td>
+                                    <td>웹 서비스</td>
+                                    <td><span class="pill pill--run">개발 중</span></td>
+                                    <td>
+                                        서비스별 테스트와 Core–BRIEF·CAL·ROUND 연동을 로컬 확인.
+                                        공개 환경 전체 연동은 미검증
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>happyGallery</strong
+                                        ><small>주문·예약·스마트스토어</small>
+                                    </td>
+                                    <td>웹 서비스</td>
+                                    <td><span class="pill pill--ok">배포 완료</span></td>
+                                    <td>
+                                        공개 서비스 배포와 HTTPS 접속 확인. 실제 네이버·Toss·NHN
+                                        계정 연동은 미검증
+                                    </td>
+                                </tr>
+                                <tr class="is-group">
+                                    <td colspan="4">그 밖의 프로젝트</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>청년정책메이트</strong><small>모바일 웹앱</small>
+                                    </td>
+                                    <td>모바일 웹앱</td>
+                                    <td><span class="pill pill--run">개발 중</span></td>
+                                    <td>
+                                        질문 11종·연령 비교 9종 구현. 조건 규칙의 버전 관리와 AI
+                                        초안 검토·적용을 로컬 검증
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Hope Commit</strong><small>Codex·Claude Code</small>
+                                    </td>
+                                    <td>AI 스킬</td>
+                                    <td><span class="pill pill--run">개발 중</span></td>
+                                    <td>v5.0.2 공개 및 자동화 테스트 343개 통과</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>IntentTrace</strong><small>IntelliJ·Zed·MCP</small>
+                                    </td>
+                                    <td>IDE 플러그인</td>
+                                    <td><span class="pill pill--run">개발 중</span></td>
+                                    <td>
+                                        v0.7.0 공개. 개발 버전의 IDE 검색·코드 위치 추적과 GitHub
+                                        연결 진단을 검증
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>WebRTC/HLS 현장강의 보조 서비스</strong
+                                        ><small>2023 교육 프로젝트</small>
+                                    </td>
+                                    <td>교육 프로젝트</td>
+                                    <td><span class="pill pill--done">종료</span></td>
+                                    <td>팀 시연에서 HLS 지연 약 35초 → 17초</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </template>
+
+        <template id="mock-c">
+            <div class="mock cand-c">
+                <nav class="m-nav">
+                    <a class="m-nav__id"
+                        ><img
+                            class="m-avatar"
+                            src="../../public/ljkhyeong-avatar.png"
+                            alt=""
+                        />임정규 <small>백엔드 개발자</small></a
+                    >
+                    <div class="m-nav__links">
+                        <a>경력</a><a>프로젝트</a><a>학습</a><a>기술</a><a>문서 검색</a>
+                    </div>
+                    <a>PDF</a>
+                </nav>
+                <div class="m-wrap">
+                    <header class="c-hero">
+                        <div>
+                            <h1>
+                                중복 실행을 막고<br />중단된 작업을 재처리하는<br />백엔드
+                                개발자입니다.
+                            </h1>
+                            <p>
+                                공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는
+                                결제·이벤트 중복 처리 방지와 중단 작업 재처리를 구현했습니다.
+                            </p>
+                        </div>
+                        <figure class="c-state" aria-label="요청 처리 상태 전이">
+                            <svg
+                                viewBox="0 0 448 230"
+                                role="img"
+                                aria-label="요청 수신 후 중복 확인과 상태 저장을 거쳐 처리 완료되거나, 중단되면 재처리 후 완료되는 상태 전이"
+                            >
+                                <defs>
+                                    <marker
+                                        id="c-arrow"
+                                        markerWidth="8"
+                                        markerHeight="8"
+                                        refX="7"
+                                        refY="4"
+                                        orient="auto"
+                                    >
+                                        <path d="M0 0 L8 4 L0 8 Z" fill="#a3adba" />
+                                    </marker>
+                                    <marker
+                                        id="c-arrow-ok"
+                                        markerWidth="8"
+                                        markerHeight="8"
+                                        refX="7"
+                                        refY="4"
+                                        orient="auto"
+                                    >
+                                        <path d="M0 0 L8 4 L0 8 Z" fill="#4cc38a" />
+                                    </marker>
+                                    <marker
+                                        id="c-arrow-local"
+                                        markerWidth="8"
+                                        markerHeight="8"
+                                        refX="7"
+                                        refY="4"
+                                        orient="auto"
+                                    >
+                                        <path d="M0 0 L8 4 L0 8 Z" fill="#f0b54a" />
+                                    </marker>
+                                </defs>
+                                <g fill="none" stroke-width="1.5">
+                                    <path
+                                        d="M106 34 H148"
+                                        stroke="#a3adba"
+                                        marker-end="url(#c-arrow)"
+                                    />
+                                    <path
+                                        d="M268 34 H310"
+                                        stroke="#a3adba"
+                                        marker-end="url(#c-arrow)"
+                                    />
+                                    <path
+                                        d="M208 56 V80 Q208 88 200 88 H62 Q54 88 54 80 V60"
+                                        stroke="#a3adba"
+                                        stroke-dasharray="4 4"
+                                        marker-end="url(#c-arrow)"
+                                    />
+                                    <path
+                                        d="M396 56 V150"
+                                        stroke="#4cc38a"
+                                        marker-end="url(#c-arrow-ok)"
+                                    />
+                                    <path
+                                        d="M340 56 V112 Q340 120 332 120 H216 Q208 120 208 128 V150"
+                                        stroke="#f0b54a"
+                                        stroke-dasharray="4 4"
+                                        marker-end="url(#c-arrow-local)"
+                                    />
+                                    <path
+                                        d="M268 178 H310"
+                                        stroke="#4cc38a"
+                                        marker-end="url(#c-arrow-ok)"
+                                    />
+                                </g>
+                                <g>
+                                    <rect
+                                        x="2"
+                                        y="12"
+                                        width="104"
+                                        height="44"
+                                        rx="8"
+                                        fill="#1e242d"
+                                        stroke="#313a46"
+                                    />
+                                    <text x="54" y="39" text-anchor="middle">요청 수신</text>
+                                    <rect
+                                        x="148"
+                                        y="12"
+                                        width="120"
+                                        height="44"
+                                        rx="8"
+                                        fill="#1e242d"
+                                        stroke="#313a46"
+                                    />
+                                    <text x="208" y="39" text-anchor="middle">중복 확인</text>
+                                    <rect
+                                        x="310"
+                                        y="12"
+                                        width="120"
+                                        height="44"
+                                        rx="8"
+                                        fill="#1e242d"
+                                        stroke="#8ab4ff"
+                                    />
+                                    <text x="370" y="39" text-anchor="middle">상태 저장</text>
+                                    <rect
+                                        x="148"
+                                        y="152"
+                                        width="120"
+                                        height="52"
+                                        rx="8"
+                                        fill="#1e242d"
+                                        stroke="#f0b54a"
+                                    />
+                                    <text x="208" y="175" text-anchor="middle">중단 후 재처리</text>
+                                    <text class="sub" x="208" y="194" text-anchor="middle">
+                                        재처리 기준으로 실행
+                                    </text>
+                                    <rect
+                                        x="310"
+                                        y="152"
+                                        width="120"
+                                        height="52"
+                                        rx="8"
+                                        fill="#1e242d"
+                                        stroke="#4cc38a"
+                                    />
+                                    <text x="370" y="175" text-anchor="middle">처리 완료</text>
+                                    <text class="sub" x="370" y="194" text-anchor="middle">
+                                        결과 저장
+                                    </text>
+                                </g>
+                                <text class="sub" x="128" y="108" text-anchor="middle">
+                                    중복 요청은 기존 결과 반환
+                                </text>
+                                <text class="mono" x="128" y="124" text-anchor="middle">
+                                    orderId · UUID 재사용
+                                </text>
+                                <text class="sub" x="276" y="112" text-anchor="middle">중단</text>
+                                <text class="sub" x="404" y="106">정상</text>
+                            </svg>
+                        </figure>
+                    </header>
+                    <section class="c-career">
+                        <div>
+                            <h2>BEINTECH</h2>
+                            <small>백엔드 개발자 / 2024.06 — 현재</small>
+                        </div>
+                        <div>
+                            <small>현재 업무 · 2026.03.24 — 진행 중</small>
+                            <h3>전송형 전자영장 시스템</h3>
+                            <p>LG CNS 컨소시엄 참여 · 5개 기관 연계 시스템</p>
+                        </div>
+                        <div>
+                            <small>이전 업무 · 2024.06.23 — 2026.01.30</small>
+                            <h3>차세대 군사법 정보 시스템</h3>
+                            <p>국방부 산하 4개 기관 연계 시스템</p>
+                        </div>
+                    </section>
+                    <section class="c-section">
+                        <h2>개인 프로젝트</h2>
+                        <div class="c-legend">
+                            <span class="is-ok">확인됨</span><span class="is-local">로컬 확인</span
+                            ><span>미검증</span>
+                        </div>
+                        <article class="c-card">
+                            <div class="c-card__top">
+                                <div>
+                                    <span class="c-card__type"
+                                        >웹 서비스 · 2026.07.20 — 진행 중</span
+                                    >
+                                    <h3>BATON</h3>
+                                    <p class="c-card__intro">
+                                        역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과
+                                        자료 재확인 일정을 모아 보는 서비스입니다.
+                                    </p>
+                                </div>
+                                <dl>
+                                    <div>
+                                        <dt>문제</dt>
+                                        <dd>
+                                            같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달
+                                            작업이 중복 생성될 수 있음
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>구현</dt>
+                                        <dd>
+                                            요청 UUID와 이벤트 ID로 중복 생성을 방지. 결과 미확인
+                                            건은 자동 재전송하지 않음
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                            <ol class="rail" aria-label="BATON 검증 단계">
+                                <li class="is-ok">구현<span>Core와 6개 서비스</span></li>
+                                <li class="is-ok">자동화 테스트<span>서비스별 테스트</span></li>
+                                <li class="is-local">
+                                    서비스 연동<span>Core–BRIEF·CAL·ROUND 로컬</span>
+                                </li>
+                                <li class="is-off">공개 환경 연동<span>미검증</span></li>
+                            </ol>
+                        </article>
+                        <article class="c-card">
+                            <div class="c-card__top">
+                                <div>
+                                    <span class="c-card__type"
+                                        >웹 서비스 · 2026.02.21 — 진행 중</span
+                                    >
+                                    <h3>happyGallery</h3>
+                                    <p class="c-card__intro">
+                                        상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방
+                                        서비스입니다.
+                                    </p>
+                                </div>
+                                <dl>
+                                    <div>
+                                        <dt>문제</dt>
+                                        <dd>
+                                            결제사 응답 유실, 서버 중단에 따른 알림 유실과
+                                            스마트스토어 주문 재수신 시 재고 중복 반영
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt>구현</dt>
+                                        <dd>
+                                            결제·환불 키를 재사용하고 미전송 알림을 재처리.
+                                            스마트스토어 주문은 수량 변경분만 재고에 반영
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                            <ol class="rail" aria-label="happyGallery 검증 단계">
+                                <li class="is-ok">구현<span>주문·예약·스마트스토어</span></li>
+                                <li class="is-ok">통합 테스트<span>모의 PG 응답 기준</span></li>
+                                <li class="is-ok">공개 배포<span>HTTPS 접속 확인</span></li>
+                                <li class="is-off">
+                                    외부 계정 연동<span>네이버·Toss·NHN 미검증</span>
+                                </li>
+                            </ol>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </template>
+
+        <script>
+            // 템플릿을 두 프레임에 복제하고, 데스크톱 프레임은 문서 폭에 맞게 축소한다.
+            document.querySelectorAll("[data-slot]").forEach((slot) => {
+                const template = document.getElementById(`mock-${slot.dataset.slot}`)
+                slot.append(template.content.cloneNode(true))
+            })
+            const fit = () => {
+                document.querySelectorAll(".frame-fit").forEach((box) => {
+                    const frame = box.querySelector(".frame")
+                    frame.style.zoom = Math.min(1, box.parentElement.clientWidth / 1202)
+                })
+            }
+            fit()
+            window.addEventListener("resize", fit)
+        </script>
+    </body>
+</html>
