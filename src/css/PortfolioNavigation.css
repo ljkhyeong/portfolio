@@ -21,6 +21,7 @@
 .site-nav--home {
     position: fixed;
     inset: 0 0 auto;
+    transition: transform 200ms ease;
 }
 
 .site-nav .site-nav__brand {
@@ -197,6 +198,16 @@
         grid-column: 2;
         gap: 16px;
     }
+
+    /* 스크롤 중에는 이름·연락처 줄(위 여백 12px + 줄 44px + 간격 8px)을 위로 접는다.
+       접힌 줄에 키보드 초점이 들어오면 다시 펼친다. */
+    .site-nav--home.site-nav--compact {
+        transform: translateY(-64px);
+    }
+
+    .site-nav--home.site-nav--compact:focus-within {
+        transform: none;
+    }
 }
 
 @media (max-width: 560px) {
@@ -227,6 +238,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .site-nav--home,
     .site-nav__avatar,
     .site-nav__links a,
     .site-nav__links a::after,
