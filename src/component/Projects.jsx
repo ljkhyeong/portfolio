@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 import { homeProjectCategories, projectSummaries } from "../data/projectSummaries"
 import { caseResults, caseIntroductions } from "../data/caseHighlights"
+import { verificationRails } from "../data/verificationRails"
+import { VerificationStages } from "./project/VerificationRail"
 import "../css/Projects.css"
 
 const PROJECT_TYPE_LABELS = {
@@ -11,21 +13,31 @@ const PROJECT_TYPE_LABELS = {
     education: "교육 프로젝트",
 }
 
+// 문제와 구현 아래에 상세 화면과 같은 검증 단계를 둔다. 검증 단계가 없는 프로젝트만 확인 결과 문장을 쓴다.
 export const ProjectFacts = ({ project }) => (
-    <dl className="project-card__facts" aria-label={`${project.title} 문제, 구현과 검증`}>
-        <div>
-            <dt>문제</dt>
-            <dd>{project.homeFacts.problem}</dd>
-        </div>
-        <div>
-            <dt>구현</dt>
-            <dd>{project.homeFacts.solution}</dd>
-        </div>
-        <div>
-            <dt>검증</dt>
-            <dd>{caseResults[project.id]}</dd>
-        </div>
-    </dl>
+    <div
+        className="project-card__evidence"
+        role="group"
+        aria-label={`${project.title} 문제, 구현과 검증`}
+    >
+        <dl className="project-card__facts">
+            <div>
+                <dt>문제</dt>
+                <dd>{project.homeFacts.problem}</dd>
+            </div>
+            <div>
+                <dt>구현</dt>
+                <dd>{project.homeFacts.solution}</dd>
+            </div>
+            {verificationRails[project.id] ? null : (
+                <div>
+                    <dt>검증</dt>
+                    <dd>{caseResults[project.id]}</dd>
+                </div>
+            )}
+        </dl>
+        <VerificationStages projectId={project.id} label={`${project.title} 검증 단계`} compact />
+    </div>
 )
 
 const ProjectMeta = ({ project }) => (

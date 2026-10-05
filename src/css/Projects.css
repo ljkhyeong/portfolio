@@ -162,7 +162,7 @@
     line-height: 1.75;
     word-break: keep-all;
 }
-.project-card__facts > div:last-child dd {
+.project-card__facts > div:nth-child(3) dd {
     color: var(--muted);
     font-size: 15px;
 }
@@ -306,7 +306,7 @@
     .project-card__facts dd {
         font-size: 16px;
     }
-    .project-card__facts > div:last-child dd {
+    .project-card__facts > div:nth-child(3) dd {
         font-size: 14px;
     }
     .project-card__meta {

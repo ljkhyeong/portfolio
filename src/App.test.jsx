@@ -279,9 +279,10 @@ test("경력은 메인 상단 한 곳에서 회사, 업무별 기간, 대표 사
     expect(summary).toHaveTextContent("BEINTECH")
     expect(summary).toHaveTextContent("백엔드 개발자 / 2024.06 — 현재")
     expect(summary).toHaveTextContent("공공 SI 연계 서버와 배치 개발 및 운영")
-    const [currentRow, previousRow] = within(
-        within(summary).getByRole("list", { name: "BEINTECH 수행 프로젝트" }),
-    ).getAllByRole("listitem")
+    // 경력 행 안에 검증 단계 목록이 있으므로 직속 행만 고른다.
+    const [currentRow, previousRow] = Array.from(
+        within(summary).getByRole("list", { name: "BEINTECH 수행 프로젝트" }).children,
+    )
     expect(currentRow).toHaveTextContent("현재 업무")
     expect(within(currentRow).getByText("2026.03.24 — 현재")).toBeInTheDocument()
     expect(within(currentRow).getByText("진행 중")).toBeInTheDocument()

@@ -40,7 +40,7 @@
     font-weight: 650;
 }
 
-.verification-rail ol {
+.verification-rail__stages {
     display: grid;
     grid-auto-columns: minmax(0, 1fr);
     grid-auto-flow: column;
@@ -88,7 +88,7 @@
     background: linear-gradient(90deg, #b06c00 50%, var(--paper) 50%);
 }
 
-.verification-rail strong {
+.verification-rail__stage > strong {
     position: relative;
     z-index: 1;
     width: fit-content;
@@ -128,7 +128,7 @@
 }
 
 @media (max-width: 700px) {
-    .verification-rail ol {
+    .verification-rail__stages {
         grid-auto-flow: row;
         gap: 16px;
     }
@@ -151,4 +151,36 @@
         width: 1px;
         height: auto;
     }
+}
+
+/* 메인 경력·프로젝트 카드: 단계를 칸으로 나눠 줄바꿈하고, 칸 사이를 잇는 기준선은 생략한다. */
+.verification-rail__stages--compact {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit, minmax(min(132px, 100%), 1fr));
+    gap: 14px 18px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+}
+
+.verification-rail__stages--compact > .verification-rail__stage {
+    padding-right: 0;
+}
+
+.verification-rail__stages--compact > .verification-rail__stage:not(:last-child)::after {
+    display: none;
+}
+
+.verification-rail__stages--compact > .verification-rail__stage > strong {
+    font-size: 15px;
+}
+
+.verification-rail__stages--compact .verification-rail__status {
+    margin-top: 6px;
+    font-size: 12px;
+}
+
+.verification-rail__stages--compact > .verification-rail__stage p {
+    font-size: 13px;
+    line-height: 1.5;
 }

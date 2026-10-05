@@ -10,15 +10,24 @@ const renderProjects = () =>
         </MemoryRouter>,
     )
 
-test("대표 프로젝트의 문제, 구현과 검증 범위를 함께 보여준다", () => {
+// 검증 범위는 상세 화면과 같은 검증 단계로 보여 주고, 미검증 단계도 글자로 표시한다.
+test("대표 프로젝트의 문제, 구현과 검증 단계를 함께 보여준다", () => {
     renderProjects()
 
     const batonFacts = screen.getByLabelText("BATON 문제, 구현과 검증")
     expect(batonFacts).toHaveTextContent("링크와 전달 작업이 중복 생성될 수 있음")
     expect(batonFacts).toHaveTextContent("결과 미확인 건은 자동 재전송하지 않음")
-    expect(batonFacts).toHaveTextContent("공개 환경 전체 연동은 미검증")
-    expect(screen.getByLabelText("happyGallery 문제, 구현과 검증")).toHaveTextContent(
-        "실제 네이버·Toss·NHN 계정 연동은 미검증",
+    const batonStages = within(batonFacts)
+        .getAllByRole("listitem")
+        .map((stage) => stage.textContent)
+    expect(batonStages).toEqual([
+        expect.stringMatching(/^구현확인됨/),
+        expect.stringMatching(/^자동화 테스트확인됨/),
+        expect.stringMatching(/^서비스 연동제한된 범위에서 확인/),
+        expect.stringMatching(/^공개 환경 연동미검증/),
+    ])
+    expect(screen.getByLabelText("happyGallery 검증 단계")).toHaveTextContent(
+        "외부 계정 연동미검증네이버·Toss·NHN 실제 계정",
     )
     expect(screen.getByLabelText("BATON 진행 및 공개 상태")).toHaveTextContent("공개 저장소 6개")
 })
