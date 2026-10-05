@@ -52,7 +52,7 @@ const About = () => {
     return (
         <>
             <section
-                className="experience-section"
+                className="experience-section blueprint-sheet"
                 id="experience"
                 aria-labelledby="experience-title"
             >
@@ -121,7 +121,7 @@ const About = () => {
             </section>
 
             <section
-                className="capability-section"
+                className="capability-section blueprint-sheet"
                 id="capabilities"
                 aria-labelledby="capability-title"
             >

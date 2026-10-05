@@ -12,78 +12,6 @@
     color: var(--ink);
 }
 
-.home-career {
-    display: grid;
-    grid-template-columns: 0.8fr 1.2fr 1.2fr;
-    gap: 36px;
-    width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
-    margin: 0 auto;
-    padding: 26px 30px;
-    border-left: 3px solid var(--portfolio-signature);
-    background: var(--paper-raised);
-}
-
-.home-career h2 {
-    margin: 0;
-    font-size: 22px;
-}
-
-.home-career h3 {
-    margin: 6px 0;
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 1.5;
-    word-break: keep-all;
-}
-
-.home-career p,
-.home-career > div > span {
-    margin: 6px 0 0;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.7;
-    word-break: keep-all;
-}
-
-.home-career .home-career__collaboration,
-.home-career .home-career__scope {
-    color: var(--accent);
-    font-weight: 600;
-}
-
-/* 업무 제목이 상세로 가는 링크다. 제목 모양을 유지하고 마우스와 키보드 초점에서만 밑줄을 보인다. */
-.home-career h3 a {
-    color: inherit;
-    text-decoration-color: var(--accent);
-    text-decoration-line: none;
-    text-underline-offset: 4px;
-}
-
-.home-career h3 a:hover,
-.home-career h3 a:focus-visible {
-    color: var(--accent);
-    text-decoration-line: underline;
-}
-
-@media (max-width: 800px) {
-    .home-career {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        padding: 22px;
-    }
-
-    .home-career__company {
-        grid-column: 1 / -1;
-    }
-}
-
-@media (max-width: 560px) {
-    .home-career {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-}
-
 .portfolio-page a:focus-visible,
 .capability-mobile summary:focus-visible {
     outline: 2px solid var(--accent);
@@ -107,19 +35,6 @@
     color: var(--muted);
     font-size: var(--portfolio-caption, 14px);
     font-weight: 600;
-}
-
-.experience-section,
-.capability-section,
-.site-footer {
-    padding: 112px
-        max(
-            var(--portfolio-gutter, 48px),
-            calc((100% - var(--portfolio-content-width, 1200px)) / 2)
-        );
-    border-top: 1px solid var(--line);
-    background: var(--paper);
-    color: var(--ink);
 }
 
 .experience-section__intro,
@@ -307,6 +222,7 @@
     align-items: start;
     gap: 64px 80px;
     padding-bottom: 40px;
+    border-bottom: 0;
 }
 
 .site-footer__lead h2 {
@@ -449,21 +365,6 @@
 }
 
 @media (max-width: 560px) {
-    /* 위쪽 섹션과 같은 공통 여백 토큰을 써서 모바일 왼쪽 선을 맞춘다. */
-    .experience-section,
-    .capability-section,
-    .site-footer {
-        padding-right: var(--portfolio-gutter);
-        padding-left: var(--portfolio-gutter);
-    }
-
-    .experience-section,
-    .capability-section,
-    .site-footer {
-        padding-top: 72px;
-        padding-bottom: 72px;
-    }
-
     .experience-section__intro,
     .capability-section__intro {
         margin-bottom: 36px;

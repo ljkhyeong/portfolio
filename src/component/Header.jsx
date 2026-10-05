@@ -2,7 +2,11 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
 import { homeHeroContent } from "../data/homeHero"
+import { careers, portfolioProfile } from "../data/profile"
+import BatonBlueprint from "./BatonBlueprint"
+import GithubActivity from "./GithubActivity"
 import PortfolioNavigation from "./PortfolioNavigation"
+import "../css/Blueprint.css"
 import "../css/HomeHero.css"
 
 const HOME_SECTIONS = [
@@ -89,58 +93,132 @@ const Header = () => {
                 }
             />
 
-            <section className="home-hero" id="top" aria-labelledby="home-hero-title">
-                <div className="home-hero__copy">
-                    <h1 id="home-hero-title" data-route-heading="/">
-                        {homeHeroContent.headlineLines.map((line, index) => (
-                            <span className="home-hero__line" key={line}>
-                                {index > 0 && " "}
-                                {line}
-                            </span>
-                        ))}
-                    </h1>
-                    <p className="home-hero__summary">{homeHeroContent.summary}</p>
-                    <div className="home-hero__actions">
-                        <a className="home-hero__button home-hero__button--primary" href="#work">
-                            프로젝트 보기
-                            <span aria-hidden="true">↘</span>
-                        </a>
-                        <a
-                            className="home-hero__button home-hero__button--secondary"
-                            href={assetPath("임정규_포트폴리오.pdf")}
-                            target="_blank"
-                            rel="noreferrer"
-                            download
-                        >
-                            PDF 내려받기
-                            <span aria-hidden="true">↓</span>
-                        </a>
-                    </div>
-                </div>
+            {/* 도면처럼 기준선으로 나눈 띠를 쌓는다. 좁은 화면에서는 BATON 구조도를 숨기고 소개부터 보여 준다. */}
+            <div className="blueprint-band home-figure-band">
+                <figure className="blueprint-col home-figure">
+                    <BatonBlueprint captionId="home-figure-caption" />
+                    <figcaption id="home-figure-caption">
+                        <span>
+                            <b className="blueprint-fig" aria-hidden="true" /> BATON — Core와 6개
+                            서비스의 역할
+                        </span>
+                        <span>서비스마다 독립 실행, DB 공유 없음</span>
+                    </figcaption>
+                </figure>
+            </div>
 
-                <aside className="home-flow" aria-labelledby="home-flow-title">
-                    <div className="home-flow__heading">
-                        <div>
-                            <h2 id="home-flow-title">요청 처리 흐름</h2>
-                            <span>BATON과 happyGallery에 적용한 요청 처리 방식</span>
+            <section
+                className="blueprint-band home-hero"
+                id="top"
+                aria-labelledby="home-hero-title"
+            >
+                <div className="blueprint-col home-hero__inner">
+                    <img
+                        className="home-hero__avatar"
+                        src={assetPath("ljkhyeong-avatar.png")}
+                        alt={`${portfolioProfile.name} 픽셀 아바타`}
+                        width="160"
+                        height="160"
+                    />
+                    <div className="home-hero__copy">
+                        <p className="home-hero__name">
+                            {portfolioProfile.name}
+                            <span>{portfolioProfile.role}</span>
+                        </p>
+                        <h1 id="home-hero-title" data-route-heading="/">
+                            {homeHeroContent.headlineLines.map((line, index) => (
+                                <span className="home-hero__line" key={line}>
+                                    {index > 0 && " "}
+                                    {line}
+                                </span>
+                            ))}
+                        </h1>
+                        <p className="home-hero__summary">{homeHeroContent.summary}</p>
+                        <div className="home-hero__actions">
+                            <a
+                                className="home-hero__button home-hero__button--primary"
+                                href="#work"
+                            >
+                                프로젝트 보기
+                            </a>
+                            <a
+                                className="home-hero__button home-hero__button--secondary"
+                                href={assetPath("임정규_포트폴리오.pdf")}
+                                target="_blank"
+                                rel="noreferrer"
+                                download
+                            >
+                                PDF 내려받기
+                            </a>
                         </div>
                     </div>
 
-                    <div className="home-flow__map">
+                    <aside className="home-flow" aria-labelledby="home-flow-title">
+                        <div className="home-flow__heading">
+                            <h2 id="home-flow-title">요청 처리 흐름</h2>
+                            <span>BATON과 happyGallery에 적용한 요청 처리 방식</span>
+                        </div>
                         <ol aria-label="중복 방지와 중단 작업 재처리 흐름">
                             {homeHeroContent.flow.map((item) => (
                                 <li key={item.step}>
                                     <span className="home-flow__step">{item.step}</span>
-                                    <div>
-                                        <strong>{item.title}</strong>
-                                        <p>{item.description}</p>
-                                    </div>
+                                    <strong>{item.title}</strong>
+                                    <p>{item.description}</p>
                                 </li>
                             ))}
                         </ol>
-                    </div>
-                </aside>
+                    </aside>
+                </div>
             </section>
+
+            <div className="blueprint-band">
+                <dl className="blueprint-col home-meta" aria-label="기본 정보">
+                    <div>
+                        <dt>회사</dt>
+                        <dd>
+                            {careers[0].organization} · {careers[0].period}
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>업무</dt>
+                        <dd>{careers[0].homeDescription}</dd>
+                    </div>
+                    <div>
+                        <dt>위치</dt>
+                        <dd>{portfolioProfile.location}</dd>
+                    </div>
+                    <div>
+                        <dt>이메일</dt>
+                        <dd>
+                            <a href={`mailto:${portfolioProfile.email}`}>
+                                {portfolioProfile.email}
+                            </a>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>GitHub</dt>
+                        <dd>
+                            <a href={portfolioProfile.github} target="_blank" rel="noreferrer">
+                                {portfolioProfile.github.replace("https://", "")}
+                            </a>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>PDF</dt>
+                        <dd>
+                            <a href={assetPath("임정규_포트폴리오.pdf")} download>
+                                임정규_포트폴리오.pdf
+                            </a>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div className="blueprint-band">
+                <div className="blueprint-col">
+                    <GithubActivity />
+                </div>
+            </div>
         </header>
     )
 }

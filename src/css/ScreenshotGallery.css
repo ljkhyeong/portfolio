@@ -224,10 +224,9 @@
     display: block;
     margin-bottom: 4px;
     color: #58a6ff;
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.08em;
 }
 
 .screenshot-lightbox__header h2 {

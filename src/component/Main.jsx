@@ -3,6 +3,7 @@ import Projects from "./Projects"
 import About from "./About"
 import CareerSummary from "./CareerSummary"
 import { portfolioProfile } from "../data/profile"
+import "../css/Blueprint.css"
 import "../css/Main.css"
 
 const Main = () => {
@@ -17,7 +18,7 @@ const Main = () => {
                 <Projects />
                 <About />
             </main>
-            <footer className="site-footer" id="contact">
+            <footer className="site-footer blueprint-sheet" id="contact">
                 <div className="site-footer__lead">
                     <span className="section-kicker">연락처</span>
                     <h2>
@@ -67,6 +68,9 @@ const Main = () => {
                 </div>
                 <div className="site-footer__references" aria-label="디자인 참고">
                     <span>디자인 참고</span>
+                    <a href="https://chanhdai.com" target="_blank" rel="noreferrer">
+                        chanhdai.com
+                    </a>
                     <a href="https://hamishw.com" target="_blank" rel="noreferrer">
                         Hamish Williams
                     </a>

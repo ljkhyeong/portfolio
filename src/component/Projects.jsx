@@ -190,7 +190,11 @@ const Projects = () => {
     }))
 
     return (
-        <section className="work-section" id="work" aria-labelledby="projects-title">
+        <section
+            className="work-section blueprint-sheet"
+            id="work"
+            aria-labelledby="projects-title"
+        >
             <div className="project-index__intro">
                 <h2 id="projects-title">프로젝트</h2>
             </div>

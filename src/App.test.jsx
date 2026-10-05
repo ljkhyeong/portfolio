@@ -337,8 +337,15 @@ test("경력은 메인 상단 한 곳에서 회사, 업무별 기간과 상세 �
     expect(summary).toHaveTextContent("BEINTECH")
     expect(summary).toHaveTextContent("백엔드 개발자 / 2024.06 — 현재")
     expect(summary).toHaveTextContent("공공 SI 연계 서버와 배치 개발 및 운영")
-    expect(summary).toHaveTextContent("현재 업무 · 2026.03.24 — 진행 중")
-    expect(summary).toHaveTextContent("이전 업무 · 2024.06.23 — 2026.01.30")
+    const [currentRow, previousRow] = within(
+        within(summary).getByRole("list", { name: "BEINTECH 수행 프로젝트" }),
+    ).getAllByRole("listitem")
+    expect(currentRow).toHaveTextContent("현재 업무")
+    expect(within(currentRow).getByText("2026.03.24 — 진행 중")).toBeInTheDocument()
+    expect(within(currentRow).getByText("진행 중")).toBeInTheDocument()
+    expect(previousRow).toHaveTextContent("이전 업무")
+    expect(within(previousRow).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
+    expect(within(previousRow).getByText("종료")).toBeInTheDocument()
     expect(summary).toHaveTextContent("LG CNS 컨소시엄 참여")
     expect(summary).toHaveTextContent("5개 기관 연계 시스템")
     expect(summary).toHaveTextContent("국방부 산하 4개 기관 연계 시스템")

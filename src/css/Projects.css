@@ -1,8 +1,3 @@
-.work-section {
-    padding: 64px var(--portfolio-gutter) 80px;
-    background: var(--paper);
-    color: var(--ink);
-}
 .project-index__intro,
 .project-categories,
 .project-group {
@@ -356,9 +351,6 @@
     }
 }
 @media (max-width: 700px) {
-    .work-section {
-        padding-block: 40px 56px;
-    }
     .project-index__intro {
         margin-bottom: 20px;
     }

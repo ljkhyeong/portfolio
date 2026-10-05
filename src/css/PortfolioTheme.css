@@ -1,12 +1,14 @@
-/* 메인과 프로젝트 상세가 함께 사용하는 데스크톱 디자인 기준이다. */
+/* 메인과 프로젝트 상세가 함께 사용하는 디자인 기준이다.
+   밝은 도면 바탕에 기준선과 파란 강조색을 쓰고, 노란색은 아바타와 현재 위치 표시에만 쓴다. */
 :root {
-    --portfolio-bg: #171a19;
-    --portfolio-surface: #222925;
-    --portfolio-text: #f4f6f4;
-    --portfolio-muted: #b2beb6;
-    --portfolio-line: #39433d;
-    --portfolio-accent: #a6d9bd;
+    --portfolio-bg: #f5f6f7;
+    --portfolio-surface: #ffffff;
+    --portfolio-text: #15181c;
+    --portfolio-muted: #5f6973;
+    --portfolio-line: #d9dee4;
+    --portfolio-accent: #2f5bd3;
     --portfolio-signature: #f4d35e;
+    --portfolio-grid: #e4e8ec;
     --portfolio-content-width: 1200px;
     --portfolio-gutter: 48px;
     --portfolio-display: 72px;
@@ -27,17 +29,17 @@
     --paper: var(--portfolio-bg);
     --paper-raised: var(--portfolio-surface);
     --ink: var(--portfolio-text);
-    --ink-soft: #d7ded9;
+    --ink-soft: #2b3037;
     --muted: var(--portfolio-muted);
     --line: var(--portfolio-line);
-    --line-strong: #65756a;
+    --line-strong: #aeb7c2;
     --accent: var(--portfolio-accent);
     --accent-on-light: var(--portfolio-accent);
-    --accent-soft: #32483b;
-    --success: var(--portfolio-accent);
+    --accent-soft: #e8eefc;
+    --success: #1a7f37;
     font-family: var(--sans);
     font-size: var(--portfolio-body);
-    color-scheme: dark;
+    color-scheme: light;
 }
 
 body:has(.portfolio-page, main.case-showcase, .knowledge-page) {

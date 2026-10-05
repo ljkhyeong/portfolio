@@ -70,9 +70,9 @@ body.portfolio-print-mode {
     justify-self: end;
     min-height: 36px;
     padding: 0 12px;
-    border: 1px solid #1f6feb;
+    border: 1px solid #1858c8;
     border-radius: 6px;
-    background: #1f6feb;
+    background: #1858c8;
     cursor: pointer;
     font-weight: 700;
 }
@@ -159,10 +159,7 @@ body.portfolio-print-mode {
         transition: none !important;
     }
 
-    .portfolio-web-print .home-hero::before,
-    .portfolio-web-print .home-flow::after,
-    .portfolio-web-print .experience-section::before,
-    .portfolio-web-print .site-footer::before {
+    .portfolio-web-print .home-flow::after {
         display: none !important;
         content: none !important;
     }
@@ -183,57 +180,77 @@ body.portfolio-print-mode {
 
     .portfolio-web-print .site-nav__links,
     .portfolio-web-print .site-nav__actions,
-    .portfolio-web-print .home-hero__button--secondary {
+    .portfolio-web-print .home-hero__actions {
         display: none !important;
     }
 
-    .portfolio-web-print .home-hero {
-        isolation: auto;
+    /* 인쇄본에서는 도면 띠가 A4 폭을 채우고, 누를 수 없는 버튼은 숨긴다. */
+    .portfolio-web-print .blueprint-col {
         width: 100%;
-        overflow: visible;
-        min-height: 0;
-        padding: 34px 42px;
-        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-        gap: 24px;
-        background: #f7f8fb;
+        padding-inline: 42px;
+    }
+
+    .portfolio-web-print .home-hero__inner {
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 0 24px;
+        padding-top: 28px;
+    }
+
+    .portfolio-web-print .home-hero__avatar {
+        width: 96px;
+        height: 96px;
     }
 
     .portfolio-web-print .home-hero h1 {
-        font-size: 30px;
-    }
-
-    .portfolio-web-print .home-hero__summary,
-    .portfolio-web-print .home-hero__actions {
-        margin-top: 24px;
+        font-size: 28px;
     }
 
     .portfolio-web-print .home-flow {
-        padding-top: 0;
-        padding-left: 20px;
-        border-top: 0;
-        border-left: 1px solid var(--line);
-        box-shadow: none;
-    }
-
-    .portfolio-web-print .home-flow__map ol {
-        display: block;
-    }
-
-    .portfolio-web-print .home-flow__map li p {
-        display: block;
-    }
-
-    .portfolio-web-print .home-flow__map li {
-        min-height: 72px;
-        gap: 12px;
+        margin-inline: -42px;
         break-inside: avoid;
     }
 
-    .portfolio-web-print .work-section,
-    .portfolio-web-print .experience-section {
+    /* A4 폭에서도 네 단계를 한 줄로 두어 첫 쪽에 기여 기록까지 들어가게 한다. */
+    .portfolio-web-print .home-flow ol {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .portfolio-web-print .home-flow li,
+    .portfolio-web-print .home-flow li:nth-child(3) {
+        padding: 14px 16px 16px;
+        border-top: 0;
+        border-left: 1px solid var(--line);
+    }
+
+    .portfolio-web-print .home-flow__heading,
+    .portfolio-web-print .home-flow li:first-child {
+        padding-left: 42px;
+        border-left: 0;
+    }
+
+    .portfolio-web-print .home-flow li p {
+        display: block;
+    }
+
+    .portfolio-web-print .home-figure,
+    .portfolio-web-print .activity {
+        break-inside: avoid;
+    }
+
+    .portfolio-web-print .blueprint-sheet {
         isolation: auto;
         overflow: visible;
-        padding: 48px 42px;
+        padding: 40px 42px;
+        background: none;
+    }
+
+    .portfolio-web-print :is(.blueprint-sheet, .blueprint-col)::before,
+    .portfolio-web-print :is(.blueprint-sheet, .blueprint-col)::after {
+        display: none;
+    }
+
+    .portfolio-web-print .blueprint-col {
+        border-inline: 0;
     }
 
     .portfolio-web-print .experience-section {
