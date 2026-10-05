@@ -260,20 +260,17 @@ body.portfolio-print-mode {
         padding-bottom: 36px;
     }
 
-    .portfolio-web-print .project-index__intro,
-    .portfolio-web-print .experience-section__intro {
+    .portfolio-web-print .project-index__intro {
         grid-template-columns: minmax(0, 1fr);
         gap: 14px;
         margin-bottom: 28px;
     }
 
-    .portfolio-web-print .project-index__intro p,
-    .portfolio-web-print .experience-section__intro p {
+    .portfolio-web-print .project-index__intro p {
         grid-column: auto;
         max-width: none;
     }
 
-    .portfolio-web-print .project-glance--steps,
     .portfolio-web-print .project-group__list,
     .portfolio-web-print .project-showcase__item > article,
     .portfolio-web-print .project-support__item > article {
@@ -345,97 +342,20 @@ body.portfolio-print-mode {
         margin-top: 12px;
     }
 
-    .portfolio-web-print .timeline--learning {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 16px;
-    }
-
-    .portfolio-web-print .timeline--learning > .timeline__group {
-        overflow: visible;
-    }
-
-    .portfolio-web-print .timeline__item--compact {
-        padding: 16px 18px 18px;
-    }
-
-    .portfolio-web-print .timeline__group--activities {
-        display: block;
-    }
-
-    .portfolio-web-print .timeline__group--activities > .timeline__group-title {
-        grid-column: auto;
-    }
-
-    .portfolio-web-print .timeline__group--activities > .timeline__item + .timeline__item {
-        border-left: 0;
-    }
-
     .portfolio-web-print .capability-section {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 22px;
         overflow: visible;
         padding: 36px 42px;
     }
 
-    .portfolio-web-print .capability-section__intro {
-        position: static;
-    }
-
-    .portfolio-web-print .capability-list {
-        overflow: visible;
-    }
-
-    .portfolio-web-print .capability-list--desktop {
-        display: block;
-    }
-
-    .portfolio-web-print .capability-list--mobile {
-        display: none;
-    }
-
-    .portfolio-web-print .capability-section__intro h2 {
-        margin-top: 12px;
-        font-size: 42px;
-    }
-
-    .portfolio-web-print .capability-section__intro p {
-        margin-top: 12px;
-    }
-
     .portfolio-web-print .capability {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 12px;
-        padding: 7px 18px 8px;
-    }
-
-    .portfolio-web-print .capability::before {
-        top: 7px;
-        bottom: 8px;
-    }
-
-    .portfolio-web-print .capability__heading {
-        gap: 16px;
-    }
-
-    .portfolio-web-print .capability ul {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px 24px;
-        margin-top: 6px;
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 20px;
+        padding: 12px 0;
     }
 
     .portfolio-web-print .capability li {
-        padding: 5px 0;
-    }
-
-    .portfolio-web-print :is(.capability--backend, .capability--frontend) .capability__stack-item {
-        min-height: 38px;
-        padding: 7px 9px;
-    }
-
-    /* 기술은 학습 아래 남은 공간에서 바로 이어 쓴다. 프로젝트만 새 쪽에서 시작한다. */
-    .portfolio-web-print .work-section {
-        break-before: page;
-        page-break-before: always;
+        padding: 4px 9px;
+        font-size: 13px;
     }
 
     .portfolio-web-print .site-footer {
@@ -466,25 +386,23 @@ body.portfolio-print-mode {
         word-break: break-all;
     }
 
-    .portfolio-web-print .site-footer__meta {
-        grid-column: auto;
-        margin-top: 12px;
-    }
-
-    /* 기술 묶음은 행 단위로만 나눔을 막아, 묶음 전체가 다음 쪽으로 밀려 빈 쪽이 생기지 않게 한다. */
-    .portfolio-web-print :is(.home-career, .timeline__item, .capability li, .site-footer__contact) {
+    /* 경력·학습 행과 기술 묶음은 중간에서 나누지 않는다. 영역 전체를 묶으면 앞 쪽 아래가 비므로 행 단위로만 막는다. */
+    .portfolio-web-print :is(.sheet-row, .capability, .site-footer__contact) {
         break-inside: avoid-page;
         page-break-inside: avoid;
     }
 
-    .portfolio-web-print .capability__heading {
+    /* 제목이 마지막 요소이거나 그리드 항목이면 '뒤에서 나누지 않음'이 행 끝까지 전파되어
+       경력·학습 행과 기술 묶음 사이에서 쪽을 나눌 수 없게 된다. 본문이 바로 뒤따르는 제목에만 적용한다. */
+    .portfolio-web-print :is(h1, h2, h3, h4):not(:last-child),
+    .portfolio-web-print .sheet-heading {
         break-after: avoid-page;
         page-break-after: avoid;
     }
 
-    .portfolio-web-print :is(h1, h2, h3, h4) {
-        break-after: avoid-page;
-        page-break-after: avoid;
+    .portfolio-web-print .capability h3 {
+        break-after: auto;
+        page-break-after: auto;
     }
 
     .portfolio-web-print :is(p, li, dd) {
