@@ -1,3 +1,5 @@
+import { warrantPerformance } from "./warrantEvidence"
+
 export const homeHeroContent = {
     headlineLines: ["중복 실행을 막고", "중단된 작업을 재처리하는", "백엔드 개발자입니다."],
     summary:
@@ -22,6 +24,27 @@ export const homeHeroContent = {
             step: "04",
             title: "중단 후 재처리",
             description: "처리 기한이 지난 작업만 다시 실행",
+        },
+    ],
+    // 첫 화면에서 보여 주는 측정값. 측정 조건(환경)을 항상 함께 적는다.
+    results: [
+        {
+            value: warrantPerformance.load,
+            description: `${warrantPerformance.duration} 부하에서 ${warrantPerformance.result}`,
+            source: "전송형 전자영장 시스템 · 성능 테스트 환경",
+            route: "/projects/e-warrant",
+        },
+        {
+            value: "약 35초 → 약 17초",
+            description: "HLS 다시보기 재생 지연 단축",
+            source: "WebRTC/HLS 교육 프로젝트 · 팀 시연 환경",
+            route: "/projects/webrtc",
+        },
+        {
+            value: "자동화 테스트 343개",
+            description: "공개 릴리스 v5.0.2의 GitHub Actions 통과",
+            source: "Hope Commit",
+            route: "/projects/hope-commit",
         },
     ],
 }

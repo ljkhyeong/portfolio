@@ -182,6 +182,24 @@ const Header = () => {
                             ))}
                         </ol>
                     </aside>
+
+                    <section className="home-results" aria-labelledby="home-results-title">
+                        <div className="home-results__heading">
+                            <h2 id="home-results-title">확인한 결과</h2>
+                            <span>측정 조건과 함께 표시</span>
+                        </div>
+                        <ul>
+                            {homeHeroContent.results.map((result) => (
+                                <li key={result.value}>
+                                    <strong>{result.value}</strong>
+                                    <p>{result.description}</p>
+                                    <Link to={result.route}>
+                                        {result.source} <span aria-hidden="true">→</span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
                 </div>
             </section>
         </header>

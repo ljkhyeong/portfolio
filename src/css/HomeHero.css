@@ -212,6 +212,99 @@
     word-break: keep-all;
 }
 
+/* 확인한 결과: 측정값 위에 도면의 치수선을 긋고 측정 조건과 출처를 함께 둔다.
+   제목을 왼쪽 칸에 두어 띠 높이를 줄인다(1440px에서 경력 제목이 첫 화면 끝에 오도록). */
+.home-results {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: 200px minmax(0, 1fr);
+    margin: 0 -48px;
+    border-top: 1px solid var(--line);
+}
+
+.home-results__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 16px 20px 16px 48px;
+    border-right: 1px solid var(--line);
+}
+
+.home-results__heading h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.home-results__heading span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.home-results ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.home-results li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 16px 24px 12px;
+}
+
+.home-results li:last-child {
+    padding-right: 48px;
+}
+
+.home-results li + li {
+    border-left: 1px solid var(--line);
+}
+
+.home-results li::before {
+    height: 7px;
+    margin-bottom: 8px;
+    border-inline: 1px solid var(--accent);
+    background: linear-gradient(var(--accent), var(--accent)) center / 100% 1px no-repeat;
+    content: "";
+}
+
+.home-results strong {
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    font-variant-numeric: tabular-nums;
+}
+
+.home-results p {
+    margin: 2px 0 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+    word-break: keep-all;
+}
+
+.home-results a {
+    display: inline-flex;
+    align-self: flex-start;
+    min-height: 30px;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    font-size: 13px;
+    text-decoration: none;
+    text-underline-offset: 4px;
+}
+
+.home-results a:hover,
+.home-results a:focus-visible {
+    text-decoration: underline;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .home-hero__button {
         transition: none;
@@ -251,6 +344,31 @@
     .home-flow li:nth-child(n + 3) {
         border-top: 1px solid var(--line);
     }
+
+    .home-results,
+    .home-results ul {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-results__heading {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 4px 12px;
+        padding: 14px 48px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .home-results li,
+    .home-results li:last-child {
+        padding-inline: 48px;
+    }
+
+    .home-results li + li {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+    }
 }
 
 @media (max-width: 700px) {
@@ -286,8 +404,23 @@
         font-size: 16px;
     }
 
-    .home-flow {
+    .home-flow,
+    .home-results {
         margin-inline: -20px;
+    }
+
+    .home-results__heading,
+    .home-results li,
+    .home-results li:last-child {
+        padding-inline: 20px;
+    }
+
+    .home-results li {
+        padding-block: 14px 10px;
+    }
+
+    .home-results strong {
+        font-size: 20px;
     }
 
     .home-flow__heading {
