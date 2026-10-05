@@ -3,7 +3,8 @@ import "../../css/VerificationRail.css"
 
 // 구현부터 실제 연동까지 어디까지 확인했는지 단계별로 보여 준다.
 // 색만으로 구분하지 않도록 단계마다 확인 상태를 글자로 함께 적는다.
-const VerificationRail = ({ projectId }) => {
+// 확인 결과 문장은 상단 정보에서 반복하지 않고 레일 위에 한 번만 둔다.
+const VerificationRail = ({ projectId, summary }) => {
     const stages = verificationRails[projectId]
 
     if (!stages) {
@@ -15,6 +16,7 @@ const VerificationRail = ({ projectId }) => {
     return (
         <section className="verification-rail" aria-labelledby={headingId}>
             <h2 id={headingId}>검증 단계</h2>
+            {summary && <p className="verification-rail__summary">{summary}</p>}
             <ol>
                 {stages.map((stage) => (
                     <li className={`verification-rail__stage is-${stage.status}`} key={stage.label}>

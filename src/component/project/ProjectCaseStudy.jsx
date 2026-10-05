@@ -156,10 +156,6 @@ const ProjectHeroFacts = ({ project }) => (
             <dt>기간</dt>
             <dd>{project.period}</dd>
         </div>
-        <div>
-            <dt>확인 결과</dt>
-            <dd>{caseResults[project.id]}</dd>
-        </div>
     </dl>
 )
 
@@ -383,7 +379,7 @@ const PriorExperienceCase = ({ project }) => {
                     <ProjectHeroFacts project={project} />
                 </header>
 
-                <VerificationRail projectId={project.id} />
+                <VerificationRail projectId={project.id} summary={caseResults[project.id]} />
 
                 <section
                     className="case-system case-cover"
@@ -505,7 +501,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                     <ProjectHeroFacts project={project} />
                 </header>
 
-                <VerificationRail projectId={project.id} />
+                <VerificationRail projectId={project.id} summary={caseResults[project.id]} />
 
                 <section
                     className="case-system case-cover"

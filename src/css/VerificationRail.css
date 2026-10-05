@@ -12,6 +12,15 @@
     font-weight: 650;
 }
 
+.verification-rail__summary {
+    max-width: 880px;
+    margin: -4px 0 20px;
+    color: var(--ink);
+    font-size: var(--portfolio-small, 16px);
+    line-height: 1.65;
+    word-break: keep-all;
+}
+
 .verification-rail ol {
     display: grid;
     grid-auto-columns: minmax(0, 1fr);
@@ -90,7 +99,7 @@
     color: var(--muted);
 }
 
-.verification-rail p {
+.verification-rail__stage p {
     grid-column: 2;
     margin: 2px 0 0;
     color: var(--muted);

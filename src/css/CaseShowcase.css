@@ -1019,6 +1019,12 @@ main.case-showcase ::selection {
         grid-column: 1 / -1;
     }
 
+    /* 프로젝트 상세의 상단 정보는 담당과 기간 두 항목이라 한 열로 쌓는다. */
+    main.case-showcase .case-hero-facts {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
     main.case-showcase .featured-problem--visual,
     main.case-showcase .case-architecture__intro {
         grid-template-columns: 1fr;

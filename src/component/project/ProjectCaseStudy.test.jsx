@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
+import { caseResults } from "../../data/caseHighlights"
 import { projectsById } from "../../data/projects"
 import BatonServiceCaseStudy from "./BatonServiceCaseStudy"
 import ProjectCaseStudy from "./ProjectCaseStudy"
@@ -22,7 +23,9 @@ test.each([
     const hero = screen.getByRole("heading", { level: 1 }).closest("header")
     expect(within(hero).getByText(projectsById[projectId].period)).toBeVisible()
     expect(within(hero).getByText(projectsById[projectId].role)).toBeVisible()
-    expect(within(hero).getByText("확인 결과")).toBeVisible()
+    expect(
+        within(screen.getByRole("region", { name: "검증 단계" })).getByText(caseResults[projectId]),
+    ).toBeVisible()
     expect(screen.queryByLabelText("프로젝트 핵심 요약")).not.toBeInTheDocument()
     const problems = document.getElementById("project-problems")
     const system = document.getElementById("project-system")
@@ -851,4 +854,7 @@ test("상세 상단에 검증 단계를 확인 상태 글자와 함께 보여준
     ])
     expect(stages[2]).toHaveTextContent("제한된 범위에서 확인")
     expect(stages[3]).toHaveTextContent("미검증")
+    // 확인 결과 문장은 상단 정보에서 반복하지 않고 레일에만 둔다.
+    expect(rail).toHaveTextContent(caseResults.baton)
+    expect(hero).not.toHaveTextContent(caseResults.baton)
 })
