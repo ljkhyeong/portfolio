@@ -66,7 +66,7 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
 
     const list = screen.getByRole("list", { name: "검증 범위 및 현재 상태 목록" })
     const rows = within(list).getAllByRole("listitem")
-    const coreRow = getEvidenceRow(list, "Core 인수인계 상태 전이 및 중복 교대 차단")
+    const coreRow = getEvidenceRow(list, "Core 인수인계 상태 전이 및 중복 인수인계 차단")
     const goRow = getEvidenceRow(list, "GO 링크 중복 생성 방지")
     const briefRow = getEvidenceRow(list, "BRIEF 점검 상태 반영과 발행 보고서 수정 방지")
     const calRow = getEvidenceRow(list, "CAL 일정 JSON 수신과 캘린더 구독")
@@ -79,7 +79,7 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
     expect(goRow).toHaveTextContent(
         "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
     )
-    expect(briefRow).toHaveTextContent("Core 신호 반영")
+    expect(briefRow).toHaveTextContent("Core 점검 결과 반영")
     expect(calRow).toHaveTextContent("실제 캘린더 앱 구독과 공개 배포는 미검증")
     expect(goRow.querySelector("summary")).toHaveTextContent("통합 테스트")
 
@@ -101,7 +101,6 @@ test("서비스별 결과를 먼저 요약하고 최신 ROUND 근거와 실행 �
     expect(roundRow).toHaveTextContent("상세 결과")
     expect(roundRow).toHaveTextContent("WebKit 직접 연결용 mDNS")
     expect(roundRow).toHaveTextContent("배포 검증용 restic 설치")
-    expect(roundRow).toHaveTextContent("시그널링 및 RTC 상태 책임을 분리")
     expect(roundRow).not.toHaveTextContent("restic 실행 파일 부재로 실패")
 })
 
@@ -120,7 +119,7 @@ test("GitHub Actions 실행 결과와 코드 대조를 구분하고 외부 연�
 
     expect(rows).toHaveLength(2)
     expect(automationRow.querySelector("details")).not.toHaveAttribute("open")
-    expect(automationSummary).toHaveTextContent("백엔드 빌드와 브라우저 스모크 19개 통과")
+    expect(automationSummary).toHaveTextContent("백엔드 빌드와 브라우저 스모크 테스트 19개가 통과")
     expect(automationSummary).not.toHaveTextContent("기존 테스트 산출물")
     expect(smartStoreSummary).toHaveTextContent("코드 대조")
     expect(smartStoreSummary).toHaveTextContent("네이버 실제 자격 증명을 사용한 운영 연동은 미검증")

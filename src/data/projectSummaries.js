@@ -12,7 +12,7 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "역할·반복 업무·인수인계 서비스",
         homeSummary:
-            "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과 자료 재확인 일정을 모아 봅니다.",
+            "역할·반복 업무·인수인계 문서를 기록하고, 여러 팀의 할 일과 다시 확인할 자료를 한 화면에서 봅니다.",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/baton",
@@ -23,9 +23,9 @@ export const projectSummaries = [
             problem:
                 "같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달 작업이 중복 생성될 수 있음",
             solution:
-                "요청 UUID와 이벤트 ID로 중복 생성을 방지. 중단된 전송 작업은 같은 식별자로 다른 서버가 이어서 처리하고, 결과 미확인 건은 자동 재전송하지 않음",
+                "요청 UUID와 이벤트 ID로 중복 생성을 방지. 중단된 전송은 다른 서버가 같은 시도 UUID·멱등 키로 이어서 처리하고, 결과 미확인 건은 자동 재전송하지 않음",
         },
-        period: "2026.07.20 — 진행 중",
+        period: "2026.07.20 — 현재",
         route: "/projects/baton",
         tags: ["Java / Kotlin", "Spring Boot", "MySQL / PostgreSQL", "RabbitMQ / AWS SQS FIFO"],
         visual: "baton",
@@ -34,7 +34,7 @@ export const projectSummaries = [
         // 메인 서비스 지도와 상세 아키텍처 도식이 같은 역할 문구를 사용한다.
         coreRole: "조직, 역할 및 인수인계",
         serviceLinks: [
-            { id: "go", name: "GO", route: "/projects/baton/go", role: "허용 경로의 짧은 링크" },
+            { id: "go", name: "GO", route: "/projects/baton/go", role: "짧은 링크 발급" },
             {
                 id: "watch",
                 name: "WATCH",
@@ -45,7 +45,7 @@ export const projectSummaries = [
                 id: "relay",
                 name: "RELAY",
                 route: "/projects/baton/relay",
-                role: "서비스 간 이벤트 전달",
+                role: "Core 이벤트 외부 전달",
             },
             {
                 id: "brief",
@@ -83,7 +83,7 @@ export const projectSummaries = [
             solution:
                 "SKIP LOCKED와 처리 상태로 작업 선점, API 전후 트랜잭션 분리와 중단 작업 재처리",
         },
-        period: "2026.03.24 — 진행 중",
+        period: "2026.03.24 — 현재",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
         visual: "warrant",
@@ -101,7 +101,7 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매 및 예약 서비스",
         homeSummary:
-            "상품 주문, 클래스 예약과 스마트스토어 운영을 한 곳에서 처리하는 공방 서비스입니다.",
+            "상품 주문, 클래스 예약과 스마트스토어 주문·재고 연동을 한 곳에서 처리하는 공방 서비스입니다.",
         liveSite: {
             label: "서비스 보기",
             href: "https://happy-gallery.com",
@@ -119,7 +119,7 @@ export const projectSummaries = [
             solution:
                 "결제·환불 키를 재사용하고 미전송 알림을 재처리. 스마트스토어 주문은 수량 변경분만 재고에 반영",
         },
-        period: "2026.02.21 — 진행 중",
+        period: "2026.02.21 — 현재",
         route: "/projects/happygallery",
         tags: ["Java 25", "Spring Boot 4.1", "React 19", "MySQL / Redis"],
         visual: "gallery",
@@ -141,7 +141,7 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
         summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고 ${youthPolicyCoverage.questionPolicies}종의 신청 요건을 확인합니다. 저장한 정책의 변경 비교·마감 일정·알림과 관리자용 조건 규칙 검토를 제공합니다.`,
-        period: "2026.08.30 — 진행 중",
+        period: "2026.08.30 — 현재",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
         visual: "youth-policy-mate",
@@ -161,10 +161,10 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/hope-commit",
         },
         navigationLabel: "Hope Commit",
-        eyebrow: "Hope 6.0.0 비공식 포크 / 로컬 커밋 HTML 리뷰",
+        eyebrow: "Hope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML",
         summary:
             "SeungIl 님의 Hope 6.0.0을 포크한 비공식 도구입니다. 지정한 커밋만 검토하고 각 설명을 실제 변경 줄에 연결한 오프라인 HTML 리뷰를 생성합니다.",
-        period: "2026.08.22 — 진행 중",
+        period: "2026.08.22 — 현재",
         route: "/projects/hope-commit",
         tags: ["JavaScript", "Node.js 22", "Git CLI", "Playwright"],
         visual: "hope-commit",
@@ -187,7 +187,7 @@ export const projectSummaries = [
         eyebrow: "AI 코드 변경 요청·근거·검증 기록",
         summary:
             "AI 코드의 변경 이유와 검증 결과를 커밋·파일·줄에 연결해 남깁니다. 웹·IDE에서 기록을 검색하고 원본 코드, 이슈·PR과 CI 결과를 함께 확인합니다.",
-        period: "2026.08.27 — 진행 중",
+        period: "2026.08.27 — 현재",
         route: "/projects/intent-trace",
         tags: [
             "Kotlin / JDK 21",

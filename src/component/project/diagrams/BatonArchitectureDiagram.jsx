@@ -92,7 +92,7 @@ const CONNECTIONS = [
     {
         id: "relay",
         path: "M380 316 H348 Q340 316 340 324 V440 Q340 448 332 448 H240",
-        label: "BATON 이벤트",
+        label: "Core 이벤트",
         labelX: 278,
         labelY: 368,
         maskX: 224,
@@ -105,7 +105,7 @@ const CONNECTIONS = [
     {
         id: "brief",
         path: "M580 244 H628 Q636 244 636 236 V104 Q636 96 644 96 H720",
-        label: "v2 운영 이벤트",
+        label: "점검 결과 이벤트",
         labelX: 570,
         labelY: 180,
         maskX: 512,
@@ -190,10 +190,10 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                         Core와 6개 서비스의 담당 기능 및 연동 흐름
                     </title>
                     <desc id="baton-architecture-desc">
-                        Core가 역할, 반복 업무 및 인수인계 문서를 기록하고 6개 서비스가 허용 경로의
-                        짧은 링크, 외부 URL 상태 점검, 서비스 간 이벤트 전달, 운영 점검과 주간
-                        보고서, 읽기 전용 캘린더 구독 및 WebRTC 스터디룸을 맡는 구조입니다. 선은
-                        서비스 사이에서 주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지
+                        Core가 역할, 반복 업무 및 인수인계 문서를 기록하고 6개 서비스가 짧은 링크
+                        발급, 외부 URL 상태 점검, Core 이벤트 외부 전달, 운영 점검과 주간 보고서,
+                        읽기 전용 캘린더 구독 및 WebRTC 스터디룸을 맡는 구조입니다. 선은 서비스
+                        사이에서 주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지
                         않습니다.
                     </desc>
                     <defs>

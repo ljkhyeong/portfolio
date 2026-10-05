@@ -41,8 +41,7 @@ export const personalActivities = [
         title: "LnS (Learn & Share) — HTTP 완벽 가이드",
         type: "개발 서적 그룹 스터디",
         role: "발표 및 Q&A 정리",
-        summary:
-            "HTTP 메시지, 캐시, 프록시와 인증 등 실무에서 자주 확인하는 주제를 발표하고 질문과 답변을 문서로 정리했습니다.",
+        summary: "HTTP 메시지, 캐시, 프록시와 인증을 발표하고 질문과 답변을 Notion에 정리했습니다.",
         links: [
             {
                 label: "LnS 발표 및 Q&A 기록",

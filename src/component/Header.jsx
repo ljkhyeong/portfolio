@@ -170,7 +170,7 @@ const Header = () => {
                     <aside className="home-flow" aria-labelledby="home-flow-title">
                         <div className="home-flow__heading">
                             <h2 id="home-flow-title">요청 처리 흐름</h2>
-                            <span>BATON과 happyGallery에 적용한 요청 처리 방식</span>
+                            <span>BATON·happyGallery에 적용</span>
                         </div>
                         <ol aria-label="중복 방지와 중단 작업 재처리 흐름">
                             {homeHeroContent.flow.map((item) => (

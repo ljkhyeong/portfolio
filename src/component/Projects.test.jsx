@@ -106,7 +106,7 @@ test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제�
         .getByRole("heading", { name: "차세대 군사법 정보 시스템", level: 4 })
         .closest("article")
     expect(defense).toHaveTextContent("국방부 산하 4개 기관 연계 시스템")
-    expect(defense).toHaveTextContent("군사법원, 군검찰, 군경찰, 군교정")
+    expect(defense).toHaveTextContent("군사법원, 군검찰, 군사경찰, 군교정")
     const baton = screen.getByRole("heading", { name: "BATON", level: 4 })
     expect(within(baton).getByRole("link")).toHaveAttribute("href", "/projects/baton")
 })

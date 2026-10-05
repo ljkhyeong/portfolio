@@ -19,12 +19,12 @@ const diagrams = {
         eyebrow: "ARCHITECTURE / CLOSED NETWORK",
         title: "기관별 수용자 정보를 검증해 군교정 DB에 반영",
         summary:
-            "군사법원, 군검찰과 군사경찰의 자료를 기관별 배치에서 검증하고, 중단 시 확인된 단계부터 다시 실행합니다.",
+            "군사법원, 군검찰과 군사경찰의 자료를 기관별 배치에서 검증하고, 중단되면 해당 기관 배치를 다시 실행합니다.",
         description:
-            "세 기관에서 수신한 인적정보와 영장정보를 연계 배치가 검증해 군교정 데이터베이스에 반영하고, 중단된 경우 확인한 단계부터 다시 실행하는 흐름입니다.",
+            "세 기관에서 수신한 인적정보와 영장정보를 연계 배치가 검증해 군교정 데이터베이스에 반영하고, 중단되면 해당 기관 배치를 다시 실행하는 흐름입니다.",
         height: 480,
         zones: [
-            { x: 24, y: 40, width: 216, height: 352, label: "요청 기관" },
+            { x: 24, y: 40, width: 216, height: 352, label: "자료 송신 기관" },
             { x: 296, y: 40, width: 248, height: 352, label: "연계 및 배치" },
             { x: 600, y: 40, width: 336, height: 352, label: "군교정 업무망" },
         ],
@@ -108,7 +108,7 @@ const diagrams = {
         eyebrow: "DATA FLOW / LIVE AND REPLAY",
         title: "강의 영상을 WebRTC 실시간 시청과 HLS 다시보기로 분리",
         summary:
-            "mediasoup의 실시간 전송과 RTP 출력을 나눠 React의 실시간 화면과 지난 구간 재생에 각각 제공합니다.",
+            "실시간 강의는 mediasoup에서 WebRTC로 전송하고, RTP 출력은 FFmpeg·GStreamer로 HLS로 변환해 다시보기에 사용합니다.",
         description:
             "강의 영상 입력을 mediasoup에서 WebRTC 실시간 전송과 RTP 출력으로 나누고, RTP는 FFmpeg와 GStreamer에서 HLS로 변환해 React 다시보기 화면에 제공하는 흐름입니다.",
         height: 480,
@@ -410,7 +410,7 @@ const diagrams = {
             { d: "M592 340 H712" },
             { d: "M592 484 H712" },
         ],
-        note: `조건 질문은 검토한 정책 ${youthPolicyCoverage.questionPolicies}종의 일부 요건만 확인합니다. 원문 충돌은 별도 안내하며, 최종 신청 자격은 공식 안내에서 확인해야 합니다.`,
+        note: "수집 안내와 공식 공고의 차이는 정책 상세에서 따로 안내합니다. 최종 신청 자격은 공식 안내에서 확인해야 합니다.",
     },
 }
 

@@ -82,7 +82,7 @@ const fullFlows = {
     },
     relay: {
         nodes: [
-            node("event", 24, 152, 176, 96, "이벤트 수신", "event ID로 중복 차단", "input"),
+            node("event", 24, 152, 176, 96, "이벤트 수신", "이벤트 ID로 중복 차단", "input"),
             node(
                 "attempt",
                 256,
@@ -100,7 +100,7 @@ const fullFlows = {
                 176,
                 96,
                 "전송 채널",
-                ["Discord / Webhook", "AWS SQS FIFO"],
+                ["Discord / Slack", "Webhook / SQS FIFO"],
                 "step",
             ),
             node("success", 736, 16, 200, 96, "성공", "완료 상태 확정", "result"),
@@ -143,8 +143,8 @@ const fullFlows = {
                 "input",
             ),
             node("apply", 336, 160, 192, 80, "점검 항목 반영", "중복 및 과거 버전 차단", "focal"),
-            node("active", 616, 48, 160, 80, "ACTIVE", "점검 항목 유지", "result"),
-            node("resolved", 616, 272, 160, 80, "RESOLVED", "해소 상태 반영", "result"),
+            node("active", 616, 48, 160, 80, "ACTIVE", "미해결로 유지", "result"),
+            node("resolved", 616, 272, 160, 80, "RESOLVED", "해결됨으로 전환", "result"),
             node("report", 824, 136, 112, 128, ["주간", "보고서"], "발행 후 보존", "step"),
         ],
         edges: [

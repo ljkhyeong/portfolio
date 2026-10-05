@@ -6,7 +6,7 @@ export const projectOgCards = [
         route: "/projects/baton",
         title: ["BATON"],
         category: "개인 프로젝트 / 역할·업무·인수인계",
-        description: "역할·업무·인수인계는 Core가,\n링크·알림·통화는 독립 서비스가 처리합니다.",
+        description: "역할·업무·인수인계는 Core가,\n나머지 6개 기능은 독립 서비스가 처리합니다.",
         caption: "조직 업무를 맡는 Core와 6개 독립 서비스",
         labels: ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"],
     },
@@ -15,7 +15,8 @@ export const projectOgCards = [
         route: "/projects/e-warrant",
         title: ["전송형", "전자영장 시스템"],
         category: "경력 프로젝트 / LG CNS 컨소시엄 / 5개 기관 연계",
-        description: "기관별 요청 형식을 변환하고\n제출 자료를 KICS에 반영합니다.",
+        description:
+            "기관별 요청 형식을 변환하고\n제출 자료를 형사사법정보시스템(KICS)에 반영합니다.",
         caption: "요청 전달과 제출 자료 반영",
         steps: [
             ["KICS", "영장 및 자료 요청"],
@@ -29,7 +30,7 @@ export const projectOgCards = [
         title: ["happyGallery"],
         category: "개인 프로젝트 / 공방 주문과 예약",
         description: "카드와 간편결제를 처리하고\n스마트스토어 주문과 재고를 맞춥니다.",
-        caption: "자사몰과 외부 판매 채널의 주문 및 재고 운영",
+        caption: "자사몰과 스마트스토어의 주문 및 재고 연동",
         steps: [
             ["자사몰 결제", "카드, 네이버페이 및 카카오페이"],
             ["스마트스토어 주문", "변경 주문과 부분취소 수집"],
@@ -40,7 +41,7 @@ export const projectOgCards = [
         id: "youth-policy-mate",
         route: "/projects/youth-policy-mate",
         title: ["청년정책메이트"],
-        category: "웹앱 / 서울 청년정책",
+        category: "웹앱 / 서울 청년정책 / 개발 중",
         description: "내 조건에 맞는 정책을 찾고\n저장한 정책의 변경 내용과 마감을 확인합니다.",
         caption: "조건 확인·정책 변경 비교·마감 알림",
         steps: [
@@ -83,7 +84,7 @@ export const projectOgCards = [
         route: "/projects/defense",
         title: ["차세대", "군사법 정보 시스템"],
         category: "경력 프로젝트 / 국방부 산하 4개 기관 연계",
-        description: "군사법 기관의 자료 검증 배치와\n대용량 파일 업로드를 개발했습니다.",
+        description: "수용자 자료 검증 배치와\n대용량 파일 직접 업로드를 개발했습니다.",
         caption: "수용자 자료 검증과 군교정 DB 반영",
         steps: [
             ["군사법원, 군검찰 및 군사경찰", "기관별 자료 수신"],
@@ -101,7 +102,7 @@ export const projectOgCards = [
         steps: [
             ["mediasoup RTP 출력", "강의 영상 전달"],
             ["HLS 변환", "FFmpeg 및 GStreamer"],
-            ["지난 구간 다시보기", "시연 환경 재생 지연 약 35초 → 17초"],
+            ["지난 구간 다시보기", "시연 환경 재생 지연 약 35초 → 약 17초"],
         ],
     },
     ...[
@@ -119,7 +120,7 @@ export const projectOgCards = [
         [
             "brief",
             "업무 점검과 주간 보고서",
-            "Core의 점검 결과를 반영하고\n발행한 주간 보고서는 유지합니다.",
+            "Core의 점검 결과를 반영하고\n발행한 주간 보고서는 수정하지 않습니다.",
         ],
         [
             "cal",

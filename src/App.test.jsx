@@ -69,7 +69,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     ).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(
         within(projects).getByText(
-            "군사법원, 군검찰, 군경찰, 군교정의 업무를 연계하는 시스템입니다.",
+            "군사법원, 군검찰, 군사경찰, 군교정의 업무를 연계하는 시스템입니다.",
         ),
     ).toBeInTheDocument()
     expect(
@@ -260,7 +260,7 @@ test("홈은 대표 프로젝트의 구조를 읽을 수 있는 서비스 지도
     )
     const serviceMap = screen.getByRole("navigation", { name: "BATON 마이크로서비스 상세" })
     expect(serviceMap).toHaveTextContent("조직, 역할 및 인수인계")
-    expect(serviceMap).toHaveTextContent("서비스 간 이벤트 전달")
+    expect(serviceMap).toHaveTextContent("Core 이벤트 외부 전달")
     const paymentSteps = screen.getByText("결제·환불 처리 순서").closest("figure")
     expect(within(paymentSteps).getAllByRole("listitem")).toHaveLength(3)
     expect(paymentSteps).toHaveTextContent("호출 전 상태 저장")
@@ -343,7 +343,7 @@ test("경력은 메인 상단 한 곳에서 회사, 업무별 기간과 상세 �
         within(summary).getByRole("list", { name: "BEINTECH 수행 프로젝트" }),
     ).getAllByRole("listitem")
     expect(currentRow).toHaveTextContent("현재 업무")
-    expect(within(currentRow).getByText("2026.03.24 — 진행 중")).toBeInTheDocument()
+    expect(within(currentRow).getByText("2026.03.24 — 현재")).toBeInTheDocument()
     expect(within(currentRow).getByText("진행 중")).toBeInTheDocument()
     expect(previousRow).toHaveTextContent("이전 업무")
     expect(within(previousRow).getByText("2024.06.23 — 2026.01.30")).toBeInTheDocument()
@@ -532,7 +532,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 관리자 화면에서 스마트스토어 원상품 연결과 변경 이력을 확인하는 모습",
+            name: "happyGallery 관리자 화면에서 자사몰 옵션 조합을 스마트스토어 옵션에 연결하고 변경 이력을 확인하는 모습",
         }),
     ).toBeInTheDocument()
     expect(
@@ -576,7 +576,7 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년내일저축계좌 상세에서 지원 내용과 검토된 원문 충돌을 확인하는 화면",
+            name: "청년내일저축계좌 상세에서 지원 내용과 공식 공고와의 차이를 확인하는 화면",
         }),
     ).toBeInTheDocument()
     expect(

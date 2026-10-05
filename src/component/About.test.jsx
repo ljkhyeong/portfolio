@@ -47,7 +47,7 @@ test("공통 기술은 이름만 표시하고 구체적인 구현 경험에 프�
             "서버 중단 후 URL 점검 및 이벤트 전달 재개 적용 사례: BATON RELAY",
             "/projects/baton/relay",
         ],
-        ["배포 상태 및 중단 배치 확인 적용 사례: 군사법", "/projects/defense"],
+        ["배포 구성 및 중단 배치 확인 적용 사례: 군사법", "/projects/defense"],
     ]
 
     container.querySelectorAll(".capability-list").forEach((layout) => {

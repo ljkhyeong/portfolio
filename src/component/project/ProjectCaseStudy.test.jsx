@@ -110,7 +110,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         name: /Core와 6개 서비스의 담당 기능 및 연동 흐름.*선은 서비스 사이에서 주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지 않습니다/,
     })
     expect(screen.getByLabelText("Core: 조직, 역할 및 인수인계")).toBeInTheDocument()
-    expect(screen.getByLabelText("GO: 허용 경로의 짧은 링크")).toBeInTheDocument()
+    expect(screen.getByLabelText("GO: 짧은 링크 발급")).toBeInTheDocument()
     expect(screen.getByLabelText("WATCH: 외부 URL 상태 점검")).toBeInTheDocument()
     expect(screen.getByLabelText("ROUND: WebRTC 스터디룸")).toBeInTheDocument()
     expect(screen.getByText("동기 요청")).toBeInTheDocument()
@@ -274,7 +274,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
 
     expect(
         screen.getByText(
-            "상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.",
+            "상품 주문, 클래스 예약과 스마트스토어 주문·재고 연동을 처리하는 공방 서비스입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.queryByText("주요 구현 및 해결")).not.toBeInTheDocument()
@@ -516,7 +516,7 @@ test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 
     renderWithRouter(<ProjectCaseStudy projectId="defense" />)
 
     expect(screen.getByText("국방부 산하 4개 기관 연계 시스템")).toBeInTheDocument()
-    expect(screen.getByText(/군사법원, 군검찰, 군경찰, 군교정/)).toBeInTheDocument()
+    expect(screen.getByText(/군사법원, 군검찰, 군사경찰, 군교정/)).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
             name: "수용자 인적정보 및 영장정보 연계 배치 흐름",
@@ -524,7 +524,7 @@ test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /기관별 수용자 정보를 검증해 군교정 DB에 반영.*세 기관에서 수신한 인적정보와 영장정보를 연계 배치가 검증해.*중단된 경우 확인한 단계부터 다시 실행/,
+            name: /기관별 수용자 정보를 검증해 군교정 DB에 반영.*세 기관에서 수신한 인적정보와 영장정보를 연계 배치가 검증해.*중단되면 해당 기관 배치를 다시 실행/,
         }),
     ).toBeInTheDocument()
     expect(screen.getAllByText("군사법원").length).toBeGreaterThan(0)
@@ -546,8 +546,8 @@ test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 
     expect(problems).toHaveTextContent("필터에서 차단")
     expect(problems).toHaveTextContent("업로드 권한과 파일 정보를 검증")
     expect(problems).toHaveTextContent("Presigned URL")
-    expect(problems).toHaveTextContent("브라우저가 저장소로 직접 전송")
-    expect(problems).toHaveTextContent("대용량 파일을 저장소로 직접 업로드")
+    expect(problems).toHaveTextContent("브라우저가 파일 저장 시스템으로 직접 전송")
+    expect(problems).toHaveTextContent("Presigned URL로 대용량 파일 직접 업로드")
     expect(problems).toHaveTextContent("Jenkins에서 실패 시각과 단계")
     expect(problems).toHaveTextContent("JEUS 로그")
     expect(problems).toHaveTextContent("Tibero 상태")
@@ -725,7 +725,7 @@ test.each([
         "https://github.com/ljkhyeong/baton-cal/tree/817720d",
         /CAL 공개 main 고정 커밋 보기/,
         [
-            /Core 교차 테스트 5개.*최대 100건을 한 트랜잭션/,
+            /Core 교차 테스트 5개와 HTTP 캐시·복구 검증 기록/,
             /게시된 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
             /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증/,
         ],

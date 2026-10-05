@@ -7,7 +7,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "같은 요청 8건의 동시 처리, Redis 공유 요청률 제한과 HMAC 키 교체를 확인했습니다. 관리용 일괄 조회는 최대 100개 ID를 한 번에 조회합니다.",
+                text: "같은 요청 8건의 동시 처리, Redis 공유 요청률 제한과 HMAC 키 교체를 확인했습니다.",
             },
             {
                 kind: "limited",
@@ -24,7 +24,6 @@ export const batonServicePresentations = {
             title: "같은 UUID라도 요청 조건까지 비교합니다",
             description:
                 "첫 요청은 링크를 저장하고, 같은 UUID와 조건의 재요청은 기존 링크를 반환하며, 조건이 바뀐 요청은 충돌로 차단합니다.",
-            note: "짧은 링크는 접근 권한을 대신하지 않습니다. 실제 권한은 BATON 또는 ROUND에서 확인합니다.",
             compact: {
                 input: ["링크 생성 요청", "UUID + 대상 + 기간"],
                 action: ["UUID와 조건 비교", "중복 생성 방지"],
@@ -44,7 +43,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행과 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. V6 DB 제약으로 결과 필수값이 빠진 9개 조합도 거절합니다.",
+                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행과 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. DB 제약(Flyway V6)으로 필수값이 빠진 점검·전달 결과 9가지 조합의 저장도 거부합니다.",
             },
             {
                 kind: "limited",
@@ -61,7 +60,6 @@ export const batonServicePresentations = {
             title: "공인 IP만 점검하고 중단된 점검은 다시 실행합니다",
             description:
                 "URL을 해석해 사설망과 로컬 주소를 차단하고 공인 IP로만 점검합니다. 처리 기한이 지나면 기존 시도를 종료하고 새로 점검하며 이전 시도의 늦은 결과는 저장하지 않습니다.",
-            note: "외부 HTTP 요청 중에는 DB 연결을 반환합니다. 이전 시도나 URL 버전의 늦은 결과는 저장하지 않습니다.",
             compact: {
                 input: ["점검할 URL", "URL 버전 함께 저장"],
                 action: ["공인 IP로만 점검", "사설망 및 로컬 주소 차단"],
@@ -92,10 +90,10 @@ export const batonServicePresentations = {
             title: "전송 실패와 결과 미확인을 다르게 처리합니다",
             description:
                 "이벤트 ID로 중복 수신을 막고 시도 UUID와 외부 서비스 멱등 키를 저장한 뒤 전송합니다. 성공, 실패와 결과 미확인을 구분하며 결과 미확인은 다시 보내지 않습니다.",
-            note: "서버가 중단돼도 같은 시도 UUID와 외부 서비스 멱등 키를 유지합니다. 전송 전 일시 실패만 재시도합니다.",
+            note: "서버가 중단돼도 같은 시도 UUID와 외부 서비스 멱등 키를 유지합니다.",
             compact: {
                 input: ["Core 이벤트", "같은 이벤트 ID는 1건"],
-                action: ["채널별 전송 시도", "Discord / Webhook / SQS"],
+                action: ["채널별 전송 시도", "Discord·Slack·Webhook·SQS"],
                 outputs: [
                     ["성공", "완료 확정"],
                     ["실패", "전송 전 실패만 재시도"],
@@ -117,7 +115,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 2a96b04와 Core의 로컬 교차 검증 기록 기준입니다. 실제 원격 서비스 연결은 미검증입니다.",
+                text: "공개 main 2a96b04와 Core의 로컬 교차 검증 기록 기준입니다.",
             },
             {
                 kind: "unverified",
@@ -132,7 +130,7 @@ export const batonServicePresentations = {
             note: "5개 점검 결과: 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계. BRIEF가 판정 규칙을 다시 만들지 않습니다.",
             compact: {
                 input: ["담당자 공백 등 5개 상태", "Core에서 판정"],
-                action: ["점검 항목 반영", "ACTIVE / RESOLVED"],
+                action: ["점검 항목 반영", "미해결 / 해결됨"],
                 outputs: [
                     ["같은 보고서 조건", "기존 보고서 반환"],
                     ["내용 변경", "새 보고서 발행"],
@@ -148,7 +146,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "Core 교차 테스트 5개와 HTTP 캐시·복구 검증 기록을 확인했습니다. 최대 100건을 한 트랜잭션으로 받고 변경된 시즌의 캘린더를 한 번씩 갱신합니다.",
+                text: "Core 교차 테스트 5개와 HTTP 캐시·복구 검증 기록을 확인했습니다.",
             },
             {
                 kind: "limited",
@@ -184,7 +182,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "브라우저·Core 연동의 기존 검증 기록을 확인했습니다. 공개 main bdf63eb에는 스피커 소리 확인, 공유 화면 작은 창·통화 제어와 대화 전체 복사를 구현했습니다.",
+                text: "이전 CI의 브라우저 테스트와 Core 연동 검사 통과 기록을 확인했습니다. 공개 main bdf63eb에는 스피커 소리 확인, 공유 화면 작은 창·통화 제어와 대화 전체 복사를 구현했습니다.",
             },
             {
                 kind: "limited",

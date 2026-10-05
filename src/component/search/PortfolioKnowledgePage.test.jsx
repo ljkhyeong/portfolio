@@ -235,7 +235,7 @@ test("검색 범위 초기화는 검색어를 유지하고 프로젝트와 문�
 test("주소에 없는 프로젝트와 문서 종류가 지정되면 전체 범위로 검색한다", async () => {
     searchPortfolioKnowledge.mockResolvedValue({ results: [], total: 0 })
     renderPage(["/search?q=결제&project=unknown&type=unknown"])
-    await screen.findByText("일치하는 공개 자료가 없습니다.")
+    await screen.findByText("일치하는 공개 문서가 없습니다.")
     expect(screen.getByLabelText("프로젝트")).toHaveValue("")
     expect(screen.getByLabelText("문서 종류")).toHaveValue("")
     expect(searchPortfolioKnowledge).toHaveBeenCalledWith(
@@ -393,7 +393,7 @@ test("필터를 바꾸면 이전 검색을 취소하고 늦게 온 결과를 무
     const previousSignal = searchPortfolioKnowledge.mock.calls[0][0].signal
 
     await act(async () => userEvent.selectOptions(screen.getByLabelText("프로젝트"), "warrant"))
-    await screen.findByText("일치하는 공개 자료가 없습니다.")
+    await screen.findByText("일치하는 공개 문서가 없습니다.")
     expect(previousSignal.aborted).toBe(true)
     await act(async () => resolvePrevious({ results: [searchResult], total: 1 }))
     expect(screen.queryByRole("heading", { name: searchResult.title })).not.toBeInTheDocument()
@@ -538,7 +538,7 @@ test("검색 결과가 없으면 검색 범위를 바꾸는 방법을 안내하�
         userEvent.click(screen.getByRole("button", { name: "문서 검색" }))
     })
 
-    expect(await screen.findByText("일치하는 공개 자료가 없습니다.")).toBeInTheDocument()
+    expect(await screen.findByText("일치하는 공개 문서가 없습니다.")).toBeInTheDocument()
     expect(screen.getByRole("button", { name: /검색 결과로 답변 생성/ })).toBeDisabled()
 })
 

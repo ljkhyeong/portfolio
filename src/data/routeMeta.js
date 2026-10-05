@@ -32,7 +32,7 @@ const routeMetaContent = {
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "이벤트 중복 수신을 막고 시도 UUID·멱등 키를 유지하며 결과 미확인 건은 재전송하지 않는 RELAY 마이크로서비스",
+            "Core 이벤트를 Discord·Slack·Webhook·AWS SQS FIFO로 전달하고, 중복 수신을 막으며 결과 미확인 건은 재전송하지 않는 RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/brief": {
@@ -50,25 +50,25 @@ const routeMetaContent = {
     "/projects/baton/round": {
         title: "BATON ROUND | 임정규 포트폴리오",
         description:
-            "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고 Cloudflare TURN 또는 coturn을 지원하는 ROUND 서비스",
+            "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고 Cloudflare TURN 또는 coturn을 지원하는 ROUND 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관 연계 시스템의 서버와 Spring Batch를 개발한 경력 사례",
+            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관(법무부, 공수처, 검찰, 경찰, 해양경찰) 전자영장 연계 시스템의 KICS 요청 변환과 제출 자료 반영 서버·Spring Batch를 개발한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "카드·간편결제, 스마트스토어 운영, 공휴일 갱신과 주소 검색을 구현한 공방 주문 및 예약 서비스",
+            "결제·환불 중복 방지, 서버 중단 후 알림 재처리와 스마트스토어 주문·재고 연동을 구현한 공방 주문 및 예약 서비스",
         image: "/og-cover.png",
     },
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "내 조건에 맞는 서울 청년정책을 찾고 저장한 정책의 변경 내용·마감·알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱",
+            "내 조건에 맞는 서울 청년정책을 찾고 저장한 정책의 변경 내용·마감·알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱 개발 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
@@ -86,7 +86,7 @@ const routeMetaContent = {
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:
-            "군사법원, 군검찰, 군경찰, 군교정 등 국방부 산하 4개 기관 연계 시스템에서 자료 검증 배치, 요청 위조 차단과 대용량 파일 직접 업로드를 개발한 경력 사례",
+            "국방부 산하 4개 기관(군사법원, 군검찰, 군사경찰, 군교정) 연계 시스템에서 수용자 자료 검증 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/webrtc": {

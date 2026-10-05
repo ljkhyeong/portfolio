@@ -6,7 +6,7 @@ export const homeHeroContent = {
         {
             step: "01",
             title: "요청 수신",
-            description: "요청 식별값과 처리 대상을 확인",
+            description: "멱등 키와 처리 대상을 확인",
         },
         {
             step: "02",
@@ -16,12 +16,12 @@ export const homeHeroContent = {
         {
             step: "03",
             title: "상태 저장",
-            description: "처리 상태와 재처리 기준을 DB에 기록",
+            description: "처리 상태와 처리 기한을 DB에 기록",
         },
         {
             step: "04",
             title: "중단 후 재처리",
-            description: "미완료 작업을 재처리 기준에 따라 다시 실행",
+            description: "처리 기한이 지난 작업만 다시 실행",
         },
     ],
 }

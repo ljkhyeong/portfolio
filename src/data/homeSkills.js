@@ -26,7 +26,7 @@ export const homeSkillGroups = [
             },
             {
                 name: "결제 및 환불 중복 실행 방지",
-                detail: "결제 승인에는 orderId를, 환불에는 최초 생성 시 저장한 UUID를 모든 재시도에 재사용합니다. 결과가 불확실하면 PG 처리 결과를 조회합니다.",
+                detail: "결제 승인에는 orderId를, 환불에는 최초 생성 시 저장한 UUID를 모든 재시도에 재사용합니다. 결과가 불확실하면 결제사 처리 결과를 조회합니다.",
                 examples: [{ label: "happyGallery", route: "/projects/happygallery" }],
             },
             {
@@ -49,7 +49,7 @@ export const homeSkillGroups = [
             },
             {
                 name: "정책 조건의 버전 관리와 AI 초안 검토",
-                detail: "질문과 판정 규칙을 버전 데이터로 관리합니다. AI 결과는 현재 공고·요청과 대조해 초안으로 저장하고, 관리자 검토 후 적용합니다.",
+                detail: "질문·선택지·판정표를 코드 대신 버전별 데이터로 저장합니다. AI가 추출한 조건은 최신 정책 개정과 요청 순번이 맞을 때만 초안으로 저장하고, 관리자가 검토한 뒤 새 버전으로 적용합니다.",
                 examples: [{ label: "청년정책메이트", route: "/projects/youth-policy-mate" }],
             },
         ],
@@ -58,11 +58,11 @@ export const homeSkillGroups = [
         id: "delivery",
         label: "테스트 및 운영",
         summary:
-            "통합 및 화면 테스트로 주요 기능을 검증합니다. Jenkins 실행 이력, JEUS 로그와 Tibero 상태로 중단된 기관 배치를 찾습니다.",
+            "통합·화면 테스트로 주문, 결제, 예약과 작업 복구를 검증합니다. 폐쇄망에서는 중단된 기관 배치를 찾아 재실행했습니다.",
         items: [
             {
                 name: "통합 테스트",
-                detail: "JUnit과 Testcontainers로 주문, 결제, 예약과 작업 복구 규칙을 실제 DB에서 확인합니다.",
+                detail: "JUnit과 Testcontainers로 주문·결제·예약, AI 호출 예산과 작업 복구 규칙을 실제 DB에서 확인합니다.",
                 examples: [
                     { label: "happyGallery", route: "/projects/happygallery" },
                     { label: "청년정책메이트", route: "/projects/youth-policy-mate" },
@@ -79,8 +79,8 @@ export const homeSkillGroups = [
                 examples: [{ label: "happyGallery", route: "/projects/happygallery" }],
             },
             {
-                name: "배포 상태 및 중단 배치 확인",
-                detail: "Docker 배포 상태를 확인하고, Jenkins 실행 이력과 JEUS 로그 및 Tibero 상태를 대조해 중단된 기관 자료 반영 배치를 찾습니다.",
+                name: "배포 구성 및 중단 배치 확인",
+                detail: "happyGallery는 k3s 롤링 교체와 DB·이미지 백업 절차를 구성했습니다. 군사법 시스템에서는 Jenkins 실행 이력, JEUS 로그와 Tibero 상태를 대조해 중단된 기관 자료 반영 배치를 찾았습니다.",
                 examples: [
                     { label: "happyGallery", route: "/projects/happygallery" },
                     { label: "군사법", route: "/projects/defense" },
@@ -92,11 +92,11 @@ export const homeSkillGroups = [
         id: "ai-development",
         label: "AI 활용 개발",
         summary:
-            "개인 프로젝트에서 작업이 길어져도 개발 규칙을 다시 확인하도록, 코드 수정 직후와 작업 종료 전에 검사 결과를 에이전트에 전달합니다.",
+            "개인 프로젝트에 Codex 훅을 연결해 파일 수정 직후와 작업 종료 전에 검사를 실행하고, 결과를 작업 중인 AI 에이전트에 전달합니다.",
         items: [
             {
                 name: "변경 파일에 맞춘 검사",
-                detail: "파일 경로와 확장자로 검사 범위를 고르고, 포맷·컴파일 오류를 에이전트에 전달합니다. 검사 선택에 별도 LLM을 호출하지 않습니다.",
+                detail: "파일 경로와 확장자로 검사를 고르고, ESLint·컴파일·문법 오류를 에이전트에 전달합니다. 검사 선택에 별도 LLM을 호출하지 않습니다.",
                 examples: [
                     { label: "happyGallery", route: "/projects/happygallery#project-problems" },
                 ],
@@ -107,7 +107,7 @@ export const homeSkillGroups = [
             },
             {
                 name: "작업 전체 변경 검토",
-                detail: "작업 중 커밋과 새 파일까지 모아 전체 diff를 검토합니다. 자동 검사 결과를 바탕으로 코드 수정과 설계 판단은 작업 중인 에이전트가 맡습니다.",
+                detail: "작업을 마치기 전 시작 커밋부터의 전체 diff(작업 중 커밋·새 파일 포함)를 에이전트에 전달하고, 에이전트가 변경 누락과 과한 추상화를 검토합니다.",
             },
         ],
     },

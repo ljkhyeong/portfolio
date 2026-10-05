@@ -70,7 +70,7 @@ test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표
     const unverified = within(status).getByText("미검증").closest("div")
 
     expect(verified).toHaveClass("baton-service-status__item--verified")
-    expect(verified).toHaveTextContent("기존 검증 기록")
+    expect(verified).toHaveTextContent("이전 CI의 브라우저 테스트")
     expect(verified).toHaveTextContent("Core 연동")
     expect(verified).toHaveTextContent("스피커 소리 확인")
     expect(verified).toHaveTextContent("공유 화면 작은 창·통화 제어")

@@ -64,7 +64,7 @@ describe("project summary data", () => {
         expect(hopeCommit.status.text).toContain("SeungIl 님의 Hope 6.0.0")
         expect(hopeCommit.status.text).toContain("제가 추가한 Commit Diff")
         expect(hopeCommit.status.text).toContain("README와 NOTICE에 구분")
-        expect(hopeCommit.status.text).toContain("공개 v5.0.2와 main 9d8392d")
+        expect(hopeCommit.status.text).toContain("v5.0.2(main 9d8392d)")
         expect(hopeCommit.status.text).toContain("Commit Diff")
         expect(hopeCommit.links).toEqual(
             expect.arrayContaining([
@@ -99,7 +99,7 @@ describe("project summary data", () => {
         expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
         expect(intentTrace.status.text).toContain("v0.7.0")
         expect(intentTrace.status.text).toContain("개발 브랜치 125684c")
-        expect(intentTrace.architecture.tradeoff).toContain("GitHub 원본 코드와 비교")
+        expect(intentTrace.architecture.tradeoff).toContain("GitHub 원본 코드 비교는 별도 조회")
         expect(intentTrace.proofs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
@@ -279,13 +279,12 @@ describe("project summary data", () => {
         const publicCopy = JSON.stringify(defense)
 
         expect(defense.systemTitle).toBe("수용자 인적정보 및 영장정보 연계 배치 흐름")
-        expect(defense.visualCaption).toContain("수용자 인적정보와 영장정보")
         expect(defense.oneLine).toContain("CSRF 차단")
         expect(securityProblem.decision).toContain("WebSquare 공통 요청")
         expect(securityProblem.decision).toContain("필터에서 차단")
         expect(uploadProblem.decision).toContain("업로드 권한과 파일 정보를 검증")
         expect(uploadProblem.decision).toContain("Presigned URL")
-        expect(uploadProblem.decision).toContain("저장소로 직접 전송")
+        expect(uploadProblem.decision).toContain("파일 저장 시스템으로 직접 전송")
         expect(incidentProblem.title).toContain("Jenkins")
         expect(incidentProblem.title).toContain("배치 중단 단계 확인")
         expect(incidentProblem.constraint).toContain("통합 모니터링이 없는 폐쇄망")

@@ -13,7 +13,7 @@ const featuredProblems = {
             { title: "수락 및 담당자 변경", description: "담당자와 기간을 함께 반영" },
         ],
         evidenceLabel: "기능 테스트",
-        result: "상태 전이, 취소, 중복 교대 차단과 전달 후 수정 제한을 확인했습니다.",
+        result: "상태 전이, 취소, 중복 인수인계 차단과 전달 후 수정 제한을 확인했습니다.",
         limitation:
             "준비 또는 전달 상태에서 멈춘 인수인계를 찾아 재처리하거나 취소하는 운영 절차가 필요합니다.",
     },
@@ -29,7 +29,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "통합 테스트",
         result: "실패 이력 보존, 같은 키의 결과 재사용, 늦은 응답 차단과 결과 재조회를 확인했습니다.",
-        limitation: "모의 PG 응답을 사용한 통합 테스트 기준입니다.",
+        limitation: "모의 결제사 응답을 사용한 통합 테스트 기준입니다.",
     },
     "youth-policy-mate": {
         problemNumber: "01",
@@ -43,7 +43,7 @@ const featuredProblems = {
             { title: "근거와 함께 표시", description: "3단계 결과와 추가 확인 이유 제공" },
         ],
         evidenceLabel: "서버 단위 테스트",
-        result: "조건 충족 및 불충족, 정책 미해석, 사용자 정보 누락과 일부 구간 중첩을 구분했습니다.",
+        result: "조건 충족 및 불충족, 정책 미해석, 사용자 정보 누락과 답변 구간이 기준과 일부만 겹치는 경우를 구분했습니다.",
         limitation: `정책 ${youthPolicyCoverage.policies}건을 조회하고, 검토한 정책 ${youthPolicyCoverage.questionPolicies}종의 일부 신청 요건을 확인합니다. 최종 신청 자격은 공식 안내에서 확인해야 합니다.`,
     },
     "hope-commit": {
@@ -88,15 +88,14 @@ const featuredProblems = {
         ],
         evidenceLabel: "인터페이스 성능 테스트",
         result: warrantPerformanceSummary,
-        limitation:
-            "중단 작업은 설정한 경과 시간과 주기별 점검에 따라 다시 처리 대상으로 전환합니다.",
+        limitation: "성능 테스트 환경 기준입니다. 상세 환경과 로그는 공개하지 않습니다.",
     },
     defense: {
         problemNumber: "01",
         problem:
             "기관별 자료 형식과 전달 시점이 달랐고, 연계가 중단되면 후속 군교정 업무를 처리할 수 없었습니다.",
         approach:
-            "기관별 자료를 검증해 DB에 반영하고, 중단 시 실행 이력과 로그로 실패 단계를 찾아 필요한 배치만 재처리했습니다.",
+            "기관별 자료를 검증해 군교정 DB에 반영하고, 중단되면 실행 이력과 로그로 실패 단계를 찾아 해당 기관 배치만 재실행했습니다.",
         steps: [
             { title: "기관 자료 수신", description: "수용자 인적정보와 영장정보 확인" },
             { title: "검증 및 DB 반영", description: "기관별 자료를 군교정 DB에 저장" },
@@ -104,7 +103,7 @@ const featuredProblems = {
         ],
         evidenceLabel: "운영 확인",
         result: "중단 단계를 찾아 재처리한 뒤 인적정보와 영장정보가 군교정 DB에 반영되는 것까지 확인했습니다.",
-        limitation: "폐쇄망 환경으로 일부 확인은 수동 절차와 기관 담당자 협업이 필요했습니다.",
+        limitation: "폐쇄망이라 로그·DB 대조와 재처리를 수동으로 하고 기관 담당자와 협업했습니다.",
     },
     webrtc: {
         problemNumber: "02",
@@ -153,7 +152,7 @@ const featuredProblems = {
         problem:
             "외부 전송 뒤 응답을 잃으면 성공 여부를 모른 채 같은 내용을 다시 보낼 수 있습니다.",
         approach:
-            "호출 전에 시도 UUID와 중복 방지 키를 저장합니다. 결과 미확인은 재전송하지 않고 외부 기록을 확인해 상태만 확정합니다.",
+            "호출 전에 시도 UUID와 외부 서비스 멱등 키를 저장합니다. 결과 미확인은 재전송하지 않고 외부 기록을 확인해 상태만 확정합니다.",
         steps: [
             { title: "전송 시도 저장", description: "UUID와 외부 서비스 멱등 키 고정" },
             { title: "외부 전송", description: "서버가 바뀌어도 시도 UUID와 멱등 키 유지" },
@@ -172,10 +171,10 @@ const featuredProblems = {
         steps: [
             { title: "Core 점검 결과 수신", description: "담당자 공백 및 업무 지연 등 5개 상태" },
             { title: "이벤트 검증", description: "ID, 해시와 버전 번호 비교" },
-            { title: "점검 항목 반영", description: "ACTIVE 또는 RESOLVED로 반영" },
+            { title: "점검 항목 반영", description: "미해결(ACTIVE)·해결됨(RESOLVED)으로 반영" },
         ],
         evidenceLabel: "로컬 연동 확인",
-        result: "2.0.0-rc.1 실제 Core와 로컬 HTTP 및 내부 서비스용 Caddy HTTPS 연동을 확인했습니다.",
+        result: "BRIEF 이벤트 JSON 규격 2.0.0-rc.1(릴리스 후보) 기준으로 실제 Core와의 로컬 HTTP 및 내부 서비스용 Caddy HTTPS 연동을 확인했습니다.",
         limitation: "주간 보고서와 Core 연동은 로컬 검증 기준입니다.",
     },
     "baton-cal": {

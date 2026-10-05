@@ -215,7 +215,7 @@ const SearchResults = ({ state, total, results, query, errorMessage, onRetry }) 
         return (
             <div className="knowledge-state" role="status" aria-live="polite">
                 <span className="knowledge-state__spinner" aria-hidden="true" />
-                <h2>공개 자료를 검색하고 있습니다.</h2>
+                <h2>공개 문서를 검색하고 있습니다.</h2>
             </div>
         )
     }
@@ -237,7 +237,7 @@ const SearchResults = ({ state, total, results, query, errorMessage, onRetry }) 
         return (
             <div className="knowledge-state">
                 <span aria-hidden="true">0</span>
-                <h2>일치하는 공개 자료가 없습니다.</h2>
+                <h2>일치하는 공개 문서가 없습니다.</h2>
                 <p>검색 범위를 초기화하거나 더 짧은 검색어를 사용해 보세요.</p>
             </div>
         )
@@ -411,7 +411,7 @@ const AnswerPanel = ({
         </button>
         <p className="knowledge-answer__policy">
             공개 문서로만 답하고 출처를 표시합니다.
-            {verificationEnabled ? " 답변 요청은 자동 호출 여부를 확인합니다." : ""}
+            {verificationEnabled ? " 답변을 요청하려면 자동 요청 방지 확인이 필요합니다." : ""}
         </p>
     </aside>
 )
@@ -521,7 +521,7 @@ const PortfolioKnowledgePage = () => {
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">
                         <li>
                             <span aria-hidden="true">01</span>
-                            공개 자료만 검색
+                            공개 문서만 검색
                         </li>
                         <li>
                             <span aria-hidden="true">02</span>

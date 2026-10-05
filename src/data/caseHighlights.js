@@ -2,31 +2,34 @@ import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence
 import { youthPolicyCoverage } from "./projectSummaries"
 
 export const caseIntroductions = {
-    baton: "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과 자료 재확인 일정을 모아 보는 서비스입니다.",
-    happygallery: "상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.",
+    baton: "역할·반복 업무·인수인계 문서를 기록하고, 여러 팀의 할 일과 다시 확인할 자료를 한 화면에서 보는 서비스입니다.",
+    happygallery:
+        "상품 주문, 클래스 예약과 스마트스토어 주문·재고 연동을 처리하는 공방 서비스입니다.",
     "youth-policy-mate":
         "내 조건에 맞는 정책을 찾고, 저장한 정책의 변경 내용과 마감 일정·알림을 확인하는 웹앱입니다.",
-    "hope-commit": "SeungIl 님의 Hope 6.0.0을 포크해 로컬 커밋 HTML 리뷰를 추가했습니다.",
+    "hope-commit":
+        "SeungIl 님의 Hope 6.0.0을 포크해, 지정한 커밋을 AI로 리뷰하고 각 설명을 실제 변경 줄에 연결한 HTML 리뷰 기능을 추가했습니다.",
     "intent-trace": "AI 코드 변경의 요청·근거와 검증 결과를 코드 위치에 연결해 남기는 도구입니다.",
     warrant: "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다.",
-    defense: "군사법원, 군검찰, 군경찰, 군교정의 업무를 연계하는 시스템입니다.",
+    defense: "군사법원, 군검찰, 군사경찰, 군교정의 업무를 연계하는 시스템입니다.",
     webrtc: "강의를 실시간으로 시청하고 지난 구간을 다시 볼 수 있는 서비스입니다.",
 }
 
 export const caseResults = {
     baton: "서비스별 테스트와 Core–BRIEF·CAL·ROUND 연동을 로컬 확인. 공개 환경 전체 연동은 미검증",
     happygallery: "공개 서비스 배포와 HTTPS 접속 확인. 실제 네이버·Toss·NHN 계정 연동은 미검증",
-    "youth-policy-mate": `질문 ${youthPolicyCoverage.questionPolicies}종·연령 비교 ${youthPolicyCoverage.agePolicies}종 구현. 조건 규칙의 버전 관리와 AI 초안 검토·적용을 로컬 검증`,
-    "hope-commit": "v5.0.2 공개 및 자동화 테스트 343개 통과",
-    "intent-trace": "v0.7.0 공개. 개발 버전의 IDE 검색·코드 위치 추적과 GitHub 연결 진단을 검증",
+    "youth-policy-mate": `정책 ${youthPolicyCoverage.questionPolicies}종의 조건 질문과 ${youthPolicyCoverage.agePolicies}종의 연령 비교 구현. 조건 규칙의 버전 관리와 AI 초안 검토·적용을 로컬 검증`,
+    "hope-commit": "Hope Commit v5.0.2 공개, 자동화 테스트 343개 통과",
+    "intent-trace":
+        "v0.7.0 공개. 개발 브랜치의 IntelliJ 기록 검색·코드 위치 추적과 PR 커밋 일치 진단은 자동화 테스트로 확인",
     warrant: warrantPerformanceSummary,
-    defense: "군교정 DB 반영, CSRF 요청 차단과 저장소 직접 업로드 확인",
-    webrtc: "팀 시연에서 HLS 지연 약 35초 → 17초",
+    defense: "군교정 DB 반영, CSRF 요청 차단과 대용량 파일 직접 업로드 확인",
+    webrtc: "팀 시연에서 HLS 재생 지연 약 35초 → 약 17초",
 }
 
 export const problemHighlights = {
     baton: {
-        "02": "상태 전이, 취소와 중복 교대 차단 테스트",
+        "02": "상태 전이, 취소와 중복 인수인계 차단 테스트",
         "03": "동시 요청 8건에도 링크와 처리 기록 각각 1건 저장",
         "05": "사설망 차단·응답 본문 미수신, 중단 점검 재실행과 늦은 결과 차단 테스트",
         "07": "중단 후 시도 키 유지, 늦은 결과 차단과 운영자 상태 확정 확인",
@@ -69,6 +72,6 @@ export const problemHighlights = {
     },
     webrtc: {
         "01": "팀 시연에서 WebRTC 실시간과 HLS 지난 구간 재생 확인",
-        "02": "팀 시연 환경에서 HLS 지연 약 35초 → 17초 확인",
+        "02": "팀 시연 환경에서 HLS 재생 지연 약 35초 → 약 17초 확인",
     },
 }
