@@ -213,3 +213,32 @@ test("크기 변경으로 섹션 계산을 다시 해도 화면을 떠날 때 �
     expect(added.length).toBeGreaterThan(0)
     added.forEach((listener) => expect(removed).toContain(listener))
 })
+
+test("메뉴가 옆으로 넘칠 때만 끝을 흐리게 표시한다", () => {
+    render(
+        <article>
+            <CaseSectionNavigation
+                sections={[
+                    { id: "overview", label: "개요" },
+                    { id: "proof", label: "확인 결과" },
+                ]}
+            />
+            <section id="overview">개요 본문</section>
+            <section id="proof">확인 결과 본문</section>
+        </article>,
+    )
+    const list = screen.getByRole("list")
+    const setSize = (scrollWidth, clientWidth, scrollLeft = 0) => {
+        Object.defineProperty(list, "scrollWidth", { configurable: true, value: scrollWidth })
+        Object.defineProperty(list, "clientWidth", { configurable: true, value: clientWidth })
+        list.scrollLeft = scrollLeft
+    }
+
+    setSize(500, 300)
+    fireEvent(window, new Event("resize"))
+    expect(list).toHaveAttribute("data-overflow-end")
+
+    setSize(500, 300, 200)
+    fireEvent.scroll(list)
+    expect(list).not.toHaveAttribute("data-overflow-end")
+})

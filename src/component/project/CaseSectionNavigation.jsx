@@ -178,6 +178,25 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
         return () => window.removeEventListener("resize", revealActiveLink)
     }, [activeId])
 
+    // 좁은 화면에서 메뉴가 잘리면 끝을 흐리게 해 옆으로 더 있다는 것을 알린다.
+    useEffect(() => {
+        const list = listRef.current
+        if (!list) return undefined
+        const updateOverflow = () =>
+            list.toggleAttribute(
+                "data-overflow-end",
+                list.scrollLeft + list.clientWidth < list.scrollWidth - 1,
+            )
+
+        updateOverflow()
+        list.addEventListener("scroll", updateOverflow, { passive: true })
+        window.addEventListener("resize", updateOverflow)
+        return () => {
+            list.removeEventListener("scroll", updateOverflow)
+            window.removeEventListener("resize", updateOverflow)
+        }
+    }, [sectionIds])
+
     useEffect(() => {
         window.clearTimeout(copyResetTimerRef.current)
         setCopyState("idle")

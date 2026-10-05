@@ -35,6 +35,10 @@
     list-style: none;
 }
 
+.case-section-nav ul[data-overflow-end] {
+    mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+}
+
 .case-section-nav li {
     flex: 0 0 auto;
 }
