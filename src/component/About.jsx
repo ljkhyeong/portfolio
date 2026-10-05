@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { education, personalActivities } from "../data/profile"
 import { homeSkillGroups } from "../data/homeSkills"
 import { projectSummariesById } from "../data/projectSummaries"
+import GithubActivity from "./GithubActivity"
 
 const CapabilityItems = ({ group }) => (
     <ul aria-label={`${group.label} 기술 및 적용 사례`}>
@@ -117,6 +118,11 @@ const About = () => {
                             </article>
                         ))}
                     </section>
+                </div>
+
+                {/* 최근 개발 활동은 개인 활동의 근거로 학습 영역 끝에 둔다. */}
+                <div className="experience-section__activity">
+                    <GithubActivity />
                 </div>
             </section>
 

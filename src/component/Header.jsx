@@ -4,7 +4,6 @@ import { assetPath } from "../utils/assetPath"
 import { homeHeroContent } from "../data/homeHero"
 import { careers, portfolioProfile } from "../data/profile"
 import BatonBlueprint from "./BatonBlueprint"
-import GithubActivity from "./GithubActivity"
 import PortfolioNavigation from "./PortfolioNavigation"
 import "../css/Blueprint.css"
 import "../css/HomeHero.css"
@@ -93,38 +92,28 @@ const Header = () => {
                 }
             />
 
-            {/* 도면처럼 기준선으로 나눈 띠를 쌓는다. 좁은 화면에서는 BATON 구조도를 숨기고 소개부터 보여 준다. */}
-            <div className="blueprint-band home-figure-band">
-                <figure className="blueprint-col home-figure">
-                    <BatonBlueprint captionId="home-figure-caption" />
-                    <figcaption id="home-figure-caption">
-                        <span>
-                            <b className="blueprint-fig" aria-hidden="true" /> BATON — Core와 6개
-                            서비스의 역할
-                        </span>
-                        <span>서비스마다 독립 실행, DB 공유 없음</span>
-                    </figcaption>
-                </figure>
-            </div>
-
+            {/* 도면처럼 기준선으로 나눈 띠를 쌓는다. 넓은 화면에서는 소개 옆에 BATON 구조도를 두고,
+                좁은 화면에서는 구조도를 숨겨 경력이 늦게 나오지 않게 한다. */}
             <section
                 className="blueprint-band home-hero"
                 id="top"
                 aria-labelledby="home-hero-title"
             >
                 <div className="blueprint-col home-hero__inner">
-                    <img
-                        className="home-hero__avatar"
-                        src={assetPath("ljkhyeong-avatar.png")}
-                        alt={`${portfolioProfile.name} 픽셀 아바타`}
-                        width="160"
-                        height="160"
-                    />
                     <div className="home-hero__copy">
-                        <p className="home-hero__name">
-                            {portfolioProfile.name}
-                            <span>{portfolioProfile.role}</span>
-                        </p>
+                        <div className="home-hero__identity">
+                            <img
+                                className="home-hero__avatar"
+                                src={assetPath("ljkhyeong-avatar.png")}
+                                alt={`${portfolioProfile.name} 픽셀 아바타`}
+                                width="160"
+                                height="160"
+                            />
+                            <p className="home-hero__name">
+                                {portfolioProfile.name}
+                                <span>{portfolioProfile.role}</span>
+                            </p>
+                        </div>
                         <h1 id="home-hero-title" data-route-heading="/">
                             {homeHeroContent.headlineLines.map((line, index) => (
                                 <span className="home-hero__line" key={line}>
@@ -152,6 +141,17 @@ const Header = () => {
                             </a>
                         </div>
                     </div>
+
+                    <figure className="home-figure">
+                        <BatonBlueprint captionId="home-figure-caption" />
+                        <figcaption id="home-figure-caption">
+                            <span>
+                                <b className="blueprint-fig" aria-hidden="true" /> BATON — Core와
+                                6개 서비스의 역할
+                            </span>
+                            <span>서비스마다 독립 실행, DB 공유 없음</span>
+                        </figcaption>
+                    </figure>
 
                     <aside className="home-flow" aria-labelledby="home-flow-title">
                         <div className="home-flow__heading">
@@ -212,12 +212,6 @@ const Header = () => {
                         </dd>
                     </div>
                 </dl>
-            </div>
-
-            <div className="blueprint-band">
-                <div className="blueprint-col">
-                    <GithubActivity />
-                </div>
             </div>
         </header>
     )

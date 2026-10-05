@@ -137,6 +137,13 @@
     border-color: var(--accent);
     background: var(--accent-soft);
 }
+/* 1200px 이상에서는 소개 옆 Fig. 1이 같은 서비스와 상세 링크를 보여 주므로 지도를 반복하지 않는다. */
+@media (min-width: 1200px) {
+    .project-glance--system {
+        display: none;
+    }
+}
+
 .project-glance--system ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

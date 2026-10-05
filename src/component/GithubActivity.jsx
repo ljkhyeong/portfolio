@@ -13,7 +13,7 @@ const GithubActivity = () => {
         <figure className="activity" aria-labelledby="activity-title">
             <figcaption className="activity__head">
                 <span className="blueprint-fig" aria-hidden="true" />
-                <h2 id="activity-title">최근 1년 GitHub 기여</h2>
+                <h3 id="activity-title">최근 1년 GitHub 기여</h3>
                 <p>
                     {summary} · {formatMonth(activity.from)} — {formatMonth(activity.to)}
                 </p>

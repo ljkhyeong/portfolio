@@ -276,10 +276,12 @@ test("BATON의 6개 마이크로서비스를 독립 상세로 연결한다", () 
     render(<App />)
 
     const services = ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"]
+    // 소개 옆 구조도와 BATON 항목의 서비스 지도는 화면 너비에 따라 하나만 보인다.
+    const serviceMap = screen.getByRole("navigation", { name: "BATON 마이크로서비스 상세" })
 
     services.forEach((service) => {
         expect(
-            screen.getByRole("link", {
+            within(serviceMap).getByRole("link", {
                 name: `BATON ${service} 마이크로서비스 상세 보기`,
             }),
         ).toHaveAttribute("href", `/projects/baton/${service.toLowerCase()}`)
@@ -735,13 +737,16 @@ test("인쇄본은 현재 웹 포트폴리오의 구성과 링크를 그대로 �
             ),
         )
     })
+    const printServiceMap = within(printDocument).getByRole("navigation", {
+        name: "BATON 마이크로서비스 상세",
+    })
     expect(
-        within(printDocument).getByRole("link", {
+        within(printServiceMap).getByRole("link", {
             name: "BATON GO 마이크로서비스 상세 보기",
         }),
     ).toHaveAttribute("href", "https://ljkportfolio.netlify.app/projects/baton/go")
     expect(
-        within(printDocument).getByRole("link", {
+        within(printServiceMap).getByRole("link", {
             name: "BATON ROUND 마이크로서비스 상세 보기",
         }),
     ).toHaveAttribute("href", "https://ljkportfolio.netlify.app/projects/baton/round")

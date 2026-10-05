@@ -1,15 +1,25 @@
-/* 소개 띠: 아바타, 이름과 한 줄 소개, 요청 처리 흐름 4단계 */
+/* 소개 띠: 아바타와 이름, 한 줄 소개, BATON 구조도(넓은 화면), 요청 처리 흐름 4단계 */
 .home-hero__inner {
     display: grid;
-    grid-template-columns: 132px minmax(0, 1fr);
-    gap: 0 36px;
+    grid-template-columns: minmax(0, 1fr);
     padding-block: 44px 0;
+}
+
+.home-hero__copy {
+    padding-bottom: 40px;
+}
+
+.home-hero__identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .home-hero__avatar {
     display: block;
-    width: 132px;
-    height: 132px;
+    flex: none;
+    width: 64px;
+    height: 64px;
     border: 1px solid var(--line);
     border-radius: 50%;
     background: var(--portfolio-signature);
@@ -33,7 +43,7 @@
 
 .home-hero h1 {
     max-width: 920px;
-    margin: 12px 0 0;
+    margin: 24px 0 0;
     font-size: clamp(32px, 3.2vw, 44px);
     font-weight: 750;
     letter-spacing: -0.04em;
@@ -96,7 +106,7 @@
 /* 요청 처리 흐름: 실제 순서가 있는 4단계라 번호를 쓴다. */
 .home-flow {
     grid-column: 1 / -1;
-    margin: 40px -48px 0;
+    margin: 0 -48px;
     border-top: 1px solid var(--line);
 }
 
@@ -177,6 +187,26 @@
     }
 }
 
+/* 소개 칸이 400px 이상 남는 너비부터 구조도를 소개 옆에 둔다. */
+@media (min-width: 1200px) {
+    .home-hero__inner {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+        column-gap: 48px;
+    }
+
+    .home-hero__copy {
+        align-self: center;
+    }
+
+    .home-hero h1 {
+        font-size: clamp(32px, 2.8vw, 40px);
+    }
+
+    .home-hero__line {
+        display: block;
+    }
+}
+
 @media (max-width: 900px) {
     .home-flow ol {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -194,18 +224,14 @@
 
 @media (max-width: 700px) {
     .home-hero__inner {
-        grid-template-columns: 64px minmax(0, 1fr);
-        gap: 0 16px;
         padding-block: 28px 0;
     }
 
-    .home-hero__avatar {
-        width: 64px;
-        height: 64px;
+    .home-hero__copy {
+        padding-bottom: 28px;
     }
 
     .home-hero__name {
-        align-self: center;
         font-size: 20px;
     }
 
@@ -213,17 +239,6 @@
         display: block;
         margin: 2px 0 0;
         font-size: 14px;
-    }
-
-    /* 아바타 옆에는 이름만 두고 제목부터는 전체 폭을 쓴다. */
-    .home-hero__copy {
-        display: contents;
-    }
-
-    .home-hero h1,
-    .home-hero__summary,
-    .home-hero__actions {
-        grid-column: 1 / -1;
     }
 
     .home-hero h1 {

@@ -32,7 +32,7 @@
 }
 
 /* 숨긴 그림은 번호를 받지 않도록 화면에 보이는 그림만 차례로 센다. */
-.site-header {
+.portfolio-page {
     counter-reset: blueprint-figure;
 }
 
@@ -47,22 +47,70 @@
     content: "Fig. " counter(blueprint-figure);
 }
 
-/* BATON 등각 구조도 */
+/* BATON 등각 구조도: 1200px 이상에서 소개 오른쪽 칸을 띠 위아래 기준선까지 채운다. */
 .home-figure {
-    margin-block: 0;
-    padding-block: 20px 14px;
-    background-image: linear-gradient(var(--portfolio-grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--portfolio-grid) 1px, transparent 1px);
-    background-position: -1px -1px;
-    background-size: 40px 40px;
+    display: none;
+    margin: 0;
+}
+
+@media (min-width: 1200px) {
+    .home-figure {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: -44px -48px 0 0;
+        padding: 16px 16px 12px;
+        border-left: 1px solid var(--line);
+        background-image: linear-gradient(var(--portfolio-grid) 1px, transparent 1px),
+            linear-gradient(90deg, var(--portfolio-grid) 1px, transparent 1px);
+        background-position: -1px -1px;
+        background-size: 40px 40px;
+    }
 }
 
 .blueprint-drawing {
     display: block;
     width: 100%;
-    max-width: 860px;
     height: auto;
-    margin: 0 auto;
+    overflow: visible;
+}
+
+.blueprint-drawing__box {
+    cursor: pointer;
+}
+
+.blueprint-drawing__box:focus {
+    outline: none;
+}
+
+.blueprint-drawing__box polygon,
+.blueprint-drawing__name {
+    transition:
+        fill 150ms ease,
+        stroke 150ms ease;
+}
+
+.blueprint-drawing__box:hover .blueprint-drawing__face--top,
+.blueprint-drawing__box:focus-visible .blueprint-drawing__face--top {
+    fill: var(--accent-soft);
+    stroke: var(--accent);
+}
+
+.blueprint-drawing__box:hover .blueprint-drawing__name,
+.blueprint-drawing__box:focus-visible .blueprint-drawing__name {
+    fill: var(--accent);
+}
+
+/* 윗면이 연한 강조색일 때는 글자 테두리도 같은 색으로 맞춘다. */
+.blueprint-drawing__box.is-core :is(.blueprint-drawing__name, .blueprint-drawing__role),
+.blueprint-drawing__box:hover :is(.blueprint-drawing__name, .blueprint-drawing__role),
+.blueprint-drawing__box:focus-visible :is(.blueprint-drawing__name, .blueprint-drawing__role) {
+    stroke: var(--accent-soft);
+}
+
+/* 키보드 초점은 윗면 테두리를 굵게 그려 표시한다. */
+.blueprint-drawing__box:focus-visible .blueprint-drawing__face--top {
+    stroke-width: 2.5;
 }
 
 .blueprint-drawing__links line {
@@ -94,8 +142,13 @@
     stroke: var(--accent);
 }
 
+/* 역할 글자가 상자 모서리 선을 지날 때 선이 글자를 가르지 않도록 윗면 색으로 테두리를 두른다. */
 .blueprint-drawing__name,
 .blueprint-drawing__role {
+    paint-order: stroke;
+    stroke: var(--portfolio-surface);
+    stroke-linejoin: round;
+    stroke-width: 3px;
     text-anchor: middle;
 }
 
@@ -106,18 +159,19 @@
 
 .blueprint-drawing__box.is-core .blueprint-drawing__name {
     fill: var(--accent);
-    font-size: 19px;
+    font-size: 18px;
 }
 
 .blueprint-drawing__role {
     fill: var(--muted);
-    font: 400 12px var(--sans);
+    font: 400 13px var(--sans);
 }
 
 .home-figure figcaption {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 16px;
+    gap: 4px 16px;
     margin-top: 10px;
     color: var(--muted);
     font-size: 13px;
@@ -145,10 +199,12 @@
     line-height: 1.9;
 }
 
+/* 한글은 단어 단위로 줄을 바꾸고, 이메일처럼 긴 영문만 필요할 때 끊는다. */
 .home-meta dd {
     min-width: 0;
     margin: 0;
     overflow-wrap: anywhere;
+    word-break: keep-all;
 }
 
 .home-meta a {
@@ -161,7 +217,13 @@
     text-decoration: underline;
 }
 
-/* 최근 1년 GitHub 기여 */
+/* 최근 1년 GitHub 기여: 학습 영역 끝에서 개인 활동의 근거로 보여 준다. */
+.experience-section__activity {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+}
+
 .activity {
     margin: 0;
 }
@@ -174,7 +236,7 @@
     margin-bottom: 16px;
 }
 
-.activity__head h2 {
+.activity__head h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 650;
@@ -252,14 +314,6 @@
 .activity__legend .activity__day {
     width: 12px;
     height: 12px;
-}
-
-/* 900px 이하에서는 구조도가 65% 이하로 줄어 역할 글자를 읽기 어렵다.
-   같은 서비스와 역할은 BATON 항목의 서비스 지도에서 보여 준다. */
-@media (max-width: 900px) {
-    .home-figure-band {
-        display: none;
-    }
 }
 
 @media (max-width: 800px) {
