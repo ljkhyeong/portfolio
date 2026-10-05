@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/webrtc.png",
-    "sourceSha256": "32f4f9cae1c2531dfa9f80a157f09531dc7a6ad85d8613e93379ad96b2e19590",
-    "artifactSha256": "5c536f4d46a5db4ffd3ba6afba4f14173113f5e2bfc68fda6cd6c68dd849b21a",
+    "sourceSha256": "270e1ef49c863705ef09d9c4efe33a6f6034bb31d1bb981adfa1eff2597fa35b",
+    "artifactSha256": "7ed5707db8d7eada036b16d7bb699e480c5db12ff72e536710dd36c4bf286cf6",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
