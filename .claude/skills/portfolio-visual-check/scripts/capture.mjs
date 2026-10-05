@@ -384,6 +384,17 @@ const inspectPage = (contrastSelector) => {
                 if (style.visibility === "hidden" || Number(style.opacity) === 0) {
                     continue
                 }
+                // 글자 크기가 0이거나 화면 밖으로 잘라 둔 접근성용 글자는 보이지 않으므로 대비를 따지지 않는다.
+                const box = element.getBoundingClientRect()
+                if (
+                    Number.parseFloat(style.fontSize) <= 1 ||
+                    box.width <= 1 ||
+                    box.height <= 1 ||
+                    style.clipPath === "inset(50%)" ||
+                    style.clip === "rect(0px, 0px, 0px, 0px)"
+                ) {
+                    continue
+                }
                 const foreground = parseColor(isSvgText ? style.fill : style.color)
                 if (!foreground) {
                     continue
