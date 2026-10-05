@@ -406,6 +406,27 @@
     word-break: keep-all;
 }
 
+.sheet-row__body .project-card__facts {
+    margin-top: 16px;
+}
+
+.sheet-row__link {
+    display: inline-flex;
+    align-self: start;
+    justify-self: end;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1.9;
+    white-space: nowrap;
+    text-underline-offset: 4px;
+}
+
+.sheet-row__link:hover {
+    text-decoration: underline;
+}
+
 .sheet-row__body .home-career__scope {
     color: var(--accent);
     font-size: 14px;
@@ -448,7 +469,7 @@
         grid-column: 1 / -1;
     }
 
-    .sheet-row .stage-badge {
+    .sheet-row :is(.stage-badge, .sheet-row__link) {
         grid-column: 2;
         grid-row: 2;
     }

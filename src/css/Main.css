@@ -12,8 +12,7 @@
     color: var(--ink);
 }
 
-.portfolio-page a:focus-visible,
-.capability-mobile summary:focus-visible {
+.portfolio-page a:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 4px;
 }
@@ -37,118 +36,12 @@
     font-weight: 600;
 }
 
-.experience-section__intro,
-.capability-section__intro {
-    margin-bottom: 56px;
-}
-
-.experience-section__intro h2,
-.capability-section__intro h2 {
-    margin: 0;
-    font-size: var(--portfolio-section-title, 36px);
-    font-weight: var(--portfolio-section-weight);
-    letter-spacing: var(--portfolio-section-tracking);
-    line-height: var(--portfolio-section-leading);
-}
-
-.timeline--learning {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 80px;
-    align-items: start;
-}
-
-.timeline__group {
-    min-width: 0;
-}
-
-.timeline__group-title {
-    margin: 0 0 28px;
-    font-size: var(--portfolio-subtitle, 24px);
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.timeline__period,
-.timeline__content > span {
-    color: var(--muted);
-    font-size: var(--portfolio-small, 16px);
-    font-weight: 400;
-    line-height: 1.6;
-}
-
-.timeline__content h4 {
-    margin: 12px 0;
-    color: var(--ink);
-    font-size: var(--portfolio-subtitle, 24px);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.45;
-    word-break: keep-all;
-}
-
-.timeline__content p {
-    margin: 0;
-    color: var(--muted);
-    font-size: var(--portfolio-body, 18px);
-    line-height: 1.75;
-    word-break: keep-all;
-}
-
-.timeline__content > a,
-.timeline__links a,
-.capability__examples a {
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    gap: 6px;
-    color: var(--accent);
-    font-size: var(--portfolio-small, 16px);
-    line-height: 1.5;
-    text-underline-offset: 5px;
-}
-
-.timeline__content > a {
-    margin-top: 10px;
-}
-
-.timeline__content > a:hover,
-.timeline__links a:hover,
-.capability__examples a:hover {
-    text-decoration: underline;
-}
-
-.timeline__item {
-    display: grid;
-    gap: 12px;
-}
-
-.timeline__item + .timeline__item {
-    margin-top: 32px;
-    padding-top: 32px;
-    border-top: 1px solid var(--line);
-}
-
-.timeline__content {
-    min-width: 0;
-}
-
-.timeline__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 24px;
-    margin-top: 10px;
-}
-
-.capability-list--mobile {
-    display: none;
-}
-
+/* 기술: 묶음 이름을 왼쪽에, 기술 이름 칩과 사용 범위를 오른쪽에 둔다. */
 .capability {
     display: grid;
     grid-template-columns: 240px minmax(0, 1fr);
-    gap: 64px;
-    padding: 40px 0;
+    gap: 48px;
+    padding: 24px 0;
     border-top: 1px solid var(--line);
 }
 
@@ -156,7 +49,7 @@
     padding-bottom: 0;
 }
 
-.capability__heading h3 {
+.capability h3 {
     margin: 0;
     color: var(--ink);
     font-size: var(--portfolio-subtitle, 24px);
@@ -165,126 +58,48 @@
     line-height: 1.4;
 }
 
-.capability__heading p {
-    margin: 16px 0 0;
+.capability__body p {
+    max-width: 760px;
+    margin: 12px 0 0;
     color: var(--muted);
-    font-size: var(--portfolio-body, 18px);
-    line-height: 1.75;
+    font-size: 15px;
+    line-height: 1.7;
     word-break: keep-all;
 }
 
+.capability__link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    font-size: 15px;
+    text-underline-offset: 5px;
+}
+
+.capability__link:hover {
+    text-decoration: underline;
+}
+
 .capability ul {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 8px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .capability li {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.capability li strong {
-    color: var(--ink);
-    font-size: var(--portfolio-body, 18px);
-    font-weight: 600;
-    line-height: 1.6;
-    word-break: keep-all;
-}
-
-.capability li > span {
-    color: var(--muted);
-    font-size: var(--portfolio-small, 16px);
-    line-height: 1.75;
-    word-break: keep-all;
-}
-
-.capability__examples {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 20px;
-    margin-top: auto;
-}
-
-.capability__stack-item {
-    justify-content: flex-start;
-}
-
-/* 데스크톱 기술 영역: 카드 2열 대신 경력과 같은 기준선 행으로 이름, 설명, 적용 사례를 한 줄에 읽게 한다. */
-.capability-list--desktop .capability {
-    gap: 48px;
-    padding: 32px 0;
-}
-
-.capability-list--desktop .capability__heading p {
-    margin-top: 10px;
-    font-size: 15px;
-    line-height: 1.7;
-}
-
-.capability-list--desktop .capability ul:has(> li:not(.capability__stack-item)) {
-    display: block;
-    border-top: 1px solid var(--ink);
-}
-
-.capability-list--desktop .capability li:not(.capability__stack-item) {
-    display: grid;
-    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) minmax(7rem, auto);
-    align-items: baseline;
-    gap: 4px 28px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--line);
-}
-
-.capability-list--desktop .capability li strong {
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-.capability-list--desktop .capability li > span {
-    font-size: 15px;
-    line-height: 1.7;
-}
-
-/* 적용 사례가 둘 이상이면 오른쪽 칸에서 세로로 쌓아 설명 칸을 넓게 둔다. */
-.capability-list--desktop .capability__examples {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
-    margin-top: 0;
-}
-
-.capability-list--desktop .capability__examples a {
-    min-height: 28px;
-    font-size: 15px;
-    white-space: nowrap;
-}
-
-/* 기술 이름만 있는 묶음은 기준선 칩으로 한 줄에 모은다. */
-.capability-list--desktop .capability ul:has(> .capability__stack-item) {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    align-items: flex-start;
-    gap: 8px;
-}
-
-.capability-list--desktop .capability__stack-item {
-    gap: 0;
     padding: 6px 12px;
     border: 1px solid var(--line);
     background: var(--portfolio-surface);
-}
-
-.capability-list--desktop .capability__stack-item strong {
+    color: var(--ink);
     font-size: 15px;
     font-weight: 600;
+    line-height: 1.6;
+    word-break: keep-all;
 }
 
 .site-footer {
@@ -359,25 +174,14 @@
     transform: translate(2px, -2px);
 }
 
-.site-footer__meta {
-    display: flex;
-    grid-column: 1 / -1;
-    justify-content: space-between;
-    gap: 16px;
-    padding-top: 32px;
-    border-top: 1px solid var(--line);
-    color: var(--muted);
-    font-size: var(--portfolio-small, 16px);
-    line-height: 1.6;
-}
-
 .site-footer__references {
     display: flex;
     grid-column: 1 / -1;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 8px 20px;
-    margin-top: -40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
     color: var(--muted);
     font-size: var(--portfolio-caption, 14px);
     line-height: 1.6;
@@ -395,28 +199,9 @@
 }
 
 @media (max-width: 1080px) {
-    .timeline--learning {
-        gap: 48px;
-    }
-
     .capability {
         grid-template-columns: 220px minmax(0, 1fr);
         gap: 40px;
-    }
-
-    /* 설명 칸이 좁아지면 이름과 적용 사례를 한 줄에, 설명을 다음 줄에 둔다. */
-    .capability-list--desktop .capability li:not(.capability__stack-item) {
-        grid-template-columns: minmax(0, 1fr) auto;
-    }
-
-    .capability-list--desktop .capability li > span {
-        grid-column: 1 / -1;
-        grid-row: 2;
-    }
-
-    .capability-list--desktop .capability__examples {
-        flex-direction: row;
-        gap: 0 14px;
     }
 }
 
@@ -425,13 +210,9 @@
         grid-template-columns: 1fr;
     }
 
-    .timeline--learning {
-        gap: 40px;
-    }
-
     .capability {
         grid-template-columns: 1fr;
-        gap: 28px;
+        gap: 16px;
     }
 }
 
@@ -451,86 +232,6 @@
 }
 
 @media (max-width: 560px) {
-    .experience-section__intro,
-    .capability-section__intro {
-        margin-bottom: 36px;
-    }
-
-    .timeline--learning {
-        grid-template-columns: 1fr;
-    }
-
-    .capability-list--desktop {
-        display: none;
-    }
-
-    .capability-list--mobile {
-        display: block;
-    }
-
-    .capability-mobile {
-        display: block;
-        padding: 0;
-    }
-
-    .capability-mobile summary {
-        position: relative;
-        display: grid;
-        min-height: 96px;
-        align-content: center;
-        gap: 8px;
-        padding: 22px 40px 22px 0;
-        cursor: pointer;
-        list-style: none;
-    }
-
-    .capability-mobile summary::-webkit-details-marker {
-        display: none;
-    }
-
-    .capability-mobile__title {
-        color: var(--ink);
-        font-size: var(--portfolio-subtitle, 24px);
-        font-weight: 600;
-        line-height: 1.4;
-    }
-
-    .capability-mobile__summary {
-        color: var(--muted);
-        font-size: var(--portfolio-small, 16px);
-        line-height: 1.7;
-        word-break: keep-all;
-    }
-
-    .capability-mobile__action {
-        position: absolute;
-        top: 24px;
-        right: 0;
-        color: var(--accent);
-        font-size: 24px;
-        line-height: 1;
-    }
-
-    .capability-mobile__action::before {
-        content: "+";
-    }
-
-    .capability-mobile[open] .capability-mobile__action::before {
-        content: "−";
-    }
-
-    .capability-mobile ul {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        padding-bottom: 28px;
-    }
-
-    .capability--backend ul,
-    .capability--frontend ul {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
-    }
-
     .site-footer {
         gap: 40px;
     }
@@ -548,13 +249,7 @@
         font-size: 18px;
     }
 
-    .site-footer__meta {
-        flex-direction: column;
-        gap: 8px;
-    }
-
     .site-footer__references {
-        margin-top: -16px;
         gap: 8px 16px;
     }
 }

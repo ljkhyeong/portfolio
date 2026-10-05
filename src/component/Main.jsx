@@ -60,12 +60,6 @@ const Main = () => {
                         </span>
                     </a>
                 </div>
-                <div className="site-footer__meta">
-                    <span>
-                        {portfolioProfile.name}, {portfolioProfile.role}
-                    </span>
-                    <span>{portfolioProfile.location}</span>
-                </div>
                 <div className="site-footer__references" aria-label="디자인 참고">
                     <span>디자인 참고</span>
                     <a href="https://chanhdai.com" target="_blank" rel="noreferrer">

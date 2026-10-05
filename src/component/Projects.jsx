@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { homeProjectCategories, projectSummaries } from "../data/projectSummaries"
 import { caseResults, caseIntroductions } from "../data/caseHighlights"
-import featuredProblems from "../data/featuredProblems"
 import "../css/Projects.css"
 
 const PROJECT_TYPE_LABELS = {
@@ -12,7 +11,7 @@ const PROJECT_TYPE_LABELS = {
     education: "교육 프로젝트",
 }
 
-const ProjectFacts = ({ project }) => (
+export const ProjectFacts = ({ project }) => (
     <dl className="project-card__facts" aria-label={`${project.title} 문제, 구현과 검증`}>
         <div>
             <dt>문제</dt>
@@ -78,7 +77,7 @@ const ProjectLinks = ({ project, supporting = false }) => (
     </div>
 )
 
-// 대표 프로젝트의 구조를 작은 화면 캡처 대신 읽을 수 있는 크기의 지도와 처리 순서로 보여 준다.
+// 1199px 이하에서 소개 옆 Fig. 1 대신 BATON 서비스 구성을 읽을 수 있는 크기의 지도로 보여 준다.
 const BatonSystemMap = ({ project }) => (
     <nav className="project-glance project-glance--system" aria-label="BATON 마이크로서비스 상세">
         <div className="project-glance__core">
@@ -101,35 +100,6 @@ const BatonSystemMap = ({ project }) => (
     </nav>
 )
 
-const ProcessingSteps = ({ label, steps }) => (
-    <figure className="project-glance project-glance--steps">
-        <figcaption>{label}</figcaption>
-        <ol>
-            {steps.map((step) => (
-                <li key={step.title}>
-                    <strong>{step.title}</strong>
-                    <span>{step.description}</span>
-                </li>
-            ))}
-        </ol>
-    </figure>
-)
-
-const ProjectGlance = ({ project }) => {
-    if (project.serviceLinks) {
-        return <BatonSystemMap project={project} />
-    }
-    if (project.id === "happygallery") {
-        return (
-            <ProcessingSteps
-                label="결제·환불 처리 순서"
-                steps={featuredProblems.happygallery.steps}
-            />
-        )
-    }
-    return null
-}
-
 const FeaturedProjectCard = ({ project }) => (
     <li className="project-showcase__item">
         <article>
@@ -149,7 +119,7 @@ const FeaturedProjectCard = ({ project }) => (
                     )}
                     {project.homeSummary}
                 </p>
-                <ProjectGlance project={project} />
+                {project.serviceLinks ? <BatonSystemMap project={project} /> : null}
             </header>
             <div className="project-card__content">
                 <ProjectFacts project={project} />

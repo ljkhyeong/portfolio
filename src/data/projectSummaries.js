@@ -244,7 +244,6 @@ export const projectSummaries = [
 
 // 메인은 경력, 대표 개인 프로젝트, 나머지 순서로 읽게 한다. 세부 유형은 각 행의 라벨로 표시한다.
 export const homeProjectCategories = [
-    { id: "career", label: "경력 프로젝트" },
     { id: "personal", label: "개인 프로젝트" },
     { id: "more", label: "그 밖의 프로젝트" },
 ]

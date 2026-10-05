@@ -2,8 +2,9 @@ import { Link } from "react-router-dom"
 import { careers } from "../data/profile"
 import { projectSummariesById } from "../data/projectSummaries"
 import StageBadge from "./StageBadge"
+import { ProjectFacts } from "./Projects"
 
-// 메인에서 경력을 보여 주는 유일한 영역이다. 회사와 재직 기간, 업무별 기간과 담당 업무를 줄로 나눈다.
+// 메인에서 경력을 보여 주는 유일한 영역이다. 업무별 기간과 담당 업무 아래에 대표 사례의 문제·구현·검증을 둔다.
 const CareerSummary = () => {
     const career = careers[0]
 
@@ -36,6 +37,7 @@ const CareerSummary = () => {
                                         .join(" · ")}
                                 </p>
                                 <p>{career.projectResponsibilities[id]}</p>
+                                {project.homeFacts ? <ProjectFacts project={project} /> : null}
                             </div>
                             <StageBadge stage={project.stage} />
                         </li>

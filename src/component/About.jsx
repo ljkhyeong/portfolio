@@ -1,124 +1,72 @@
 import { Link } from "react-router-dom"
 import { education, personalActivities } from "../data/profile"
 import { homeSkillGroups } from "../data/homeSkills"
-import { projectSummariesById } from "../data/projectSummaries"
 import GithubActivity from "./GithubActivity"
 
-const CapabilityItems = ({ group }) => (
-    <ul aria-label={`${group.label} 기술 및 적용 사례`}>
-        {group.items.map((item) => (
-            <li className={item.detail ? undefined : "capability__stack-item"} key={item.name}>
-                <strong>{item.name}</strong>
-                {item.detail ? <span>{item.detail}</span> : null}
-                {item.examples ? (
-                    <div className="capability__examples">
-                        {item.examples.map((example) => (
-                            <Link
-                                to={example.route}
-                                aria-label={`${item.name} 적용 사례: ${example.label}`}
-                                key={example.route}
-                            >
-                                {example.label} <span aria-hidden="true">→</span>
-                            </Link>
-                        ))}
-                    </div>
-                ) : null}
-            </li>
-        ))}
-    </ul>
-)
-
-const DesktopCapability = ({ group }) => (
+const Capability = ({ group }) => (
     <article className={`capability capability--${group.id}`}>
-        <div className="capability__heading">
-            <h3>{group.label}</h3>
+        <h3>{group.label}</h3>
+        <div className="capability__body">
+            <ul aria-label={`${group.label} 기술`}>
+                {group.items.map((item) => (
+                    <li key={item}>{item}</li>
+                ))}
+            </ul>
             <p>{group.summary}</p>
+            {group.link ? (
+                <Link className="capability__link" to={group.link.route}>
+                    {group.link.label} <span aria-hidden="true">→</span>
+                </Link>
+            ) : null}
         </div>
-        <CapabilityItems group={group} />
     </article>
-)
-
-const MobileCapability = ({ group }) => (
-    <details className={`capability capability-mobile capability--${group.id}`}>
-        <summary>
-            <span className="capability-mobile__title">{group.label}</span>
-            <span className="capability-mobile__summary">{group.summary}</span>
-            <span className="capability-mobile__action" aria-hidden="true" />
-        </summary>
-        <CapabilityItems group={group} />
-    </details>
 )
 
 const About = () => {
     return (
         <>
+            {/* 경력은 메인 상단에서 한 번만 보여 주고, 여기에는 교육과 그룹 스터디를 경력과 같은 행으로 둔다. */}
             <section
                 className="experience-section blueprint-sheet"
                 id="experience"
                 aria-labelledby="experience-title"
             >
-                <div className="experience-section__intro">
+                <div className="sheet-heading">
                     <h2 id="experience-title">학습</h2>
                 </div>
-
-                {/* 경력은 메인 상단의 경력 요약에서 한 번만 보여 주고, 여기에는 교육과 개인 활동을 둔다. */}
-                <div className="timeline timeline--learning" aria-label="교육 및 개인 활동">
-                    <section
-                        className="timeline__group timeline__group--education"
-                        aria-labelledby="education-title"
-                    >
-                        <h3 className="timeline__group-title" id="education-title">
-                            교육
-                        </h3>
-                        <article className="timeline__item timeline__item--compact">
-                            <div className="timeline__period">{education.period}</div>
-                            <div className="timeline__content">
-                                <span>
-                                    {education.organization}, {education.meta}
-                                </span>
-                                <h4>{projectSummariesById[education.projectId].title}</h4>
-                                <p>{education.description}</p>
-                                <Link to="/projects/webrtc">교육 프로젝트 상세 보기 →</Link>
+                <ol className="sheet-rows" aria-label="교육 및 그룹 스터디">
+                    <li className="sheet-row">
+                        <span className="sheet-row__period">{education.period}</span>
+                        <div className="sheet-row__body">
+                            <span className="sheet-row__label">{education.type}</span>
+                            <h3>{education.organization}</h3>
+                            <p>{education.summary}</p>
+                        </div>
+                        <Link className="sheet-row__link" to={education.route}>
+                            프로젝트 보기 <span aria-hidden="true">→</span>
+                        </Link>
+                    </li>
+                    {personalActivities.map((activity) => (
+                        <li className="sheet-row" key={activity.id}>
+                            <span className="sheet-row__period">그룹 스터디</span>
+                            <div className="sheet-row__body">
+                                <span className="sheet-row__label">{activity.role}</span>
+                                <h3>{activity.title}</h3>
                             </div>
-                        </article>
-                    </section>
-
-                    <section
-                        className="timeline__group timeline__group--activities"
-                        aria-labelledby="activities-title"
-                    >
-                        <h3 className="timeline__group-title" id="activities-title">
-                            개인 활동
-                        </h3>
-                        {personalActivities.map((activity) => (
-                            <article
-                                className="timeline__item timeline__item--compact"
-                                key={activity.id}
+                            <a
+                                className="sheet-row__link"
+                                href={activity.links[0].href}
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label={`${activity.links[0].label} 새 창에서 보기`}
                             >
-                                <div className="timeline__period">그룹 스터디</div>
-                                <div className="timeline__content">
-                                    <span>{activity.role}</span>
-                                    <h4>{activity.title}</h4>
-                                    <p>{activity.summary}</p>
-                                    <div className="timeline__links">
-                                        {activity.links.map((link) => (
-                                            <a
-                                                href={link.href}
-                                                key={link.href}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                {link.label} ↗
-                                            </a>
-                                        ))}
-                                    </div>
-                                </div>
-                            </article>
-                        ))}
-                    </section>
-                </div>
+                                기록 보기 <span aria-hidden="true">↗</span>
+                            </a>
+                        </li>
+                    ))}
+                </ol>
 
-                {/* 최근 개발 활동은 개인 활동의 근거로 학습 영역 끝에 둔다. */}
+                {/* 최근 개발 활동은 학습의 근거로 학습 영역 끝에 둔다. */}
                 <div className="experience-section__activity">
                     <GithubActivity />
                 </div>
@@ -129,17 +77,13 @@ const About = () => {
                 id="capabilities"
                 aria-labelledby="capability-title"
             >
-                <div className="capability-section__intro">
+                <div className="sheet-heading">
                     <h2 id="capability-title">기술</h2>
                 </div>
-                <div className="capability-list capability-list--desktop">
+                {/* 구현 사례는 프로젝트 카드와 상세에서 설명하므로 여기에는 기술 이름과 사용 범위만 둔다. */}
+                <div className="capability-list">
                     {homeSkillGroups.map((group) => (
-                        <DesktopCapability group={group} key={group.id} />
-                    ))}
-                </div>
-                <div className="capability-list capability-list--mobile">
-                    {homeSkillGroups.map((group) => (
-                        <MobileCapability group={group} key={group.id} />
+                        <Capability group={group} key={group.id} />
                     ))}
                 </div>
             </section>

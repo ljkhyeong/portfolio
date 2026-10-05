@@ -10,7 +10,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     render(<App />)
 
-    expect(screen.getByRole("contentinfo")).toHaveTextContent("임정규, 백엔드 개발자")
+    expect(screen.getByRole("contentinfo")).toHaveTextContent("jolri24@naver.com")
     const heroHeading = screen.getByRole("heading", { level: 1 })
 
     expect(heroHeading).toHaveTextContent(
@@ -39,11 +39,6 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
 
     expect(
         within(projects).getByRole("link", {
-            name: "전송형 전자영장 시스템 프로젝트 상세 보기",
-        }),
-    ).toBeInTheDocument()
-    expect(
-        within(projects).getByRole("link", {
             name: "BATON 프로젝트 상세 보기",
         }),
     ).toBeInTheDocument()
@@ -68,11 +63,6 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
         }),
     ).toHaveAttribute("href", "/projects/youth-policy-mate")
     expect(
-        within(projects).getByText(
-            "군사법원, 군검찰, 군사경찰, 군교정의 업무를 연계하는 시스템입니다.",
-        ),
-    ).toBeInTheDocument()
-    expect(
         within(projects).getByRole("link", {
             name: "WebRTC/HLS 현장강의 보조 서비스 프로젝트 상세 보기",
         }),
@@ -95,15 +85,20 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     ).toBeInTheDocument()
 }, 15000)
 
+// 경력 프로젝트는 경력 영역의 제목 링크로, 나머지는 프로젝트 카드의 상세 보기 링크로 연결한다.
 const projectLinkCases = [
-    ["BATON", "/projects/baton"],
-    ["전송형 전자영장 시스템", "/projects/e-warrant"],
-    ["happyGallery", "/projects/happygallery"],
-    ["Hope Commit", "/projects/hope-commit"],
-    ["IntentTrace", "/projects/intent-trace"],
-    ["청년정책메이트", "/projects/youth-policy-mate"],
-    ["차세대 군사법 정보 시스템", "/projects/defense"],
-    ["WebRTC/HLS 현장강의 보조 서비스", "/projects/webrtc"],
+    ["BATON", "/projects/baton", "BATON 프로젝트 상세 보기"],
+    ["전송형 전자영장 시스템", "/projects/e-warrant", "전송형 전자영장 시스템"],
+    ["happyGallery", "/projects/happygallery", "happyGallery 프로젝트 상세 보기"],
+    ["Hope Commit", "/projects/hope-commit", "Hope Commit 프로젝트 상세 보기"],
+    ["IntentTrace", "/projects/intent-trace", "IntentTrace 프로젝트 상세 보기"],
+    ["청년정책메이트", "/projects/youth-policy-mate", "청년정책메이트 프로젝트 상세 보기"],
+    ["차세대 군사법 정보 시스템", "/projects/defense", "차세대 군사법 정보 시스템"],
+    [
+        "WebRTC/HLS 현장강의 보조 서비스",
+        "/projects/webrtc",
+        "WebRTC/HLS 현장강의 보조 서비스 프로젝트 상세 보기",
+    ],
 ]
 
 test("상세에서 프로젝트 목록으로 돌아가면 해당 섹션으로 스크롤하고 포커스를 옮긴다", async () => {
@@ -162,92 +157,49 @@ test("픽셀 아바타와 실명을 포트폴리오 식별 정보로 사용한�
     ).toHaveAttribute("download")
 })
 
-test("기술 섹션은 핵심 스택과 해결한 운영 문제를 구체적으로 보여준다", () => {
+// 구현 사례는 프로젝트 카드와 상세에서 설명하므로 기술 영역은 기술 이름과 사용 범위만 보여 준다.
+test("기술 섹션은 묶음별 기술 이름과 사용 범위만 보여준다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    const skills = screen.getByRole("region", { name: "기술" })
-    const desktopSkills = skills.querySelector(".capability-list--desktop")
+    const skills = within(screen.getByRole("region", { name: "기술" }))
+    const headings = skills
+        .getAllByRole("heading", { level: 3 })
+        .map((heading) => heading.textContent)
 
-    expect(desktopSkills).not.toBeNull()
-    const desktop = within(desktopSkills)
-    expect(desktop.getByRole("heading", { name: "백엔드" })).toBeInTheDocument()
-    expect(desktop.getByText("Java")).toBeInTheDocument()
-    expect(desktop.getByText("Spring Boot / Spring MVC")).toBeInTheDocument()
-    expect(desktop.getByText("Spring Batch")).toBeInTheDocument()
-    expect(desktop.getByText("JPA / MyBatis")).toBeInTheDocument()
-    expect(desktop.getByText("RabbitMQ / AWS SQS FIFO")).toBeInTheDocument()
-    expect(desktop.getByRole("heading", { name: "프론트엔드" })).toBeInTheDocument()
-    expect(desktop.getByText("JavaScript")).toBeInTheDocument()
-    expect(desktop.getByText("TypeScript")).toBeInTheDocument()
-    expect(desktop.getByText("React")).toBeInTheDocument()
-    expect(desktop.getByText("WebSquare")).toBeInTheDocument()
-
-    expect(desktop.getByRole("heading", { name: "중복 방지 및 작업 복구" })).toBeInTheDocument()
-    expect(desktop.getByText("결제 및 환불 중복 실행 방지")).toBeInTheDocument()
-    expect(desktop.getByText("서버 중단 후 알림 재처리")).toBeInTheDocument()
-    expect(desktop.getByText("정원 및 재고 초과 방지")).toBeInTheDocument()
-    expect(
-        desktop.getByText(
-            "클래스, 예약 슬롯과 재고 행을 잠가 동시 요청의 정원 및 재고 초과를 막습니다.",
-        ),
-    ).toBeInTheDocument()
-    expect(desktop.getByText("서버 중단 후 URL 점검 및 이벤트 전달 재개")).toBeInTheDocument()
-
-    const backendHeading = desktop.getByRole("heading", { name: "백엔드" })
-    const reliabilityHeading = desktop.getByRole("heading", {
-        name: "중복 방지 및 작업 복구",
-    })
-    const deliveryHeading = desktop.getByRole("heading", { name: "테스트 및 운영" })
-    const frontendHeading = desktop.getByRole("heading", { name: "프론트엔드" })
-
-    expect(backendHeading.compareDocumentPosition(reliabilityHeading)).toBe(
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    )
-    expect(reliabilityHeading.compareDocumentPosition(deliveryHeading)).toBe(
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    )
-    expect(deliveryHeading.compareDocumentPosition(frontendHeading)).toBe(
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    )
-
-    expect(skills).not.toHaveTextContent("Java 21 / 11 / 8")
-    expect(skills).not.toHaveTextContent("Spring JDBC")
-    expect(skills).not.toHaveTextContent("전자영장, BATON, happyGallery, 공공 SI")
-    expect(skills).not.toHaveTextContent("Prometheus / Grafana")
-})
-
-test("모바일 기술 그룹은 필요한 항목만 펼쳐볼 수 있다", async () => {
-    window.history.pushState({}, "", "/")
-
-    render(<App />)
-
-    const skills = screen.getByRole("region", { name: "기술" })
-    const mobileSkills = skills.querySelector(".capability-list--mobile")
-
-    expect(mobileSkills).not.toBeNull()
-    const frontendTitle = within(mobileSkills).getByText("프론트엔드", { exact: true })
-    const frontendDetails = frontendTitle.closest("details")
-
-    expect(frontendDetails).not.toHaveAttribute("open")
-    fireEvent.click(frontendTitle)
-    expect(frontendDetails).toHaveAttribute("open")
-    expect(within(frontendDetails).getByText("WebSquare")).toBeInTheDocument()
-})
-
-test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, route) => {
-    window.history.pushState({}, "", "/")
-
-    render(<App />)
-
-    expect(screen.getByRole("link", { name: `${project} 프로젝트 상세 보기` })).toHaveAttribute(
+    expect(headings).toEqual(["백엔드", "테스트 및 운영", "AI 활용 개발", "프론트엔드"])
+    ;[
+        "Java",
+        "Spring Boot / Spring MVC",
+        "Spring Batch",
+        "JPA / MyBatis",
+        "RabbitMQ / AWS SQS FIFO",
+        "JUnit / Testcontainers",
+        "Jenkins / JEUS / Tibero",
+        "React",
+        "WebSquare",
+    ].forEach((name) => expect(skills.getByText(name)).toBeInTheDocument())
+    expect(skills.getByRole("link", { name: /happyGallery 적용 사례/ })).toHaveAttribute(
         "href",
-        route,
+        "/projects/happygallery#project-problems",
+    )
+    expect(skills.queryByText("중복 방지 및 작업 복구")).not.toBeInTheDocument()
+    expect(skills.queryByText("결제 및 환불 중복 실행 방지")).not.toBeInTheDocument()
+    expect(screen.getByRole("region", { name: "기술" })).not.toHaveTextContent(
+        "Prometheus / Grafana",
     )
 })
 
-test("홈은 대표 프로젝트의 구조를 읽을 수 있는 서비스 지도와 처리 순서로 보여준다", () => {
+test.each(projectLinkCases)("%s 목록이 %s 상세를 연결한다", (project, route, linkName) => {
+    window.history.pushState({}, "", "/")
+
+    render(<App />)
+
+    expect(screen.getByRole("link", { name: linkName })).toHaveAttribute("href", route)
+})
+
+test("홈은 대표 프로젝트의 구조를 서비스 지도로 보여주고 상세의 처리 순서를 반복하지 않는다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
@@ -261,10 +213,7 @@ test("홈은 대표 프로젝트의 구조를 읽을 수 있는 서비스 지도
     const serviceMap = screen.getByRole("navigation", { name: "BATON 마이크로서비스 상세" })
     expect(serviceMap).toHaveTextContent("조직, 역할 및 인수인계")
     expect(serviceMap).toHaveTextContent("Core 이벤트 외부 전달")
-    const paymentSteps = screen.getByText("결제·환불 처리 순서").closest("figure")
-    expect(within(paymentSteps).getAllByRole("listitem")).toHaveLength(3)
-    expect(paymentSteps).toHaveTextContent("호출 전 상태 저장")
-    expect(paymentSteps).toHaveTextContent("결과 반영 또는 재조회")
+    expect(screen.queryByText("결제·환불 처리 순서")).not.toBeInTheDocument()
     expect(
         within(screen.getByRole("region", { name: "프로젝트" })).queryByRole("img"),
     ).not.toBeInTheDocument()
@@ -288,39 +237,30 @@ test("BATON의 6개 마이크로서비스를 독립 상세로 연결한다", () 
     })
 })
 
-test("WebRTC/HLS 경험은 Education에서 이름과 성격을 명확히 보여준다", () => {
+// 교육 프로젝트 설명은 그 밖의 프로젝트에 있으므로 학습에는 과정과 팀 프로젝트 링크만 둔다.
+test("학습은 교육 과정을 한 줄로 보여주고 팀 프로젝트 상세를 연결한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    const educationHeading = screen.getByRole("heading", { name: "교육", level: 3 })
-    const learningSection = screen
-        .getByRole("heading", { name: "학습", level: 2 })
-        .closest("section")
-    const educationSection = educationHeading.closest("section")
+    const learningSection = screen.getByRole("region", { name: "학습" })
+    const educationRow = within(learningSection)
+        .getByRole("heading", { name: "카카오 클라우드 스쿨 개발자 과정 3기", level: 3 })
+        .closest("li")
 
-    expect(learningSection).toContainElement(educationHeading)
     expect(
         screen.getByRole("region", { name: "경력" }).compareDocumentPosition(learningSection),
     ).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
-    expect(
-        within(educationSection).getByRole("heading", {
-            name: "WebRTC/HLS 현장강의 보조 서비스",
-            level: 4,
-        }),
-    ).toBeInTheDocument()
-    expect(
-        within(educationSection).getByText(
-            /mediasoup RTP를 HLS로 변환했습니다.*팀 시연에서 HLS 재생 지연을/,
-        ),
-    ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "교육 프로젝트 상세 보기 →" })).toHaveAttribute(
+    expect(educationRow).toHaveTextContent("2023.05 — 2023.11")
+    expect(educationRow).toHaveTextContent("6인 팀으로 WebRTC/HLS 현장강의 보조 서비스")
+    expect(within(educationRow).getByRole("link", { name: /프로젝트 보기/ })).toHaveAttribute(
         "href",
         "/projects/webrtc",
     )
+    expect(learningSection).not.toHaveTextContent("mediasoup")
 })
 
-test("경력은 메인 상단 한 곳에서 회사, 업무별 기간과 상세 링크를 보여준다", () => {
+test("경력은 메인 상단 한 곳에서 회사, 업무별 기간, 대표 사례와 상세 링크를 보여준다", () => {
     window.history.pushState({}, "", "/")
     render(<App />)
 
@@ -364,38 +304,38 @@ test("경력은 메인 상단 한 곳에서 회사, 업무별 기간과 상세 �
         .closest("section")
     expect(learningSection).not.toHaveTextContent("BEINTECH")
     expect(screen.queryByRole("heading", { name: "경력 및 학습" })).not.toBeInTheDocument()
-    expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
-        "담당 구현과 테스트 요약 공개",
-    )
+    // 경력 프로젝트의 문제·구현·검증은 경력 행에서 한 번만 보여 주고 프로젝트 영역에서 반복하지 않는다.
+    expect(
+        within(currentRow).getByLabelText("전송형 전자영장 시스템 문제, 구현과 검증"),
+    ).toHaveTextContent("100 RPS·300 TPS")
+    expect(within(projects).queryByText("전송형 전자영장 시스템")).not.toBeInTheDocument()
+    expect(within(projects).queryByText("차세대 군사법 정보 시스템")).not.toBeInTheDocument()
 })
 
-test("기존 그룹 스터디를 개인 활동으로 분리하고 대표 기록을 연결한다", () => {
+test("그룹 스터디는 학습 행으로 보여주고 대표 기록을 연결한다", () => {
     window.history.pushState({}, "", "/")
 
     render(<App />)
 
-    expect(screen.getByRole("heading", { name: "개인 활동", level: 3 })).toBeInTheDocument()
+    const learningSection = within(screen.getByRole("region", { name: "학습" }))
     expect(
-        screen.getByRole("heading", {
+        learningSection.getByRole("heading", {
             name: "LnS (Learn & Share) — HTTP 완벽 가이드",
-            level: 4,
+            level: 3,
         }),
     ).toBeInTheDocument()
     expect(
-        screen.getByRole("heading", { name: "Effective Java 스터디", level: 4 }),
+        learningSection.getByRole("heading", { name: "Effective Java 스터디", level: 3 }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/HTTP 메시지, 캐시, 프록시와 인증/)).toBeInTheDocument()
     expect(
-        screen.getByText(/객체 생성, 불변 객체 설계, 제네릭과 API 설계 원칙/),
-    ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "LnS 발표 및 Q&A 기록 ↗" })).toHaveAttribute(
+        learningSection.getByRole("link", { name: "LnS 발표 및 Q&A 기록 새 창에서 보기" }),
+    ).toHaveAttribute(
         "href",
         "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
     )
-    expect(screen.getByRole("link", { name: "Effective Java 학습 기록 ↗" })).toHaveAttribute(
-        "href",
-        "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64",
-    )
+    expect(
+        learningSection.getByRole("link", { name: "Effective Java 학습 기록 새 창에서 보기" }),
+    ).toHaveAttribute("href", "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64")
 })
 
 const canonicalRouteCases = [

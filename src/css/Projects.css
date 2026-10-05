@@ -74,7 +74,7 @@
     color: var(--accent);
     font-weight: 600;
 }
-/* 대표 프로젝트 구조: BATON은 서비스 지도, happyGallery는 처리 순서 */
+/* BATON 서비스 지도: 1199px 이하에서 소개 옆 Fig. 1 대신 보여 준다. */
 .project-glance {
     margin: 24px 0 0;
 }
@@ -134,51 +134,6 @@
 .project-glance--system a:hover strong,
 .project-glance--system a:focus-visible strong {
     color: var(--accent);
-}
-.project-glance--steps figcaption {
-    margin-bottom: 12px;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-}
-.project-glance--steps ol {
-    display: grid;
-    gap: 14px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    counter-reset: glance-step;
-}
-.project-glance--steps li {
-    position: relative;
-    display: grid;
-    gap: 2px;
-    padding-left: 38px;
-    counter-increment: glance-step;
-}
-.project-glance--steps li::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: grid;
-    width: 24px;
-    height: 24px;
-    place-items: center;
-    border: 1px solid var(--line-strong, var(--line));
-    border-radius: 50%;
-    color: var(--muted);
-    content: counter(glance-step);
-    font-size: 12px;
-    font-variant-numeric: tabular-nums;
-}
-.project-glance--steps li:not(:last-child)::after {
-    position: absolute;
-    top: 28px;
-    bottom: -12px;
-    left: 12px;
-    width: 1px;
-    background: var(--line);
-    content: "";
 }
 @media (prefers-reduced-motion: reduce) {
     .project-glance--system a {
@@ -343,11 +298,6 @@
     }
     .project-card__title {
         font-size: 26px;
-    }
-    /* 처리 순서는 바로 아래 문제·구현 설명과 겹치므로 좁은 화면에서는 생략한다.
-       서비스 지도는 서비스 상세로 가는 링크이므로 유지한다. */
-    .project-glance--steps {
-        display: none;
     }
     .project-card__facts > div {
         grid-template-columns: 32px minmax(0, 1fr);

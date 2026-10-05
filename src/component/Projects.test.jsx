@@ -21,9 +21,6 @@ test("대표 프로젝트의 문제, 구현과 검증 범위를 함께 보여준
         "실제 네이버·Toss·NHN 계정 연동은 미검증",
     )
     expect(screen.getByLabelText("BATON 진행 및 공개 상태")).toHaveTextContent("공개 저장소 6개")
-    expect(screen.getByLabelText("전송형 전자영장 시스템 진행 및 공개 상태")).toHaveTextContent(
-        "담당 구현과 테스트 요약 공개",
-    )
 })
 
 test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
@@ -50,11 +47,12 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     expect(screen.queryByRole("link", { name: /군사법.*GitHub/ })).not.toBeInTheDocument()
 })
 
-test("경력, 개인과 그 밖의 프로젝트를 빠짐없이 한 번씩 표시한다", () => {
+// 경력 프로젝트는 메인 상단 경력 영역에서 한 번만 보여 준다.
+test("개인과 그 밖의 프로젝트를 빠짐없이 한 번씩 표시하고 경력 프로젝트는 반복하지 않는다", () => {
     renderProjects()
 
+    expect(screen.queryByRole("region", { name: "경력 프로젝트" })).not.toBeInTheDocument()
     const categories = [
-        ["career", "경력 프로젝트", ["전송형 전자영장 시스템", "차세대 군사법 정보 시스템"]],
         ["personal", "개인 프로젝트", ["BATON", "happyGallery"]],
         [
             "more",
@@ -74,7 +72,10 @@ test("경력, 개인과 그 밖의 프로젝트를 빠짐없이 한 번씩 표�
     })
     const detailLinks = screen.getAllByRole("link", { name: /프로젝트 상세 보기$/ })
     expect(detailLinks.map((link) => link.getAttribute("href")).sort()).toEqual(
-        projectSummaries.map((project) => project.route).sort(),
+        projectSummaries
+            .filter((project) => project.homeCategory !== "career")
+            .map((project) => project.route)
+            .sort(),
     )
 })
 
@@ -92,21 +93,9 @@ test("간단한 소개에도 유형, 진행 상태와 원작 포크 출처를 �
     expect(articleOf("Hope Commit")).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
 })
 
-test("전자영장의 소속 회사와 컨소시엄 참여를 표시하고 제목을 상세로 연결한다", () => {
+test("프로젝트 제목을 상세로 연결한다", () => {
     renderProjects()
 
-    const warrant = screen
-        .getByRole("heading", { name: "전송형 전자영장 시스템", level: 4 })
-        .closest("article")
-    expect(warrant).toHaveTextContent("BEINTECH / 공공 SI")
-    expect(warrant).toHaveTextContent("LG CNS 컨소시엄 참여")
-    expect(warrant).toHaveTextContent("5개 기관 연계 시스템")
-    expect(warrant).toHaveTextContent("법무부, 공수처, 검찰, 경찰, 해양경찰")
-    const defense = screen
-        .getByRole("heading", { name: "차세대 군사법 정보 시스템", level: 4 })
-        .closest("article")
-    expect(defense).toHaveTextContent("국방부 산하 4개 기관 연계 시스템")
-    expect(defense).toHaveTextContent("군사법원, 군검찰, 군사경찰, 군교정")
     const baton = screen.getByRole("heading", { name: "BATON", level: 4 })
     expect(within(baton).getByRole("link")).toHaveAttribute("href", "/projects/baton")
 })
