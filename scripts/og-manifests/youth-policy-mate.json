@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/youth-policy-mate.png",
-    "sourceSha256": "0846519a4064399b58abb85ccd389cd556652811e94b9ac116204252b037f3cf",
+    "sourceSha256": "8117643ccee11d84c16c06646040a724db89ea9f85dafed5a8ddbd5d9758989f",
     "artifactSha256": "5152aa32915f2f4180ac41aea2df0ab090f4ef43a009bcc8651e8ad0e21e02a5",
     "renderer": {
         "id": "chrome",
