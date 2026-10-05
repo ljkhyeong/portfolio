@@ -409,28 +409,68 @@
         margin-inline: -20px;
     }
 
+    /* 좁은 화면: 설명을 숨긴 처리 흐름은 화살표로 이은 한 줄로, 측정값은 값·조건·출처 세 줄 행으로 줄인다. */
     .home-results__heading,
     .home-results li,
     .home-results li:last-child {
         padding-inline: 20px;
     }
 
+    .home-results__heading {
+        padding-block: 12px 10px;
+    }
+
     .home-results li {
-        padding-block: 14px 10px;
+        padding-block: 12px 8px;
+    }
+
+    .home-results li::before {
+        display: none;
     }
 
     .home-results strong {
-        font-size: 20px;
+        font-size: 18px;
+    }
+
+    .home-results p {
+        font-size: 13px;
+    }
+
+    .home-results a {
+        min-height: 28px;
+        font-size: 12px;
     }
 
     .home-flow__heading {
-        padding-inline: 20px;
+        padding: 12px 20px 0;
+        border-bottom: 0;
+    }
+
+    .home-flow ol {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 20px 14px;
     }
 
     .home-flow li,
     .home-flow li:first-child,
     .home-flow li:nth-child(3) {
-        padding: 14px 20px 16px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0;
+        border: 0;
+    }
+
+    .home-flow strong {
+        margin-top: 0;
+        font-size: 14px;
+    }
+
+    .home-flow li:not(:last-child)::after {
+        color: var(--line-strong);
+        content: "→" / "";
     }
 
     .home-flow li p {
