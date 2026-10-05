@@ -1,0 +1,2008 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>포트폴리오 디자인 후보 2</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+        <style>
+            /* 비교 문서 자체의 스타일 */
+            :root {
+                --doc-bg: #eceef1;
+                --doc-ink: #1d2127;
+                --doc-muted: #5d6570;
+                --doc-line: #d3d8de;
+                --sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", sans-serif;
+                --mono: "SFMono-Regular", "SF Mono", Menlo, Consolas, "Pretendard Variable",
+                    monospace;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--doc-bg);
+                color: var(--doc-ink);
+                font-family: var(--sans);
+                line-height: 1.6;
+            }
+            .doc {
+                width: min(1640px, 100% - 48px);
+                margin: 0 auto;
+                padding: 56px 0 96px;
+            }
+            .doc > header h1 {
+                margin: 0 0 12px;
+                font-size: 32px;
+                letter-spacing: -0.03em;
+            }
+            .doc > header p {
+                max-width: 900px;
+                margin: 0 0 8px;
+                color: var(--doc-muted);
+            }
+            .refs-wrap {
+                max-width: 1100px;
+                margin-top: 20px;
+                overflow-x: auto;
+            }
+            .refs {
+                min-width: 640px;
+                width: 100%;
+                margin: 0;
+                border-collapse: collapse;
+                background: #fff;
+                font-size: 14px;
+            }
+            .refs th,
+            .refs td {
+                padding: 10px 14px;
+                border-bottom: 1px solid var(--doc-line);
+                text-align: left;
+                vertical-align: top;
+            }
+            .refs th {
+                color: var(--doc-muted);
+                font-weight: 600;
+            }
+            .refs td:nth-child(2) {
+                font-variant-numeric: tabular-nums;
+                white-space: nowrap;
+            }
+            .recommendation {
+                max-width: 1100px;
+                margin-top: 20px;
+                padding: 16px 20px;
+                border-left: 3px solid #2f5bd3;
+                background: #fff;
+            }
+            .candidate {
+                margin-top: 72px;
+            }
+            .candidate__head {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+                gap: 32px;
+                margin-bottom: 24px;
+            }
+            .candidate__head h2 {
+                margin: 0 0 8px;
+                font-size: 26px;
+                letter-spacing: -0.02em;
+            }
+            .candidate__head p {
+                margin: 0;
+                color: var(--doc-muted);
+            }
+            .judgement {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 16px;
+            }
+            .judgement div {
+                padding: 14px 16px;
+                border: 1px solid var(--doc-line);
+                background: #fff;
+            }
+            .judgement h3 {
+                margin: 0 0 6px;
+                font-size: 14px;
+            }
+            .judgement ul {
+                margin: 0;
+                padding-left: 18px;
+                color: var(--doc-muted);
+                font-size: 14px;
+            }
+            .frames {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 390px;
+                gap: 24px;
+                align-items: start;
+            }
+            .frame-label {
+                margin: 0 0 8px;
+                color: var(--doc-muted);
+                font-size: 13px;
+            }
+            .frame-fit {
+                width: fit-content;
+                overflow: hidden;
+                border: 1px solid var(--doc-line);
+                box-shadow: 0 12px 32px rgba(20, 30, 45, 0.12);
+            }
+            .frame {
+                container-type: inline-size;
+                width: 1200px;
+            }
+            .frame--mobile {
+                width: min(390px, 100%);
+                overflow: hidden;
+                border: 1px solid var(--doc-line);
+                box-shadow: 0 12px 32px rgba(20, 30, 45, 0.12);
+            }
+            @media (max-width: 1100px) {
+                .candidate__head,
+                .frames {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+                .judgement {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* ── 공통 시안 구조 ───────────────────────────────── */
+            .mock {
+                font-family: var(--sans);
+                word-break: keep-all;
+                overflow-wrap: anywhere;
+                -webkit-font-smoothing: antialiased;
+            }
+            .mock a {
+                color: inherit;
+                text-decoration: none;
+            }
+            .mock h1,
+            .mock h2,
+            .mock h3,
+            .mock p,
+            .mock ul,
+            .mock ol,
+            .mock dl,
+            .mock dd,
+            .mock figure {
+                margin: 0;
+            }
+            .mock ul,
+            .mock ol {
+                padding: 0;
+                list-style: none;
+            }
+            .avatar {
+                display: block;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: #f4d35e;
+            }
+
+            /* ── D. 도면 ───────────────────────────────────────── */
+            .cand-d {
+                --paper: #f5f6f7;
+                --rule: #d9dee4;
+                --ink: #15181c;
+                --muted: #5f6973;
+                --blue: #2f5bd3;
+                --blue-soft: #e8eefc;
+                background: var(--paper);
+                color: var(--ink);
+            }
+            .cand-d .d-band {
+                border-bottom: 1px solid var(--rule);
+            }
+            .cand-d .d-col {
+                position: relative;
+                width: min(960px, 100% - 32px);
+                margin: 0 auto;
+                padding: 28px 40px;
+                border-right: 1px solid var(--rule);
+                border-left: 1px solid var(--rule);
+            }
+            /* 선이 만나는 모서리에 도면의 기준 표시를 둔다. */
+            .cand-d .d-col::before,
+            .cand-d .d-col::after {
+                position: absolute;
+                top: -7px;
+                color: var(--blue);
+                content: "+";
+                font: 400 13px/1 var(--mono);
+            }
+            .cand-d .d-col::before {
+                left: -4px;
+            }
+            .cand-d .d-col::after {
+                right: -4px;
+            }
+            .cand-d .d-nav {
+                display: flex;
+                align-items: center;
+                gap: 22px;
+                padding-block: 16px;
+                font-size: 14px;
+            }
+            .cand-d .d-nav__id {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-right: auto;
+                font-weight: 700;
+            }
+            .cand-d .d-nav__links {
+                display: flex;
+                gap: 20px;
+            }
+            .cand-d .d-nav__links a:first-child {
+                color: var(--blue);
+            }
+            .cand-d .d-nav__pdf {
+                padding: 4px 10px;
+                border: 1px solid var(--ink);
+                font: 600 12px var(--mono);
+            }
+            .cand-d .d-figure {
+                padding: 8px 0 0;
+                background-image: linear-gradient(var(--rule) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+                background-position: -1px -1px;
+                background-size: 40px 40px;
+            }
+            .cand-d .d-iso {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+            .cand-d .d-face {
+                stroke: var(--ink);
+                stroke-linejoin: round;
+                stroke-width: 1;
+            }
+            .cand-d .d-face--top {
+                fill: #ffffff;
+            }
+            .cand-d .d-face--left {
+                fill: #e9ecf0;
+            }
+            .cand-d .d-face--right {
+                fill: #dce1e7;
+            }
+            .cand-d .d-face--core {
+                fill: var(--blue-soft);
+                stroke: var(--blue);
+            }
+            .cand-d .d-link {
+                stroke: var(--blue);
+                stroke-dasharray: 4 4;
+                stroke-width: 1;
+            }
+            .cand-d .d-label {
+                fill: var(--ink);
+                font: 700 14px var(--mono);
+            }
+            .cand-d .d-label--core {
+                fill: var(--blue);
+                font-size: 18px;
+            }
+            .cand-d .d-note {
+                fill: var(--muted);
+                font: 400 11px var(--sans);
+            }
+            .cand-d .d-iso-list {
+                display: none;
+            }
+            .cand-d .d-caption {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0 0;
+                color: var(--muted);
+                font: 12px var(--mono);
+            }
+            .cand-d .d-caption b {
+                color: var(--blue);
+                font-weight: 600;
+            }
+            .cand-d .d-identity {
+                display: grid;
+                grid-template-columns: 112px minmax(0, 1fr);
+                gap: 28px;
+                align-items: start;
+            }
+            .cand-d .d-identity .avatar {
+                width: 112px;
+                height: 112px;
+                border: 1px solid var(--rule);
+            }
+            .cand-d .d-identity h1 {
+                font-size: 38px;
+                font-weight: 750;
+                letter-spacing: -0.04em;
+            }
+            .cand-d .d-identity h1 small {
+                margin-left: 10px;
+                color: var(--muted);
+                font-size: 16px;
+                font-weight: 500;
+                letter-spacing: 0;
+            }
+            .cand-d .d-identity p {
+                margin-top: 10px;
+                font-size: 26px;
+                font-weight: 650;
+                letter-spacing: -0.03em;
+                line-height: 1.45;
+            }
+            .cand-d .d-identity p + p {
+                margin-top: 10px;
+                color: var(--muted);
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: 0;
+                line-height: 1.75;
+            }
+            .cand-d .d-meta {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 6px 32px;
+                font-size: 14px;
+            }
+            .cand-d .d-meta div {
+                display: grid;
+                grid-template-columns: 64px minmax(0, 1fr);
+                gap: 10px;
+            }
+            .cand-d .d-meta dt {
+                color: var(--muted);
+                font: 12px/2 var(--mono);
+            }
+            .cand-d .d-heat__head {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                margin-bottom: 12px;
+            }
+            .cand-d .d-heat__head h2 {
+                font-size: 16px;
+            }
+            .cand-d .d-heat__head span {
+                color: var(--muted);
+                font: 12px var(--mono);
+            }
+            .cand-d .d-heat__grid {
+                display: flex;
+                gap: 3px;
+                justify-content: space-between;
+            }
+            .cand-d .d-heat__week {
+                display: grid;
+                grid-template-rows: 16px repeat(7, 1fr);
+                gap: 3px;
+            }
+            .cand-d .d-heat__week i {
+                width: 13px;
+                height: 13px;
+                border-radius: 2px;
+                background: #e6e9ed;
+            }
+            .cand-d .d-heat__week em {
+                color: var(--muted);
+                font: normal 10px var(--mono);
+                white-space: nowrap;
+            }
+            .cand-d .d-heat__week i.l1 {
+                background: #c9d6f6;
+            }
+            .cand-d .d-heat__week i.l2 {
+                background: #8fa9ec;
+            }
+            .cand-d .d-heat__week i.l3 {
+                background: #5076dc;
+            }
+            .cand-d .d-heat__week i.l4 {
+                background: #2147b4;
+            }
+            .cand-d .d-heat__week i.pad {
+                visibility: hidden;
+            }
+            .cand-d .d-section-title {
+                display: flex;
+                align-items: baseline;
+                gap: 12px;
+                margin-bottom: 4px;
+                font-size: 22px;
+                letter-spacing: -0.02em;
+            }
+            .cand-d .d-section-title span {
+                color: var(--blue);
+                font: 12px var(--mono);
+            }
+            .cand-d .d-rows li {
+                display: grid;
+                grid-template-columns: 200px minmax(0, 1fr) 96px;
+                gap: 20px;
+                padding: 16px 0;
+                border-top: 1px solid var(--rule);
+            }
+            .cand-d .d-rows time {
+                color: var(--muted);
+                font: 13px/1.9 var(--mono);
+            }
+            .cand-d .d-rows h3 {
+                font-size: 18px;
+            }
+            .cand-d .d-rows p {
+                margin-top: 2px;
+                color: var(--muted);
+                font-size: 15px;
+            }
+            .cand-d .d-rows b {
+                color: var(--blue);
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .cand-d .d-status {
+                justify-self: end;
+                align-self: start;
+                padding: 2px 8px;
+                border: 1px solid currentColor;
+                font: 600 11px var(--mono);
+            }
+            .cand-d .d-status--ok {
+                color: #1a7f37;
+            }
+            .cand-d .d-status--run {
+                color: var(--blue);
+            }
+            .cand-d .d-status--done {
+                color: var(--muted);
+            }
+            @container (max-width: 640px) {
+                .cand-d .d-col {
+                    padding: 22px 18px;
+                }
+                .cand-d .d-nav {
+                    flex-wrap: wrap;
+                    gap: 10px 16px;
+                }
+                .cand-d .d-nav__links {
+                    order: 3;
+                    width: 100%;
+                    justify-content: space-between;
+                }
+                .cand-d .d-identity {
+                    grid-template-columns: 64px minmax(0, 1fr);
+                    gap: 16px;
+                }
+                .cand-d .d-identity .avatar {
+                    width: 64px;
+                    height: 64px;
+                }
+                .cand-d .d-identity h1 {
+                    font-size: 28px;
+                }
+                .cand-d .d-identity h1 small {
+                    display: block;
+                    margin: 2px 0 0;
+                    font-size: 14px;
+                }
+                .cand-d .d-identity p {
+                    grid-column: 1 / -1;
+                    font-size: 21px;
+                }
+                .cand-d .d-identity > div {
+                    display: contents;
+                }
+                .cand-d .d-meta {
+                    grid-template-columns: 1fr;
+                }
+                .cand-d .d-heat__week:nth-child(-n + 32) {
+                    display: none;
+                }
+                /* 좁은 화면에서는 입체 그림 대신 같은 구성을 목록으로 보여 준다. */
+                .cand-d .d-iso {
+                    display: none;
+                }
+                .cand-d .d-iso-list {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 6px;
+                    padding: 12px 0 4px;
+                    font-size: 12px;
+                }
+                .cand-d .d-iso-list li {
+                    padding: 8px 10px;
+                    border: 1px solid var(--ink);
+                    background: #fff;
+                    color: var(--muted);
+                }
+                .cand-d .d-iso-list li.is-core {
+                    grid-column: 1 / -1;
+                    border-color: var(--blue);
+                    background: var(--blue-soft);
+                }
+                .cand-d .d-iso-list b {
+                    display: block;
+                    color: var(--ink);
+                    font: 700 13px var(--mono);
+                }
+                .cand-d .d-caption {
+                    flex-direction: column;
+                    gap: 2px;
+                }
+                .cand-d .d-rows li {
+                    grid-template-columns: minmax(0, 1fr) auto;
+                    gap: 4px 12px;
+                }
+                .cand-d .d-rows time {
+                    grid-column: 1 / -1;
+                }
+            }
+
+            /* ── E. 스포트라이트 분할 ──────────────────────────── */
+            .cand-e {
+                --bg: #111614;
+                --ink: #e8eee9;
+                --muted: #93a198;
+                --line: #2a332e;
+                --accent: #a6d9bd;
+                --accent-soft: rgba(166, 217, 189, 0.1);
+                --x: 30%;
+                --y: 20%;
+                position: relative;
+                background: radial-gradient(
+                        560px circle at var(--x) var(--y),
+                        rgba(166, 217, 189, 0.09),
+                        transparent 70%
+                    ),
+                    var(--bg);
+                color: var(--ink);
+            }
+            .cand-e .e-layout {
+                display: grid;
+                grid-template-columns: 400px minmax(0, 1fr);
+                gap: 64px;
+                padding: 88px 72px 96px;
+            }
+            .cand-e .e-side h1 {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                font-size: 46px;
+                font-weight: 750;
+                letter-spacing: -0.04em;
+            }
+            .cand-e .e-side h1 .avatar {
+                width: 44px;
+                height: 44px;
+            }
+            .cand-e .e-role {
+                margin-top: 10px;
+                font-size: 19px;
+                font-weight: 600;
+            }
+            .cand-e .e-tag {
+                max-width: 320px;
+                margin-top: 14px;
+                color: var(--muted);
+                font-size: 16px;
+                line-height: 1.7;
+            }
+            .cand-e .e-nav {
+                display: grid;
+                gap: 14px;
+                margin-top: 56px;
+                color: var(--muted);
+                font-size: 13px;
+                font-weight: 700;
+            }
+            .cand-e .e-nav a {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+            .cand-e .e-nav a::before {
+                width: 32px;
+                height: 1px;
+                background: currentColor;
+                content: "";
+                transition: width 200ms ease;
+            }
+            .cand-e .e-nav a.is-active {
+                color: var(--ink);
+            }
+            .cand-e .e-nav a.is-active::before,
+            .cand-e .e-nav a:hover::before {
+                width: 64px;
+            }
+            .cand-e .e-contact {
+                display: flex;
+                gap: 18px;
+                margin-top: 56px;
+                color: var(--muted);
+                font-size: 14px;
+            }
+            .cand-e .e-contact a {
+                padding-bottom: 2px;
+                border-bottom: 1px solid var(--line);
+            }
+            .cand-e .e-about {
+                color: var(--muted);
+                font-size: 17px;
+                line-height: 1.8;
+            }
+            .cand-e .e-about strong {
+                color: var(--ink);
+                font-weight: 600;
+            }
+            .cand-e .e-heading {
+                margin: 56px 0 14px;
+                color: var(--ink);
+                font-size: 13px;
+                font-weight: 700;
+            }
+            .cand-e .e-list {
+                display: grid;
+                gap: 6px;
+            }
+            .cand-e .e-item {
+                display: grid;
+                grid-template-columns: 128px minmax(0, 1fr);
+                gap: 20px;
+                padding: 18px;
+                border: 1px solid transparent;
+                border-radius: 8px;
+                transition:
+                    opacity 200ms ease,
+                    background 200ms ease,
+                    border-color 200ms ease;
+            }
+            .cand-e .e-list:hover > .e-item:not(:hover) {
+                opacity: 0.45;
+            }
+            .cand-e .e-item:hover {
+                border-color: var(--line);
+                background: rgba(255, 255, 255, 0.03);
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            }
+            .cand-e .e-item:hover h3 {
+                color: var(--accent);
+            }
+            .cand-e .e-item time {
+                padding-top: 3px;
+                color: var(--muted);
+                font: 12px/1.8 var(--mono);
+            }
+            .cand-e .e-item img {
+                width: 128px;
+                aspect-ratio: 3 / 2;
+                border: 1px solid var(--line);
+                border-radius: 4px;
+                object-fit: cover;
+                object-position: top left;
+            }
+            .cand-e .e-item h3 {
+                font-size: 17px;
+                font-weight: 650;
+                transition: color 200ms ease;
+            }
+            .cand-e .e-item p {
+                margin-top: 6px;
+                color: var(--muted);
+                font-size: 15px;
+                line-height: 1.7;
+            }
+            .cand-e .e-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                margin-top: 12px;
+            }
+            .cand-e .e-tags li {
+                padding: 3px 10px;
+                border-radius: 999px;
+                background: var(--accent-soft);
+                color: var(--accent);
+                font-size: 12px;
+                font-weight: 600;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .cand-e .e-item,
+                .cand-e .e-nav a::before {
+                    transition: none;
+                }
+            }
+            @container (max-width: 640px) {
+                .cand-e .e-layout {
+                    grid-template-columns: 1fr;
+                    gap: 36px;
+                    padding: 44px 22px 56px;
+                }
+                .cand-e .e-side h1 {
+                    font-size: 34px;
+                }
+                .cand-e .e-nav {
+                    display: none;
+                }
+                .cand-e .e-contact {
+                    margin-top: 22px;
+                }
+                .cand-e .e-heading {
+                    margin-top: 36px;
+                }
+                .cand-e .e-item {
+                    grid-template-columns: 1fr;
+                    gap: 8px;
+                    padding: 14px 0;
+                }
+                .cand-e .e-item img {
+                    width: 100%;
+                }
+            }
+
+            /* ── F. 라이브 흐름 ───────────────────────────────── */
+            .cand-f {
+                --bg: #0d1210;
+                --ink: #f2f5f3;
+                --muted: #9aa69f;
+                --line: #27302b;
+                --accent: #a6d9bd;
+                --dup: #f4d35e;
+                --halt: #f0915a;
+                background: var(--bg);
+                color: var(--ink);
+            }
+            .cand-f .f-hero {
+                position: relative;
+                height: 700px;
+                overflow: hidden;
+                border-bottom: 1px solid var(--line);
+            }
+            .cand-f .f-hero canvas {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+            }
+            /* 글자 영역 뒤는 흐름을 어둡게 눌러 본문 대비를 지킨다. */
+            .cand-f .f-hero::after {
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    90deg,
+                    var(--bg) 36%,
+                    rgba(13, 18, 16, 0.6) 48%,
+                    transparent 60%
+                );
+                content: "";
+                pointer-events: none;
+            }
+            .cand-f .f-nav {
+                position: relative;
+                z-index: 2;
+                display: flex;
+                align-items: center;
+                gap: 24px;
+                padding: 22px 56px;
+                font-size: 14px;
+            }
+            .cand-f .f-nav__id {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-right: auto;
+                font-weight: 700;
+            }
+            .cand-f .f-nav__links {
+                display: flex;
+                gap: 22px;
+                color: var(--muted);
+            }
+            .cand-f .f-copy {
+                position: relative;
+                z-index: 2;
+                max-width: 660px;
+                padding: 84px 56px 0;
+            }
+            .cand-f .f-copy small {
+                color: var(--accent);
+                font: 600 13px var(--mono);
+            }
+            .cand-f .f-copy h1 span {
+                display: block;
+            }
+            .cand-f .f-copy h1 {
+                margin-top: 16px;
+                font-size: 56px;
+                font-weight: 800;
+                letter-spacing: -0.05em;
+                line-height: 1.12;
+            }
+            .cand-f .f-copy p {
+                margin-top: 22px;
+                color: var(--muted);
+                font-size: 18px;
+                line-height: 1.75;
+            }
+            .cand-f .f-actions {
+                display: flex;
+                gap: 12px;
+                margin-top: 30px;
+            }
+            .cand-f .f-actions a {
+                padding: 12px 20px;
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                font-size: 15px;
+                font-weight: 650;
+            }
+            .cand-f .f-actions a:first-child {
+                border-color: var(--accent);
+                background: var(--accent);
+                color: #0d1210;
+            }
+            .cand-f .f-legend {
+                position: absolute;
+                right: 56px;
+                bottom: 28px;
+                z-index: 2;
+                display: flex;
+                gap: 18px;
+                color: var(--muted);
+                font-size: 12px;
+            }
+            .cand-f .f-legend span::before {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                margin-right: 6px;
+                border-radius: 50%;
+                background: var(--accent);
+                content: "";
+            }
+            .cand-f .f-legend .is-dup::before {
+                background: var(--dup);
+            }
+            .cand-f .f-legend .is-halt::before {
+                background: var(--halt);
+            }
+            .cand-f .f-show {
+                display: grid;
+                grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+                gap: 56px;
+                align-items: center;
+                padding: 88px 56px;
+                border-bottom: 1px solid var(--line);
+            }
+            .cand-f .f-show--flip {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+            }
+            .cand-f .f-show--flip .f-shot {
+                order: 2;
+            }
+            .cand-f .f-shot {
+                position: relative;
+            }
+            .cand-f .f-shot::before {
+                position: absolute;
+                inset: 8% -4% -6% 6%;
+                border-radius: 24px;
+                background: radial-gradient(closest-side, rgba(166, 217, 189, 0.22), transparent);
+                content: "";
+                filter: blur(10px);
+            }
+            .cand-f .f-shot img {
+                position: relative;
+                display: block;
+                width: 100%;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            }
+            .cand-f .f-text small {
+                color: var(--accent);
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .cand-f .f-text h2 {
+                margin-top: 8px;
+                font-size: 46px;
+                font-weight: 800;
+                letter-spacing: -0.045em;
+            }
+            .cand-f .f-text > p {
+                margin-top: 14px;
+                color: var(--muted);
+                font-size: 17px;
+                line-height: 1.75;
+            }
+            .cand-f .f-text dl {
+                display: grid;
+                gap: 10px;
+                margin-top: 22px;
+                padding-top: 18px;
+                border-top: 1px solid var(--line);
+                font-size: 15px;
+            }
+            .cand-f .f-text dl div {
+                display: grid;
+                grid-template-columns: 40px minmax(0, 1fr);
+                gap: 10px;
+            }
+            .cand-f .f-text dt {
+                color: var(--muted);
+                font-size: 13px;
+            }
+            @container (max-width: 640px) {
+                /* 좁은 화면에서는 흐름을 위쪽 띠에 두고 글은 그 아래에 둔다. */
+                .cand-f .f-hero {
+                    height: auto;
+                    padding-bottom: 44px;
+                }
+                .cand-f .f-hero canvas {
+                    top: 64px;
+                    bottom: auto;
+                    height: 230px;
+                }
+                .cand-f .f-hero::after {
+                    display: none;
+                }
+                .cand-f .f-nav {
+                    padding: 18px 20px;
+                }
+                .cand-f .f-nav__links {
+                    display: none;
+                }
+                .cand-f .f-copy {
+                    padding: 280px 20px 0;
+                }
+                .cand-f .f-copy h1 {
+                    font-size: 34px;
+                }
+                .cand-f .f-copy p {
+                    font-size: 16px;
+                }
+                .cand-f .f-legend {
+                    right: auto;
+                    top: 300px;
+                    bottom: auto;
+                    left: 20px;
+                }
+                .cand-f .f-show,
+                .cand-f .f-show--flip {
+                    grid-template-columns: 1fr;
+                    gap: 28px;
+                    padding: 48px 20px;
+                }
+                .cand-f .f-show--flip .f-shot {
+                    order: 0;
+                }
+                .cand-f .f-text h2 {
+                    font-size: 32px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="doc">
+            <header>
+                <h1>포트폴리오 디자인 후보 2 — 참고 포트폴리오 기반</h1>
+                <p>
+                    GitHub에서 별을 많이 받은 포트폴리오의 첫 화면을 캡처해 비교하고, 이
+                    포트폴리오의 주제(중복 방지와 재처리, 검증 범위)에 맞게 바꾼 세 후보입니다. 참고
+                    사이트의 이미지, 로고와 코드는 가져오지 않았고 배치와 상호작용 방식만
+                    참고했습니다. 문구, 수치와 스크린샷은 모두 현재 포트폴리오의 실제 자료입니다.
+                    이전 후보 A·B·C는
+                    <a href="portfolio-design-candidates-2026-10-05.html">후보 1 문서</a>에
+                    있습니다.
+                </p>
+                <div class="refs-wrap" role="region" aria-label="참고 저장소 표" tabindex="0">
+                    <table class="refs">
+                        <thead>
+                            <tr>
+                                <th>참고 저장소</th>
+                                <th>별</th>
+                                <th>관찰한 점</th>
+                                <th>가져온 방식</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ncdai/chanhdai.com</td>
+                                <td>2,364</td>
+                                <td>
+                                    페이지를 가는 선으로 나눈 도면 질감, Fig. 번호가 붙은 기술 그림,
+                                    고정폭 메타 정보, 기여 히트맵
+                                </td>
+                                <td>D. 도면</td>
+                            </tr>
+                            <tr>
+                                <td>bchiang7/v4 (현재 v5 사이트)</td>
+                                <td>8,281</td>
+                                <td>
+                                    왼쪽 고정 이름·메뉴와 오른쪽 경력 목록, 마우스를 따라가는 빛,
+                                    목록 강조
+                                </td>
+                                <td>E. 스포트라이트 분할</td>
+                            </tr>
+                            <tr>
+                                <td>HamishMW/portfolio</td>
+                                <td>3,550</td>
+                                <td>화면을 채우는 움직이는 3D 배경, 큰 제목, 큰 프로젝트 이미지</td>
+                                <td>F. 라이브 흐름</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    cobiwave/simplefolio · saadpasta/developerFolio ·
+                                    soumyajit4419/Portfolio
+                                </td>
+                                <td>14,229 · 6,635 · 6,493</td>
+                                <td>템플릿형. 인사말, 이모지, 일러스트와 배경 입자 중심</td>
+                                <td>가져오지 않음. 구현 근거를 읽는 목적과 맞지 않음</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="recommendation">
+                    <strong>추천: D. 도면.</strong> 엔지니어라는 정체성이 가장 분명하고, 밝은
+                    바탕이라 인쇄본과 같은 디자인을 쓸 수 있습니다. 실제 기여 기록과 시스템 구조가
+                    장식 대신 첫 화면을 채웁니다. 첫인상의 강도를 더 원하면 F의 흐름 애니메이션을
+                    D의 Fig. 1 자리에 넣는 조합도 가능합니다.
+                </div>
+            </header>
+
+            <section class="candidate">
+                <div class="candidate__head">
+                    <div>
+                        <h2>D. 도면</h2>
+                        <p>
+                            밝은 도면 바탕을 세로·가로 기준선으로 나누고, 첫 그림(Fig. 1)으로
+                            BATON의 Core와 6개 서비스를 등각 선화로 그립니다. 이름과 한 줄 소개,
+                            고정폭 메타 정보, 최근 1년 GitHub 기여 히트맵(실제 4,669회·145일)이 뒤를
+                            잇고, 경력과 프로젝트는 도면 표처럼 줄로 정리합니다.
+                        </p>
+                    </div>
+                    <div class="judgement">
+                        <div>
+                            <h3>좋은 점</h3>
+                            <ul>
+                                <li>개발자 포트폴리오에서 흔치 않은 질감이라 기억에 남음</li>
+                                <li>그림과 히트맵이 실제 구조·활동 기록이라 장식이 아님</li>
+                                <li>밝은 테마라 PDF와 디자인을 하나로 관리</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>아쉬운 점</h3>
+                            <ul>
+                                <li>
+                                    히트맵은 빌드 때 GitHub API로 받아야 함(토큰·실패 처리 필요)
+                                </li>
+                                <li>
+                                    도면 질감이 과하면 본문이 가늘어 보일 수 있어 선 색 조절이 중요
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>영향 범위</h3>
+                            <ul>
+                                <li>메인 전체와 공통 색 토큰, 상세 상단 배치</li>
+                                <li>기여 데이터 생성 스크립트 추가, OG·PDF 재생성</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="frames">
+                    <div>
+                        <p class="frame-label">데스크톱 1200px</p>
+                        <div class="frame-fit"><div class="frame" data-slot="d"></div></div>
+                    </div>
+                    <div>
+                        <p class="frame-label">모바일 390px</p>
+                        <div class="frame frame--mobile" data-slot="d"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="candidate">
+                <div class="candidate__head">
+                    <div>
+                        <h2>E. 스포트라이트 분할</h2>
+                        <p>
+                            왼쪽에 이름, 직무, 한 줄 소개, 메뉴와 연락처를 고정하고 오른쪽에서 소개,
+                            경력, 프로젝트가 흐릅니다. 마우스를 따라 민트색 빛이 움직이고, 목록에
+                            마우스를 올리면 그 항목만 밝아집니다. 지금의 어두운 녹색과 노란 아바타를
+                            유지합니다.
+                        </p>
+                    </div>
+                    <div class="judgement">
+                        <div>
+                            <h3>좋은 점</h3>
+                            <ul>
+                                <li>경력과 프로젝트를 날짜와 함께 위에서 아래로 바로 읽음</li>
+                                <li>움직임이 사용자 동작에만 반응해 읽기를 방해하지 않음</li>
+                                <li>지금 색과 아바타를 유지해 전환 비용이 중간 수준</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>아쉬운 점</h3>
+                            <ul>
+                                <li>널리 따라 만든 배치라 원본과 비슷해 보일 수 있음</li>
+                                <li>모바일과 터치 기기에서는 빛과 강조 효과가 보이지 않음</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>영향 범위</h3>
+                            <ul>
+                                <li>메인 레이아웃 재구성, 헤더를 왼쪽 고정 영역으로 이동</li>
+                                <li>PDF는 기존 인쇄 배치를 따로 유지해야 함</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="frames">
+                    <div>
+                        <p class="frame-label">
+                            데스크톱 1200px — 마우스를 움직이고 목록에 올려 보세요
+                        </p>
+                        <div class="frame-fit"><div class="frame" data-slot="e"></div></div>
+                    </div>
+                    <div>
+                        <p class="frame-label">모바일 390px</p>
+                        <div class="frame frame--mobile" data-slot="e"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="candidate">
+                <div class="candidate__head">
+                    <div>
+                        <h2>F. 라이브 흐름</h2>
+                        <p>
+                            첫 화면 배경에서 요청이 실제로 흘러갑니다. 노란 중복 요청은 중복
+                            확인에서 흡수되고, 정상 요청은 상태 저장에 기록을 남기며, 주황색 작업은
+                            멈췄다가 재처리됩니다. 그 아래에서 대표 프로젝트를 실제 스크린샷과 함께
+                            크게 보여 줍니다.
+                        </p>
+                    </div>
+                    <div class="judgement">
+                        <div>
+                            <h3>좋은 점</h3>
+                            <ul>
+                                <li>첫인상이 가장 강하고, 움직임 자체가 전문 분야를 설명함</li>
+                                <li>스크린샷을 크게 보여 줘 구현한 화면이 바로 보임</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>아쉬운 점</h3>
+                            <ul>
+                                <li>애니메이션 성능과 동작 줄이기 설정 대응이 필요함</li>
+                                <li>첫 화면이 길어 경력이 아래로 밀림</li>
+                                <li>계속 움직이는 배경은 오래 보면 산만할 수 있음</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>영향 범위</h3>
+                            <ul>
+                                <li>메인 Hero 교체, 캔버스 컴포넌트 추가</li>
+                                <li>대표 프로젝트 배치 변경, OG·PDF 재생성</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="frames">
+                    <div>
+                        <p class="frame-label">데스크톱 1200px</p>
+                        <div class="frame-fit"><div class="frame" data-slot="f"></div></div>
+                    </div>
+                    <div>
+                        <p class="frame-label">모바일 390px</p>
+                        <div class="frame frame--mobile" data-slot="f"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <template id="mock-d">
+            <div class="mock cand-d">
+                <div class="d-band">
+                    <nav class="d-col d-nav">
+                        <a class="d-nav__id"
+                            ><img
+                                class="avatar"
+                                src="../../public/ljkhyeong-avatar.png"
+                                alt=""
+                            />임정규</a
+                        >
+                        <div class="d-nav__links">
+                            <a>경력</a><a>프로젝트</a><a>학습</a><a>기술</a><a>문서 검색</a>
+                        </div>
+                        <a class="d-nav__pdf">PDF</a>
+                    </nav>
+                </div>
+                <div class="d-band">
+                    <figure class="d-col d-figure">
+                        <svg
+                            class="d-iso"
+                            viewBox="0 0 960 424"
+                            role="img"
+                            aria-label="BATON Core와 6개 서비스의 등각 구조도"
+                        >
+                            <g transform="translate(0 28)">
+                                <line class="d-link" x1="480.0" y1="200.0" x2="548.2" y2="53.2" />
+                                <line class="d-link" x1="480.0" y1="200.0" x2="734.3" y2="160.7" />
+                                <line class="d-link" x1="480.0" y1="200.0" x2="666.2" y2="307.5" />
+                                <line class="d-link" x1="480.0" y1="200.0" x2="411.8" y2="346.8" />
+                                <line class="d-link" x1="480.0" y1="200.0" x2="225.7" y2="239.3" />
+                                <line class="d-link" x1="480.0" y1="200.0" x2="293.8" y2="92.5" />
+                                <polygon
+                                    class="d-face d-face--left"
+                                    points="468.5,53.2 548.2,99.2 548.2,71.2 468.5,25.2"
+                                />
+                                <polygon
+                                    class="d-face d-face--right"
+                                    points="627.8,53.2 548.2,99.2 548.2,71.2 627.8,25.2"
+                                />
+                                <polygon
+                                    class="d-face d-face--top d-face--svc"
+                                    points="548.2,-20.8 627.8,25.2 548.2,71.2 468.5,25.2"
+                                />
+                                <text class="d-label" x="548.2" y="24.2" text-anchor="middle">
+                                    GO
+                                </text>
+                                <text class="d-note" x="548.2" y="39.2" text-anchor="middle">
+                                    허용 경로 짧은 링크
+                                </text>
+                                <polygon
+                                    class="d-face d-face--left"
+                                    points="214.1,92.5 293.8,138.5 293.8,110.5 214.1,64.5"
+                                />
+                                <polygon
+                                    class="d-face d-face--right"
+                                    points="373.5,92.5 293.8,138.5 293.8,110.5 373.5,64.5"
+                                />
+                                <polygon
+                                    class="d-face d-face--top d-face--svc"
+                                    points="293.8,18.5 373.5,64.5 293.8,110.5 214.1,64.5"
+                                />
+                                <text class="d-label" x="293.8" y="63.5" text-anchor="middle">
+                                    ROUND
+                                </text>
+                                <text class="d-note" x="293.8" y="78.5" text-anchor="middle">
+                                    WebRTC 스터디룸
+                                </text>
+                                <polygon
+                                    class="d-face d-face--left"
+                                    points="654.7,160.7 734.3,206.7 734.3,178.7 654.7,132.7"
+                                />
+                                <polygon
+                                    class="d-face d-face--right"
+                                    points="814.0,160.7 734.3,206.7 734.3,178.7 814.0,132.7"
+                                />
+                                <polygon
+                                    class="d-face d-face--top d-face--svc"
+                                    points="734.3,86.7 814.0,132.7 734.3,178.7 654.7,132.7"
+                                />
+                                <text class="d-label" x="734.3" y="131.7" text-anchor="middle">
+                                    WATCH
+                                </text>
+                                <text class="d-note" x="734.3" y="146.7" text-anchor="middle">
+                                    URL 상태 점검
+                                </text>
+                                <polygon
+                                    class="d-face d-face--left"
+                                    points="350.1,200.0 480.0,275.0 480.0,215.0 350.1,140.0"
+                                />
+                                <polygon
+                                    class="d-face d-face--right"
+                                    points="609.9,200.0 480.0,275.0 480.0,215.0 609.9,140.0"
+                                />
+                                <polygon
+                                    class="d-face d-face--top d-face--core"
+                                    points="480.0,65.0 609.9,140.0 480.0,215.0 350.1,140.0"
+                                />
+                                <text
+                                    class="d-label d-label--core"
+                                    x="480.0"
+                                    y="139.0"
+                                    text-anchor="middle"
+                                >
+                                    Core
+                                </text>
+                                <text class="d-note" x="480.0" y="154.0" text-anchor="middle">
+                                    조직·역할·인수인계
+                                </text>
+                                <polygon
+                                    class="d-face d-face--left"
+                                    points="146.0,239.3 225.7,285.3 225.7,257.3 146.0,211.3"
+                                />
+                                <polygon
+                                    class="d-face d-face--right"
+                                    points="305.3,239.3 225.7,285.3 225.7,257.3 305.3,211.3"
+                                />
+                                <polygon
+                                    class="d-face d-face--top d-face--svc"
+                                    points="225.7,165.3 305.3,211.3 225.7,257.3 146.0,211.3"
+                                />
+                                <text class="d-label" x="225.7" y="210.3" text-anchor="middle">
+                                    CAL
+                                </text>
+                                <text class="d-note" x="225.7" y="225.3" text-anchor="middle">
+                                    캘린더 구독
+                                </text>
+                                <polygon
+                                    class="d-face d-face--left"
+                                    points="586.5,307.5 666.2,353.5 666.2,325.5 586.5,279.5"
+                                />
+                                <polygon
+                                    class="d-face d-face--right"
+                                    points="745.9,307.5 666.2,353.5 666.2,325.5 745.9,279.5"
+                                />
+                                <polygon
+                                    class="d-face d-face--top d-face--svc"
+                                    points="666.2,233.5 745.9,279.5 666.2,325.5 586.5,279.5"
+                                />
+                                <text class="d-label" x="666.2" y="278.5" text-anchor="middle">
+                                    RELAY
+                                </text>
+                                <text class="d-note" x="666.2" y="293.5" text-anchor="middle">
+                                    이벤트 전달
+                                </text>
+                                <polygon
+                                    class="d-face d-face--left"
+                                    points="332.2,346.8 411.8,392.8 411.8,364.8 332.2,318.8"
+                                />
+                                <polygon
+                                    class="d-face d-face--right"
+                                    points="491.5,346.8 411.8,392.8 411.8,364.8 491.5,318.8"
+                                />
+                                <polygon
+                                    class="d-face d-face--top d-face--svc"
+                                    points="411.8,272.8 491.5,318.8 411.8,364.8 332.2,318.8"
+                                />
+                                <text class="d-label" x="411.8" y="317.8" text-anchor="middle">
+                                    BRIEF
+                                </text>
+                                <text class="d-note" x="411.8" y="332.8" text-anchor="middle">
+                                    주간 보고서
+                                </text>
+                            </g>
+                        </svg>
+                        <ul class="d-iso-list" aria-hidden="true">
+                            <li class="is-core"><b>Core</b>조직·역할·인수인계</li>
+                            <li><b>GO</b>허용 경로 짧은 링크</li>
+                            <li><b>WATCH</b>URL 상태 점검</li>
+                            <li><b>RELAY</b>이벤트 전달</li>
+                            <li><b>BRIEF</b>주간 보고서</li>
+                            <li><b>CAL</b>캘린더 구독</li>
+                            <li><b>ROUND</b>WebRTC 스터디룸</li>
+                        </ul>
+                        <figcaption class="d-caption">
+                            <span><b>Fig. 1</b> BATON — Core와 6개 서비스</span>
+                            <span>DB를 공유하지 않는 독립 실행</span>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="d-band">
+                    <header class="d-col d-identity">
+                        <img
+                            class="avatar"
+                            src="../../public/ljkhyeong-avatar.png"
+                            alt="임정규 픽셀 아바타"
+                        />
+                        <div>
+                            <h1>임정규<small>백엔드 개발자</small></h1>
+                            <p>중복 실행을 막고 중단된 작업을 재처리하는 백엔드 개발자입니다.</p>
+                            <p>
+                                공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는
+                                결제·이벤트 중복 처리 방지와 중단 작업 재처리를 구현했습니다.
+                            </p>
+                        </div>
+                    </header>
+                </div>
+                <div class="d-band">
+                    <dl class="d-col d-meta">
+                        <div>
+                            <dt>COMPANY</dt>
+                            <dd>BEINTECH · 2024.06 — 현재</dd>
+                        </div>
+                        <div>
+                            <dt>FOCUS</dt>
+                            <dd>공공 SI 연계 서버와 배치 개발 및 운영</dd>
+                        </div>
+                        <div>
+                            <dt>LOCATION</dt>
+                            <dd>서울</dd>
+                        </div>
+                        <div>
+                            <dt>EMAIL</dt>
+                            <dd>jolri24@naver.com</dd>
+                        </div>
+                        <div>
+                            <dt>GITHUB</dt>
+                            <dd>github.com/ljkhyeong</dd>
+                        </div>
+                        <div>
+                            <dt>RESUME</dt>
+                            <dd>임정규_포트폴리오.pdf</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="d-band">
+                    <section class="d-col">
+                        <div class="d-heat__head">
+                            <h2>최근 1년 GitHub 기여</h2>
+                            <span>4,669회 · 활동한 날 145일 · 2025.10 — 2026.10</span>
+                        </div>
+                        <div class="d-heat__grid" data-heat></div>
+                    </section>
+                </div>
+                <div class="d-band">
+                    <section class="d-col">
+                        <h2 class="d-section-title">경력 <span>Fig. 2</span></h2>
+                        <ol class="d-rows">
+                            <li>
+                                <time>2026.03.24 — 진행 중</time>
+                                <div>
+                                    <h3>전송형 전자영장 시스템</h3>
+                                    <b>LG CNS 컨소시엄 참여 · 5개 기관 연계 시스템</b>
+                                    <p>
+                                        기관별 요청 변환 및 제출 자료 반영 서버 개발. 100 RPS·300
+                                        TPS로 1시간 테스트해 전량 처리
+                                    </p>
+                                </div>
+                                <span class="d-status d-status--run">진행 중</span>
+                            </li>
+                            <li>
+                                <time>2024.06.23 — 2026.01.30</time>
+                                <div>
+                                    <h3>차세대 군사법 정보 시스템</h3>
+                                    <b>국방부 산하 4개 기관 연계 시스템</b>
+                                    <p>기관 자료 검증 배치 개발 및 중단 배치 재실행</p>
+                                </div>
+                                <span class="d-status d-status--done">종료</span>
+                            </li>
+                        </ol>
+                    </section>
+                </div>
+                <div class="d-band">
+                    <section class="d-col">
+                        <h2 class="d-section-title">프로젝트 <span>Fig. 3</span></h2>
+                        <ol class="d-rows">
+                            <li>
+                                <time>2026.07.20 — 진행 중</time>
+                                <div>
+                                    <h3>BATON</h3>
+                                    <p>
+                                        요청 UUID와 이벤트 ID로 중복 생성을 방지. 결과 미확인 건은
+                                        자동 재전송하지 않음
+                                    </p>
+                                </div>
+                                <span class="d-status d-status--run">개발 중</span>
+                            </li>
+                            <li>
+                                <time>2026.02.21 — 진행 중</time>
+                                <div>
+                                    <h3>happyGallery</h3>
+                                    <p>
+                                        결제·환불 키를 재사용하고 미전송 알림을 재처리. 스마트스토어
+                                        주문은 수량 변경분만 반영
+                                    </p>
+                                </div>
+                                <span class="d-status d-status--ok">배포 완료</span>
+                            </li>
+                            <li>
+                                <time>2026.08.30 — 진행 중</time>
+                                <div>
+                                    <h3>청년정책메이트</h3>
+                                    <p>
+                                        질문 11종·연령 비교 9종 구현. 조건 규칙의 버전 관리와 AI
+                                        초안 검토·적용을 로컬 검증
+                                    </p>
+                                </div>
+                                <span class="d-status d-status--run">개발 중</span>
+                            </li>
+                        </ol>
+                    </section>
+                </div>
+            </div>
+        </template>
+
+        <template id="mock-e">
+            <div class="mock cand-e" data-spotlight>
+                <div class="e-layout">
+                    <aside class="e-side">
+                        <h1>
+                            <img
+                                class="avatar"
+                                src="../../public/ljkhyeong-avatar.png"
+                                alt=""
+                            />임정규
+                        </h1>
+                        <p class="e-role">백엔드 개발자 · BEINTECH</p>
+                        <p class="e-tag">중복 실행을 막고 중단된 작업을 재처리합니다.</p>
+                        <nav class="e-nav">
+                            <a class="is-active">경력</a><a>프로젝트</a><a>학습</a><a>기술</a>
+                        </nav>
+                        <div class="e-contact">
+                            <a>GitHub</a><a>Email</a><a>PDF</a><a>문서 검색</a>
+                        </div>
+                    </aside>
+                    <main>
+                        <p class="e-about">
+                            <strong>공공 SI</strong>에서 기관 연계 서버와 배치를 개발합니다. 개인
+                            프로젝트에서는 <strong>결제·이벤트 중복 처리 방지</strong>와
+                            <strong>중단 작업 재처리</strong>를 구현했습니다.
+                        </p>
+                        <h2 class="e-heading">경력</h2>
+                        <ol class="e-list">
+                            <li class="e-item">
+                                <time>2026.03 — 현재</time>
+                                <div>
+                                    <h3>전송형 전자영장 시스템 · BEINTECH</h3>
+                                    <p>
+                                        LG CNS 컨소시엄 참여, 5개 기관 연계. 기관별 요청 변환 및
+                                        제출 자료 반영 서버와 Spring Batch를 개발합니다.
+                                    </p>
+                                    <ul class="e-tags">
+                                        <li>Java 11</li>
+                                        <li>Spring Batch</li>
+                                        <li>Oracle</li>
+                                        <li>SKIP LOCKED</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="e-item">
+                                <time>2024.06 — 2026.01</time>
+                                <div>
+                                    <h3>차세대 군사법 정보 시스템 · BEINTECH</h3>
+                                    <p>
+                                        국방부 산하 4개 기관 연계. 기관 자료 검증 배치를 개발하고
+                                        중단된 배치만 재실행했습니다.
+                                    </p>
+                                    <ul class="e-tags">
+                                        <li>Java 8</li>
+                                        <li>MyBatis</li>
+                                        <li>Tibero</li>
+                                        <li>Jenkins</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ol>
+                        <h2 class="e-heading">프로젝트</h2>
+                        <ol class="e-list">
+                            <li class="e-item">
+                                <img
+                                    src="../../public/baton-core-today.webp"
+                                    alt="BATON 오늘 화면"
+                                />
+                                <div>
+                                    <h3>BATON</h3>
+                                    <p>
+                                        역할·반복 업무·인수인계 문서를 기록하는 Core와 6개
+                                        마이크로서비스. 요청 UUID와 이벤트 ID로 중복 생성을
+                                        막습니다.
+                                    </p>
+                                    <ul class="e-tags">
+                                        <li>Java / Kotlin</li>
+                                        <li>Spring Boot</li>
+                                        <li>RabbitMQ</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="e-item">
+                                <img
+                                    src="../../public/happygallery-product-options.webp"
+                                    alt="happyGallery 상품 옵션 화면"
+                                />
+                                <div>
+                                    <h3>happyGallery</h3>
+                                    <p>
+                                        상품 주문, 클래스 예약과 스마트스토어 운영. 결제·환불 키를
+                                        재사용하고 미전송 알림을 재처리합니다.
+                                    </p>
+                                    <ul class="e-tags">
+                                        <li>Java 25</li>
+                                        <li>Spring Boot 4.1</li>
+                                        <li>React 19</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="e-item">
+                                <img
+                                    src="../../public/hope-commit-review-summary.webp"
+                                    alt="Hope Commit 리뷰 요약 화면"
+                                />
+                                <div>
+                                    <h3>Hope Commit</h3>
+                                    <p>
+                                        SeungIl 님의 Hope 6.0.0을 포크해 로컬 커밋 HTML 리뷰를
+                                        추가했습니다. v5.0.2 공개, 자동화 테스트 343개 통과.
+                                    </p>
+                                    <ul class="e-tags">
+                                        <li>Node.js 22</li>
+                                        <li>Git CLI</li>
+                                        <li>Playwright</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ol>
+                    </main>
+                </div>
+            </div>
+        </template>
+
+        <template id="mock-f">
+            <div class="mock cand-f">
+                <section class="f-hero">
+                    <canvas data-flow aria-hidden="true"></canvas>
+                    <nav class="f-nav">
+                        <a class="f-nav__id"
+                            ><img
+                                class="avatar"
+                                src="../../public/ljkhyeong-avatar.png"
+                                alt=""
+                            />임정규</a
+                        >
+                        <div class="f-nav__links">
+                            <a>경력</a><a>프로젝트</a><a>학습</a><a>기술</a><a>문서 검색</a>
+                        </div>
+                        <a>PDF</a>
+                    </nav>
+                    <div class="f-copy">
+                        <small>BACKEND · BEINTECH · 2024.06 —</small>
+                        <h1 data-decode>
+                            <span>중복 실행을 막고</span><span>중단된 작업을 재처리하는</span
+                            ><span>백엔드 개발자</span>
+                        </h1>
+                        <p>
+                            공공 SI에서 기관 연계 서버와 배치를 개발합니다. 개인 프로젝트에서는
+                            결제·이벤트 중복 처리 방지와 중단 작업 재처리를 구현했습니다.
+                        </p>
+                        <div class="f-actions"><a>프로젝트 보기</a><a>PDF 내려받기</a></div>
+                    </div>
+                    <div class="f-legend">
+                        <span>요청</span><span class="is-dup">중복 요청</span
+                        ><span class="is-halt">중단 후 재처리</span>
+                    </div>
+                </section>
+                <section class="f-show">
+                    <figure class="f-shot">
+                        <img src="../../public/baton-core-today.webp" alt="BATON 오늘 화면" />
+                    </figure>
+                    <div class="f-text">
+                        <small>개인 프로젝트 · 웹 서비스</small>
+                        <h2>BATON</h2>
+                        <p>
+                            역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일과 자료 재확인
+                            일정을 모아 보는 서비스입니다.
+                        </p>
+                        <dl>
+                            <div>
+                                <dt>문제</dt>
+                                <dd>
+                                    같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달 작업이
+                                    중복 생성될 수 있음
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>구현</dt>
+                                <dd>
+                                    요청 UUID와 이벤트 ID로 중복 생성을 방지. 결과 미확인 건은 자동
+                                    재전송하지 않음
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>검증</dt>
+                                <dd>
+                                    서비스별 테스트와 Core–BRIEF·CAL·ROUND 연동을 로컬 확인. 공개
+                                    환경 전체 연동은 미검증
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </section>
+                <section class="f-show f-show--flip">
+                    <figure class="f-shot">
+                        <img
+                            src="../../public/happygallery-product-options.webp"
+                            alt="happyGallery 상품 옵션과 조합별 가격 화면"
+                        />
+                    </figure>
+                    <div class="f-text">
+                        <small>개인 프로젝트 · 배포 완료</small>
+                        <h2>happyGallery</h2>
+                        <p>
+                            상품 주문, 클래스 예약과 스마트스토어 운영을 처리하는 공방 서비스입니다.
+                        </p>
+                        <dl>
+                            <div>
+                                <dt>문제</dt>
+                                <dd>
+                                    결제사 응답 유실, 서버 중단에 따른 알림 유실과 스마트스토어 주문
+                                    재수신 시 재고 중복 반영
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>구현</dt>
+                                <dd>
+                                    결제·환불 키를 재사용하고 미전송 알림을 재처리. 스마트스토어
+                                    주문은 수량 변경분만 재고에 반영
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>검증</dt>
+                                <dd>
+                                    공개 서비스 배포와 HTTPS 접속 확인. 실제 네이버·Toss·NHN 계정
+                                    연동은 미검증
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </section>
+            </div>
+        </template>
+
+        <script>
+            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+            // 실제 GitHub 기여 기록(2025-10-05 ~ 2026-10-05)을 0~4 단계로 나눈 값. 주 단위로 '|'로 구분한다.
+            const HEAT =
+                "0000000|0000000|0000000|2111000|0001000|0000000|0000000|0100000|0000000|0000000|3212122|3300000|0000112|1111110|0000000|0000001|2200000|0000000|0000000|0000003|2201101|1223430|4100233|4233233|4322333|4221221|3120020|0000000|3010101|3201000|0010000|0000000|0000000|0000000|0000000|0000000|0000000|2100003|2000001|2110001|3002033|3233330|4344444|4200004|4043443|1033444|2040444|4444104|4440044|4000001|2110000|2223000|13-----"
+            const HEAT_MONTHS = {
+                0: 10,
+                4: 11,
+                9: 12,
+                13: 1,
+                17: 2,
+                21: 3,
+                26: 4,
+                30: 5,
+                35: 6,
+                39: 7,
+                43: 8,
+                48: 9,
+                52: 10,
+            }
+
+            const renderHeat = (grid) => {
+                HEAT.split("|").forEach((week, index) => {
+                    const column = document.createElement("div")
+                    column.className = "d-heat__week"
+                    const label = document.createElement("em")
+                    label.textContent = HEAT_MONTHS[index] ? `${HEAT_MONTHS[index]}월` : ""
+                    column.append(label)
+                    for (const level of week) {
+                        const cell = document.createElement("i")
+                        cell.className = level === "-" ? "pad" : `l${level}`
+                        column.append(cell)
+                    }
+                    grid.append(column)
+                })
+            }
+
+            const initSpotlight = (root) => {
+                root.addEventListener("pointermove", (event) => {
+                    const box = root.getBoundingClientRect()
+                    const zoom = parseFloat(getComputedStyle(root.closest(".frame")).zoom) || 1
+                    root.style.setProperty("--x", `${(event.clientX - box.left) / zoom}px`)
+                    root.style.setProperty("--y", `${(event.clientY - box.top) / zoom}px`)
+                })
+            }
+
+            // 제목 글자가 한 번 흩어졌다가 왼쪽부터 제자리를 찾는다.
+            const initDecode = (element) => {
+                const text = element.textContent
+                if (reduceMotion) return
+                const pool = "가나다라마바사아자차카타파하ABCDEFGHJKLMNPQRSTUVWXYZ0123456789"
+                const start = performance.now()
+                const duration = 900
+                const tick = (now) => {
+                    const progress = Math.min(1, (now - start) / duration)
+                    const settled = Math.floor(progress * text.length)
+                    element.textContent = [...text]
+                        .map((character, index) =>
+                            index < settled || character === " "
+                                ? character
+                                : pool[Math.floor(Math.random() * pool.length)],
+                        )
+                        .join("")
+                    if (progress < 1) requestAnimationFrame(tick)
+                }
+                requestAnimationFrame(tick)
+            }
+
+            // 요청 흐름 시뮬레이션: 중복은 첫 관문에서 흡수, 정상은 상태 저장에 기록, 일부는 멈췄다가 재처리된다.
+            const initFlow = (canvas) => {
+                const context = canvas.getContext("2d")
+                const layouts = {
+                    wide: { start: 0.5, gates: [0.62, 0.76, 0.9], halt: 0.83 },
+                    narrow: { start: 0.04, gates: [0.34, 0.6, 0.86], halt: 0.73 },
+                }
+                const gateLabels = ["중복 확인", "상태 저장", "처리 완료"]
+                let layout = layouts.wide
+                const colors = {
+                    normal: "#a6d9bd",
+                    dup: "#f4d35e",
+                    halt: "#f0915a",
+                    line: "#27302b",
+                    text: "#9aa69f",
+                }
+                let width = 0
+                let height = 0
+                let lanes = []
+                let particles = []
+                let bursts = []
+                let stack = 0
+                let frame = 0
+                const resize = () => {
+                    const ratio = window.devicePixelRatio || 1
+                    width = canvas.clientWidth
+                    height = canvas.clientHeight
+                    canvas.width = width * ratio
+                    canvas.height = height * ratio
+                    context.setTransform(ratio, 0, 0, ratio, 0, 0)
+                    layout = width < 500 ? layouts.narrow : layouts.wide
+                    const count = width < 500 ? 5 : 7
+                    lanes = Array.from(
+                        { length: count },
+                        (_, i) => height * (0.26 + (i * 0.58) / (count - 1)),
+                    )
+                }
+                const spawn = () => {
+                    const roll = Math.random()
+                    particles.push({
+                        x: width * layout.start,
+                        lane: Math.floor(Math.random() * lanes.length),
+                        kind: roll < 0.18 ? "dup" : roll < 0.3 ? "halt" : "normal",
+                        speed: 1.1 + Math.random() * 0.5,
+                        wait: 0,
+                        resumed: false,
+                        stored: false,
+                        alpha: 1,
+                    })
+                }
+                const step = () => {
+                    frame += 1
+                    if (frame % 14 === 0) spawn()
+                    particles.forEach((p) => {
+                        const gate1 = width * layout.gates[0]
+                        const gate2 = width * layout.gates[1]
+                        if (p.kind === "dup" && p.x >= gate1) {
+                            p.alpha -= 0.08
+                            if (p.alpha <= 0.92 && p.alpha > 0.84)
+                                bursts.push({
+                                    x: gate1,
+                                    y: lanes[p.lane % lanes.length],
+                                    r: 4,
+                                    a: 1,
+                                })
+                            return
+                        }
+                        if (p.kind === "halt" && !p.resumed && p.x >= width * layout.halt) {
+                            p.wait += 1
+                            if (p.wait > 70) {
+                                p.resumed = true
+                            }
+                            return
+                        }
+                        if (!p.stored && p.x >= gate2 && p.kind !== "dup") {
+                            p.stored = true
+                            stack = (stack + 1) % 14
+                        }
+                        p.x += p.speed
+                    })
+                    particles = particles.filter((p) => p.alpha > 0 && p.x < width + 10)
+                    bursts.forEach((b) => {
+                        b.r += 0.8
+                        b.a -= 0.04
+                    })
+                    bursts = bursts.filter((b) => b.a > 0)
+                }
+                const draw = () => {
+                    context.clearRect(0, 0, width, height)
+                    context.lineWidth = 1
+                    lanes.forEach((y) => {
+                        context.strokeStyle = colors.line
+                        context.beginPath()
+                        context.moveTo(width * layout.start, y)
+                        context.lineTo(width, y)
+                        context.stroke()
+                    })
+                    context.font = "12px Pretendard Variable, sans-serif"
+                    layout.gates.forEach((at, index) => {
+                        const x = width * at
+                        context.setLineDash([4, 5])
+                        context.strokeStyle = "#3a453f"
+                        context.beginPath()
+                        context.moveTo(x, height * 0.18)
+                        context.lineTo(x, height * 0.88)
+                        context.stroke()
+                        context.setLineDash([])
+                        context.fillStyle = colors.text
+                        context.textAlign = "center"
+                        context.fillText(gateLabels[index], x, height * 0.16)
+                    })
+                    // 상태 저장 아래에 쌓이는 기록
+                    const sx = width * layout.gates[1]
+                    for (let i = 0; i < stack; i += 1) {
+                        context.fillStyle = "rgba(166, 217, 189, 0.5)"
+                        context.fillRect(sx - 10, height * 0.93 - i * 5, 20, 3)
+                    }
+                    particles.forEach((p) => {
+                        const y = lanes[p.lane % lanes.length]
+                        // 중단 작업은 멈춰 있는 동안에만 주황색으로 표시하고, 재처리되면 정상 색으로 돌아간다.
+                        const halted = p.kind === "halt" && !p.resumed && p.wait > 0
+                        const color =
+                            p.kind === "dup" ? colors.dup : halted ? colors.halt : colors.normal
+                        context.globalAlpha = Math.max(0, p.alpha)
+                        if (p.kind === "halt" && !p.resumed && p.wait > 0) {
+                            const pulse = 6 + Math.sin(p.wait / 6) * 3
+                            context.strokeStyle = colors.halt
+                            context.beginPath()
+                            context.arc(p.x, y, pulse, 0, Math.PI * 2)
+                            context.stroke()
+                        }
+                        context.fillStyle = color
+                        context.shadowColor = color
+                        context.shadowBlur = 10
+                        context.beginPath()
+                        context.arc(p.x, y, 3.2, 0, Math.PI * 2)
+                        context.fill()
+                        context.shadowBlur = 0
+                        context.globalAlpha = 1
+                    })
+                    bursts.forEach((b) => {
+                        context.strokeStyle = `rgba(244, 211, 94, ${b.a})`
+                        context.beginPath()
+                        context.arc(b.x, b.y, b.r, 0, Math.PI * 2)
+                        context.stroke()
+                    })
+                }
+                resize()
+                new ResizeObserver(resize).observe(canvas)
+                if (reduceMotion) {
+                    for (let i = 0; i < 600; i += 1) step()
+                    draw()
+                    return
+                }
+                const loop = () => {
+                    step()
+                    draw()
+                    requestAnimationFrame(loop)
+                }
+                for (let i = 0; i < 400; i += 1) step()
+                loop()
+            }
+
+            document.querySelectorAll("[data-slot]").forEach((slot) => {
+                slot.append(
+                    document.getElementById(`mock-${slot.dataset.slot}`).content.cloneNode(true),
+                )
+            })
+            document.querySelectorAll("[data-heat]").forEach(renderHeat)
+            document.querySelectorAll("[data-spotlight]").forEach(initSpotlight)
+            document.querySelectorAll("[data-decode] > span").forEach(initDecode)
+            document.querySelectorAll("[data-flow]").forEach(initFlow)
+
+            const fit = () => {
+                document.querySelectorAll(".frame-fit").forEach((box) => {
+                    const frame = box.querySelector(".frame")
+                    frame.style.zoom = Math.min(1, box.parentElement.clientWidth / 1202)
+                })
+            }
+            fit()
+            window.addEventListener("resize", fit)
+        </script>
+    </body>
+</html>
