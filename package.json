@@ -34,7 +34,8 @@
         "test:watch": "vitest",
         "knowledge:refresh-docs": "node scripts/refresh-knowledge-documents.mjs",
         "knowledge:evaluate": "node scripts/evaluate-knowledge.mjs",
-        "knowledge:sync": "node scripts/sync-knowledge-index.mjs"
+        "knowledge:sync": "node scripts/sync-knowledge-index.mjs",
+        "activity:refresh": "node scripts/refresh-github-activity.mjs"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^7.0.0",
