@@ -23,6 +23,7 @@
     color: var(--ink, #1f2328);
     font-size: clamp(20px, 2vw, 26px);
     letter-spacing: -0.035em;
+    word-break: keep-all;
 }
 
 .baton-service-flow__viewport {

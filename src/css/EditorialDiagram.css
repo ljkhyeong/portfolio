@@ -31,6 +31,8 @@
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.08em;
+    /* "컨소시엄"처럼 한글 단어가 중간에서 끊기지 않게 한다. */
+    word-break: keep-all;
 }
 
 .editorial-diagram__header > strong,
