@@ -128,6 +128,13 @@ const slugify = (route) =>
 
 // 지연 로딩 이미지를 불러오도록 끝까지 스크롤한 뒤 처음 위치로 돌아온다.
 const scrollThrough = async (page) => {
+    // 요청이 시작되지 않은 지연 로딩 이미지는 complete가 참이라 기다리지 않고 지나간다.
+    // 캡처에서는 바로 불러오게 바꿔 화면 밖·가로 스크롤 안의 캡처도 빈 상자로 찍히지 않게 한다.
+    await page.evaluate(() =>
+        document.querySelectorAll('img[loading="lazy"]').forEach((image) => {
+            image.loading = "eager"
+        }),
+    )
     await page.evaluate(async () => {
         const step = Math.max(400, Math.floor(window.innerHeight * 0.8))
         for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
@@ -143,7 +150,7 @@ const scrollThrough = async (page) => {
             () =>
                 [...document.images]
                     .filter((image) => image.getClientRects().length > 0)
-                    .every((image) => image.complete),
+                    .every((image) => image.complete && image.naturalWidth > 0),
             null,
             { timeout: 10_000 },
         )
