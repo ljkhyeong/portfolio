@@ -169,13 +169,9 @@ body.portfolio-print-mode {
         padding-top: 0;
     }
 
+    /* 첫 쪽 소개에 아바타와 이름이 있으므로 상단 바를 반복하지 않는다. */
     .portfolio-web-print .site-nav {
-        position: static;
-        grid-template-columns: minmax(0, 1fr);
-        width: 100%;
-        box-shadow: none;
-        padding-right: 42px;
-        padding-left: 42px;
+        display: none;
     }
 
     .portfolio-web-print .site-nav__links,
@@ -191,14 +187,15 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .home-hero__inner {
-        grid-template-columns: 96px minmax(0, 1fr);
-        gap: 0 24px;
-        padding-top: 28px;
+        padding-top: 20px;
     }
 
-    .portfolio-web-print .home-hero__avatar {
-        width: 96px;
-        height: 96px;
+    .portfolio-web-print .home-hero__copy {
+        padding-bottom: 24px;
+    }
+
+    .portfolio-web-print .home-meta {
+        padding-block: 18px;
     }
 
     .portfolio-web-print .home-hero h1 {
@@ -232,7 +229,6 @@ body.portfolio-print-mode {
         display: block;
     }
 
-    .portfolio-web-print .home-figure,
     .portfolio-web-print .activity {
         break-inside: avoid;
     }
@@ -242,6 +238,16 @@ body.portfolio-print-mode {
         overflow: visible;
         padding: 40px 42px;
         background: none;
+    }
+
+    /* 경력까지 첫 쪽에 들어가도록 경력 시트의 위아래 여백과 행 간격을 줄인다. */
+    .portfolio-web-print .home-career {
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+
+    .portfolio-web-print .home-career .sheet-row {
+        padding-block: 14px;
     }
 
     .portfolio-web-print :is(.blueprint-sheet, .blueprint-col)::before,
