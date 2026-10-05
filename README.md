@@ -88,6 +88,23 @@ Cloudflare Turnstile 공개 사이트 키만 `VITE_KNOWLEDGE_TURNSTILE_SITE_KEY`
 Elasticsearch, Spring Boot API, OpenAI 및 Ollama 프로필과 Turnstile 서버 검증 설정은
 `knowledge-api/README.md`를 확인합니다.
 
+## 글꼴
+
+화면 글꼴은 Pretendard 1.3.9(SIL OFL 1.1)에서 사이트에 쓰는 글자만 남긴 서브셋
+`public/fonts/portfolio-sans.woff2`입니다. Pretendard가 예약 글꼴 이름이라 수정본의 이름은
+Portfolio Sans로 바꿨고, 라이선스 원문은 `public/fonts/LICENSE.txt`에 있습니다. 화면 문구에
+새 글자가 생기면 빌드 전 검사(`npm run font:check`)가 실패합니다. 이때 원본 가변 글꼴과
+fontTools를 준비해 서브셋을 다시 만듭니다.
+
+```bash
+python3 -m venv .venv-font
+.venv-font/bin/pip install fonttools==4.66.1 brotli==1.2.0
+npm run font:subset -- --source <PretendardVariable.woff2> --python .venv-font/bin/python
+```
+
+원본은 `https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2`
+입니다. 서브셋을 다시 만들면 공유 이미지와 PDF도 다시 생성합니다.
+
 ## GitHub 기여 기록
 
 메인의 기여 히트맵은 `src/data/githubActivity.json`을 읽어 그립니다. 빌드와 화면에서는
