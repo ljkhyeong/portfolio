@@ -123,91 +123,6 @@ main.case-showcase .prior-case > header .case-hero-facts {
     content: "−";
 }
 
-.case-document-inventory {
-    margin-top: 24px;
-    color: var(--muted);
-}
-
-.case-document-inventory > summary {
-    width: fit-content;
-    min-height: 44px;
-    align-content: center;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.case-document-inventory dl {
-    display: grid;
-    gap: 16px;
-    margin: 12px 0 0;
-}
-
-.case-document-inventory dl > div {
-    display: grid;
-    grid-template-columns: 180px minmax(0, 1fr);
-    gap: 16px;
-}
-
-.case-document-inventory dt {
-    font-weight: 650;
-}
-
-.case-document-inventory dt span {
-    margin-left: 8px;
-    font-weight: 400;
-}
-
-.case-document-inventory dd {
-    margin: 0;
-}
-
-.case-representative-documents > ul {
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.case-documents li {
-    min-width: 0;
-    padding: 18px 0 20px;
-    border-bottom: 1px solid var(--line);
-}
-
-.case-documents a {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 14px;
-    align-items: baseline;
-    color: var(--accent);
-}
-
-.case-documents .case-document-type {
-    display: block;
-    margin-top: 8px;
-    color: var(--muted);
-    font-weight: 600;
-    line-height: 1.5;
-}
-
-.case-documents a strong {
-    letter-spacing: -0.025em;
-    word-break: keep-all;
-}
-
-.case-documents a > span {
-    transition: transform 180ms ease;
-}
-
-.case-documents a:hover > span {
-    transform: translate(3px, -3px);
-}
-
-.case-documents li p {
-    margin: 9px 0 0;
-    color: var(--muted);
-}
-
 .case-next a {
     position: relative;
     flex-direction: column;
@@ -252,13 +167,6 @@ main.case-showcase .prior-case > header .case-hero-facts {
 @media (max-width: 980px) {
     .case-hero__intro {
         max-width: 720px;
-    }
-}
-
-@media (max-width: 700px) {
-    .case-document-inventory dl > div {
-        grid-template-columns: 1fr;
-        gap: 4px;
     }
 }
 

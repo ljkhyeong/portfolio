@@ -67,26 +67,21 @@ const projects = [
                 id: "prd",
                 label: "PRD",
                 count: "52",
-                summary: "각 서비스가 받을 요청, 처리할 업무와 완료 판단 기준을 정리합니다.",
             },
             {
                 id: "adr",
                 label: "ADR",
                 count: "90",
-                summary: "기술 선택 이유, 검토한 대안과 적용 시 제약을 기록합니다.",
             },
             {
                 id: "runbook",
                 label: "Runbook 및 운영 문서",
                 count: "38",
-                summary: "배포, 백업·복구와 공개 스테이징 전송 테스트 절차를 정리합니다.",
             },
             {
                 id: "api",
                 label: "API 및 서비스 간 데이터 형식",
                 count: "4개 서비스",
-                summary:
-                    "Core API, BRIEF·CAL 이벤트 JSON과 ROUND WebSocket 메시지 형식을 정의합니다.",
             },
         ],
         documents: [
@@ -970,32 +965,26 @@ const projects = [
                 id: "prd",
                 label: "PRD",
                 count: "4",
-                summary: "상품, 예약, 주문과 운영 업무의 처리 기준을 기록합니다.",
             },
             {
                 id: "adr",
                 label: "ADR",
                 count: "49",
-                summary: "아키텍처, 동시성, 결제, 외부 채널과 보안 결정을 기록합니다.",
             },
             {
                 id: "idea-poc",
                 label: "Idea / POC",
                 count: "40 / 1",
-                summary:
-                    "개발 전 구현 방식과 외부 장애 대응안을 검토합니다. POC 1건은 검증 코드로 확인했습니다.",
             },
             {
                 id: "retrospective",
                 label: "Retrospective",
                 count: "11",
-                summary: "운영 비용, 테스트 흐름과 실패 원인을 되짚습니다.",
             },
             {
                 id: "runbook",
                 label: "Runbook",
                 count: "1",
-                summary: "k3s 배포, 롤백, 백업과 복구 절차를 기록합니다.",
             },
         ],
         documents: [
@@ -1355,28 +1344,21 @@ const projects = [
                 id: "prd",
                 label: "PRD",
                 count: "1",
-                summary:
-                    "서울 청년 정책 탐색, 조건 판정, 저장 및 알림의 MVP 범위와 제외 항목을 정의합니다.",
             },
             {
                 id: "adr",
                 label: "ADR",
                 count: "2",
-                summary:
-                    "웹, 서버와 DB의 역할 분리 및 서버 DTO 기반 API 타입 생성 방식을 기록합니다.",
             },
             {
                 id: "design",
                 label: "설계",
                 count: "12",
-                summary:
-                    "자격 판정, 정책 개정, AI 비용 예약·복구와 화면 상태 처리 기준을 기록합니다.",
             },
             {
                 id: "development",
                 label: "구현 기록",
                 count: "60",
-                summary: "기능별 구현·검증 결과와 아직 연결하지 않은 외부 기능을 기록합니다.",
             },
         ],
         documents: [
@@ -1611,20 +1593,16 @@ const projects = [
                 id: "feature",
                 label: "Commit Diff 실행 기준",
                 count: "1",
-                summary: "Commit Diff의 실행 조건, 입력과 완료 기준을 정의합니다.",
             },
             {
                 id: "security",
                 label: "보안 정책",
                 count: "1",
-                summary: "비공개 경로와 자격 증명 형태의 데이터를 차단하는 규칙을 정의합니다.",
             },
             {
                 id: "license",
                 label: "라이선스 및 원본 고지",
                 count: "2",
-                summary:
-                    "SeungIl 님이 개발한 원본 Hope의 저작권, MIT 라이선스와 포크 관계를 명시합니다.",
             },
         ],
         documents: [
@@ -1758,21 +1736,16 @@ const projects = [
                 id: "prd",
                 label: "PRD",
                 count: "6",
-                summary:
-                    "MVP, GitHub 게시, 팀 권한과 IntelliJ 조회 및 기록 탐색 범위를 정의합니다.",
             },
             {
                 id: "adr",
                 label: "ADR",
                 count: "13",
-                summary:
-                    "기록 형식, 게시·인증·조회·복구와 웹·IntelliJ·Zed의 요청 범위를 기록합니다.",
             },
             {
                 id: "operations",
                 label: "운영 및 릴리스",
                 count: "2",
-                summary: "단일 인스턴스 배포, 백업, 복구와 릴리스 절차를 기록합니다.",
             },
         ],
         documents: [

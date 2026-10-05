@@ -8,6 +8,7 @@ import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
+import { DocumentCounts, DocumentItems } from "./DocumentList"
 import ProblemSolutionList from "./ProblemSolutionList"
 import ProjectSwitcher from "./ProjectSwitcher"
 import BatonArchitectureDiagram from "./diagrams/BatonArchitectureDiagram"
@@ -162,26 +163,6 @@ const MoreItems = ({ count, children }) => (
     </details>
 )
 
-const DocumentItems = ({ documents }) => (
-    <ul>
-        {documents.map((doc) => (
-            <li key={doc.href}>
-                <a
-                    href={doc.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${doc.label} 대표 문서 새 창에서 보기`}
-                >
-                    <strong>{doc.label}</strong>
-                    <span aria-hidden="true">↗</span>
-                </a>
-                <p>{doc.note}</p>
-                <span className="case-document-type">{doc.type}</span>
-            </li>
-        ))}
-    </ul>
-)
-
 const ProjectHeroFacts = ({ project }) => (
     <dl className="case-hero-facts" aria-label="프로젝트 기간과 담당 범위">
         <div>
@@ -290,27 +271,13 @@ const CaseDocuments = ({ documentGroups, documents }) => {
             <div className="case-section-heading">
                 <h2 id="documents-title">대표 문서</h2>
             </div>
-            <div className="case-representative-documents">
-                <DocumentItems documents={visible} />
-                {rest.length > 0 ? (
-                    <MoreItems count={rest.length}>
-                        <DocumentItems documents={rest} />
-                    </MoreItems>
-                ) : null}
-            </div>
-            <details className="case-document-inventory">
-                <summary>문서 분류와 작성 수</summary>
-                <dl>
-                    {documentGroups.map((group) => (
-                        <div key={group.id}>
-                            <dt>
-                                {group.label} <span>{group.count}</span>
-                            </dt>
-                            <dd>{group.summary}</dd>
-                        </div>
-                    ))}
-                </dl>
-            </details>
+            <DocumentCounts groups={documentGroups} label="문서 분류와 작성 수" />
+            <DocumentItems documents={visible} />
+            {rest.length > 0 ? (
+                <MoreItems count={rest.length}>
+                    <DocumentItems documents={rest} />
+                </MoreItems>
+            ) : null}
         </section>
     )
 }

@@ -1,0 +1,110 @@
+/* 대표 문서: 분류별 작성 수를 기준선 칸으로 펼치고, 문서는 유형 표시와 제목·설명을 한 행으로 둔다. */
+.document-counts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
+    margin: 0 0 8px;
+    border-top: 1px solid var(--ink);
+    border-left: 1px solid var(--line);
+}
+
+.document-counts > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 16px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.document-counts dt {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.document-counts dd {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    font-variant-numeric: tabular-nums;
+    word-break: keep-all;
+}
+
+.document-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+    column-gap: 48px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.document-items li {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 4px 16px;
+    min-width: 0;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.document-items__type {
+    justify-self: start;
+    align-self: start;
+    margin-top: 4px;
+    padding: 1px 7px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.document-items a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.document-items a strong {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.45;
+    word-break: keep-all;
+}
+
+.document-items a span {
+    color: var(--accent);
+}
+
+.document-items a:hover strong,
+.document-items a:focus-visible strong {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.document-items p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+    word-break: keep-all;
+}
+
+@media (max-width: 700px) {
+    .document-items li {
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 4px 12px;
+    }
+
+    .document-counts dd {
+        font-size: 20px;
+    }
+}

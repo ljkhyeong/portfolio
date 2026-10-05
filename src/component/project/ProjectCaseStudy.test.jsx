@@ -334,10 +334,11 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     expect(restDocumentLinks.closest("details")).toHaveTextContent(
         `나머지 ${project.documents.length - 6}건 보기`,
     )
-    const inventory = within(documents).getByText("문서 분류와 작성 수").closest("details")
-    expect(inventory).not.toHaveAttribute("open")
+    // 문서 분류와 작성 수는 접지 않고 문서 목록 앞에 펼친다.
+    const inventory = within(documents).getByLabelText("문서 분류와 작성 수")
+    expect(inventory).toHaveTextContent("ADR49")
     expect(
-        documentLinks.compareDocumentPosition(inventory) & Node.DOCUMENT_POSITION_FOLLOWING,
+        inventory.compareDocumentPosition(documentLinks) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy()
 
     const firstDocument = project.documents[0]
@@ -348,7 +349,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     expect(documentLink).toHaveTextContent(firstDocument.label)
     expect(documentLink).not.toHaveTextContent(firstDocument.type)
     expect(
-        documentLink.compareDocumentPosition(documentType) & Node.DOCUMENT_POSITION_FOLLOWING,
+        documentLink.compareDocumentPosition(documentType) & Node.DOCUMENT_POSITION_PRECEDING,
     ).toBeTruthy()
 })
 

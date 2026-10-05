@@ -51,11 +51,14 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
         project.documents
             .filter((entry) => entry.serviceId === serviceId)
             .forEach((entry) => {
-                const link = within(documents).getByRole("link", { name: entry.label })
-                const type = within(link.closest("article")).getByText(entry.type)
+                // 유형 표시는 링크 밖 앞쪽에 두어 문서 제목과 구분한다.
+                const link = within(documents).getByRole("link", {
+                    name: `${entry.label} 대표 문서 새 창에서 보기`,
+                })
+                const type = within(link.closest("li")).getByText(entry.type)
                 expect(link).not.toHaveTextContent(entry.type)
                 expect(
-                    link.compareDocumentPosition(type) & Node.DOCUMENT_POSITION_FOLLOWING,
+                    link.compareDocumentPosition(type) & Node.DOCUMENT_POSITION_PRECEDING,
                 ).toBeTruthy()
             })
     },

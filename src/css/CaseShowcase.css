@@ -506,36 +506,6 @@ main.case-showcase .case-architecture__intro h3 {
     line-height: 1.55;
 }
 
-main.case-showcase .case-representative-documents > ul {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 52px;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-}
-
-main.case-showcase .case-representative-documents > ul li {
-    padding: 25px 0;
-    border-left: 0;
-}
-
-main.case-showcase .case-representative-documents > ul li:nth-child(even) {
-    border-left: 0;
-}
-
-main.case-showcase .case-representative-documents a strong,
-main.case-showcase .service-document-links a strong {
-    color: var(--ink);
-    font-weight: 550;
-}
-
-main.case-showcase .case-representative-documents li p,
-main.case-showcase .service-document-links article p {
-    font-size: var(--portfolio-small);
-    line-height: 1.75;
-}
-
 main.case-showcase .case-meta__links {
     padding-left: 0;
     border: 0;
@@ -725,8 +695,6 @@ main.case-showcase .case-meta__links a,
 main.case-showcase .case-meta__links span,
 main.case-showcase .case-meta__links li p,
 main.case-showcase .case-meta__link-note,
-main.case-showcase .case-document-inventory,
-main.case-showcase .service-document-inventory,
 main.case-showcase .case-more > summary,
 main.case-showcase .baton-service-scope summary,
 main.case-showcase .case-next a > span:first-child,
@@ -746,19 +714,12 @@ main.case-showcase .featured-problem__step-number,
 main.case-showcase .problem-solution-list__result > span,
 main.case-showcase .case-architecture__intro blockquote strong,
 main.case-showcase .baton-service-scope dt,
-main.case-showcase .editorial-diagram__eyebrow,
-main.case-showcase .case-representative-documents h3 span,
-main.case-showcase .case-representative-documents li > span,
-main.case-showcase .case-documents .case-document-type,
-main.case-showcase .service-document-links h3 span,
-main.case-showcase .service-document-links .service-document-type {
+main.case-showcase .editorial-diagram__eyebrow {
     font-size: var(--portfolio-caption);
 }
 
 main.case-showcase .featured-problem__flow li strong,
-main.case-showcase .problem-solution-list__item > summary h3,
-main.case-showcase .case-representative-documents a strong,
-main.case-showcase .service-document-links article a strong {
+main.case-showcase .problem-solution-list__item > summary h3 {
     font-size: var(--portfolio-subtitle);
 }
 
@@ -778,7 +739,6 @@ main.case-showcase .featured-problem__details dd,
 main.case-showcase .problem-solution-list__item dd,
 main.case-showcase .case-architecture__intro p,
 main.case-showcase .case-architecture__intro blockquote,
-main.case-showcase .case-document-inventory dd,
 main.case-showcase .baton-service-status dd,
 main.case-showcase .baton-service-scope > div,
 main.case-showcase .baton-service-scope blockquote,
@@ -1050,10 +1010,6 @@ main.case-showcase ::selection {
 
     main.case-showcase .featured-problem__flow {
         padding: 24px 0 0;
-    }
-
-    main.case-showcase .case-representative-documents > ul {
-        grid-template-columns: 1fr;
     }
 
     main.case-showcase .editorial-diagram,

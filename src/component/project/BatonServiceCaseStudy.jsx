@@ -8,6 +8,7 @@ import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
+import { DocumentCounts, DocumentItems } from "./DocumentList"
 import ProblemSolutionList from "./ProblemSolutionList"
 import BatonServiceFlowDiagram from "./diagrams/BatonServiceFlowDiagram"
 import "../../css/BatonService.css"
@@ -219,29 +220,11 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     <div className="baton-service-section-heading">
                         <h2 id="service-documents-title">대표 문서</h2>
                     </div>
-                    <div className="service-document-links">
-                        {documents.map((document) => (
-                            <article key={document.href}>
-                                <a href={document.href} target="_blank" rel="noreferrer">
-                                    <strong>{document.label}</strong>
-                                    <span aria-hidden="true">↗</span>
-                                </a>
-                                <p>{document.note}</p>
-                                <span className="service-document-type">{document.type}</span>
-                            </article>
-                        ))}
-                    </div>
-                    <details className="service-document-inventory">
-                        <summary>문서 분류와 작성 수</summary>
-                        <dl aria-label={`${service.name} 문서 분류`}>
-                            {service.documentation.map((item) => (
-                                <div key={item.label}>
-                                    <dt>{item.label}</dt>
-                                    <dd>{item.count}</dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </details>
+                    <DocumentCounts
+                        groups={service.documentation}
+                        label={`${service.name} 문서 분류와 작성 수`}
+                    />
+                    <DocumentItems documents={documents} />
                 </section>
 
                 <CaseMetaSection
