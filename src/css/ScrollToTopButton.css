@@ -1,3 +1,4 @@
+/* 모든 화면이 같은 밝은 테마를 쓰므로 화면별 덮어쓰기 없이 테마 값을 바로 쓴다. */
 .scroll-to-top {
     position: fixed;
     right: calc(20px + env(safe-area-inset-right));
@@ -8,48 +9,26 @@
     height: 44px;
     padding: 0;
     place-items: center;
-    border: 1px solid var(--line);
+    border: 1px solid var(--portfolio-line);
     border-radius: 8px;
-    background: rgba(246, 248, 250, 0.96);
-    color: var(--ink-soft);
-    box-shadow:
-        0 1px 2px rgba(31, 35, 40, 0.08),
-        0 3px 10px rgba(31, 35, 40, 0.12);
+    background: var(--portfolio-surface);
+    color: var(--portfolio-text);
     cursor: pointer;
     animation: scroll-to-top-enter 160ms ease-out both;
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
 }
 
 .scroll-to-top:hover {
-    border-color: #afb8c1;
-    background: var(--paper);
-    color: var(--accent);
+    border-color: var(--portfolio-accent);
+    color: var(--portfolio-accent);
 }
 
 .scroll-to-top:active {
-    background: var(--paper-raised);
-    box-shadow: 0 1px 2px rgba(31, 35, 40, 0.1);
     transform: translateY(1px);
 }
 
 .scroll-to-top:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--portfolio-accent);
     outline-offset: 3px;
-}
-
-body:has(.portfolio-page, main.case-showcase, .knowledge-page) .scroll-to-top {
-    --accent: var(--portfolio-accent);
-    --paper-raised: var(--portfolio-surface);
-    border-color: var(--portfolio-line);
-    background: var(--portfolio-surface);
-    color: var(--portfolio-text);
-    box-shadow: none;
-}
-
-body:has(.portfolio-page, main.case-showcase, .knowledge-page) .scroll-to-top:hover {
-    border-color: var(--portfolio-accent);
-    color: var(--portfolio-accent);
 }
 
 @keyframes scroll-to-top-enter {

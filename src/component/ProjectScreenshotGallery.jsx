@@ -176,7 +176,8 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
             {isOpen &&
                 createPortal(
                     <div
-                        className={`screenshot-lightbox${context.startsWith("case") ? " screenshot-lightbox--case" : ""}`}
+                        // 프로젝트 상세와 BATON 서비스 상세 모두 같은 밝은 확대 창을 쓴다.
+                        className="screenshot-lightbox screenshot-lightbox--case"
                         id={dialogId}
                         role="dialog"
                         aria-modal="true"

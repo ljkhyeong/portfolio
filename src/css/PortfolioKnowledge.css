@@ -5,7 +5,11 @@
     --knowledge-line: var(--line);
     --knowledge-muted: var(--muted);
     --knowledge-accent: var(--accent);
-    --knowledge-error: #f2a8a2;
+    /* 밝은 배경에서 4.5:1 이상 대비를 갖는 오류·주의 색 */
+    --knowledge-error: #b42318;
+    --knowledge-error-soft: #fef3f2;
+    --knowledge-warning: #8a5300;
+    --knowledge-accent-strong: #2147b4;
     min-height: 100vh;
     background: var(--knowledge-paper);
     color: var(--knowledge-ink);
@@ -117,7 +121,7 @@
 
 .knowledge-query__input-row:focus-within {
     border-color: var(--knowledge-accent);
-    box-shadow: 0 0 0 3px rgba(166, 217, 189, 0.2);
+    box-shadow: 0 0 0 3px rgba(47, 91, 211, 0.18);
 }
 
 .knowledge-query__input-row > span {
@@ -171,7 +175,8 @@
 .knowledge-query__input-row button:hover:not(:disabled),
 .knowledge-answer__button:hover:not(:disabled),
 .knowledge-state__action:hover {
-    background: #c2e7d2;
+    border-color: var(--knowledge-accent-strong);
+    background: var(--knowledge-accent-strong);
 }
 
 .knowledge-query__input-row button:disabled,
@@ -333,7 +338,7 @@
 
 .knowledge-state--error {
     border-color: var(--knowledge-error);
-    background: #322621;
+    background: var(--knowledge-error-soft);
 }
 
 .knowledge-state--error > span {
@@ -600,7 +605,7 @@
 
 .knowledge-answer__notice {
     padding: 20px 0;
-    color: var(--portfolio-signature);
+    color: var(--knowledge-warning);
 }
 
 .knowledge-answer__notice--error {

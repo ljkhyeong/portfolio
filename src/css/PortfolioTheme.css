@@ -25,7 +25,7 @@
     --portfolio-caption: 14px;
 }
 
-:is(.portfolio-page, main.case-showcase, .knowledge-page) {
+:is(.portfolio-page, main.case-showcase, .knowledge-page, .not-found) {
     --paper: var(--portfolio-bg);
     --paper-raised: var(--portfolio-surface);
     --ink: var(--portfolio-text);
@@ -42,7 +42,7 @@
     color-scheme: light;
 }
 
-body:has(.portfolio-page, main.case-showcase, .knowledge-page) {
+body:has(.portfolio-page, main.case-showcase, .knowledge-page, .not-found) {
     background: var(--portfolio-bg);
 }
 
