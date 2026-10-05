@@ -834,3 +834,21 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
         screen.getByRole("list", { name: "WebRTC/HLS 현장강의 보조 서비스 기술 스택" }),
     ).toHaveTextContent("mediasoupFFmpegGStreamer")
 })
+
+test("상세 상단에 검증 단계를 확인 상태 글자와 함께 보여준다", () => {
+    renderWithRouter(<ProjectCaseStudy projectId="baton" />)
+
+    const rail = screen.getByRole("region", { name: "검증 단계" })
+    const stages = within(rail).getAllByRole("listitem")
+    const hero = screen.getByRole("heading", { level: 1 }).closest("header")
+
+    expect(hero.compareDocumentPosition(rail) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(stages.map((stage) => stage.querySelector("strong").textContent)).toEqual([
+        "구현",
+        "자동화 테스트",
+        "서비스 연동",
+        "공개 환경 연동",
+    ])
+    expect(stages[2]).toHaveTextContent("제한된 범위에서 확인")
+    expect(stages[3]).toHaveTextContent("미검증")
+})

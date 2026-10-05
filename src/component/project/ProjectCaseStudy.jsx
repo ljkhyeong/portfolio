@@ -18,6 +18,7 @@ import WarrantIntegrationDiagram from "./diagrams/WarrantIntegrationDiagram"
 import "../../css/Project.css"
 import "../../css/EditorialDiagram.css"
 import "../../css/CaseShowcase.css"
+import VerificationRail from "./VerificationRail"
 
 const projectTypeShortLabels = {
     career: "경력",
@@ -382,6 +383,8 @@ const PriorExperienceCase = ({ project }) => {
                     <ProjectHeroFacts project={project} />
                 </header>
 
+                <VerificationRail projectId={project.id} />
+
                 <section
                     className="case-system case-cover"
                     id="project-system"
@@ -501,6 +504,8 @@ const ProjectCaseStudy = ({ projectId }) => {
                     </div>
                     <ProjectHeroFacts project={project} />
                 </header>
+
+                <VerificationRail projectId={project.id} />
 
                 <section
                     className="case-system case-cover"
