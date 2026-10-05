@@ -223,8 +223,10 @@ main.case-showcase .screenshot-gallery__chrome {
     display: none;
 }
 
+/* 밝은 배경에서 흰 화면 캡처가 묻히지 않도록 가는 기준선으로 경계를 그린다. */
 main.case-showcase .screenshot-gallery__viewport {
     height: auto;
+    border: 1px solid var(--line);
     border-radius: 0;
 }
 
