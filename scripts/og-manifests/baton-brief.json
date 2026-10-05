@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-brief.png",
-    "sourceSha256": "740b63a1c0323b17eda7c6558e5d5d32c835af7c433a2b218e886fc12521b9bb",
-    "artifactSha256": "d6e8696f2824ff351c3ab8c704328e4bc31a400d186e5bed3b2845cde97af5cc",
+    "sourceSha256": "7ca56d2fcd4549766af4b1735dab53efe34e9c3d694ea6a53385192fe84ab539",
+    "artifactSha256": "f48a3a43070e5a5da3ba5d664a1a44a90a5f84ee006b933c697827971b222b3e",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
