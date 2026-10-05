@@ -291,7 +291,9 @@ const ArchitectureSection = ({ project }) => (
         {project.services ? (
             <>
                 <BatonServices services={project.services} />
-                <p className="case-system__caption">{project.visualCaption}</p>
+                {project.visualCaption ? (
+                    <p className="case-system__caption">{project.visualCaption}</p>
+                ) : null}
             </>
         ) : (
             <ArchitectureVisual project={project} />
@@ -409,7 +411,9 @@ const PriorExperienceCase = ({ project }) => {
                         <h2 id="system-title">WebRTC 실시간 강의와 HLS 다시보기 구조</h2>
                     </div>
                     <ProjectVisual project={project} />
-                    <p className="case-system__caption">{project.visualCaption}</p>
+                    {project.visualCaption ? (
+                        <p className="case-system__caption">{project.visualCaption}</p>
+                    ) : null}
                 </section>
 
                 <CaseSectionNavigation
@@ -531,7 +535,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                         <h2 id="system-title">{project.systemTitle ?? "대표 화면"}</h2>
                     </div>
                     <ProjectVisual project={project} />
-                    {!project.screenshots ? (
+                    {!project.screenshots && project.visualCaption ? (
                         <p className="case-system__caption">{project.visualCaption}</p>
                     ) : null}
                 </section>

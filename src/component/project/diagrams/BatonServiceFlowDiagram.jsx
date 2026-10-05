@@ -437,7 +437,7 @@ const BatonServiceFlowDiagram = ({ serviceId }) => {
                         </span>
                     )}
                 </span>
-                <p>{presentation.flow.note}</p>
+                {presentation.flow.note ? <p>{presentation.flow.note}</p> : null}
             </figcaption>
         </figure>
     )

@@ -97,9 +97,7 @@ const About = () => {
                             >
                                 <div className="timeline__period">그룹 스터디</div>
                                 <div className="timeline__content">
-                                    <span>
-                                        {activity.type}, {activity.role}
-                                    </span>
+                                    <span>{activity.role}</span>
                                     <h4>{activity.title}</h4>
                                     <p>{activity.summary}</p>
                                     <div className="timeline__links">
