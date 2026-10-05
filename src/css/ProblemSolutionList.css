@@ -43,7 +43,7 @@
     gap: 14px;
     margin: 0;
     color: var(--ink);
-    font-family: "Pretendard Variable", Pretendard, sans-serif;
+    font-family: var(--sans);
     font-size: clamp(17px, 1.35vw, 20px);
     font-weight: 720;
     line-height: 1.38;
