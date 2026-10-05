@@ -1,3 +1,4 @@
+/* 메인·상세와 같은 도면형 화면: 큰 상자는 각지게, 버튼·입력은 메인 버튼과 같은 4px 모서리를 쓴다. */
 .knowledge-page {
     --knowledge-ink: var(--ink);
     --knowledge-paper: var(--paper);
@@ -94,7 +95,7 @@
     z-index: 1;
     padding: clamp(22px, 3vw, 30px);
     border: 1px solid var(--knowledge-line);
-    border-radius: 8px;
+    border-radius: 0;
     background: var(--knowledge-paper);
 }
 
@@ -112,7 +113,7 @@
     align-items: center;
     min-height: 58px;
     border: 1px solid var(--knowledge-muted);
-    border-radius: 7px;
+    border-radius: 4px;
     background: var(--knowledge-paper);
     transition:
         border-color 160ms ease,
@@ -155,7 +156,7 @@
     align-items: center;
     justify-content: center;
     border: 1px solid var(--knowledge-accent);
-    border-radius: 6px;
+    border-radius: 4px;
     background: var(--knowledge-accent);
     color: var(--knowledge-paper);
     font-size: 14px;
@@ -212,7 +213,7 @@
     min-height: 38px;
     padding: 7px 11px;
     border: 1px solid var(--knowledge-line);
-    border-radius: 999px;
+    border-radius: 4px;
     background: var(--knowledge-canvas);
     color: var(--knowledge-muted);
     font-size: 14px;
@@ -256,7 +257,7 @@
     min-height: 40px;
     padding: 0 30px 0 10px;
     border: 1px solid var(--knowledge-line);
-    border-radius: 6px;
+    border-radius: 4px;
     background: var(--knowledge-canvas);
     color: var(--knowledge-ink);
     font-size: 14px;
@@ -299,7 +300,7 @@
     min-height: 320px;
     padding: 48px 28px;
     border: 1px dashed var(--knowledge-line);
-    border-radius: 8px;
+    border-radius: 0;
     place-items: center;
     align-content: center;
     background: var(--knowledge-paper);
@@ -478,7 +479,7 @@
 .knowledge-result__meta span {
     padding: 2px 7px;
     border: 1px solid var(--knowledge-line);
-    border-radius: 999px;
+    border-radius: 2px;
     background: var(--knowledge-paper);
     color: var(--knowledge-muted);
     font-size: 13px;
@@ -538,7 +539,7 @@
     min-height: 360px;
     padding: 24px;
     border: 1px solid var(--knowledge-line);
-    border-radius: 8px;
+    border-radius: 0;
     background: var(--knowledge-canvas);
     color: var(--knowledge-ink);
 }
@@ -562,7 +563,7 @@
 .knowledge-answer__count {
     padding: 3px 7px;
     border: 1px solid var(--knowledge-line);
-    border-radius: 999px;
+    border-radius: 2px;
     color: var(--knowledge-muted);
     font-size: 13px;
     white-space: nowrap;
@@ -662,7 +663,7 @@
     align-items: start;
     padding: 10px;
     border: 1px solid var(--knowledge-line);
-    border-radius: 6px;
+    border-radius: 4px;
     background: var(--knowledge-paper);
     color: var(--knowledge-ink);
     transition:
@@ -726,7 +727,7 @@
     min-height: 36px;
     padding: 0 12px;
     border: 1px solid var(--knowledge-line);
-    border-radius: 6px;
+    border-radius: 4px;
     background: var(--knowledge-paper);
     color: var(--knowledge-ink);
     font: inherit;
@@ -858,7 +859,7 @@
         grid-column: 1 / -1;
         width: calc(100% + 2px);
         margin: 0 -1px -1px;
-        border-radius: 0 0 6px 6px;
+        border-radius: 0 0 4px 4px;
     }
 
     .knowledge-query__controls {
@@ -873,7 +874,7 @@
 
     .knowledge-suggestions button {
         min-height: 44px;
-        border-radius: 6px;
+        border-radius: 4px;
         text-align: left;
     }
 
