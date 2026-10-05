@@ -1,6 +1,6 @@
 // @vitest-environment node
 
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises"
+import { access, mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 import { afterEach, describe, expect, test } from "vitest"
@@ -9,9 +9,46 @@ import {
     ogCoverSourceTargets,
     portfolioPdfSourceTargets,
     projectOgSourceTargets,
+    repositoryRoot,
 } from "./artifact-inputs.mjs"
 
 const temporaryDirectories = []
+const RELATIVE_IMPORT_PATTERN = /(?:from|import)\s*\(?\s*["'](\.{1,2}\/[^"']+)["']/g
+
+const resolveImport = async (fromFile, specifier) => {
+    const base = path.join(path.dirname(fromFile), specifier)
+    for (const candidate of [base, `${base}.js`, `${base}.jsx`]) {
+        const exists = await access(path.join(repositoryRoot, candidate)).then(
+            () => path.extname(candidate) !== "",
+            () => false,
+        )
+        if (exists) {
+            return candidate
+        }
+    }
+    throw new Error(`${fromFile}에서 ${specifier}를 찾지 못했습니다.`)
+}
+
+// 진입 파일에서 상대 경로 import를 따라가며 렌더에 쓰이는 저장소 파일을 모은다.
+const collectRenderFiles = async (entry) => {
+    const files = new Set()
+    const pending = [entry]
+    while (pending.length > 0) {
+        const file = pending.pop()
+        if (files.has(file)) {
+            continue
+        }
+        files.add(file)
+        if (!/\.jsx?$/.test(file)) {
+            continue
+        }
+        const source = await readFile(path.join(repositoryRoot, file), "utf8")
+        for (const [, specifier] of source.matchAll(RELATIVE_IMPORT_PATTERN)) {
+            pending.push(await resolveImport(file, specifier))
+        }
+    }
+    return files
+}
 
 afterEach(async () => {
     await Promise.all(
@@ -59,5 +96,16 @@ describe("산출물 소스 지문", () => {
         expect(afterOg[0]).toBe(afterHome[0])
         expect(afterOg[1]).toBe(afterHome[1])
         expect(afterOg[2]).not.toBe(afterHome[2])
+    })
+
+    test.each([
+        ["홈 공유 이미지", "src/component/Main.jsx", ogCoverSourceTargets],
+        ["PDF", "src/component/print/PortfolioPrintPage.jsx", portfolioPdfSourceTargets],
+    ])("%s 지문은 화면이 불러오는 파일을 모두 포함한다", async (_, entry, targets) => {
+        const missing = [...(await collectRenderFiles(entry))].filter(
+            (file) => !targets.includes(file),
+        )
+
+        expect(missing).toEqual([])
     })
 })
