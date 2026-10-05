@@ -18,7 +18,7 @@ description: 포트폴리오의 생성 산출물인 다운로드 PDF, 공유 이
 | `public/knowledge/portfolio.json` | `npm run knowledge:generate`  | 빌드 전 자동 생성       | `projects.js`, `knowledgeCorpus.js`, `public/docs/**`, `docs/knowledge-document-snapshots.json`                                                                            |
 | `build/**/index.html` 메타        | `npm run build`의 `postbuild` | 빌드                    | `routeMeta.js`                                                                                                                                                             |
 
-정확한 입력 목록은 `scripts/artifact-inputs.mjs`가 기준이다. 렌더링 코드, 새 CSS 파일이나 새 데이터 파일을 산출물 화면에 연결했으면 이 목록에도 추가했는지 확인한다. 빠뜨리면 산출물이 낡아도 검사를 통과한다. `projects.js`처럼 상세 화면에만 쓰는 데이터는 PDF와 홈 OG를 바꾸지 않는다.
+정확한 입력 목록은 `scripts/artifact-inputs.mjs`가 기준이다. 렌더링 코드, 새 CSS 파일이나 새 데이터 파일을 산출물 화면에 연결했으면 이 목록에도 추가한다. 빠뜨리면 산출물이 낡아도 검사를 통과한다. 홈 OG와 PDF는 `scripts/artifact-inputs.test.mjs`가 `Main.jsx`와 `PortfolioPrintPage.jsx`의 상대 경로 import를 따라가 누락을 잡는다. 2026-10-05에 도면형 메인의 새 컴포넌트와 CSS가 빠져 PDF가 "최신"으로 잘못 판정된 뒤 추가한 검사다. `projects.js`처럼 상세 화면에만 쓰는 데이터는 PDF와 홈 OG를 바꾸지 않는다.
 
 ## 순서
 

@@ -5,40 +5,40 @@ description: 포트폴리오의 화면 구성, 레이아웃, CSS, 반응형 배�
 
 # 포트폴리오 화면
 
-이 포트폴리오의 화면은 채용 담당자와 기술 면접관이 **경력과 구현 내용을 빠르게 찾아 읽게** 하기 위한 것이다. 일반 디자인 지침의 대담한 시각 실험, 큰 이미지 위주의 첫 화면, 장식 모션은 이 목적에 맞을 때만 적용한다. 2026-09-05 디자인 검토에서도 전면 교체 대신 현재 디자인을 유지하고 정보 배치를 보완하는 방향을 택했다(`docs/portfolio-design-review-2026-09-05.md`). 문구만 바꾸는 작업에는 디자인 절차를 적용하지 않는다(`portfolio-copy`).
+이 포트폴리오의 화면은 채용 담당자와 기술 면접관이 **경력과 구현 내용을 빠르게 찾아 읽게** 하기 위한 것이다. 일반 디자인 지침의 대담한 시각 실험, 큰 이미지 위주의 첫 화면, 장식 모션은 이 목적에 맞을 때만 적용한다. 2026-09-05 디자인 검토에서는 현재 디자인을 유지했고(`docs/portfolio-design-review-2026-09-05.md`), 2026-10-05에는 후보 6개를 비교한 뒤 사용자가 고른 도면형(D)으로 메인을 바꾸고 검증 단계 레일(C)을 상세에 넣었다(`docs/design-blueprint-2026-10-05.md`). 문구만 바꾸는 작업에는 디자인 절차를 적용하지 않는다(`portfolio-copy`).
 
 ## 디자인 기준
 
-| 항목        | 기준                                                                                                                                                                                                |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 색상        | `src/css/PortfolioTheme.css`의 토큰. 배경 `#171a19`, 표면 `#222925`, 본문 `#f4f6f4`, 보조 `#b2beb6`, 강조 `#a6d9bd`, 아바타 노랑 `#f4d35e`. 새 색상 값을 직접 쓰지 않고 토큰을 사용하거나 추가한다. |
-| 글꼴        | `--sans`(Pretendard), 코드·태그용 `--mono`. 새 글꼴을 추가하지 않는다.                                                                                                                              |
-| 글자 크기   | 섹션 제목 36px·두께 550·줄 간격 1.3, 상세 본문 18px, 보조 설명·메뉴·도식 설명 16px. 700px 이하에서는 토큰이 자동으로 줄어든다.                                                                      |
-| 폭          | 본문 폭 `--portfolio-content-width` 1200px, 여백 48px(700px 이하 24px)                                                                                                                              |
-| 참고 디자인 | Hamish Williams 포트폴리오. 어두운 배경, 큰 대표 화면과 짧은 소개, 구현 설명 옆의 관련 이미지. 원본 이미지와 로고는 쓰지 않으며 상세 하단의 디자인 출처 표시를 유지한다.                            |
-| 확인 너비   | 상세 1440·1920px, 모바일 390px. 공통 스타일은 320·768·1024px도 확인한다.                                                                                                                            |
+| 항목        | 기준                                                                                                                                                                                                                                           |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 색상        | `src/css/PortfolioTheme.css`의 밝은 토큰. 배경 `#f5f6f7`, 표면 `#ffffff`, 본문 `#15181c`, 보조 `#5f6973`, 기준선 `#d9dee4`, 강조 `#2f5bd3`, 확인됨 `#1a7f37`, 아바타 노랑 `#f4d35e`. 새 색상 값을 직접 쓰지 않고 토큰을 사용하거나 추가한다.   |
+| 글꼴        | `--sans`(Pretendard), 코드·태그용 `--mono`. 새 글꼴을 추가하지 않는다.                                                                                                                                                                         |
+| 글자 크기   | 섹션 제목 36px·두께 550·줄 간격 1.3, 상세 본문 18px, 보조 설명·메뉴·도식 설명 16px. 700px 이하에서는 토큰이 자동으로 줄어든다.                                                                                                                 |
+| 폭          | 본문 폭 `--portfolio-content-width` 1200px, 여백 48px(700px 이하 24px)                                                                                                                                                                         |
+| 참고 디자인 | 메인은 chanhdai.com의 도면형 구성(가는 기준선으로 나눈 띠, Fig. 번호가 붙은 그림, 기여 히트맵). 상세의 구현 설명 옆 관련 이미지는 Hamish Williams 포트폴리오. 원본 이미지와 로고는 쓰지 않으며 메인과 상세 하단의 디자인 출처 표시를 유지한다. |
+| 확인 너비   | 상세 1440·1920px, 모바일 390px. 공통 스타일은 320·768·1024px도 확인한다.                                                                                                                                                                       |
 
 ## 파일 위치
 
-| 화면                | 컴포넌트                                                                   | 스타일                                                                                                                                                |
-| ------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 공통 토큰           | -                                                                          | `PortfolioTheme.css`, `src/index.css`                                                                                                                 |
-| 공통 헤더·이동 메뉴 | `PortfolioNavigation.jsx`                                                  | `PortfolioNavigation.css`                                                                                                                             |
-| 메인                | `Main.jsx`, `Header.jsx`, `CareerSummary.jsx`, `Projects.jsx`, `About.jsx` | `HomeHero.css`, `Main.css`, `Projects.css`                                                                                                            |
-| 프로젝트 상세       | `project/ProjectCaseStudy.jsx`와 하위 공용 컴포넌트                        | `CaseShowcase.css`(상세 전용 배치), `Project.css`, `CaseMetaSection.css`, `ProblemSolutionList.css`, `FeaturedProblem.css`, `ProjectEvidenceList.css` |
-| BATON 서비스 상세   | `project/BatonServiceCaseStudy.jsx`, `BatonServiceSwitcher.jsx`            | `BatonService.css`, `BatonServiceSwitcher.css`                                                                                                        |
-| 갤러리·확대 창      | `ProjectScreenshotGallery.jsx`                                             | `ScreenshotGallery.css`                                                                                                                               |
-| 문서 검색           | `search/PortfolioKnowledgePage.jsx`                                        | `PortfolioKnowledge.css`                                                                                                                              |
-| 인쇄·PDF            | `print/PortfolioPrintPage.jsx`                                             | `PortfolioPrint.css`(밝은 배경, 웹 테마와 분리)                                                                                                       |
-| 공유 이미지         | `share/ProjectOgPreview.jsx`                                               | `ProjectOg.css`                                                                                                                                       |
+| 화면                | 컴포넌트                                                                                                                                 | 스타일                                                                                                                                                                        |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 공통 토큰           | -                                                                                                                                        | `PortfolioTheme.css`, `src/index.css`                                                                                                                                         |
+| 공통 헤더·이동 메뉴 | `PortfolioNavigation.jsx`                                                                                                                | `PortfolioNavigation.css`                                                                                                                                                     |
+| 메인                | `Main.jsx`, `Header.jsx`, `BatonBlueprint.jsx`, `GithubActivity.jsx`, `CareerSummary.jsx`, `StageBadge.jsx`, `Projects.jsx`, `About.jsx` | `Blueprint.css`(띠·그림·행 공통), `HomeHero.css`, `Main.css`, `Projects.css`                                                                                                  |
+| 프로젝트 상세       | `project/ProjectCaseStudy.jsx`와 하위 공용 컴포넌트, 검증 단계 `project/VerificationRail.jsx`(`data/verificationRails.js`)               | `CaseShowcase.css`(상세 전용 배치), `VerificationRail.css`, `Project.css`, `CaseMetaSection.css`, `ProblemSolutionList.css`, `FeaturedProblem.css`, `ProjectEvidenceList.css` |
+| BATON 서비스 상세   | `project/BatonServiceCaseStudy.jsx`, `BatonServiceSwitcher.jsx`                                                                          | `BatonService.css`, `BatonServiceSwitcher.css`                                                                                                                                |
+| 갤러리·확대 창      | `ProjectScreenshotGallery.jsx`                                                                                                           | `ScreenshotGallery.css`                                                                                                                                                       |
+| 문서 검색           | `search/PortfolioKnowledgePage.jsx`                                                                                                      | `PortfolioKnowledge.css`                                                                                                                                                      |
+| 인쇄·PDF            | `print/PortfolioPrintPage.jsx`                                                                                                           | `PortfolioPrint.css`(A4 폭, 인쇄용 크기와 쪽 나눔)                                                                                                                            |
+| 공유 이미지         | `share/ProjectOgPreview.jsx`                                                                                                             | `ProjectOg.css`                                                                                                                                                               |
 
 상세 화면은 `ProjectCaseStudy.jsx` 등 공용 컴포넌트를 먼저 사용한다. 프로젝트별 화면을 따로 만들지 않는다. 경로를 추가하면 `src/App.jsx`와 `src/data/routeMeta.js`를 함께 갱신한다.
 
 ## 판단 원칙
 
 -   **읽는 순서를 먼저 정한다.** 이름과 직무 → 경력 → 대표 프로젝트(서비스 소개, 문제, 구현, 검증 범위) → 기타 프로젝트 순서를 유지한다. 새 요소가 이 순서를 늦추면 다시 검토한다.
--   **구조 장치는 정보를 담아야 한다.** 번호, 테두리, 상단 라벨은 실제 순서나 분류가 있을 때만 쓴다. 같은 카드 모양을 반복하는 구성, 모든 요소의 장식 그림자와 그라디언트는 피한다. 항목이 1개뿐인 분류마다 제목과 구분선을 만들지 않는다. 메인 프로젝트는 경력, 개인, 그 밖의 프로젝트 3개로 묶고 세부 유형은 행 라벨로 표시한다.
--   **모바일에서는 줄이고 다시 배치한다.** 데스크톱 이미지를 그대로 축소하지 않는다. 기존 사례는 서비스 미리보기를 숨기고, 처리 흐름을 2×2로 배치하고, 분류 바로가기를 560px 이하에서 세로로 쌓고, BATON 서비스 6개를 3개씩 두 줄로 맞췄다.
+-   **구조 장치는 정보를 담아야 한다.** 번호, 테두리, 상단 라벨은 실제 순서나 분류가 있을 때만 쓴다. 도면의 기준선과 Fig. 번호도 그림과 섹션 경계에만 쓰고, 그림 번호는 `.blueprint-fig`의 CSS 카운터로 매긴다. 같은 카드 모양을 반복하는 구성, 모든 요소의 장식 그림자와 그라디언트는 피한다. 항목이 1개뿐인 분류마다 제목과 구분선을 만들지 않는다. 메인 프로젝트는 경력, 개인, 그 밖의 프로젝트 3개로 묶고 세부 유형은 행 라벨로 표시한다.
+-   **모바일에서는 줄이고 다시 배치한다.** 데스크톱 이미지를 그대로 축소하지 않는다. 기존 사례는 900px 이하에서 Fig. 1 구조도를 숨기고(라벨을 읽을 수 없는 크기가 되므로), 서비스 미리보기를 숨기고, 처리 흐름을 2×2로 배치하고, 700px 이하에서 기여 히트맵을 최근 21주로 줄이고, 분류 바로가기를 560px 이하에서 세로로 쌓고, BATON 서비스 6개를 3개씩 두 줄로 맞췄다.
 -   **고정폭 글꼴은 영문 대문자 태그와 코드에만 쓴다.** 한글 라벨에 `--mono`나 넓은 자간을 주면 글자 사이가 벌어진다. `--mono`에는 한글 대체 글꼴로 Pretendard가 들어 있지만, 공백은 여전히 고정폭이므로 한글 라벨은 `--sans`와 자간 0을 쓴다.
 -   **이동할 수 없는 링크를 만들지 않는다.** 비공개 저장소처럼 방문자에게 404가 되는 주소는 `href` 없이 이름과 공개 범위만 표시한다(`CaseMetaSection`).
 -   **모션은 사용자의 동작에 답할 때만 쓴다.** 접기와 펼치기, 확대 창처럼 변화를 보여 주는 경우에 쓰고 `prefers-reduced-motion`을 지원한다. 섹션마다 등장 애니메이션을 넣지 않는다.

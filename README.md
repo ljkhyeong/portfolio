@@ -86,6 +86,20 @@ Cloudflare Turnstile 공개 사이트 키만 `VITE_KNOWLEDGE_TURNSTILE_SITE_KEY`
 Elasticsearch, Spring Boot API, OpenAI 및 Ollama 프로필과 Turnstile 서버 검증 설정은
 `knowledge-api/README.md`를 확인합니다.
 
+## GitHub 기여 기록
+
+메인의 기여 히트맵은 `src/data/githubActivity.json`을 읽어 그립니다. 빌드와 화면에서는
+GitHub를 호출하지 않으며, 기록을 갱신할 때만 아래 명령으로 GraphQL API에서 최근 1년
+기여 수를 받아 저장합니다. GraphQL API는 인증이 필요하므로 `GITHUB_TOKEN` 또는
+`GH_TOKEN`을 설정합니다.
+
+```bash
+GH_TOKEN="$(gh auth token)" npm run activity:refresh
+```
+
+응답의 날짜 순서, 음수 여부와 합계가 맞지 않으면 저장하지 않습니다. 기록이 바뀌면 홈
+공유 이미지와 PDF도 다시 생성합니다.
+
 ## PDF
 
 -   최신 파일: `public/임정규_포트폴리오.pdf`
@@ -147,10 +161,20 @@ npm run og:check
 
 ## 화면 디자인 기준과 출처
 
-[Hamish Williams 님의 포트폴리오](https://hamishw.com/projects/slice)를 참고해
-어두운 배경, 큰 대표 화면과 짧은 소개, 구현 설명 옆의 관련 이미지 배치를 적용했습니다.
+메인은 [chanhdai.com](https://chanhdai.com)(`ncdai/chanhdai.com`)을 참고한 밝은 도면형
+구성입니다. 페이지를 가는 기준선으로 나누고, BATON 구조를 등각 투영으로 그린 Fig. 1,
+최근 1년 GitHub 기여 기록인 Fig. 2를 둡니다. 그림 번호는 CSS 카운터로 매겨 좁은 화면에서
+Fig. 1을 숨기면 다음 그림이 Fig. 1이 됩니다. 상세 페이지의 구현 설명 옆 관련 이미지 배치는
+[Hamish Williams 님의 포트폴리오](https://hamishw.com/projects/slice)를 참고했습니다.
 원본 프로젝트 이미지와 로고는 가져오지 않았으며, 이 저장소의 화면과 처리 흐름도를 사용합니다.
-상세페이지 하단에도 디자인 출처를 표시합니다.
+메인과 상세 하단에 디자인 출처를 표시합니다. 비교한 후보와 선택 근거는
+[디자인 후보 시안](docs/design/portfolio-design-candidates-2-2026-10-05.html)과
+[도면형 메인 적용 기록](docs/design-blueprint-2026-10-05.md)에 있습니다.
+
+프로젝트 상세 상단의 검증 단계 레일은 구현부터 실제 연동까지 어디까지 확인했는지
+확인됨·제한된 범위에서 확인·미검증으로 표시합니다. 단계와 상태는
+`src/data/verificationRails.js`에서 관리하며, 상세 설명에 미검증 범위가 있으면 레일에도
+미검증 단계가 있어야 테스트를 통과합니다.
 
 메인과 상세의 색상, 본문 폭과 글자 크기는 `src/css/PortfolioTheme.css`에서 함께 관리합니다.
 섹션 제목은 36px, 두께 550, 줄 간격 1.3으로 통일합니다. 공통 헤더는
