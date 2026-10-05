@@ -191,20 +191,31 @@ main.case-showcase .screenshot-gallery--case-overview {
     height: auto;
 }
 
-main.case-showcase
-    .screenshot-gallery--case-overview:not(.screenshot-gallery--count-2):not(
-        .screenshot-gallery--youth-policy-mate
-    )
-    .screenshot-gallery__item:first-child {
-    grid-column: 1 / -1;
-}
+/* 첫 캡처(4장이면 마지막 캡처도)를 넓게 두는 배치는 2열일 때만 쓴다. */
+@media (min-width: 801px) {
+    main.case-showcase
+        .screenshot-gallery--case-overview:not(.screenshot-gallery--count-2):not(
+            .screenshot-gallery--youth-policy-mate
+        )
+        .screenshot-gallery__item:first-child {
+        grid-column: 1 / -1;
+    }
 
-main.case-showcase
-    .screenshot-gallery--case-overview.screenshot-gallery--count-4:not(
-        .screenshot-gallery--youth-policy-mate
-    )
-    .screenshot-gallery__item:last-child {
-    grid-column: 1 / -1;
+    main.case-showcase
+        .screenshot-gallery--case-overview.screenshot-gallery--count-4:not(
+            .screenshot-gallery--youth-policy-mate
+        )
+        .screenshot-gallery__item:last-child {
+        grid-column: 1 / -1;
+    }
+
+    main.case-showcase
+        .screenshot-gallery--service:not(.screenshot-gallery--count-1):not(
+            .screenshot-gallery--count-2
+        )
+        .screenshot-gallery__item:first-child {
+        grid-column: 1 / -1;
+    }
 }
 
 main.case-showcase .screenshot-gallery--case-overview.screenshot-gallery--youth-policy-mate {
@@ -275,16 +286,15 @@ main.case-showcase .screenshot-gallery--service.screenshot-gallery--count-1 {
     display: block;
 }
 
-main.case-showcase
-    .screenshot-gallery--service:not(.screenshot-gallery--count-1):not(.screenshot-gallery--count-2)
-    .screenshot-gallery__item:first-child {
-    grid-column: 1 / -1;
-}
-
 main.case-showcase .screenshot-gallery--service .screenshot-gallery__item {
     overflow: hidden;
     border: 1px solid var(--line);
     background: var(--paper-raised);
+}
+
+/* 서비스 캡처는 카드에 테두리가 있으므로 캡처와 설명 사이 선만 둔다. */
+main.case-showcase .screenshot-gallery--service .screenshot-gallery__viewport {
+    border-width: 0 0 1px;
 }
 
 main.case-showcase .screenshot-gallery--service .screenshot-gallery__item figcaption {
@@ -954,11 +964,14 @@ main.case-showcase ::selection {
     color: var(--portfolio-bg);
 }
 
-@media (max-width: 800px) {
+/* 휴대폰 캡처 4장은 960px 이하에서 4열이면 캡션이 비좁아 2열로 바꾼다. */
+@media (max-width: 960px) {
     main.case-showcase .screenshot-gallery--case-overview.screenshot-gallery--youth-policy-mate {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+}
 
+@media (max-width: 800px) {
     main.case-showcase .case-hero,
     main.case-showcase .baton-service-hero {
         grid-template-columns: 1fr;
@@ -1111,11 +1124,6 @@ main.case-showcase ::selection {
         grid-template-columns: 1fr;
         gap: 28px;
     }
-
-    main.case-showcase .screenshot-gallery--case-overview .screenshot-gallery__item:first-child,
-    main.case-showcase .screenshot-gallery--service .screenshot-gallery__item:first-child {
-        grid-column: auto;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1125,5 +1133,31 @@ main.case-showcase ::selection {
         animation: none !important;
         transition: none !important;
         scroll-behavior: auto;
+    }
+}
+
+/* 모바일에서는 캡처를 화면 폭 그대로 세로로 쌓지 않고 옆으로 넘겨 본다.
+   다음 캡처가 조금 보이게 해 넘길 수 있음을 알리고, 한 장씩 멈추게 한다. */
+@media (max-width: 700px) {
+    main.case-showcase .screenshot-gallery--case-overview,
+    main.case-showcase .screenshot-gallery--case-overview.screenshot-gallery--youth-policy-mate,
+    main.case-showcase .screenshot-gallery--service:not(.screenshot-gallery--count-1) {
+        grid-template-columns: none;
+        grid-auto-columns: 86%;
+        grid-auto-flow: column;
+        gap: 14px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        padding-bottom: 6px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+    }
+
+    main.case-showcase .screenshot-gallery--case-overview.screenshot-gallery--youth-policy-mate {
+        grid-auto-columns: 62%;
+    }
+
+    main.case-showcase .screenshot-gallery__item {
+        scroll-snap-align: start;
     }
 }

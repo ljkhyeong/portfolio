@@ -226,12 +226,6 @@
     }
 }
 
-@media (max-width: 860px) {
-    .screenshot-gallery__item--1 {
-        grid-column: 1 / -1;
-    }
-}
-
 @media (max-width: 560px) {
     .screenshot-gallery__zoom {
         min-height: 44px;
