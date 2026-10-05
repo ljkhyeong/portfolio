@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og-cover.png",
-    "sourceSha256": "6739be7641229c5a1b2718cc15a5242a32cc9019a272b4e3eb18b2102107e9f7",
+    "sourceSha256": "0bfb8e84f3497e1283495fc2d044166a15e34b73c267f3b67334109380214eee",
     "artifactSha256": "a5591c03f56ddd4ccf3562501b723179bd341878ebdee6fa5b7224b902d8844b",
     "renderer": {
         "id": "chrome",

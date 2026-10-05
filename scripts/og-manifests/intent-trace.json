@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/intent-trace.png",
-    "sourceSha256": "6df2c4a0b39e20ed95baf669724aa921fea8da9874cbdb663df170060e7773ce",
-    "artifactSha256": "965090d4644bc680b24dfde102cdb6fe61a0cddd99e44cae340421f2d4a9f126",
+    "sourceSha256": "740b63a1c0323b17eda7c6558e5d5d32c835af7c433a2b218e886fc12521b9bb",
+    "artifactSha256": "8a58d345a2957a208e96a378ef7e57d5d2f4afb55097e51fa3d93a7010c01911",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
