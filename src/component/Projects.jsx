@@ -199,16 +199,6 @@ const Projects = () => {
                 <h2 id="projects-title">프로젝트</h2>
             </div>
 
-            <nav className="project-categories" aria-label="프로젝트 유형 바로가기">
-                {groups.map((group) => (
-                    <a key={group.id} href={`#projects-${group.id}`}>
-                        <span>{group.label}</span>
-                        <span className="project-categories__count">{group.projects.length}개</span>
-                        <span aria-hidden="true">↓</span>
-                    </a>
-                ))}
-            </nav>
-
             {groups.map((group) => (
                 <section
                     key={group.id}

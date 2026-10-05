@@ -194,10 +194,6 @@ body.portfolio-print-mode {
         padding-bottom: 24px;
     }
 
-    .portfolio-web-print .home-meta {
-        padding-block: 18px;
-    }
-
     .portfolio-web-print .home-hero h1 {
         font-size: 28px;
     }
@@ -278,10 +274,6 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .project-glance--steps,
-    .portfolio-web-print .project-categories {
-        display: none;
-    }
-
     .portfolio-web-print .project-group__list,
     .portfolio-web-print .project-showcase__item > article,
     .portfolio-web-print .project-support__item > article {
@@ -440,7 +432,8 @@ body.portfolio-print-mode {
         padding: 7px 9px;
     }
 
-    .portfolio-web-print :is(.work-section, .capability-section) {
+    /* 기술은 학습 아래 남은 공간에서 바로 이어 쓴다. 프로젝트만 새 쪽에서 시작한다. */
+    .portfolio-web-print .work-section {
         break-before: page;
         page-break-before: always;
     }
@@ -478,9 +471,15 @@ body.portfolio-print-mode {
         margin-top: 12px;
     }
 
-    .portfolio-web-print :is(.home-career, .timeline__item, .capability, .site-footer__contact) {
+    /* 기술 묶음은 행 단위로만 나눔을 막아, 묶음 전체가 다음 쪽으로 밀려 빈 쪽이 생기지 않게 한다. */
+    .portfolio-web-print :is(.home-career, .timeline__item, .capability li, .site-footer__contact) {
         break-inside: avoid-page;
         page-break-inside: avoid;
+    }
+
+    .portfolio-web-print .capability__heading {
+        break-after: avoid-page;
+        page-break-after: avoid;
     }
 
     .portfolio-web-print :is(h1, h2, h3, h4) {

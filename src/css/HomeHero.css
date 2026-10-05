@@ -103,6 +103,37 @@
     color: var(--accent);
 }
 
+/* 연락 수단: 회사와 업무는 경력에서 보여 주므로 메일, GitHub, 위치만 한 줄로 둔다. */
+.home-hero__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    margin: 20px 0 0;
+    padding: 0;
+    color: var(--muted);
+    font-size: 14px;
+    list-style: none;
+}
+
+.home-hero__contact li + li::before {
+    margin: 0 10px;
+    color: var(--line-strong);
+    content: "/";
+}
+
+.home-hero__contact a {
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+}
+
+.home-hero__contact a:hover,
+.home-hero__contact a:focus-visible {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+}
+
 /* 요청 처리 흐름: 실제 순서가 있는 4단계라 번호를 쓴다. */
 .home-flow {
     grid-column: 1 / -1;
@@ -244,6 +275,11 @@
     .home-hero h1 {
         margin-top: 20px;
         font-size: 30px;
+    }
+
+    /* 좁은 화면에서는 메일과 GitHub만 한 줄에 둔다. 위치는 하단 연락처에 있다. */
+    .home-hero__contact li:last-child {
+        display: none;
     }
 
     .home-hero__summary {

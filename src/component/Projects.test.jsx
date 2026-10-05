@@ -50,7 +50,7 @@ test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
     expect(screen.queryByRole("link", { name: /군사법.*GitHub/ })).not.toBeInTheDocument()
 })
 
-test("경력, 개인과 그 밖의 프로젝트를 빠짐없이 한 번씩 표시하고 바로가기를 연결한다", () => {
+test("경력, 개인과 그 밖의 프로젝트를 빠짐없이 한 번씩 표시한다", () => {
     renderProjects()
 
     const categories = [
@@ -62,13 +62,10 @@ test("경력, 개인과 그 밖의 프로젝트를 빠짐없이 한 번씩 표�
             ["청년정책메이트", "Hope Commit", "IntentTrace", "WebRTC/HLS 현장강의 보조 서비스"],
         ],
     ]
-    const navigation = within(screen.getByRole("navigation", { name: "프로젝트 유형 바로가기" }))
     categories.forEach(([id, label, titles]) => {
         const group = screen.getByRole("region", { name: label })
         expect(group).toHaveAttribute("id", `projects-${id}`)
-        expect(
-            navigation.getByRole("link", { name: `${label} ${titles.length}개` }),
-        ).toHaveAttribute("href", `#projects-${id}`)
+        expect(within(group).getByText(`${titles.length}개`)).toBeInTheDocument()
         expect(
             within(group)
                 .getAllByRole("heading", { level: 4 })

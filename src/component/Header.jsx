@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
 import { homeHeroContent } from "../data/homeHero"
-import { careers, portfolioProfile } from "../data/profile"
+import { portfolioProfile } from "../data/profile"
 import BatonBlueprint from "./BatonBlueprint"
 import PortfolioNavigation from "./PortfolioNavigation"
 import "../css/Blueprint.css"
@@ -140,6 +140,20 @@ const Header = () => {
                                 PDF 내려받기
                             </a>
                         </div>
+                        {/* 회사와 업무는 바로 아래 경력에서 보여 주므로 여기에는 연락 수단만 둔다. */}
+                        <ul className="home-hero__contact" aria-label="연락 수단">
+                            <li>
+                                <a href={`mailto:${portfolioProfile.email}`}>
+                                    {portfolioProfile.email}
+                                </a>
+                            </li>
+                            <li>
+                                <a href={portfolioProfile.github} target="_blank" rel="noreferrer">
+                                    {portfolioProfile.github.replace("https://", "")}
+                                </a>
+                            </li>
+                            <li>{portfolioProfile.location}</li>
+                        </ul>
                     </div>
 
                     <figure className="home-figure">
@@ -170,49 +184,6 @@ const Header = () => {
                     </aside>
                 </div>
             </section>
-
-            <div className="blueprint-band">
-                <dl className="blueprint-col home-meta" aria-label="기본 정보">
-                    <div>
-                        <dt>회사</dt>
-                        <dd>
-                            {careers[0].organization} · {careers[0].period}
-                        </dd>
-                    </div>
-                    <div>
-                        <dt>업무</dt>
-                        <dd>{careers[0].homeDescription}</dd>
-                    </div>
-                    <div>
-                        <dt>위치</dt>
-                        <dd>{portfolioProfile.location}</dd>
-                    </div>
-                    <div>
-                        <dt>이메일</dt>
-                        <dd>
-                            <a href={`mailto:${portfolioProfile.email}`}>
-                                {portfolioProfile.email}
-                            </a>
-                        </dd>
-                    </div>
-                    <div>
-                        <dt>GitHub</dt>
-                        <dd>
-                            <a href={portfolioProfile.github} target="_blank" rel="noreferrer">
-                                {portfolioProfile.github.replace("https://", "")}
-                            </a>
-                        </dd>
-                    </div>
-                    <div>
-                        <dt>PDF</dt>
-                        <dd>
-                            <a href={assetPath("임정규_포트폴리오.pdf")} download>
-                                임정규_포트폴리오.pdf
-                            </a>
-                        </dd>
-                    </div>
-                </dl>
-            </div>
         </header>
     )
 }

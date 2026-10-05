@@ -177,46 +177,6 @@
     font-size: 13px;
 }
 
-/* 기본 정보 */
-.home-meta {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px 32px;
-    margin-block: 0;
-    padding-block: 28px;
-    font-size: 15px;
-}
-
-.home-meta div {
-    display: grid;
-    grid-template-columns: 56px minmax(0, 1fr);
-    gap: 12px;
-}
-
-.home-meta dt {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.9;
-}
-
-/* 한글은 단어 단위로 줄을 바꾸고, 이메일처럼 긴 영문만 필요할 때 끊는다. */
-.home-meta dd {
-    min-width: 0;
-    margin: 0;
-    overflow-wrap: anywhere;
-    word-break: keep-all;
-}
-
-.home-meta a {
-    color: var(--accent);
-    text-underline-offset: 3px;
-}
-
-.home-meta a:hover,
-.home-meta a:focus-visible {
-    text-decoration: underline;
-}
-
 /* 최근 1년 GitHub 기여: 학습 영역 끝에서 개인 활동의 근거로 보여 준다. */
 .experience-section__activity {
     margin-top: 48px;
@@ -316,20 +276,9 @@
     height: 12px;
 }
 
-@media (max-width: 800px) {
-    .home-meta {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
 @media (max-width: 700px) {
     .blueprint-col {
         padding: 24px 20px;
-    }
-
-    .home-meta {
-        grid-template-columns: 1fr;
-        gap: 8px;
     }
 
     .activity__head p {

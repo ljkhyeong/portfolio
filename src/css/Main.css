@@ -216,6 +216,77 @@
     justify-content: flex-start;
 }
 
+/* 데스크톱 기술 영역: 카드 2열 대신 경력과 같은 기준선 행으로 이름, 설명, 적용 사례를 한 줄에 읽게 한다. */
+.capability-list--desktop .capability {
+    gap: 48px;
+    padding: 32px 0;
+}
+
+.capability-list--desktop .capability__heading p {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.capability-list--desktop .capability ul:has(> li:not(.capability__stack-item)) {
+    display: block;
+    border-top: 1px solid var(--ink);
+}
+
+.capability-list--desktop .capability li:not(.capability__stack-item) {
+    display: grid;
+    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) minmax(7rem, auto);
+    align-items: baseline;
+    gap: 4px 28px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.capability-list--desktop .capability li strong {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.capability-list--desktop .capability li > span {
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* 적용 사례가 둘 이상이면 오른쪽 칸에서 세로로 쌓아 설명 칸을 넓게 둔다. */
+.capability-list--desktop .capability__examples {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    margin-top: 0;
+}
+
+.capability-list--desktop .capability__examples a {
+    min-height: 28px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+/* 기술 이름만 있는 묶음은 기준선 칩으로 한 줄에 모은다. */
+.capability-list--desktop .capability ul:has(> .capability__stack-item) {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.capability-list--desktop .capability__stack-item {
+    gap: 0;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    background: var(--portfolio-surface);
+}
+
+.capability-list--desktop .capability__stack-item strong {
+    font-size: 15px;
+    font-weight: 600;
+}
+
 .site-footer {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -331,6 +402,21 @@
     .capability {
         grid-template-columns: 220px minmax(0, 1fr);
         gap: 40px;
+    }
+
+    /* 설명 칸이 좁아지면 이름과 적용 사례를 한 줄에, 설명을 다음 줄에 둔다. */
+    .capability-list--desktop .capability li:not(.capability__stack-item) {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .capability-list--desktop .capability li > span {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .capability-list--desktop .capability__examples {
+        flex-direction: row;
+        gap: 0 14px;
     }
 }
 

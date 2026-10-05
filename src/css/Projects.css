@@ -1,5 +1,4 @@
 .project-index__intro,
-.project-categories,
 .project-group {
     width: min(100%, var(--portfolio-content-width));
     margin-inline: auto;
@@ -13,35 +12,6 @@
     font-weight: var(--portfolio-section-weight);
     line-height: var(--portfolio-section-leading);
     letter-spacing: var(--portfolio-section-tracking);
-}
-.project-categories {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
-    margin-bottom: 40px;
-}
-.project-categories a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-height: 60px;
-    padding: 12px 0;
-    border-top: 2px solid var(--accent);
-    font-size: 17px;
-    font-weight: 600;
-}
-.project-categories__count {
-    margin-left: auto;
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 400;
-    white-space: nowrap;
-}
-.project-categories a > span:first-child {
-    word-break: keep-all;
-}
-.project-categories a > span:last-child {
-    color: var(--accent);
 }
 .project-group {
     scroll-margin-top: 100px;
@@ -361,15 +331,6 @@
     .project-index__intro {
         margin-bottom: 20px;
     }
-    .project-categories {
-        gap: 8px 16px;
-        margin-bottom: 32px;
-    }
-    .project-categories a {
-        gap: 6px;
-        min-height: 52px;
-        font-size: 15px;
-    }
     .project-section-heading h3 {
         font-size: 23px;
     }
@@ -411,16 +372,5 @@
     }
     .project-support__actions {
         grid-column: auto;
-    }
-}
-@media (max-width: 560px) {
-    /* 좁은 화면에서는 분류 이름과 개수가 한 줄에 들어가도록 세로로 쌓는다. */
-    .project-categories {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-    .project-categories a {
-        min-height: 48px;
-        border-top-width: 1px;
     }
 }
