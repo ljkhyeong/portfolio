@@ -203,7 +203,7 @@ body.portfolio-print-mode {
         break-inside: avoid;
     }
 
-    /* A4 폭에서도 네 단계를 한 줄로 두어 첫 쪽에 기여 기록까지 들어가게 한다. */
+    /* A4 폭에서도 네 단계와 확인한 결과 세 칸을 한 줄로 두어 첫 쪽에 경력까지 들어가게 한다. */
     .portfolio-web-print .home-flow ol {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
@@ -223,6 +223,50 @@ body.portfolio-print-mode {
 
     .portfolio-web-print .home-flow li p {
         display: block;
+    }
+
+    .portfolio-web-print .home-results {
+        grid-template-columns: minmax(0, 1fr);
+        margin-inline: -42px;
+        break-inside: avoid;
+    }
+
+    .portfolio-web-print .home-results__heading {
+        flex-direction: row;
+        gap: 4px 12px;
+        padding: 10px 42px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .portfolio-web-print .home-results ul {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .portfolio-web-print .home-results li,
+    .portfolio-web-print .home-results li:last-child {
+        padding: 10px 14px 8px;
+        border-top: 0;
+    }
+
+    .portfolio-web-print .home-results li + li {
+        border-left: 1px solid var(--line);
+    }
+
+    .portfolio-web-print .home-results li:first-child {
+        padding-left: 42px;
+    }
+
+    .portfolio-web-print .home-results li:last-child {
+        padding-right: 42px;
+    }
+
+    .portfolio-web-print .home-results strong {
+        font-size: 17px;
+    }
+
+    .portfolio-web-print .home-results p {
+        font-size: 12px;
     }
 
     .portfolio-web-print .activity {
@@ -281,6 +325,17 @@ body.portfolio-print-mode {
     .portfolio-web-print .project-support__item {
         padding: 0;
         margin-bottom: 14px;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+
+    /* 대표 프로젝트 카드는 검증 단계까지 들어가 길어지므로 소개와 문제·검증 사이에서만 나눈다. */
+    .portfolio-web-print .project-showcase__item {
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    .portfolio-web-print :is(.project-card__header, .project-card__meta) {
         break-inside: avoid-page;
         page-break-inside: avoid;
     }
@@ -398,6 +453,42 @@ body.portfolio-print-mode {
     .portfolio-web-print .sheet-heading {
         break-after: avoid-page;
         page-break-after: avoid;
+    }
+
+    /* "프로젝트" 제목은 영역의 유일한 자식이라 위 규칙에서 빠지므로 따로 다음 내용과 붙인다. */
+    .portfolio-web-print .project-index__intro {
+        break-after: avoid-page;
+        page-break-after: avoid;
+    }
+
+    /* 경력 행의 기간 칸을 줄여 검증 단계 세 칸이 한 줄에 들어가게 한다. */
+    .portfolio-web-print .sheet-row {
+        grid-template-columns: 150px minmax(0, 1fr) auto;
+        gap: 8px 20px;
+    }
+
+    .portfolio-web-print .sheet-row__period {
+        white-space: normal;
+    }
+
+    /* 문제·구현과 검증 단계가 있는 경력 행은 길어 통째로 넘기면 앞 쪽이 비므로 두 덩어리 사이에서만 나눈다. */
+    .portfolio-web-print .home-career .sheet-row {
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    .portfolio-web-print :is(.project-card__facts, .verification-rail__stages--compact) {
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+
+    .portfolio-web-print .verification-rail__stages--compact {
+        grid-template-columns: repeat(auto-fit, minmax(min(118px, 100%), 1fr));
+        gap: 10px 12px;
+    }
+
+    .portfolio-web-print .verification-rail__stages--compact > .verification-rail__stage p {
+        font-size: 12px;
     }
 
     .portfolio-web-print .capability h3 {
