@@ -139,12 +139,6 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                             "--screenshot-ratio": `${screenshot.width} / ${screenshot.height}`,
                         }}
                     >
-                        <div className="screenshot-gallery__chrome" aria-hidden="true">
-                            <span />
-                            <span />
-                            <span />
-                            <code>[screen.{String(displayIndex + 1).padStart(2, "0")}]</code>
-                        </div>
                         <button
                             className={`screenshot-gallery__viewport screenshot-gallery__viewport--${screenshot.fit ?? "cover"}`}
                             type="button"

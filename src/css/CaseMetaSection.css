@@ -2,33 +2,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(36px, 5vw, 72px);
-    padding: clamp(38px, 4.2vw, 52px) 0;
-    border-top: 1px solid var(--line, #d0d7de);
-    scroll-margin-top: 24px;
-}
-
-.case-meta__links {
-    padding-left: clamp(36px, 4.5vw, 64px);
-    border-left: 1px solid var(--line, #d0d7de);
-}
-
-.case-meta .case-section-heading {
-    display: block;
-    margin-bottom: clamp(20px, 2.4vw, 28px);
-}
-
-.case-meta .case-section-heading > span {
-    color: var(--muted, #59636e);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 14px;
-    font-weight: 700;
 }
 
 .case-meta .case-section-heading h2 {
     margin: 0;
-    color: var(--ink, #1f2328);
-    font-size: clamp(27px, 2.6vw, 36px);
-    letter-spacing: -0.055em;
 }
 
 .case-meta__stack > ul,
@@ -36,9 +13,6 @@
     overflow: hidden;
     margin: 0;
     padding: 0;
-    border: 1px solid var(--line, #d0d7de);
-    border-radius: 6px;
-    background: var(--paper, #ffffff);
     list-style: none;
 }
 
@@ -49,34 +23,23 @@
 
 .case-meta__stack li {
     width: 50%;
-    padding: 15px 12px 15px 14px;
-    border-bottom: 1px solid var(--line, #d0d7de);
-    color: var(--ink, #1f2328);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 14px;
-    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--line);
 }
 
 .case-meta__links li {
-    padding: 18px;
-    border-bottom: 1px solid var(--line, #d0d7de);
+    border-bottom: 1px solid var(--line);
 }
 
 .case-meta__links a {
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    color: var(--accent, #0969da);
-    font-size: 16px;
-    font-weight: 750;
     letter-spacing: -0.02em;
 }
 
 /* 이동할 수 없는 비공개 저장소는 링크 색 없이 이름만 보여 준다. */
 .case-meta__link-text {
     display: block;
-    color: var(--ink);
-    font-size: 16px;
     font-weight: 750;
     letter-spacing: -0.02em;
 }
@@ -93,17 +56,12 @@
 .case-meta__links li p,
 .case-meta__link-note {
     margin: 9px 0 0;
-    color: var(--muted, #59636e);
-    font-size: 16px;
+    color: var(--muted);
     line-height: 1.65;
 }
 
 .case-meta__link-note {
     margin-top: 0;
-    padding: 18px;
-    border: 1px solid var(--line, #d0d7de);
-    border-radius: 6px;
-    background: var(--paper, #ffffff);
 }
 
 @media (max-width: 980px) {
@@ -114,21 +72,11 @@
 
     .case-meta__links {
         padding-top: 48px;
-        padding-left: 0;
-        border-top: 1px solid var(--line, #d0d7de);
-        border-left: 0;
     }
 }
 
 @media (max-width: 700px) {
     .case-meta__stack li {
-        width: 50%;
         overflow-wrap: anywhere;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .case-meta__links a span:last-child {
-        transition: none;
     }
 }

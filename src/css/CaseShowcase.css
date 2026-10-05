@@ -219,10 +219,6 @@ main.case-showcase .screenshot-gallery__item {
     box-shadow: none;
 }
 
-main.case-showcase .screenshot-gallery__chrome {
-    display: none;
-}
-
 /* 밝은 배경에서 흰 화면 캡처가 묻히지 않도록 가는 기준선으로 경계를 그린다. */
 main.case-showcase .screenshot-gallery__viewport {
     height: auto;
@@ -461,7 +457,7 @@ main.case-showcase .featured-problem__details dl > div {
 
 main.case-showcase .problem-solution-list,
 main.case-showcase .project-evidence-list,
-main.case-showcase .case-problems__more,
+main.case-showcase .case-more,
 main.case-showcase .case-meta__stack > ul,
 main.case-showcase .case-meta__links > ul,
 main.case-showcase .case-meta__link-note {
@@ -631,30 +627,6 @@ main.case-showcase .editorial-diagram__header {
     padding-top: 0;
 }
 
-main.case-showcase .baton-service-directory__header h3,
-main.case-showcase .baton-service-directory__identity strong {
-    font-family: var(--sans);
-    font-size: var(--portfolio-subtitle);
-    font-weight: 550;
-}
-
-main.case-showcase .baton-service-directory__list {
-    gap: 0 40px;
-}
-
-main.case-showcase .baton-service-directory__list li:nth-child(odd) {
-    border-right: 0;
-}
-
-main.case-showcase .baton-service-directory__list a {
-    padding: 24px 0;
-}
-
-main.case-showcase .baton-service-directory__list a:hover,
-main.case-showcase .baton-service-directory__list a:focus-visible {
-    background: var(--accent-soft);
-}
-
 main.case-showcase .baton-service-scope {
     border: 0;
     border-bottom: 1px solid var(--line);
@@ -674,7 +646,7 @@ main.case-showcase .baton-service-footer a.is-current {
 }
 
 main.case-showcase .project-switcher__panel {
-    box-shadow: 0 12px 36px #0005;
+    box-shadow: 0 12px 32px rgba(21, 24, 28, 0.14);
 }
 
 main.case-showcase .case-next {
@@ -776,7 +748,7 @@ main.case-showcase .case-meta__links li p,
 main.case-showcase .case-meta__link-note,
 main.case-showcase .case-document-inventory,
 main.case-showcase .service-document-inventory,
-main.case-showcase .case-problems__more > summary,
+main.case-showcase .case-more > summary,
 main.case-showcase .baton-service-scope summary,
 main.case-showcase .case-next a > span:first-child,
 main.case-showcase .baton-service-footer,
@@ -803,10 +775,7 @@ main.case-showcase .case-representative-documents h3 span,
 main.case-showcase .case-representative-documents li > span,
 main.case-showcase .case-documents .case-document-type,
 main.case-showcase .service-document-links h3 span,
-main.case-showcase .service-document-links .service-document-type,
-main.case-showcase .baton-service-directory__header > span,
-main.case-showcase .baton-service-directory__core span,
-main.case-showcase .baton-service-directory__identity span {
+main.case-showcase .service-document-links .service-document-type {
     font-size: var(--portfolio-caption);
 }
 
@@ -814,9 +783,7 @@ main.case-showcase .featured-problem__flow li strong,
 main.case-showcase .problem-solution-list__item > summary h3,
 main.case-showcase .project-evidence-list__subject strong,
 main.case-showcase .case-representative-documents a strong,
-main.case-showcase .service-document-links article a strong,
-main.case-showcase .baton-service-directory__core h4,
-main.case-showcase .baton-service-directory__description h4 {
+main.case-showcase .service-document-links article a strong {
     font-size: var(--portfolio-subtitle);
 }
 
@@ -828,11 +795,6 @@ main.case-showcase .project-evidence-list__entry dt,
 main.case-showcase .case-status strong,
 main.case-showcase .baton-service-status dt,
 main.case-showcase .baton-service-flow__legend,
-main.case-showcase .baton-service-directory__header p,
-main.case-showcase .baton-service-directory__core p,
-main.case-showcase .baton-service-directory__description p,
-main.case-showcase .baton-service-directory__core em,
-main.case-showcase .baton-service-directory__description em,
 main.case-showcase .editorial-diagram__header > p,
 main.case-showcase .editorial-diagram__summary {
     font-size: var(--portfolio-small);

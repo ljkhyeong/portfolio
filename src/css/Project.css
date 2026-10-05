@@ -1,17 +1,6 @@
 .case-study-page {
-    --paper: #ffffff;
-    --paper-raised: #f6f8fa;
-    --ink: #1f2328;
-    --muted: #59636e;
-    --line: #d0d7de;
-    --line-strong: #afb8c1;
-    --accent: #0969da;
-    --accent-on-light: #0969da;
-    --success: #1a7f37;
     min-height: 100vh;
     min-height: 100svh;
-    background: var(--paper);
-    color: var(--ink);
     overflow-x: clip;
 }
 
@@ -20,24 +9,15 @@
     text-decoration: none;
 }
 
+.case-study-page a:focus-visible {
+    border-radius: 3px;
+}
+
 .case-study-page p,
 .case-study-page dd,
 .case-study-page blockquote {
     overflow-wrap: anywhere;
     word-break: keep-all;
-}
-
-.case-study {
-    width: min(1240px, calc(100% - 64px));
-    margin: 0 auto;
-}
-
-.case-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.75fr);
-    gap: 24px 48px;
-    align-items: center;
-    padding: 36px 0 24px;
 }
 
 .case-hero__heading,
@@ -49,106 +29,15 @@
     animation-delay: 100ms;
 }
 
-.case-hero-facts {
-    display: grid;
-    grid-template-columns: minmax(200px, 0.7fr) minmax(0, 2fr);
-    grid-column: 1 / -1;
-    gap: 16px 40px;
-    margin: 0;
-    padding-top: 20px;
-    border-top: 1px solid var(--line);
-}
-
-.case-hero-facts > div {
-    display: grid;
-    grid-template-columns: 36px minmax(0, 1fr);
-    align-items: baseline;
-    gap: 12px;
-}
-
-.case-hero-facts dt {
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.case-hero-facts dd {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.65;
-    word-break: keep-all;
-}
-
-.prior-case > header .case-hero-facts {
+/* CaseShowcase의 상단 정보 여백과 우선순위가 같아 CSS 로딩 순서에 따라 4px·28px로 달라졌다.
+   운영 빌드에서 보이던 28px로 고정한다. */
+main.case-showcase .prior-case > header .case-hero-facts {
     margin: 28px 0;
-}
-
-.case-kicker {
-    display: block;
-    margin-bottom: 18px;
-    color: var(--muted, #74736d);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-.case-hero h1 {
-    max-width: 950px;
-    margin: 0;
-    font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(44px, 4.8vw, 68px);
-    font-weight: 500;
-    line-height: 0.9;
-    letter-spacing: -0.065em;
-    text-wrap: balance;
-}
-
-.case-study-page--baton .case-hero h1 {
-    font-size: clamp(60px, 7.3vw, 96px);
-    letter-spacing: -0.075em;
-}
-
-.case-study-page--gallery .case-hero h1 {
-    font-size: clamp(52px, 6vw, 82px);
-}
-
-.case-study-page--hope-commit .case-hero h1 {
-    font-size: clamp(50px, 5.7vw, 80px);
-}
-
-.case-study-page--warrant .case-hero h1,
-.case-study-page--defense .case-hero h1,
-.case-study-page--webrtc .case-hero h1 {
-    font-size: clamp(42px, 4.8vw, 66px);
-    line-height: 0.96;
-}
-
-.case-hero__intro > p {
-    margin: 0;
-    font-size: clamp(16px, 1.25vw, 19px);
-    line-height: 1.65;
-    letter-spacing: -0.02em;
-    word-break: keep-all;
-}
-
-.case-hero__support {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px 24px;
-    margin-top: 20px;
-    padding-top: 14px;
-    border-top: 1px solid var(--line);
 }
 
 .case-hero__evidence {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 18px;
-    margin: 0 0 0 auto;
     padding: 0;
     list-style: none;
 }
@@ -158,14 +47,7 @@
     min-height: 44px;
     align-items: center;
     gap: 8px;
-    padding: 0;
-    border: 0;
     border-bottom: 1px solid transparent;
-    border-radius: 0;
-    background: transparent;
-    color: var(--accent);
-    font-size: 14px;
-    font-weight: 700;
     transition:
         background-color 160ms ease,
         border-color 160ms ease;
@@ -174,7 +56,6 @@
 .case-hero__evidence a:hover,
 .case-hero__evidence a:focus-visible {
     border-bottom-color: var(--accent);
-    background: transparent;
 }
 
 .case-project-labels {
@@ -188,15 +69,7 @@
 
 .case-project-labels li {
     display: inline-flex;
-    min-height: 28px;
     align-items: center;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    color: var(--muted, #74736d);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 14px;
-    font-weight: 700;
     line-height: 1.3;
 }
 
@@ -206,111 +79,37 @@
     content: "/";
 }
 
-.case-study > .baton-service-switcher {
-    width: 100%;
-}
-
-#project-overview,
-#project-system,
-#project-architecture,
-#project-problems,
-#project-proof,
-#project-documents,
-#project-stack {
-    scroll-margin-top: 88px;
-}
-
-.case-problems,
-.case-proof,
-.case-documents,
-.case-meta {
-    padding: clamp(38px, 4.2vw, 52px) 0;
-    border-top: 1px solid var(--line, #cbc8be);
-    animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.case-system {
-    padding: clamp(50px, 5.5vw, 72px) 0;
-    border-top: 1px solid var(--line, #cbc8be);
-    animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.case-section-heading {
-    display: block;
-    margin-bottom: clamp(20px, 2.4vw, 28px);
-}
-
-.case-section-heading > span {
-    color: var(--muted, #74736d);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-}
-
 .case-section-heading h2 {
     margin: 0;
-    font-family: "Pretendard Variable", sans-serif;
-    font-size: clamp(27px, 2.5vw, 36px);
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: -0.04em;
-}
-
-.case-system .case-section-heading {
-    margin-bottom: clamp(24px, 3vw, 34px);
-}
-
-.case-system .case-section-heading h2 {
-    font-size: clamp(28px, 2.8vw, 40px);
 }
 
 .case-status {
     display: grid;
     grid-template-columns: 150px minmax(0, 1fr);
     gap: 30px;
-    margin-top: 24px;
-    padding: 18px 20px;
-    border-top: 1px solid var(--line, #cbc8be);
-    border-bottom: 1px solid var(--line, #cbc8be);
-    border-left: 3px solid var(--accent, #d8ff45);
-    background: transparent;
-    color: var(--ink, #171713);
 }
 
 .case-status > span {
     padding-top: 2px;
-    font-family: var(--sans);
-    color: var(--accent-on-light, #a9341c);
-    font-size: 14px;
+    color: var(--success);
     font-weight: 800;
 }
 
 .case-status p {
     max-width: 850px;
     margin: 0;
-    font-size: 16px;
-    line-height: 1.7;
 }
 
 .case-system__caption {
-    max-width: 720px;
-    margin: 22px 0 0 auto;
-    color: var(--muted, #74736d);
-    font-size: 14px;
-    line-height: 1.75;
     text-align: right;
 }
 
-.case-problems__more {
+.case-more {
     margin-top: 16px;
     overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    background: var(--paper-raised);
 }
 
-.case-problems__more > summary {
+.case-more > summary {
     display: flex;
     min-height: 52px;
     align-items: center;
@@ -319,39 +118,25 @@
     padding: 0 18px;
     color: var(--accent);
     cursor: pointer;
-    font-size: 15px;
     font-weight: 750;
     list-style: none;
 }
 
-.case-problems__more > summary::-webkit-details-marker {
+.case-more > summary::-webkit-details-marker {
     display: none;
 }
 
-.case-problems__more > summary:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: -3px;
-}
-
-.case-problems > .case-section-heading {
-    margin-bottom: 18px;
-}
-
-.case-problems > .case-section-heading h2 {
-    font-size: clamp(28px, 2.5vw, 36px);
-}
-
-.case-problems__more > summary span::before {
+.case-more > summary span::before {
     content: "+";
     font-family: var(--mono);
     font-size: 20px;
 }
 
-.case-problems__more[open] > summary {
+.case-more[open] > summary {
     border-bottom: 1px solid var(--line);
 }
 
-.case-problems__more[open] > summary span::before {
+.case-more[open] > summary span::before {
     content: "−";
 }
 
@@ -359,24 +144,14 @@
     overflow: hidden;
     margin: 0;
     padding: 0;
-    border: 1px solid var(--line, #d0d7de);
-    border-radius: 6px;
-    background: var(--paper, #ffffff);
     list-style: none;
-}
-
-.project-evidence-list > li + li {
-    border-top: 1px solid var(--line, #d0d7de);
 }
 
 .project-evidence-list__entry > summary {
     display: grid;
-    grid-template-columns: minmax(180px, 0.8fr) minmax(0, 1.2fr) auto;
-    gap: 18px;
     align-items: center;
     min-height: 92px;
-    padding: 14px 18px;
-    background: var(--paper, #ffffff);
+    background: var(--paper);
     cursor: pointer;
     list-style: none;
     transition: background-color 160ms ease;
@@ -389,42 +164,26 @@
 .project-evidence-list__entry > summary:hover,
 .project-evidence-list__entry > summary:focus-visible,
 .project-evidence-list__entry[open] > summary {
-    background: var(--paper-raised, #f6f8fa);
+    background: var(--paper-raised);
 }
 
-.project-evidence-list__scope {
-    min-width: 0;
-}
-
-.project-evidence-list__scope > span,
 .project-evidence-list dt {
-    display: block;
     margin: 0 0 6px;
-    color: var(--muted, #59636e);
-    font-family: var(--sans);
-    font-size: 14px;
+    color: var(--muted);
     font-weight: 700;
 }
 
-.project-evidence-list__scope p,
 .project-evidence-list dd {
     margin: 0;
-    color: var(--ink, #1f2328);
-    font-size: 15px;
-    line-height: 1.58;
     letter-spacing: -0.012em;
 }
 
 .project-evidence-list dd strong {
     display: block;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.5;
 }
 
 .project-evidence-list__scope p {
-    color: var(--muted, #59636e);
-    overflow-wrap: anywhere;
+    color: var(--muted);
 }
 
 .project-evidence-list__action {
@@ -434,8 +193,7 @@
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
-    color: var(--accent, #0969da);
-    font-size: 14px;
+    color: var(--accent);
     font-weight: 700;
     white-space: nowrap;
 }
@@ -446,7 +204,6 @@
 
 .project-evidence-list__action i {
     position: relative;
-    width: 16px;
     height: 16px;
     flex: 0 0 16px;
 }
@@ -481,13 +238,8 @@
 }
 
 .project-evidence-list dl {
-    margin: 0;
-    border-top: 1px solid var(--line, #d0d7de);
-    background: var(--paper-raised, #f6f8fa);
-}
-
-.project-evidence-list__entry[open] dl {
-    display: block;
+    border-top: 1px solid var(--line);
+    background: var(--paper-raised);
 }
 
 .project-evidence-list dl > div {
@@ -495,7 +247,7 @@
 }
 
 .project-evidence-list dl > div + div {
-    border-top: 1px solid var(--line, #d0d7de);
+    border-top: 1px solid var(--line);
 }
 
 .project-evidence-list dd p {
@@ -503,23 +255,17 @@
 }
 
 .project-evidence-list__method p {
-    color: var(--muted, #59636e);
-    overflow-wrap: anywhere;
-    word-break: keep-all;
+    color: var(--muted);
 }
 
 @media (max-width: 800px) {
     .project-evidence-list__entry > summary {
-        grid-template-columns: minmax(0, 1fr) 44px;
-        gap: 9px 12px;
         min-height: 0;
-        padding: 13px 64px 14px 12px;
     }
 
     .project-evidence-list__action {
         grid-column: 2;
         grid-row: 1;
-        min-width: 44px;
         justify-content: center;
     }
 
@@ -527,11 +273,8 @@
         position: absolute;
         width: 1px;
         height: 1px;
-        padding: 0;
         overflow: hidden;
         clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
     }
 
     .project-evidence-list dl > div {
@@ -542,19 +285,12 @@
 .case-documents__intro {
     max-width: 720px;
     margin: -8px 0 24px;
-    color: var(--muted, #74736d);
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-.case-representative-documents {
-    margin-top: 0;
+    color: var(--muted);
 }
 
 .case-document-inventory {
     margin-top: 24px;
     color: var(--muted);
-    font-size: 14px;
 }
 
 .case-document-inventory > summary {
@@ -588,43 +324,19 @@
 
 .case-document-inventory dd {
     margin: 0;
-    line-height: 1.6;
-}
-
-.case-proof > .case-status {
-    margin: 0 0 24px;
-}
-
-.case-representative-documents h3 {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin: 0 0 20px;
-    font-size: 22px;
-    letter-spacing: -0.035em;
-}
-
-.case-representative-documents h3 span {
-    color: var(--muted, #74736d);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 11px;
-    font-weight: 500;
 }
 
 .case-representative-documents > ul {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 36px;
+    overflow: hidden;
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--ink, #171713);
     list-style: none;
 }
 
 .case-documents li {
     min-width: 0;
     padding: 18px 0 20px;
-    border-bottom: 1px solid var(--line, #cbc8be);
+    border-bottom: 1px solid var(--line);
 }
 
 .case-documents a {
@@ -632,26 +344,23 @@
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 14px;
     align-items: baseline;
-    color: var(--ink, #171713);
+    color: var(--accent);
 }
 
 .case-documents .case-document-type {
     display: block;
     margin-top: 8px;
     color: var(--muted);
-    font-size: 12px;
     font-weight: 600;
     line-height: 1.5;
 }
 
 .case-documents a strong {
-    font-size: 17px;
     letter-spacing: -0.025em;
     word-break: keep-all;
 }
 
 .case-documents a > span {
-    color: var(--accent-on-light, #a9341c);
     transition: transform 180ms ease;
 }
 
@@ -661,142 +370,36 @@
 
 .case-documents li p {
     margin: 9px 0 0;
-    color: var(--muted, #74736d);
-    font-size: 13px;
-    line-height: 1.65;
-}
-
-.case-meta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(36px, 5vw, 72px);
-}
-
-.case-meta__links {
-    padding-left: clamp(36px, 4.5vw, 64px);
-    border-left: 1px solid var(--line, #cbc8be);
-}
-
-.case-meta .case-section-heading {
-    display: block;
-}
-
-.case-meta__stack > ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--ink, #171713);
-    list-style: none;
-}
-
-.case-meta__stack li {
-    width: 50%;
-    padding: 15px 12px 15px 0;
-    border-bottom: 1px solid var(--line, #cbc8be);
-    font-family: var(--mono, "SFMono-Regular", Consolas, monospace);
-    font-size: 11px;
-    letter-spacing: 0.02em;
-}
-
-.case-meta__links > ul {
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--ink, #171713);
-    list-style: none;
-}
-
-.case-meta__links li {
-    padding: 18px 0 20px;
-    border-bottom: 1px solid var(--line, #cbc8be);
-}
-
-.case-meta__links a {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    font-size: 16px;
-    font-weight: 750;
-    letter-spacing: -0.02em;
-}
-
-.case-meta__links a span:last-child {
-    transition: transform 180ms ease;
-}
-
-.case-meta__links a:hover span:last-child {
-    transform: translate(3px, -3px);
-}
-
-.case-meta__links li p,
-.case-meta__link-note {
-    margin: 7px 0 0;
-    color: var(--muted, #74736d);
-    font-size: 13px;
-    line-height: 1.65;
-}
-
-.case-meta__link-note {
-    padding-top: 18px;
-    border-top: 1px solid var(--ink, #171713);
-}
-
-.case-next {
-    background: var(--ink, #171713);
-    color: var(--paper, #f3f1ea);
+    color: var(--muted);
 }
 
 .case-next a {
     position: relative;
-    display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
-    min-height: 0;
-    margin: 0 auto;
-    padding: 50px 110px 50px 0;
 }
 
 .case-next a > span:first-child {
-    margin-bottom: 22px;
-    color: rgba(243, 241, 234, 0.58);
-    font-family: var(--sans);
-    font-size: 11px;
     font-variant-numeric: tabular-nums;
     font-weight: 700;
 }
 
 .case-next strong {
     max-width: 950px;
-    font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(40px, 5.6vw, 72px);
-    font-weight: 500;
-    line-height: 0.94;
     letter-spacing: -0.06em;
     text-wrap: balance;
 }
 
 .case-next__arrow {
     position: absolute;
-    right: 0;
     display: grid;
-    width: 72px;
-    height: 72px;
-    border: 1px solid rgba(243, 241, 234, 0.45);
+    border: 1px solid var(--line);
     border-radius: 50%;
     place-items: center;
-    font-size: 30px;
     transition:
         color 220ms ease,
         background 220ms ease,
         transform 220ms ease;
-}
-
-.case-next a:hover .case-next__arrow {
-    background: var(--accent, #d8ff45);
-    color: var(--ink, #171713);
-    transform: translateX(8px);
 }
 
 @keyframes case-rise {
@@ -812,226 +415,60 @@
 }
 
 @media (max-width: 980px) {
-    .case-hero {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        min-height: auto;
-        padding: 32px 0 24px;
-    }
-
     .case-hero__intro {
         max-width: 720px;
-    }
-
-    .case-meta {
-        grid-template-columns: 1fr;
-    }
-
-    .case-meta__links {
-        padding-top: 48px;
-        padding-left: 0;
-        border-top: 1px solid var(--line, #cbc8be);
-        border-left: 0;
     }
 }
 
 @media (max-width: 700px) {
-    .case-study,
-    .case-next a {
-        width: min(100% - 36px, 1240px);
-    }
-
-    .case-hero {
-        gap: 20px;
-        padding: 28px 0 20px;
-    }
-
-    .case-hero-facts {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        padding-top: 16px;
-    }
-
     .case-document-inventory dl > div {
         grid-template-columns: 1fr;
         gap: 4px;
     }
 
-    .case-hero__support {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 2px;
-    }
-
-    .case-hero__evidence {
-        margin-left: 0;
-    }
-
-    .case-hero h1,
-    .case-study-page--baton .case-hero h1,
-    .case-study-page--gallery .case-hero h1,
-    .case-study-page--hope-commit .case-hero h1,
-    .case-study-page--warrant .case-hero h1,
-    .case-study-page--defense .case-hero h1,
-    .case-study-page--webrtc .case-hero h1 {
-        font-size: clamp(38px, 11.8vw, 48px);
-        line-height: 0.96;
-    }
-
-    .case-study-page--warrant .case-hero h1,
-    .case-study-page--defense .case-hero h1,
-    .case-study-page--webrtc .case-hero h1 {
-        font-size: clamp(36px, 10.8vw, 44px);
-        line-height: 1;
-    }
-
-    .case-study-page--gallery .case-hero h1 {
-        font-size: clamp(36px, 10.8vw, 44px);
-        letter-spacing: -0.055em;
-    }
-
-    .case-study-page--hope-commit .case-hero h1 {
-        font-size: clamp(38px, 11.2vw, 46px);
-        letter-spacing: -0.06em;
-    }
-
-    .case-section-heading {
-        grid-template-columns: 36px minmax(0, 1fr);
-    }
-
-    .case-section-heading h2 {
-        font-size: clamp(28px, 8vw, 34px);
-    }
-
     .case-status {
         grid-template-columns: 1fr;
         gap: 12px;
-        padding: 18px;
-    }
-
-    .case-meta__stack li {
-        width: 50%;
-        overflow-wrap: anywhere;
-    }
-
-    .case-next a {
-        min-height: 260px;
-        padding-right: 0;
-        padding-bottom: 84px;
-    }
-
-    .case-next strong {
-        font-size: clamp(36px, 10.5vw, 46px);
-    }
-
-    .case-next__arrow {
-        right: auto;
-        bottom: 30px;
-        width: 60px;
-        height: 60px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .case-hero__heading,
-    .case-hero__intro,
-    .case-system,
-    .case-problems,
-    .case-proof,
-    .case-meta {
-        animation: none;
-    }
-
-    .case-study-page *,
-    .case-study-page *::before,
-    .case-study-page *::after {
-        scroll-behavior: auto;
-        transition-duration: 0.01ms !important;
     }
 }
 
 /* 대표 프로젝트의 검증 근거와 구현 구조 */
-.case-architecture {
-    padding: clamp(38px, 4.2vw, 52px) 0;
-    border-top: 1px solid var(--line, #cbc8be);
-    animation: case-rise 700ms 160ms both cubic-bezier(0.22, 1, 0.36, 1);
-}
-
 .case-architecture__intro {
     display: grid;
-    grid-template-columns: 128px minmax(240px, 0.8fr) minmax(280px, 1.2fr);
-    gap: 24px;
     align-items: start;
-    padding: 24px 0 28px;
-    border-top: 1px solid var(--ink, #171713);
 }
 
 .case-architecture__intro > span {
-    color: var(--accent-on-light, #a9341c);
-    font-family: var(--sans);
-    font-size: 11px;
+    color: var(--accent);
     font-weight: 750;
 }
 
 .case-architecture__intro h3 {
     margin: 0;
-    font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(26px, 2.6vw, 36px);
-    font-weight: 500;
     letter-spacing: -0.045em;
-    line-height: 1.08;
     word-break: keep-all;
 }
 
 .case-architecture__intro p {
     margin: 0;
-    color: var(--muted, #74736d);
-    font-size: 16px;
-    line-height: 1.78;
-    word-break: keep-all;
+    color: var(--muted);
 }
 
 .case-architecture__intro blockquote {
     margin: 16px 0 0;
     padding: 14px 0 0 16px;
-    border-top: 1px solid var(--line, #cbc8be);
-    border-left: 2px solid var(--accent, #ff5a36);
-    color: var(--muted, #74736d);
-    font-size: 13px;
-    line-height: 1.7;
-    word-break: keep-all;
+    border-top: 1px solid var(--line);
+    border-left: 2px solid var(--accent);
+    color: var(--muted);
 }
 
 .case-architecture__intro blockquote strong {
     display: block;
     margin-bottom: 6px;
-    color: var(--ink, #171713);
-    font-family: var(--sans);
-    font-size: 10px;
+    color: var(--ink);
 }
 
 /* 교육 프로젝트 상세를 주요 프로젝트 다음에 간결하게 배치 */
-.case-study-page--prior {
-    background: var(--paper, #f3f1ea);
-    color: var(--ink, #171713);
-}
-
-.prior-case {
-    width: min(980px, calc(100% - 64px));
-    margin: 0 auto;
-    padding: clamp(44px, 5.5vw, 68px) 0;
-}
-
-.prior-case .case-kicker {
-    color: var(--accent, #ff5a36);
-}
-
-.prior-case__kicker {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 12px;
-}
-
 .prior-case__kicker span + span::before {
     margin-right: 12px;
     color: var(--line-strong);
@@ -1039,13 +476,6 @@
 }
 
 .prior-case h1 {
-    max-width: 860px;
-    margin: 0;
-    font-family: "Newsreader", "Pretendard Variable", serif;
-    font-size: clamp(40px, 4.8vw, 60px);
-    font-weight: 500;
-    letter-spacing: -0.06em;
-    line-height: 0.94;
     word-break: keep-all;
 }
 
@@ -1053,187 +483,7 @@
     display: block;
 }
 
-.prior-case .case-project-labels {
-    margin: 24px 0 0;
-}
-
-.prior-case__summary {
-    max-width: 740px;
-    margin: 26px 0 0;
-    color: var(--muted, #74736d);
-    font-size: clamp(17px, 1.6vw, 20px);
-    line-height: 1.7;
-    word-break: keep-all;
-}
-
-@media (max-width: 980px) {
-    .case-architecture__intro {
-        grid-template-columns: 1fr;
-    }
-
-    .case-architecture__intro {
-        gap: 20px;
-    }
-}
-
-@media (max-width: 700px) {
-    .case-architecture {
-        padding: 42px 0;
-    }
-
-    .case-representative-documents > ul {
-        grid-template-columns: 1fr;
-    }
-
-    .case-documents__intro {
-        margin-left: 0;
-    }
-
-    .prior-case {
-        width: min(100% - 36px, 980px);
-        padding: 38px 0 46px;
-    }
-
-    .prior-case h1 {
-        font-size: clamp(36px, 10.8vw, 44px);
-        line-height: 1;
-        letter-spacing: -0.05em;
-    }
-}
-
-/* 상세 화면의 보조 설명과 표기 글자 크기를 읽을 수 있는 수준으로 유지 */
-.case-kicker,
-.case-section-heading > span,
-.case-status > span,
-.case-representative-documents h3 span,
-.case-meta__stack li,
-.case-next a > span:first-child,
-.case-architecture__intro > span,
-.case-architecture__intro blockquote strong {
-    font-size: 14px;
-}
-
-.case-system__caption {
-    font-size: 14px;
-}
-
-.case-documents li p,
-.case-meta__links li p,
-.case-meta__link-note,
-.case-architecture__intro blockquote {
-    font-size: 16px;
-}
-
-/* 상세 화면의 정보 묶음, 링크와 기술 흐름을 같은 표면 규칙으로 표시 */
-.case-study-page a:focus-visible {
-    border-radius: 3px;
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-}
-
-.prior-case .case-project-labels li {
-    padding: 3px 9px;
-    border-color: var(--line);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    background: var(--paper-raised);
-    color: var(--muted);
-}
-
-.case-hero .case-project-labels li {
-    border: 0;
-    background: transparent;
-}
-
-.case-system,
-.case-architecture,
-.case-problems,
-.case-proof,
-.case-documents,
-.case-meta {
-    border-color: var(--line);
-}
-
-.case-status {
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
-    border-radius: 6px;
-    background: var(--paper-raised);
-}
-
-.case-status > span {
-    color: var(--success);
-}
-
-.case-next {
-    background: #0d1117;
-    color: #f0f6fc;
-}
-
-.case-representative-documents > ul,
-.case-meta__stack > ul,
-.case-meta__links > ul {
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    background: var(--paper);
-}
-
-.case-representative-documents > ul {
-    gap: 0;
-}
-
-.case-representative-documents > ul li:nth-child(even) {
-    border-left: 1px solid var(--line);
-}
-
-.case-documents li,
-.case-meta__links li,
-.case-meta__stack li {
-    border-color: var(--line);
-}
-
-.case-representative-documents > ul li,
-.case-meta__links li {
-    padding-right: 18px;
-    padding-left: 18px;
-}
-
-.case-documents a,
-.case-meta__links a {
-    color: var(--accent);
-}
-
-.case-documents a > span,
-.case-architecture__intro > span,
-.prior-case .case-kicker {
-    color: var(--accent);
-}
-
-.case-meta__stack li {
-    padding-left: 14px;
-}
-
-.case-architecture__intro {
-    border-color: var(--line);
-}
-
-.case-architecture__intro blockquote {
-    border-left-color: var(--accent);
-}
-
-.case-next__arrow {
-    border-color: #30363d;
-}
-
-.case-next a:hover .case-next__arrow {
-    background: #238636;
-    color: #ffffff;
-}
-
 .case-study-page--warrant .case-system__caption {
-    max-width: none;
-    margin-top: 16px;
     text-align: left;
     white-space: nowrap;
 }
@@ -1241,11 +491,5 @@
 @media (max-width: 980px) {
     .case-study-page--warrant .case-system__caption {
         white-space: normal;
-    }
-}
-
-@media (max-width: 700px) {
-    .case-representative-documents > ul li:nth-child(even) {
-        border-left: 0;
     }
 }
