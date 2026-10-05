@@ -480,7 +480,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
             name: "happyGallery 클래스 목록에서 수업과 예약 회차를 확인하는 모습",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/서비스를 배포하고 공개 홈페이지/)).toBeInTheDocument()
+    expect(screen.getByText(/카드는 Toss 통합 결제창/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
             name: /업무 규칙과 웹 및 DB 코드 분리 대표 문서 새 창에서 보기/,
@@ -553,11 +553,7 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     ).toBeInTheDocument()
     expect(screen.getByText("사용자가 고른 부모")).toBeInTheDocument()
     expect(screen.getByText("저장하지 않고 중단")).toBeInTheDocument()
-    expect(
-        screen.getByText(
-            /공개 v5\.0\.2의 GitHub Actions Node\.js 22 환경에서 자동화 테스트 343개가 통과/,
-        ),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/v5\.0\.2 GitHub Actions에서 343개 통과/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", { name: "Hope Commit GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/hope-commit")
@@ -592,7 +588,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
         "BATON WATCH의 핵심 처리 흐름",
     )
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
-    expect(screen.getByRole("heading", { name: "문서 분류와 대표 문서" })).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "대표 문서" })).toBeInTheDocument()
     expect(screen.getByText("공개 저장소")).toBeInTheDocument()
     expect(screen.getByText("URL 점검 중 DB 연결 반환과 늦은 결과 차단")).toBeInTheDocument()
     expect(screen.queryByText("HMAC 키와 링크 데이터의 복구 시점 일치")).not.toBeInTheDocument()

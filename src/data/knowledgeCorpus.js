@@ -203,26 +203,6 @@ const createProblemSolutions = (project) =>
         }
     })
 
-const createImplementationEvidence = (project) =>
-    (project.proofs ?? []).map((proof, index) =>
-        projectSource(project, {
-            sourceKey: `project:${project.id}:evidence:${index + 1}`,
-            documentType: "implementation_evidence",
-            title: proof.item,
-            heading: project.evidenceTitle ?? "테스트 및 확인 결과",
-            content: joinContent([
-                labeledContent("프로젝트", project.title),
-                labeledContent("확인 대상", proof.item),
-                labeledContent("확인 방법", proof.method),
-                labeledContent("확인 조건", proof.rule),
-                labeledContent("결과", proof.result),
-                labeledContent("공개 범위", proof.scope),
-            ]),
-            sourceUrl: toPublicUrl(`${project.route}#project-proof`),
-            evidenceLevel: "verified_summary",
-        }),
-    )
-
 const createRepresentativeDocuments = (
     project,
     localDocumentContentByHref,
@@ -280,7 +260,6 @@ export const createKnowledgeSources = (
         ...createServiceOverviews(project),
         ...createArchitectureDecision(project),
         ...createProblemSolutions(project),
-        ...createImplementationEvidence(project),
         ...createRepresentativeDocuments(
             project,
             localDocumentContentByHref,

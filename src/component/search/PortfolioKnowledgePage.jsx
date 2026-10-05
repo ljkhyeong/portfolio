@@ -20,7 +20,6 @@ const documentTypes = [
     ["service_overview", "서비스 개요"],
     ["architecture_decision", "구현 방법과 선택 이유"],
     ["problem_solution", "문제와 해결 방법"],
-    ["implementation_evidence", "구현 내용과 테스트 결과"],
     ["representative_document", "대표 문서"],
 ]
 

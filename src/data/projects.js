@@ -4,7 +4,6 @@ import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence
 const projects = [
     {
         ...projectSummariesById.baton,
-        evidenceTitle: "검증 범위 및 현재 상태",
         systemTitle: "대표 화면과 서비스 구성",
         systemNavLabel: "화면 및 서비스",
         screenshotNote: "화면 검증용 테스트 데이터입니다.",
@@ -658,71 +657,13 @@ const projects = [
                 ],
             },
         ],
-        proofs: [
-            {
-                item: "Core 인수인계 상태 전이 및 중복 인수인계 차단",
-                method: "도메인 규칙 및 저장소 통합 테스트",
-                rule: "준비 → 전달 → 수락 순서, 준비 또는 전달 단계의 취소, 이전 상태로 되돌리는 요청과 같은 역할에 열린 인수인계 2건을 동시에 생성하는 요청을 각각 실행",
-                result: "준비 → 전달 → 수락 순서를 적용하고 준비 또는 전달 단계만 취소를 허용하며, 역할별 진행 중인 인수인계를 1건으로 유지",
-                scope: "Core 당시 비공개 저장소 · 상태 전이 및 DB 제약 확인 · 2026.08.27 커밋 상태 기준",
-            },
-            {
-                item: "GO 링크 중복 생성 방지",
-                method: "Testcontainers 통합 테스트",
-                rule: "같은 UUID와 요청으로 8건을 동시에 실행",
-                result: "같은 UUID에 대한 공유 링크 1건과 링크 생성 처리 기록 1건만 DB에 저장",
-                scope: "GO 당시 비공개 저장소 main 1062c18 · Core와의 실제 연동은 미검증",
-            },
-            {
-                item: "WATCH 안전한 URL 점검",
-                method: "자동화 테스트",
-                rule: "사설망·DNS 변경 차단, 응답 본문 미수신, 이전 URL 버전 결과와 기한이 지난 점검의 복구를 확인",
-                result: "공인 IP의 응답 상태·헤더만 확인하고 본문은 읽지 않습니다. 현재 URL 버전 결과만 저장하고 중단된 점검은 다시 실행합니다.",
-                scope: "WATCH 공개 main e2ad4b0 · DB 결과 제약(Flyway V6)과 복구 검사는 로컬 검증 · 공개 환경의 Core 콜백은 미검증",
-            },
-            {
-                item: "RELAY DB 저장 후 RabbitMQ 재전달 중복 방지",
-                method: "RabbitMQ 및 PostgreSQL Docker Compose 검증",
-                rule: "PostgreSQL 저장은 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 RabbitMQ와 RELAY를 중단하고 같은 이벤트를 재전달",
-                result: "같은 이벤트 ID의 수신 이력을 1건으로 유지하고 RabbitMQ에 ACK를 보내며 별도 실패 큐(DLQ)에는 넣지 않음",
-                scope: "RELAY 비공개 구현 5f97e0a · RabbitMQ 4.3.4와 PostgreSQL 일회성 Compose 시나리오 및 CI 성공",
-            },
-            {
-                item: "BRIEF 점검 상태 반영과 발행 보고서 수정 방지",
-                method: "PostgreSQL 통합 테스트와 실제 Core 실행 JAR 연동",
-                rule: "Core의 담당자 공백 및 업무 지연 등 5개 상태를 미해결(ACTIVE)과 해결됨(RESOLVED)으로 전환하고, 같은 이벤트와 과거 버전 및 점검 항목 요약, 필터와 보고서 동시 생성 요청을 실행",
-                result: "점검 결과를 다시 판정하지 않고 점검 항목과 요약에 반영했으며, 저장 이벤트로 같은 점검 목록을 재생성하고 같은 주간 보고서를 1건만 저장했습니다.",
-                scope: "BRIEF 공개 main 5b7d880과 실제 Core 및 내부 Caddy HTTPS 교차 검증 · 공인 DNS와 원격 배포는 미검증",
-            },
-            {
-                item: "CAL 일정 JSON 수신과 캘린더 구독",
-                method: "PostgreSQL Testcontainers와 iCalendar 기대값 비교, Core의 실제 일정 JSON 생성 코드로 만든 데이터를 CAL 컨테이너에 전송",
-                rule: "같은 일정의 최신 전체 데이터 재전달, 현재보다 낮은 버전 번호, 서머타임 전환(DST) 및 자정 경계 일정, 취소 일정과 구독 토큰 동시 교체를 각각 실행",
-                result: "중복 및 과거 일정을 차단하고 DST, 자정 경계와 취소 일정을 변환하며 같은 일정에는 같은 ETag를 반환",
-                scope: "릴리스 후보 JSON 규격 1.1.0-rc.1 및 BATON Core와 실제 CAL 컨테이너 교차 검증 · 실제 캘린더 앱과 공개 운영은 미검증",
-            },
-            {
-                item: "ROUND 입장 토큰 검증과 브라우저 연결",
-                method: "main 78d8c16 CI의 Chromium·WebKit 브라우저 테스트, Core 연동용 edge 프록시와 배포 검증 작업 확인",
-                rule: "RS256 입장 토큰으로 최대 6명 mesh 연결, 카메라 및 마이크 제어, 화면 공유와 재연결 및 WebKit 장치 동의, 채팅과 모바일 화면 배치 시나리오를 실행",
-                result: "CI 실패 원인이던 WebKit 직접 연결용 mDNS 설정과 배포 검증용 restic 설치를 CI 구성에 추가했습니다.",
-                scope: "당시 비공개 main 78d8c16 기준 · 실제 Cloudflare TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증",
-            },
-            {
-                item: "여러 팀 업무 모아 보기와 BRIEF·CAL·ROUND 추가 기능",
-                method: "각 저장소 소스·검증 기록과 로컬 화면 대조",
-                rule: "Core 여러 팀 업무·자료 확인 기한, BRIEF 주간 이월·해결, CAL 개인 구독과 ROUND 스터디 도구 화면을 확인",
-                result: "Core는 여러 팀의 내 업무와 확인 기한이 된 자료를 모아 보여 줍니다. BRIEF는 지난주 미해결 이월과 해결 내역을, CAL은 개인 일정 구독을, ROUND는 공용 타이머와 손들기 순서를 제공합니다.",
-                scope: "2026.09.08 각 저장소에서 확인한 커밋 또는 개발 브랜치 기준 · 외부 연동 범위 별도 표시",
-            },
-        ],
         category: "개인 프로젝트",
         role: "Core와 6개 서비스의 API·데이터 저장·이벤트 전달·중단 작업 재처리 설계 및 구현",
         oneLine:
             "여러 팀의 오늘 할 일과 인수인계 문서를 Core에 모으고, 짧은 링크·URL 점검·이벤트 전달·주간 보고서·캘린더·WebRTC를 독립 서비스로 구현했습니다.",
         status: {
             label: "현재 상태",
-            text: "여러 팀의 내 업무 모아 보기, 자료 정기 확인 일정, 주간 보고서 필터·공유와 개인 캘린더 구독을 구현했습니다. Core–BRIEF·CAL·ROUND 연동은 로컬에서 확인했으며 공개 환경 전체 연결은 미검증입니다.",
+            text: "여러 팀의 내 업무 모아 보기, 자료 정기 확인 일정, 주간 보고서 필터·공유와 개인 캘린더 구독을 구현했습니다.",
         },
         problems: [
             {
@@ -964,7 +905,6 @@ const projects = [
     },
     {
         ...projectSummariesById.happygallery,
-        evidenceTitle: "테스트 범위 및 운영 이력",
         systemTitle: "대표 화면",
         systemNavLabel: "대표 화면",
         screenshotNote:
@@ -1120,99 +1060,13 @@ const projects = [
                 note: "주문 상태 갱신, 문의 조회 및 답변과 정산 내역 대조를 구분한 설계",
             },
         ],
-        proofs: [
-            {
-                item: "AWS 운영 이력",
-                method: "실제 AWS 배포 및 비용 내역 확인",
-                rule: "트래픽과 무관하게 발생하는 상시 리소스 비용을 월별로 확인",
-                result: "운영 환경을 종료하고 비용 원인을 회고 문서로 정리",
-                scope: "과거 AWS 운영 후 비용 문제로 종료",
-            },
-            {
-                item: "8회권 환불, 미래 예약과 잔여 횟수 일치",
-                method: "MySQL 및 Redis Testcontainers 통합 테스트",
-                rule: "미래 예약 2건에 이용 횟수 2회를 배정한 8회권에 전체 환불 요청",
-                result: "미래 예약 2건을 취소하고 잔여 6회와 합쳐 8회분 환불 요청, 이용 횟수와 사용 이력 일치",
-                scope: "PassCreditUsageUseCaseIT 통합 시나리오 · 2026.08.27 로컬 커밋 b50a9ef0 기준",
-            },
-            {
-                item: "카드와 간편결제 선택",
-                method: "결제 화면 E2E와 서버 결제수단 저장 흐름 확인",
-                rule: "상품, 장바구니, 예약금과 8회권 구매에서 카드, 네이버페이 및 카카오페이를 각각 선택",
-                result: "카드는 Toss 통합 결제창, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제하고, 승인 응답의 실제 결제수단을 저장하도록 구현했습니다.",
-                scope: "공개 main 2e831500 기준 · 실제 가맹점 결제와 전체 및 부분취소는 운영 전 검증 필요",
-            },
-            {
-                item: "기존 공개 CI 검증 이력",
-                method: "GitHub Actions 백엔드 빌드 및 브라우저 스모크",
-                rule: "백엔드 전체 검사와 주문, 결제, 예약 및 관리자 운영의 브라우저 시나리오를 실행",
-                result: "초기 통합 브랜치에서 백엔드 빌드와 브라우저 스모크 테스트 19개가 통과했습니다. 이후 추가한 기능은 이 결과에 포함되지 않습니다.",
-                scope: "GitHub Actions run 33636984895 · 통합 브랜치 cb37beaec가 공개 main 2e831500에 병합됨",
-            },
-            {
-                item: "스마트스토어 주문과 공유 재고 반영",
-                method: "공개 main 구현 코드와 ADR-0047 및 ADR-0048 대조",
-                rule: "변경 주문 재수신, 부분취소, 재고 부족, 반품 검수와 7일 이상 정산 중단 뒤 재개 경계를 확인",
-                result: "주문별 수량 변경분만 재고에 반영했습니다. 문의는 네이버 API로 조회하고 답변하며, 주문 상태는 변경 주문 수집 결과로 갱신합니다. 정산은 미처리 날짜부터 재개합니다.",
-                scope: "공개 main 2e831500 기준 · 네이버 실제 자격 증명을 사용한 운영 연동은 미검증",
-            },
-            {
-                item: "Toss 결제 대사와 NHN 알림 최종 결과",
-                method: "공개 main 구현 코드와 ADR-0032 및 ADR-0033 대조",
-                rule: "중복 Toss 웹훅, 최근 7일 승인 및 취소 정산과 NHN 발송 접수 뒤 최종 수신 결과 조회 흐름을 확인",
-                result: "웹훅 본문만으로 결제를 확정하지 않고 Toss 결제를 다시 조회하며, NHN 접수 성공은 최종 수신 결과와 분리해 저장하도록 구현했습니다.",
-                scope: "공개 main 2e831500 기준 · Toss 및 NHN 실제 자격 증명 연동은 미검증",
-            },
-            {
-                item: "공개 페이지는 서버 렌더링하고 회원 및 결제 화면은 검색 제외",
-                method: "React Router 서버 HTML 및 HTTP 응답 시나리오",
-                rule: "공개 상세, 존재하지 않는 경로, 회원 및 결제와 관리자 경로를 각각 요청하고 HTML 본문, 메타데이터, 색인 정책과 HTTP 상태를 확인",
-                result: "공개 화면은 메타데이터와 JSON-LD를 포함해 렌더링하고, 비공개 화면은 검색 제외, 없는 주소는 404로 응답",
-                scope: "공개 main 2e831500 기준 · 실제 Node SSR 운영은 미검증",
-            },
-            {
-                item: "주문제작 옵션, 가격과 재고 일치",
-                method: "서버 가격 계산 및 MySQL 동시 재고 통합 시나리오",
-                rule: "같은 SKU가 포함된 여러 주문 항목과 옵션 변경 뒤 결제 및 환불을 실행",
-                result: "SKU별 수량을 합산해 ID 순서로 잠그고, 저장한 옵션과 가격으로 결제 당시 주문을 재현",
-                scope: "공개 main 2e831500 기준",
-            },
-            {
-                item: "외부 배송조회 등록 실패 재처리와 서명된 배송 상태 수신",
-                method: "주문 배송 통합 테스트, 배송조회 API 변환 및 웹훅 서명 검증 테스트",
-                rule: "운송장 등록 뒤 외부 배송조회 등록이 실패한 경우와 정상 및 위조 웹훅, 택배사 배송 완료 후 관리자 주문 완료를 각각 실행",
-                result: "외부 등록 실패는 재처리하고 서명된 웹훅만 반영하며, 배송 완료와 주문 완료를 분리",
-                scope: "2026.08.27 로컬 커밋 b50a9ef0 기준 · 실제 Delivery API 운영 자격 증명 검증 전",
-            },
-            {
-                item: "선택 구매·재주문과 재입고 알림",
-                method: "최신 소스와 기존 브라우저 시나리오 대조·로컬 화면 확인",
-                rule: "선택 상품 결제, 미선택 상품 유지, 이전 주문의 가격·옵션 재확인과 품절 상품 알림 신청 흐름을 확인",
-                result: "선택한 상품만 결제하고 재주문 시 현재 가격·재고·옵션을 확인합니다. 재입고 알림 신청·해지와 관리자 수요 조회를 구현했습니다.",
-                scope: "공개 main a4dec4f4에 포함 · 선택 구매 화면은 모의 API · 실제 결제·외부 알림 미검증",
-            },
-            {
-                item: "공휴일 자동 갱신과 주소 검색",
-                method: "공개 main 구현·제품 명세와 자동화 검증 기록 대조",
-                rule: "공휴일 API 성공·실패와 연도별 스냅샷 대체, Kakao 우편번호 검색 실패 뒤 직접 입력을 확인",
-                result: "공휴일은 매일 현재·다음 연도를 갱신하고 실패하면 마지막 정상 데이터를 유지합니다. 주소 검색은 별도 API 키 없이 브라우저에서 실행하며 직접 입력도 유지합니다.",
-                scope: "공개 main a4dec4f4 · 실제 공공데이터 서비스 키와 운영 브라우저 검증은 미완료",
-            },
-            {
-                item: "회원 주문·예약 목록 조건 복원",
-                method: "공개 main의 브라우저 시나리오와 제품 명세 대조",
-                rule: "검색어·상태·정렬을 적용한 목록에서 상세로 이동한 뒤 뒤로가기·새로고침·조회 실패 복귀를 확인",
-                result: "상세 URL에 목록 조건을 보존하고, 상세 조회 중이거나 실패해도 기존 검색 조건으로 돌아갑니다.",
-                scope: "공개 main a4dec4f4",
-            },
-        ],
         category: "개인 프로젝트",
         role: "요구사항 정리, Java 및 Spring Boot API, React 화면, 결제 및 스마트스토어 연동과 자동화 테스트",
         oneLine:
             "상품 주문·간편결제·클래스 예약과 스마트스토어 주문·재고 연동을 하나의 서비스로 구현했습니다.",
         status: {
-            label: "운영 상태",
-            text: "서비스를 배포하고 공개 홈페이지·작품·클래스 화면의 접속을 확인했습니다. 실제 네이버·Toss·NHN 계정 연동은 미검증입니다.",
+            label: "그 밖의 구현",
+            text: "카드는 Toss 통합 결제창, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.",
         },
         visualCaption:
             "기능 설명용 테스트 데이터로 촬영한 화면입니다. 실제 네이버 판매자 계정이나 결제사 관리 화면은 아닙니다.",
@@ -1446,7 +1300,6 @@ const projects = [
     },
     {
         ...projectSummariesById["youth-policy-mate"],
-        evidenceTitle: "구현 및 검증 범위",
         systemTitle: "현재 구현 화면",
         systemNavLabel: "화면",
         screenshotNote:
@@ -1526,8 +1379,6 @@ const projects = [
                 summary: "기능별 구현·검증 결과와 아직 연결하지 않은 외부 기능을 기록합니다.",
             },
         ],
-        documentsIntro:
-            "정책 수집, 조건 질문, 관심 정책 저장·알림과 AI 요청 복구의 구현 범위 및 남은 외부 연동을 문서에 기록합니다.",
         documents: [
             {
                 type: "README",
@@ -1582,43 +1433,6 @@ const projects = [
                 label: "AI 추출과 검토용 초안 저장",
                 href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-drafts.md",
                 note: "OpenAI 호출·예산 예약·응답 보관과 관리자 검토 후 적용",
-            },
-        ],
-        proofs: [
-            {
-                item: "공개 정책 조회와 정책별 조건 질문",
-                method: "현재 로컬 앱과 서버 구현·테스트 대조",
-                rule: "수집한 정책 목록·상세와 조건 질문 필터를 조회하고 검토 대상 정책을 확인",
-                result: `정책 ${youthPolicyCoverage.policies}건을 조회하고 ${youthPolicyCoverage.questionPolicies}종에 조건 질문을 제공합니다. ${youthPolicyCoverage.agePolicies}종은 연령을 비교하며 질문과 판정에 같은 버전 규칙을 사용합니다.`,
-                scope: "2026.09.13 로컬 정책 목록과 개발 브랜치 4f7d030의 구현 확인 · 최종 신청 자격 판정은 아님",
-            },
-            {
-                item: "관심 정책 저장과 일정·알림",
-                method: "회원 정책 흐름과 PostgreSQL 통합 테스트 기록",
-                rule: "회원별 저장·해제, 신청 일정, 알림 읽음 처리와 예약 취소 흐름을 확인",
-                result: "저장한 정책의 변경 내용을 비교하고 검색·접수 상태·마감순으로 조회합니다. 안 읽은 알림 필터와 모두 읽음, 저장 해제·동의 변경에 따른 알림 취소를 구현했습니다.",
-                scope: "로컬 구현·자동화 검증 기준 · 실제 카카오·네이버 로그인은 미검증",
-            },
-            {
-                item: "이메일 동의와 발송 작업 복구",
-                method: "이메일 구현 문서와 Outbox 통합 테스트 기록",
-                rule: "주소 확인, 수신 동의, 암호화 저장, 예약·취소와 중단된 발송 작업을 확인",
-                result: "SMTP·Resend 발송 어댑터, 서명 웹훅과 발송 상태 조회를 구현했습니다. 로그인 없는 수신 해제와 이메일 암호화 키 교체도 지원합니다.",
-                scope: "모의 발송과 로컬 검증 기준 · 실제 발신 도메인·외부 수신함 전달은 미검증",
-            },
-            {
-                item: "AI 비용 예약과 중단 작업 복구",
-                method: "PostgreSQL 통합 테스트와 모의 OpenAI HTTP 서버 검증 기록",
-                rule: "호출 전 비용 예약, 응답 미확인, 정산과 처리 권한이 만료된 작업자의 늦은 결과를 확인",
-                result: "비용 예약 후 OpenAI를 호출하고 응답을 보관해 초안 저장을 재개합니다. 발송 기록만 있고 응답이 없으면 재호출하지 않으며 관리자 검토 전에는 규칙을 적용하지 않습니다.",
-                scope: "OpenAI 어댑터·자동 처리 스케줄러 구현 · 기본 비활성 · 실제 모델 품질과 요청별 청구 대사는 미검증",
-            },
-            {
-                item: "수집 실패 재처리와 공고 차이 안내",
-                method: "PostgreSQL 정책 API·브라우저 시나리오와 구현 문서 대조",
-                rule: "페이지 실패 조회, 개정 비교, 사유를 남긴 재처리·보정과 새 원본 충돌 및 상세 안내를 확인",
-                result: "원본과 보정을 분리해 저장하고 새 원본과 충돌하면 현재 공개 값을 유지합니다. 검토한 원문 차이는 정책 상세에 근거 링크와 함께 표시합니다.",
-                scope: "공개 main 24c924c의 구현·검증 기록 기준 · 실제 관리자 계정 연결은 미완료",
             },
         ],
         category: "개인 웹앱 프로젝트",
@@ -1760,7 +1574,6 @@ const projects = [
     },
     {
         ...projectSummariesById["hope-commit"],
-        evidenceTitle: "구현 및 자동화 테스트",
         systemTitle: "HTML 리뷰 화면",
         systemNavLabel: "리뷰 화면",
         screenshotNote: "실제로 생성한 HTML 리뷰 화면입니다.",
@@ -1814,8 +1627,6 @@ const projects = [
                     "SeungIl 님이 개발한 원본 Hope의 저작권, MIT 라이선스와 포크 관계를 명시합니다.",
             },
         ],
-        documentsIntro:
-            "Commit Diff 실행 기준, 비공개 데이터 차단 정책과 원본 프로젝트 고지를 공개합니다.",
         documents: [
             {
                 type: "README",
@@ -1840,36 +1651,6 @@ const projects = [
                 label: "원본 프로젝트 고지",
                 href: "https://github.com/ljkhyeong/hope-commit/blob/main/NOTICE",
                 note: "SeungIl 님이 개발한 원본 Hope의 저작권, MIT 라이선스와 비공식 포크 관계",
-            },
-        ],
-        proofs: [
-            {
-                item: "입력한 커밋과 비교 기준 확정",
-                method: "테스트용 Git 저장소를 사용한 Commit Diff 코드 수집 테스트",
-                rule: "짧은 커밋 ID, 일반 커밋의 첫 번째 부모, 최초 커밋의 빈 상태와 병합 커밋에서 사용자가 고른 부모를 각각 확정해 저장된 변경 파일을 수집",
-                result: "수집기는 커밋 ID와 비교 기준을 고정했습니다. textconv와 색상 출력을 끈 상태에서 파일 이름 변경 정보와 추가 및 삭제 줄 수를 보존했고, UTF-8이 아닌 경로는 거절했습니다.",
-                scope: "공개 v5.0.2 및 main 커밋 9d8392d의 commit-collector.test.mjs 기준",
-            },
-            {
-                item: "비공개 파일과 토큰 제외 및 리뷰 근거 검증",
-                method: "비공개 경로, 토큰 형태와 변경 파일 및 줄 위치 검증 테스트",
-                rule: "분석 과정에서 추가로 요청한 파일도 본문을 읽기 전에 비공개 경로인지 검사. 변경 파일에서 발견한 토큰 및 인증 키 형태의 값은 분석 입력과 HTML에서 제외",
-                result: "검증기는 비공개 경로와 자격 증명을 제외하고, 수집하지 않은 파일과 줄을 가리킨 리뷰를 거절했습니다.",
-                scope: "공개 v5.0.2 및 main 커밋 9d8392d의 비공개 경로 및 토큰 차단 규칙 기준",
-            },
-            {
-                item: "검증을 통과한 리뷰만 새 HTML로 저장",
-                method: "커밋 선택부터 HTML 저장까지 전체 처리 테스트",
-                rule: "입력 커밋과 비교 기준을 확정하고 리뷰 설명의 파일, 줄과 JSON 형식을 확인한 뒤, 저장 직전에 실행 식별자와 검토 버전이 처음 확인한 값과 같은지 다시 확인한 경우에만 새 HTML 파일 생성",
-                result: "저장기는 중단 후 빈 파일을 남기지 않고 재개했으며, 다른 실행의 디렉터리와 기존 결과를 유지했습니다.",
-                scope: "공개 v5.0.2 및 main 커밋 9d8392d의 commit-lifecycle.test.mjs 기준",
-            },
-            {
-                item: "저장소 자동화 테스트",
-                method: "Node.js 내장 테스트 러너로 npm test 실행",
-                rule: "Commit Diff와 원본 Hope의 코드 수집, 결과 검증, HTML 생성 및 플러그인 설치 기능이 유지되는지 자동화 테스트 실행",
-                result: "공개 v5.0.2의 GitHub Actions Node.js 22 환경에서 자동화 테스트 343개가 통과했습니다.",
-                scope: "공개 main 커밋 9d8392d · GitHub Actions run 33632058777",
             },
         ],
         category: "오픈소스 및 개발 도구",
@@ -1961,7 +1742,6 @@ const projects = [
     },
     {
         ...projectSummariesById["intent-trace"],
-        evidenceTitle: "구현 및 공개 검증",
         systemTitle: "기록 조회 화면",
         systemNavLabel: "화면",
         architecture: {
@@ -1995,8 +1775,6 @@ const projects = [
                 summary: "단일 인스턴스 배포, 백업, 복구와 릴리스 절차를 기록합니다.",
             },
         ],
-        documentsIntro:
-            "변경 기록·GitHub 게시·인증, 웹·IntelliJ·Zed 조회와 배포·복구 절차를 문서에 기록합니다.",
         documents: [
             {
                 type: "README",
@@ -2063,64 +1841,6 @@ const projects = [
                 label: "보안 정책",
                 href: "https://github.com/ljkhyeong/intent-trace/blob/main/SECURITY.md",
                 note: "원문 대화, 숨은 추론과 자격 증명을 저장하지 않는 공개 원칙",
-            },
-        ],
-        proofs: [
-            {
-                item: "작성자 확인 후 코드가 바뀌면 변경 기록 공개 차단",
-                method: "서버 도메인 및 JDBC 통합 테스트",
-                rule: "초안 생성, 다른 작성자의 확인 거절, 전체 커밋 해시 연결, 작성자 확인 후 코드가 바뀐 상태의 공개와 새 공개 기록으로 대체를 실행",
-                result: "DRAFT → AUTHOR_CONFIRMED → PUBLISHED → SUPERSEDED 순서를 적용하고, 작성자가 확인한 코드 상태와 공개 요청 때 제출한 코드 상태가 다르면 게시를 거절합니다.",
-                scope: "공개 main e234584의 서버 테스트 기준",
-            },
-            {
-                item: "요청 및 GitHub 게시 중복 처리 방지",
-                method: "REST, JDBC와 GitHub Check Run 통합 테스트",
-                rule: "같은 requestId로 동일하거나 다른 요청 본문을 재전송하고, 같은 PR HEAD에 게시 요청을 반복하며 동시 상태 변경을 실행",
-                result: "같은 요청 본문은 기존 결과를 반환하고 다른 요청 본문은 충돌로 차단합니다. 유일 제약과 낙관적 잠금으로 상태 경쟁을 막고 기존 Check Run을 갱신합니다.",
-                scope: "공개 main e234584의 서버 테스트 기준",
-            },
-            {
-                item: "GitHub 사용자와 저장소 권한 확인",
-                method: "OAuth, GitHub App 및 인증 필터 테스트",
-                rule: "state와 PKCE 검증, 사용자 토큰 갱신, 저장소 읽기 및 쓰기 권한과 세션 재사용 및 폐기를 실행",
-                result: "GitHub 사용자를 확인한 뒤 읽기와 쓰기 권한을 분리하고, GitHub 액세스·리프레시 토큰과 IntentTrace 세션 토큰(its_)을 프로세스 메모리에만 보관합니다.",
-                scope: "공개 main e234584 기준 · 서버 재시작 시 세션 소멸 · 실제 공개 운영 미검증",
-            },
-            {
-                item: "IntelliJ 현재 줄 및 변경 기록 조회",
-                method: "IntelliJ 플러그인 자동화 테스트와 로컬 GitHub OAuth 연동 확인",
-                rule: "GitHub remote, 전체 HEAD, 저장소 상대 경로와 현재 줄로 조회하고 저장소, 파일과 상태 조건으로 기록 목록을 탐색",
-                result: "커밋된 현재 줄과 팀 공개 및 내 비공개 기록을 조회하고 IntentTrace 세션 토큰을 IntelliJ PasswordSafe에 저장하도록 구현했습니다. 실제 GitHub OAuth 세션으로 목록 조회까지 로컬 확인했습니다.",
-                scope: "IntelliJ IDEA 2025.3.2 대상, 일부 상태 필터와 커밋 없는 기록의 이동 버튼은 수동 검증 미완료, Marketplace 배포 및 공개 운영은 미검증",
-            },
-            {
-                item: "실행 JAR과 체크섬 공개",
-                method: "GitHub Release 자산 및 SHA-256 파일 확인",
-                rule: "v0.7.0 태그의 실행 JAR 및 IntelliJ 플러그인 ZIP과 각 SHA-256 파일이 함께 게시됐는지 확인",
-                result: "v0.7.0 실행 JAR, IntelliJ 플러그인 ZIP과 SHA-256 파일을 공개 릴리스에서 제공합니다.",
-                scope: "공개 릴리스 v0.7.0 기준",
-            },
-            {
-                item: "웹 기록 조회와 원본 코드 비교",
-                method: "서버 통합 테스트 기록·생성 HTML 촬영",
-                rule: "저장소·작성자·상태 필터, 파일·줄 조회, GitHub 코드 비교와 변경 이력을 확인",
-                result: "웹에서 팀 공개 기록과 내 비공개 기록을 찾고 코드 해시를 비교합니다. 권한이 없는 기록은 노출하지 않습니다. 조회가 시간 또는 GitHub 호출 한도에 걸리면 중단 사유와 다음 조회 위치를 반환합니다.",
-                scope: "공개 main e234584 · 서버 생성 HTML과 모의 GitHub 데이터 · 실제 GitHub 게시 미검증",
-            },
-            {
-                item: "Zed MCP 연결과 세션 재연결",
-                method: "저장소 개발 인계 문서와 Zed 연결 테스트 기록",
-                rule: "Zed JSONC 설정, 표준 MCP 중계, 연결 진단과 세션 폐기 후 재연결을 확인",
-                result: "Zed 1.18.1에서 도구 실행 승인 전 인자 확인, 공개 기록 조회와 세션 폐기 후 재연결을 확인했습니다.",
-                scope: "Zed 1.18.1 앱 기준 · GitHub·모델 응답은 로컬 모의 응답",
-            },
-            {
-                item: "GitHub 초안 자료 조회와 Markdown 저장",
-                method: "서버 통합 테스트와 생성 HTML 확인",
-                rule: "저장소 읽기 권한으로 이슈·PR과 지정 커밋의 Actions 결과를 조회하고, 권한이 있는 기록을 Markdown 파일로 저장",
-                result: "새 워크플로를 실행하지 않고 기존 GitHub 자료를 초안 근거로 조회합니다. 웹 저장과 REST 출력은 같은 Markdown 생성기와 권한 검사를 사용합니다.",
-                scope: "공개 main e234584 · 서버 테스트 180개 통과 · 실제 브라우저 저장 대화상자와 GitHub 게시는 미검증",
             },
         ],
         category: "오픈소스 및 개발 도구",
@@ -2249,8 +1969,6 @@ const projects = [
                 note: "실행 JAR, IntelliJ 플러그인 ZIP과 SHA-256 파일",
             },
         ],
-        linkNote:
-            "공개 저장소와 자동화 결과만 연결했습니다. GitHub App 자격 증명과 운영 주소는 포함하지 않습니다.",
         screenshots: [
             {
                 id: "history",
@@ -2285,37 +2003,6 @@ const projects = [
     },
     {
         ...projectSummariesById.warrant,
-        evidenceTitle: "주요 구현 및 확인 결과",
-        proofs: [
-            {
-                item: "이중화 인터페이스 서버의 동시 처리",
-                method: `${warrantPerformance.duration} 인터페이스 성능 테스트`,
-                rule: `${warrantPerformance.load} 부하에서 요청 처리, 커넥션 풀과 DB 잠금 상태 확인`,
-                result: `${warrantPerformance.result}했습니다.`,
-                scope: "성능 테스트 환경 기준 · 상세 환경과 로그는 비공개",
-            },
-            {
-                item: "해양경찰 KICS 독립망 연계",
-                method: "기관별 자료 변환과 Spring Batch 단계별 확인",
-                rule: "KICS의 통신사실확인자료 요청과 통신사 및 집행포털 연계에서 받은 제출 자료를 기관별 연계 형식에 맞춰 변환하고 단계별 처리 상태를 확인",
-                result: "KICS 요청을 기관별 규격으로 바꿔 통신사와 집행포털에 전달했습니다. 제출 자료가 KICS에 반영되는 단계별 상태도 확인했습니다.",
-                scope: "보안상 운영 수치와 테스트 코드는 비공개",
-            },
-            {
-                item: "누적 전송 상태 조회",
-                method: "조회 쿼리 및 화면 이동 시나리오 확인",
-                rule: "신규 화면은 마지막 전송 ID 다음부터 조회하고, 기존 번호 이동 화면은 인덱스에서 대상 키를 먼저 찾은 뒤 본문을 조회",
-                result: "신규 화면은 마지막 전송 ID 다음 자료부터 조회했고, 기존 화면은 번호 이동을 유지하며 대상 키를 먼저 찾은 뒤 본문을 조회했습니다.",
-                scope: "구체적인 데이터 건수와 응답 시간은 비공개",
-            },
-            {
-                item: "PDF 완료 응답 순서 역전 처리",
-                method: "PDF 변환 요청 상태 저장과 변환 완료 응답의 순서를 바꾼 시나리오 확인",
-                rule: "PDF 변환 완료 응답이 요청 상태의 DB 저장보다 먼저 도착하도록 실행",
-                result: "요청 상태를 백오프로 재조회해 먼저 도착한 PDF 완료 결과를 반영했습니다.",
-                scope: "보안상 운영 수치와 테스트 코드는 비공개",
-            },
-        ],
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
         role: "형사사법정보시스템(KICS) 요청을 통신사용 또는 포털용 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현",
         oneLine:
@@ -2385,37 +2072,11 @@ const projects = [
             "Maven",
         ],
         links: [],
-        linkNote:
-            "보안 및 기밀 유지 기준에 따라 소스 코드, 운영 화면과 내부 설계 문서는 공개하지 않습니다.",
     },
     {
         ...projectSummariesById.defense,
-        evidenceTitle: "주요 구현 및 확인 결과",
         systemTitle: "수용자 인적정보 및 영장정보 연계 배치 흐름",
         systemNavLabel: "연계 흐름",
-        proofs: [
-            {
-                item: "기관별 수용자 자료 반영 배치의 중단 단계 확인 및 재실행",
-                method: "기관별 배치 실행 결과, 업무 서버 로그와 Tibero 처리 상태 확인",
-                rule: "군사법원, 군검찰 및 군사경찰 자료 반영 배치를 기관별로 실행하고, 중단되면 Jenkins 실행 이력과 JEUS 로그 및 Tibero 상태를 대조해 해당 기관 배치를 재실행",
-                result: "중단된 기관 배치를 재실행해 인적정보와 영장정보의 군교정 DB 반영 확인",
-                scope: "운영 건수, 내부 데이터와 세부 연계 규격은 비공개",
-            },
-            {
-                item: "WebSquare 상태 변경 요청의 CSRF 차단",
-                method: "정상 토큰, 토큰 누락 및 불일치 요청을 각각 실행",
-                rule: "Spring Security가 생성한 CSRF 토큰의 이름과 값을 WebSquare 화면 데이터 규격으로 전달하고 공통 요청 로직에서 상태 변경 요청마다 포함",
-                result: "정상 요청은 처리하고 토큰이 없거나 일치하지 않는 요청은 Spring Security 필터에서 차단되는 것을 확인",
-                scope: "폐쇄망 환경에서 확인",
-            },
-            {
-                item: "대용량 파일 직접 업로드",
-                method: "허용 및 차단 요청의 URL 발급 여부와 파일 본문 전송 경로 확인",
-                rule: "업무 서버가 업로드 권한과 파일 정보를 검증한 뒤 Presigned URL을 발급하고, 브라우저가 기존 파일 저장 시스템으로 직접 업로드",
-                result: "검증을 통과한 요청에만 URL을 발급하고, 파일 본문이 업무 서버를 거치지 않고 파일 저장 시스템으로 직접 전송되는 것을 확인",
-                scope: "폐쇄망 환경에서 확인",
-            },
-        ],
         category: "BEINTECH / 국방부 SI",
         role: "군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 중단 배치 재실행",
         oneLine:
@@ -2485,28 +2146,9 @@ const projects = [
             "SVN",
         ],
         links: [],
-        linkNote:
-            "보안 및 기밀 유지 기준에 따라 소스 코드, 운영 화면, 외부 문서는 공개하지 않습니다.",
     },
     {
         ...projectSummariesById.webrtc,
-        evidenceTitle: "구현 범위 및 확인 결과",
-        proofs: [
-            {
-                item: "WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 변환",
-                method: "공개 HLS 서버 및 React 구현 코드 검토와 6인 팀 시연",
-                rule: "mediasoup의 RTP 출력을 FFmpeg와 GStreamer에서 HLS로 변환하고, React 화면에서 WebRTC 실시간 영상과 HLS 지난 구간 영상을 각각 재생",
-                result: "React 화면에서 현재 강의는 WebRTC로 재생되고, 지난 구간을 선택하면 생성된 HLS 영상이 재생되는 것을 확인",
-                scope: "직접 담당한 HLS 서버와 React 프론트엔드 구현 범위",
-            },
-            {
-                item: "HLS 다시보기 재생 지연",
-                method: "공개 HLS 서버 커밋에 기록된 설정 변경 전후의 시연 환경 재생 시간 비교",
-                rule: "HLS 세그먼트 길이와 FFmpeg 인코딩 설정을 조정한 뒤, RTP 입력부터 React HLS 재생까지 걸리는 시간을 다시 측정",
-                result: "HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축",
-                scope: "공개 저장소 커밋과 시연 기록 기준",
-            },
-        ],
         category: "교육 프로젝트",
         role: "mediasoup RTP-HLS 변환 서버와 WebRTC 및 HLS React 재생 화면 구현",
         oneLine:

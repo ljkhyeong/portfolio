@@ -341,7 +341,6 @@ main.case-showcase .baton-service-switcher > span {
 
 main.case-showcase .case-problems,
 main.case-showcase .case-architecture,
-main.case-showcase .case-proof,
 main.case-showcase .case-documents,
 main.case-showcase .case-meta,
 main.case-showcase .baton-service-problems,
@@ -466,7 +465,6 @@ main.case-showcase .featured-problem__details dl > div {
 }
 
 main.case-showcase .problem-solution-list,
-main.case-showcase .project-evidence-list,
 main.case-showcase .case-more,
 main.case-showcase .case-meta__stack > ul,
 main.case-showcase .case-meta__links > ul,
@@ -476,41 +474,16 @@ main.case-showcase .case-meta__link-note {
     background: transparent;
 }
 
-main.case-showcase .problem-solution-list > li,
-main.case-showcase .project-evidence-list > li {
+main.case-showcase .problem-solution-list > li {
     border-top: 1px solid var(--line);
 }
 
-main.case-showcase .problem-solution-list__item > summary,
-main.case-showcase .project-evidence-list__entry > summary {
+main.case-showcase .problem-solution-list__item > summary {
     padding: 24px 0;
 }
 
-main.case-showcase .problem-solution-list__item > summary h3,
-main.case-showcase .project-evidence-list__subject strong {
+main.case-showcase .problem-solution-list__item > summary h3 {
     font-weight: 550;
-}
-
-main.case-showcase .project-evidence-list__entry > summary {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) auto;
-}
-
-main.case-showcase .project-evidence-list__outcome p {
-    color: var(--muted);
-}
-
-main.case-showcase .case-status {
-    margin: 0 0 32px;
-    padding: 0 0 0 20px;
-    border: 0;
-    border-left: 2px solid var(--accent);
-    border-radius: 0;
-    background: transparent;
-}
-
-main.case-showcase .case-status p {
-    color: var(--muted);
-    font-weight: 400;
 }
 
 main.case-showcase .case-architecture__intro {
@@ -531,10 +504,6 @@ main.case-showcase .case-architecture__intro h3 {
     font-size: var(--portfolio-subtitle);
     font-weight: 500;
     line-height: 1.55;
-}
-
-main.case-showcase .case-documents__intro {
-    margin-left: 0;
 }
 
 main.case-showcase .case-representative-documents > ul {
@@ -762,7 +731,6 @@ main.case-showcase .case-more > summary,
 main.case-showcase .baton-service-scope summary,
 main.case-showcase .case-next a > span:first-child,
 main.case-showcase .baton-service-footer,
-main.case-showcase .project-evidence-list__action,
 main.case-showcase .problem-solution-list__action {
     font-size: var(--portfolio-small);
 }
@@ -775,9 +743,7 @@ main.case-showcase .featured-problem__eyebrow,
 main.case-showcase .featured-problem__flow-label,
 main.case-showcase .featured-problem__evidence-label,
 main.case-showcase .featured-problem__step-number,
-main.case-showcase .project-evidence-list__type,
 main.case-showcase .problem-solution-list__result > span,
-main.case-showcase .case-status > span,
 main.case-showcase .case-architecture__intro blockquote strong,
 main.case-showcase .baton-service-scope dt,
 main.case-showcase .editorial-diagram__eyebrow,
@@ -791,7 +757,6 @@ main.case-showcase .service-document-links .service-document-type {
 
 main.case-showcase .featured-problem__flow li strong,
 main.case-showcase .problem-solution-list__item > summary h3,
-main.case-showcase .project-evidence-list__subject strong,
 main.case-showcase .case-representative-documents a strong,
 main.case-showcase .service-document-links article a strong {
     font-size: var(--portfolio-subtitle);
@@ -801,8 +766,6 @@ main.case-showcase .featured-problem__flow li p,
 main.case-showcase .featured-problem__details dt,
 main.case-showcase .problem-solution-list__item dt,
 main.case-showcase .problem-solution-list__result,
-main.case-showcase .project-evidence-list__entry dt,
-main.case-showcase .case-status strong,
 main.case-showcase .baton-service-status dt,
 main.case-showcase .baton-service-flow__legend,
 main.case-showcase .editorial-diagram__header > p,
@@ -813,14 +776,8 @@ main.case-showcase .editorial-diagram__summary {
 
 main.case-showcase .featured-problem__details dd,
 main.case-showcase .problem-solution-list__item dd,
-main.case-showcase .project-evidence-list__entry dd,
-main.case-showcase .project-evidence-list__entry dd p,
-main.case-showcase .project-evidence-list__entry dd strong,
-main.case-showcase .project-evidence-list__outcome p,
-main.case-showcase .case-status p,
 main.case-showcase .case-architecture__intro p,
 main.case-showcase .case-architecture__intro blockquote,
-main.case-showcase .case-documents__intro,
 main.case-showcase .case-document-inventory dd,
 main.case-showcase .baton-service-status dd,
 main.case-showcase .baton-service-scope > div,
@@ -828,10 +785,6 @@ main.case-showcase .baton-service-scope blockquote,
 main.case-showcase .baton-service-flow figcaption p {
     font-size: var(--portfolio-body);
     line-height: 1.75;
-}
-
-main.case-showcase .project-evidence-list__outcome .project-evidence-list__limitation {
-    font-size: var(--portfolio-small);
 }
 
 /* SVG도 페이지와 비슷한 배율로 표시되므로 작은 원본 글자를 그대로 사용하지 않는다. */
@@ -1012,10 +965,6 @@ main.case-showcase ::selection {
         max-width: 560px;
     }
 
-    main.case-showcase .project-evidence-list__entry > summary {
-        grid-template-columns: minmax(0, 1fr) 32px;
-    }
-
     main.case-showcase .case-meta {
         gap: 48px;
     }
@@ -1086,7 +1035,6 @@ main.case-showcase ::selection {
 
     main.case-showcase .case-problems,
     main.case-showcase .case-architecture,
-    main.case-showcase .case-proof,
     main.case-showcase .case-documents,
     main.case-showcase .case-meta,
     main.case-showcase .baton-service-problems,

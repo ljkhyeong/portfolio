@@ -4,7 +4,8 @@ import "../../css/VerificationRail.css"
 // 구현부터 실제 연동까지 어디까지 확인했는지 단계별로 보여 준다.
 // 색만으로 구분하지 않도록 단계마다 확인 상태를 글자로 함께 적는다.
 // 확인 결과 문장은 상단 정보에서 반복하지 않고 레일 위에 한 번만 둔다.
-const VerificationRail = ({ projectId, summary }) => {
+// note에는 공개 범위나 공개 버전처럼 단계에 담기지 않는 현재 상태를 한 줄로 둔다.
+const VerificationRail = ({ projectId, summary, note }) => {
     const stages = verificationRails[projectId]
 
     if (!stages) {
@@ -29,6 +30,12 @@ const VerificationRail = ({ projectId, summary }) => {
                     </li>
                 ))}
             </ol>
+            {note ? (
+                <p className="verification-rail__note">
+                    <span>{note.label}</span>
+                    {note.text}
+                </p>
+            ) : null}
         </section>
     )
 }

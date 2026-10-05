@@ -83,14 +83,6 @@ describe("project summary data", () => {
                 }),
             ]),
         )
-        expect(hopeCommit.proofs).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    item: "저장소 자동화 테스트",
-                    result: expect.stringContaining("자동화 테스트 343개가 통과"),
-                }),
-            ]),
-        )
     })
 
     it("IntentTrace의 검증 근거와 공개 및 릴리스 범위를 구분한다", () => {
@@ -100,14 +92,6 @@ describe("project summary data", () => {
         expect(intentTrace.status.text).toContain("v0.7.0")
         expect(intentTrace.status.text).toContain("개발 브랜치 125684c")
         expect(intentTrace.architecture.tradeoff).toContain("GitHub 원본 코드 비교는 별도 조회")
-        expect(intentTrace.proofs).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    item: "웹 기록 조회와 원본 코드 비교",
-                    result: expect.stringContaining("웹에서 팀 공개 기록과 내 비공개 기록"),
-                }),
-            ]),
-        )
         expect(intentTrace.documents).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ label: "변경 의도 기록 MVP" }),
@@ -132,19 +116,8 @@ describe("project summary data", () => {
             youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
         ).toEqual(["780x1688", "780x1688", "780x1688", "390x844"])
         expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
-        expect(youthPolicyMate.proofs[0].result).toContain("정책 40건")
-        expect(youthPolicyMate.proofs[0].result).toContain("11종에 조건 질문")
-        expect(youthPolicyMate.proofs[0].result).toContain("9종은 연령을 비교")
         expect(youthPolicyMate.status.text).toContain("실제 OAuth·OpenAI·Resend")
         expect(youthPolicyMate.stack).toContain("Spring JDBC")
-        expect(youthPolicyMate.proofs).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    item: "공개 정책 조회와 정책별 조건 질문",
-                    scope: expect.stringContaining("개발 브랜치 4f7d030"),
-                }),
-            ]),
-        )
     })
 
     it("models BEINTECH as one current employment with two ordered projects", () => {
@@ -208,17 +181,10 @@ describe("project summary data", () => {
         const baton = projectsById.baton
         const sharedProblem = baton.problems.find((problem) => problem.number === "01")
         const coreProblem = baton.problems.find((problem) => problem.number === "02")
-        const coreProof = baton.proofs.find((proof) => proof.item.startsWith("Core 인수인계"))
 
         expect(sharedProblem).toMatchObject({ shared: true })
         expect(coreProblem.serviceIds).toEqual(["core"])
         expect(baton.featuredProblemNumbers[0]).toBe("02")
-        expect(coreProof).toMatchObject({
-            method: "도메인 규칙 및 저장소 통합 테스트",
-            result: expect.stringContaining("진행 중인 인수인계를 1건으로 유지"),
-        })
-        expect(coreProof.result).toContain("준비 → 전달 → 수락 순서")
-        expect(coreProof.result).toContain("준비 또는 전달 단계만 취소")
 
         baton.services
             .filter((service) => !service.primary)
@@ -237,9 +203,6 @@ describe("project summary data", () => {
         const happyGallery = projectsById.happygallery
         const paymentProblem = happyGallery.problems.find((problem) => problem.number === "02")
         const passRefundProblem = happyGallery.problems.find((problem) => problem.number === "07")
-        const passRefundProof = happyGallery.proofs.find(
-            (proof) => proof.item === "8회권 환불, 미래 예약과 잔여 횟수 일치",
-        )
 
         expect(paymentProblem).toMatchObject({
             constraint: expect.stringContaining("실패 이력이 사라지거나"),
@@ -252,10 +215,6 @@ describe("project summary data", () => {
         })
         expect(happyGallery.featuredProblemNumbers).not.toContain("07")
         expect(happyGallery.featuredProblemNumbers).toEqual(["02", "03", "12", "14", "16"])
-        expect(passRefundProof).toMatchObject({
-            method: "MySQL 및 Redis Testcontainers 통합 테스트",
-            result: expect.stringContaining("8회분 환불 요청"),
-        })
         expect(happyGallery.documents).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ label: "결제 승인 실패 이력과 중복 처리 방지" }),
@@ -330,19 +289,16 @@ describe("project summary data", () => {
             )
         })
 
+        // 검증 내용은 문제 해결 항목의 확인 결과와 제약에 두고, 같은 내용을 별도 근거 목록으로 반복하지 않는다.
         Object.values(projectsById).forEach((project) => {
-            project.proofs.forEach((proof) => {
-                expect(proof).toEqual(
-                    expect.objectContaining({
-                        item: expect.any(String),
-                        method: expect.any(String),
-                        rule: expect.any(String),
-                        result: expect.any(String),
-                    }),
+            expect(project, project.id).not.toHaveProperty("proofs")
+            project.problems.forEach((problem) => {
+                expect(problem.validation, `${project.id} ${problem.number}`).toEqual(
+                    expect.any(String),
                 )
-                expect(proof).not.toHaveProperty("value")
-                expect(proof).not.toHaveProperty("label")
-                expect(proof).not.toHaveProperty("detail")
+                expect(problem.boundary, `${project.id} ${problem.number}`).toEqual(
+                    expect.any(String),
+                )
             })
         })
     })

@@ -21,6 +21,25 @@
     word-break: keep-all;
 }
 
+.verification-rail__note {
+    display: flex;
+    max-width: 960px;
+    gap: 16px;
+    margin: 24px 0 0;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    color: var(--muted);
+    font-size: var(--portfolio-small, 16px);
+    line-height: 1.65;
+    word-break: keep-all;
+}
+
+.verification-rail__note span {
+    flex: none;
+    color: var(--ink);
+    font-weight: 650;
+}
+
 .verification-rail ol {
     display: grid;
     grid-auto-columns: minmax(0, 1fr);
@@ -116,6 +135,11 @@
 
     .verification-rail__stage {
         padding-right: 0;
+    }
+
+    .verification-rail__note {
+        flex-direction: column;
+        gap: 4px;
     }
 
     /* 좁은 화면에서는 단계를 세로로 쌓고 기준선도 세로로 잇는다. */

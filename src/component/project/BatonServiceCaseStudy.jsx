@@ -217,7 +217,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="service-documents-title"
                 >
                     <div className="baton-service-section-heading">
-                        <h2 id="service-documents-title">문서 분류와 대표 문서</h2>
+                        <h2 id="service-documents-title">대표 문서</h2>
                     </div>
                     <div className="service-document-links">
                         {documents.map((document) => (
@@ -261,11 +261,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                   },
                               ]
                             : []
-                    }
-                    linkNote={
-                        service.repository
-                            ? undefined
-                            : "비공개 저장소입니다. 공개 가능한 설계 결정과 테스트 근거는 위 대표 문서에 정리했습니다."
                     }
                 />
             </article>

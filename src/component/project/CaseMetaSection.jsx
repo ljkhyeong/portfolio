@@ -19,30 +19,33 @@ const CaseMetaSection = ({
                 ))}
             </ul>
         </div>
-        <div className="case-meta__links">
-            <div className="case-section-heading">
-                <h2>관련 링크</h2>
+        {/* 연결할 주소도 안내도 없으면 빈 제목만 남으므로 링크 칸을 그리지 않는다. */}
+        {links.length > 0 || linkNote ? (
+            <div className="case-meta__links">
+                <div className="case-section-heading">
+                    <h2>관련 링크</h2>
+                </div>
+                {links.length > 0 ? (
+                    <ul>
+                        {links.map((link) => (
+                            <li key={link.label}>
+                                {/* 비공개 저장소는 방문자에게 404가 되므로 주소 없이 이름만 표시한다. */}
+                                {link.href ? (
+                                    <a href={link.href} target="_blank" rel="noreferrer">
+                                        <span>{link.label}</span>
+                                        <span aria-hidden="true">↗</span>
+                                    </a>
+                                ) : (
+                                    <span className="case-meta__link-text">{link.label}</span>
+                                )}
+                                {link.note ? <p>{link.note}</p> : null}
+                            </li>
+                        ))}
+                    </ul>
+                ) : null}
+                {linkNote ? <p className="case-meta__link-note">{linkNote}</p> : null}
             </div>
-            {links.length > 0 ? (
-                <ul>
-                    {links.map((link) => (
-                        <li key={link.label}>
-                            {/* 비공개 저장소는 방문자에게 404가 되므로 주소 없이 이름만 표시한다. */}
-                            {link.href ? (
-                                <a href={link.href} target="_blank" rel="noreferrer">
-                                    <span>{link.label}</span>
-                                    <span aria-hidden="true">↗</span>
-                                </a>
-                            ) : (
-                                <span className="case-meta__link-text">{link.label}</span>
-                            )}
-                            {link.note ? <p>{link.note}</p> : null}
-                        </li>
-                    ))}
-                </ul>
-            ) : null}
-            {linkNote ? <p className="case-meta__link-note">{linkNote}</p> : null}
-        </div>
+        ) : null}
     </section>
 )
 

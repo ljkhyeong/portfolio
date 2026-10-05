@@ -76,10 +76,8 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "href",
         "#project-problems",
     )
-    expect(screen.getByRole("link", { name: "테스트 및 결과" })).toHaveAttribute(
-        "href",
-        "#project-proof",
-    )
+    // 검증 내용은 상단 검증 단계와 문제 해결 항목에 있으므로 별도 근거 섹션을 두지 않는다.
+    expect(screen.queryByRole("link", { name: "테스트 및 결과" })).not.toBeInTheDocument()
     expect(screen.getByRole("list", { name: "BATON 기술 스택" }).closest("section")).toHaveClass(
         "case-meta",
     )
@@ -94,7 +92,6 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         "project-system",
         "project-architecture",
         "project-problems",
-        "project-proof",
         "project-documents",
         "project-stack",
     ]
@@ -279,7 +276,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     ).toBeInTheDocument()
     expect(screen.queryByText("주요 구현 및 해결")).not.toBeInTheDocument()
     expect(screen.getByText(project.role)).toBeInTheDocument()
-    expect(screen.getByText(/문서를 요구사항, 기술 선택, 테스트와 운영 절차로/)).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: "대표 문서" })).toBeInTheDocument()
     expect(screen.queryByText(/^결제 응답 누락,/)).not.toBeInTheDocument()
     expect(
         within(evidenceLinks).getByRole("link", { name: "서비스 보기 새 창에서 보기" }),
@@ -326,12 +323,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     expect(paymentTrigger).toHaveFocus()
 
     const documents = document.getElementById("project-documents")
-    // 근거와 대표 문서는 앞의 6건만 펼치고 나머지는 접어 둔다.
-    const evidence = screen.getByRole("list", { name: "테스트 범위 및 운영 이력 목록" })
-    const restEvidence = screen.getByRole("list", { name: "테스트 범위 및 운영 이력 나머지 목록" })
-    expect(within(evidence).getAllByRole("listitem")).toHaveLength(6)
-    expect(within(restEvidence).getAllByRole("listitem")).toHaveLength(project.proofs.length - 6)
-    expect(restEvidence.closest("details")).not.toHaveAttribute("open")
+    // 대표 문서는 앞의 6건만 펼치고 나머지는 접어 둔다.
 
     const [documentLinks, restDocumentLinks] = within(documents).getAllByRole("list")
     expect(within(documentLinks).getAllByRole("listitem")).toHaveLength(6)
@@ -399,9 +391,11 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     ).toHaveAttribute("tabindex", "0")
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정·알림 처리")).toBeInTheDocument()
-    expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /정책 조건의 버전 관리.*실제 OAuth·OpenAI·Resend/,
-    )
+    expect(
+        within(screen.getByRole("region", { name: "검증 단계" })).getByText(
+            /정책 조건의 버전 관리.*실제 OAuth·OpenAI·Resend/,
+        ),
+    ).toBeInTheDocument()
     expect(
         within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(
             "listitem",
@@ -448,9 +442,11 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
             name: "변경 근거를 커밋과 코드 위치에 연결하고, 확인 후 코드가 바뀌면 기록 공개를 차단합니다.",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByLabelText("현재 상태")).toHaveTextContent(
-        /v0\.7\.0.*개발 브랜치 125684c.*IntelliJ 기록 검색.*실제 GitHub 게시·공개 운영은 미검증/,
-    )
+    expect(
+        within(screen.getByRole("region", { name: "검증 단계" })).getByText(
+            /v0\.7\.0.*개발 브랜치 125684c.*IntelliJ 기록 검색.*실제 GitHub 게시·공개 운영은 미검증/,
+        ),
+    ).toBeInTheDocument()
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/intent-trace")
@@ -509,7 +505,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.getByText(/외부 API는 트랜잭션 밖에서 호출/)).toBeInTheDocument()
     expect(screen.queryByText(/다중 서버에서는 분산 잠금이 필요/)).not.toBeInTheDocument()
     expect(screen.queryByText("군교정 업무")).not.toBeInTheDocument()
-    expect(screen.queryByRole("heading", { name: "문서 분류와 대표 문서" })).not.toBeInTheDocument()
+    expect(screen.queryByRole("heading", { name: "대표 문서" })).not.toBeInTheDocument()
 })
 
 test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 연계와 레거시 환경의 보안 및 장애 대응을 구체적으로 보여준다", () => {
@@ -687,7 +683,7 @@ test.each([
         const stackList = screen.getByRole("list", { name: `${name} 기술 스택` })
         const stackSection = stackList.closest("section")
         const documentsSection = screen
-            .getByRole("heading", { name: "문서 분류와 대표 문서" })
+            .getByRole("heading", { name: "대표 문서" })
             .closest("section")
         const renderedStack = within(stackList)
             .getAllByRole("listitem")
@@ -696,7 +692,11 @@ test.each([
         expect(renderedStack).toEqual(expect.arrayContaining(stack))
         expect(stackSection).toHaveClass("case-meta")
         expect(within(stackSection).getByRole("heading", { name: "사용 기술" })).toBeInTheDocument()
-        expect(within(stackSection).getByRole("heading", { name: "관련 링크" })).toBeInTheDocument()
+        // 비공개 저장소는 연결할 주소가 없으므로 관련 링크 칸을 그리지 않는다.
+        const service = projectsById.baton.services.find((candidate) => candidate.id === id)
+        expect(within(stackSection).queryByRole("heading", { name: "관련 링크" }) !== null).toBe(
+            Boolean(service.repository),
+        )
         expect(
             documentsSection.compareDocumentPosition(stackSection) &
                 Node.DOCUMENT_POSITION_FOLLOWING,
@@ -852,10 +852,7 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
         "mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환",
     )
 
-    const proofs = screen.getByRole("list", { name: "구현 범위 및 확인 결과 목록" })
-
-    expect(proofs).toHaveTextContent("WebRTC 실시간 재생과 RTP 출력의 HLS 다시보기 변환")
-    expect(proofs).toHaveTextContent("HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축")
+    expect(screen.getByRole("region", { name: "검증 단계" })).toHaveTextContent("약 35초 → 약 17초")
     expect(
         screen.getByRole("list", { name: "WebRTC/HLS 현장강의 보조 서비스 기술 스택" }),
     ).toHaveTextContent("mediasoupFFmpegGStreamer")

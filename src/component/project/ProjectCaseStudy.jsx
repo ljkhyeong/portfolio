@@ -9,7 +9,6 @@ import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 import ProblemSolutionList from "./ProblemSolutionList"
-import ProjectEvidenceList from "./ProjectEvidenceList"
 import ProjectSwitcher from "./ProjectSwitcher"
 import BatonArchitectureDiagram from "./diagrams/BatonArchitectureDiagram"
 import HopeCommitFlowDiagram from "./diagrams/HopeCommitFlowDiagram"
@@ -163,21 +162,6 @@ const MoreItems = ({ count, children }) => (
     </details>
 )
 
-const EvidenceSection = ({ proofs, title }) => {
-    const [visible, rest] = splitLongList(proofs)
-
-    return (
-        <>
-            <ProjectEvidenceList proofs={visible} label={`${title} 목록`} />
-            {rest.length > 0 ? (
-                <MoreItems count={rest.length}>
-                    <ProjectEvidenceList proofs={rest} label={`${title} 나머지 목록`} />
-                </MoreItems>
-            ) : null}
-        </>
-    )
-}
-
 const DocumentItems = ({ documents }) => (
     <ul>
         {documents.map((doc) => (
@@ -209,13 +193,6 @@ const ProjectHeroFacts = ({ project }) => (
             <dd>{project.period}</dd>
         </div>
     </dl>
-)
-
-const ProjectStatus = ({ project }) => (
-    <aside className="case-status" aria-label={project.status.label}>
-        <span>{project.status.label}</span>
-        <p>{project.status.text}</p>
-    </aside>
 )
 
 const ProblemList = ({ problems, projectId, additional = false }) => (
@@ -301,7 +278,7 @@ const ArchitectureSection = ({ project }) => (
     </section>
 )
 
-const CaseDocuments = ({ documentGroups, documents, intro }) => {
+const CaseDocuments = ({ documentGroups, documents }) => {
     const [visible, rest] = splitLongList(documents)
 
     return (
@@ -311,11 +288,8 @@ const CaseDocuments = ({ documentGroups, documents, intro }) => {
             aria-labelledby="documents-title"
         >
             <div className="case-section-heading">
-                <h2 id="documents-title">문서 분류와 대표 문서</h2>
+                <h2 id="documents-title">대표 문서</h2>
             </div>
-            <p className="case-documents__intro">
-                {intro ?? "문서를 요구사항, 기술 선택, 테스트와 운영 절차로 나눴습니다."}
-            </p>
             <div className="case-representative-documents">
                 <DocumentItems documents={visible} />
                 {rest.length > 0 ? (
@@ -352,14 +326,12 @@ const projectSections = ({ hasArchitecture, hasDocuments, systemNavLabel }) => [
     ...(hasArchitecture
         ? [{ id: "project-architecture", label: "구현 방법", mobileLabel: "방법" }]
         : []),
-    { id: "project-proof", label: "테스트 및 결과", mobileLabel: "결과" },
     ...(hasDocuments ? [{ id: "project-documents", label: "문서", mobileLabel: "문서" }] : []),
     { id: "project-stack", label: "사용 기술", mobileLabel: "기술" },
 ]
 
 const PriorExperienceCase = ({ project }) => {
     const [technology, ...subject] = project.title.split(" ")
-    const evidenceTitle = project.evidenceTitle ?? "구현 범위 및 확인 결과"
 
     return (
         <main className="case-study-page case-study-page--prior case-showcase" id="main-content">
@@ -400,7 +372,11 @@ const PriorExperienceCase = ({ project }) => {
                     <ProjectHeroFacts project={project} />
                 </header>
 
-                <VerificationRail projectId={project.id} summary={caseResults[project.id]} />
+                <VerificationRail
+                    projectId={project.id}
+                    summary={caseResults[project.id]}
+                    note={project.status}
+                />
 
                 <section
                     className="case-system case-cover"
@@ -431,14 +407,6 @@ const PriorExperienceCase = ({ project }) => {
                     <ProblemList problems={project.problems} projectId={project.id} />
                 </section>
 
-                <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
-                    <div className="case-section-heading">
-                        <h2 id="proof-title">{evidenceTitle}</h2>
-                    </div>
-                    <ProjectStatus project={project} />
-                    <EvidenceSection proofs={project.proofs} title={evidenceTitle} />
-                </section>
-
                 <CaseMetaSection
                     id="project-stack"
                     headingId="stack-title"
@@ -466,9 +434,6 @@ const ProjectCaseStudy = ({ projectId }) => {
 
     const hasArchitecture = Boolean(project.architecture)
     const hasDocuments = Boolean(project.documents?.length)
-    const evidenceTitle =
-        project.evidenceTitle ??
-        (project.projectType === "career" ? "주요 구현 및 확인 결과" : "테스트 범위 및 운영 이력")
     const featuredProblemNumbers =
         project.featuredProblemNumbers ?? project.problems.map((problem) => problem.number)
     const featuredProblems = featuredProblemNumbers
@@ -524,7 +489,11 @@ const ProjectCaseStudy = ({ projectId }) => {
                     <ProjectHeroFacts project={project} />
                 </header>
 
-                <VerificationRail projectId={project.id} summary={caseResults[project.id]} />
+                <VerificationRail
+                    projectId={project.id}
+                    summary={caseResults[project.id]}
+                    note={project.status}
+                />
 
                 <section
                     className="case-system case-cover"
@@ -572,19 +541,10 @@ const ProjectCaseStudy = ({ projectId }) => {
 
                 {hasArchitecture ? <ArchitectureSection project={project} /> : null}
 
-                <section className="case-proof" id="project-proof" aria-labelledby="proof-title">
-                    <div className="case-section-heading">
-                        <h2 id="proof-title">{evidenceTitle}</h2>
-                    </div>
-                    <ProjectStatus project={project} />
-                    <EvidenceSection proofs={project.proofs} title={evidenceTitle} />
-                </section>
-
                 {hasDocuments ? (
                     <CaseDocuments
                         documentGroups={project.documentGroups}
                         documents={project.documents}
-                        intro={project.documentsIntro}
                     />
                 ) : null}
 
