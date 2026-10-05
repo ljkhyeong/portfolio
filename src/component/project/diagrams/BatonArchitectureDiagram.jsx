@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { projectSummariesById } from "../../../data/projectSummaries"
 import useCenteredDiagramViewport from "./useCenteredDiagramViewport"
 
@@ -166,8 +167,8 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                     Core와 6개 서비스의 담당 기능 및 연동 흐름
                 </h3>
                 <p className="editorial-diagram__summary baton-architecture__summary">
-                    각 서비스가 맡은 기능과 주고받는 요청 및 이벤트를 보여줍니다. 공개 환경 전체
-                    연동 완료를 뜻하지 않습니다.
+                    각 서비스가 맡은 기능과 주고받는 요청 및 이벤트를 보여줍니다. 서비스를 누르면
+                    해당 상세로 이동합니다. 공개 환경 전체 연동 완료를 뜻하지 않습니다.
                 </p>
             </figcaption>
 
@@ -178,10 +179,11 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                 aria-label="BATON 서비스 아키텍처 가로 스크롤 영역"
                 tabIndex={0}
             >
+                {/* 서비스 노드가 상세 링크를 담으므로 그림 전체를 img 역할로 묶지 않는다. */}
                 <svg
                     className="editorial-diagram__canvas baton-architecture__canvas"
                     viewBox="0 0 960 560"
-                    role="img"
+                    role="group"
                     aria-labelledby="baton-architecture-title baton-architecture-desc"
                 >
                     <title id="baton-architecture-title">
@@ -284,7 +286,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                 primary: definition.id === "core",
                             }
 
-                            return (
+                            const node = (
                                 <g
                                     key={definition.id}
                                     className={`baton-architecture__node${
@@ -341,6 +343,20 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                         {roleOf(definition)}
                                     </text>
                                 </g>
+                            )
+
+                            // Core는 지금 보고 있는 상세이므로 서비스 노드만 각 상세로 연결한다.
+                            return service.route && !service.primary ? (
+                                <Link
+                                    className="baton-architecture__node-link"
+                                    to={service.route}
+                                    aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
+                                    key={definition.id}
+                                >
+                                    {node}
+                                </Link>
+                            ) : (
+                                node
                             )
                         })}
                     </g>

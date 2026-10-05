@@ -38,7 +38,7 @@
 .editorial-diagram__header > strong,
 .editorial-diagram__title {
     margin: 0;
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: clamp(24px, 2.5vw, 36px);
     font-weight: 500;
     line-height: 1.08;
@@ -313,6 +313,35 @@
     stroke-width: 1.2;
 }
 
+/* 서비스 노드는 해당 서비스 상세로 이동한다. 마우스와 키보드 초점 모두 테두리와 이름 색으로 표시한다. */
+.baton-architecture__node-link {
+    cursor: pointer;
+}
+
+.baton-architecture__node-link:focus {
+    outline: none;
+}
+
+.baton-architecture__node-link
+    :is(.baton-architecture__node-surface, .baton-architecture__node-name) {
+    transition:
+        fill 150ms ease,
+        stroke 150ms ease;
+}
+
+.baton-architecture__node-link:is(:hover, :focus-visible) .baton-architecture__node-surface {
+    fill: var(--diagram-accent-tint);
+    stroke: var(--diagram-accent);
+}
+
+.baton-architecture__node-link:focus-visible .baton-architecture__node-surface {
+    stroke-width: 2.5;
+}
+
+.baton-architecture__node-link:is(:hover, :focus-visible) .baton-architecture__node-name {
+    fill: var(--diagram-accent);
+}
+
 .baton-architecture__node-tag {
     fill: transparent;
     stroke: var(--diagram-rule-strong);
@@ -439,140 +468,6 @@
     margin-top: 36px;
 }
 
-.baton-service-directory {
-    margin-top: 40px;
-}
-
-.baton-service-directory__header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 24px;
-    align-items: baseline;
-    padding: 24px 0;
-    border-top: 1px solid var(--line);
-}
-
-.baton-service-directory__header > span,
-.baton-service-directory__core span,
-.baton-service-directory__identity span {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-}
-
-.baton-service-directory__header h3 {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: clamp(24px, 2.4vw, 34px);
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.035em;
-}
-
-.baton-service-directory__header p,
-.baton-service-directory__core p,
-.baton-service-directory__description p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.7;
-}
-
-.baton-service-directory__core {
-    display: grid;
-    grid-template-columns: minmax(152px, 0.35fr) minmax(320px, 1fr) minmax(280px, 0.85fr);
-    gap: 24px;
-    align-items: start;
-    padding: 28px 24px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    background: var(--paper-raised);
-}
-
-.baton-service-directory__core strong,
-.baton-service-directory__identity strong {
-    display: block;
-    margin-top: 8px;
-    font-family: var(--serif);
-    font-size: 28px;
-    font-weight: 550;
-    letter-spacing: -0.04em;
-}
-
-.baton-service-directory__core h4,
-.baton-service-directory__description h4 {
-    margin: 0 0 8px;
-    font-size: 15px;
-    line-height: 1.4;
-}
-
-.baton-service-directory__core em,
-.baton-service-directory__description em {
-    color: var(--muted);
-    font-size: 12px;
-    font-style: normal;
-    line-height: 1.6;
-}
-
-.baton-service-directory__list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid var(--line);
-    list-style: none;
-}
-
-.baton-service-directory__list li {
-    min-width: 0;
-    border-top: 1px solid var(--line);
-}
-
-.baton-service-directory__list li:nth-child(odd) {
-    border-right: 1px solid var(--line);
-}
-
-.baton-service-directory__list a {
-    display: grid;
-    min-height: 88px;
-    grid-template-columns: 100px minmax(0, 1fr) 20px;
-    align-items: center;
-    gap: 16px;
-    padding: 20px 24px;
-    transition: background-color 160ms ease;
-}
-
-.baton-service-directory__list a:hover,
-.baton-service-directory__list a:focus-visible {
-    background: var(--diagram-accent-tint);
-}
-
-.baton-service-directory__identity strong {
-    margin-top: 0;
-    font-size: 24px;
-}
-
-.baton-service-directory__description h4 {
-    margin: 0;
-    font-weight: 500;
-}
-
-.baton-service-directory__description em {
-    display: block;
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid var(--line);
-}
-
-.baton-service-directory__list b {
-    color: var(--accent);
-    font-size: 18px;
-    font-weight: 500;
-    text-align: right;
-}
-
 @media (max-width: 860px) {
     .editorial-diagram__header {
         grid-template-columns: 128px minmax(0, 1fr);
@@ -580,31 +475,6 @@
 
     .editorial-diagram__header > p {
         grid-column: 2;
-    }
-
-    .baton-service-directory__header {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .baton-service-directory__header > p {
-        grid-column: auto;
-    }
-
-    .baton-service-directory__core {
-        grid-template-columns: 128px minmax(0, 1fr);
-    }
-
-    .baton-service-directory__core > em {
-        grid-column: 2;
-    }
-
-    .baton-service-directory__list {
-        grid-template-columns: 1fr;
-    }
-
-    .baton-service-directory__list li:nth-child(odd) {
-        border-right: 0;
     }
 }
 
@@ -629,31 +499,6 @@
 
     .editorial-diagram__header > p {
         font-size: 13px;
-    }
-
-    .baton-service-directory__header,
-    .baton-service-directory__core {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .baton-service-directory__header > p,
-    .baton-service-directory__core > em {
-        grid-column: auto;
-    }
-
-    .baton-service-directory__core {
-        padding: 22px 18px;
-    }
-
-    .baton-service-directory__list a {
-        grid-template-columns: 80px minmax(0, 1fr) 16px;
-        gap: 14px;
-        padding: 20px 4px;
-    }
-
-    .baton-service-directory__identity strong {
-        font-size: 20px;
     }
 
     .editorial-diagram__viewport::before {

@@ -106,11 +106,9 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
             name: "Core와 6개 서비스의 담당 기능 및 연동 흐름",
         }),
     ).toBeInTheDocument()
-    expect(
-        screen.getByRole("img", {
-            name: /Core와 6개 서비스의 담당 기능 및 연동 흐름.*선은 서비스 사이에서 주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지 않습니다/,
-        }),
-    ).toBeInTheDocument()
+    const architecture = screen.getByRole("group", {
+        name: /Core와 6개 서비스의 담당 기능 및 연동 흐름.*선은 서비스 사이에서 주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지 않습니다/,
+    })
     expect(screen.getByLabelText("Core: 조직, 역할 및 인수인계")).toBeInTheDocument()
     expect(screen.getByLabelText("GO: 허용 경로의 짧은 링크")).toBeInTheDocument()
     expect(screen.getByLabelText("WATCH: 외부 URL 상태 점검")).toBeInTheDocument()
@@ -120,7 +118,17 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
     expect(
         screen.getByRole("region", { name: "BATON 서비스 아키텍처 가로 스크롤 영역" }),
     ).toHaveAttribute("tabindex", "0")
-    expect(screen.getByRole("heading", { name: "마이크로서비스별 담당 기능" })).toBeInTheDocument()
+    // 서비스별 담당 기능 목록 대신 구성도의 서비스 노드가 각 상세로 연결한다.
+    const batonServices = ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"]
+    expect(screen.queryByRole("heading", { name: "마이크로서비스별 담당 기능" })).toBeNull()
+    batonServices.forEach((service) => {
+        expect(
+            within(architecture).getByRole("link", {
+                name: `BATON ${service} 마이크로서비스 상세 보기`,
+            }),
+        ).toHaveAttribute("href", `/projects/baton/${service.toLowerCase()}`)
+    })
+    expect(within(architecture).getAllByRole("link")).toHaveLength(6)
 
     const evidenceLinks = screen.getByRole("list", { name: "프로젝트 자료 바로가기" })
     const repositoryLinks = [
@@ -318,7 +326,22 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     expect(paymentTrigger).toHaveFocus()
 
     const documents = document.getElementById("project-documents")
-    const documentLinks = within(documents).getByRole("list")
+    // 근거와 대표 문서는 앞의 6건만 펼치고 나머지는 접어 둔다.
+    const evidence = screen.getByRole("list", { name: "테스트 범위 및 운영 이력 목록" })
+    const restEvidence = screen.getByRole("list", { name: "테스트 범위 및 운영 이력 나머지 목록" })
+    expect(within(evidence).getAllByRole("listitem")).toHaveLength(6)
+    expect(within(restEvidence).getAllByRole("listitem")).toHaveLength(project.proofs.length - 6)
+    expect(restEvidence.closest("details")).not.toHaveAttribute("open")
+
+    const [documentLinks, restDocumentLinks] = within(documents).getAllByRole("list")
+    expect(within(documentLinks).getAllByRole("listitem")).toHaveLength(6)
+    expect(within(restDocumentLinks).getAllByRole("listitem")).toHaveLength(
+        project.documents.length - 6,
+    )
+    expect(restDocumentLinks.closest("details")).not.toHaveAttribute("open")
+    expect(restDocumentLinks.closest("details")).toHaveTextContent(
+        `나머지 ${project.documents.length - 6}건 보기`,
+    )
     const inventory = within(documents).getByText("문서 분류와 작성 수").closest("details")
     expect(inventory).not.toHaveAttribute("open")
     expect(
