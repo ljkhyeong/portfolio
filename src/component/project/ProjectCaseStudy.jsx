@@ -178,6 +178,7 @@ const ProjectHeroFacts = ({ project }) => (
 
 const ProblemList = ({ problems, projectId, additional = false }) => (
     <ProblemSolutionList
+        compact={additional}
         featured={additional ? undefined : featuredCasePresentations[projectId]}
         problems={problems.map((problem) => ({
             ...problem,
@@ -496,13 +497,18 @@ const ProjectCaseStudy = ({ projectId }) => {
                     </div>
                     <ProblemList problems={featuredProblems} projectId={project.id} />
                     {additionalProblems.length > 0 ? (
-                        <details className="case-more">
-                            <summary>
-                                추가 문제 해결 {additionalProblems.length}건 보기
-                                <span aria-hidden="true" />
-                            </summary>
+                        <section
+                            className="case-problem-index"
+                            aria-labelledby="problem-index-title"
+                        >
+                            <div className="case-problem-index__heading">
+                                <h3 id="problem-index-title">다른 문제 해결</h3>
+                                <span>
+                                    {additionalProblems.length}건 · 제목을 누르면 내용을 펼칩니다.
+                                </span>
+                            </div>
                             <ProblemList problems={additionalProblems} additional />
-                        </details>
+                        </section>
                     ) : null}
                 </section>
 

@@ -169,16 +169,18 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         within(relatedLinks).getByText("BATON RELAY GitHub 저장소").closest("li"),
     ).toHaveTextContent("비공개 저장소")
 
-    const additionalProblems = screen.getByText("추가 문제 해결 10건 보기").closest("details")
+    // 대표 사례 밖의 문제는 접지 않고 번호와 제목 색인으로 보여 주고, 제목을 누르면 내용을 펼친다.
+    const additionalProblems = screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })
     const featuredProblemList = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
 
-    expect(additionalProblems).not.toHaveAttribute("open")
+    expect(screen.getByRole("heading", { name: "다른 문제 해결" })).toBeInTheDocument()
     expect(within(featuredProblemList).getAllByRole("listitem")).toHaveLength(3)
+    expect(within(additionalProblems).getAllByRole("listitem")).toHaveLength(10)
 
-    fireEvent.click(screen.getByText("추가 문제 해결 10건 보기"))
-
-    expect(additionalProblems).toHaveAttribute("open")
-    expect(screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })).toBeInTheDocument()
+    const firstAdditional = additionalProblems.querySelector("details")
+    expect(firstAdditional).not.toHaveAttribute("open")
+    fireEvent.click(firstAdditional.querySelector("summary"))
+    expect(firstAdditional).toHaveAttribute("open")
 
     const projectSwitcher = screen.getByRole("group", {
         name: "프로젝트 바로가기",
@@ -282,9 +284,11 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
         within(evidenceLinks).getByRole("link", { name: "서비스 보기 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://happy-gallery.com")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
-    expect(screen.getByText("추가 문제 해결 11건 보기").closest("details")).not.toHaveAttribute(
-        "open",
-    )
+    expect(
+        within(screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })).getAllByRole(
+            "listitem",
+        ),
+    ).toHaveLength(11)
     expect(screen.getByRole("heading", { name: "대표 화면" })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "대표 화면" })).toHaveAttribute(
         "href",
@@ -407,9 +411,11 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
             name: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
         }),
     ).toBeInTheDocument()
-    expect(screen.getByText("추가 문제 해결 4건 보기").closest("details")).not.toHaveAttribute(
-        "open",
-    )
+    expect(
+        within(screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })).getAllByRole(
+            "listitem",
+        ),
+    ).toHaveLength(4)
     const stack = screen.getByRole("list", { name: "청년정책메이트 기술 스택" })
     const expectedStack = ["Spring Boot 4.1.1", "Next.js 16.3", "React 19.2", "OpenAPI"]
     expectedStack.forEach((technology) =>

@@ -1065,3 +1065,94 @@ main.case-showcase ::selection {
         scroll-snap-align: start;
     }
 }
+
+/* 대표 사례 밖의 문제 해결: 번호와 제목을 2열 색인으로 펼쳐 두고, 누르면 그 자리에서 내용을 펼친다. */
+main.case-showcase .case-problem-index {
+    margin-top: 48px;
+}
+
+main.case-showcase .case-problem-index__heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+    margin-bottom: 12px;
+}
+
+main.case-showcase .case-problem-index__heading h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+main.case-showcase .case-problem-index__heading span {
+    color: var(--muted);
+    font-size: var(--portfolio-caption);
+}
+
+main.case-showcase .problem-solution-list--index {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+    align-items: start;
+    column-gap: 48px;
+    border-top: 1px solid var(--ink);
+}
+
+main.case-showcase .problem-solution-list--index > li {
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+}
+
+main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary {
+    min-height: 0;
+    padding: 12px 0;
+}
+
+main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary h3 {
+    min-height: 28px;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    font-size: 17px;
+}
+
+main.case-showcase .problem-solution-list__number {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+}
+
+main.case-showcase .problem-solution-list--index .problem-solution-list__action {
+    min-width: 0;
+}
+
+main.case-showcase .problem-solution-list--index .problem-solution-list__action > span {
+    display: none;
+}
+
+main.case-showcase .problem-solution-list--index .problem-solution-list__item dl {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 12px;
+}
+
+main.case-showcase .problem-solution-list--index .problem-solution-list__item dl > div {
+    padding: 10px 0;
+    border-left: 0;
+}
+
+main.case-showcase .problem-solution-list--index .problem-solution-list__item dl > div + div {
+    border-top: 1px solid var(--line);
+}
+
+@media (max-width: 700px) {
+    main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary {
+        padding: 9px 0;
+    }
+
+    main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary h3 {
+        grid-template-columns: 28px minmax(0, 1fr) auto;
+        gap: 8px;
+        font-size: 15px;
+        line-height: 1.45;
+    }
+}

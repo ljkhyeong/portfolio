@@ -8,7 +8,8 @@ const problemEvidence = [
     ["제약과 남은 작업", "boundary"],
 ]
 
-const ProblemSolutionList = ({ problems, label, featured, featuredVisual }) => {
+// compact는 대표 사례 밖의 문제를 번호와 제목만 보이는 색인으로 펼쳐 두고, 누르면 그 자리에서 내용을 연다.
+const ProblemSolutionList = ({ problems, label, featured, featuredVisual, compact = false }) => {
     const featuredProblem = featured
         ? problems.find((problem) => problem.number === featured.problemNumber)
         : null
@@ -26,12 +27,20 @@ const ProblemSolutionList = ({ problems, label, featured, featuredVisual }) => {
                 />
             ) : null}
             {remainingProblems.length > 0 ? (
-                <ol className="problem-solution-list" aria-label={label}>
+                <ol
+                    className={`problem-solution-list${compact ? " problem-solution-list--index" : ""}`}
+                    aria-label={label}
+                >
                     {remainingProblems.map((problem) => (
                         <li key={problem.number}>
                             <details className="problem-solution-list__item">
                                 <summary>
                                     <h3>
+                                        {compact ? (
+                                            <span className="problem-solution-list__number">
+                                                {problem.number}
+                                            </span>
+                                        ) : null}
                                         <span>{problem.title}</span>
                                         <span
                                             className="problem-solution-list__action"
