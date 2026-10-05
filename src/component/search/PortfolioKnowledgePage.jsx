@@ -416,7 +416,24 @@ const AnswerPanel = ({
     </aside>
 )
 
+// 검색 결과는 공개 문서 원문이라 사이트 전용 글꼴 서브셋에 없는 글자가 나올 수 있다.
+// 이 화면에서만 원본 글꼴의 동적 서브셋을 대체 글꼴로 불러온다.
+const FALLBACK_FONT_STYLESHEET =
+    "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+
+const useFallbackFont = () =>
+    useEffect(() => {
+        if (document.querySelector(`link[href="${FALLBACK_FONT_STYLESHEET}"]`)) {
+            return
+        }
+        const link = document.createElement("link")
+        link.rel = "stylesheet"
+        link.href = FALLBACK_FONT_STYLESHEET
+        document.head.append(link)
+    }, [])
+
 const PortfolioKnowledgePage = () => {
+    useFallbackFont()
     const [searchParams, setSearchParams] = useSearchParams()
     const searchedQuery = (searchParams.get("q") ?? "").trim()
     const projectId =

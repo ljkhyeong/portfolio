@@ -10,6 +10,7 @@ const runtimeSourceTargets = [
     "package-lock.json",
     "vite.config.js",
     "src/index.css",
+    "public/fonts/portfolio-sans.woff2",
 ]
 
 const commonRenderSourceTargets = [

@@ -20,7 +20,7 @@
         "knowledge:generate": "node scripts/generate-knowledge-corpus.mjs",
         "sitemap:generate": "node scripts/generate-sitemap.mjs",
         "sitemap:check": "node scripts/check-sitemap.mjs",
-        "prebuild": "npm run knowledge:generate && npm run sitemap:check && npm run og:check && npm run pdf:check",
+        "prebuild": "npm run knowledge:generate && npm run sitemap:check && npm run font:check && npm run og:check && npm run pdf:check",
         "build": "vite build",
         "postbuild": "node scripts/generate-route-meta.mjs",
         "og:generate": "node scripts/generate-og-cover.mjs",
@@ -35,7 +35,9 @@
         "knowledge:refresh-docs": "node scripts/refresh-knowledge-documents.mjs",
         "knowledge:evaluate": "node scripts/evaluate-knowledge.mjs",
         "knowledge:sync": "node scripts/sync-knowledge-index.mjs",
-        "activity:refresh": "node scripts/refresh-github-activity.mjs"
+        "activity:refresh": "node scripts/refresh-github-activity.mjs",
+        "font:subset": "node scripts/generate-font-subset.mjs",
+        "font:check": "node scripts/check-font-subset.mjs"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^7.0.0",

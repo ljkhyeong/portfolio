@@ -12,3 +12,5 @@ output/validation/
 .env.local
 .env.*.local
 !.env.example
+# 글꼴 서브셋 생성용 Python 가상환경
+.venv-font/
