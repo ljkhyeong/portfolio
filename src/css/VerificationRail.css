@@ -184,3 +184,58 @@
     font-size: 13px;
     line-height: 1.5;
 }
+
+/* 메인 그 밖의 프로젝트: 상태별로 묶은 한 줄 요약. 점의 채움과 상태 글자를 함께 쓴다. */
+.verification-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.verification-summary__group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.verification-summary__group .verification-rail__mark {
+    width: 11px;
+    height: 11px;
+    flex: none;
+}
+
+.verification-summary__group.is-verified .verification-rail__mark {
+    border-color: var(--success);
+    background: var(--success);
+}
+
+.verification-summary__group.is-limited .verification-rail__mark {
+    border-color: #b06c00;
+    background: linear-gradient(90deg, #b06c00 50%, var(--paper) 50%);
+}
+
+.verification-summary__group strong {
+    font-weight: 650;
+}
+
+.verification-summary__group.is-verified strong {
+    color: var(--success);
+}
+
+.verification-summary__group.is-limited strong {
+    color: #9a5c00;
+}
+
+.verification-summary__group.is-unverified strong {
+    color: var(--muted);
+}
+
+.verification-summary__group > span:last-child {
+    color: var(--ink-soft);
+    word-break: keep-all;
+}

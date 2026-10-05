@@ -388,13 +388,16 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .project-support__summary {
-        margin-top: 10px;
-        padding-top: 10px;
+        margin-top: 8px;
+        padding-top: 8px;
         border-top: 1px solid var(--line);
     }
 
+    /* 그 밖의 프로젝트는 검증 요약 줄이 더해졌으므로 링크를 가로로 놓아 높이를 줄인다. */
     .portfolio-web-print .project-support__actions {
-        margin-top: 12px;
+        display: flex;
+        gap: 0 20px;
+        margin-top: 4px;
     }
 
     .portfolio-web-print .capability-section {

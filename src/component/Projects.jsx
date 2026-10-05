@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { homeProjectCategories, projectSummaries } from "../data/projectSummaries"
 import { caseResults, caseIntroductions } from "../data/caseHighlights"
 import { verificationRails } from "../data/verificationRails"
-import { VerificationStages } from "./project/VerificationRail"
+import { VerificationStages, VerificationSummary } from "./project/VerificationRail"
 import "../css/Projects.css"
 
 const PROJECT_TYPE_LABELS = {
@@ -154,12 +154,15 @@ const SupportingProjectCard = ({ project }) => (
                     <Link to={project.route}>{project.title}</Link>
                 </h4>
             </header>
-            <p className="project-support__summary">
-                {project.agencyScope && (
-                    <strong className="project-card__scope">{project.agencyScope}</strong>
-                )}
-                {caseIntroductions[project.id] || project.summary}
-            </p>
+            <div className="project-support__body">
+                <p className="project-support__summary">
+                    {project.agencyScope && (
+                        <strong className="project-card__scope">{project.agencyScope}</strong>
+                    )}
+                    {caseIntroductions[project.id] || project.summary}
+                </p>
+                <VerificationSummary projectId={project.id} label={`${project.title} 검증 요약`} />
+            </div>
             <ProjectLinks project={project} supporting />
         </article>
     </li>
