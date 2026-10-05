@@ -46,17 +46,17 @@ README, CHANGELOG·릴리스, PRD·ADR, HANDOFF·운영 문서, 테스트 기록
 
 같은 값은 한 곳에서 정의하고 참조한다. 이미 공유 상수(`youthPolicyCoverage`, `warrantPerformance` 등)가 있으면 상수만 고친다.
 
-| 순서 | 파일                                                                                                                       | 내용                                                                                              |
-| ---- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| 1    | `src/data/projectSummaries.js`                                                                                             | 홈 카드, 요약, `stage`, `visibility`, `period`, `tags`, 저장소·서비스 링크                        |
-| 2    | `src/data/projects.js`                                                                                                     | 상세 `status`, `proofs`, `problems`, `screenshots`, `architecture`, `documents`, `stack`, `links` |
-| 3    | `batonServicePresentation.js`, `caseHighlights.js`, `featuredProblems.js`, `evidencePresentation.js`, `warrantEvidence.js` | BATON 서비스, 대표 사례, 검증 요약, 성능 수치                                                     |
-| 4    | `src/data/projectOg.js`, `src/data/routeMeta.js`                                                                           | 공유 이미지 문구, 검색 결과 설명                                                                  |
-| 5    | `src/component/project/diagrams/*.jsx`                                                                                     | 흐름이나 수치가 바뀐 도식(`portfolio-diagram` 스킬)                                               |
-| 6    | `src/data/knowledgeCorpus.js`                                                                                              | 검색 자료로 공개할 외부 문서 목록(`portfolio-knowledge-search` 스킬)                              |
-| 7    | `README.md`                                                                                                                | 프로젝트 목록 요약                                                                                |
+| 순서 | 파일                                                                                                                    | 내용                                                                                    |
+| ---- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 1    | `src/data/projectSummaries.js`                                                                                          | 홈 카드, 요약, `stage`, `visibility`, `period`, `tags`, 저장소·서비스 링크              |
+| 2    | `src/data/projects.js`                                                                                                  | 상세 `status`, `problems`, `screenshots`, `architecture`, `documents`, `stack`, `links` |
+| 3    | `batonServicePresentation.js`, `caseHighlights.js`, `featuredProblems.js`, `verificationRails.js`, `warrantEvidence.js` | BATON 서비스, 대표 사례, 검증 단계, 성능 수치                                           |
+| 4    | `src/data/projectOg.js`, `src/data/routeMeta.js`                                                                        | 공유 이미지 문구, 검색 결과 설명                                                        |
+| 5    | `src/component/project/diagrams/*.jsx`                                                                                  | 흐름이나 수치가 바뀐 도식(`portfolio-diagram` 스킬)                                     |
+| 6    | `src/data/knowledgeCorpus.js`                                                                                           | 검색 자료로 공개할 외부 문서 목록(`portfolio-knowledge-search` 스킬)                    |
+| 7    | `README.md`                                                                                                             | 프로젝트 목록 요약                                                                      |
 
-`proofs[].scope`에는 날짜, 리비전과 한계를 함께 쓴다. 예: `2026.09.06 로컬 d6ef9d2 · 전체 서울 정책과 최종 신청 자격 판정은 아님`. 문장 표현은 `portfolio-copy`의 원칙을 따른다.
+검증 범위는 문제의 `validation`과 `boundary`, 상세 상단의 `verificationRails.js`에 쓴다. `boundary`에는 날짜, 리비전과 한계를 함께 쓴다. 예: `2026.09.06 로컬 d6ef9d2 · 전체 서울 정책과 최종 신청 자격 판정은 아님`. 별도 근거 목록(`proofs`)은 문제 해결과 같은 내용을 반복해 2026-10-05에 없앴다. 문장 표현은 `portfolio-copy`의 원칙을 따른다.
 
 ## 4. 스크린샷
 
