@@ -181,3 +181,35 @@ test("해시로 진입했을 때 내비게이션 아래에 보이는 섹션을 �
     )
     expect(screen.getByRole("button", { name: "확인 결과 섹션 링크 복사" })).toBeVisible()
 })
+
+test("크기 변경으로 섹션 계산을 다시 해도 화면을 떠날 때 스크롤 리스너를 해제한다", () => {
+    let notifyResize
+    vi.stubGlobal(
+        "ResizeObserver",
+        class {
+            constructor(callback) {
+                notifyResize = callback
+            }
+            observe() {}
+            disconnect() {}
+        },
+    )
+    const addListener = vi.spyOn(window, "addEventListener")
+    const removeListener = vi.spyOn(window, "removeEventListener")
+
+    const { unmount } = render(
+        <article>
+            <CaseSectionNavigation sections={[{ id: "overview", label: "개요" }]} />
+            <section id="overview">개요 본문</section>
+        </article>,
+    )
+    act(() => notifyResize())
+    unmount()
+
+    const added = addListener.mock.calls.filter(([type]) => type === "scroll").map(([, fn]) => fn)
+    const removed = removeListener.mock.calls
+        .filter(([type]) => type === "scroll")
+        .map(([, fn]) => fn)
+    expect(added.length).toBeGreaterThan(0)
+    added.forEach((listener) => expect(removed).toContain(listener))
+})

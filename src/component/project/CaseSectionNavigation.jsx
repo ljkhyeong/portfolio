@@ -136,18 +136,22 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
             targets.forEach((target) => observer.observe(target))
         }
 
+        // observeSections가 크기 변경마다 updateActive를 새로 만들므로, 스크롤에는 고정 함수를
+        // 등록해 정리할 때 같은 함수를 해제한다. 그래야 상세를 떠난 뒤 리스너가 남지 않는다.
+        const handleScroll = () => updateActive?.()
+
         observeSections()
         const resizeObserver =
             typeof ResizeObserver === "undefined" ? null : new ResizeObserver(observeSections)
         resizeObserver?.observe(navigation)
         window.addEventListener("resize", observeSections)
-        window.addEventListener("scroll", updateActive, { passive: true })
+        window.addEventListener("scroll", handleScroll, { passive: true })
 
         return () => {
             observer?.disconnect()
             resizeObserver?.disconnect()
             window.removeEventListener("resize", observeSections)
-            window.removeEventListener("scroll", updateActive)
+            window.removeEventListener("scroll", handleScroll)
             targets.forEach((target, index) => {
                 target.style.scrollMarginTop = originalMargins[index]
             })
