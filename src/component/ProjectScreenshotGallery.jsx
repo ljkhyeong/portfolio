@@ -18,6 +18,8 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
             ({ screenshot }) =>
                 !visibleScreenshotIds || visibleScreenshotIds.includes(screenshot.id),
         )
+    // 상세 첫 화면의 첫 캡처는 바로 받아 가장 먼저 그린다. 경로별 HTML도 같은 파일을 미리 받는다.
+    const isLeadImage = (index) => index === 0 && context.startsWith("case")
     const isOpen = activeIndex !== null
     const activeScreenshot = isOpen ? screenshots[activeIndex] : null
     const activeNote = activeScreenshot?.note ?? project.screenshotNote
@@ -154,9 +156,9 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                                 src={assetPath(screenshot.src)}
                                 width={screenshot.width}
                                 height={screenshot.height}
-                                loading={
-                                    index === 0 && context.startsWith("case") ? "eager" : "lazy"
-                                }
+                                loading={isLeadImage(index) ? "eager" : "lazy"}
+                                // React 18.2는 fetchPriority를 모르므로 소문자 속성으로 넘긴다.
+                                fetchpriority={isLeadImage(index) ? "high" : undefined}
                                 decoding="async"
                                 alt={screenshot.alt}
                             />

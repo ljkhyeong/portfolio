@@ -1,17 +1,56 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises"
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { createServer } from "vite"
 import {
     notFoundRouteMeta,
     routeMeta,
     toAbsoluteUrl,
     toCanonicalUrl,
 } from "../src/data/routeMeta.js"
+import {
+    collectRouteAssets,
+    firstScreenshotPath,
+    injectPreloadTags,
+    renderPreloadTags,
+    routeEntryModule,
+} from "./route-preload.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const buildDirectory = path.join(repositoryRoot, "build")
 const entryPath = path.join(buildDirectory, "index.html")
+const manifestDirectory = path.join(buildDirectory, ".vite")
 const baseHtml = await readFile(entryPath, "utf8")
+const manifest = JSON.parse(await readFile(path.join(manifestDirectory, "manifest.json"), "utf8"))
+
+const loadProjects = async () => {
+    const vite = await createServer({
+        root: repositoryRoot,
+        appType: "custom",
+        logLevel: "silent",
+        server: { middlewareMode: true },
+    })
+
+    try {
+        const { projectList } = await vite.ssrLoadModule("/src/data/projects.js")
+        return projectList
+    } finally {
+        await vite.close()
+    }
+}
+
+const projects = await loadProjects()
+
+const preloadTagsFor = (pathname) => {
+    const moduleKey = routeEntryModule(manifest, pathname)
+    if (!moduleKey) {
+        return ""
+    }
+    return renderPreloadTags({
+        ...collectRouteAssets(manifest, moduleKey),
+        image: firstScreenshotPath(projects, pathname),
+    })
+}
 
 const escapeAttribute = (value) =>
     value
@@ -54,7 +93,7 @@ const renderRouteHtml = (pathname, meta) => {
     html = replaceMeta(html, "name", "twitter:image:alt", meta.imageAlt ?? "임정규 포트폴리오")
     html = replaceCanonical(html, canonicalUrl)
 
-    return html
+    return injectPreloadTags(html, preloadTagsFor(pathname))
 }
 
 await writeFile(entryPath, renderRouteHtml("/", routeMeta["/"]))
@@ -71,5 +110,8 @@ for (const [pathname, meta] of Object.entries(routeMeta)) {
 }
 
 await writeFile(path.join(buildDirectory, "404.html"), renderRouteHtml("/404", notFoundRouteMeta))
+
+// 매니페스트는 빌드 중에만 쓰므로 배포 파일에 남기지 않는다.
+await rm(manifestDirectory, { recursive: true, force: true })
 
 console.log(`Generated ${Object.keys(routeMeta).length} route metadata pages and 404.html`)
