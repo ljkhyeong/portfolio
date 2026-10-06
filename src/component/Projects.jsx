@@ -43,7 +43,7 @@ const CoverShot = ({ project, ratio }) => {
                     {project.coverText.text}
                 </div>
                 <figcaption>
-                    <strong>처리 흐름</strong> {project.coverText.note}
+                    <strong>{project.coverText.label}</strong> {project.coverText.note}
                 </figcaption>
             </figure>
         ) : null

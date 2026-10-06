@@ -3,19 +3,7 @@
 }
 
 .baton-service-flow__header {
-    display: grid;
-    grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1fr);
-    gap: 24px;
-    align-items: baseline;
     margin: 0 0 24px;
-}
-
-.baton-service-flow__header > span {
-    color: var(--accent, #0f7b5f);
-    font-family: var(--mono, monospace);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
 }
 
 .baton-service-flow h3 {
@@ -183,11 +171,4 @@
     color: var(--muted, #59636e);
     font-size: 15px;
     line-height: 1.7;
-}
-
-@media (max-width: 760px) {
-    .baton-service-flow__header {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
 }

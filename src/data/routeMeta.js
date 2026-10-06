@@ -5,7 +5,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "공공기관 연계 서버와 배치를 개발하고, 중복 실행 방지와 서버 중단 후 재처리를 구현한 백엔드 개발자 임정규의 포트폴리오",
+        "외부 기관 연동과 배치 처리를 주로 맡아 온 Java 백엔드 개발자 임정규의 포트폴리오입니다. 전자영장 연계 서버와 결제, 외부 전송을 다루는 개인 프로젝트를 소개합니다.",
     image: "/og-cover.png",
 }
 
@@ -56,7 +56,7 @@ const routeMetaContent = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관(법무부, 공수처, 검찰, 경찰, 해양경찰) 전자영장 연계 시스템의 KICS 요청 변환과 제출 자료 반영 서버와 Spring Batch를 개발한 경력 사례",
+            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관(법무부, 공수처, 검찰, 경찰, 해양경찰) 전자영장 연계 시스템의 KICS 요청 변환과 제출 자료 반영 서버와 Spring Batch를 개발 중인 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
@@ -68,7 +68,7 @@ const routeMetaContent = {
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "내 조건에 맞는 서울 청년정책을 찾고 저장한 정책의 변경 내용, 마감, 알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱 개발 프로젝트",
+            "서울 청년 정책을 찾아보고 저장한 정책의 변경 내용, 마감, 알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱 개발 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
@@ -92,13 +92,13 @@ const routeMetaContent = {
     "/projects/webrtc": {
         title: "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
         description:
-            "2023년 6인 팀 시연 환경에서 WebRTC 실시간 강의와 HLS 다시보기를 구현하고 HLS 재생 지연을 약 35초에서 약 17초로 줄인 교육 프로젝트",
+            "2023년 6인 팀 프로젝트에서 WebRTC 실시간 강의와 HLS 다시보기를 구현하고, 팀 시연 환경에서 HLS 재생 지연을 약 35초에서 약 17초로 줄인 교육 프로젝트",
         image: "/og-cover.png",
     },
     "/search": {
         title: "백엔드 프로젝트 문서 검색 | 임정규",
         description:
-            "공공기관 연계, 결제와 환불의 중복 실행 방지, 서버 중단 후 작업 재처리 경험을 프로젝트 문서와 출처로 확인할 수 있습니다.",
+            "외부 기관 연동, 결제와 환불의 중복 실행 방지, 서버 중단 후 작업 재처리를 설명한 프로젝트 문서를 출처와 함께 찾습니다.",
         image: "/og-cover.png",
     },
     "/portfolio/print": {

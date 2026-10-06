@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { describe, expect, it } from "vitest"
+import { caseResults } from "./caseHighlights"
 import { projectList } from "./projects"
 import {
     createKnowledgeSources,
@@ -24,7 +25,9 @@ const localDocumentContentByHref = Object.fromEntries(
 )
 
 const createCorpus = () =>
-    buildKnowledgeCorpus(createKnowledgeSources(projectList, { localDocumentContentByHref }))
+    buildKnowledgeCorpus(
+        createKnowledgeSources(projectList, { caseResults, localDocumentContentByHref }),
+    )
 
 describe("공개 지식 문서 목록", () => {
     it("연락처 포함 문서를 제외한 외부 문서를 커밋에 고정해 색인한다", () => {
@@ -126,7 +129,7 @@ describe("공개 지식 문서 목록", () => {
         expect(youthPolicyOverview.content).toContain("구분: 개인 웹앱 프로젝트")
         expect(youthPolicyOverview.content).toContain("정책 40건")
         expect(youthPolicyOverview.content).toContain(
-            "실제 OAuth, OpenAI, Resend 운영 연동은 미검증",
+            "확인한 범위: 조건 질문, 관심 정책 일정과 알림을 구현하고",
         )
 
         const firstProblem = corpus.documents.find(

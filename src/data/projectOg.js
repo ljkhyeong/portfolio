@@ -42,13 +42,13 @@ export const projectOgCards = [
         route: "/projects/youth-policy-mate",
         title: ["청년정책메이트"],
         category: "웹앱 / 서울 청년정책 / 개발 중",
-        description: "내 조건에 맞는 정책을 찾고\n저장한 정책의 변경 내용과 마감을 확인합니다.",
+        description: "서울 청년 정책을 찾아보고\n저장한 정책의 변경 내용과 마감을 확인합니다.",
         caption: "조건 확인, 정책 변경 비교, 마감 알림",
         steps: [
             ["공개 정책 조회", "접수 상태와 질문 제공 여부 검색"],
             [
                 "검토한 조건 질문",
-                `정책 ${youthPolicyCoverage.questionPolicies}종의 일부 요건과 근거`,
+                `정책 ${youthPolicyCoverage.questionPolicies}건의 일부 요건과 근거`,
             ],
             ["정책 변경과 마감", "저장 시점 비교, 일정, 알림"],
         ],

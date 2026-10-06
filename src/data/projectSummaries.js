@@ -4,7 +4,6 @@ export const projectSummaries = [
     {
         id: "baton",
         homeCategory: "personal",
-        homeTypeLabel: "웹 서비스",
         index: "01",
         projectType: "personal",
         presentation: "featured",
@@ -12,7 +11,7 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "역할, 반복 업무, 인수인계 서비스",
         homeSummary:
-            "팀의 역할과 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 한 화면에 모아 보는 서비스입니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, 화상 스터디는 각각 별도 서비스로 나눴습니다.",
+            "팀의 역할과 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 한 화면에 모아 보는 서비스입니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC 스터디룸은 각각 별도 서비스로 나눴습니다.",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/baton",
@@ -73,7 +72,6 @@ export const projectSummaries = [
     {
         id: "warrant",
         homeCategory: "career",
-        homeTypeLabel: "BEINTECH / 공공 SI",
         collaboration: "LG CNS 컨소시엄 참여",
         agencyScope: "5개 기관 연계 시스템",
         index: "01",
@@ -84,7 +82,7 @@ export const projectSummaries = [
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계",
         timelineLabel: "전송형 전자영장",
         homeSummary:
-            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 잇는 시스템입니다. KICS 요청을 기관별 규격으로 바꿔 보내고, 기관이 제출한 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 잇는 시스템입니다. 형사사법정보시스템(KICS)의 요청을 통신사용 또는 포털용 형식으로 바꿔 보내고, 제출된 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         summary:
             "법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         homeStory:
@@ -99,7 +97,6 @@ export const projectSummaries = [
     {
         id: "happygallery",
         homeCategory: "personal",
-        homeTypeLabel: "웹 서비스",
         index: "02",
         projectType: "personal",
         presentation: "featured",
@@ -111,7 +108,7 @@ export const projectSummaries = [
         liveSite: {
             label: "서비스 보기",
             href: "https://happy-gallery.com",
-            note: "배포된 공방 홈페이지와 작품·클래스 안내",
+            note: "배포된 공방 홈페이지와 작품과 클래스 안내",
         },
         homeRepository: {
             label: "GitHub",
@@ -143,7 +140,6 @@ export const projectSummaries = [
     {
         id: "youth-policy-mate",
         homeCategory: "more",
-        homeTypeLabel: "모바일 웹앱",
         index: "01",
         projectType: "webapp",
         presentation: "webapp-case",
@@ -154,8 +150,9 @@ export const projectSummaries = [
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
-        homeSummary: `서울 청년 정책 ${youthPolicyCoverage.policies}건을 찾아보는 웹앱입니다. 그중 ${youthPolicyCoverage.questionPolicies}개 정책은 신청 조건 일부를 내 답변과 비교해 신청 가능, 불가, 추가 확인 필요로 알려 줍니다. 저장한 정책이 바뀌거나 마감이 다가오면 알림을 보냅니다.`,
-        homeCheck: "공개 저장소에 반영했고, 외부 연동은 아직 확인하지 않았습니다.",
+        homeSummary: `서울 청년 정책 ${youthPolicyCoverage.policies}건을 찾아보는 웹앱입니다. 그중 ${youthPolicyCoverage.questionPolicies}건은 신청 조건 일부를 내 답변과 비교해 신청 가능, 불가, 추가 확인 필요로 알려 줍니다. 저장한 정책이 바뀌거나 마감이 다가오면 알림을 보냅니다.`,
+        homeCheck:
+            "PostgreSQL 통합 테스트로 확인했고, OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "home",
             src: "youth-policy-mate-home.webp",
@@ -166,7 +163,7 @@ export const projectSummaries = [
             width: 780,
             height: 1688,
         },
-        summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고 ${youthPolicyCoverage.questionPolicies}종의 신청 요건을 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
+        summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고, 그중 ${youthPolicyCoverage.questionPolicies}건은 신청 요건 일부를 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
         period: "2026.08.30 — 현재",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
@@ -177,7 +174,6 @@ export const projectSummaries = [
     {
         id: "hope-commit",
         homeCategory: "more",
-        homeTypeLabel: "AI 스킬 / Codex, Claude Code",
         index: "01",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -190,7 +186,8 @@ export const projectSummaries = [
         eyebrow: "Hope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML",
         homeSummary:
             "SeungIl 님의 Hope 6.0.0을 포크해, 지정한 커밋을 AI가 리뷰하고 각 설명을 실제로 바뀐 줄에 연결한 HTML로 보여 주는 기능을 더했습니다.",
-        homeCheck: "v5.0.2를 공개 릴리스했습니다.",
+        homeCheck:
+            "Hope Commit v5.0.2로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
         coverScreenshot: {
             id: "review-summary",
             src: "hope-commit-review-summary.webp",
@@ -213,7 +210,6 @@ export const projectSummaries = [
     {
         id: "intent-trace",
         homeCategory: "more",
-        homeTypeLabel: "IDE 플러그인 / IntelliJ, Zed, MCP",
         index: "02",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -226,11 +222,12 @@ export const projectSummaries = [
         eyebrow: "AI 코드 변경의 요청, 근거, 검증 기록",
         homeSummary:
             "AI가 바꾼 코드에 왜 바꿨는지와 무엇으로 검증했는지를 커밋, 파일, 줄 단위로 남기는 도구입니다. IDE와 웹에서 기록을 검색합니다.",
-        homeCheck: "공개 릴리스까지 했고, GitHub 게시와 공개 운영은 아직입니다.",
+        homeCheck:
+            "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. PR Check Run 게시와 공개 운영은 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "history",
             src: "intent-trace-history.webp",
-            label: "파일·줄로 기록 찾기",
+            label: "파일과 줄로 기록 찾기",
             caption: "파일 경로와 코드 줄로 관련 변경 기록을 찾는 웹 화면",
             alt: "파일 경로와 코드 줄로 관련 변경 기록을 찾는 웹 화면",
             note: "테스트 데이터로 찍은 화면",
@@ -254,7 +251,6 @@ export const projectSummaries = [
     {
         id: "defense",
         homeCategory: "career",
-        homeTypeLabel: "BEINTECH / 국방부 SI",
         agencyScope: "국방부 산하 4개 기관 연계 시스템",
         index: "02",
         projectType: "career",
@@ -263,7 +259,7 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "BEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영",
         homeSummary:
-            "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템에서 수용자 자료를 반영하는 배치를 만들었습니다. CSRF 차단과 대용량 파일 직접 업로드도 개발했습니다.",
+            "국방부 산하 4개 기관이 쓰는 폐쇄망 시스템에서 세 기관의 수용자 자료를 군교정 DB에 반영하는 배치를 만들었습니다. CSRF 차단과 대용량 파일 직접 업로드도 개발했습니다.",
         homeStory:
             "배치가 멈추면 Jenkins, JEUS, Tibero 기록을 대조해 실패한 단계를 찾고, 해당 기관 배치만 다시 실행했습니다.",
         summary:
@@ -290,7 +286,7 @@ export const projectSummaries = [
         timelineLabel: "WebRTC/HLS 팀 프로젝트",
         homeSummary:
             "카카오 클라우드 스쿨에서 6명이 만든 실시간 강의 서비스입니다. 저는 RTP 영상을 HLS로 바꾸는 서버와 React 화면을 맡았습니다.",
-        coverText: { text: "RTP → HLS → React", note: "화면 캡처가 없는 교육 프로젝트" },
+        coverText: { text: "RTP → HLS → React", label: "맡은 부분", note: "변환 서버와 재생 화면" },
         summary:
             "WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
         period: "2023.09.01 — 2023.11.10",
@@ -300,12 +296,6 @@ export const projectSummaries = [
         stage: "종료",
         visibility: "공개 저장소",
     },
-]
-
-// 메인은 경력, 대표 개인 프로젝트, 나머지 순서로 읽게 한다. 세부 유형은 각 행의 라벨로 표시한다.
-export const homeProjectCategories = [
-    { id: "personal", label: "개인 프로젝트" },
-    { id: "more", label: "그 밖의 프로젝트" },
 ]
 
 export const projectSummariesById = Object.fromEntries(

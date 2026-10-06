@@ -93,7 +93,7 @@ const projectSource = (project, source) => ({
     ...source,
 })
 
-const createProjectOverview = (project) =>
+const createProjectOverview = (project, caseResult) =>
     projectSource(project, {
         sourceKey: `project:${project.id}:overview`,
         documentType: "project_overview",
@@ -108,7 +108,8 @@ const createProjectOverview = (project) =>
             labeledContent("공개 범위", project.visibility),
             labeledContent("담당", project.role),
             labeledContent("주요 구현 및 해결", project.oneLine),
-            labeledContent("현재 상태", project.status?.text),
+            labeledContent("확인한 범위", caseResult),
+            labeledContent(project.status?.label, project.status?.text),
             labeledContent("사용 기술", project.stack?.join(", ")),
         ]),
         sourceUrl: toPublicUrl(`${project.route}#project-overview`),
@@ -253,10 +254,10 @@ const createRepresentativeDocuments = (
 
 export const createKnowledgeSources = (
     projects,
-    { localDocumentContentByHref = {}, externalDocumentSnapshots = {} } = {},
+    { caseResults = {}, localDocumentContentByHref = {}, externalDocumentSnapshots = {} } = {},
 ) =>
     projects.flatMap((project) => [
-        createProjectOverview(project),
+        createProjectOverview(project, caseResults[project.id]),
         ...createServiceOverviews(project),
         ...createArchitectureDecision(project),
         ...createProblemSolutions(project),

@@ -18,8 +18,9 @@ const loadProjects = async () => {
 
     try {
         const { projectList } = await vite.ssrLoadModule("/src/data/projects.js")
+        const { caseResults } = await vite.ssrLoadModule("/src/data/caseHighlights.js")
 
-        return projectList
+        return { projectList, caseResults }
     } finally {
         await vite.close()
     }
@@ -40,12 +41,13 @@ const loadLocalDocuments = async () =>
         ),
     )
 
-const projects = await loadProjects()
+const { projectList: projects, caseResults } = await loadProjects()
 const localDocumentContentByHref = await loadLocalDocuments()
 const externalDocumentSnapshots = JSON.parse(
     await readFile(path.join(repositoryRoot, "docs/knowledge-document-snapshots.json"), "utf8"),
 )
 const sources = createKnowledgeSources(projects, {
+    caseResults,
     localDocumentContentByHref,
     externalDocumentSnapshots,
 })

@@ -145,7 +145,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                             label: serviceGalleryProject ? "화면 및 흐름" : "처리 흐름",
                         },
                         { id: "service-problems", label: "문제 해결" },
-                        { id: "service-verification", label: "검증 상태" },
+                        { id: "service-verification", label: "확인한 범위" },
                         { id: "service-documents", label: "문서" },
                         { id: "service-stack", label: "사용 기술" },
                     ]}
@@ -172,7 +172,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     aria-labelledby="service-verification-title"
                 >
                     <div className="baton-service-section-heading">
-                        <h2 id="service-verification-title">검증 결과와 미검증 범위</h2>
+                        <h2 id="service-verification-title">확인한 범위</h2>
                     </div>
                     <dl className="baton-service-status" aria-label="구현 상태">
                         {presentation.verification.map((item) => (

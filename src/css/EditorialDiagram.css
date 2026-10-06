@@ -18,24 +18,13 @@
 
 .editorial-diagram__header {
     display: grid;
-    grid-template-columns: minmax(136px, 0.35fr) minmax(280px, 0.75fr) minmax(320px, 0.9fr);
+    grid-template-columns: minmax(280px, 0.8fr) minmax(320px, 1fr);
     gap: 24px;
     align-items: baseline;
     padding: 24px 0;
     border-top: 1px solid var(--diagram-rule);
 }
 
-.editorial-diagram__eyebrow {
-    color: var(--diagram-accent);
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    /* "컨소시엄"처럼 한글 단어가 중간에서 끊기지 않게 한다. */
-    word-break: keep-all;
-}
-
-.editorial-diagram__header > strong,
 .editorial-diagram__title {
     margin: 0;
     font-family: var(--sans);
@@ -470,31 +459,14 @@
 
 @media (max-width: 860px) {
     .editorial-diagram__header {
-        grid-template-columns: 128px minmax(0, 1fr);
-    }
-
-    .editorial-diagram__header > p {
-        grid-column: 2;
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 }
 
 @media (max-width: 620px) {
     .editorial-diagram__header {
-        grid-template-columns: 1fr;
-        gap: 12px;
         padding: 20px 0;
-    }
-
-    .editorial-diagram__header > p {
-        grid-column: auto;
-    }
-
-    .editorial-diagram__eyebrow {
-        font-size: 11px;
-    }
-
-    .editorial-diagram__header > strong {
-        font-size: 26px;
     }
 
     .editorial-diagram__header > p {

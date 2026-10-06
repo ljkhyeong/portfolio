@@ -297,11 +297,8 @@ a.career-timeline__item:focus-visible .career-timeline__name {
 }
 
 .career-timeline figcaption {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 6px 16px;
     margin-top: 14px;
+    text-align: right;
     color: var(--muted);
     font-size: 13.5px;
 }

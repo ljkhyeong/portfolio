@@ -16,7 +16,6 @@ const estimateLabelWidth = (label) =>
 
 const diagrams = {
     defense: {
-        eyebrow: "ARCHITECTURE / CLOSED NETWORK",
         title: "기관별 수용자 정보를 검증해 군교정 DB에 반영",
         summary:
             "군사법원, 군검찰과 군사경찰의 자료를 기관별 배치에서 검증하고, 중단되면 해당 기관 배치를 다시 실행합니다.",
@@ -105,7 +104,6 @@ const diagrams = {
         note: "실선은 정상 처리, 점선은 중단된 배치의 재실행 경로입니다.",
     },
     webrtc: {
-        eyebrow: "DATA FLOW / LIVE AND REPLAY",
         title: "강의 영상을 WebRTC 실시간 시청과 HLS 다시보기로 분리",
         summary:
             "실시간 강의는 mediasoup에서 WebRTC로 전송하고, RTP 출력은 FFmpeg와 GStreamer에서 HLS로 변환해 다시보기에 사용합니다.",
@@ -193,7 +191,6 @@ const diagrams = {
         note: "실시간 영상은 WebRTC로, 지난 구간은 HLS 재생 목록과 세그먼트로 제공합니다.",
     },
     "intent-trace": {
-        eyebrow: "PROCESS / PUBLICATION LIFECYCLE",
         title: "변경 기록 공개와 기존 기록 대체",
         summary:
             "공개 요청 시 작성자 확인과 코드 상태 일치를 검사합니다. 새 기록으로 대체한 뒤에도 기존 기록을 조회할 수 있습니다.",
@@ -309,7 +306,6 @@ const diagrams = {
         note: "기존 기록을 대체하려면 새 기록을 먼저 공개해야 합니다. 대체된 기록에는 SUPERSEDED 상태와 새 기록의 링크를 남깁니다.",
     },
     "youth-policy-mate": {
-        eyebrow: "ARCHITECTURE / WEB APP",
         title: "공개 정책 조회와 조건 확인, 일정, 알림",
         summary:
             "수집한 정책과 검토한 질문으로 신청 조건을 확인하고, 저장한 관심 정책의 마감 일정과 알림을 제공합니다.",
@@ -345,7 +341,7 @@ const diagrams = {
                 height: 104,
                 tag: "WEB VIEW",
                 title: ["입력 내용 확인"],
-                detail: ["조건 확인 요청 · 회원 저장 선택"],
+                detail: ["조건 확인 요청, 회원 저장 선택"],
             },
             {
                 id: "development-data",
@@ -354,9 +350,10 @@ const diagrams = {
                 width: 224,
                 height: 104,
                 tag: "PUBLIC DATA",
-                title: ["수집한 정책·검토한 질문"],
+                title: ["정책과 검토한 질문"],
                 detail: [
-                    `정책 ${youthPolicyCoverage.policies}건 · 질문 ${youthPolicyCoverage.questionPolicies}종`,
+                    `정책 ${youthPolicyCoverage.policies}건`,
+                    `조건 질문 ${youthPolicyCoverage.questionPolicies}건`,
                 ],
                 kind: "external",
             },
@@ -368,7 +365,7 @@ const diagrams = {
                 height: 104,
                 tag: "SPRING API",
                 title: ["조건별 판정"],
-                detail: ["요건 확인 · 추가 확인 구분"],
+                detail: ["요건 확인, 추가 확인 구분"],
                 kind: "focal",
             },
             {
@@ -398,7 +395,7 @@ const diagrams = {
                 width: 192,
                 height: 104,
                 tag: "MEMBER VIEW",
-                title: ["관심 정책 일정·알림"],
+                title: ["관심 정책 일정과 알림"],
                 detail: ["실제 웹 화면"],
             },
         ],
@@ -462,7 +459,6 @@ const PortfolioFlowDiagram = ({ variant }) => {
     return (
         <figure className={`editorial-diagram portfolio-flow portfolio-flow--${variant}`}>
             <figcaption className="editorial-diagram__header">
-                <span className="editorial-diagram__eyebrow">{diagram.eyebrow}</span>
                 <h3 className="editorial-diagram__title">{diagram.title}</h3>
                 <p>{diagram.summary}</p>
             </figcaption>

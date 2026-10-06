@@ -22,15 +22,6 @@ const edge = (path, label, x, y, dashed = false, kind = "default") => ({
     kind,
 })
 
-const diagramTypes = {
-    go: "FLOWCHART / IDEMPOTENCY",
-    watch: "DATA FLOW / LEASE RECOVERY",
-    relay: "DATA FLOW / DELIVERY ATTEMPT",
-    brief: "DATA FLOW / EVENT PROJECTION",
-    cal: "PROCESS / REVISION CONTROL",
-    round: "ARCHITECTURE / REALTIME MEDIA",
-}
-
 const fullFlows = {
     go: {
         nodes: [
@@ -414,7 +405,6 @@ const BatonServiceFlowDiagram = ({ serviceId }) => {
     return (
         <figure className="baton-service-flow">
             <header className="baton-service-flow__header">
-                <span>{diagramTypes[serviceId]}</span>
                 <h3>{presentation.flow.title}</h3>
             </header>
             <div

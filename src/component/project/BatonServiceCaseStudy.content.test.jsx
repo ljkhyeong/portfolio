@@ -67,9 +67,9 @@ test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표
     renderService("round")
 
     const status = screen.getByLabelText("구현 상태")
-    const verified = within(status).getByText("확인됨").closest("div")
+    const verified = within(status).getByText("확인한 것").closest("div")
     const limited = within(status).getByText("설계상 제한").closest("div")
-    const unverified = within(status).getByText("미검증").closest("div")
+    const unverified = within(status).getByText("아직 확인하지 않은 것").closest("div")
 
     expect(verified).toHaveClass("baton-service-status__item--verified")
     expect(verified).toHaveTextContent("이전 CI의 브라우저 테스트")
@@ -140,9 +140,9 @@ test("GO의 동시 요청 검증을 전체 배포 검증으로 표시하지 않�
     renderService("go")
 
     const status = screen.getByLabelText("구현 상태")
-    const verified = within(status).getByText("확인됨").closest("div")
-    const unverified = within(status).getByText("미검증").closest("div")
+    const verified = within(status).getByText("확인한 것").closest("div")
+    const unverified = within(status).getByText("아직 확인하지 않은 것").closest("div")
 
     expect(verified).toHaveTextContent("같은 요청 8건의 동시 처리")
-    expect(unverified).toHaveTextContent("실제 클러스터와 공개 배포는 미검증")
+    expect(unverified).toHaveTextContent("실제 클러스터와 공개 배포는 아직 확인하지 않았습니다")
 })

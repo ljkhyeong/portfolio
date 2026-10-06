@@ -1,9 +1,6 @@
 const WarrantIntegrationDiagram = () => (
     <figure className="editorial-diagram warrant-integration">
         <figcaption className="editorial-diagram__header">
-            <span className="editorial-diagram__eyebrow">
-                DATA FLOW / BEINTECH / LG CNS 컨소시엄
-            </span>
             <h3 className="editorial-diagram__title">KICS 요청 변환 및 제출 자료 반영</h3>
             <p>요청은 통신사 및 포털 형식으로 전달하고, 제출 자료는 KICS에 반영합니다.</p>
         </figcaption>

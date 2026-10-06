@@ -46,7 +46,7 @@ const getSuggestionSet = (projectId, serviceId) => {
         questions: [
             `${scopeLabel} 주요 기능과 담당 범위는 무엇인가요?`,
             `${scopeLabel} 문제 해결 방법을 알려주세요.`,
-            `${scopeLabel} 테스트 결과와 미검증 범위는 무엇인가요?`,
+            `${scopeLabel} 테스트 결과와 아직 확인하지 않은 범위는 무엇인가요?`,
         ],
     }
 }
@@ -355,7 +355,7 @@ const AnswerPanel = ({
 }) => (
     <aside className="knowledge-answer" aria-labelledby="knowledge-answer-title">
         <div className="knowledge-answer__heading">
-            <h2 id="knowledge-answer-title">공개 문서 기반 답변</h2>
+            <h2 id="knowledge-answer-title">공개 문서로 만든 답변</h2>
             <span className="knowledge-answer__count">출처 {citations.length}</span>
         </div>
 
@@ -510,17 +510,17 @@ const PortfolioKnowledgePage = () => {
                 <section className="knowledge-hero" aria-labelledby="knowledge-title">
                     <div className="knowledge-hero__copy">
                         <h1 id="knowledge-title" data-route-heading="/search">
-                            백엔드 문제 해결 방법과 테스트 결과를 검색합니다.
+                            프로젝트 문서 검색
                         </h1>
                         <p>
-                            기관 연계, 결제 중복 방지, 서버 중단 후 재처리 경험을 공개 문서에서
-                            검색할 수 있습니다.
+                            기관 연계, 결제 중복 방지, 서버 중단 후 재처리를 설명한 공개 문서와
+                            출처를 찾습니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">
-                        <li>공개 문서만 검색</li>
-                        <li>답변마다 출처 표시</li>
-                        <li>관련 문서가 부족하면 답변하지 않음</li>
+                        <li>공개 문서만 검색합니다.</li>
+                        <li>답변마다 출처를 붙입니다.</li>
+                        <li>관련 문서가 부족하면 답하지 않습니다.</li>
                     </ul>
                 </section>
 

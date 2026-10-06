@@ -6,7 +6,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
-                label: "확인됨",
+                label: "확인한 것",
                 text: "같은 요청 8건의 동시 처리, Redis 공유 요청률 제한과 HMAC 키 교체를 확인했습니다.",
             },
             {
@@ -16,8 +16,8 @@ export const batonServicePresentations = {
             },
             {
                 kind: "unverified",
-                label: "미검증",
-                text: "BATON의 링크 생성과 폐기 요청부터 대상 서비스의 접근 권한 확인까지 이어지는 전체 연동, 실제 클러스터와 공개 배포는 미검증입니다.",
+                label: "아직 확인하지 않은 것",
+                text: "BATON의 링크 생성과 폐기 요청부터 대상 서비스의 접근 권한 확인까지 이어지는 전체 연동, 실제 클러스터와 공개 배포는 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -42,7 +42,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
-                label: "확인됨",
+                label: "확인한 것",
                 text: "사설망 접근과 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행, 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. DB 제약(Flyway V6)으로 점검 결과와 전달 결과에서 필수값이 빠진 9가지 조합의 저장도 거부합니다.",
             },
             {
@@ -52,7 +52,7 @@ export const batonServicePresentations = {
             },
             {
                 kind: "unverified",
-                label: "미검증",
+                label: "아직 확인하지 않은 것",
                 text: "공개 환경에서 WATCH가 Core로 보내는 콜백, 외부 대시보드와 알림은 확인하지 않았습니다.",
             },
         ],
@@ -77,13 +77,18 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
-                label: "확인됨",
-                text: "이벤트 중복 수신 차단, 중단 후 시도 UUID와 멱등 키 유지를 검증했습니다. Discord, Slack, Webhook, SQS 전달과 결과 수동 확정을 구현했습니다.",
+                label: "확인한 것",
+                text: "이벤트 중복 수신 차단, 중단 후 시도 UUID와 멱등 키 유지를 검증했습니다.",
+            },
+            {
+                kind: "limited",
+                label: "구현 상태",
+                text: "Discord, Slack, Webhook, SQS 전달과 결과 수동 확정을 구현했습니다.",
             },
             {
                 kind: "unverified",
-                label: "미검증",
-                text: "실제 Discord, Slack, AWS 전송과 운영 환경의 백업 RPO·RTO는 미검증입니다.",
+                label: "아직 확인하지 않은 것",
+                text: "실제 Discord, Slack, AWS 전송과 운영 환경의 백업 RPO·RTO는 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -93,7 +98,7 @@ export const batonServicePresentations = {
             note: "서버가 중단돼도 같은 시도 UUID와 외부 서비스 멱등 키를 유지합니다.",
             compact: {
                 input: ["Core 이벤트", "같은 이벤트 ID는 1건"],
-                action: ["채널별 전송 시도", "Discord·Slack·Webhook·SQS"],
+                action: ["채널별 전송 시도", "Discord, Slack, Webhook, SQS"],
                 outputs: [
                     ["성공", "완료 확정"],
                     ["실패", "전송 전 실패만 재시도"],
@@ -109,7 +114,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
-                label: "확인됨",
+                label: "확인한 것",
                 text: "점검 상태, 보고서 이력과 비교, 주간 이월, 신규, 해결 내역을 검증했습니다. 업무 종류, 주간, 시간대 필터와 변경 없는 비교 결과의 304 응답도 지원합니다.",
             },
             {
@@ -119,12 +124,12 @@ export const batonServicePresentations = {
             },
             {
                 kind: "unverified",
-                label: "미검증",
-                text: "공인 DNS와 원격 환경의 전체 서비스 연결은 미검증입니다.",
+                label: "아직 확인하지 않은 것",
+                text: "공인 DNS와 원격 환경의 전체 서비스 연결은 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
-            title: "Core 판정은 그대로, 발행 보고서는 변경 없이",
+            title: "Core 판정을 그대로 반영하고 발행한 보고서는 고치지 않습니다",
             description:
                 "Core의 점검 결과를 미해결(ACTIVE) 또는 해결됨(RESOLVED)으로 저장합니다. 같은 조건의 주간 보고서는 재사용하고 변경된 내용은 새 보고서로 발행합니다.",
             note: "5개 점검 결과는 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계입니다. BRIEF는 판정 규칙을 다시 만들지 않습니다.",
@@ -145,7 +150,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
-                label: "확인됨",
+                label: "확인한 것",
                 text: "Core 교차 테스트 5개와 HTTP 캐시, 복구 검증 기록을 확인했습니다.",
             },
             {
@@ -155,8 +160,8 @@ export const batonServicePresentations = {
             },
             {
                 kind: "unverified",
-                label: "미검증",
-                text: "실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증입니다.",
+                label: "아직 확인하지 않은 것",
+                text: "실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -181,7 +186,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
-                label: "확인됨",
+                label: "확인한 것",
                 text: "이전 CI의 브라우저 테스트와 Core 연동 검사 통과 기록을 확인했습니다. 공개 main bdf63eb에는 스피커 소리 확인, 공유 화면 작은 창과 통화 제어, 대화 전체 복사를 구현했습니다.",
             },
             {
@@ -191,8 +196,8 @@ export const batonServicePresentations = {
             },
             {
                 kind: "unverified",
-                label: "미검증",
-                text: "실제 TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 미검증입니다.",
+                label: "아직 확인하지 않은 것",
+                text: "실제 TURN 중계 전용 연결, Safari 실기기, 외부망과 6명 장시간 접속은 아직 확인하지 않았습니다.",
             },
         ],
         flow: {

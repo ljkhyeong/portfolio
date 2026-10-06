@@ -78,10 +78,7 @@ const CareerTimeline = () => (
             ))}
         </div>
         <figcaption>
-            <span>막대 길이는 실제 기간입니다. 막대 옆 글은 확인한 결과와 그 조건입니다.</span>
-            <span>
-                {timelineRange.from} — {timelineRange.to}
-            </span>
+            {timelineRange.from} — {timelineRange.to}
         </figcaption>
     </figure>
 )

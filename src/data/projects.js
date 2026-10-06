@@ -841,7 +841,7 @@ const projects = [
         links: [
             {
                 label: "BATON Core GitHub 저장소",
-                shortLabel: "Core 저장소",
+                shortLabel: "Core GitHub 저장소",
                 href: "https://github.com/ljkhyeong/baton",
                 note: "조직, 역할, 반복 업무, 결정, 인수인계 문서 · 공개 저장소",
             },
@@ -1393,8 +1393,8 @@ const projects = [
         oneLine:
             "확인하지 못한 조건과 마감일은 ‘추가 확인 필요’로 표시하고, 이전 정책이나 AI 결과가 최신 데이터를 덮지 않도록 처리합니다.",
         status: {
-            label: "현재 상태",
-            text: "공개 main 24c924c에 정책 조건의 버전 관리, AI 초안 검토와 관심 정책의 저장 시점 비교를 반영했습니다. 개발 브랜치 4f7d030에는 이메일 발송 상태 조회, 수신 해제, 암호화 키 교체를 구현했습니다. 실제 OAuth, OpenAI, Resend 운영 연동은 미검증입니다.",
+            label: "그 밖의 구현",
+            text: "개발 브랜치 4f7d030에는 이메일 발송 상태 조회, 수신 해제, 암호화 키 교체를 구현했습니다.",
         },
         visualCaption:
             "실제 공개 정책을 저장한 로컬 DB로 촬영한 모바일 화면입니다. 조건 질문은 일부 요건을 확인하며 최종 신청 자격은 공식 안내에서 확인합니다.",
@@ -1602,7 +1602,7 @@ const projects = [
             "지정한 커밋의 diff만 리뷰하고, 참조한 파일과 코드 줄을 검증한 결과를 새 HTML로 저장합니다.",
         status: {
             label: "공개 상태",
-            text: "SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 구분했습니다. 최신 공개 버전은 v5.0.2(main 9d8392d)입니다.",
+            text: "SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 원본과 구분했습니다.",
         },
         visualCaption: "커밋 확정 → 변경 수집 → 참조한 코드 줄 검증 → HTML 저장 순서입니다.",
         problems: [
@@ -1747,7 +1747,7 @@ const projects = [
             },
             {
                 type: "ADR",
-                label: "GitHub 이슈·PR과 Actions 결과 조회",
+                label: "GitHub 이슈, PR과 Actions 결과 조회",
                 href: "https://github.com/ljkhyeong/intent-trace/blob/main/docs/ADR-0012-github-context-read.md",
                 note: "기존 GitHub 연결과 읽기 권한으로 초안 자료와 실행된 CI 결과만 조회하는 기준",
             },
@@ -1787,8 +1787,8 @@ const projects = [
         oneLine:
             "사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.",
         status: {
-            label: "현재 상태",
-            text: "공개 릴리스는 v0.7.0입니다. 개발 브랜치 125684c에는 IntelliJ 기록 검색과 내 폐기 기록 필터, 웹 코드 위치 추적, 연결 진단의 PR HEAD와 커밋 일치 확인을 구현했습니다. 실제 GitHub 게시와 공개 운영은 미검증입니다.",
+            label: "그 밖의 구현",
+            text: "개발 브랜치 125684c에는 IntelliJ 기록 검색과 내 폐기 기록 필터, 웹 코드 위치 추적, 연결 진단의 PR HEAD와 커밋 일치 확인을 구현했습니다.",
         },
         visualCaption:
             "원문 대화와 숨은 추론은 저장하지 않습니다. 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
@@ -1923,7 +1923,7 @@ const projects = [
             {
                 id: "github-context",
                 src: "intent-trace-github-context.webp",
-                label: "GitHub 이슈·PR·CI 조회",
+                label: "GitHub 이슈, PR, CI 조회",
                 caption: "이슈와 PR의 요청 내용, 지정 커밋의 Actions 결과를 함께 확인하는 화면",
                 alt: "IntentTrace에서 GitHub 이슈, PR, CI 결과를 조회하는 화면",
                 width: 1440,

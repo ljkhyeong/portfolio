@@ -160,15 +160,13 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
     return (
         <figure className="editorial-diagram baton-architecture">
             <figcaption className="editorial-diagram__header baton-architecture__header">
-                <span className="editorial-diagram__eyebrow baton-architecture__eyebrow">
-                    SYSTEM ARCHITECTURE
-                </span>
                 <h3 className="editorial-diagram__title baton-architecture__title">
                     Core와 6개 서비스의 담당 기능 및 연동 흐름
                 </h3>
                 <p className="editorial-diagram__summary baton-architecture__summary">
-                    각 서비스가 맡은 기능과 주고받는 요청 및 이벤트를 보여줍니다. 서비스를 누르면
-                    해당 상세로 이동합니다. 공개 환경 전체 연동 완료를 뜻하지 않습니다.
+                    Core가 역할과 인수인계를 저장하고, 6개 서비스는 링크, URL 점검, 이벤트 전달,
+                    보고서, 캘린더, WebRTC 스터디룸을 맡습니다. 공개 환경에서 전체 서비스를 연결해
+                    확인하지는 않았습니다.
                 </p>
             </figcaption>
 

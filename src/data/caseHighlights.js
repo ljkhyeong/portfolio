@@ -6,7 +6,7 @@ export const caseIntroductions = {
     happygallery:
         "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 맞추는 서비스입니다.",
     "youth-policy-mate":
-        "내 조건에 맞는 정책을 찾고, 저장한 정책이 바뀌거나 마감이 다가오면 알려 주는 웹앱입니다.",
+        "서울 청년 정책을 찾아보고, 저장한 정책이 바뀌거나 마감이 다가오면 알려 주는 웹앱입니다.",
     "hope-commit":
         "SeungIl 님의 Hope 6.0.0을 포크해, 지정한 커밋을 AI가 리뷰하고 각 설명을 실제로 바뀐 줄에 연결한 HTML로 보여 주는 기능을 더했습니다.",
     "intent-trace":
@@ -24,7 +24,7 @@ export const caseResults = {
     "youth-policy-mate":
         "조건 질문, 관심 정책 일정과 알림을 구현하고 PostgreSQL 통합 테스트로 확인했습니다. 조건 규칙의 버전 관리와 AI 초안 검토는 공개 main 24c924c에 반영했고, OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
     "hope-commit":
-        "커밋 AI 리뷰 HTML(Commit Diff)을 구현해 Hope Commit v5.0.2로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
+        "커밋 AI 리뷰 HTML(Commit Diff)을 구현해 Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
     "intent-trace":
         "서버, 웹 조회와 IntelliJ, Zed 연동을 구현했고 공개 main e234584에서 서버 테스트 180개가 통과했습니다. v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했지만, 실제 PR Check Run 게시와 공개 운영은 아직 확인하지 않았습니다.",
     warrant: `기관별 요청 변환과 Spring Batch를 구현했고, 독립망 연계와 PDF 응답 순서 역전 처리를 시나리오로 확인했습니다. 성능 테스트 환경에서는 ${warrantPerformanceSummary}`,

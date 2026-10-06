@@ -648,15 +648,12 @@ main.case-showcase .problem-solution-list__action {
 
 main.case-showcase .project-switcher__group > span,
 main.case-showcase .project-switcher a > span,
-main.case-showcase .case-section-heading > span,
-main.case-showcase .baton-service-section-heading > span,
 main.case-showcase .case-architecture__intro blockquote strong,
-main.case-showcase .baton-service-scope dt,
-main.case-showcase .editorial-diagram__eyebrow {
+main.case-showcase .baton-service-scope dt {
     font-size: var(--portfolio-caption);
 }
 
-main.case-showcase .problem-solution-list__item > summary h3 {
+main.case-showcase .problem-solution-list__item > summary h4 {
     font-size: var(--portfolio-subtitle);
 }
 

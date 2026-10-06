@@ -52,9 +52,15 @@ const featuredProblems = {
         problem:
             "서버 이중화로 프로세스 내부 잠금만으로는 같은 연계 작업의 중복 실행을 막을 수 없었습니다.",
         steps: [
-            { title: "처리 대상 선점", description: "잠긴 행 제외 · 처리대상(N) → 처리 중(P)" },
+            {
+                title: "처리 대상 선점",
+                description: "잠긴 행은 건너뛰고 처리대상(N)을 처리 중(P)으로 변경",
+            },
             { title: "외부 API 호출", description: "DB 트랜잭션 밖에서 실행" },
-            { title: "완료 또는 재처리", description: "완료 시 상태 초기화 · 오래된 P → N" },
+            {
+                title: "완료 또는 재처리",
+                description: "완료 시 상태 초기화, 오래된 P는 N으로 복구",
+            },
         ],
     },
     defense: {

@@ -10,7 +10,7 @@ test("검색 페이지 직접 진입 시 전용 화면과 메타데이터를 표
         await screen.findByRole(
             "heading",
             {
-                name: "백엔드 문제 해결 방법과 테스트 결과를 검색합니다.",
+                name: "프로젝트 문서 검색",
                 level: 1,
             },
             { timeout: 10000 },
