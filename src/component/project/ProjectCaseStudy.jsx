@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom"
 import { educationCaseStudies, navigableCaseStudies, projectsById } from "../../data/projects"
-import { caseResults, caseIntroductions, problemHighlights } from "../../data/caseHighlights"
+import { caseResults, caseIntroductions } from "../../data/caseHighlights"
 import featuredCasePresentations from "../../data/featuredProblems"
+import { formatPeriod } from "../../data/timeline"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import PortfolioNavigation from "../PortfolioNavigation"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
@@ -9,8 +10,10 @@ import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 import { DocumentCounts, DocumentItems } from "./DocumentList"
+import ProblemCases from "./ProblemCases"
 import ProblemSolutionList from "./ProblemSolutionList"
 import ProjectSwitcher from "./ProjectSwitcher"
+import ProjectTimelineStrip from "./ProjectTimelineStrip"
 import BatonArchitectureDiagram from "./diagrams/BatonArchitectureDiagram"
 import HopeCommitFlowDiagram from "./diagrams/HopeCommitFlowDiagram"
 import PortfolioFlowDiagram from "./diagrams/PortfolioFlowDiagram"
@@ -77,23 +80,21 @@ const ProjectPager = ({ currentProjectId }) => {
     )
 }
 
-const ProductVisual = ({ project }) => (
-    <ProjectScreenshotGallery project={project} context="case-overview" />
-)
-
-const ProjectLabels = ({ project }) => {
-    const labels = [project.stage, project.visibility].filter(Boolean).slice(0, 2)
-
-    if (labels.length === 0) {
-        return null
-    }
+// 문제 해결 사례와 짝지은 화면은 그 사례 옆에만 두고 대표 화면 묶음에서는 뺀다.
+const ProductVisual = ({ project }) => {
+    const pairedIds = new Set(
+        project.problems.map((problem) => problem.screenshotId).filter(Boolean),
+    )
+    const visibleIds = project.screenshots
+        .filter((screenshot) => !pairedIds.has(screenshot.id))
+        .map((screenshot) => screenshot.id)
 
     return (
-        <ul className="case-project-labels" aria-label={`프로젝트 상태: ${labels.join(", ")}`}>
-            {labels.map((label) => (
-                <li key={label}>{label}</li>
-            ))}
-        </ul>
+        <ProjectScreenshotGallery
+            project={project}
+            context="case-overview"
+            visibleScreenshotIds={pairedIds.size > 0 ? visibleIds : undefined}
+        />
     )
 }
 
@@ -163,29 +164,44 @@ const MoreItems = ({ count, children }) => (
     </details>
 )
 
-const ProjectHeroFacts = ({ project }) => (
-    <dl className="case-hero-facts" aria-label="프로젝트 기간과 담당 범위">
-        <div>
-            <dt>담당</dt>
-            <dd>{project.role}</dd>
-        </div>
-        <div>
-            <dt>기간</dt>
-            <dd>{project.period}</dd>
-        </div>
-    </dl>
+const ProjectHeroFacts = ({ project }) => {
+    const status = [project.stage, project.visibility].filter(Boolean).join(", ")
+
+    return (
+        <dl className="case-hero-facts" aria-label="맡은 일, 기간과 상태">
+            <div>
+                <dt>맡은 일</dt>
+                <dd>{project.role}</dd>
+            </div>
+            <div>
+                <dt>기간</dt>
+                <dd>{formatPeriod(project.period)}</dd>
+            </div>
+            {status ? (
+                <div>
+                    <dt>상태</dt>
+                    <dd>{status}</dd>
+                </div>
+            ) : null}
+        </dl>
+    )
+}
+
+const HeroAside = ({ project }) => (
+    <div className="case-hero__aside">
+        <ProjectHeroFacts project={project} />
+        <ProjectEvidenceLinks project={project} />
+    </div>
 )
 
-const ProblemList = ({ problems, projectId, additional = false }) => (
-    <ProblemSolutionList
-        compact={additional}
-        featured={additional ? undefined : featuredCasePresentations[projectId]}
-        problems={problems.map((problem) => ({
-            ...problem,
-            validationSummary: additional ? null : problemHighlights[projectId]?.[problem.number],
-        }))}
-        label={additional ? "추가 문제와 해결 방법 목록" : "주요 문제와 해결 방법 목록"}
-    />
+const ProblemIndex = ({ problems }) => (
+    <section className="case-problem-index" aria-labelledby="problem-index-title">
+        <div className="case-problem-index__heading">
+            <h3 id="problem-index-title">다른 문제 해결</h3>
+            <span>{problems.length}건</span>
+        </div>
+        <ProblemSolutionList problems={problems} label="다른 문제와 해결 방법 목록" />
+    </section>
 )
 
 // 서비스별 담당 기능은 구성도 노드에서 보여 주고, 노드를 누르면 해당 서비스 상세로 이동한다.
@@ -333,11 +349,10 @@ const PriorExperienceCase = ({ project }) => {
                             <span>{technology}</span>
                             <span>{subject.join(" ")}</span>
                         </h1>
-                        <ProjectLabels project={project} />
                         <p className="prior-case__summary">{caseIntroductions[project.id]}</p>
-                        <ProjectEvidenceLinks project={project} />
                     </div>
-                    <ProjectHeroFacts project={project} />
+                    <HeroAside project={project} />
+                    <ProjectTimelineStrip projectId={project.id} />
                 </header>
 
                 <VerificationRail
@@ -372,7 +387,11 @@ const PriorExperienceCase = ({ project }) => {
                     <div className="case-section-heading">
                         <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
-                    <ProblemList problems={project.problems} projectId={project.id} />
+                    <ProblemCases
+                        project={project}
+                        problems={project.problems}
+                        featured={featuredCasePresentations[project.id]}
+                    />
                 </section>
 
                 <CaseMetaSection
@@ -448,13 +467,10 @@ const ProjectCaseStudy = ({ projectId }) => {
                                 )}
                                 {caseIntroductions[project.id] ?? project.summary}
                             </p>
-                            <div className="case-hero__support">
-                                <ProjectLabels project={project} />
-                                <ProjectEvidenceLinks project={project} />
-                            </div>
                         </div>
                     </div>
-                    <ProjectHeroFacts project={project} />
+                    <HeroAside project={project} />
+                    <ProjectTimelineStrip projectId={project.id} />
                 </header>
 
                 <VerificationRail
@@ -495,20 +511,13 @@ const ProjectCaseStudy = ({ projectId }) => {
                     <div className="case-section-heading">
                         <h2 id="problems-title">문제와 해결 방법</h2>
                     </div>
-                    <ProblemList problems={featuredProblems} projectId={project.id} />
+                    <ProblemCases
+                        project={project}
+                        problems={featuredProblems}
+                        featured={featuredCasePresentations[project.id]}
+                    />
                     {additionalProblems.length > 0 ? (
-                        <section
-                            className="case-problem-index"
-                            aria-labelledby="problem-index-title"
-                        >
-                            <div className="case-problem-index__heading">
-                                <h3 id="problem-index-title">다른 문제 해결</h3>
-                                <span>
-                                    {additionalProblems.length}건 · 제목을 누르면 내용을 펼칩니다.
-                                </span>
-                            </div>
-                            <ProblemList problems={additionalProblems} additional />
-                        </section>
+                        <ProblemIndex problems={additionalProblems} />
                     ) : null}
                 </section>
 

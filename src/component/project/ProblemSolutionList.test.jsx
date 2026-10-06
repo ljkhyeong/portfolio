@@ -1,5 +1,6 @@
 import { render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
+import ProblemCases from "./ProblemCases"
 import ProblemSolutionList from "./ProblemSolutionList"
 import featuredProblems from "../../data/featuredProblems"
 import { projectsById } from "../../data/projects"
@@ -11,7 +12,6 @@ const problems = [
         constraint: "같은 요청이 동시에 들어올 수 있습니다.",
         decision: "멱등 키로 처리 결과를 재사용합니다.",
         validation: "동시 요청 테스트에서 결과가 한 건만 생성됐습니다.",
-        validationSummary: "동시 요청에서도 결과 1건 유지",
         boundary: "멱등 키 보관 기간을 별도로 관리해야 합니다.",
     },
     {
@@ -24,61 +24,55 @@ const problems = [
     },
 ]
 
-test("문제를 접힌 목록으로 먼저 보여주고 선택한 근거를 펼친다", async () => {
-    render(<ProblemSolutionList problems={problems} label="문제와 해결 방법 목록" />)
+test("다른 문제 해결은 번호와 제목만 펼쳐 두고 누르면 네 칸을 연다", async () => {
+    render(<ProblemSolutionList problems={problems} label="다른 문제와 해결 방법 목록" />)
 
-    const list = screen.getByRole("list", { name: "문제와 해결 방법 목록" })
+    const list = screen.getByRole("list", { name: "다른 문제와 해결 방법 목록" })
     const items = within(list).getAllByRole("listitem")
     const firstDetails = items[0].querySelector("details")
 
     expect(items).toHaveLength(2)
     expect(firstDetails).not.toHaveAttribute("open")
-    expect(within(items[0]).getByText("동시 요청에서도 결과 1건 유지")).toBeVisible()
+    expect(within(items[0]).getByText("01")).toBeVisible()
     expect(within(items[0]).getByText(problems[0].validation)).not.toBeVisible()
-    expect(
-        within(items[0]).getByRole("heading", { name: "중복 요청을 한 번만 처리한다" }),
-    ).toBeInTheDocument()
 
     await userEvent.click(within(items[0]).getByText("중복 요청을 한 번만 처리한다"))
 
     expect(firstDetails).toHaveAttribute("open")
+    ;["문제", "방법", "확인", "남은 일"].forEach((term) =>
+        expect(within(firstDetails).getByText(term)).toBeVisible(),
+    )
     expect(within(firstDetails).getByText("멱등 키로 처리 결과를 재사용합니다.")).toBeVisible()
-    expect(within(firstDetails).getByText("문제 상황")).toBeVisible()
-    expect(within(firstDetails).getByText("적용한 방법")).toBeVisible()
-    expect(within(firstDetails).getByText("테스트 및 확인")).toBeVisible()
-    expect(within(firstDetails).getByText("제약과 남은 작업")).toBeVisible()
 })
 
-test("대표 사례는 펼쳐 보여주고 원문 근거와 나머지 사례는 접어 둔다", async () => {
+test("대표 사례는 네 칸을 펼쳐 보여주고, 처리 순서가 있는 사례에 순서와 한 문장을 둔다", () => {
     const featured = {
         problemNumber: "01",
         problem: "한 요청이 여러 번 들어옵니다.",
-        approach: "저장한 결과를 다시 반환합니다.",
         steps: [
             { title: "요청 수신", description: "멱등 키 확인" },
+            { title: "중복 확인", description: "처리 이력 조회" },
             { title: "결과 반환", description: "기존 결과 재사용" },
         ],
-        evidenceLabel: "통합 테스트",
-        result: "동시 요청 8건에서 결과 1건 유지",
-        limitation: "결과 보관 기간을 정해야 합니다.",
     }
-    render(
-        <ProblemSolutionList problems={problems} label="다른 문제 해결 사례" featured={featured} />,
-    )
+    render(<ProblemCases project={{ title: "예시" }} problems={problems} featured={featured} />)
 
-    const feature = screen.getByRole("article", { name: problems[0].title })
-    expect(within(feature).getByText(featured.problem)).toBeVisible()
-    expect(within(feature).getByText(featured.result)).toBeVisible()
-    expect(within(feature).getByText(featured.limitation)).toBeVisible()
-    expect(within(feature).getByText(problems[0].decision)).not.toBeVisible()
+    const first = screen.getByRole("article", { name: problems[0].title })
+    const second = screen.getByRole("article", { name: problems[1].title })
+
+    expect(within(first).getByText(featured.problem)).toBeVisible()
     expect(
-        within(screen.getByRole("list", { name: "다른 문제 해결 사례" })).getAllByRole("listitem"),
-    ).toHaveLength(1)
-    expect(screen.queryByText("01")).not.toBeInTheDocument()
-
-    await userEvent.click(within(feature).getByText("구현 근거와 제약 상세"))
-    expect(within(feature).getByText(problems[0].decision)).toBeVisible()
-    expect(within(feature).getByText(problems[0].boundary)).toBeVisible()
+        within(within(first).getByRole("list", { name: `${problems[0].title} 처리 순서` }))
+            .getAllByRole("listitem")
+            .map((step) => step.querySelector("strong").textContent),
+    ).toEqual(["요청 수신", "중복 확인", "결과 반환"])
+    ;[first, second].forEach((article) => {
+        ;["문제", "방법", "확인", "남은 일"].forEach((term) =>
+            expect(within(article).getByText(term)).toBeVisible(),
+        )
+    })
+    expect(within(second).getByText(problems[1].boundary)).toBeVisible()
+    expect(within(second).queryByRole("list")).not.toBeInTheDocument()
 })
 
 test("모든 대표 사례가 실제 프로젝트의 문제를 가리킨다", () => {
@@ -91,8 +85,22 @@ test("모든 대표 사례가 실제 프로젝트의 문제를 가리킨다", ()
         if (key.startsWith("baton-")) {
             expect(problem.serviceIds).toContain(key.slice("baton-".length))
         }
+        expect(featured.problem).toBeTruthy()
         expect(featured.steps.length).toBeGreaterThanOrEqual(3)
         expect(featured.steps.length).toBeLessThanOrEqual(4)
-        expect(featured.limitation).toBeTruthy()
     }
+})
+
+test("문제와 짝지은 화면은 그 프로젝트의 실제 화면을 가리킨다", () => {
+    Object.values(projectsById).forEach((project) => {
+        project.problems
+            .filter((problem) => problem.screenshotId)
+            .forEach((problem) => {
+                expect(
+                    project.screenshots.map((screenshot) => screenshot.id),
+                    `${project.id} ${problem.number}`,
+                ).toContain(problem.screenshotId)
+                expect(project.featuredProblemNumbers).toContain(problem.number)
+            })
+    })
 })

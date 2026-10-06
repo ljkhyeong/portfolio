@@ -14,13 +14,13 @@ const routeMetaContent = {
     "/projects/baton": {
         title: "BATON | 임정규 포트폴리오",
         description:
-            "역할·반복 업무·인수인계 문서를 기록하는 Core와 링크, URL 점검, 이벤트 전달, 보고서, 캘린더 및 WebRTC를 맡는 6개 마이크로서비스로 구성한 BATON 프로젝트",
+            "역할, 반복 업무, 인수인계 문서를 기록하는 Core와 링크, URL 점검, 이벤트 전달, 보고서, 캘린더, WebRTC를 맡는 6개 마이크로서비스로 구성한 BATON 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/baton/go": {
         title: "BATON GO | 임정규 포트폴리오",
         description:
-            "허용된 BATON 및 ROUND 경로에 짧은 링크를 발급하고 같은 UUID의 중복 생성을 막는 GO 마이크로서비스",
+            "BATON과 ROUND의 허용된 경로에 짧은 링크를 발급하고 같은 UUID의 중복 생성을 막는 GO 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/watch": {
@@ -32,19 +32,19 @@ const routeMetaContent = {
     "/projects/baton/relay": {
         title: "BATON RELAY | 임정규 포트폴리오",
         description:
-            "Core 이벤트를 Discord·Slack·Webhook·AWS SQS FIFO로 전달하고, 중복 수신을 막으며 결과 미확인 건은 재전송하지 않는 RELAY 마이크로서비스",
+            "Core 이벤트를 Discord, Slack, Webhook, AWS SQS FIFO로 전달하고, 중복 수신을 막으며 결과 미확인 건은 재전송하지 않는 RELAY 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/brief": {
         title: "BATON BRIEF | 임정규 포트폴리오",
         description:
-            "Core가 확인한 담당자 공백과 업무 지연을 점검 목록 및 주간 보고서에 반영하는 BRIEF 마이크로서비스",
+            "Core가 확인한 담당자 공백과 업무 지연을 점검 목록과 주간 보고서에 반영하는 BRIEF 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/cal": {
         title: "BATON CAL | 임정규 포트폴리오",
         description:
-            "BATON 일정과 마감을 읽기 전용 iCalendar로 제공하고 일정 버전을 검사하며 구독 토큰을 교체·폐기하는 CAL 마이크로서비스",
+            "BATON 일정과 마감을 읽기 전용 iCalendar로 제공하고 일정 버전을 검사하며 구독 토큰을 교체하고 폐기하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/round": {
@@ -56,19 +56,19 @@ const routeMetaContent = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관(법무부, 공수처, 검찰, 경찰, 해양경찰) 전자영장 연계 시스템의 KICS 요청 변환과 제출 자료 반영 서버·Spring Batch를 개발한 경력 사례",
+            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관(법무부, 공수처, 검찰, 경찰, 해양경찰) 전자영장 연계 시스템의 KICS 요청 변환과 제출 자료 반영 서버와 Spring Batch를 개발한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
         title: "happyGallery | 임정규 포트폴리오",
         description:
-            "결제·환불 중복 방지, 서버 중단 후 알림 재처리와 스마트스토어 주문·재고 연동을 구현한 공방 주문 및 예약 서비스",
+            "결제와 환불의 중복 방지, 서버 중단 후 알림 재처리, 스마트스토어 주문과 재고 연동을 구현한 공방 주문과 예약 서비스",
         image: "/og-cover.png",
     },
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "내 조건에 맞는 서울 청년정책을 찾고 저장한 정책의 변경 내용·마감·알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱 개발 프로젝트",
+            "내 조건에 맞는 서울 청년정책을 찾고 저장한 정책의 변경 내용, 마감, 알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱 개발 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
@@ -80,7 +80,7 @@ const routeMetaContent = {
     "/projects/intent-trace": {
         title: "IntentTrace | 임정규 포트폴리오",
         description:
-            "AI 코드의 변경 이유와 검증 결과를 웹·IDE에서 검색하고, 파일명·줄 변경 뒤의 코드 위치와 GitHub 이슈·PR·CI를 함께 확인하는 개발 도구",
+            "AI 코드의 변경 이유와 검증 결과를 웹과 IDE에서 검색하고, 파일명이나 줄이 바뀐 뒤의 코드 위치와 GitHub 이슈, PR, CI를 함께 확인하는 개발 도구",
         image: "/og-cover.png",
     },
     "/projects/defense": {
@@ -98,7 +98,7 @@ const routeMetaContent = {
     "/search": {
         title: "백엔드 프로젝트 문서 검색 | 임정규",
         description:
-            "공공기관 연계, 결제 및 환불 중복 실행 방지, 서버 중단 후 작업 재처리 경험을 프로젝트 문서와 출처로 확인할 수 있습니다.",
+            "공공기관 연계, 결제와 환불의 중복 실행 방지, 서버 중단 후 작업 재처리 경험을 프로젝트 문서와 출처로 확인할 수 있습니다.",
         image: "/og-cover.png",
     },
     "/portfolio/print": {

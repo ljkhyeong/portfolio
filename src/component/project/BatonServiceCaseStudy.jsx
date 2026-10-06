@@ -9,25 +9,10 @@ import CaseMetaSection from "./CaseMetaSection"
 import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 import { DocumentCounts, DocumentItems } from "./DocumentList"
-import ProblemSolutionList from "./ProblemSolutionList"
+import ProblemCases from "./ProblemCases"
 import BatonServiceFlowDiagram from "./diagrams/BatonServiceFlowDiagram"
 import "../../css/BatonService.css"
 import "../../css/CaseShowcase.css"
-
-const problemResults = {
-    "03": "동시 요청 8건에도 링크와 처리 기록 각 1건",
-    "04": "HMAC 키 불일치 시 기동과 링크 생성 차단",
-    "05": "사설망 접근·늦은 결과 차단과 중단 점검 재실행 확인",
-    "06": "응답 유실과 미전송 이벤트 재처리 확인",
-    "07": "서버 중단 후 시도 UUID·멱등 키 유지와 상태 확정 확인",
-    "08": "RabbitMQ 재전달에도 수신 이력 1건",
-    "09": "실제 Core와 로컬 HTTP 및 내부 HTTPS 연동 확인",
-    10: "재생성 결과 일치, 동시 요청에도 보고서 1건",
-    11: "중복, 이전 버전과 동일 버전의 내용 충돌 차단",
-    12: "시간대, 취소 일정과 ETag 304 응답 확인",
-    13: "현재 연결 순번의 SDP 및 ICE만 반영",
-    14: "잘못된 입장 토큰 차단과 공개 키 교체 확인",
-}
 
 const BatonServiceCaseStudy = ({ serviceId }) => {
     const project = projectsById.baton
@@ -38,9 +23,9 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
         return null
     }
 
-    const problems = project.problems
-        .filter((problem) => problem.serviceIds.includes(serviceId) && !problem.shared)
-        .map((problem) => ({ ...problem, validationSummary: problemResults[problem.number] }))
+    const problems = project.problems.filter(
+        (problem) => problem.serviceIds.includes(serviceId) && !problem.shared,
+    )
     const documents = project.documents.filter((document) => document.serviceId === serviceId)
     const siblings = project.services.filter((candidate) => !candidate.primary)
     const serviceGalleryProject = service.screenshots?.length
@@ -175,10 +160,10 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     <div className="baton-service-section-heading">
                         <h2 id="service-problems-title">문제와 해결 방법</h2>
                     </div>
-                    <ProblemSolutionList
+                    <ProblemCases
+                        project={serviceGalleryProject ?? project}
                         problems={problems}
                         featured={featuredCasePresentations[`baton-${serviceId}`]}
-                        label={`${service.name} 문제와 해결 방법 목록`}
                     />
                 </section>
 
@@ -196,16 +181,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                 key={item.kind}
                                 className={`baton-service-status__item baton-service-status__item--${item.kind}`}
                             >
-                                <dt>
-                                    <span aria-hidden="true">
-                                        {item.kind === "verified"
-                                            ? "✓"
-                                            : item.kind === "limited"
-                                              ? "!"
-                                              : "—"}
-                                    </span>
-                                    {item.label}
-                                </dt>
+                                <dt>{item.label}</dt>
                                 <dd>{item.text}</dd>
                             </div>
                         ))}

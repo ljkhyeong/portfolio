@@ -518,18 +518,9 @@ const PortfolioKnowledgePage = () => {
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">
-                        <li>
-                            <span aria-hidden="true">01</span>
-                            공개 문서만 검색
-                        </li>
-                        <li>
-                            <span aria-hidden="true">02</span>
-                            답변마다 출처 표시
-                        </li>
-                        <li>
-                            <span aria-hidden="true">03</span>
-                            관련 문서가 부족하면 답변하지 않음
-                        </li>
+                        <li>공개 문서만 검색</li>
+                        <li>답변마다 출처 표시</li>
+                        <li>관련 문서가 부족하면 답변하지 않음</li>
                     </ul>
                 </section>
 

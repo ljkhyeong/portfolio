@@ -5,8 +5,8 @@ export const projectOgCards = [
         id: "baton",
         route: "/projects/baton",
         title: ["BATON"],
-        category: "개인 프로젝트 / 역할·업무·인수인계",
-        description: "역할·업무·인수인계는 Core가,\n나머지 6개 기능은 독립 서비스가 처리합니다.",
+        category: "개인 프로젝트 / 역할, 업무, 인수인계",
+        description: "역할, 업무, 인수인계는 Core가,\n나머지 6개 기능은 독립 서비스가 처리합니다.",
         caption: "조직 업무를 맡는 Core와 6개 독립 서비스",
         labels: ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"],
     },
@@ -19,9 +19,9 @@ export const projectOgCards = [
             "기관별 요청 형식을 변환하고\n제출 자료를 형사사법정보시스템(KICS)에 반영합니다.",
         caption: "요청 전달과 제출 자료 반영",
         steps: [
-            ["KICS", "영장 및 자료 요청"],
+            ["KICS", "영장과 자료 요청"],
             ["기관별 규격 변환", "연계 서버와 Spring Batch"],
-            ["통신사 및 집행포털", "자료 제출 후 KICS 반영"],
+            ["통신사와 집행포털", "자료 제출 후 KICS 반영"],
         ],
     },
     {
@@ -32,7 +32,7 @@ export const projectOgCards = [
         description: "카드와 간편결제를 처리하고\n스마트스토어 주문과 재고를 맞춥니다.",
         caption: "자사몰과 스마트스토어의 주문 및 재고 연동",
         steps: [
-            ["자사몰 결제", "카드, 네이버페이 및 카카오페이"],
+            ["자사몰 결제", "카드, 네이버페이, 카카오페이"],
             ["스마트스토어 주문", "변경 주문과 부분취소 수집"],
             ["공유 재고 반영", "주문 수량 변경분만 차감 또는 복원"],
         ],
@@ -43,14 +43,14 @@ export const projectOgCards = [
         title: ["청년정책메이트"],
         category: "웹앱 / 서울 청년정책 / 개발 중",
         description: "내 조건에 맞는 정책을 찾고\n저장한 정책의 변경 내용과 마감을 확인합니다.",
-        caption: "조건 확인·정책 변경 비교·마감 알림",
+        caption: "조건 확인, 정책 변경 비교, 마감 알림",
         steps: [
-            ["공개 정책 조회", "접수 상태·질문 제공 여부 검색"],
+            ["공개 정책 조회", "접수 상태와 질문 제공 여부 검색"],
             [
                 "검토한 조건 질문",
                 `정책 ${youthPolicyCoverage.questionPolicies}종의 일부 요건과 근거`,
             ],
-            ["정책 변경과 마감", "저장 시점과 비교·일정·알림"],
+            ["정책 변경과 마감", "저장 시점 비교, 일정, 알림"],
         ],
     },
     {
@@ -72,11 +72,11 @@ export const projectOgCards = [
         title: ["IntentTrace"],
         category: "개발 도구 / AI 코드 변경 기록",
         description: "코드의 변경 이유와 검증 결과를 남기고\n파일명과 줄이 바뀐 뒤에도 추적합니다.",
-        caption: "변경 기록 검색·코드 위치 추적·GitHub 자료 조회",
+        caption: "변경 기록 검색, 코드 위치 추적, GitHub 자료 조회",
         steps: [
             ["요청과 변경 기록", "변경 근거와 출처, 코드 위치, 검증 결과"],
-            ["웹·IDE에서 검색", "검색어·상태·파일로 기록 조회"],
-            ["코드 위치 추적", "내용이 일치하는 파일명·줄 변경 추적"],
+            ["웹과 IDE에서 검색", "검색어, 상태, 파일로 기록 조회"],
+            ["코드 위치 추적", "내용이 일치하는 파일명과 줄 변경 추적"],
         ],
     },
     {
@@ -87,7 +87,7 @@ export const projectOgCards = [
         description: "수용자 자료 검증 배치와\n대용량 파일 직접 업로드를 개발했습니다.",
         caption: "수용자 자료 검증과 군교정 DB 반영",
         steps: [
-            ["군사법원, 군검찰 및 군사경찰", "기관별 자료 수신"],
+            ["군사법원, 군검찰, 군사경찰", "기관별 자료 수신"],
             ["자료 검증 배치", "인적정보와 영장정보 검증"],
             ["군교정 DB 반영", "검증한 수용자 정보 저장"],
         ],
@@ -101,7 +101,7 @@ export const projectOgCards = [
         caption: "RTP 출력의 HLS 변환과 지난 구간 다시보기",
         steps: [
             ["mediasoup RTP 출력", "강의 영상 전달"],
-            ["HLS 변환", "FFmpeg 및 GStreamer"],
+            ["HLS 변환", "FFmpeg와 GStreamer"],
             ["지난 구간 다시보기", "시연 환경 재생 지연 약 35초 → 약 17초"],
         ],
     },
@@ -125,7 +125,7 @@ export const projectOgCards = [
         [
             "cal",
             "외부 캘린더 구독",
-            "최신 일정만 읽기 전용 피드로 제공하고\n구독 토큰을 교체·폐기합니다.",
+            "최신 일정만 읽기 전용 피드로 제공하고\n구독 토큰을 교체하고 폐기합니다.",
         ],
         [
             "round",

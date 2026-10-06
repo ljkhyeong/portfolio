@@ -104,7 +104,7 @@ describe("공개 지식 문서 목록", () => {
         expect(batonOverview.content).toContain("공개 범위: 공개 저장소 6개")
         expect(roundOverview.content).toContain("저장소 공개 범위: 공개 저장소")
         expect(roundOverview.content).toContain(
-            "검증 요약: Chromium 카메라·마이크 제어와 화면 공유",
+            "검증 요약: Chromium 카메라와 마이크 제어, 화면 공유",
         )
         expect(roundOverview.content).toContain("입력 확인: 입장 토큰의 서명")
 
@@ -125,7 +125,9 @@ describe("공개 지식 문서 목록", () => {
 
         expect(youthPolicyOverview.content).toContain("구분: 개인 웹앱 프로젝트")
         expect(youthPolicyOverview.content).toContain("정책 40건")
-        expect(youthPolicyOverview.content).toContain("실제 OAuth·OpenAI·Resend 운영 연동은 미검증")
+        expect(youthPolicyOverview.content).toContain(
+            "실제 OAuth, OpenAI, Resend 운영 연동은 미검증",
+        )
 
         const firstProblem = corpus.documents.find(
             (document) => document.documentType === "problem_solution",

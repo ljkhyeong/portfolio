@@ -27,15 +27,15 @@ main.case-showcase .baton-service-hero {
     display: grid;
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     align-items: start;
-    gap: 96px;
-    padding: 65px 0 60px;
+    gap: 40px 96px;
+    padding: 65px 0 40px;
 }
 
 main.case-showcase .case-kicker,
 main.case-showcase .baton-service-kicker {
     display: block;
-    margin: 0 0 16px;
-    color: var(--accent);
+    margin: 0 0 12px;
+    color: var(--muted);
     font-family: var(--sans);
     font-size: var(--portfolio-caption);
     font-weight: 500;
@@ -46,13 +46,13 @@ main.case-showcase .baton-service-kicker {
 
 main.case-showcase .case-hero h1,
 main.case-showcase .baton-service-hero h1 {
-    margin: 0 0 24px;
+    margin: 0 0 22px;
     max-width: none;
-    font-family: var(--sans);
-    font-size: var(--portfolio-display);
-    font-weight: 650;
-    line-height: 1.07;
-    letter-spacing: -0.055em;
+    font-family: var(--display);
+    font-size: 76px;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
     text-wrap: balance;
     overflow-wrap: anywhere;
 }
@@ -60,37 +60,101 @@ main.case-showcase .baton-service-hero h1 {
 main.case-showcase.case-study-page--warrant .case-hero h1,
 main.case-showcase.case-study-page--defense .case-hero h1,
 main.case-showcase.case-study-page--prior .case-hero h1 {
-    font-size: var(--portfolio-title);
+    font-size: 54px;
     line-height: 1.2;
+    word-break: keep-all;
 }
 
 main.case-showcase .case-hero__intro > p,
 main.case-showcase .prior-case__summary,
 main.case-showcase .baton-service-hero__intro > p {
     margin: 0;
-    max-width: 480px;
-    color: var(--muted);
-    font-size: var(--portfolio-lead);
-    line-height: 1.65;
-    letter-spacing: -0.025em;
+    max-width: 640px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
 }
 
 main.case-showcase .case-hero__scope {
     display: block;
     margin-bottom: 10px;
-    color: var(--accent);
-    font-size: var(--portfolio-body);
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: var(--portfolio-small);
     font-weight: 600;
 }
 
-main.case-showcase .case-hero__support {
+/* 오른쪽 칸: 맡은 일, 기간, 상태와 바로가기 */
+main.case-showcase .case-hero__aside {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 18px;
+    min-width: 0;
+}
+
+/* 연표에서 이 프로젝트의 기간: 경력, 개인 프로젝트, 학습을 한 줄씩 겹쳐 그리고 이 프로젝트만 강조한다. */
+main.case-showcase .project-timeline-strip {
+    grid-column: 1 / -1;
+    margin: 4px 0 0;
+}
+
+main.case-showcase .project-timeline-strip figcaption {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 13.5px;
+}
+
+main.case-showcase .project-timeline-strip__lane {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    align-items: center;
     gap: 12px;
-    margin-top: 24px;
-    padding: 0;
-    border: 0;
+    margin-top: 4px;
+}
+
+main.case-showcase .project-timeline-strip__label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+main.case-showcase .project-timeline-strip__track {
+    position: relative;
+    height: 10px;
+    background: #e8ebef;
+}
+
+main.case-showcase .project-timeline-strip__bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--from) * 1%);
+    width: calc((var(--to) - var(--from)) * 1%);
+    min-width: 4px;
+    background: #c3c9d1;
+}
+
+main.case-showcase .project-timeline-strip__bar.is-current {
+    z-index: 1;
+    background: var(--accent);
+}
+
+main.case-showcase .project-timeline-strip__axis {
+    position: relative;
+    height: 16px;
+    margin: 6px 0 0 108px;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-variant-numeric: tabular-nums;
+}
+
+main.case-showcase .project-timeline-strip__axis span {
+    position: absolute;
+    left: calc(var(--at) * 1%);
+    transform: translateX(-50%);
 }
 
 main.case-showcase .case-hero__evidence {
@@ -104,24 +168,11 @@ main.case-showcase .case-hero__evidence a {
     font-weight: 500;
 }
 
-main.case-showcase .case-project-labels li {
-    min-height: 0;
-    padding: 0;
-    color: var(--muted);
-    font-family: var(--sans);
-    font-size: var(--portfolio-caption);
-    font-weight: 400;
-}
-
-main.case-showcase .prior-case .case-project-labels {
-    margin: 0 0 18px;
-}
-
 main.case-showcase .case-hero-facts,
 main.case-showcase .baton-service-hero__facts {
     display: block;
     grid-column: auto;
-    margin: 4px 0 0;
+    margin: 0;
     padding: 0;
     border: 0;
 }
@@ -359,109 +410,11 @@ main.case-showcase .baton-service-section-heading {
 main.case-showcase .case-section-heading h2,
 main.case-showcase .baton-service-section-heading h2 {
     color: var(--ink);
-    font-family: var(--sans);
+    font-family: var(--display);
     font-size: var(--portfolio-section-title);
     font-weight: var(--portfolio-section-weight);
     line-height: var(--portfolio-section-leading);
     letter-spacing: var(--portfolio-section-tracking);
-}
-
-main.case-showcase .featured-problem {
-    margin: 0 0 64px;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-}
-
-main.case-showcase .featured-problem--visual {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    align-items: start;
-    gap: 72px;
-}
-
-main.case-showcase .featured-problem__header {
-    padding: 0;
-}
-
-main.case-showcase .featured-problem__header h3 {
-    max-width: 740px;
-    font-size: var(--portfolio-subtitle);
-    font-weight: 550;
-    line-height: 1.4;
-}
-
-main.case-showcase .featured-problem__eyebrow {
-    margin-bottom: 20px;
-    font-weight: 500;
-}
-
-main.case-showcase .featured-problem__body {
-    gap: 60px;
-    padding: 26px 0;
-}
-
-main.case-showcase .featured-problem--visual .featured-problem__body {
-    display: block;
-}
-
-main.case-showcase .featured-problem__explanation > p {
-    color: var(--muted);
-    font-size: var(--portfolio-body);
-    line-height: 1.8;
-}
-
-main.case-showcase .featured-problem__explanation > p > strong {
-    display: inline;
-    margin-right: 10px;
-    color: var(--ink);
-    font-size: var(--portfolio-caption);
-    font-weight: 500;
-}
-
-main.case-showcase .featured-problem__flow {
-    padding-left: 32px;
-}
-
-main.case-showcase .featured-problem__evidence {
-    max-width: 760px;
-    padding: 4px 0 26px;
-    border: 0;
-    background: transparent;
-}
-
-main.case-showcase .featured-problem__result {
-    color: var(--ink);
-    font-size: var(--portfolio-body);
-    font-weight: 500;
-    line-height: 1.8;
-}
-
-main.case-showcase .featured-problem__limitation {
-    margin-top: 14px;
-    font-size: var(--portfolio-small);
-}
-
-main.case-showcase .featured-problem__details > summary {
-    min-height: 44px;
-    padding: 16px 0;
-    font-size: var(--portfolio-small);
-    font-weight: 500;
-}
-
-main.case-showcase .featured-problem__details dl {
-    padding: 0;
-}
-
-main.case-showcase .featured-problem__details .featured-problem__flow {
-    margin: 16px 0 28px;
-    padding-left: 0;
-    border: 0;
-}
-
-main.case-showcase .featured-problem__details dl > div {
-    grid-template-columns: 1fr;
-    gap: 6px;
 }
 
 main.case-showcase .problem-solution-list,
@@ -500,10 +453,12 @@ main.case-showcase .case-architecture__intro > span {
 }
 
 main.case-showcase .case-architecture__intro h3 {
-    font-family: var(--sans);
-    font-size: var(--portfolio-subtitle);
+    font-family: var(--display);
+    font-size: 28px;
     font-weight: 500;
-    line-height: 1.55;
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
 }
 
 main.case-showcase .case-meta__links {
@@ -546,7 +501,7 @@ main.case-showcase .baton-service-flow {
     --diagram-rule: var(--portfolio-line);
     --diagram-rule-strong: #aeb7c2;
     --diagram-accent: var(--portfolio-accent);
-    --diagram-accent-tint: #e8eefc;
+    --diagram-accent-tint: var(--accent-soft);
     --diagram-zone-fill: rgba(21, 24, 28, 0.015);
     --diagram-zone-stroke: rgba(21, 24, 28, 0.2);
     --diagram-external-fill: rgba(21, 24, 28, 0.02);
@@ -638,9 +593,9 @@ main.case-showcase .case-next a > span:first-child {
 }
 
 main.case-showcase .case-next strong {
-    font-family: var(--sans);
-    font-size: clamp(24px, 2.6vw, 36px);
-    font-weight: 550;
+    font-family: var(--display);
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 600;
     color: var(--ink);
     line-height: 1.25;
 }
@@ -707,26 +662,17 @@ main.case-showcase .project-switcher__group > span,
 main.case-showcase .project-switcher a > span,
 main.case-showcase .case-section-heading > span,
 main.case-showcase .baton-service-section-heading > span,
-main.case-showcase .featured-problem__eyebrow,
-main.case-showcase .featured-problem__flow-label,
-main.case-showcase .featured-problem__evidence-label,
-main.case-showcase .featured-problem__step-number,
-main.case-showcase .problem-solution-list__result > span,
 main.case-showcase .case-architecture__intro blockquote strong,
 main.case-showcase .baton-service-scope dt,
 main.case-showcase .editorial-diagram__eyebrow {
     font-size: var(--portfolio-caption);
 }
 
-main.case-showcase .featured-problem__flow li strong,
 main.case-showcase .problem-solution-list__item > summary h3 {
     font-size: var(--portfolio-subtitle);
 }
 
-main.case-showcase .featured-problem__flow li p,
-main.case-showcase .featured-problem__details dt,
 main.case-showcase .problem-solution-list__item dt,
-main.case-showcase .problem-solution-list__result,
 main.case-showcase .baton-service-status dt,
 main.case-showcase .baton-service-flow__legend,
 main.case-showcase .editorial-diagram__header > p,
@@ -735,7 +681,6 @@ main.case-showcase .editorial-diagram__summary {
     line-height: 1.75;
 }
 
-main.case-showcase .featured-problem__details dd,
 main.case-showcase .problem-solution-list__item dd,
 main.case-showcase .case-architecture__intro p,
 main.case-showcase .case-architecture__intro blockquote,
@@ -915,14 +860,9 @@ main.case-showcase ::selection {
         gap: 16px;
     }
 
-    main.case-showcase .featured-problem--visual,
     main.case-showcase .case-architecture__intro {
         grid-template-columns: 1fr;
         gap: 32px;
-    }
-
-    main.case-showcase .featured-problem__visual {
-        max-width: 560px;
     }
 
     main.case-showcase .case-meta {
@@ -1001,15 +941,6 @@ main.case-showcase ::selection {
     main.case-showcase .baton-service-verification,
     main.case-showcase .baton-service-documents {
         padding: 56px 0;
-    }
-
-    main.case-showcase .featured-problem__body {
-        grid-template-columns: 1fr;
-        gap: 28px;
-    }
-
-    main.case-showcase .featured-problem__flow {
-        padding: 24px 0 0;
     }
 
     main.case-showcase .editorial-diagram,

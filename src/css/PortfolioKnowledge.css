@@ -49,10 +49,11 @@
 
 .knowledge-hero h1 {
     margin: 0;
+    font-family: var(--display);
     font-size: 46px;
-    font-weight: 650;
-    letter-spacing: -0.052em;
-    line-height: 1.32;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.3;
     word-break: keep-all;
 }
 
@@ -82,12 +83,6 @@
     color: var(--knowledge-muted);
     font-size: 14px;
     font-weight: 650;
-}
-
-.knowledge-hero__rules span {
-    color: var(--knowledge-accent);
-    font-size: 13px;
-    font-weight: 750;
 }
 
 .knowledge-query {
@@ -122,7 +117,7 @@
 
 .knowledge-query__input-row:focus-within {
     border-color: var(--knowledge-accent);
-    box-shadow: 0 0 0 3px rgba(47, 91, 211, 0.18);
+    box-shadow: 0 0 0 3px rgba(15, 123, 95, 0.18);
 }
 
 .knowledge-query__input-row > span {

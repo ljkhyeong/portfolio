@@ -25,7 +25,7 @@ const diagrams = {
         height: 480,
         zones: [
             { x: 24, y: 40, width: 216, height: 352, label: "자료 송신 기관" },
-            { x: 296, y: 40, width: 248, height: 352, label: "연계 및 배치" },
+            { x: 296, y: 40, width: 248, height: 352, label: "연계와 배치" },
             { x: 600, y: 40, width: 336, height: 352, label: "군교정 업무망" },
         ],
         nodes: [
@@ -64,7 +64,7 @@ const diagrams = {
                 height: 160,
                 tag: "BATCH / FOCAL",
                 title: ["수용자 정보", "검증 배치"],
-                detail: ["필수값 및 형식 확인", "기관별 자료 변환"],
+                detail: ["필수값과 형식 확인", "기관별 자료 변환"],
                 kind: "focal",
             },
             {
@@ -108,7 +108,7 @@ const diagrams = {
         eyebrow: "DATA FLOW / LIVE AND REPLAY",
         title: "강의 영상을 WebRTC 실시간 시청과 HLS 다시보기로 분리",
         summary:
-            "실시간 강의는 mediasoup에서 WebRTC로 전송하고, RTP 출력은 FFmpeg·GStreamer로 HLS로 변환해 다시보기에 사용합니다.",
+            "실시간 강의는 mediasoup에서 WebRTC로 전송하고, RTP 출력은 FFmpeg와 GStreamer에서 HLS로 변환해 다시보기에 사용합니다.",
         description:
             "강의 영상 입력을 mediasoup에서 WebRTC 실시간 전송과 RTP 출력으로 나누고, RTP는 FFmpeg와 GStreamer에서 HLS로 변환해 React 다시보기 화면에 제공하는 흐름입니다.",
         height: 480,
@@ -213,7 +213,7 @@ const diagrams = {
                 height: 104,
                 tag: "RECORD",
                 title: ["변경 기록"],
-                detail: ["사용자 요청 및 코드 위치", "검증 결과"],
+                detail: ["사용자 요청과 코드 위치", "검증 결과"],
             },
             {
                 id: "author-confirmation",
@@ -310,11 +310,11 @@ const diagrams = {
     },
     "youth-policy-mate": {
         eyebrow: "ARCHITECTURE / WEB APP",
-        title: "공개 정책 조회와 조건 확인·일정·알림",
+        title: "공개 정책 조회와 조건 확인, 일정, 알림",
         summary:
             "수집한 정책과 검토한 질문으로 신청 조건을 확인하고, 저장한 관심 정책의 마감 일정과 알림을 제공합니다.",
         description:
-            "Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 관심 정책 저장, 일정과 알림을 처리합니다. 정책·회원·알림 상태는 JDBC로 PostgreSQL에 저장합니다.",
+            "Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 관심 정책 저장, 일정과 알림을 처리합니다. 정책, 회원, 알림 상태는 JDBC로 PostgreSQL에 저장합니다.",
         height: 608,
         zones: [
             { x: 24, y: 40, width: 912, height: 160, label: "조건 입력 화면" },
@@ -335,7 +335,7 @@ const diagrams = {
                 height: 104,
                 tag: "INPUT",
                 title: ["조건 입력"],
-                detail: ["연령·지역·취업·소득"],
+                detail: ["연령, 지역, 취업, 소득"],
             },
             {
                 id: "condition-confirmation",
@@ -378,8 +378,8 @@ const diagrams = {
                 width: 232,
                 height: 104,
                 tag: "SPRING API",
-                title: ["일정·알림 처리"],
-                detail: ["마감·수신 동의 확인", "예약·취소·Outbox"],
+                title: ["일정과 알림 처리"],
+                detail: ["마감과 수신 동의 확인", "예약, 취소, Outbox"],
             },
             {
                 id: "result",
@@ -388,7 +388,7 @@ const diagrams = {
                 width: 192,
                 height: 104,
                 tag: "WEB RESULT",
-                title: ["판정 및 근거"],
+                title: ["판정과 근거"],
                 detail: ["실제 웹 화면"],
             },
             {

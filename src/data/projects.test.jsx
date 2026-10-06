@@ -116,7 +116,7 @@ describe("project summary data", () => {
             youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
         ).toEqual(["780x1688", "780x1688", "780x1688", "390x844"])
         expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
-        expect(youthPolicyMate.status.text).toContain("실제 OAuth·OpenAI·Resend")
+        expect(youthPolicyMate.status.text).toContain("실제 OAuth, OpenAI, Resend")
         expect(youthPolicyMate.stack).toContain("Spring JDBC")
     })
 
@@ -209,7 +209,7 @@ describe("project summary data", () => {
             decision: expect.stringContaining("독립 트랜잭션"),
         })
         expect(passRefundProblem).toMatchObject({
-            title: "이용권 변경 후에도 기존 구매·환불 조건 보존",
+            title: "이용권 변경 후에도 기존 구매와 환불 조건 보존",
             decision: expect.stringContaining("순서대로 잠가"),
             boundary: expect.stringContaining("관리자 재처리"),
         })

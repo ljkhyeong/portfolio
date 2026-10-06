@@ -11,7 +11,7 @@
 }
 
 .baton-service-flow__header > span {
-    color: var(--accent, #0969da);
+    color: var(--accent, #0f7b5f);
     font-family: var(--mono, monospace);
     font-size: 12px;
     font-weight: 700;
@@ -34,7 +34,7 @@
 }
 
 .baton-service-flow__viewport:focus-visible {
-    outline: 2px solid var(--accent, #0969da);
+    outline: 2px solid var(--accent, #0f7b5f);
     outline-offset: 4px;
 }
 
@@ -68,8 +68,8 @@
 }
 
 .service-flow-node--focal rect {
-    fill: var(--accent-soft, #ddf4ff);
-    stroke: var(--accent, #0969da);
+    fill: var(--accent-soft, #e3f1eb);
+    stroke: var(--accent, #0f7b5f);
 }
 
 .service-flow-node--decision polygon {
@@ -86,7 +86,7 @@
 }
 
 .service-flow-node--focal .service-flow-node__tag {
-    fill: var(--accent, #0969da);
+    fill: var(--accent, #0f7b5f);
 }
 
 .service-flow-node__title {
@@ -109,7 +109,7 @@
 }
 
 .service-flow-edge--accent {
-    stroke: var(--accent, #0969da);
+    stroke: var(--accent, #0f7b5f);
     stroke-width: 1.4;
 }
 
@@ -123,7 +123,7 @@
 
 .service-flow-marker--accent,
 .service-flow-marker--link {
-    fill: var(--accent, #0969da);
+    fill: var(--accent, #0f7b5f);
 }
 
 .service-flow-edge__label rect {
@@ -161,8 +161,8 @@
 }
 
 .baton-service-flow__legend > span:nth-child(2)::before {
-    border-color: var(--accent, #0969da);
-    background: var(--accent-soft, #ddf4ff);
+    border-color: var(--accent, #0f7b5f);
+    background: var(--accent-soft, #e3f1eb);
 }
 
 .baton-service-flow__legend > span:nth-child(3)::before {

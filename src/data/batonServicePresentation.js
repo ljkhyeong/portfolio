@@ -12,12 +12,12 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "구현 상태",
-                text: "공개 main bf93dc3 기준입니다. 관리용 상태·기간 필터와 일괄 조회, 링크 상태 안내·재시도 화면을 제공합니다.",
+                text: "공개 main bf93dc3 기준입니다. 관리용 상태 필터와 기간 필터, 일괄 조회, 링크 상태 안내와 재시도 화면을 제공합니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "BATON의 링크 생성 및 폐기 요청부터 대상 서비스의 접근 권한 확인까지 이어지는 전체 연동, 실제 클러스터와 공개 배포는 미검증입니다.",
+                text: "BATON의 링크 생성과 폐기 요청부터 대상 서비스의 접근 권한 확인까지 이어지는 전체 연동, 실제 클러스터와 공개 배포는 미검증입니다.",
             },
         ],
         flow: {
@@ -43,17 +43,17 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "사설망 및 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행과 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. DB 제약(Flyway V6)으로 필수값이 빠진 점검·전달 결과 9가지 조합의 저장도 거부합니다.",
+                text: "사설망 접근과 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행, 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. DB 제약(Flyway V6)으로 점검 결과와 전달 결과에서 필수값이 빠진 9가지 조합의 저장도 거부합니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 697e60b 기준입니다. DB 제약·백업 복원·부하·프로세스 복구는 로컬 검증 기록을 확인했습니다.",
+                text: "공개 main 697e60b 기준입니다. DB 제약, 백업 복원, 부하, 프로세스 복구는 로컬 검증 기록을 확인했습니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "공개 환경에서 WATCH가 Core로 보내는 콜백과 외부 대시보드·알림은 확인하지 않았습니다.",
+                text: "공개 환경에서 WATCH가 Core로 보내는 콜백, 외부 대시보드와 알림은 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -62,7 +62,7 @@ export const batonServicePresentations = {
                 "URL을 해석해 사설망과 로컬 주소를 차단하고 공인 IP로만 점검합니다. 처리 기한이 지나면 기존 시도를 종료하고 새로 점검하며 이전 시도의 늦은 결과는 저장하지 않습니다.",
             compact: {
                 input: ["점검할 URL", "URL 버전 함께 저장"],
-                action: ["공인 IP로만 점검", "사설망 및 로컬 주소 차단"],
+                action: ["공인 IP로만 점검", "사설망과 로컬 주소 차단"],
                 outputs: [
                     ["기한 내 완료", "최신 결과 저장"],
                     ["처리 기한 초과", "새 점검 실행"],
@@ -73,17 +73,17 @@ export const batonServicePresentations = {
     relay: {
         target: "이벤트 중복 수신과 전송 결과 미확인",
         decision: "시도 UUID를 유지하고 결과 미확인은 재전송 중단",
-        result: "중복 수신 차단과 서버 중단 후 시도 UUID·멱등 키 유지 확인",
+        result: "중복 수신 차단과 서버 중단 후 시도 UUID와 멱등 키 유지 확인",
         verification: [
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "이벤트 중복 수신 차단과 중단 후 시도 UUID·멱등 키 유지를 검증했습니다. Discord·Slack·Webhook·SQS 전달과 결과 수동 확정을 구현했습니다.",
+                text: "이벤트 중복 수신 차단, 중단 후 시도 UUID와 멱등 키 유지를 검증했습니다. Discord, Slack, Webhook, SQS 전달과 결과 수동 확정을 구현했습니다.",
             },
             {
                 kind: "unverified",
                 label: "미검증",
-                text: "실제 Discord·Slack·AWS 전송과 운영 환경의 백업 RPO·RTO는 미검증입니다.",
+                text: "실제 Discord, Slack, AWS 전송과 운영 환경의 백업 RPO·RTO는 미검증입니다.",
             },
         ],
         flow: {
@@ -110,7 +110,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "점검 상태와 보고서 이력·비교, 주간 이월·신규·해결 내역을 검증했습니다. 업무 종류·주간·시간대 필터와 변경 없는 비교 결과의 304 응답도 지원합니다.",
+                text: "점검 상태, 보고서 이력과 비교, 주간 이월, 신규, 해결 내역을 검증했습니다. 업무 종류, 주간, 시간대 필터와 변경 없는 비교 결과의 304 응답도 지원합니다.",
             },
             {
                 kind: "limited",
@@ -127,7 +127,7 @@ export const batonServicePresentations = {
             title: "Core 판정은 그대로, 발행 보고서는 변경 없이",
             description:
                 "Core의 점검 결과를 미해결(ACTIVE) 또는 해결됨(RESOLVED)으로 저장합니다. 같은 조건의 주간 보고서는 재사용하고 변경된 내용은 새 보고서로 발행합니다.",
-            note: "5개 점검 결과: 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계. BRIEF가 판정 규칙을 다시 만들지 않습니다.",
+            note: "5개 점검 결과는 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계입니다. BRIEF는 판정 규칙을 다시 만들지 않습니다.",
             compact: {
                 input: ["담당자 공백 등 5개 상태", "Core에서 판정"],
                 action: ["점검 항목 반영", "미해결 / 해결됨"],
@@ -146,7 +146,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "Core 교차 테스트 5개와 HTTP 캐시·복구 검증 기록을 확인했습니다.",
+                text: "Core 교차 테스트 5개와 HTTP 캐시, 복구 검증 기록을 확인했습니다.",
             },
             {
                 kind: "limited",
@@ -166,7 +166,7 @@ export const batonServicePresentations = {
             note: "일정 ID는 UID, 버전 번호는 SEQUENCE로 사용합니다. 토큰을 교체하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",
             compact: {
                 input: ["Core 일정", "일정 ID + 버전 번호"],
-                action: ["버전 및 캐시 확인", "최신 일정과 요청 캐시 비교"],
+                action: ["버전과 캐시 확인", "최신 일정과 요청 캐시 비교"],
                 outputs: [
                     ["본문 필요", "200 및 .ics 본문"],
                     ["캐시 유효", "304 응답"],
@@ -182,7 +182,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인됨",
-                text: "이전 CI의 브라우저 테스트와 Core 연동 검사 통과 기록을 확인했습니다. 공개 main bdf63eb에는 스피커 소리 확인, 공유 화면 작은 창·통화 제어와 대화 전체 복사를 구현했습니다.",
+                text: "이전 CI의 브라우저 테스트와 Core 연동 검사 통과 기록을 확인했습니다. 공개 main bdf63eb에는 스피커 소리 확인, 공유 화면 작은 창과 통화 제어, 대화 전체 복사를 구현했습니다.",
             },
             {
                 kind: "limited",
@@ -199,7 +199,7 @@ export const batonServicePresentations = {
             title: "입장은 Core가, 연결 메시지는 ROUND가 담당합니다",
             description:
                 "Core가 발급한 RS256 입장 토큰을 ROUND가 검증한 뒤 WebSocket으로 연결 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고, 연결이 어려우면 Cloudflare TURN 또는 coturn을 사용합니다.",
-            note: "미디어는 시그널링 서버를 거치지 않습니다. 현재 연결 순번과 다른 SDP·ICE 메시지는 버립니다.",
+            note: "미디어는 시그널링 서버를 거치지 않습니다. 현재 연결 순번이 아닌 SDP와 ICE 메시지는 버립니다.",
             compact: {
                 input: ["Core 입장 토큰", "RS256 서명 검증"],
                 action: ["WebSocket 시그널링", "연결 메시지만 전달"],

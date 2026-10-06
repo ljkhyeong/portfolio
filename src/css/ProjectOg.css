@@ -1,12 +1,12 @@
 .project-og {
-    --og-ink: #1f2328;
-    --og-muted: #59636e;
-    --og-accent: #0969da;
+    --og-ink: #1b1f27;
+    --og-muted: #59606b;
+    --og-accent: #0f7b5f;
     width: 1200px;
     height: 630px;
     padding: 48px 64px 40px;
     overflow: hidden;
-    background: #f6f8fa;
+    background: #f6f7f9;
     color: var(--og-ink);
     font-family: var(--sans);
 }
@@ -54,8 +54,9 @@
 .project-og__title {
     margin: 0;
     font-size: 52px;
-    font-weight: 780;
-    letter-spacing: -0.055em;
+    font-family: var(--display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
     line-height: 1.22;
 }
 
@@ -127,7 +128,7 @@
 }
 
 .og-flow-node--focal rect {
-    fill: #eaf3ff;
+    fill: #e3f1eb;
     stroke: var(--og-accent);
 }
 

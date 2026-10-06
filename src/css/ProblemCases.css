@@ -1,0 +1,261 @@
+/* 대표 사례: 화면이나 처리 순서와 짝지은 사례는 크게, 글만 있는 사례는 두 열로 둔다.
+   모든 사례가 문제, 방법, 확인, 남은 일 네 칸을 같은 순서로 쓴다. */
+.problem-cases {
+    display: flex;
+    flex-direction: column;
+}
+
+.problem-case {
+    min-width: 0;
+    padding: 48px 0;
+    border-top: 1px solid var(--line);
+}
+
+.problem-case--visual {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 32px 64px;
+}
+
+.problem-case--flip {
+    flex-direction: row-reverse;
+}
+
+.problem-case__visual {
+    flex: 6 1 480px;
+    min-width: 0;
+}
+
+.problem-case__copy {
+    flex: 5 1 420px;
+    min-width: 0;
+}
+
+.problem-case__number {
+    margin: 0;
+    color: var(--accent);
+    font-size: 13.5px;
+    font-weight: 650;
+}
+
+.problem-case h3 {
+    margin: 8px 0 0;
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.4;
+    word-break: keep-all;
+}
+
+.problem-case__lead {
+    margin: 12px 0 0;
+    font-family: var(--display);
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.55;
+    word-break: keep-all;
+}
+
+.problem-case__fields {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 10px 16px;
+    margin: 22px 0 0;
+}
+
+.problem-case__fields > div {
+    display: contents;
+}
+
+.problem-case__fields dt {
+    padding-top: 2px;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 650;
+}
+
+.problem-case__fields dd {
+    margin: 0;
+    color: var(--ink);
+    font-size: 15.5px;
+    line-height: 1.75;
+    word-break: keep-all;
+}
+
+.problem-case__fields > div:nth-child(3) dt {
+    color: var(--accent);
+}
+
+.problem-case__fields > div:last-child dd {
+    color: var(--muted);
+}
+
+/* 처리 순서: 화면이 없는 사례는 오른쪽 칸에 세로로, 화면이 있는 사례는 글 아래에 가로로 둔다. */
+.problem-case__visual--steps {
+    padding: 8px 28px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper-raised);
+}
+
+.problem-case__steps-label {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 650;
+}
+
+.problem-case__steps ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.problem-case__steps li {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 0;
+}
+
+.problem-case__steps li + li {
+    border-top: 1px solid var(--line);
+}
+
+.problem-case__steps li > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper-raised);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.problem-case__steps li:last-child > span {
+    background: var(--accent);
+}
+
+.problem-case__steps strong {
+    display: block;
+    font-size: 16.5px;
+    font-weight: 650;
+}
+
+.problem-case__steps p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+.problem-case__steps--inline {
+    margin-top: 26px;
+}
+
+.problem-case__steps--inline .problem-case__steps-label {
+    margin: 0 0 10px;
+}
+
+.problem-case__steps--inline ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+    gap: 10px;
+}
+
+.problem-case__steps--inline li {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper-raised);
+}
+
+.problem-case__steps--inline li + li {
+    border-top: 1px solid var(--line);
+}
+
+.problem-case__steps--inline li > span {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+}
+
+.problem-case__steps--inline strong {
+    font-size: 15px;
+}
+
+.problem-case__steps--inline p {
+    font-size: 13.5px;
+}
+
+/* 글만 있는 사례는 두 열로 둔다. 개수가 홀수여도 마지막 사례가 한 줄을 다 차지하지 않는다. */
+.problem-cases__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(480px, 100%), 1fr));
+    column-gap: 64px;
+    border-top: 1px solid var(--line);
+}
+
+.problem-cases__grid .problem-case {
+    border-top: 0;
+}
+
+/* 사례와 짝지은 화면은 원본 비율과 관계없이 4:3 창으로 위쪽을 보여 주고, 누르면 전체를 연다. */
+main.case-showcase .screenshot-gallery--problem {
+    display: block;
+}
+
+main.case-showcase .screenshot-gallery--problem .screenshot-gallery__viewport {
+    height: auto;
+    aspect-ratio: 4 / 3;
+}
+
+main.case-showcase .screenshot-gallery--problem .screenshot-gallery__viewport img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.problem-cases__grid .problem-case h3 {
+    font-size: 24px;
+}
+
+@media (max-width: 700px) {
+    .problem-case {
+        padding: 32px 0;
+    }
+
+    .problem-case h3 {
+        font-size: 22px;
+    }
+
+    .problem-case__lead {
+        font-size: 18px;
+    }
+
+    .problem-case__fields {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2px 0;
+    }
+
+    .problem-case__fields dd {
+        margin-bottom: 10px;
+        font-size: 14.5px;
+    }
+
+    .problem-case__visual--steps {
+        padding: 4px 16px;
+    }
+
+    .problem-cases__grid .problem-case + .problem-case {
+        border-top: 1px solid var(--line);
+    }
+}

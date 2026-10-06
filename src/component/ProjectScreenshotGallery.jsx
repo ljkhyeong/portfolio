@@ -3,7 +3,12 @@ import { createPortal } from "react-dom"
 import { assetPath } from "../utils/assetPath"
 import "../css/ScreenshotGallery.css"
 
-const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreenshotIds }) => {
+const ProjectScreenshotGallery = ({
+    project,
+    context = "showcase",
+    visibleScreenshotIds,
+    showNote = true,
+}) => {
     const [activeIndex, setActiveIndex] = useState(null)
     const dialogId = useId()
     const dialogTitleId = `${dialogId}-title`
@@ -128,8 +133,8 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
             <div
                 className={`screenshot-gallery screenshot-gallery--${context} screenshot-gallery--${project.visual} screenshot-gallery--count-${displayedScreenshots.length}`}
                 role="group"
-                aria-label={`${project.title} 대표 화면`}
-                aria-describedby={project.screenshotNote ? galleryNoteId : undefined}
+                aria-label={`${project.title} ${context === "problem" ? "관련 화면" : "대표 화면"}`}
+                aria-describedby={showNote && project.screenshotNote ? galleryNoteId : undefined}
             >
                 {displayedScreenshots.map(({ screenshot, index }, displayIndex) => (
                     <figure
@@ -167,7 +172,7 @@ const ProjectScreenshotGallery = ({ project, context = "showcase", visibleScreen
                     </figure>
                 ))}
             </div>
-            {project.screenshotNote && (
+            {showNote && project.screenshotNote && (
                 <p className="screenshot-gallery__note" id={galleryNoteId}>
                     {project.screenshotNote}
                 </p>

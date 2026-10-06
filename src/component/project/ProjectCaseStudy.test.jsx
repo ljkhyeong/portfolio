@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
 import { caseResults } from "../../data/caseHighlights"
 import { projectsById } from "../../data/projects"
+import { formatPeriod } from "../../data/timeline"
 import BatonServiceCaseStudy from "./BatonServiceCaseStudy"
 import ProjectCaseStudy from "./ProjectCaseStudy"
 
@@ -21,15 +22,17 @@ test.each([
     renderWithRouter(<ProjectCaseStudy projectId={projectId} />)
 
     const hero = screen.getByRole("heading", { level: 1 }).closest("header")
-    expect(within(hero).getByText(projectsById[projectId].period)).toBeVisible()
+    expect(within(hero).getByText(formatPeriod(projectsById[projectId].period))).toBeVisible()
     expect(within(hero).getByText(projectsById[projectId].role)).toBeVisible()
-    expect(
-        within(screen.getByRole("region", { name: "검증 단계" })).getByText(caseResults[projectId]),
-    ).toBeVisible()
+    // 연표에서 이 프로젝트의 기간을 강조해 보여 준다.
+    expect(within(hero).getByRole("figure", { name: /연표에서 이 프로젝트의 기간/ })).toBeVisible()
+    expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
+        caseResults[projectId],
+    )
     expect(screen.queryByLabelText("프로젝트 핵심 요약")).not.toBeInTheDocument()
     const problems = document.getElementById("project-problems")
     const system = document.getElementById("project-system")
-    expect(within(problems).getByText("대표 사례")).toBeVisible()
+    expect(within(problems).getAllByRole("article").length).toBeGreaterThan(0)
     expect(system.compareDocumentPosition(problems) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(screen.getByRole("main")).toHaveClass("case-showcase")
     const navigation = screen.getByRole("navigation", { name: "프로젝트 상세 탐색" })
@@ -169,12 +172,12 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         within(relatedLinks).getByText("BATON RELAY GitHub 저장소").closest("li"),
     ).toHaveTextContent("비공개 저장소")
 
-    // 대표 사례 밖의 문제는 접지 않고 번호와 제목 색인으로 보여 주고, 제목을 누르면 내용을 펼친다.
-    const additionalProblems = screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })
-    const featuredProblemList = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
+    // 대표 사례는 네 칸을 펼쳐 보여 주고, 나머지 문제는 번호와 제목 색인으로 두고 누르면 펼친다.
+    const additionalProblems = screen.getByRole("list", { name: "다른 문제와 해결 방법 목록" })
+    const problemSection = document.getElementById("project-problems")
 
     expect(screen.getByRole("heading", { name: "다른 문제 해결" })).toBeInTheDocument()
-    expect(within(featuredProblemList).getAllByRole("listitem")).toHaveLength(3)
+    expect(within(problemSection).getAllByRole("article")).toHaveLength(4)
     expect(within(additionalProblems).getAllByRole("listitem")).toHaveLength(10)
 
     const firstAdditional = additionalProblems.querySelector("details")
@@ -273,7 +276,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
 
     expect(
         screen.getByText(
-            "상품 주문, 클래스 예약과 스마트스토어 주문·재고 연동을 처리하는 공방 서비스입니다.",
+            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 맞추는 서비스입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.queryByText("주요 구현 및 해결")).not.toBeInTheDocument()
@@ -285,7 +288,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
     ).toHaveAttribute("href", "https://happy-gallery.com")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
     expect(
-        within(screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })).getAllByRole(
+        within(screen.getByRole("list", { name: "다른 문제와 해결 방법 목록" })).getAllByRole(
             "listitem",
         ),
     ).toHaveLength(11)
@@ -295,11 +298,17 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
         "#project-system",
     )
 
+    // 문제 해결 사례와 짝지은 화면(결제수단, 스마트스토어 대사)은 그 사례 옆에만 두고 묶음에서 뺀다.
     const gallery = screen.getByRole("group", { name: "happyGallery 대표 화면" })
+    const pairedIds = project.problems.map((problem) => problem.screenshotId).filter(Boolean)
+    const galleryScreenshots = project.screenshots.filter(
+        (screenshot) => !pairedIds.includes(screenshot.id),
+    )
     const zoomButtons = within(gallery).getAllByRole("button")
 
-    expect(zoomButtons).toHaveLength(project.screenshots.length)
-    project.screenshots.forEach((screenshot) => {
+    expect(pairedIds).toEqual(["cart", "smartstore-reconciliation"])
+    expect(zoomButtons).toHaveLength(galleryScreenshots.length)
+    galleryScreenshots.forEach((screenshot) => {
         expect(
             within(gallery).getByRole("button", {
                 name: `happyGallery ${screenshot.label} 화면 확대해서 보기`,
@@ -311,9 +320,13 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
         )
     })
 
-    const paymentTrigger = within(gallery).getByRole("button", {
+    const paymentCase = screen.getByRole("article", {
+        name: "결제 및 환불 재요청의 중복 처리 방지",
+    })
+    const paymentTrigger = within(paymentCase).getByRole("button", {
         name: "happyGallery 선택 구매와 결제수단 화면 확대해서 보기",
     })
+    expect(within(paymentCase).getByRole("list", { name: /처리 순서/ })).toBeInTheDocument()
     fireEvent.click(paymentTrigger)
 
     const dialog = screen.getByRole("dialog", { name: "선택 구매와 결제수단" })
@@ -365,14 +378,17 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByText(
-            "내 조건에 맞는 정책을 찾고, 저장한 정책의 변경 내용과 마감 일정·알림을 확인하는 웹앱입니다.",
+            "내 조건에 맞는 정책을 찾고, 저장한 정책이 바뀌거나 마감이 다가오면 알려 주는 웹앱입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
 
     const gallery = screen.getByRole("group", { name: "청년정책메이트 대표 화면" })
-    expect(within(gallery).getAllByRole("button")).toHaveLength(project.screenshots.length)
-    project.screenshots.forEach((screenshot) => {
+    const galleryScreenshots = project.screenshots.filter(
+        (screenshot) => screenshot.id !== "questions",
+    )
+    expect(within(gallery).getAllByRole("button")).toHaveLength(galleryScreenshots.length)
+    galleryScreenshots.forEach((screenshot) => {
         expect(
             within(gallery).getByRole("button", {
                 name: `청년정책메이트 ${screenshot.label} 화면 확대해서 보기`,
@@ -382,37 +398,34 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     })
 
     expect(
-        screen.getByRole("heading", { name: "공개 정책 조회와 조건 확인·일정·알림" }),
+        screen.getByRole("heading", { name: "공개 정책 조회와 조건 확인, 일정, 알림" }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: /공개 정책 조회와 조건 확인·일정·알림.*Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 관심 정책 저장, 일정과 알림을 처리/,
+            name: /공개 정책 조회와 조건 확인, 일정, 알림.*Next.js에서 정책과 조건을 확인하고 Spring API가 판정 근거, 관심 정책 저장, 일정과 알림을 처리/,
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("region", {
-            name: "공개 정책 조회와 조건 확인·일정·알림 가로 스크롤 영역",
+            name: "공개 정책 조회와 조건 확인, 일정, 알림 가로 스크롤 영역",
         }),
     ).toHaveAttribute("tabindex", "0")
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
-    expect(screen.getByText("일정·알림 처리")).toBeInTheDocument()
+    expect(screen.getByText("일정과 알림 처리")).toBeInTheDocument()
+    expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
+        /정책 조건의 버전 관리.*실제 OAuth, OpenAI, Resend/,
+    )
     expect(
-        within(screen.getByRole("region", { name: "검증 단계" })).getByText(
-            /정책 조건의 버전 관리.*실제 OAuth·OpenAI·Resend/,
-        ),
+        within(document.getElementById("project-problems")).getAllByRole("article"),
+    ).toHaveLength(4)
+    const conditionCase = screen.getByRole("article", {
+        name: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
+    })
+    expect(
+        within(conditionCase).getByRole("group", { name: "청년정책메이트 관련 화면" }),
     ).toBeInTheDocument()
     expect(
-        within(screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })).getAllByRole(
-            "listitem",
-        ),
-    ).toHaveLength(3)
-    expect(
-        screen.getByRole("article", {
-            name: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
-        }),
-    ).toBeInTheDocument()
-    expect(
-        within(screen.getByRole("list", { name: "추가 문제와 해결 방법 목록" })).getAllByRole(
+        within(screen.getByRole("list", { name: "다른 문제와 해결 방법 목록" })).getAllByRole(
             "listitem",
         ),
     ).toHaveLength(4)
@@ -436,7 +449,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
             name: "변경 기록 공개와 기존 기록 대체 가로 스크롤 영역",
         }),
     ).toHaveAttribute("tabindex", "0")
-    expect(within(lifecycleDiagram).getByText("사용자 요청 및 코드 위치")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("사용자 요청과 코드 위치")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("작성자 확인")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("공개 요청 검증")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("웹 / IntelliJ / Zed")).toBeInTheDocument()
@@ -449,11 +462,9 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
             name: "변경 근거를 커밋과 코드 위치에 연결하고, 확인 후 코드가 바뀌면 기록 공개를 차단합니다.",
         }),
     ).toBeInTheDocument()
-    expect(
-        within(screen.getByRole("region", { name: "검증 단계" })).getByText(
-            /v0\.7\.0.*개발 브랜치 125684c.*IntelliJ 기록 검색.*실제 GitHub 게시·공개 운영은 미검증/,
-        ),
-    ).toBeInTheDocument()
+    expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
+        /v0\.7\.0.*개발 브랜치 125684c.*IntelliJ 기록 검색.*실제 GitHub 게시와 공개 운영은 미검증/,
+    )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
     ).toHaveAttribute("href", "https://github.com/ljkhyeong/intent-trace")
@@ -543,7 +554,7 @@ test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 
         }),
     ).toHaveAttribute("tabindex", "0")
 
-    const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
+    const problems = document.getElementById("project-problems")
 
     expect(problems).toHaveTextContent("CSRF 토큰을 WebSquare 공통 요청에 포함")
     expect(problems).toHaveTextContent("필터에서 차단")
@@ -570,7 +581,9 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
     expect(
         screen.getByRole("navigation", { name: "서비스 상세 섹션 바로가기" }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("list", { name: "WATCH 문제와 해결 방법 목록" })).toBeInTheDocument()
+    expect(
+        within(document.getElementById("service-problems")).getAllByRole("article").length,
+    ).toBeGreaterThan(0)
     expect(screen.getByRole("link", { name: "처리 흐름" })).toHaveAttribute(
         "href",
         "#service-boundary",
@@ -610,25 +623,25 @@ test.each([
     [
         "go",
         "GO",
-        "허용한 BATON 및 ROUND 경로에 짧은 링크를 발급합니다. 실제 접근 권한은 대상 서비스가 확인합니다.",
+        "BATON과 ROUND의 허용된 경로에 짧은 링크를 발급합니다. 실제 접근 권한은 대상 서비스가 확인합니다.",
         /같은 UUID와 조건은 링크 1건으로 유지/,
     ],
     [
         "watch",
         "WATCH",
-        "사설망 접근을 차단하고 공개 URL의 응답 상태·헤더로 연결 상태를 점검합니다. 상태 변경은 Core로 전달합니다.",
+        "사설망 접근을 차단하고, 공개 URL의 응답 상태와 헤더로 연결 상태를 점검합니다. 상태 변경은 Core로 전달합니다.",
         /서버 중단 뒤 처리 기한이 지난 URL 점검을 다시 실행/,
     ],
     [
         "relay",
         "RELAY",
-        "Core 이벤트를 Discord·Slack·Webhook·AWS SQS FIFO로 전달하고 성공·실패·결과 미확인을 구분합니다.",
+        "Core 이벤트를 Discord, Slack, Webhook, AWS SQS FIFO로 전달하고 성공, 실패, 결과 미확인을 구분합니다.",
         /이전 서버의 늦은 결과 차단/,
     ],
     [
         "brief",
         "BRIEF",
-        "Core가 확인한 담당자 공백·업무 지연 등 5개 점검 결과를 주간 보고서에 반영합니다. 지난주 미해결·이번 주 발생·해결 항목을 구분합니다.",
+        "Core가 확인한 담당자 공백, 업무 지연 등 5개 점검 결과를 주간 보고서에 반영합니다. 지난주에서 넘어온 미해결 항목, 이번 주 신규 항목과 해결 항목을 구분합니다.",
         /ACTIVE 및 RESOLVED 반영.*발행한 주간 보고서 수정 차단/,
     ],
     [
@@ -719,20 +732,20 @@ test.each([
         "https://github.com/ljkhyeong/baton-brief",
         /BRIEF 공개 저장소 보기/,
         [
-            /점검 상태와 보고서 이력·비교.*업무 종류·주간·시간대 필터.*304/,
+            /점검 상태, 보고서 이력과 비교.*업무 종류, 주간, 시간대 필터.*304/,
             /공개 main 2a96b04와 Core의 로컬 교차 검증 기록/,
             /공인 DNS와 원격 환경의 전체 서비스 연결은 미검증/,
         ],
-        /주간 보고서·점검 항목 조회, 이벤트 수신과 검증 기록/,
+        /주간 보고서와 점검 항목 조회, 이벤트 수신, 검증 기록/,
     ],
     [
         "cal",
         "CAL",
-        "중복·이전 버전 일정의 반영 방지",
+        "중복 일정과 이전 버전 일정의 반영 방지",
         "https://github.com/ljkhyeong/baton-cal/tree/817720d",
         /CAL 공개 main 고정 커밋 보기/,
         [
-            /Core 교차 테스트 5개와 HTTP 캐시·복구 검증 기록/,
+            /Core 교차 테스트 5개와 HTTP 캐시, 복구 검증 기록/,
             /게시된 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
             /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증/,
         ],
@@ -837,51 +850,44 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     ).toHaveAttribute("href", "/projects/intent-trace")
     expect(within(pager).queryByText("다음 프로젝트")).not.toBeInTheDocument()
 
-    const problems = screen.getByRole("list", { name: "주요 문제와 해결 방법 목록" })
-    const [mediaFlowProblem] = within(problems).getAllByRole("listitem")
+    // 교육 프로젝트는 문제 두 건을 모두 대표 사례로 펼친다. 지연 개선 사례에는 처리 순서를 둔다.
+    const problems = document.getElementById("project-problems")
+    const latencyCase = screen.getByRole("article", {
+        name: "HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축",
+    })
+    const mediaFlowProblem = screen.getByRole("article", {
+        name: "WebRTC 실시간 재생과 HLS 지난 구간 다시보기",
+    })
 
-    expect(within(problems).getAllByRole("listitem")).toHaveLength(1)
-    expect(problems).toHaveTextContent("WebRTC 실시간 재생과 HLS 지난 구간 다시보기")
-    expect(
-        screen.getByRole("article", {
-            name: "HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축",
-        }),
-    ).toBeInTheDocument()
-
-    fireEvent.click(
-        within(mediaFlowProblem).getByText("WebRTC 실시간 재생과 HLS 지난 구간 다시보기"),
+    expect(within(problems).getAllByRole("article")).toHaveLength(2)
+    expect(within(latencyCase).getByRole("list", { name: /처리 순서/ })).toBeInTheDocument()
+    ;["문제", "방법", "확인", "남은 일"].forEach((term) =>
+        expect(within(mediaFlowProblem).getByText(term)).toBeVisible(),
     )
-
-    expect(mediaFlowProblem).toHaveTextContent("문제 상황")
-    expect(mediaFlowProblem).toHaveTextContent("적용한 방법")
-    expect(mediaFlowProblem).toHaveTextContent("테스트 및 확인")
     expect(mediaFlowProblem).toHaveTextContent(
         "mediasoup의 RTP 출력은 FFmpeg와 GStreamer를 이용해 HLS로 변환",
     )
 
-    expect(screen.getByRole("region", { name: "검증 단계" })).toHaveTextContent("약 35초 → 약 17초")
+    expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
+        "약 35초에서 약 17초",
+    )
     expect(
         screen.getByRole("list", { name: "WebRTC/HLS 현장강의 보조 서비스 기술 스택" }),
     ).toHaveTextContent("mediasoupFFmpegGStreamer")
 })
 
-test("상세 상단에 검증 단계를 확인 상태 글자와 함께 보여준다", () => {
+test("상세 상단에 확인한 범위를 상태 점 없이 문장으로 한 번 보여준다", () => {
     renderWithRouter(<ProjectCaseStudy projectId="baton" />)
 
-    const rail = screen.getByRole("region", { name: "검증 단계" })
-    const stages = within(rail).getAllByRole("listitem")
+    const verification = screen.getByRole("region", { name: "확인한 범위" })
     const hero = screen.getByRole("heading", { level: 1 }).closest("header")
 
-    expect(hero.compareDocumentPosition(rail) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
-    expect(stages.map((stage) => stage.querySelector("strong").textContent)).toEqual([
-        "구현",
-        "자동화 테스트",
-        "서비스 연동",
-        "공개 환경 연동",
-    ])
-    expect(stages[2]).toHaveTextContent("제한된 범위에서 확인")
-    expect(stages[3]).toHaveTextContent("미검증")
-    // 확인 결과 문장은 상단 정보에서 반복하지 않고 레일에만 둔다.
-    expect(rail).toHaveTextContent(caseResults.baton)
+    expect(
+        hero.compareDocumentPosition(verification) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
+    expect(verification).toHaveTextContent(caseResults.baton)
+    expect(verification).toHaveTextContent("아직 확인하지 않았습니다")
+    expect(within(verification).queryByRole("listitem")).not.toBeInTheDocument()
+    // 확인한 범위 문장은 상단 정보에서 반복하지 않는다.
     expect(hero).not.toHaveTextContent(caseResults.baton)
 })

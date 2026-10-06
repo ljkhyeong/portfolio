@@ -18,13 +18,12 @@ test.each(["go", "watch", "relay", "brief", "cal", "round"])(
 
         renderService(serviceId)
 
-        const problems = screen.getByRole("list", {
-            name: `${service.name} 문제와 해결 방법 목록`,
-        })
+        // 서비스의 문제는 두 건이고, 처리 순서가 있는 대표 사례를 먼저 펼친다.
+        const problemSection = document.getElementById("service-problems")
+        const cases = within(problemSection).getAllByRole("article")
 
-        expect(within(problems).getAllByRole("listitem")).toHaveLength(1)
-        expect(screen.getByText("대표 사례")).toBeVisible()
-        const problemSection = problems.closest("section")
+        expect(cases).toHaveLength(2)
+        expect(within(cases[0]).getByRole("list", { name: /처리 순서/ })).toBeInTheDocument()
         const flowSection = document.getElementById("service-boundary")
         expect(
             flowSection.compareDocumentPosition(problemSection) & Node.DOCUMENT_POSITION_FOLLOWING,
@@ -76,7 +75,7 @@ test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표
     expect(verified).toHaveTextContent("이전 CI의 브라우저 테스트")
     expect(verified).toHaveTextContent("Core 연동")
     expect(verified).toHaveTextContent("스피커 소리 확인")
-    expect(verified).toHaveTextContent("공유 화면 작은 창·통화 제어")
+    expect(verified).toHaveTextContent("공유 화면 작은 창과 통화 제어")
     expect(limited).toHaveClass("baton-service-status__item--limited")
     expect(limited).toHaveTextContent("방과 참가자 연결 상태는 프로세스 메모리")
     expect(limited).toHaveTextContent("단일 시그널링 인스턴스")
@@ -96,7 +95,7 @@ test("ROUND의 입장 확인, 통화와 화면 공유를 현재 대표 화면으
             label: "스터디 진행 도구",
             src: "baton-round-study.webp",
             height: 960,
-            alt: "두 참가자가 연결된 방에서 공용 타이머·주제와 손들기 순서를 확인하는 화면",
+            alt: "두 참가자가 연결된 방에서 공용 타이머, 주제, 손들기 순서를 확인하는 화면",
         },
         {
             label: "QR 초대",

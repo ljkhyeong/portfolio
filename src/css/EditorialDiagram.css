@@ -1,13 +1,13 @@
 .editorial-diagram {
-    --diagram-paper: #f6f8fa;
+    --diagram-paper: #f6f7f9;
     --diagram-node: #ffffff;
-    --diagram-ink: #1f2328;
-    --diagram-muted: #59636e;
+    --diagram-ink: #1b1f27;
+    --diagram-muted: #59606b;
     --diagram-soft: #6e7781;
-    --diagram-rule: #d0d7de;
+    --diagram-rule: #d6dbe2;
     --diagram-rule-strong: #afb8c1;
-    --diagram-accent: #0969da;
-    --diagram-accent-tint: rgba(9, 105, 218, 0.08);
+    --diagram-accent: #0f7b5f;
+    --diagram-accent-tint: rgba(15, 123, 95, 0.08);
     --diagram-zone-fill: rgba(31, 35, 40, 0.015);
     --diagram-zone-stroke: rgba(31, 35, 40, 0.18);
     --diagram-external-fill: rgba(31, 35, 40, 0.025);

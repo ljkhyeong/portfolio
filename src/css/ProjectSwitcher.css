@@ -149,7 +149,7 @@
 }
 
 .project-switcher a.is-current {
-    background: #ddf4ff;
+    background: var(--accent-soft, #e3f1eb);
     color: var(--accent);
 }
 
