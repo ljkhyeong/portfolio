@@ -7,9 +7,26 @@ import { fileURLToPath } from "node:url"
 // 화면 문구는 src의 데이터·컴포넌트·CSS content와 index.html에 있으므로 이 파일들의 글자를 모두 넣고,
 // 주석은 화면에 나오지 않으므로 뺀다. 빠뜨린 글자가 있으면 시스템 글꼴로 대체되므로 넉넉하게 모은다.
 export const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-export const FONT_FAMILY = "Portfolio Sans"
-export const FONT_OUTPUT = "public/fonts/portfolio-sans.woff2"
-export const FONT_MANIFEST = "scripts/font-subset.manifest.json"
+
+// 본문(sans)과 제목(display) 두 글꼴을 같은 글자 집합으로 줄인다. 원본 이름은 OFL에 따라 바꾼다.
+export const FONTS = {
+    sans: {
+        family: "Portfolio Sans",
+        output: "public/fonts/portfolio-sans.woff2",
+        manifest: "scripts/font-subset.manifest.json",
+        sourceName: "pretendard@1.3.9 PretendardVariable.woff2",
+        originalNames: ["Pretendard Variable", "PretendardVariable", "Pretendard"],
+    },
+    display: {
+        family: "Portfolio Display",
+        output: "public/fonts/portfolio-display.woff2",
+        manifest: "scripts/font-display.manifest.json",
+        sourceName: "google/fonts ofl/hahmlet Hahmlet[wght].ttf",
+        originalNames: ["Hahmlet", "함렡"],
+        // 제목에는 400~700만 쓴다. 굵기 축을 줄이면 190KB가 120KB로 준다.
+        weightRange: "400:700",
+    },
+}
 
 const SOURCE_DIRECTORIES = ["src"]
 const EXTRA_FILES = ["index.html"]

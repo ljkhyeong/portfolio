@@ -8,6 +8,15 @@
     src: url("/fonts/portfolio-sans.woff2") format("woff2");
 }
 
+/* 제목용 Hahmlet 서브셋(OFL 1.1, 이름 변경본). 굵기 400~700만 담았다. */
+@font-face {
+    font-family: "Portfolio Display";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("/fonts/portfolio-display.woff2") format("woff2");
+}
+
 :root {
     --ink: #1f2328;
     --ink-soft: #25292e;
@@ -26,6 +35,7 @@
         "Pretendard Variable", monospace;
     --sans: "Portfolio Sans", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
+    --display: "Portfolio Display", "Noto Serif KR", AppleMyungjo, Batang, serif;
     color: var(--ink);
     background: var(--paper);
     font-family: var(--sans);

@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises"
 import path from "node:path"
 import { describe, expect, test } from "vitest"
 import {
-    FONT_MANIFEST,
+    FONTS,
     collectSiteCharacters,
     missingCharacters,
     repositoryRoot,
@@ -31,14 +31,20 @@ const url = "https://example.com" /* 블록 주석 */
         expect(missingCharacters("가나다", "가다")).toEqual(["나"])
     })
 
-    test("저장한 서브셋이 현재 화면 문구의 글자를 모두 담고 생성 기록과 같다", async () => {
-        const manifest = JSON.parse(
-            await readFile(path.join(repositoryRoot, FONT_MANIFEST), "utf8"),
-        )
-        const artifact = await readFile(path.join(repositoryRoot, manifest.artifact.path))
+    test.each(Object.entries(FONTS))(
+        "저장한 %s 서브셋이 현재 화면 문구의 글자를 모두 담고 생성 기록과 같다",
+        async (_, font) => {
+            const manifest = JSON.parse(
+                await readFile(path.join(repositoryRoot, font.manifest), "utf8"),
+            )
+            const artifact = await readFile(path.join(repositoryRoot, manifest.artifact.path))
 
-        expect(sha256(artifact)).toBe(manifest.artifact.sha256)
-        // 실패하면 npm run font:subset으로 서브셋을 다시 만든다.
-        expect(missingCharacters(await collectSiteCharacters(), manifest.characters)).toEqual([])
-    })
+            expect(manifest.family).toBe(font.family)
+            expect(sha256(artifact)).toBe(manifest.artifact.sha256)
+            // 실패하면 npm run font:subset으로 서브셋을 다시 만든다.
+            expect(missingCharacters(await collectSiteCharacters(), manifest.characters)).toEqual(
+                [],
+            )
+        },
+    )
 })
