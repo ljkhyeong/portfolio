@@ -21,21 +21,21 @@ body.portfolio-print-mode {
 /* 웹 테마와 분리해 인쇄 미리보기와 PDF를 밝은 색상으로 유지한다. */
 .portfolio-web-print .portfolio-page {
     --portfolio-bg: #ffffff;
-    --portfolio-surface: #f6f8fa;
-    --portfolio-text: #1f2328;
-    --portfolio-muted: #59636e;
-    --portfolio-line: #d0d7de;
-    --portfolio-accent: #0969da;
+    --portfolio-surface: #f6f7f9;
+    --portfolio-text: #1b1f27;
+    --portfolio-muted: #59606b;
+    --portfolio-line: #d6dbe2;
+    --portfolio-accent: #0f7b5f;
     --paper: var(--portfolio-bg);
     --paper-raised: var(--portfolio-surface);
     --ink: var(--portfolio-text);
-    --ink-soft: #25292e;
+    --ink-soft: #2b3037;
     --muted: var(--portfolio-muted);
     --line: var(--portfolio-line);
-    --line-strong: #afb8c1;
+    --line-strong: #aeb7c2;
     --accent: var(--portfolio-accent);
     --accent-on-light: var(--portfolio-accent);
-    --accent-soft: #ddf4ff;
+    --accent-soft: #e3f1eb;
     --success: #1a7f37;
     color-scheme: light;
 }
@@ -159,344 +159,193 @@ body.portfolio-print-mode {
         transition: none !important;
     }
 
-    .portfolio-web-print .home-flow::after {
-        display: none !important;
-        content: none !important;
-    }
-
     .portfolio-web-print .site-header {
         min-height: 0;
         padding-top: 0;
     }
 
-    /* 첫 쪽 소개에 아바타와 이름이 있으므로 상단 바를 반복하지 않는다. */
+    /* 첫 쪽 소개에 사진과 이름이 있으므로 상단 메뉴를 반복하지 않는다. */
     .portfolio-web-print .site-nav {
         display: none;
     }
 
-    .portfolio-web-print .site-nav__links,
-    .portfolio-web-print .site-nav__actions,
-    .portfolio-web-print .home-hero__actions {
-        display: none !important;
+    /* A4 폭(약 726px)에서는 연표가 항목마다 작은 막대를 단 목록이 된다. 행 간격만 줄인다. */
+    .portfolio-web-print .portfolio-page {
+        --home-gutter: 34px;
+        --home-section-gap: 36px;
+        --portfolio-section-title: 26px;
     }
 
-    /* 인쇄본에서는 도면 띠가 A4 폭을 채우고, 누를 수 없는 버튼은 숨긴다. */
-    .portfolio-web-print .blueprint-col {
-        width: 100%;
-        padding-inline: 42px;
+    .portfolio-web-print .home-intro {
+        padding-top: 30px;
     }
 
-    .portfolio-web-print .home-hero__inner {
-        padding-top: 20px;
+    .portfolio-web-print .home-intro__head {
+        gap: 14px 32px;
     }
 
-    .portfolio-web-print .home-hero__copy {
-        padding-bottom: 24px;
+    .portfolio-web-print .home-intro h1 {
+        margin-top: 12px;
+        font-size: 30px;
     }
 
-    .portfolio-web-print .home-hero h1 {
-        font-size: 28px;
+    .portfolio-web-print .home-intro__side > p {
+        font-size: 14px;
     }
 
-    .portfolio-web-print .home-flow {
-        margin-inline: -42px;
+    .portfolio-web-print .career-timeline {
+        margin-top: 18px;
+    }
+
+    .portfolio-web-print .career-timeline__lane-title {
+        margin: 12px 0 2px;
+    }
+
+    .portfolio-web-print .career-timeline__item {
+        padding: 7px 0;
         break-inside: avoid;
     }
 
-    /* A4 폭에서도 네 단계와 확인한 결과 세 칸을 한 줄로 두어 첫 쪽에 경력까지 들어가게 한다. */
-    .portfolio-web-print .home-flow ol {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+    .portfolio-web-print .career-timeline__name {
+        font-size: 13.5px;
     }
 
-    .portfolio-web-print .home-flow li,
-    .portfolio-web-print .home-flow li:nth-child(3) {
-        padding: 14px 16px 16px;
-        border-top: 0;
-        border-left: 1px solid var(--line);
+    .portfolio-web-print .career-timeline__track {
+        height: 6px;
+        margin-top: 5px;
     }
 
-    .portfolio-web-print .home-flow__heading,
-    .portfolio-web-print .home-flow li:first-child {
-        padding-left: 42px;
-        border-left: 0;
-    }
-
-    .portfolio-web-print .home-flow li p {
-        display: block;
-    }
-
-    .portfolio-web-print .home-results {
-        grid-template-columns: minmax(0, 1fr);
-        margin-inline: -42px;
-        break-inside: avoid;
-    }
-
-    .portfolio-web-print .home-results__heading {
-        flex-direction: row;
-        gap: 4px 12px;
-        padding: 10px 42px;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-    }
-
-    .portfolio-web-print .home-results ul {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .portfolio-web-print .home-results li,
-    .portfolio-web-print .home-results li:last-child {
-        padding: 10px 14px 8px;
-        border-top: 0;
-    }
-
-    .portfolio-web-print .home-results li + li {
-        border-left: 1px solid var(--line);
-    }
-
-    .portfolio-web-print .home-results li:first-child {
-        padding-left: 42px;
-    }
-
-    .portfolio-web-print .home-results li:last-child {
-        padding-right: 42px;
-    }
-
-    .portfolio-web-print .home-results strong {
-        font-size: 17px;
-    }
-
-    .portfolio-web-print .home-results p {
+    .portfolio-web-print .career-timeline__note {
+        margin-top: 3px;
         font-size: 12px;
     }
 
-    .portfolio-web-print .activity {
-        break-inside: avoid;
+    .portfolio-web-print .career-timeline figcaption {
+        font-size: 11.5px;
     }
 
-    .portfolio-web-print .blueprint-sheet {
-        isolation: auto;
-        overflow: visible;
-        padding: 40px 42px;
-        background: none;
+    .portfolio-web-print .home-section__head {
+        margin-bottom: 14px;
     }
 
-    /* 경력까지 첫 쪽에 들어가도록 경력 시트의 위아래 여백과 행 간격을 줄인다. */
+    .portfolio-web-print .home-section :is(.home-card, .home-feature, .home-more__item) > p {
+        margin-top: 6px;
+        font-size: 13.5px;
+        line-height: 1.65;
+    }
+
+    /* 경력 카드는 한 장씩 통째로 둔다. */
     .portfolio-web-print .home-career {
-        padding-top: 24px;
-        padding-bottom: 24px;
+        gap: 12px;
     }
 
-    .portfolio-web-print .home-career .sheet-row {
-        padding-block: 14px;
+    .portfolio-web-print .home-card {
+        padding: 16px 20px;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
     }
 
-    .portfolio-web-print :is(.blueprint-sheet, .blueprint-col)::before,
-    .portfolio-web-print :is(.blueprint-sheet, .blueprint-col)::after {
+    .portfolio-web-print .home-career__card h3 {
+        font-size: 21px;
+    }
+
+    /* 개인 프로젝트는 화면을 작게 왼쪽에 두고 글을 오른쪽에 둔다. */
+    .portfolio-web-print .home-features {
+        gap: 18px;
+    }
+
+    .portfolio-web-print .home-feature {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr);
+        gap: 0 20px;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+
+    .portfolio-web-print .home-feature > .home-shot {
+        grid-row: 1 / span 7;
+    }
+
+    .portfolio-web-print .home-feature h3 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .portfolio-web-print .home-shot figcaption {
+        font-size: 11px;
+    }
+
+    /* 그 밖의 프로젝트는 화면 없이 두 열로 줄인다. */
+    .portfolio-web-print .home-more {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 24px;
+    }
+
+    .portfolio-web-print .home-more .home-shot {
         display: none;
     }
 
-    .portfolio-web-print .blueprint-col {
-        border-inline: 0;
-    }
-
-    .portfolio-web-print .experience-section {
-        padding-top: 36px;
-        padding-bottom: 36px;
-    }
-
-    .portfolio-web-print .project-index__intro {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 14px;
-        margin-bottom: 28px;
-    }
-
-    .portfolio-web-print .project-index__intro p {
-        grid-column: auto;
-        max-width: none;
-    }
-
-    .portfolio-web-print .project-group__list,
-    .portfolio-web-print .project-showcase__item > article,
-    .portfolio-web-print .project-support__item > article {
-        display: block;
-    }
-
-    .portfolio-web-print .project-showcase__item,
-    .portfolio-web-print .project-support__item {
-        padding: 0;
-        margin-bottom: 14px;
+    .portfolio-web-print .home-more__item {
         break-inside: avoid-page;
         page-break-inside: avoid;
     }
 
-    /* 대표 프로젝트 카드는 검증 단계까지 들어가 길어지므로 소개와 문제·검증 사이에서만 나눈다. */
-    .portfolio-web-print .project-showcase__item {
-        break-inside: auto;
-        page-break-inside: auto;
+    .portfolio-web-print .home-more__item .home-card__meta {
+        margin-top: 0;
     }
 
-    .portfolio-web-print :is(.project-card__header, .project-card__meta) {
-        break-inside: avoid-page;
-        page-break-inside: avoid;
+    .portfolio-web-print .home-more__item h3 {
+        font-size: 18px;
     }
 
-    .portfolio-web-print .project-showcase__item > article,
-    .portfolio-web-print .project-support__item > article {
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .portfolio-web-print .project-card__content,
-    .portfolio-web-print .project-support__item > article {
-        padding: 18px;
-    }
-
-    .portfolio-web-print .project-card__title {
-        font-size: var(--portfolio-project-title);
-    }
-
-    .portfolio-web-print .project-card__summary {
-        margin-top: 14px;
-    }
-
-    .portfolio-web-print .project-card__detail-link {
-        min-height: 44px;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: var(--accent);
-    }
-
-    .portfolio-web-print .project-glance--system {
-        margin-top: 14px;
-        break-inside: avoid;
-    }
-
-    .portfolio-web-print .project-group + .project-group {
-        margin-top: 20px;
-    }
-
-    .portfolio-web-print .project-section-heading {
-        margin-bottom: 12px;
-        break-inside: avoid;
-        break-after: avoid-page;
-    }
-
-    .portfolio-web-print .project-section-heading p {
-        max-width: none;
-        margin-top: 12px;
-    }
-
-    .portfolio-web-print .project-support__summary {
+    .portfolio-web-print .home-card__links {
         margin-top: 8px;
-        padding-top: 8px;
-        border-top: 1px solid var(--line);
     }
 
-    /* 그 밖의 프로젝트는 검증 요약 줄이 더해졌으므로 링크를 가로로 놓아 높이를 줄인다. */
-    .portfolio-web-print .project-support__actions {
-        display: flex;
-        gap: 0 20px;
-        margin-top: 4px;
-    }
-
-    .portfolio-web-print .capability-section {
-        overflow: visible;
-        padding: 36px 42px;
-    }
-
-    .portfolio-web-print .capability {
-        grid-template-columns: 180px minmax(0, 1fr);
-        gap: 20px;
-        padding: 12px 0;
-    }
-
-    .portfolio-web-print .capability li {
-        padding: 4px 9px;
+    .portfolio-web-print .home-card__links a {
         font-size: 13px;
     }
 
-    .portfolio-web-print .site-footer {
-        isolation: auto;
-        overflow: visible;
-        grid-template-columns: minmax(0, 1fr);
-        gap: 24px;
-        padding: 48px 42px 28px;
+    .portfolio-web-print .home-columns {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 24px;
+    }
+
+    .portfolio-web-print .home-list li {
+        padding: 9px 0;
+        break-inside: avoid;
+    }
+
+    .portfolio-web-print .home-list p {
+        font-size: 13px;
+    }
+
+    .portfolio-web-print .home-section .activity {
+        margin-top: 24px;
+        break-inside: avoid;
+    }
+
+    .portfolio-web-print .home-contact {
+        margin-top: 36px;
+        padding: 20px 0 8px;
         break-inside: avoid-page;
         page-break-inside: avoid;
     }
 
-    .portfolio-web-print .site-footer__lead h2 {
-        max-width: none;
-        font-size: 38px;
-        word-break: keep-all;
+    .portfolio-web-print .home-contact__email {
+        font-size: 28px;
     }
 
-    .portfolio-web-print .site-footer__contact {
-        width: 100%;
-        max-width: none;
+    .portfolio-web-print .home-contact__references {
+        margin-top: 24px;
     }
 
-    .portfolio-web-print .site-footer__contact strong {
-        overflow: visible;
-        text-overflow: clip;
-        white-space: normal;
-        word-break: break-all;
-    }
-
-    /* 경력·학습 행과 기술 묶음은 중간에서 나누지 않는다. 영역 전체를 묶으면 앞 쪽 아래가 비므로 행 단위로만 막는다. */
-    .portfolio-web-print :is(.sheet-row, .capability, .site-footer__contact) {
-        break-inside: avoid-page;
-        page-break-inside: avoid;
-    }
-
-    /* 제목이 마지막 요소이거나 그리드 항목이면 '뒤에서 나누지 않음'이 행 끝까지 전파되어
-       경력·학습 행과 기술 묶음 사이에서 쪽을 나눌 수 없게 된다. 본문이 바로 뒤따르는 제목에만 적용한다. */
+    /* 제목 뒤에서 쪽을 나누지 않는다. 마지막 자식인 제목에 걸면 영역 끝까지 전파되므로 본문이 뒤따르는 제목에만 건다. */
     .portfolio-web-print :is(h1, h2, h3, h4):not(:last-child),
-    .portfolio-web-print .sheet-heading {
+    .portfolio-web-print .home-section__head {
         break-after: avoid-page;
         page-break-after: avoid;
-    }
-
-    /* "프로젝트" 제목은 영역의 유일한 자식이라 위 규칙에서 빠지므로 따로 다음 내용과 붙인다. */
-    .portfolio-web-print .project-index__intro {
-        break-after: avoid-page;
-        page-break-after: avoid;
-    }
-
-    /* 경력 행의 기간 칸을 줄여 검증 단계 세 칸이 한 줄에 들어가게 한다. */
-    .portfolio-web-print .sheet-row {
-        grid-template-columns: 150px minmax(0, 1fr) auto;
-        gap: 8px 20px;
-    }
-
-    .portfolio-web-print .sheet-row__period {
-        white-space: normal;
-    }
-
-    /* 문제·구현과 검증 단계가 있는 경력 행은 길어 통째로 넘기면 앞 쪽이 비므로 두 덩어리 사이에서만 나눈다. */
-    .portfolio-web-print .home-career .sheet-row {
-        break-inside: auto;
-        page-break-inside: auto;
-    }
-
-    .portfolio-web-print :is(.project-card__facts, .verification-rail__stages--compact) {
-        break-inside: avoid-page;
-        page-break-inside: avoid;
-    }
-
-    .portfolio-web-print .verification-rail__stages--compact {
-        grid-template-columns: repeat(auto-fit, minmax(min(118px, 100%), 1fr));
-        gap: 10px 12px;
-    }
-
-    .portfolio-web-print .verification-rail__stages--compact > .verification-rail__stage p {
-        font-size: 12px;
-    }
-
-    .portfolio-web-print .capability h3 {
-        break-after: auto;
-        page-break-after: auto;
     }
 
     .portfolio-web-print :is(p, li, dd) {

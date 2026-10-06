@@ -5,7 +5,7 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     width: 100%;
-    height: 82px;
+    height: 76px;
     margin: 0;
     padding: 0
         max(
@@ -34,13 +34,13 @@
 
 .site-nav__avatar {
     display: block;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     overflow: hidden;
-    border: 1px solid var(--line);
     border-radius: 50%;
-    background: var(--portfolio-signature, #f4d35e);
-    transition: border-color 180ms ease;
+    outline: 1px solid transparent;
+    outline-offset: 2px;
+    transition: outline-color 180ms ease;
 }
 
 .site-nav__avatar img {
@@ -52,18 +52,13 @@
 
 .site-nav__brand:hover .site-nav__avatar,
 .site-nav__brand:focus-visible .site-nav__avatar {
-    border-color: var(--accent);
+    outline-color: var(--accent);
 }
 
 .site-nav__brand strong {
-    font-size: var(--portfolio-body, 18px);
-    font-weight: 650;
-}
-
-.site-nav__role {
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 400;
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .site-nav__links,
@@ -74,9 +69,9 @@
 }
 
 .site-nav__links {
-    color: var(--muted);
-    font-size: var(--portfolio-small, 16px);
-    font-weight: 600;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .site-nav__actions {
@@ -92,9 +87,9 @@
     min-height: 44px;
     align-items: center;
     gap: 8px;
-    color: var(--muted);
-    font-size: var(--portfolio-small, 16px);
-    font-weight: 600;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 500;
     white-space: nowrap;
     transition:
         color 180ms ease,
@@ -134,19 +129,13 @@
 }
 
 .site-nav .site-nav__contact {
-    padding: 0 14px;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    color: var(--ink);
-}
-
-.site-nav__contact span {
     color: var(--accent);
+    font-weight: 650;
 }
 
-.site-nav__contact:hover,
-.site-nav__contact:focus-visible {
-    border-color: var(--accent);
+.site-nav .site-nav__contact:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
 .site-nav__context {
@@ -162,9 +151,6 @@
 }
 
 @media (max-width: 1080px) {
-    .site-nav__role {
-        display: none;
-    }
     .site-nav {
         grid-template-columns: 1fr auto auto;
         gap: 32px;
@@ -184,13 +170,20 @@
         padding-bottom: 10px;
     }
 
+    /* 섹션 링크가 한 줄에 다 들어가지 않으면 옆으로 넘긴다. */
     .site-nav__links {
         grid-row: 2;
         grid-column: 1 / -1;
-        justify-content: space-between;
+        justify-content: flex-start;
         width: 100%;
         padding-top: 8px;
+        overflow-x: auto;
         border-top: 1px solid var(--line);
+        scrollbar-width: none;
+    }
+
+    .site-nav__links::-webkit-scrollbar {
+        display: none;
     }
 
     .site-nav__actions {
@@ -218,7 +211,7 @@
     }
 
     .site-nav__links {
-        gap: 14px;
+        gap: 18px;
     }
 
     .site-nav .site-nav__links a,

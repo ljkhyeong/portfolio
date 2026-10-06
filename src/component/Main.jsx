@@ -2,9 +2,16 @@ import Header from "./Header"
 import Projects from "./Projects"
 import About from "./About"
 import CareerSummary from "./CareerSummary"
+import { assetPath } from "../utils/assetPath"
 import { portfolioProfile } from "../data/profile"
-import "../css/Blueprint.css"
-import "../css/Main.css"
+import "../css/Home.css"
+
+const designReferences = [
+    { label: "chanhdai.com", href: "https://chanhdai.com" },
+    { label: "Hamish Williams", href: "https://hamishw.com" },
+    { label: "Brittany Chiang", href: "https://v4.brittanychiang.com" },
+    { label: "CraftzDog", href: "https://www.craftz.dog" },
+]
 
 const Main = () => {
     return (
@@ -18,63 +25,58 @@ const Main = () => {
                 <Projects />
                 <About />
             </main>
-            <footer className="site-footer blueprint-sheet" id="contact">
-                <div className="site-footer__lead">
-                    <span className="section-kicker">연락처</span>
-                    <h2>
-                        백엔드 개발자 포지션이나
-                        <br /> 프로젝트 경험에 관해 문의해 주세요.
-                    </h2>
-                </div>
-                <div className="site-footer__contact" aria-label="연락처 목록">
-                    <a
-                        href={`mailto:${portfolioProfile.email}`}
-                        aria-label={`${portfolioProfile.email}로 메일 보내기`}
-                    >
-                        <span className="site-footer__contact-label">Email</span>
-                        <strong>{portfolioProfile.email}</strong>
-                        <span className="site-footer__contact-action" aria-hidden="true">
-                            ↗
-                        </span>
-                    </a>
-                    <a
-                        href={`tel:${portfolioProfile.phoneHref}`}
-                        aria-label={`${portfolioProfile.phone}로 전화 걸기`}
-                    >
-                        <span className="site-footer__contact-label">Phone</span>
-                        <strong>{portfolioProfile.phone}</strong>
-                        <span className="site-footer__contact-action" aria-hidden="true">
-                            ↗
-                        </span>
-                    </a>
-                    <a
-                        href={portfolioProfile.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label="GitHub 프로필 새 창에서 보기"
-                    >
-                        <span className="site-footer__contact-label">Profile</span>
-                        <strong>GitHub</strong>
-                        <span className="site-footer__contact-action" aria-hidden="true">
-                            ↗
-                        </span>
-                    </a>
-                </div>
-                <div className="site-footer__references" aria-label="디자인 참고">
+            <footer className="home-contact" id="contact" aria-labelledby="contact-title">
+                <h2 id="contact-title">연락처</h2>
+                <a
+                    className="home-contact__email"
+                    href={`mailto:${portfolioProfile.email}`}
+                    aria-label={`${portfolioProfile.email}로 메일 보내기`}
+                >
+                    {portfolioProfile.email}
+                </a>
+                <ul className="home-contact__links" aria-label="연락처 목록">
+                    <li>
+                        <a
+                            href={`tel:${portfolioProfile.phoneHref}`}
+                            aria-label={`${portfolioProfile.phone}로 전화 걸기`}
+                        >
+                            {portfolioProfile.phone}
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href={portfolioProfile.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label="GitHub 프로필 새 창에서 보기"
+                        >
+                            {portfolioProfile.github.replace("https://", "")}
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href={assetPath("임정규_포트폴리오.pdf")}
+                            target="_blank"
+                            rel="noreferrer"
+                            download
+                        >
+                            이력서 PDF
+                        </a>
+                    </li>
+                </ul>
+                <p className="home-contact__references" aria-label="디자인 참고">
                     <span>디자인 참고</span>
-                    <a href="https://chanhdai.com" target="_blank" rel="noreferrer">
-                        chanhdai.com
-                    </a>
-                    <a href="https://hamishw.com" target="_blank" rel="noreferrer">
-                        Hamish Williams
-                    </a>
-                    <a href="https://v4.brittanychiang.com" target="_blank" rel="noreferrer">
-                        Brittany Chiang
-                    </a>
-                    <a href="https://www.craftz.dog" target="_blank" rel="noreferrer">
-                        CraftzDog
-                    </a>
-                </div>
+                    {designReferences.map((reference) => (
+                        <a
+                            href={reference.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            key={reference.href}
+                        >
+                            {reference.label}
+                        </a>
+                    ))}
+                </p>
             </footer>
         </div>
     )

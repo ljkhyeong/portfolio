@@ -1,22 +1,22 @@
 /* 메인과 프로젝트 상세가 함께 사용하는 디자인 기준이다.
-   밝은 도면 바탕에 기준선과 파란 강조색을 쓰고, 노란색은 아바타와 현재 위치 표시에만 쓴다. */
+   밝은 회색 바탕에 녹색 강조색 하나를 쓰고, 제목은 세리프(--display), 본문은 산세리프(--sans)로 쓴다. */
 :root {
-    --portfolio-bg: #f5f6f7;
+    --portfolio-bg: #f6f7f9;
     --portfolio-surface: #ffffff;
-    --portfolio-text: #15181c;
-    --portfolio-muted: #5f6973;
-    --portfolio-line: #d9dee4;
-    --portfolio-accent: #2f5bd3;
+    --portfolio-text: #1b1f27;
+    --portfolio-muted: #59606b;
+    --portfolio-line: #d6dbe2;
+    --portfolio-accent: #0f7b5f;
     --portfolio-signature: #f4d35e;
     --portfolio-grid: #e4e8ec;
     --portfolio-content-width: 1200px;
     --portfolio-gutter: 48px;
     --portfolio-display: 72px;
     --portfolio-title: 52px;
-    --portfolio-section-title: 36px;
-    --portfolio-section-weight: 550;
+    --portfolio-section-title: 38px;
+    --portfolio-section-weight: 600;
     --portfolio-section-leading: 1.3;
-    --portfolio-section-tracking: -0.035em;
+    --portfolio-section-tracking: -0.03em;
     --portfolio-project-title: 42px;
     --portfolio-subtitle: 24px;
     --portfolio-lead: 22px;
@@ -35,7 +35,7 @@
     --line-strong: #aeb7c2;
     --accent: var(--portfolio-accent);
     --accent-on-light: var(--portfolio-accent);
-    --accent-soft: #e8eefc;
+    --accent-soft: #e3f1eb;
     --success: #1a7f37;
     font-family: var(--sans);
     font-size: var(--portfolio-body);
@@ -51,7 +51,7 @@ body:has(.portfolio-page, main.case-showcase, .knowledge-page, .not-found) {
         --portfolio-gutter: 24px;
         --portfolio-display: 48px;
         --portfolio-title: 38px;
-        --portfolio-section-title: 30px;
+        --portfolio-section-title: 28px;
         --portfolio-project-title: 32px;
     }
 }

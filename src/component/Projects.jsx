@@ -1,72 +1,15 @@
 import { Link } from "react-router-dom"
-import { homeProjectCategories, projectSummaries } from "../data/projectSummaries"
-import { caseResults, caseIntroductions } from "../data/caseHighlights"
-import { verificationRails } from "../data/verificationRails"
-import { VerificationStages, VerificationSummary } from "./project/VerificationRail"
-import "../css/Projects.css"
+import { assetPath } from "../utils/assetPath"
+import { projectSummaries } from "../data/projectSummaries"
+import { formatPeriod } from "../data/timeline"
 
-const PROJECT_TYPE_LABELS = {
-    career: "경력 프로젝트",
-    personal: "개인 프로젝트",
-    tooling: "오픈소스 및 개발 도구",
-    webapp: "웹앱",
-    education: "교육 프로젝트",
-}
-
-// 문제와 구현 아래에 상세 화면과 같은 검증 단계를 둔다. 검증 단계가 없는 프로젝트만 확인 결과 문장을 쓴다.
-export const ProjectFacts = ({ project }) => (
-    <div
-        className="project-card__evidence"
-        role="group"
-        aria-label={`${project.title} 문제, 구현과 검증`}
-    >
-        <dl className="project-card__facts">
-            <div>
-                <dt>문제</dt>
-                <dd>{project.homeFacts.problem}</dd>
-            </div>
-            <div>
-                <dt>구현</dt>
-                <dd>{project.homeFacts.solution}</dd>
-            </div>
-            {verificationRails[project.id] ? null : (
-                <div>
-                    <dt>검증</dt>
-                    <dd>{caseResults[project.id]}</dd>
-                </div>
-            )}
-        </dl>
-        <VerificationStages projectId={project.id} label={`${project.title} 검증 단계`} compact />
-    </div>
-)
-
-const ProjectMeta = ({ project }) => (
-    <div className="project-card__meta">
-        <div className="project-card__status" aria-label={`${project.title} 진행 및 공개 상태`}>
-            <span>{project.stage}</span>
-            <span>{project.visibility}</span>
-            <time>{project.period}</time>
-        </div>
-        <ul aria-label={`${project.title} 기술 스택`}>
-            {project.tags.slice(0, 4).map((tag) => (
-                <li key={tag}>{tag}</li>
-            ))}
-        </ul>
-    </div>
-)
-
-const ProjectLinks = ({ project, supporting = false }) => (
-    <div className={supporting ? "project-support__actions" : "project-card__actions"}>
-        <Link
-            className={supporting ? "project-support__link" : "project-card__detail-link"}
-            to={project.route}
-            aria-label={`${project.title} 프로젝트 상세 보기`}
-        >
+const ProjectLinks = ({ project }) => (
+    <p className="home-card__links">
+        <Link to={project.route} aria-label={`${project.title} 프로젝트 상세 보기`}>
             상세 보기 <span aria-hidden="true">→</span>
         </Link>
         {project.liveSite && (
             <a
-                className="project-repository-link"
                 href={project.liveSite.href}
                 target="_blank"
                 rel="noreferrer"
@@ -77,7 +20,6 @@ const ProjectLinks = ({ project, supporting = false }) => (
         )}
         {project.homeRepository && (
             <a
-                className="project-repository-link"
                 href={project.homeRepository.href}
                 target="_blank"
                 rel="noreferrer"
@@ -86,127 +28,108 @@ const ProjectLinks = ({ project, supporting = false }) => (
                 {project.homeRepository.label} <span aria-hidden="true">↗</span>
             </a>
         )}
-    </div>
+    </p>
 )
 
-// 1199px 이하에서 소개 옆 Fig. 1 대신 BATON 서비스 구성을 읽을 수 있는 크기의 지도로 보여 준다.
-const BatonSystemMap = ({ project }) => (
-    <nav className="project-glance project-glance--system" aria-label="BATON 마이크로서비스 상세">
-        <div className="project-glance__core">
-            <strong>Core</strong>
-            <span>{project.coreRole}</span>
-        </div>
-        <ul>
-            {project.serviceLinks.map((service) => (
-                <li key={service.id}>
-                    <Link
-                        to={service.route}
-                        aria-label={`BATON ${service.name} 마이크로서비스 상세 보기`}
-                    >
-                        <strong>{service.name}</strong>
-                        <span>{service.role}</span>
-                    </Link>
-                </li>
-            ))}
-        </ul>
-    </nav>
-)
+// 실제 화면은 상세의 화면 묶음으로 이어진다. 촬영 조건(테스트 데이터 등)을 화면 아래에 함께 쓴다.
+const CoverShot = ({ project, ratio }) => {
+    const shot = project.coverScreenshot
 
-const FeaturedProjectCard = ({ project }) => (
-    <li className="project-showcase__item">
-        <article>
-            <header className="project-card__header">
-                <span className="project-card__eyebrow">
-                    {project.homeTypeLabel || PROJECT_TYPE_LABELS[project.projectType]}
-                </span>
-                <h4 className="project-card__title">
-                    <Link to={project.route}>{project.title}</Link>
-                </h4>
-                {project.collaboration && (
-                    <p className="project-card__collaboration">{project.collaboration}</p>
-                )}
-                <p className="project-card__summary">
-                    {project.agencyScope && (
-                        <strong className="project-card__scope">{project.agencyScope}</strong>
-                    )}
-                    {project.homeSummary}
-                </p>
-                {project.serviceLinks ? <BatonSystemMap project={project} /> : null}
-            </header>
-            <div className="project-card__content">
-                <ProjectFacts project={project} />
-                <ProjectMeta project={project} />
-                <ProjectLinks project={project} />
-            </div>
+    // 화면 캡처가 없는 프로젝트는 맡은 처리 흐름을 글자로 보여 준다.
+    if (!shot) {
+        return project.coverText ? (
+            <figure className="home-shot home-shot--text">
+                <div className="home-shot__text" role="img" aria-label={project.coverText.text}>
+                    {project.coverText.text}
+                </div>
+                <figcaption>
+                    <strong>처리 흐름</strong> {project.coverText.note}
+                </figcaption>
+            </figure>
+        ) : null
+    }
+
+    return (
+        <figure className={`home-shot home-shot--${ratio}`}>
+            <Link to={project.route} aria-label={`${project.title} ${shot.label} 화면과 상세 보기`}>
+                <img
+                    src={assetPath(shot.src)}
+                    alt={shot.alt}
+                    width={shot.width}
+                    height={shot.height}
+                    loading="lazy"
+                    decoding="async"
+                />
+            </Link>
+            <figcaption>
+                <strong>{shot.label}</strong> {shot.note}
+            </figcaption>
+        </figure>
+    )
+}
+
+const FeaturedProject = ({ project }) => (
+    <li>
+        <article className="home-feature">
+            <CoverShot project={project} ratio="wide" />
+            <h3>
+                <Link to={project.route}>{project.title}</Link>
+            </h3>
+            <p className="home-card__meta">
+                {[formatPeriod(project.period), project.stage, project.visibility].join(", ")}
+            </p>
+            <p>{project.homeSummary}</p>
+            <p>{project.homeStory}</p>
+            <p className="home-card__check">
+                <strong>확인한 범위</strong> {project.homeCheck}
+            </p>
+            <ProjectLinks project={project} />
         </article>
     </li>
 )
 
-const SupportingProjectCard = ({ project }) => (
-    <li className="project-support__item">
-        <article>
-            <header className="project-support__identity">
-                <span>
-                    {project.homeTypeLabel || PROJECT_TYPE_LABELS[project.projectType]} /{" "}
-                    {project.stage}
-                </span>
-                <h4>
-                    <Link to={project.route}>{project.title}</Link>
-                </h4>
-            </header>
-            <div className="project-support__body">
-                <p className="project-support__summary">
-                    {project.agencyScope && (
-                        <strong className="project-card__scope">{project.agencyScope}</strong>
-                    )}
-                    {caseIntroductions[project.id] || project.summary}
-                </p>
-                <VerificationSummary projectId={project.id} label={`${project.title} 검증 요약`} />
-            </div>
-            <ProjectLinks project={project} supporting />
+const MoreProject = ({ project }) => (
+    <li>
+        <article className="home-more__item">
+            <CoverShot project={project} ratio="card" />
+            <p className="home-card__meta">{formatPeriod(project.period)}</p>
+            <h3>
+                <Link to={project.route}>{project.title}</Link>
+            </h3>
+            <p>{project.homeSummary}</p>
+            {project.homeCheck ? <p className="home-card__check">{project.homeCheck}</p> : null}
+            <ProjectLinks project={project} />
         </article>
     </li>
 )
 
 const Projects = () => {
-    const groups = homeProjectCategories.map((category) => ({
-        ...category,
-        projects: projectSummaries.filter((project) => project.homeCategory === category.id),
-    }))
+    const personal = projectSummaries.filter((project) => project.homeCategory === "personal")
+    const more = projectSummaries.filter((project) => project.homeCategory === "more")
 
     return (
-        <section
-            className="work-section blueprint-sheet"
-            id="work"
-            aria-labelledby="projects-title"
-        >
-            <div className="project-index__intro">
-                <h2 id="projects-title">프로젝트</h2>
-            </div>
-
-            {groups.map((group) => (
-                <section
-                    key={group.id}
-                    className="project-group"
-                    id={`projects-${group.id}`}
-                    aria-labelledby={`projects-${group.id}-title`}
-                >
-                    <div className="project-section-heading">
-                        <h3 id={`projects-${group.id}-title`}>{group.label}</h3>
-                        <span>{group.projects.length}개</span>
-                    </div>
-                    <ol className="project-group__list" aria-label={`${group.label} 목록`}>
-                        {group.projects.map((project) =>
-                            project.homeFacts ? (
-                                <FeaturedProjectCard key={project.id} project={project} />
-                            ) : (
-                                <SupportingProjectCard key={project.id} project={project} />
-                            ),
-                        )}
-                    </ol>
-                </section>
-            ))}
-        </section>
+        <>
+            <section className="home-section" id="work" aria-labelledby="work-title">
+                <div className="home-section__head">
+                    <h2 id="work-title">개인 프로젝트</h2>
+                </div>
+                <ol className="home-features" aria-label="개인 프로젝트 목록">
+                    {personal.map((project) => (
+                        <FeaturedProject project={project} key={project.id} />
+                    ))}
+                </ol>
+            </section>
+            <section className="home-section" id="more" aria-labelledby="more-title">
+                <div className="home-section__head">
+                    <h2 id="more-title">그 밖의 프로젝트</h2>
+                </div>
+                <ol className="home-more" aria-label="그 밖의 프로젝트 목록">
+                    {more.map((project) => (
+                        <MoreProject project={project} key={project.id} />
+                    ))}
+                </ol>
+            </section>
+        </>
     )
 }
 

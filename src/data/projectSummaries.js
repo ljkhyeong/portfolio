@@ -10,20 +10,28 @@ export const projectSummaries = [
         presentation: "featured",
         title: "BATON",
         navigationLabel: "BATON",
-        eyebrow: "역할·반복 업무·인수인계 서비스",
+        eyebrow: "역할, 반복 업무, 인수인계 서비스",
         homeSummary:
-            "역할·반복 업무·인수인계 문서를 기록하고, 여러 팀의 할 일과 다시 확인할 자료를 한 화면에서 봅니다.",
+            "팀의 역할과 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 한 화면에 모아 보는 서비스입니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, 화상 스터디는 각각 별도 서비스로 나눴습니다.",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/baton",
         },
         summary:
-            "역할·반복 업무·인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더 및 WebRTC는 6개 마이크로서비스로 분리했습니다.",
-        homeFacts: {
-            problem:
-                "같은 링크 요청이나 이벤트가 다시 전달되면 링크와 전달 작업이 중복 생성될 수 있음",
-            solution:
-                "요청 UUID와 이벤트 ID로 중복 생성을 방지. 중단된 전송은 다른 서버가 같은 시도 UUID·멱등 키로 이어서 처리하고, 결과 미확인 건은 자동 재전송하지 않음",
+            "역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.",
+        homeStory:
+            "같은 요청이나 이벤트가 다시 들어와도 링크와 전송은 한 번만 만들어지게 했습니다. 외부 전송 중 응답을 잃으면 다시 보내지 않고, 운영자가 외부 기록을 확인해 상태를 정합니다.",
+        homeCheck:
+            "Core와 BRIEF, CAL, ROUND의 연동은 로컬에서 확인했습니다. 실제 자격 증명으로 6개 서비스를 모두 연결하는 것은 아직 확인하지 않았습니다.",
+        coverScreenshot: {
+            id: "today",
+            src: "baton-core-today.webp",
+            label: "오늘 할 일",
+            caption: "이번 회차 업무, 내 담당 업무와 재확인할 자료",
+            alt: "이번 회차 업무, 내 담당 업무와 재확인할 자료를 보는 BATON 오늘 화면",
+            note: "테스트 데이터로 찍은 화면",
+            width: 1440,
+            height: 960,
         },
         period: "2026.07.20 — 현재",
         route: "/projects/baton",
@@ -74,15 +82,13 @@ export const projectSummaries = [
         title: "전송형 전자영장 시스템",
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계",
+        timelineLabel: "전송형 전자영장",
         homeSummary:
-            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 잇는 시스템입니다. KICS 요청을 기관별 규격으로 바꿔 보내고, 기관이 제출한 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         summary:
             "법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
-        homeFacts: {
-            problem: "여러 서버의 동일 작업 중복 실행과 외부 API 대기 중 DB 연결 점유",
-            solution:
-                "SKIP LOCKED와 처리 상태로 작업 선점, API 전후 트랜잭션 분리와 중단 작업 재처리",
-        },
+        homeStory:
+            "서버가 이중화되어 같은 연계 작업이 두 번 실행될 수 있었습니다. SKIP LOCKED로 다른 서버가 잡은 작업은 건너뛰게 하고, 외부 API를 기다리는 동안 DB 연결을 붙잡지 않도록 호출 앞뒤의 트랜잭션을 나눴습니다. 처리 중에 멈춘 작업은 일정 시간이 지나면 다시 처리합니다.",
         period: "2026.03.24 — 현재",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
@@ -99,9 +105,9 @@ export const projectSummaries = [
         presentation: "featured",
         title: "happyGallery",
         navigationLabel: "happyGallery",
-        eyebrow: "공방 상품 판매 및 예약 서비스",
+        eyebrow: "공방 상품 판매와 예약 서비스",
         homeSummary:
-            "상품 주문, 클래스 예약과 스마트스토어 주문·재고 연동을 한 곳에서 처리하는 공방 서비스입니다.",
+            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 맞추는 서비스입니다. 카드와 간편결제, 공휴일과 주소 조회도 붙였습니다.",
         liveSite: {
             label: "서비스 보기",
             href: "https://happy-gallery.com",
@@ -112,19 +118,27 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/happyGallery",
         },
         summary:
-            "공방 상품 주문과 클래스 예약을 처리합니다. 카드·간편결제, 스마트스토어 주문·재고 동기화와 공휴일·주소 조회를 구현했습니다.",
-        homeFacts: {
-            problem:
-                "결제사 응답 유실, 서버 중단에 따른 알림 유실과 스마트스토어 주문 재수신 시 재고 중복 반영",
-            solution:
-                "결제·환불 키를 재사용하고 미전송 알림을 재처리. 스마트스토어 주문은 수량 변경분만 재고에 반영",
+            "공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.",
+        homeStory:
+            "결제사 응답을 잃어도 승인이나 환불을 다시 실행하지 않도록, 같은 결제 키로 처리 결과를 다시 조회하게 했습니다. 서버가 멈춰 보내지 못한 알림은 나중에 다시 보내고, 스마트스토어 주문이 다시 들어오면 바뀐 수량만 재고에 반영합니다.",
+        homeCheck:
+            "결제 흐름은 모의 결제사 응답으로 통합 테스트했습니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
+        coverScreenshot: {
+            id: "product-options",
+            src: "happygallery-product-options.webp",
+            label: "상품 옵션",
+            caption: "색상과 각인 선택, 옵션 조합별 가격 및 재고 확인",
+            alt: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
+            note: "E2E 테스트용 모의 응답으로 찍은 화면",
+            width: 1440,
+            height: 960,
         },
         period: "2026.02.21 — 현재",
         route: "/projects/happygallery",
         tags: ["Java 25", "Spring Boot 4.1", "React 19", "MySQL / Redis"],
         visual: "gallery",
         stage: "배포 완료",
-        visibility: "서비스·저장소 공개",
+        visibility: "서비스와 저장소 공개",
     },
     {
         id: "youth-policy-mate",
@@ -135,12 +149,24 @@ export const projectSummaries = [
         presentation: "webapp-case",
         title: "청년정책메이트",
         navigationLabel: "청년정책메이트",
-        eyebrow: "서울 청년 정책 탐색 및 일정 관리 웹앱",
+        eyebrow: "서울 청년 정책 탐색과 일정 관리 웹앱",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
-        summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고 ${youthPolicyCoverage.questionPolicies}종의 신청 요건을 확인합니다. 저장한 정책의 변경 비교·마감 일정·알림과 관리자용 조건 규칙 검토를 제공합니다.`,
+        homeSummary: `서울 청년 정책 ${youthPolicyCoverage.policies}건을 찾아보는 웹앱입니다. 그중 ${youthPolicyCoverage.questionPolicies}개 정책은 신청 조건 일부를 내 답변과 비교해 신청 가능, 불가, 추가 확인 필요로 알려 줍니다. 저장한 정책이 바뀌거나 마감이 다가오면 알림을 보냅니다.`,
+        homeCheck: "공개 저장소에 반영했고, 외부 연동은 아직 확인하지 않았습니다.",
+        coverScreenshot: {
+            id: "home",
+            src: "youth-policy-mate-home.webp",
+            label: "정책 탐색 홈",
+            caption: "조건 입력과 공개 정책 탐색을 시작하는 웹앱 홈",
+            alt: "조건 입력과 공개 정책 탐색을 시작하는 청년정책메이트 홈",
+            note: "로컬 앱, 공개 정책 데이터",
+            width: 780,
+            height: 1688,
+        },
+        summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고 ${youthPolicyCoverage.questionPolicies}종의 신청 요건을 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
         period: "2026.08.30 — 현재",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],
@@ -151,7 +177,7 @@ export const projectSummaries = [
     {
         id: "hope-commit",
         homeCategory: "more",
-        homeTypeLabel: "AI 스킬 / Codex·Claude Code",
+        homeTypeLabel: "AI 스킬 / Codex, Claude Code",
         index: "01",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -162,6 +188,19 @@ export const projectSummaries = [
         },
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML",
+        homeSummary:
+            "SeungIl 님의 Hope 6.0.0을 포크해, 지정한 커밋을 AI가 리뷰하고 각 설명을 실제로 바뀐 줄에 연결한 HTML로 보여 주는 기능을 더했습니다.",
+        homeCheck: "v5.0.2를 공개 릴리스했습니다.",
+        coverScreenshot: {
+            id: "review-summary",
+            src: "hope-commit-review-summary.webp",
+            label: "커밋 리뷰 요약",
+            caption: "대상 커밋, 변경 범위와 검증 결과",
+            alt: "Hope Commit HTML에서 대상 커밋과 변경 범위 및 검증 결과를 확인하는 모습",
+            note: "실제로 생성한 리뷰 화면",
+            width: 1440,
+            height: 900,
+        },
         summary:
             "SeungIl 님의 Hope 6.0.0을 포크한 비공식 도구입니다. 지정한 커밋만 검토하고 각 설명을 실제 변경 줄에 연결한 오프라인 HTML 리뷰를 생성합니다.",
         period: "2026.08.22 — 현재",
@@ -174,7 +213,7 @@ export const projectSummaries = [
     {
         id: "intent-trace",
         homeCategory: "more",
-        homeTypeLabel: "IDE 플러그인 / IntelliJ·Zed·MCP",
+        homeTypeLabel: "IDE 플러그인 / IntelliJ, Zed, MCP",
         index: "02",
         projectType: "tooling",
         presentation: "tooling-case",
@@ -184,9 +223,22 @@ export const projectSummaries = [
             href: "https://github.com/ljkhyeong/intent-trace",
         },
         navigationLabel: "IntentTrace",
-        eyebrow: "AI 코드 변경 요청·근거·검증 기록",
+        eyebrow: "AI 코드 변경의 요청, 근거, 검증 기록",
+        homeSummary:
+            "AI가 바꾼 코드에 왜 바꿨는지와 무엇으로 검증했는지를 커밋, 파일, 줄 단위로 남기는 도구입니다. IDE와 웹에서 기록을 검색합니다.",
+        homeCheck: "공개 릴리스까지 했고, GitHub 게시와 공개 운영은 아직입니다.",
+        coverScreenshot: {
+            id: "history",
+            src: "intent-trace-history.webp",
+            label: "파일·줄로 기록 찾기",
+            caption: "파일 경로와 코드 줄로 관련 변경 기록을 찾는 웹 화면",
+            alt: "파일 경로와 코드 줄로 관련 변경 기록을 찾는 웹 화면",
+            note: "테스트 데이터로 찍은 화면",
+            width: 1440,
+            height: 960,
+        },
         summary:
-            "AI 코드의 변경 이유와 검증 결과를 커밋·파일·줄에 연결해 남깁니다. 웹·IDE에서 기록을 검색하고 원본 코드, 이슈·PR과 CI 결과를 함께 확인합니다.",
+            "AI 코드의 변경 이유와 검증 결과를 커밋, 파일, 줄에 연결해 남깁니다. 웹과 IDE에서 기록을 검색하고 원본 코드, 이슈, PR, CI 결과를 함께 확인합니다.",
         period: "2026.08.27 — 현재",
         route: "/projects/intent-trace",
         tags: [
@@ -209,9 +261,13 @@ export const projectSummaries = [
         presentation: "career-case",
         title: "차세대 군사법 정보 시스템",
         navigationLabel: "군사법",
-        eyebrow: "BEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발 및 운영",
+        eyebrow: "BEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영",
+        homeSummary:
+            "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템에서 수용자 자료를 반영하는 배치를 만들었습니다. CSRF 차단과 대용량 파일 직접 업로드도 개발했습니다.",
+        homeStory:
+            "배치가 멈추면 Jenkins, JEUS, Tibero 기록을 대조해 실패한 단계를 찾고, 해당 기관 배치만 다시 실행했습니다.",
         summary:
-            "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발했습니다. 중단된 배치는 Jenkins·JEUS·Tibero 정보를 대조해 재실행했습니다.",
+            "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발했습니다. 중단된 배치는 Jenkins, JEUS, Tibero 정보를 대조해 재실행했습니다.",
         period: "2024.06.23 — 2026.01.30",
         route: "/projects/defense",
         tags: ["Java 8", "전자정부 표준프레임워크 4.1", "MyBatis", "Tibero", "Jenkins"],
@@ -231,6 +287,10 @@ export const projectSummaries = [
             href: "https://github.com/TeamyRoom/TMeRoom-HLSServer",
         },
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
+        timelineLabel: "WebRTC/HLS 팀 프로젝트",
+        homeSummary:
+            "카카오 클라우드 스쿨에서 6명이 만든 실시간 강의 서비스입니다. 저는 RTP 영상을 HLS로 바꾸는 서버와 React 화면을 맡았습니다.",
+        coverText: { text: "RTP → HLS → React", note: "화면 캡처가 없는 교육 프로젝트" },
         summary:
             "WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
         period: "2023.09.01 — 2023.11.10",

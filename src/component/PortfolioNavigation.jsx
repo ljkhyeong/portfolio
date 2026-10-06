@@ -58,7 +58,6 @@ const PortfolioNavigation = ({ isHome = false, label, links, actions }) => {
                     <img src={assetPath("ljkhyeong-avatar.png")} alt="" width="160" height="160" />
                 </span>
                 <strong>{portfolioProfile.name}</strong>
-                {isHome && <span className="site-nav__role">{portfolioProfile.role}</span>}
             </BrandLink>
             <div className="site-nav__links">{links}</div>
             <div className="site-nav__actions">{actions}</div>

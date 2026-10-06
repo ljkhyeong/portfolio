@@ -7,15 +7,14 @@ const formatMonth = (date) => date.slice(0, 7).replace("-", ".")
 const GithubActivity = () => {
     const weeks = toActivityWeeks(activity)
     const { total, activeDays } = summarizeActivity(activity)
-    const summary = `${total.toLocaleString("ko-KR")}회 · 활동한 날 ${activeDays}일`
+    const summary = `${total.toLocaleString("ko-KR")}회, 활동한 날 ${activeDays}일`
 
     return (
         <figure className="activity" aria-labelledby="activity-title">
             <figcaption className="activity__head">
-                <span className="blueprint-fig" aria-hidden="true" />
                 <h3 id="activity-title">최근 1년 GitHub 기여</h3>
                 <p>
-                    {summary} · {formatMonth(activity.from)} — {formatMonth(activity.to)}
+                    {summary}, {formatMonth(activity.from)} — {formatMonth(activity.to)}
                 </p>
             </figcaption>
             <div
