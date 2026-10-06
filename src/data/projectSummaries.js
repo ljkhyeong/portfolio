@@ -162,6 +162,13 @@ export const projectSummaries = [
             note: "로컬 앱, 공개 정책 데이터",
             width: 780,
             height: 1688,
+            // 세로 화면은 카드(16:10)에서 위쪽만 보이므로 그 부분만 잘라 둔다.
+            homeImage: {
+                src: "youth-policy-mate-home-cover.webp",
+                width: 780,
+                height: 488,
+                crop: { x: 0, y: 0 },
+            },
         },
         summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고, 그중 ${youthPolicyCoverage.questionPolicies}건은 신청 요건 일부를 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
         period: "2026.08.30 — 현재",

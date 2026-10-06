@@ -45,6 +45,7 @@ const commonRenderSourceTargets = [
     "src/data/routeMeta.js",
     "src/data/projectOg.js",
     "src/utils/assetPath.js",
+    "src/utils/coverImage.js",
     "src/utils/githubActivity.js",
     "public/ljkhyeong-avatar.png",
 ]

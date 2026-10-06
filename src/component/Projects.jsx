@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
+import { coverImageOf, coverVariantsOf } from "../utils/coverImage"
 import { projectSummaries } from "../data/projectSummaries"
 import { formatPeriod } from "../data/timeline"
 
@@ -31,6 +32,12 @@ const ProjectLinks = ({ project }) => (
     </p>
 )
 
+// 카드 표시 폭(Home.css 기준). 대표 카드는 900px 이하에서 한 열, 그 밖의 카드는 좁은 휴대폰에서 한 열이 된다.
+const COVER_SIZES = {
+    wide: "(max-width: 900px) 100vw, 600px",
+    card: "(max-width: 560px) 100vw, 380px",
+}
+
 // 실제 화면은 상세의 화면 묶음으로 이어진다. 촬영 조건(테스트 데이터 등)을 화면 아래에 함께 쓴다.
 const CoverShot = ({ project, ratio }) => {
     const shot = project.coverScreenshot
@@ -49,14 +56,21 @@ const CoverShot = ({ project, ratio }) => {
         ) : null
     }
 
+    const image = coverImageOf(shot)
+    const srcSet = [...coverVariantsOf(image), image]
+        .map((candidate) => `${assetPath(candidate.src)} ${candidate.width}w`)
+        .join(", ")
+
     return (
         <figure className={`home-shot home-shot--${ratio}`}>
             <Link to={project.route} aria-label={`${project.title} ${shot.label} 화면과 상세 보기`}>
                 <img
-                    src={assetPath(shot.src)}
+                    src={assetPath(image.src)}
+                    srcSet={srcSet}
+                    sizes={COVER_SIZES[ratio]}
                     alt={shot.alt}
-                    width={shot.width}
-                    height={shot.height}
+                    width={image.width}
+                    height={image.height}
                     loading="lazy"
                     decoding="async"
                 />
