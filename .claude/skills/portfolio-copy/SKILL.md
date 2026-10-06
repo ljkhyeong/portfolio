@@ -31,6 +31,7 @@ description: 포트폴리오의 한국어 문구를 작성, 수정, 검토할 �
 10. **제목은 짧게 쓰고 세부 조건은 본문에 둔다.** 추천 질문, 도식 제목과 카드 제목에 특히 적용한다.
 11. **공개 대상을 밝힌다.** `공개`가 인터넷 전체를 뜻하는지 팀에만 공개한다는 뜻인지 구분한다.
 12. **번역투를 줄인다.** `~를 통해`, `~에 대한`, `~하는 것이 가능`, `~를 진행`은 동사로 직접 쓴다. 결론을 먼저 쓰고 뜻을 더하지 않는 말은 지운다.
+13. **AI가 쓴 글처럼 보이는 형식을 피한다.** 2026-10-06 사용자가 "AI 티가 난다"고 판단한 형식이다. 가운뎃점으로 명사를 나열하지 않는다(`주문·예약·스마트스토어 연동` → `주문, 예약, 스마트스토어 연동`, `결제·환불 키` → `결제와 환불 키`). 문장으로 끝낼 내용을 명사형으로 끊지 않는다(`… 확인. … 미검증` → `…을 확인했습니다. …은 아직 확인하지 않았습니다.`). 첫 문장은 정체성 선언보다 어떤 일을 해 왔는지 쓰고, 회사 이름은 경력에만 둔다. 화면을 설명하는 말(`제목을 누르면 펼칩니다`)은 쓰지 않는다. `100 RPS·300 TPS` 같은 고정 표기와 제품 이름은 예외다.
 
 다음 내용은 바꾸지 않는다. 코드 식별자, 상태값, 명령어, 경로, 버전, 커밋, 테스트 수, 문서 원제, Hope 원작자 고지, 전자영장 성능 조건(100 RPS·300 TPS, 1시간)
 
@@ -38,17 +39,17 @@ description: 포트폴리오의 한국어 문구를 작성, 수정, 검토할 �
 
 한 곳만 고치면 홈, 상세, 공유 이미지와 PDF의 설명이 서로 달라진다. 수정한 의미가 나오는 위치를 모두 확인한다. 같은 값은 데이터 파일에서 한 번만 정의하고 화면에 하드코딩하지 않는다.
 
-| 노출 위치                      | 원본                                                                                               |
-| ------------------------------ | -------------------------------------------------------------------------------------------------- |
-| 홈 소개, 카드, 경력, 기술      | `src/data/homeHero.js`, `profile.js`, `projectSummaries.js`, `caseHighlights.js`, `homeSkills.js`  |
-| 프로젝트 상세                  | `src/data/projects.js`, `batonServicePresentation.js`, `featuredProblems.js`, `warrantEvidence.js` |
-| 도식                           | `src/component/project/diagrams/*.jsx`, 도식 제목 일부는 `ProjectCaseStudy.jsx`                    |
-| 공유 이미지                    | `src/data/projectOg.js`. 본문 없이 이미지만 봐도 테스트 데이터나 개발 범위를 알 수 있게 쓴다.      |
-| 검색 결과의 제목과 설명        | `src/data/routeMeta.js`                                                                            |
-| 문서 검색 화면 안내, 추천 질문 | `src/component/search/PortfolioKnowledgePage.jsx`                                                  |
-| 검색 자료                      | `src/data/knowledgeCorpus.js`의 추가 문구, `public/docs/**/*.md` 공개 요약 문서                    |
-| PDF                            | 홈 데이터를 재사용한다. 인쇄 전용 문구는 `src/component/print/PortfolioPrintPage.jsx`              |
-| README                         | `README.md`의 프로젝트 목록                                                                        |
+| 노출 위치                       | 원본                                                                                                                                                               |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 홈 소개, 연표, 카드, 경력, 기술 | `src/data/homeHero.js`, `timeline.js`(연표 옆 결과), `profile.js`, `projectSummaries.js`(`homeSummary`·`homeStory`·`homeCheck`·`coverScreenshot`), `homeSkills.js` |
+| 프로젝트 상세                   | `src/data/projects.js`, `caseHighlights.js`(소개와 확인한 범위), `batonServicePresentation.js`, `featuredProblems.js`, `warrantEvidence.js`                        |
+| 도식                            | `src/component/project/diagrams/*.jsx`, 도식 제목 일부는 `ProjectCaseStudy.jsx`                                                                                    |
+| 공유 이미지                     | `src/data/projectOg.js`. 본문 없이 이미지만 봐도 테스트 데이터나 개발 범위를 알 수 있게 쓴다.                                                                      |
+| 검색 결과의 제목과 설명         | `src/data/routeMeta.js`                                                                                                                                            |
+| 문서 검색 화면 안내, 추천 질문  | `src/component/search/PortfolioKnowledgePage.jsx`                                                                                                                  |
+| 검색 자료                       | `src/data/knowledgeCorpus.js`의 추가 문구, `public/docs/**/*.md` 공개 요약 문서                                                                                    |
+| PDF                             | 홈 데이터를 재사용한다. 인쇄 전용 문구는 `src/component/print/PortfolioPrintPage.jsx`                                                                              |
+| README                          | `README.md`의 프로젝트 목록                                                                                                                                        |
 
 `public/knowledge/portfolio.json`과 `docs/knowledge-document-snapshots.json`은 생성물이나 외부 저장소 사본이므로 직접 고치지 않는다. 홈 제목은 강조 구간 길이로 줄을 나누므로 제목과 강조 구간을 함께 고친다.
 
