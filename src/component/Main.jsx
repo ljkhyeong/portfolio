@@ -6,13 +6,6 @@ import { assetPath } from "../utils/assetPath"
 import { portfolioProfile } from "../data/profile"
 import "../css/Home.css"
 
-const designReferences = [
-    { label: "chanhdai.com", href: "https://chanhdai.com" },
-    { label: "Hamish Williams", href: "https://hamishw.com" },
-    { label: "Brittany Chiang", href: "https://v4.brittanychiang.com" },
-    { label: "CraftzDog", href: "https://www.craftz.dog" },
-]
-
 const Main = () => {
     return (
         <div className="portfolio-page">
@@ -64,19 +57,6 @@ const Main = () => {
                         </a>
                     </li>
                 </ul>
-                <p className="home-contact__references" aria-label="디자인 참고">
-                    <span>디자인 참고</span>
-                    {designReferences.map((reference) => (
-                        <a
-                            href={reference.href}
-                            target="_blank"
-                            rel="noreferrer"
-                            key={reference.href}
-                        >
-                            {reference.label}
-                        </a>
-                    ))}
-                </p>
             </footer>
         </div>
     )

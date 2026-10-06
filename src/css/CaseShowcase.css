@@ -12,8 +12,7 @@ main.case-showcase.baton-service-page {
 main.case-showcase .case-study,
 main.case-showcase .prior-case,
 main.case-showcase .baton-service-case,
-main.case-showcase .baton-service-footer,
-main.case-showcase .case-design-credit {
+main.case-showcase .baton-service-footer {
     width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
     margin-inline: auto;
 }
@@ -629,17 +628,6 @@ main.case-showcase .case-next__link--previous:is(:hover, :focus-visible) .case-n
     transform: translateX(-4px);
 }
 
-main.case-showcase .case-design-credit {
-    padding: 24px 0 36px;
-    color: var(--muted);
-    font-size: var(--portfolio-caption);
-    text-align: right;
-}
-
-main.case-showcase .case-design-credit a {
-    color: var(--accent);
-}
-
 /* 상세의 공용 목록과 보조 UI도 같은 글자 크기를 따른다. */
 main.case-showcase .skip-link,
 main.case-showcase .project-switcher__details > summary,
@@ -875,8 +863,7 @@ main.case-showcase ::selection {
     main.case-showcase .prior-case,
     main.case-showcase .baton-service-case,
     main.case-showcase .baton-service-footer,
-    main.case-showcase .case-next,
-    main.case-showcase .case-design-credit {
+    main.case-showcase .case-next {
         width: calc(100% - 40px);
     }
 

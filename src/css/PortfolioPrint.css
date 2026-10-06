@@ -337,10 +337,6 @@ body.portfolio-print-mode {
         font-size: 28px;
     }
 
-    .portfolio-web-print .home-contact__references {
-        margin-top: 24px;
-    }
-
     /* 제목 뒤에서 쪽을 나누지 않는다. 마지막 자식인 제목에 걸면 영역 끝까지 전파되므로 본문이 뒤따르는 제목에만 건다. */
     .portfolio-web-print :is(h1, h2, h3, h4):not(:last-child),
     .portfolio-web-print .home-section__head {

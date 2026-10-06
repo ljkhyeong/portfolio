@@ -6,7 +6,6 @@ import PortfolioNavigation from "../PortfolioNavigation"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
-import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 import { DocumentCounts, DocumentItems } from "./DocumentList"
 import ProblemCases from "./ProblemCases"
@@ -239,7 +238,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     ))}
                 </div>
             </footer>
-            <CaseDesignCredit />
         </main>
     )
 }

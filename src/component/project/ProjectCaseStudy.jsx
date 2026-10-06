@@ -7,7 +7,6 @@ import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import PortfolioNavigation from "../PortfolioNavigation"
 import BatonServiceSwitcher from "./BatonServiceSwitcher"
 import CaseMetaSection from "./CaseMetaSection"
-import CaseDesignCredit from "./CaseDesignCredit"
 import CaseSectionNavigation from "./CaseSectionNavigation"
 import { DocumentCounts, DocumentItems } from "./DocumentList"
 import ProblemCases from "./ProblemCases"
@@ -403,7 +402,6 @@ const PriorExperienceCase = ({ project }) => {
                 />
             </article>
             <ProjectPager currentProjectId={project.id} />
-            <CaseDesignCredit />
         </main>
     )
 }
@@ -541,7 +539,6 @@ const ProjectCaseStudy = ({ projectId }) => {
             </article>
 
             <ProjectPager currentProjectId={projectId} />
-            <CaseDesignCredit />
         </main>
     )
 }

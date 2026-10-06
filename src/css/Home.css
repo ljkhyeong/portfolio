@@ -731,21 +731,6 @@ a.career-timeline__item:focus-visible .career-timeline__name {
     text-underline-offset: 4px;
 }
 
-.home-contact__references {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 16px;
-    margin: 64px 0 0;
-    color: var(--muted);
-    font-size: 12.5px;
-}
-
-.home-contact__references a {
-    text-decoration: underline;
-    text-decoration-color: var(--line-strong);
-    text-underline-offset: 3px;
-}
-
 /* 1100px 이하: 막대 옆 글이 겹치지 않도록 연표를 항목마다 작은 막대를 단 목록으로 바꾼다. */
 @media (max-width: 1100px) {
     .career-timeline__chart {
