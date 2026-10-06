@@ -23,7 +23,9 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(
         within(within(timeline).getByRole("group", { name: "경력 기간" })).getAllByRole("link"),
     ).toHaveLength(2)
-    expect(timeline).toHaveTextContent("100 RPS·300 TPS로 1시간 동안 모두 처리, 성능 테스트 환경")
+    expect(timeline).toHaveTextContent(
+        "성능 테스트 환경에서 100 RPS·300 TPS로 1시간 동안 모두 처리",
+    )
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
     const projects = screen.getByRole("region", { name: "개인 프로젝트" })
@@ -203,13 +205,13 @@ test("학습은 교육 과정과 그룹 스터디를 보여주고 팀 프로젝�
         "/projects/webrtc",
     )
     expect(
-        learning.getByRole("link", { name: "LnS 발표 및 Q&A 기록 새 창에서 보기" }),
+        learning.getByRole("link", { name: "LnS 발표 및 Q&A 기록 보기 (새 창)" }),
     ).toHaveAttribute(
         "href",
         "https://www.notion.so/LnS-Learn-Share-b3782d6639408242904501146ebbdfdf",
     )
     expect(
-        learning.getByRole("link", { name: "Effective Java 학습 기록 새 창에서 보기" }),
+        learning.getByRole("link", { name: "Effective Java 학습 기록 보기 (새 창)" }),
     ).toHaveAttribute("href", "https://www.notion.so/2bb82d6639408021aa64da7cb536ab64")
     expect(section).not.toHaveTextContent("BEINTECH")
 })
@@ -438,7 +440,9 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
         }),
     ).toBeInTheDocument()
     expect(screenshots).toHaveAccessibleDescription(/온통청년에서 수집해 저장한 공개 데이터/)
-    expect(screen.getByText(/실제 OAuth, OpenAI, Resend 운영 연동은 미검증/)).toBeInTheDocument()
+    expect(
+        screen.getByText(/OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다/),
+    ).toBeInTheDocument()
 })
 
 test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범위를 구분한다", async () => {

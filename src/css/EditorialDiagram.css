@@ -116,16 +116,8 @@
     stroke: var(--diagram-accent);
 }
 
-.editorial-diagram__connector--ink {
-    stroke: var(--diagram-ink);
-}
-
 .editorial-diagram__connector--muted {
     stroke: var(--diagram-muted);
-}
-
-.editorial-diagram__connector--soft {
-    stroke: var(--diagram-soft);
 }
 
 .editorial-diagram__connector--dashed {

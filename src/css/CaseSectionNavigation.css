@@ -13,13 +13,6 @@
     font-size: 14px;
 }
 
-.case-section-nav__label {
-    flex: 0 0 auto;
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 700;
-}
-
 .case-section-nav ul {
     display: flex;
     min-width: 0;
@@ -127,10 +120,6 @@
     .case-section-nav ul {
         justify-content: flex-start;
         gap: 16px;
-    }
-
-    .case-section-nav__label {
-        display: none;
     }
 
     .case-section-nav__copy {

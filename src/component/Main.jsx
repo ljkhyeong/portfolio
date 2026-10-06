@@ -1,4 +1,5 @@
 import Header from "./Header"
+import HomeIntro from "./HomeIntro"
 import Projects from "./Projects"
 import About from "./About"
 import CareerSummary from "./CareerSummary"
@@ -14,6 +15,7 @@ const Main = () => {
             </a>
             <Header />
             <main id="main-content" tabIndex="-1">
+                <HomeIntro />
                 <CareerSummary />
                 <Projects />
                 <About />
@@ -41,7 +43,7 @@ const Main = () => {
                             href={portfolioProfile.github}
                             target="_blank"
                             rel="noreferrer"
-                            aria-label="GitHub 프로필 새 창에서 보기"
+                            aria-label={`GitHub 프로필 ${portfolioProfile.github.replace("https://", "")} 새 창에서 보기`}
                         >
                             {portfolioProfile.github.replace("https://", "")}
                         </a>

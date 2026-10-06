@@ -9,21 +9,20 @@ const problemFields = [
 ]
 
 // 대표 사례 밖의 문제를 번호와 제목만 보이는 색인으로 펼쳐 두고, 누르면 그 자리에서 내용을 연다.
+// 색인 제목(h3) 아래에 놓이므로 항목 제목은 h4로 쓴다.
 const ProblemSolutionList = ({ problems, label }) => (
     <ol className="problem-solution-list problem-solution-list--index" aria-label={label}>
         {problems.map((problem) => (
             <li key={problem.number}>
                 <details className="problem-solution-list__item">
                     <summary>
-                        <h3>
+                        <h4>
                             <span className="problem-solution-list__number">{problem.number}</span>
                             <span>{problem.title}</span>
                             <span className="problem-solution-list__action" aria-hidden="true">
-                                <span>상세 보기</span>
-                                <span>접기</span>
                                 <i />
                             </span>
-                        </h3>
+                        </h4>
                     </summary>
                     <dl>
                         {problemFields.map(([term, field]) => (

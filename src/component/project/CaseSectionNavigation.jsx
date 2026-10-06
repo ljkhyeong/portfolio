@@ -212,9 +212,6 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
 
     return (
         <nav className="case-section-nav" aria-label={label} ref={navigationRef}>
-            <span className="case-section-nav__label" aria-hidden="true">
-                페이지 내 이동
-            </span>
             <ul ref={listRef}>
                 {sections.map((section) => (
                     <li key={section.id}>

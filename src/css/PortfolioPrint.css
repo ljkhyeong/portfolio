@@ -93,11 +93,8 @@ body.portfolio-print-mode {
     }
 
     .portfolio-web-print .portfolio-page {
-        --portfolio-title: 38px;
-        --portfolio-project-title: 30px;
         --portfolio-section-title: 32px;
         --portfolio-subtitle: 22px;
-        --portfolio-lead: 18px;
         --portfolio-body: 16px;
         --portfolio-small: 14px;
         --portfolio-caption: 12px;
@@ -157,11 +154,6 @@ body.portfolio-print-mode {
     .portfolio-web-print *::after {
         animation: none !important;
         transition: none !important;
-    }
-
-    .portfolio-web-print .site-header {
-        min-height: 0;
-        padding-top: 0;
     }
 
     /* 첫 쪽 소개에 사진과 이름이 있으므로 상단 메뉴를 반복하지 않는다. */

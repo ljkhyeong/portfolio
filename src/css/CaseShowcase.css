@@ -367,10 +367,6 @@ main.case-showcase .case-section-nav ul {
     gap: 24px;
 }
 
-main.case-showcase .case-section-nav__label {
-    display: none;
-}
-
 main.case-showcase .case-section-nav a {
     font-size: var(--portfolio-small);
     font-weight: 500;
@@ -434,7 +430,7 @@ main.case-showcase .problem-solution-list__item > summary {
     padding: 24px 0;
 }
 
-main.case-showcase .problem-solution-list__item > summary h3 {
+main.case-showcase .problem-solution-list__item > summary h4 {
     font-weight: 550;
 }
 
@@ -517,8 +513,7 @@ main.case-showcase .baton-service-flow__legend > span:nth-child(2)::before {
     background: var(--accent-soft);
 }
 
-main.case-showcase .editorial-diagram__title,
-main.case-showcase .editorial-diagram__header > strong {
+main.case-showcase .editorial-diagram__title {
     font-family: var(--sans);
     font-size: var(--portfolio-subtitle);
     font-weight: 550;
@@ -1024,7 +1019,7 @@ main.case-showcase .problem-solution-list--index .problem-solution-list__item > 
     padding: 12px 0;
 }
 
-main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary h3 {
+main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary h4 {
     min-height: 28px;
     grid-template-columns: 36px minmax(0, 1fr) auto;
     font-size: 17px;
@@ -1039,10 +1034,6 @@ main.case-showcase .problem-solution-list__number {
 
 main.case-showcase .problem-solution-list--index .problem-solution-list__action {
     min-width: 0;
-}
-
-main.case-showcase .problem-solution-list--index .problem-solution-list__action > span {
-    display: none;
 }
 
 main.case-showcase .problem-solution-list--index .problem-solution-list__item dl {
@@ -1064,7 +1055,7 @@ main.case-showcase .problem-solution-list--index .problem-solution-list__item dl
         padding: 9px 0;
     }
 
-    main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary h3 {
+    main.case-showcase .problem-solution-list--index .problem-solution-list__item > summary h4 {
         grid-template-columns: 28px minmax(0, 1fr) auto;
         gap: 8px;
         font-size: 15px;

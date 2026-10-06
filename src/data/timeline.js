@@ -6,19 +6,26 @@ import { warrantPerformance } from "./warrantEvidence"
 // 메인 첫 화면 연표. 기간은 각 프로젝트의 period에서 읽고, 진행 중인 막대는 GitHub 기여 기록을
 // 갱신한 날(activity.to)까지 그린다. 막대 옆 글은 확인한 결과와 그 조건이다.
 const timelineNotes = {
-    warrant: `${warrantPerformance.load}로 ${warrantPerformance.duration} 동안 모두 처리, 성능 테스트 환경`,
+    warrant: `성능 테스트 환경에서 ${warrantPerformance.load}로 ${warrantPerformance.duration} 동안 모두 처리`,
     defense: "멈춘 배치를 찾아 해당 기관 배치만 다시 실행",
     happygallery: "공개 서비스로 배포",
-    baton: "같은 요청 8건을 동시에 보내도 링크 1건, 통합 테스트",
-    "hope-commit": "자동화 테스트 343개 통과",
-    webrtc: "재생 지연 약 35초 → 약 17초, 팀 시연",
+    baton: "통합 테스트에서 같은 요청 8건을 동시에 보내도 링크 1건",
+    "hope-commit": "GitHub Actions에서 자동화 테스트 343개 통과",
+    webrtc: "팀 시연에서 재생 지연 약 35초 → 약 17초",
 }
 
 const ONGOING = "현재"
 const DAY = 24 * 60 * 60 * 1000
 
+const DATE_PATTERN = /^\d{4}\.\d{2}(\.\d{2})?$/
+
 // "2026.02.21", "2023.05"를 날짜로 바꾼다. 일이 없는 끝 날짜는 그달 마지막 날로 본다.
-const parseDate = (text, { end = false } = {}) => {
+// 형식이 다르면 연표 전체가 어긋나므로 모듈을 불러올 때 바로 알린다.
+export const parseDate = (text, { end = false } = {}) => {
+    if (!DATE_PATTERN.test(text ?? "")) {
+        throw new Error(`연표 날짜 형식이 아닙니다: ${text} (YYYY.MM 또는 YYYY.MM.DD)`)
+    }
+
     const [year, month, day] = text.split(".").map(Number)
 
     if (day) {
@@ -28,7 +35,15 @@ const parseDate = (text, { end = false } = {}) => {
     return end ? Date.UTC(year, month, 0) : Date.UTC(year, month - 1, 1)
 }
 
-const splitPeriod = (period) => period.split("—").map((part) => part.trim())
+const splitPeriod = (period) => {
+    const parts = period.split("—").map((part) => part.trim())
+
+    if (parts.length !== 2) {
+        throw new Error(`기간은 "시작 — 끝" 형식이어야 합니다: ${period}`)
+    }
+
+    return parts
+}
 
 // 화면에는 월까지만 쓴다. 예: "2026.02.21 — 현재" → "2026.02 — 현재"
 export const formatPeriod = (period) =>
@@ -36,27 +51,32 @@ export const formatPeriod = (period) =>
         .map((part) => (part === ONGOING ? part : part.split(".").slice(0, 2).join(".")))
         .join(" — ")
 
-export const timelineAsOf = Date.parse(`${activity.to}T00:00:00Z`)
+const timelineAsOf = Date.parse(`${activity.to}T00:00:00Z`)
 
-const toItem = ({ id, label, period, route }) => {
+// 진행 중인 기간("현재")은 GitHub 기여 기록을 갱신한 날까지로 본다.
+export const toTimelineItem = ({ id, label, period, route }, asOf = timelineAsOf) => {
     const [start, end] = splitPeriod(period)
-
-    return {
+    const item = {
         id,
         label,
         route,
         period: formatPeriod(period),
         start: parseDate(start),
-        end: end === ONGOING ? timelineAsOf : parseDate(end, { end: true }),
-        ongoing: end === ONGOING,
+        end: end === ONGOING ? asOf : parseDate(end, { end: true }),
         note: timelineNotes[id],
     }
+
+    if (item.end < item.start) {
+        throw new Error(`끝 날짜가 시작 날짜보다 빠릅니다: ${id} ${period}`)
+    }
+
+    return item
 }
 
 const projectItem = (id) => {
     const project = projectSummariesById[id]
 
-    return toItem({
+    return toTimelineItem({
         id,
         label: project.timelineLabel ?? project.title,
         period: project.period,
@@ -79,9 +99,9 @@ const lanes = [
         id: "learning",
         label: "학습",
         items: [
-            toItem({
+            toTimelineItem({
                 id: "education",
-                label: "카카오 클라우드 스쿨 3기",
+                label: education.timelineLabel,
                 period: education.period,
             }),
             projectItem("webrtc"),

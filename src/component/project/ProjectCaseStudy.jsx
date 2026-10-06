@@ -104,7 +104,7 @@ const ProjectEvidenceLinks = ({ project }) => {
                   ...project.links[0],
                   shortLabel:
                       project.links[0].shortLabel ??
-                      (project.links[0].href.includes("github.com")
+                      (project.links[0].label.includes("GitHub 저장소")
                           ? "GitHub 저장소"
                           : project.links[0].label),
               }

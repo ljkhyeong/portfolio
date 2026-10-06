@@ -49,7 +49,7 @@ test.each([
         "href",
         "/#work",
     )
-    expect(within(navigation).getByLabelText("다른 프로젝트 보기")).toBeInTheDocument()
+    expect(within(navigation).getByText("프로젝트 이동")).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "이 프로젝트 문서 검색" })).toHaveAttribute(
         "href",
         `/search?project=${projectId}`,
@@ -140,7 +140,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         ["ROUND", "https://github.com/ljkhyeong/webrtc-study", "공개 저장소"],
     ]
 
-    expect(evidenceLinks).toHaveTextContent("Core 저장소")
+    expect(evidenceLinks).toHaveTextContent("Core GitHub 저장소")
     expect(evidenceLinks).toHaveTextContent("대표 문서")
     expect(
         within(evidenceLinks).getByRole("link", {
@@ -378,7 +378,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByRole("heading", { name: "청년정책메이트", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByText(
-            "내 조건에 맞는 정책을 찾고, 저장한 정책이 바뀌거나 마감이 다가오면 알려 주는 웹앱입니다.",
+            "서울 청년 정책을 찾아보고, 저장한 정책이 바뀌거나 마감이 다가오면 알려 주는 웹앱입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "화면" })).toHaveAttribute("href", "#project-system")
@@ -413,7 +413,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정과 알림 처리")).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /정책 조건의 버전 관리.*실제 OAuth, OpenAI, Resend/,
+        /조건 규칙의 버전 관리.*OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.*개발 브랜치 4f7d030/,
     )
     expect(
         within(document.getElementById("project-problems")).getAllByRole("article"),
@@ -463,7 +463,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
         }),
     ).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /v0\.7\.0.*개발 브랜치 125684c.*IntelliJ 기록 검색.*실제 GitHub 게시와 공개 운영은 미검증/,
+        /v0\.7\.0.*PR Check Run 게시와 공개 운영은 아직 확인하지 않았습니다.*개발 브랜치 125684c.*IntelliJ 기록 검색/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
@@ -493,7 +493,6 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
             ".warrant-integration__nodes > .editorial-diagram__node",
         ),
     ).toHaveLength(4)
-    expect(screen.getByText("DATA FLOW / BEINTECH / LG CNS 컨소시엄")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", { name: "KICS 요청 변환 및 제출 자료 반영", level: 3 }),
     ).toBeInTheDocument()
@@ -613,7 +612,7 @@ test("BATON 마이크로서비스 상세도 책임, 문제 해결과 문서로 �
     const serviceFacts = screen.getByLabelText("서비스 정보")
     expect(within(serviceFacts).getByText("DB")).toBeInTheDocument()
     expect(within(serviceFacts).getByText("공개 범위")).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "검증 상태" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "확인한 범위" })).toHaveAttribute(
         "href",
         "#service-verification",
     )
@@ -734,7 +733,7 @@ test.each([
         [
             /점검 상태, 보고서 이력과 비교.*업무 종류, 주간, 시간대 필터.*304/,
             /공개 main 2a96b04와 Core의 로컬 교차 검증 기록/,
-            /공인 DNS와 원격 환경의 전체 서비스 연결은 미검증/,
+            /공인 DNS와 원격 환경의 전체 서비스 연결은 아직 확인하지 않았습니다/,
         ],
         /주간 보고서와 점검 항목 조회, 이벤트 수신, 검증 기록/,
     ],
@@ -747,7 +746,7 @@ test.each([
         [
             /Core 교차 테스트 5개와 HTTP 캐시, 복구 검증 기록/,
             /게시된 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
-            /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 미검증/,
+            /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 아직 확인하지 않았습니다/,
         ],
         /일정 묶음 처리와 후보 규격 1.1.0-rc.2를 확인한 공개 main/,
     ],

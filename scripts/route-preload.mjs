@@ -56,6 +56,7 @@ export const collectRouteAssets = (manifest, moduleKey) => {
 }
 
 // 대표 화면 캡처가 있는 프로젝트 상세만 첫 캡처를 미리 받는다. 모바일에서는 첫 화면 밖이라 넓은 화면에 한정한다.
+// 넓은 화면에서도 첫 캡처는 첫 화면 아래쪽에 걸치므로 제목 글꼴보다 앞서지 않게 우선순위는 높이지 않는다.
 export const firstScreenshotPath = (projects, pathname) => {
     const projectId = pathname.match(/^\/projects\/([^/]+)$/)?.[1]
     const project = projects.find(
@@ -76,7 +77,7 @@ export const renderPreloadTags = ({ base = "/", scripts = [], styles = [], image
         ),
         ...(image
             ? [
-                  `<link rel="preload" as="image" fetchpriority="high" media="${DESKTOP_IMAGE_MEDIA}" href="${href(encodeURI(image))}" />`,
+                  `<link rel="preload" as="image" media="${DESKTOP_IMAGE_MEDIA}" href="${href(encodeURI(image))}" />`,
               ]
             : []),
     ].join("\n        ")

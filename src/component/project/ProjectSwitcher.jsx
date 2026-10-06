@@ -54,7 +54,7 @@ const ProjectSwitcher = ({ currentProjectId, contextLabel }) => {
                 {countLabel}
             </span>
             <details className="project-switcher__details" ref={detailsRef}>
-                <summary aria-label="다른 프로젝트 보기">
+                <summary>
                     <strong>프로젝트 이동</strong>
                 </summary>
                 <div className="project-switcher__panel">

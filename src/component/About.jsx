@@ -31,7 +31,7 @@ const About = () => (
                                 href={activity.links[0].href}
                                 target="_blank"
                                 rel="noreferrer"
-                                aria-label={`${activity.links[0].label} 새 창에서 보기`}
+                                aria-label={`${activity.links[0].label} 보기 (새 창)`}
                             >
                                 기록 보기 <span aria-hidden="true">↗</span>
                             </a>

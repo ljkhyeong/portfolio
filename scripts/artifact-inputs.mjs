@@ -24,6 +24,7 @@ const commonRenderSourceTargets = [
     "src/component/Main.jsx",
     "src/component/CareerSummary.jsx",
     "src/component/Header.jsx",
+    "src/component/HomeIntro.jsx",
     "src/component/PortfolioNavigation.jsx",
     "src/component/Projects.jsx",
     "src/component/About.jsx",

@@ -246,6 +246,11 @@
     white-space: nowrap;
 }
 
+/* 학습 줄의 회색 막대는 흰 글자의 명도 대비가 부족하므로 막대 안에 쓸 때 본문 색을 쓴다. */
+.career-timeline__lane--learning .career-timeline__item--inside .career-timeline__bar-label {
+    color: var(--ink);
+}
+
 .career-timeline__label {
     position: absolute;
     top: calc((var(--timeline-row) - var(--timeline-bar)) / 2);

@@ -80,7 +80,6 @@
 }
 
 .site-nav .site-nav__links a,
-.site-nav .site-nav__contact-link,
 .site-nav .site-nav__contact {
     position: relative;
     display: inline-flex;
@@ -111,8 +110,6 @@
 .site-nav .site-nav__links a:focus-visible,
 .site-nav .site-nav__links a[aria-current="location"],
 .site-nav .site-nav__links a[aria-current="page"],
-.site-nav .site-nav__contact-link:hover,
-.site-nav .site-nav__contact-link:focus-visible,
 .site-nav .site-nav__contact:hover,
 .site-nav .site-nav__contact:focus-visible {
     color: var(--accent);
@@ -176,7 +173,8 @@
         grid-column: 1 / -1;
         justify-content: flex-start;
         width: 100%;
-        padding-top: 8px;
+        /* 옆으로 넘기는 영역은 초점 테두리도 잘라 내므로 테두리가 들어갈 여백을 둔다. */
+        padding: 8px 4px 6px;
         overflow-x: auto;
         border-top: 1px solid var(--line);
         scrollbar-width: none;
@@ -184,6 +182,20 @@
 
     .site-nav__links::-webkit-scrollbar {
         display: none;
+    }
+
+    .site-nav__links a:focus-visible {
+        outline-offset: 2px;
+    }
+
+    /* 오른쪽 끝을 흐리게 해 링크가 더 있다는 것을 알린다. 키보드로 이동하는 동안에는 흐리게 하지 않는다. */
+    .site-nav--home .site-nav__links {
+        padding-right: 28px;
+        mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+    }
+
+    .site-nav--home .site-nav__links:focus-within {
+        mask-image: none;
     }
 
     .site-nav__actions {
@@ -215,7 +227,6 @@
     }
 
     .site-nav .site-nav__links a,
-    .site-nav .site-nav__contact-link,
     .site-nav .site-nav__contact {
         font-size: 14px;
     }
@@ -235,7 +246,6 @@
     .site-nav__avatar,
     .site-nav__links a,
     .site-nav__links a::after,
-    .site-nav__contact-link,
     .site-nav__contact {
         transition: none;
     }

@@ -1,8 +1,10 @@
+import { useId } from "react"
 import { timelineLanes, timelineYears } from "../../data/timeline"
 
 // 메인 연표에서 이 프로젝트의 기간만 강조한 띠. 경력, 개인 프로젝트, 학습을 한 줄씩 겹쳐 그려
 // 회사 일과 언제 함께 진행했는지 보여 준다.
 const ProjectTimelineStrip = ({ projectId }) => {
+    const captionId = useId()
     const current = timelineLanes
         .flatMap((lane) => lane.items)
         .find((item) => item.id === projectId)
@@ -12,11 +14,8 @@ const ProjectTimelineStrip = ({ projectId }) => {
     }
 
     return (
-        <figure
-            className="project-timeline-strip"
-            aria-label={`연표에서 이 프로젝트의 기간: ${current.period}`}
-        >
-            <figcaption>연표에서 이 프로젝트의 기간, {current.period}</figcaption>
+        <figure className="project-timeline-strip" aria-labelledby={captionId}>
+            <figcaption id={captionId}>연표에서 이 프로젝트의 기간</figcaption>
             <div className="project-timeline-strip__chart" aria-hidden="true">
                 {timelineLanes.map((lane) => (
                     <div className="project-timeline-strip__lane" key={lane.id}>

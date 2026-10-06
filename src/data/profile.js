@@ -1,18 +1,16 @@
 export const portfolioProfile = {
     name: "임정규",
-    role: "백엔드 개발자",
     location: "서울",
     email: "jolri24@naver.com",
     phone: "010 3972 6284",
     phoneHref: "+821039726284",
     github: "https://github.com/ljkhyeong",
-    site: "https://ljkportfolio.netlify.app",
 }
 
 export const education = {
     period: "2023.05 — 2023.11",
-    type: "교육 과정",
     organization: "카카오 클라우드 스쿨 개발자 과정 3기",
+    timelineLabel: "카카오 클라우드 스쿨 3기",
     summary: "팀 프로젝트로 WebRTC/HLS 현장강의 보조 서비스를 만들었습니다.",
     route: "/projects/webrtc",
 }
