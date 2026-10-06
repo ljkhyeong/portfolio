@@ -23,8 +23,8 @@ PostgreSQL Testcontainers, iCal4j 4.3.0과 `.ics` 기대값 파일로 같은 일
 ## 현재 범위 — 2026-09-12
 
 -   정식 규격은 `1.0.0`이며, [후보 규격 1.1.0-rc.2](https://github.com/ljkhyeong/baton-cal/releases/tag/contracts-v1.1.0-rc.2)와 규격 ZIP을 게시했습니다.
--   [공개 main 817720d](https://github.com/ljkhyeong/baton-cal/tree/817720d)는 개인 구독·일괄 해지, 응답 유실 복구와 최대 100건 일정 묶음 수신을 지원합니다.
+-   [공개 main 817720d](https://github.com/ljkhyeong/baton-cal/tree/817720d)는 개인 구독과 일괄 해지, 응답 유실 복구, 최대 100건 일정 묶음 수신을 지원합니다.
 -   묶음은 한 트랜잭션으로 처리하고 오류가 있으면 전체 롤백합니다. 변경된 시즌의 캘린더는 한 번씩 갱신해 같은 시즌의 반복 변환을 줄입니다.
--   Core가 후보 규격 ZIP·해시를 고정하고 일정·구독·시즌 이름·백업 복원·재전달을 확인한 교차 테스트 5개 통과 기록을 확인했습니다.
+-   Core가 후보 규격 ZIP과 해시를 고정하고 일정, 구독, 시즌 이름, 백업 복원, 재전달을 확인한 교차 테스트 5개 통과 기록을 확인했습니다.
 
-Google Calendar·Apple Calendar·Outlook 등록 안내를 제공하지만 실제 계정 구독, 공개 HTTPS와 운영 환경의 전체 일정 복구는 미검증입니다. 규격 게시를 실제 서비스 운영과 구분합니다.
+Google Calendar, Apple Calendar, Outlook 등록 안내를 제공하지만 실제 계정 구독, 공개 HTTPS와 운영 환경의 전체 일정 복구는 미검증입니다. 규격 게시를 실제 서비스 운영과 구분합니다.
