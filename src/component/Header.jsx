@@ -105,7 +105,7 @@ const Header = () => {
                             <img
                                 className="home-hero__avatar"
                                 src={assetPath("ljkhyeong-avatar.png")}
-                                alt={`${portfolioProfile.name} 픽셀 아바타`}
+                                alt={`${portfolioProfile.name} 프로필 사진`}
                                 width="160"
                                 height="160"
                             />
