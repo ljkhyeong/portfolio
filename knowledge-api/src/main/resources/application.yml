@@ -1,6 +1,17 @@
 spring:
     application:
         name: portfolio-knowledge-api
+    elasticsearch:
+        uris: ${ELASTICSEARCH_URL:http://localhost:9200}
+        username: ${ELASTICSEARCH_USERNAME:}
+        password: ${ELASTICSEARCH_PASSWORD:}
+        connection-timeout: 3s
+        socket-timeout: 10s
+    http:
+        clients:
+            imperative:
+                # Elasticsearch 클라이언트가 함께 가져온 HttpClient 5로 Ollama 전송 계층이 바뀌지 않게 고정한다.
+                factory: reactor
     ai:
         model:
             chat: none
@@ -40,10 +51,7 @@ knowledge:
         max-chunk-characters: 1200
         overlap-characters: 150
     elasticsearch:
-        base-url: ${ELASTICSEARCH_URL:http://localhost:9200}
         index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge-disabled-v3}
-        username: ${ELASTICSEARCH_USERNAME:}
-        password: ${ELASTICSEARCH_PASSWORD:}
     search:
         default-limit: 10
         max-limit: 20

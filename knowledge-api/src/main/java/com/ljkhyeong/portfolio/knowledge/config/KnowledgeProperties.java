@@ -49,12 +49,7 @@ public record KnowledgeProperties(
     }
 
     public record Elasticsearch(
-            @DefaultValue("http://localhost:9200") String baseUrl,
-            @DefaultValue("portfolio-knowledge-disabled-v3") String indexName,
-            @DefaultValue("") String username,
-            @DefaultValue("") String password,
-            @PositiveOrZero @DefaultValue("3") int connectTimeoutSeconds,
-            @PositiveOrZero @DefaultValue("10") int readTimeoutSeconds
+            @DefaultValue("portfolio-knowledge-disabled-v3") String indexName
     ) {
     }
 

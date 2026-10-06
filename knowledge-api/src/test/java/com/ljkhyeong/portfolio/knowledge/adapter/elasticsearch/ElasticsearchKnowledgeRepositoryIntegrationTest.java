@@ -1,13 +1,15 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
-import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.List;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.mapping.DenseVectorIndexOptionsType;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
@@ -15,37 +17,62 @@ import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.health.actuate.endpoint.HealthEndpoint;
+import org.springframework.boot.health.contributor.Status;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-@Testcontainers(disabledWithoutDocker = true)
+@SpringBootTest(properties = "knowledge.elasticsearch.index-name=" + ElasticsearchKnowledgeRepositoryIntegrationTest.INDEX)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Testcontainers
 @Tag("integration")
 class ElasticsearchKnowledgeRepositoryIntegrationTest {
 
+    static final String INDEX = "portfolio-knowledge-integration-test";
+
     @Container
+    @ServiceConnection
     private static final ElasticsearchContainer ELASTICSEARCH = new ElasticsearchContainer(
-            DockerImageName.parse("portfolio-knowledge-elasticsearch:8.19.20-nori")
+            DockerImageName.parse("portfolio-knowledge-elasticsearch:9.4.8-nori")
                     .asCompatibleSubstituteFor("docker.elastic.co/elasticsearch/elasticsearch")
     ).withEnv("xpack.security.enabled", "false")
             .withEnv("ES_JAVA_OPTS", "-Xms512m -Xmx512m")
             .withStartupTimeout(Duration.ofSeconds(120));
 
-    private static ElasticsearchKnowledgeRepository repository;
+    @Autowired
+    private ElasticsearchKnowledgeRepository repository;
+
+    @Autowired
+    private ElasticsearchClient client;
+
+    @Autowired
+    private KnowledgeProperties properties;
+
+    @Autowired
+    private HealthEndpoint health;
 
     @BeforeAll
-    static void setUp() {
-        KnowledgeProperties properties = knowledgeProperties(
-                "elasticsearch.base-url", "http://" + ELASTICSEARCH.getHttpHostAddress(),
-                "elasticsearch.index-name", "portfolio-knowledge-integration-test"
-        );
-        repository = new ElasticsearchKnowledgeRepository(properties);
-        repository.checkHealth();
+    void setUp() {
+        assertThat(health.healthForPath("readiness").getStatus()).isEqualTo(Status.UP);
         String chunkingFingerprint = properties.source().chunkingFingerprint();
         repository.ensureIndex("test-model", 2, chunkingFingerprint);
         repository.ensureIndex("test-model", 2, chunkingFingerprint);
         repository.bulkIndex(List.of(chunk("integration-chunk")));
+    }
+
+    @Test
+    void 벡터_색인_방식을_서버_기본값과_무관하게_int8_hnsw로_고정한다() throws IOException {
+        var mappings = client.indices().getMapping(request -> request.index(INDEX)).get(INDEX).mappings();
+
+        assertThat(mappings.properties().get("embedding").denseVector().indexOptions().type())
+                .isEqualTo(DenseVectorIndexOptionsType.Int8Hnsw);
+        assertThat(mappings.properties().get("projectName").text().fields()).isEmpty();
     }
 
     @Test

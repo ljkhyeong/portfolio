@@ -119,7 +119,7 @@ sum(rate(knowledge_cache_lookups_total{cache="answer",result=~"hit|miss"}[5m]))
 
 관리 포트는 클러스터 내부에서만 연결합니다. 외부 Ingress에는 업무 API의 8080 포트만 연결하고 `/internal/*`는 제외합니다. API 인스턴스를 여러 개 쓰면 Pod별 수집이 필요하며, 현재 호출 제한도 인스턴스별로 적용됩니다. 홈서버 기본 구성은 API 한 개입니다.
 
-readiness는 Elasticsearch의 `green`·`yellow`를 허용하고, 연결 실패·상태 조회 시간 초과·`red`·판정 불가 상태는 HTTP `503`으로 반환합니다. 복구되면 다음 확인부터 정상으로 전환합니다. liveness는 Elasticsearch와 분리하며, 자료 버전·색인 완료 여부는 기존 `knowledge:sync`로 확인합니다.
+readiness는 Spring Boot 기본 Elasticsearch 상태 지표를 사용합니다. `green`·`yellow`는 허용하고, 연결 실패·응답 시간 초과·HTTP 오류는 `DOWN`, `red`는 `OUT_OF_SERVICE`로 모두 HTTP `503`을 반환합니다. 복구되면 다음 확인부터 정상으로 전환합니다. liveness는 Elasticsearch와 분리하며, 자료 버전·색인 완료 여부는 기존 `knowledge:sync`로 확인합니다.
 
 ## 이미지와 k3s 연결 기준
 
@@ -144,7 +144,7 @@ readiness는 Elasticsearch의 `green`·`yellow`를 허용하고, 연결 실패·
 ```bash
 npm ci
 npm run build
-docker build -f knowledge-api/elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:8.19.20-nori .
+docker build -f knowledge-api/elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:9.4.8-nori .
 docker build -f knowledge-api/Dockerfile -t portfolio-knowledge-api:local .
 ```
 

@@ -46,14 +46,14 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 
 외부 제공자(OpenAI, Ollama, Elasticsearch, Turnstile)는 Port 뒤의 Adapter로 둔다. 오류는 검색 결과를 유지하는 응답으로 변환한다. 시간 제한, 요청 크기 제한, 리다이렉트 거부 같은 기존 방어 규칙을 완화하지 않는다.
 
-| 범위           | 명령(`knowledge-api/`에서 실행)                                                                                                                      |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 파일 작성 직후 | `npm run check:file -- <파일...>`(루트에서 실행, Java 아키텍처 규칙 포함)                                                                            |
-| 단위 테스트    | `./gradlew test`                                                                                                                                     |
-| 통합 테스트    | 루트에서 `docker build -f knowledge-api/elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:8.19.20-nori .` 후 `./gradlew integrationTest` |
-| 배포 파일      | `./gradlew bootJar`                                                                                                                                  |
+| 범위           | 명령(`knowledge-api/`에서 실행)                                                                                                                    |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 파일 작성 직후 | `npm run check:file -- <파일...>`(루트에서 실행, Java 아키텍처 규칙 포함)                                                                          |
+| 단위 테스트    | `./gradlew test`                                                                                                                                   |
+| 통합 테스트    | 루트에서 `docker build -f knowledge-api/elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:9.4.8-nori .` 후 `./gradlew integrationTest` |
+| 배포 파일      | `./gradlew bootJar`                                                                                                                                |
 
-Docker가 없거나 이미지를 만들지 못하면 통합 테스트를 실행하지 않았다고 기록한다. 단위 테스트 통과를 통합 검증으로 보고하지 않는다. 청크 길이나 겹침을 바꾸면 인덱스 호환성 지문이 바뀌므로 새 `ELASTICSEARCH_INDEX` 이름과 전체 재색인이 필요하다고 안내한다.
+Docker가 없거나 이미지를 만들지 못하면 `integrationTest`는 건너뛰지 않고 실패한다. 이때는 통합 테스트를 실행하지 않았다고 기록한다. 단위 테스트 통과를 통합 검증으로 보고하지 않는다. 청크 길이나 겹침을 바꾸면 인덱스 호환성 지문이 바뀌므로 새 `ELASTICSEARCH_INDEX` 이름과 전체 재색인이 필요하다고 안내한다.
 
 ### 검색 화면을 바꿀 때
 

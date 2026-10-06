@@ -13,6 +13,8 @@ import com.sun.net.httpserver.HttpServer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
+import org.springframework.boot.http.client.ReactorClientHttpRequestFactoryBuilder;
 
 class OllamaEmbeddingTransportTest {
 
@@ -41,6 +43,8 @@ class OllamaEmbeddingTransportTest {
             assertThat(context.getBean(EmbeddingPort.class).embed(List.of("첫 문단", "두 번째 문단")))
                     .containsExactly(List.of(1f, 0f), List.of(0f, 1f));
             assertThat(requests.get()).isEqualTo(1);
+            assertThat(context.getBean(ClientHttpRequestFactoryBuilder.class))
+                    .isInstanceOf(ReactorClientHttpRequestFactoryBuilder.class);
         } finally {
             server.stop(0);
         }

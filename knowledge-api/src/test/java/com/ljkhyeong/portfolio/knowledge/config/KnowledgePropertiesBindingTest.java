@@ -99,7 +99,6 @@ class KnowledgePropertiesBindingTest {
             assertThat(properties.source().connectTimeoutSeconds()).isEqualTo(3);
             assertThat(properties.source().readTimeoutSeconds()).isEqualTo(10);
             assertThat(properties.source().maxBytes()).isEqualTo(8 * 1024 * 1024);
-            assertThat(properties.elasticsearch().readTimeoutSeconds()).isEqualTo(10);
         });
     }
 

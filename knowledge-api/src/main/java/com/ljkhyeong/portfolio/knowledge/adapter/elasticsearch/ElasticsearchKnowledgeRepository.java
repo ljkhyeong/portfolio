@@ -1,7 +1,6 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -15,8 +14,8 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.Conflicts;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.FieldValue;
-import co.elastic.clients.elasticsearch._types.HealthStatus;
 import co.elastic.clients.elasticsearch._types.Refresh;
+import co.elastic.clients.elasticsearch._types.mapping.DenseVectorIndexOptionsType;
 import co.elastic.clients.elasticsearch._types.mapping.DenseVectorSimilarity;
 import co.elastic.clients.elasticsearch._types.mapping.DynamicMapping;
 import co.elastic.clients.elasticsearch._types.mapping.Property;
@@ -28,12 +27,12 @@ import co.elastic.clients.elasticsearch.core.DeleteByQueryResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
+import co.elastic.clients.elasticsearch.core.search.HighlightField;
 import co.elastic.clients.elasticsearch.core.search.HighlighterOrder;
 import co.elastic.clients.elasticsearch.core.search.TotalHitsRelation;
 import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
 import co.elastic.clients.json.JsonData;
-import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
+import co.elastic.clients.util.NamedValue;
 import co.elastic.clients.util.ObjectBuilder;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
@@ -42,13 +41,6 @@ import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
-import jakarta.annotation.PreDestroy;
-import org.apache.http.HttpHost;
-import org.apache.http.message.BasicHeader;
-import org.elasticsearch.client.ResponseException;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -58,26 +50,11 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
     private static final int INDEXED_CHUNK_SCAN_LIMIT = 10_000;
 
     private final KnowledgeProperties properties;
-    private final RestClientTransport transport;
     private final ElasticsearchClient client;
 
-    public ElasticsearchKnowledgeRepository(KnowledgeProperties properties) {
+    public ElasticsearchKnowledgeRepository(KnowledgeProperties properties, ElasticsearchClient client) {
         this.properties = properties;
-        RestClient restClient = createRestClient(properties.elasticsearch());
-        this.transport = new RestClientTransport(restClient, new Jackson3JsonpMapper());
-        this.client = new ElasticsearchClient(transport);
-    }
-
-    public void checkHealth() {
-        var response = execute(
-                "Elasticsearch 상태를 확인하지 못했습니다.",
-                () -> client.cluster().health(request -> request.local(true).timeout(timeout -> timeout.time("2s")))
-        );
-        if (response.timedOut() || (response.status() != HealthStatus.Green && response.status() != HealthStatus.Yellow)) {
-            throw new KnowledgeIndexAccessException(
-                    "Elasticsearch가 요청을 처리할 준비가 되지 않았습니다: 상태=%s, 시간 초과=%s"
-                            .formatted(response.status(), response.timedOut()));
-        }
+        this.client = client;
     }
 
     @Override
@@ -89,17 +66,16 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
 
         execute("Elasticsearch 인덱스를 생성하지 못했습니다.", () -> client.indices().create(request -> request
                 .index(indexName())
-                .settings(settings -> settings.numberOfShards("1").numberOfReplicas("0"))
+                .settings(settings -> settings.numberOfReplicas("0"))
                 .mappings(mapping -> mapping
                         .dynamic(DynamicMapping.Strict)
                         .meta("embeddingModelId", JsonData.of(embeddingModelId))
                         .meta("embeddingDimensions", JsonData.of(dimensions))
                         .meta("chunkingFingerprint", JsonData.of(chunkingFingerprint))
-                        .meta("textAnalyzer", JsonData.of("nori"))
                         .properties("chunkId", keyword())
                         .properties("documentId", keyword())
                         .properties("projectId", keyword())
-                        .properties("projectName", textWithKeyword())
+                        .properties("projectName", analyzedText())
                         .properties("serviceId", keyword())
                         .properties("documentType", keyword())
                         .properties("title", analyzedText())
@@ -118,6 +94,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                                 .dims(dimensions)
                                 .index(true)
                                 .similarity(DenseVectorSimilarity.Cosine)
+                                .indexOptions(options -> options.type(DenseVectorIndexOptionsType.Int8Hnsw))
                         ))
                 )
         ));
@@ -232,8 +209,9 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 .source(source -> source.filter(sourceFilter -> sourceFilter.excludes("embedding")))
                 .query(bm25Query)
                 .highlight(highlight -> highlight.preTags("").postTags("")
-                        .fields("content", field -> field.fragmentSize(280).numberOfFragments(1)
-                                .noMatchSize(280).order(HighlighterOrder.Score).boundaryScannerLocale("ko-KR")))
+                        .fields(NamedValue.of("content", HighlightField.of(field -> field.fragmentSize(280)
+                                .numberOfFragments(1).noMatchSize(280).order(HighlighterOrder.Score)
+                                .boundaryScannerLocale("ko-KR")))))
         );
     }
 
@@ -255,15 +233,6 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                     return knn;
                 })
         );
-    }
-
-    @PreDestroy
-    void close() {
-        try {
-            transport.close();
-        } catch (IOException exception) {
-            throw new KnowledgeIndexAccessException("Elasticsearch 연결을 종료하지 못했습니다.", exception);
-        }
     }
 
     private void deleteByQuery(Query query) {
@@ -327,39 +296,27 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 "Elasticsearch 매핑을 조회하지 못했습니다.",
                 () -> client.indices().getMapping(request -> request.index(indexName()))
         );
-        var indexMapping = response.result().get(indexName());
+        var indexMapping = response.get(indexName());
         Map<String, JsonData> metadata = indexMapping == null
                 ? Map.of()
                 : indexMapping.mappings().meta();
         JsonData modelValue = metadata.get("embeddingModelId");
         JsonData dimensionsValue = metadata.get("embeddingDimensions");
         JsonData chunkingValue = metadata.get("chunkingFingerprint");
-        JsonData analyzerValue = metadata.get("textAnalyzer");
         String currentModel = modelValue == null ? "" : modelValue.to(String.class);
         int currentDimensions = dimensionsValue == null ? 0 : dimensionsValue.to(Integer.class);
         String currentChunkingFingerprint = chunkingValue == null ? "" : chunkingValue.to(String.class);
         if (!embeddingModelId.equals(currentModel)
                 || currentDimensions != dimensions
-                || !chunkingFingerprint.equals(currentChunkingFingerprint)
-                || analyzerValue == null || !"nori".equals(analyzerValue.to(String.class))) {
+                || !chunkingFingerprint.equals(currentChunkingFingerprint)) {
             throw new KnowledgeIndexAccessException(
-                    "현재 인덱스의 임베딩 모델, 차원, 청크 설정 또는 한국어 분석기가 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
+                    "현재 인덱스의 임베딩 모델, 차원 또는 청크 설정이 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
             );
         }
     }
 
     private Property analyzedText() {
-        return Property.of(property -> property.text(text -> text
-                .analyzer("nori")
-                .searchAnalyzer("nori")
-        ));
-    }
-
-    private Property textWithKeyword() {
-        return Property.of(property -> property.text(text -> text
-                .analyzer("nori")
-                .fields("raw", raw -> raw.keyword(keyword -> keyword))
-        ));
+        return Property.of(property -> property.text(text -> text.analyzer("nori")));
     }
 
     private Property keyword() {
@@ -433,48 +390,14 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }
     }
 
-    private RestClient createRestClient(KnowledgeProperties.Elasticsearch configuration) {
-        RestClientBuilder builder = RestClient.builder(HttpHost.create(configuration.baseUrl()))
-                .setRequestConfigCallback(request -> request
-                        .setConnectTimeout(configuration.connectTimeoutSeconds() * 1_000)
-                        .setSocketTimeout(configuration.readTimeoutSeconds() * 1_000)
-                );
-        if (StringUtils.hasText(configuration.username())) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setBasicAuth(
-                    configuration.username(),
-                    configuration.password(),
-                    StandardCharsets.UTF_8
-            );
-            builder.setDefaultHeaders(new BasicHeader[]{
-                    new BasicHeader(HttpHeaders.AUTHORIZATION, headers.getFirst(HttpHeaders.AUTHORIZATION))
-            });
-        }
-        return builder.build();
-    }
-
     private <T> T execute(String message, ElasticsearchCall<T> call) {
         try {
             return call.execute();
-        } catch (IOException | ElasticsearchException exception) {
-            throw accessException(message, exception);
+        } catch (ElasticsearchException exception) {
+            throw new KnowledgeIndexAccessException(message + " 상태 코드: " + exception.status(), exception);
+        } catch (IOException exception) {
+            throw new KnowledgeIndexAccessException(message, exception);
         }
-    }
-
-    private KnowledgeIndexAccessException accessException(String message, Exception exception) {
-        if (exception instanceof ElasticsearchException elasticsearchException) {
-            return new KnowledgeIndexAccessException(
-                    message + " 상태 코드: " + elasticsearchException.status(),
-                    exception
-            );
-        }
-        if (exception instanceof ResponseException responseException) {
-            return new KnowledgeIndexAccessException(
-                    message + " 상태 코드: " + responseException.getResponse().getStatusLine().getStatusCode(),
-                    exception
-            );
-        }
-        return new KnowledgeIndexAccessException(message, exception);
     }
 
     private String indexName() {

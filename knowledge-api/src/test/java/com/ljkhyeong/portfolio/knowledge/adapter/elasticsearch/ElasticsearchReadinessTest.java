@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.sun.net.httpserver.HttpServer;
@@ -14,7 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.elasticsearch.autoconfigure.ElasticsearchProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
@@ -43,11 +45,14 @@ class ElasticsearchReadinessTest {
     @LocalServerPort
     private int port;
 
+    @Autowired
+    private ElasticsearchProperties elasticsearch;
+
     private RestTestClient client;
 
     @DynamicPropertySource
     static void elasticsearchProperties(DynamicPropertyRegistry registry) {
-        registry.add("knowledge.elasticsearch.base-url",
+        registry.add("spring.elasticsearch.uris",
                 () -> "http://127.0.0.1:" + ELASTICSEARCH.getAddress().getPort());
     }
 
@@ -64,24 +69,16 @@ class ElasticsearchReadinessTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"green, 200, UP", "yellow, 200, UP", "red, 503, DOWN",
-            "unknown, 503, DOWN", "unavailable, 503, DOWN"})
+    @CsvSource({"green, 200, UP", "yellow, 200, UP", "red, 503, OUT_OF_SERVICE"})
     void HTTP_200이어도_실제_상태로_readiness를_판정한다(String status, int httpStatus, String readiness) {
         response = HEALTH_RESPONSE.formatted(status, false);
         assertHealth("readiness", httpStatus, readiness);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"green", "yellow"})
-    void 상태_조회가_시간_초과되면_readiness는_503이다(String status) {
-        response = HEALTH_RESPONSE.formatted(status, true);
-        assertHealth("readiness", 503, "DOWN");
-    }
-
     @Test
     void 상태가_복구되면_다음_readiness부터_요청을_받는다() {
         response = HEALTH_RESPONSE.formatted("red", false);
-        assertHealth("readiness", 503, "DOWN");
+        assertHealth("readiness", 503, "OUT_OF_SERVICE");
         response = HEALTH_RESPONSE.formatted("green", false);
         assertHealth("readiness", 200, "UP");
     }
@@ -101,6 +98,12 @@ class ElasticsearchReadinessTest {
                 {"error":{"type":"unavailable_shards_exception","reason":"test"},"status":503}
                 """;
         assertHealth("readiness", 503, "DOWN");
+    }
+
+    @Test
+    void 연결과_응답_대기_시간을_기본_설정값으로_제한한다() {
+        assertThat(elasticsearch.getConnectionTimeout()).isEqualTo(Duration.ofSeconds(3));
+        assertThat(elasticsearch.getSocketTimeout()).isEqualTo(Duration.ofSeconds(10));
     }
 
     private void assertHealth(String group, int httpStatus, String status) {

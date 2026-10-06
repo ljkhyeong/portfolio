@@ -43,6 +43,8 @@ jobs:
         name: 문서 생성 및 검색 API 테스트
         runs-on: ubuntu-latest
         timeout-minutes: 15
+        env:
+            ES_IMAGE: portfolio-knowledge-elasticsearch:9.4.8-nori
 
         steps:
             - name: 저장소 확인
@@ -75,7 +77,7 @@ jobs:
                   git diff --exit-code -- public/knowledge/portfolio.json
 
             - name: 한국어 검색 이미지 준비
-              run: docker build -f knowledge-api/elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:8.19.20-nori .
+              run: docker build -f knowledge-api/elasticsearch.Dockerfile -t "$ES_IMAGE" .
 
             - name: 검색 API 검증
               working-directory: knowledge-api
@@ -96,7 +98,7 @@ jobs:
                   KNOWLEDGE_SYNC_KEY: ci-evaluation-only
               run: |
                   mkdir -p output/validation
-                  docker run -d --rm --name knowledge-evaluation-es -p 127.0.0.1:19200:9200 -e discovery.type=single-node -e xpack.security.enabled=false -e ES_JAVA_OPTS="-Xms512m -Xmx512m" portfolio-knowledge-elasticsearch:8.19.20-nori
+                  docker run -d --rm --name knowledge-evaluation-es -p 127.0.0.1:19200:9200 -e discovery.type=single-node -e xpack.security.enabled=false -e ES_JAVA_OPTS="-Xms512m -Xmx512m" "$ES_IMAGE"
                   trap 'docker stop knowledge-evaluation-api knowledge-evaluation-es >/dev/null 2>&1 || true' EXIT
                   for attempt in {1..90}; do
                     if curl -fsS http://127.0.0.1:19200/_cluster/health >/dev/null; then break; fi

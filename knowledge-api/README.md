@@ -7,7 +7,7 @@
 -   Java 21
 -   Spring Boot 4.1.0
 -   Spring AI 2.0.0
--   Elasticsearch 8.19.20 + 한국어 분석기 Nori
+-   Elasticsearch 9.4.8 + 한국어 분석기 Nori
 -   운영 AI: OpenAI
 -   로컬 AI: Ollama
 
@@ -32,7 +32,7 @@ KNOWLEDGE_SYNC_ON_STARTUP=true ./gradlew bootRun
 
 인덱스 생성과 호환성 검사는 첫 검색에서 한 번 수행하고 동기화 때 다시 실행합니다. 초기화 실패는 다음 요청에서 재시도합니다. 실행 중 외부에서 인덱스를 교체했다면 내부 동기화를 호출하거나 앱을 재시작해야 호환성을 다시 확인합니다.
 
-빌드 시 루트의 `public/knowledge/portfolio.json`을 생성 리소스 디렉터리로 복사합니다. JAR에 별도 문서 사본을 직접 관리하지 않으므로 원본과 색인 자료가 달라지는 문제를 막습니다.
+빌드 시 루트의 `public/knowledge/portfolio.json`을 리소스 처리 단계에서 JAR에 포함합니다. JAR에 별도 문서 사본을 직접 관리하지 않으므로 원본과 색인 자료가 달라지는 문제를 막습니다.
 
 ## OpenAI 운영 프로필
 
@@ -88,7 +88,7 @@ Content-Type: application/json
 
 응답의 `results`에는 `chunkId`, 프로젝트와 서비스, 문서 종류, 제목, 관련 문단, 원문 URL 또는 포트폴리오 경로와 RRF 점수가 포함됩니다. 목록은 문서별 최상위 문단 하나만 표시합니다.
 
-Elasticsearch 검색은 부분 결과를 허용하지 않도록 요청합니다. HTTP 200이어도 시간 초과·샤드 실패·조기 종료나 문서 본문 누락이 있으면 결과를 사용하지 않습니다. 키워드 검색이 불완전하면 `503 / SEARCH_UNAVAILABLE`로 종료하고, 벡터 검색만 실패하면 정상 키워드 결과를 유지합니다. [Elasticsearch 검색 응답](https://www.elastic.co/docs/api/doc/elasticsearch/v8/operation/operation-search).
+Elasticsearch 검색은 부분 결과를 허용하지 않도록 요청합니다. HTTP 200이어도 시간 초과·샤드 실패·조기 종료나 문서 본문 누락이 있으면 결과를 사용하지 않습니다. 키워드 검색이 불완전하면 `503 / SEARCH_UNAVAILABLE`로 종료하고, 벡터 검색만 실패하면 정상 키워드 결과를 유지합니다. [Elasticsearch 검색 응답](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-search).
 
 `projectIds`, `serviceIds`, `documentTypes`는 선택 필터입니다. BATON의 Core·GO·WATCH·RELAY·BRIEF·CAL·ROUND 문서만 조회할 때는 `projectIds`와 `serviceIds`를 함께 지정합니다. 검색과 답변 API에 같은 필터를 전달해야 결과와 답변 근거의 범위가 일치합니다.
 
@@ -214,9 +214,11 @@ AI 답변 생성은 기본적으로 인스턴스 전체 분당 30회, 클라이�
 
 현재 호출 제한 카운터는 인스턴스 메모리에 저장됩니다. 서버를 여러 대로 확장하면 인스턴스별로 한도가 따로 적용되지만, Turnstile을 켠 답변 요청은 각 인스턴스에서 같은 외부 검증을 거칩니다. 정확한 전체 호출 상한이 필요하면 API Gateway 또는 Redis 기반의 공유 호출 제한으로 교체해야 합니다. 역방향 프록시 뒤에서는 프록시가 외부의 전달 헤더를 덮어쓰도록 설정하고, 신뢰할 수 있는 구간에서만 `AI_TRUST_PROXY_HEADERS`를 활성화합니다.
 
-Compose의 Knowledge API 상태 확인은 `/actuator/health/readiness`를 사용합니다. Elasticsearch 연결 실패·상태 조회 시간 초과·`red`·판정 불가 상태는 `DOWN`과 HTTP `503`을 반환합니다. HTTP 200이어도 응답 본문의 상태를 검사하며, `green`과 `yellow`는 요청 수신을 허용합니다. [Elasticsearch 상태 API](https://www.elastic.co/docs/api/doc/elasticsearch/v8/operation/operation-cluster-health).
+Compose의 Knowledge API 상태 확인은 `/actuator/health/readiness`를 사용하며, Spring Boot 기본 Elasticsearch 상태 지표가 클러스터 상태를 조회합니다. 연결 실패, 응답 시간 초과와 HTTP 오류는 `DOWN`, `red`는 `OUT_OF_SERVICE`로 모두 HTTP `503`을 반환합니다. HTTP 200이어도 응답 본문의 상태를 검사하며, `green`과 `yellow`는 요청 수신을 허용합니다. [Elasticsearch 상태 API](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cluster-health).
 
 복구되면 다음 상태 확인부터 정상으로 전환합니다. `/actuator/health/liveness`는 Elasticsearch를 조회하지 않아 검색 서버 장애로 API 프로세스를 재시작하지 않습니다. readiness는 클러스터 상태를 검사하며, 자료 버전·색인 완료 여부는 `knowledge:sync`의 상태 검사로 확인합니다.
+
+Elasticsearch 연결은 Spring Boot 자동 설정을 사용합니다. `ELASTICSEARCH_URL`, `ELASTICSEARCH_USERNAME`, `ELASTICSEARCH_PASSWORD`를 `spring.elasticsearch.*`에 연결하고, 연결은 3초, 응답 대기는 10초로 제한하며 리다이렉트를 따라가지 않습니다. 시간 제한은 `SPRING_ELASTICSEARCH_CONNECTION_TIMEOUT`, `SPRING_ELASTICSEARCH_SOCKET_TIMEOUT`으로 조정합니다. 사용자 이름과 비밀번호는 서버의 인증 요청을 받은 뒤 보내므로, 인증을 켠 클러스터에서는 요청마다 왕복이 한 번 늘지 않도록 `SPRING_ELASTICSEARCH_API_KEY`를 권장합니다. [Spring Boot Elasticsearch](https://docs.spring.io/spring-boot/reference/data/nosql.html#data.nosql.elasticsearch).
 
 `docker-compose.yml`의 Elasticsearch 보안 비활성화 설정은 로컬 개발용입니다. 공개 운영 환경에서는 TLS와 인증이 설정된 관리형 Elasticsearch를 사용하거나 Elasticsearch를 비공개 네트워크에 배치해야 합니다.
 
@@ -230,13 +232,13 @@ CORS 기본 허용 주소는 다음 두 개이며 와일드카드를 사용하�
 ## 검증
 
 ```bash
-docker build -f elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:8.19.20-nori ..
+docker build -f elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:9.4.8-nori ..
 ./gradlew test
 ./gradlew integrationTest
 ./gradlew bootJar
 ```
 
-단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. `DependencyRulesTest`는 Domain·Port의 독립성과 Controller·Service의 계층 간 의존 규칙을 확인합니다. 통합 테스트는 위에서 빌드한 Nori 이미지에서 임베딩 유무, 한국어 조사, BM25 및 kNN 검색을 확인합니다.
+단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. `DependencyRulesTest`는 Domain·Port의 독립성과 Controller·Service의 계층 간 의존 규칙을 확인합니다. 통합 테스트는 위에서 빌드한 Nori 이미지를 Testcontainers로 실행하고, Spring Boot 자동 설정 연결과 readiness, 벡터 색인 방식(`int8_hnsw`), 임베딩 유무, 한국어 조사, BM25 및 kNN 검색을 확인합니다. Docker가 없거나 이미지를 만들지 않았으면 건너뛰지 않고 실패합니다.
 
 ## 검색 품질과 배포 자료 확인
 

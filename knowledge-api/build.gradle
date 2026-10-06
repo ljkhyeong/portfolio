@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '4.1.0'
@@ -12,44 +14,33 @@ java {
     }
 }
 
-def generatedKnowledgeResources = layout.buildDirectory.dir('generated/knowledge-resources')
-
-sourceSets {
-    main {
-        resources.srcDir(generatedKnowledgeResources)
-    }
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation platform('org.springframework.boot:spring-boot-dependencies:4.1.0')
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
     implementation platform('org.springframework.ai:spring-ai-bom:2.0.0')
-    testImplementation platform('org.springframework.boot:spring-boot-dependencies:4.1.0')
+    annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES)
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-elasticsearch'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.github.ben-manes.caffeine:caffeine'
     implementation 'com.bucket4j:bucket4j_jdk17-core:8.19.0'
     implementation 'org.commonmark:commonmark-ext-gfm-tables:0.30.0'
-    implementation('co.elastic.clients:elasticsearch-java') {
-        version {
-            strictly '8.19.19'
-        }
-    }
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
     implementation 'org.springframework.ai:spring-ai-starter-model-ollama'
 
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:4.1.0'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'com.tngtech.archunit:archunit-junit5:1.5.0'
-    testImplementation 'org.testcontainers:junit-jupiter:1.21.3'
-    testImplementation 'org.testcontainers:elasticsearch:1.21.3'
+    testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
+    testImplementation 'org.testcontainers:testcontainers-elasticsearch'
 }
 
 tasks.named('test') {
@@ -58,13 +49,10 @@ tasks.named('test') {
     }
 }
 
-tasks.register('syncKnowledgeManifest', Copy) {
-    from(layout.projectDirectory.file('../public/knowledge/portfolio.json'))
-    into(generatedKnowledgeResources.map { it.dir('knowledge') })
-}
-
-tasks.named('processResources') {
-    dependsOn tasks.named('syncKnowledgeManifest')
+tasks.named('processResources', ProcessResources) {
+    from(layout.projectDirectory.file('../public/knowledge/portfolio.json')) {
+        into 'knowledge'
+    }
 }
 
 tasks.register('integrationTest', Test) {

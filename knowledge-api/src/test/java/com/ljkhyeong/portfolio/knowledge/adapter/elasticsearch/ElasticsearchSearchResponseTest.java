@@ -9,6 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.sun.net.httpserver.HttpServer;
@@ -36,6 +38,7 @@ class ElasticsearchSearchResponseTest {
     private final List<Request> requests = new CopyOnWriteArrayList<>();
     private volatile String response = COMPLETE;
     private HttpServer server;
+    private ElasticsearchClient client;
     private ElasticsearchKnowledgeRepository repository;
 
     @BeforeEach
@@ -53,14 +56,15 @@ class ElasticsearchSearchResponseTest {
             }
         });
         server.start();
-        repository = new ElasticsearchKnowledgeRepository(knowledgeProperties(
-                "elasticsearch.base-url", "http://127.0.0.1:" + server.getAddress().getPort()));
+        String url = "http://127.0.0.1:" + server.getAddress().getPort();
+        client = ElasticsearchClient.of(config -> config.host(url).jsonMapper(new Jackson3JsonpMapper()));
+        repository = new ElasticsearchKnowledgeRepository(knowledgeProperties(), client);
     }
 
     @AfterEach
-    void close() {
+    void close() throws Exception {
         try {
-            if (repository != null) repository.close();
+            if (client != null) client.close();
         } finally {
             if (server != null) server.stop(0);
         }
