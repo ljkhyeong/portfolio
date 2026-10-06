@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:2419bbde182a",
+  "sourceRevision": "sha256:e509c4cc8871",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -22,7 +22,7 @@
   "documents": [
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:60e67ac1571d",
+      "sourceRevision": "sha256:84421cab5a09",
       "documentId": "knowledge_8912b20b35d7ee59c5fdbf08",
       "projectId": "baton",
       "projectName": "BATON",
@@ -30,13 +30,13 @@
       "documentType": "project_overview",
       "title": "BATON 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: BATON\n\n역할, 반복 업무, 인수인계 서비스\n\n역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.\n\n기간: 2026.07.20 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소 6개\n\n담당: Core와 6개 서비스의 API, 데이터 저장, 이벤트 전달, 중단 작업 재처리 설계와 구현\n\n주요 구현 및 해결: 여러 팀의 오늘 할 일과 인수인계 문서를 Core에 모으고, 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC를 독립 서비스로 구현했습니다.\n\n현재 상태: 여러 팀의 내 업무 모아 보기, 자료 정기 확인 일정, 주간 보고서 필터와 공유, 개인 캘린더 구독을 구현했습니다.\n\n사용 기술: Java 21 / 25, Kotlin 2.4.10, TypeScript, Spring Boot, Spring MVC, Spring Data JPA / Spring JDBC, React 19 / Vite, MySQL 8.4 / PostgreSQL 18, Flyway, RabbitMQ 4.3 / Discord / AWS SQS FIFO, iCal4j 4.3, WebRTC / Spring WebSocket, Testcontainers / Playwright, Docker / Kubernetes / Caddy",
+      "content": "프로젝트: BATON\n\n역할, 반복 업무, 인수인계 서비스\n\n역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.\n\n기간: 2026.07.20 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소 6개\n\n담당: Core와 6개 서비스의 API, 데이터 저장, 이벤트 전달, 중단 작업 재처리 설계와 구현\n\n주요 구현 및 해결: 여러 팀의 오늘 할 일과 인수인계 문서를 Core에 모으고, 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC를 독립 서비스로 구현했습니다.\n\n확인한 범위: Core와 6개 서비스를 구현하고 서비스별 통합 테스트로 확인했습니다. Core와 BRIEF, CAL, ROUND의 연동은 로컬에서만 확인했고, 실제 자격 증명으로 6개 서비스를 모두 연결하는 것은 아직 확인하지 않았습니다.\n\n현재 상태: 여러 팀의 내 업무 모아 보기, 자료 정기 확인 일정, 주간 보고서 필터와 공유, 개인 캘린더 구독을 구현했습니다.\n\n사용 기술: Java 21 / 25, Kotlin 2.4.10, TypeScript, Spring Boot, Spring MVC, Spring Data JPA / Spring JDBC, React 19 / Vite, MySQL 8.4 / PostgreSQL 18, Flyway, RabbitMQ 4.3 / Discord / AWS SQS FIFO, iCal4j 4.3, WebRTC / Spring WebSocket, Testcontainers / Playwright, Docker / Kubernetes / Caddy",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-overview",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "60e67ac1571da60238d79582e287ac98a11389f025951f70d0ca0bee00a586a6",
-      "contentHash": "38d6c9846d4481d87abd91adc54cdf6550b5121d70884eb9c9c73d8650ea555c"
+      "sourceHash": "84421cab5a094fc2a1f55534341e630ce82e3ffec0f53383f33dd647a44c3f3b",
+      "contentHash": "5de2cd47206b92fa9690bbfc6bfb671058b0011ba653ce56c27a563dec4b995f"
     },
     {
       "schemaVersion": "1.0",
@@ -616,7 +616,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:651937b39531",
+      "sourceRevision": "sha256:bf1ec147af2f",
       "documentId": "knowledge_a7c844f9619aa89663f2d166",
       "projectId": "warrant",
       "projectName": "전송형 전자영장 시스템",
@@ -624,13 +624,13 @@
       "documentType": "project_overview",
       "title": "전송형 전자영장 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 형사사법정보시스템(KICS) 요청을 통신사용 또는 포털용 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현\n\n주요 구현 및 해결: KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.\n\n현재 상태: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
+      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 형사사법정보시스템(KICS) 요청을 통신사용 또는 포털용 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현\n\n주요 구현 및 해결: KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.\n\n확인한 범위: 기관별 요청 변환과 Spring Batch를 구현했고, 독립망 연계와 PDF 응답 순서 역전 처리를 시나리오로 확인했습니다. 성능 테스트 환경에서는 100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류, DB 잠금 문제 없이 전량 처리했습니다.\n\n공개 범위: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/e-warrant#project-overview",
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "651937b3953152613816e7b588876aa39ff2e3247e76a09942e1708307905501",
-      "contentHash": "d255761f5d649cef36fbe26a4b5bcb62b403b70361d56ce0dddcee9ba4ca388f"
+      "sourceHash": "bf1ec147af2f8d0abf1f852789011d20cc4b651c03dedf26169ef20a18e6b20f",
+      "contentHash": "72b0766802e22b0df66c478a243de796bd2d44707ee0ff8bc48eabc77d900dde"
     },
     {
       "schemaVersion": "1.0",
@@ -706,7 +706,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:7e5500964251",
+      "sourceRevision": "sha256:5c76d21c4024",
       "documentId": "knowledge_e35aae37f4a24244d1c3cdc7",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -714,13 +714,13 @@
       "documentType": "project_overview",
       "title": "happyGallery 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: happyGallery\n\n공방 상품 판매와 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 서비스와 저장소 공개\n\n담당: 요구사항 정리, Java와 Spring Boot API, React 화면, 결제와 스마트스토어 연동, 자동화 테스트\n\n주요 구현 및 해결: 상품 주문, 간편결제, 클래스 예약, 스마트스토어 주문과 재고 연동을 하나의 서비스로 구현했습니다.\n\n현재 상태: 카드는 Toss 통합 결제창, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
+      "content": "프로젝트: happyGallery\n\n공방 상품 판매와 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 서비스와 저장소 공개\n\n담당: 요구사항 정리, Java와 Spring Boot API, React 화면, 결제와 스마트스토어 연동, 자동화 테스트\n\n주요 구현 및 해결: 상품 주문, 간편결제, 클래스 예약, 스마트스토어 주문과 재고 연동을 하나의 서비스로 구현했습니다.\n\n확인한 범위: 주문, 예약, 스마트스토어 연동을 구현하고 Testcontainers 통합 테스트와 E2E로 확인했습니다. 공개 서비스의 HTTPS 접속도 확인했지만, 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.\n\n그 밖의 구현: 카드는 Toss 통합 결제창, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-overview",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "7e5500964251d05527ecb146cbadc5e80ead7c70ef9db92bbda5095ac6b1b544",
-      "contentHash": "3e177752473f4ee12c924b14707108ff01e8d3299e76f49bfc82b4def2907d99"
+      "sourceHash": "5c76d21c4024a84e93b4565975a90e4a1afbefbd1623f719bf505ef541a89bb8",
+      "contentHash": "e54dc3375ee4d39495fd2076aaa86302e3d948bb6ee60413f49f0173bfc9a6b9"
     },
     {
       "schemaVersion": "1.0",
@@ -1210,7 +1210,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:4c90cc30ba15",
+      "sourceRevision": "sha256:0b5502a5cf6d",
       "documentId": "knowledge_fd9930085b2ae766b2b1253e",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1218,13 +1218,13 @@
       "documentType": "project_overview",
       "title": "청년정책메이트 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색과 일정 관리 웹앱\n\n정책 40건을 검색하고 11종의 신청 요건을 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.\n\n기간: 2026.08.30 — 현재\n\n구분: 개인 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java와 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인하지 못한 조건과 마감일은 ‘추가 확인 필요’로 표시하고, 이전 정책이나 AI 결과가 최신 데이터를 덮지 않도록 처리합니다.\n\n현재 상태: 공개 main 24c924c에 정책 조건의 버전 관리, AI 초안 검토와 관심 정책의 저장 시점 비교를 반영했습니다. 개발 브랜치 4f7d030에는 이메일 발송 상태 조회, 수신 해제, 암호화 키 교체를 구현했습니다. 실제 OAuth, OpenAI, Resend 운영 연동은 미검증입니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring JDBC, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
+      "content": "프로젝트: 청년정책메이트\n\n서울 청년 정책 탐색과 일정 관리 웹앱\n\n정책 40건을 검색하고, 그중 11건은 신청 요건 일부를 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.\n\n기간: 2026.08.30 — 현재\n\n구분: 개인 웹앱 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: 제품 요구사항, Next.js 화면, Java와 Spring Boot 서버, PostgreSQL 상태 모델과 자동화 테스트 구현\n\n주요 구현 및 해결: 확인하지 못한 조건과 마감일은 ‘추가 확인 필요’로 표시하고, 이전 정책이나 AI 결과가 최신 데이터를 덮지 않도록 처리합니다.\n\n확인한 범위: 조건 질문, 관심 정책 일정과 알림을 구현하고 PostgreSQL 통합 테스트로 확인했습니다. 조건 규칙의 버전 관리와 AI 초안 검토는 공개 main 24c924c에 반영했고, OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.\n\n그 밖의 구현: 개발 브랜치 4f7d030에는 이메일 발송 상태 조회, 수신 해제, 암호화 키 교체를 구현했습니다.\n\n사용 기술: Java 25, Spring Boot 4.1.1, Spring MVC, Spring JDBC, Flyway, PostgreSQL 18, Next.js 16.3, React 19.2, TypeScript 5.9, OpenAPI, Testcontainers, GitHub Actions",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-overview",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "4c90cc30ba155ca78103f58a51ad8bd4212b1e1e433467e4d43418f92f325c9a",
-      "contentHash": "292775011747a508958faeea428a2eb39748798fe676fca87b657138571e9eed"
+      "sourceHash": "0b5502a5cf6d1b76a7724f265f9e6520bf4ad5163f63bbe1af3abd6fb4ac1a50",
+      "contentHash": "8082496d4addfed774da3733f8abc7a33519a3971118277e547587989216f37d"
     },
     {
       "schemaVersion": "1.0",
@@ -1552,7 +1552,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:103590c82ad3",
+      "sourceRevision": "sha256:aaa783b958ce",
       "documentId": "knowledge_196d5b180644fac747338191",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1560,13 +1560,13 @@
       "documentType": "project_overview",
       "title": "Hope Commit 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: Hope Commit\n\nHope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML\n\nSeungIl 님의 Hope 6.0.0을 포크한 비공식 도구입니다. 지정한 커밋만 검토하고 각 설명을 실제 변경 줄에 연결한 오프라인 HTML 리뷰를 생성합니다.\n\n기간: 2026.08.22 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: SeungIl 님의 Hope 6.0.0 포크에 로컬 커밋 비교, 참조한 코드를 표시하는 HTML 리뷰와 자동화 테스트 추가\n\n주요 구현 및 해결: 지정한 커밋의 diff만 리뷰하고, 참조한 파일과 코드 줄을 검증한 결과를 새 HTML로 저장합니다.\n\n현재 상태: SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 구분했습니다. 최신 공개 버전은 v5.0.2(main 9d8392d)입니다.\n\n사용 기술: JavaScript, Node.js 22 이상, Git CLI, JSON Schema, HTML / CSS, Node Test Runner, Playwright",
+      "content": "프로젝트: Hope Commit\n\nHope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML\n\nSeungIl 님의 Hope 6.0.0을 포크한 비공식 도구입니다. 지정한 커밋만 검토하고 각 설명을 실제 변경 줄에 연결한 오프라인 HTML 리뷰를 생성합니다.\n\n기간: 2026.08.22 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: SeungIl 님의 Hope 6.0.0 포크에 로컬 커밋 비교, 참조한 코드를 표시하는 HTML 리뷰와 자동화 테스트 추가\n\n주요 구현 및 해결: 지정한 커밋의 diff만 리뷰하고, 참조한 파일과 코드 줄을 검증한 결과를 새 HTML로 저장합니다.\n\n확인한 범위: 커밋 AI 리뷰 HTML(Commit Diff)을 구현해 Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.\n\n공개 상태: SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 원본과 구분했습니다.\n\n사용 기술: JavaScript, Node.js 22 이상, Git CLI, JSON Schema, HTML / CSS, Node Test Runner, Playwright",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-overview",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "103590c82ad3b3a9014904e8eed59b19cebc715e7d0ab156135a9f51bc7639c6",
-      "contentHash": "0ae6903802af59d5778f668cb6a40f37dd24e191271e861e49e91988fb7c6c37"
+      "sourceHash": "aaa783b958cecfb602677b967ab89e9a17b28d76f745e880737d050adce3119e",
+      "contentHash": "d361480dfaa8a4d2164fea5ad1fc44dabec311c72aabd0e5840b0ebde016caac"
     },
     {
       "schemaVersion": "1.0",
@@ -1732,7 +1732,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:107a184e80f6",
+      "sourceRevision": "sha256:c365b91c4904",
       "documentId": "knowledge_047a8f8c6427b84a32857d43",
       "projectId": "intent-trace",
       "projectName": "IntentTrace",
@@ -1740,13 +1740,13 @@
       "documentType": "project_overview",
       "title": "IntentTrace 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: IntentTrace\n\nAI 코드 변경의 요청, 근거, 검증 기록\n\nAI 코드의 변경 이유와 검증 결과를 커밋, 파일, 줄에 연결해 남깁니다. 웹과 IDE에서 기록을 검색하고 원본 코드, 이슈, PR, CI 결과를 함께 확인합니다.\n\n기간: 2026.08.27 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: Kotlin Spring 서버, 웹 기록 조회와 원본 비교, GitHub 인증과 게시, IntelliJ, Zed, MCP 연동 구현\n\n주요 구현 및 해결: 사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.\n\n현재 상태: 공개 릴리스는 v0.7.0입니다. 개발 브랜치 125684c에는 IntelliJ 기록 검색과 내 폐기 기록 필터, 웹 코드 위치 추적, 연결 진단의 PR HEAD와 커밋 일치 확인을 구현했습니다. 실제 GitHub 게시와 공개 운영은 미검증입니다.\n\n사용 기술: Kotlin 2.3.21, JDK 21, Spring Boot 4.1.1, Spring AI MCP 2.0.1, Spring MVC, Spring Data JDBC, Flyway, PostgreSQL 17 / H2, Docker Compose / Caddy, IntelliJ Platform 2025.3.2, Zed / MCP stdio",
+      "content": "프로젝트: IntentTrace\n\nAI 코드 변경의 요청, 근거, 검증 기록\n\nAI 코드의 변경 이유와 검증 결과를 커밋, 파일, 줄에 연결해 남깁니다. 웹과 IDE에서 기록을 검색하고 원본 코드, 이슈, PR, CI 결과를 함께 확인합니다.\n\n기간: 2026.08.27 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: Kotlin Spring 서버, 웹 기록 조회와 원본 비교, GitHub 인증과 게시, IntelliJ, Zed, MCP 연동 구현\n\n주요 구현 및 해결: 사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.\n\n확인한 범위: 서버, 웹 조회와 IntelliJ, Zed 연동을 구현했고 공개 main e234584에서 서버 테스트 180개가 통과했습니다. v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했지만, 실제 PR Check Run 게시와 공개 운영은 아직 확인하지 않았습니다.\n\n그 밖의 구현: 개발 브랜치 125684c에는 IntelliJ 기록 검색과 내 폐기 기록 필터, 웹 코드 위치 추적, 연결 진단의 PR HEAD와 커밋 일치 확인을 구현했습니다.\n\n사용 기술: Kotlin 2.3.21, JDK 21, Spring Boot 4.1.1, Spring AI MCP 2.0.1, Spring MVC, Spring Data JDBC, Flyway, PostgreSQL 17 / H2, Docker Compose / Caddy, IntelliJ Platform 2025.3.2, Zed / MCP stdio",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/intent-trace#project-overview",
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "107a184e80f6f6e7e45152b0a26616bb65a9808bbc166a4564eb035da5c71e3d",
-      "contentHash": "586b06d4ea3f3165af6eb8d00dfeb53d5d0398eede75205bd6680fe802245194"
+      "sourceHash": "c365b91c4904a6e8e9562a68f3fa35acc8ef0d25cd7864c7247410574e5d34c6",
+      "contentHash": "32c39c2b8ef874b87b8542f4675b9e9f5847e9f80481d273c7cb49e4911823a0"
     },
     {
       "schemaVersion": "1.0",
@@ -1984,20 +1984,20 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:da71b977c7e5",
+      "sourceRevision": "sha256:96b104bcc888",
       "documentId": "knowledge_4ae79e94e2cbb1836dd99a83",
       "projectId": "intent-trace",
       "projectName": "IntentTrace",
       "serviceId": null,
       "documentType": "representative_document",
-      "title": "GitHub 이슈·PR과 Actions 결과 조회",
+      "title": "GitHub 이슈, PR과 Actions 결과 조회",
       "heading": "ADR",
       "content": "# ADR-0012: GitHub 이슈·PR 내용과 CI 결과를 조회한다\n\n## 목적\n\n이슈·PR의 요청 내용을 초안에 활용하고 이미 실행된 CI 결과를 조회한다. 기존 GitHub 연결을 사용하며 유료 서비스, 새 워크플로 실행, 로그·아티팩트 저장, 자동 폴링과 CI 결과 수신용 웹훅을 추가하지 않는다.\n\n## 이슈·PR 내용\n\n- `GET /api/v1/github/request-context?repositoryKey=owner/repository&number=7`과 MCP `get_github_request_context`는 같은 서비스를 호출한다. GitHub의 이슈 조회 API가 PR도 반환하므로 요청 경로는 하나다.\n- 매 요청 저장소 읽기 권한을 확인하고 현재 사용자의 메모리 토큰을 사용한다. GitHub 응답의 번호·원문 URL이 요청한 저장소·번호와 맞는지 확인한다.\n- 제목과 본문은 먼저 비밀값·개인 경로를 제거한다. 제목은 200자, 출처 링크를 포함한 `requestSummary`는 2,000자로 제한하고 발췌 여부를 `truncated`로 알린다. 본문이 없으면 제목을 사용한다.\n- 응답에는 `kind=ISSUE|PULL_REQUEST`, `sourceUrl`, 원문 `updatedAt`, 조회 `fetchedAt`, `authorConfirmed=false`를 포함한다. 본문 발췌를 서버가 요약하거나 작성자가 확인한 판단으로 표시하지 않는다.\n- 이 응답을 기존 생성 요청의 `title`·`requestSummary`에 활용한다. 코드 근거·판단 출처와 실제 검증은 기존 생성 절차로 준비한다. 조회 자체는 DB를 변경하지 않는다.\n\n## Actions 결과\n\n- `GET /api/v1/github/actions?repositoryKey=owner/repository&revision=<전체-커밋>&page=1`과 MCP `list_github_actions_runs`는 GitHub의 `head_sha` 필터로 실행 결과를 20개씩 조회한다.\n- GitHub가 반환한 각 실행의 저장소와 전체 HEAD가 요청과 다르면 실패한다. 실행 ID·재실행 차수·워크플로 이름·이벤트·상태·결론·시작 및 최근 갱신 시각을 반환한다. 링크는 설정된 GitHub 웹 주소와 확인한 ID로 만든다.\n- `nextPage`는 다음 요청에 전달한다. GitHub 필터 검색 한도에 맞춰 50페이지까지 허용하고 `total_count > 1000`이면 `searchLimited=true`다. 조회 중 실행 상태와 목록이 바뀔 수 있으므로 페이지를 합칠 때 실행 ID로 구분한다.\n- `source=GITHUB_ACTIONS`, `snapshotVerified=false`로 표시한다. `updatedAt`은 종료 시각이 아니다. 성공·실패·취소·건너뜀·진행 중을 유지하고 전체 통과 여부를 임의로 계산하지 않는다.\n- API의 HEAD는 워크플로가 연결된 커밋이다. 워크플로 안에서 실제 checkout한 커밋이나 실행 중 코드 변경까지 증명하지 않는다. 명령·종료 코드·출력 해시가 필요한 기존 `VerificationRun`으로 변환하거나 현재 스냅샷 검증으로 저장하지 않는다.\n- 공개 기록과 저장된 검증 결과는 수정하지 않는다. 실행·재실행·취소 API와 로그·아티팩트 API를 호출하지 않는다.\n\n## 사용자 화면과 운영\n\n- `/records/github`에서 이슈·PR 번호 또는 전체 커밋을 입력한다. 기록 상세에서도 해당 커밋의 CI 결과로 이동할 수 있다. 외부 텍스트는 HTML로 해석하지 않으며 기존 브라우저 로그인과 `no-store` 정책을 사용한다.\n- PR 내용과 PR 변경 기록 화면은 조회한 저장소·번호로 서로 연결한다. 일반 이슈에는 PR 기록 링크를 표시하지 않는다.\n- CI 결과에 현재 페이지·건수와 이전·다음·새로고침 링크를 표시한다. 저장소와 전체 커밋은 유지하며 새로고침은 현재 페이지를 다시 읽는다. 첫 페이지에는 이전 링크가 없고, `nextPage`가 없으면 다음 링크를 표시하지 않는다. 빈 페이지에서도 이전 페이지 이동과 새로고침은 가능하다. 페이지 번호는 브라우저 요청에서 사용하며 REST·MCP 응답 계약은 유지한다.\n- GitHub App에 이슈 조회용 `Issues: read`, PR 조회용 `Pull requests: read`, CI 조회용 `Actions: read`가 필요하다. 저장소 읽기 권한과 App에 부여한 권한이 함께 적용된다. 기존 게시용 installation token의 축소 권한은 유지한다.\n- 조회 응답은 2 MiB로 제한하고 기존 HTTP 제한·호출 제한 안내·지표를 재사용한다. 권한 부족·인증·원격 장애·호출 제한을 빈 목록이나 성공으로 숨기지 않는다. 오류 원문과 토큰은 반환하지 않는다.\n- GitHub의 조회 거부(403)는 REST·브라우저에서도 403, 자료 없음·삭제(404·410)는 404로 반환한다. 404는 비공개 자료의 권한 문제일 수도 있어 주소와 App 권한을 함께 확인하도록 안내한다. 두 오류에는 재조회 버튼을 표시하지 않는다. 일시 장애는 502, 호출 제한은 429와 `Retry-After`를 유지한다. 호출 제한에 해당하는 GitHub 403은 공통 정책에서 먼저 처리한다. MCP에도 같은 원인별 안내를 전달한다.\n- 이 연동은 새 Actions 실행 시간이나 아티팩트 사용량을 만들지 않는다. 기존 서버·네트워크와 사용자가 따로 실행하는 워크플로의 비용은 기존 환경에 따른다.\n- 관리형 DB 전환은 추가 비용 없는 범위에서 제외한다. Blob 원문 응답 전환은 기존 객체·크기 확인을 대체할 코드가 필요해 이번 기능에 포함하지 않는다.\n\n## 근거\n\n- [GitHub 이슈 조회 API](https://docs.github.com/en/rest/issues/issues#get-an-issue): 이슈·PR 공통 조회와 읽기 권한.\n- [GitHub Actions 실행 조회 API](https://docs.github.com/en/rest/actions/workflow-runs#list-workflow-runs-for-a-repository): 커밋 필터, 실행 메타데이터와 검색 한도.\n- [GitHub API 호출 제한](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api), [Actions 과금 기준](https://docs.github.com/en/billing/concepts/product-billing/github-actions): 조회와 실행·저장 비용을 구분한다. 2026-09-07 확인.\n- [GitHub REST API 오류 안내](https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api#404-not-found-for-an-existing-resource): 404와 비공개 자료의 접근 권한. 이슈 조회의 404·410 응답과 함께 2026-09-12 확인.",
       "sourceUrl": "https://github.com/ljkhyeong/intent-trace/blob/b1e8c5f36fe94ee70b81a10f8d621329e0b7ad72/docs/ADR-0012-github-context-read.md",
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "da71b977c7e5bff96e230af0470fc8b045ee14d86f9a82d94cac62c4cd749598",
+      "sourceHash": "96b104bcc888243ce89ce9659a5a6ac0587413220f54fe4cc79ca28118ac3c3f",
       "contentHash": "0954c4955bdcfdae05bc9b7b3540f5239dcd147b70b2e6f4a9f66f69bfcde293"
     },
     {
@@ -2092,7 +2092,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:f5ead31c7fce",
+      "sourceRevision": "sha256:21529864d005",
       "documentId": "knowledge_2a22962d9934e4c7beb6a52e",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -2100,13 +2100,13 @@
       "documentType": "project_overview",
       "title": "차세대 군사법 정보 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영\n\n국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발했습니다. 중단된 배치는 Jenkins, JEUS, Tibero 정보를 대조해 재실행했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 중단 배치 재실행\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 차단과 대용량 파일 직접 업로드를 구현했습니다.\n\n현재 상태: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당한 개발과 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영\n\n국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발했습니다. 중단된 배치는 Jenkins, JEUS, Tibero 정보를 대조해 재실행했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 중단 배치 재실행\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 차단과 대용량 파일 직접 업로드를 구현했습니다.\n\n확인한 범위: 수용자 자료 검증 배치, CSRF 차단, 대용량 파일 직접 업로드를 폐쇄망에서 확인했습니다. 운영 중 멈춘 배치는 중단 단계를 찾은 뒤 해당 기관 배치만 다시 실행했습니다.\n\n공개 범위: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당한 개발과 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-overview",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "f5ead31c7fce38d3a118951110830debe4ee3bc6f0b7e4e2b80824742d89edde",
-      "contentHash": "37927b1b97151ccfe1c6f6569efd76dec65b6be65a29bde8187a3e83105aa0ad"
+      "sourceHash": "21529864d00557f3d504e2ef4249960e2782adfd902d1c532db89c68a85a683a",
+      "contentHash": "6864dbe6209ceb0f276e7cd7d4401dc5d0942d9185d829c05ab47ff05c91062e"
     },
     {
       "schemaVersion": "1.0",
@@ -2182,7 +2182,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:cc9dc90790b3",
+      "sourceRevision": "sha256:b87b67edd335",
       "documentId": "knowledge_68b8aae29a61744155ed95d8",
       "projectId": "webrtc",
       "projectName": "WebRTC/HLS 현장강의 보조 서비스",
@@ -2190,13 +2190,13 @@
       "documentType": "project_overview",
       "title": "WebRTC/HLS 현장강의 보조 서비스 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n카카오 클라우드 스쿨 3기 / 6인 팀\n\nWebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.\n\n기간: 2023.09.01 — 2023.11.10\n\n구분: 교육 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: mediasoup RTP-HLS 변환 서버와 WebRTC, HLS React 재생 화면 구현\n\n주요 구현 및 해결: 현재 강의는 WebRTC로 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer로 HLS로 변환해 지난 구간 다시보기에 사용했습니다.\n\n현재 상태: 2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.\n\n사용 기술: React, WebRTC, HLS, mediasoup, FFmpeg, GStreamer, Node.js",
+      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n카카오 클라우드 스쿨 3기 / 6인 팀\n\nWebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.\n\n기간: 2023.09.01 — 2023.11.10\n\n구분: 교육 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: mediasoup RTP-HLS 변환 서버와 WebRTC, HLS React 재생 화면 구현\n\n주요 구현 및 해결: 현재 강의는 WebRTC로 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer로 HLS로 변환해 지난 구간 다시보기에 사용했습니다.\n\n확인한 범위: HLS 변환 서버와 React 화면을 만들고 팀 시연에서 실시간 시청과 지난 구간 재생을 확인했습니다. HLS 재생 지연을 약 35초에서 약 17초로 줄였지만, 팀 시연 환경에서 잰 값입니다.\n\n프로젝트 상태: 2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.\n\n사용 기술: React, WebRTC, HLS, mediasoup, FFmpeg, GStreamer, Node.js",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/webrtc#project-overview",
       "route": "/projects/webrtc",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "cc9dc90790b3d404fea27875c8f9d0c00546b3340a454b1ae1b78452a2ec2659",
-      "contentHash": "347a2c7d75443381f26d403a9544549033e3534d9111296f5c479b95a4d2d443"
+      "sourceHash": "b87b67edd335524822f304cbeaa9a17def7e173954532b356586b49f1e9009ed",
+      "contentHash": "226be26dff8fa7f03d396b8cc70de40726231294074dbd546aa4c51cad42187d"
     },
     {
       "schemaVersion": "1.0",
