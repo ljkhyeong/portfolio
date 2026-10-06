@@ -292,11 +292,11 @@ const FlowNode = ({ x, y, width, height, title, detail, kind }) => {
     const titleY = kind === "decision" ? centerY - 8 : y + (titles.length > 1 ? 42 : 46)
     const detailY = kind === "decision" ? centerY + 24 : titleY + titles.length * 20 + 2
     const kindLabel = {
-        input: "INPUT",
-        decision: "DECISION",
-        focal: "FOCAL",
-        result: "RESULT",
-        step: "PROCESS",
+        input: "입력",
+        decision: "판단",
+        focal: "핵심 처리",
+        result: "결과",
+        step: "처리",
     }[kind]
 
     return (

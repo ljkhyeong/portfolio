@@ -11,8 +11,7 @@ main.case-showcase.baton-service-page {
 
 main.case-showcase .case-study,
 main.case-showcase .prior-case,
-main.case-showcase .baton-service-case,
-main.case-showcase .baton-service-footer {
+main.case-showcase .baton-service-case {
     width: min(var(--portfolio-content-width), calc(100% - var(--portfolio-gutter) * 2));
     margin-inline: auto;
 }
@@ -537,8 +536,7 @@ main.case-showcase .baton-service-scope summary {
     font-weight: 500;
 }
 
-main.case-showcase .project-switcher a.is-current,
-main.case-showcase .baton-service-footer a.is-current {
+main.case-showcase .project-switcher a.is-current {
     background: var(--paper-raised);
     color: var(--accent);
 }
@@ -636,7 +634,6 @@ main.case-showcase .case-meta__link-note,
 main.case-showcase .case-more > summary,
 main.case-showcase .baton-service-scope summary,
 main.case-showcase .case-next a > span:first-child,
-main.case-showcase .baton-service-footer,
 main.case-showcase .problem-solution-list__action {
     font-size: var(--portfolio-small);
 }
@@ -702,10 +699,6 @@ main.case-showcase .portfolio-flow .editorial-diagram__connector-label,
 main.case-showcase .portfolio-flow .editorial-diagram__node-meta {
     font-family: var(--sans);
     font-size: 10px;
-}
-
-main.case-showcase .portfolio-flow .editorial-diagram__tag {
-    font-family: var(--mono);
 }
 
 main.case-showcase .portfolio-flow .editorial-diagram__node-title {
@@ -854,7 +847,6 @@ main.case-showcase ::selection {
     main.case-showcase .case-study,
     main.case-showcase .prior-case,
     main.case-showcase .baton-service-case,
-    main.case-showcase .baton-service-footer,
     main.case-showcase .case-next {
         width: calc(100% - 40px);
     }

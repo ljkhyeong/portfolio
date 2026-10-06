@@ -26,7 +26,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
         (problem) => problem.serviceIds.includes(serviceId) && !problem.shared,
     )
     const documents = project.documents.filter((document) => document.serviceId === serviceId)
-    const siblings = project.services.filter((candidate) => !candidate.primary)
     const serviceGalleryProject = service.screenshots?.length
         ? {
               title: `BATON ${service.name}`,
@@ -222,22 +221,6 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     }
                 />
             </article>
-
-            <footer className="baton-service-footer">
-                <span>다른 BATON 마이크로서비스</span>
-                <div>
-                    {siblings.map((candidate) => (
-                        <Link
-                            className={candidate.id === serviceId ? "is-current" : ""}
-                            to={candidate.route}
-                            key={candidate.id}
-                            aria-current={candidate.id === serviceId ? "page" : undefined}
-                        >
-                            {candidate.name}
-                        </Link>
-                    ))}
-                </div>
-            </footer>
         </main>
     )
 }

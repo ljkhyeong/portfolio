@@ -322,7 +322,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                                         y={definition.y + 24}
                                         textAnchor="middle"
                                     >
-                                        {service.primary ? "CORE" : "SERVICE"}
+                                        {service.primary ? "Core" : "서비스"}
                                     </text>
                                     <text
                                         className="baton-architecture__node-name"
@@ -362,7 +362,7 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                     <g className="editorial-diagram__legend baton-architecture__legend">
                         <line x1="40" y1="508" x2="920" y2="508" />
                         <text className="editorial-diagram__legend-title" x="40" y="536">
-                            LEGEND
+                            범례
                         </text>
                         <rect
                             className="baton-architecture__legend-focal"

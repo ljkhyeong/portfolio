@@ -455,7 +455,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
     expect(within(lifecycleDiagram).getByText("웹 / IntelliJ / Zed")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("공개 거절")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("기존 기록 대체 요청")).toBeInTheDocument()
-    expect(within(lifecycleDiagram).getByText("SUPERSEDED")).toBeInTheDocument()
+    expect(within(lifecycleDiagram).getByText("대체됨")).toBeInTheDocument()
     expect(within(lifecycleDiagram).getByText("기존 기록 조회 가능")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {

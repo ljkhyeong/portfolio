@@ -1,33 +1,29 @@
-/* 대표 문서: 분류별 작성 수를 기준선 칸으로 펼치고, 문서는 유형 표시와 제목·설명을 한 행으로 둔다. */
+/* 대표 문서: 분류별 작성 수는 칸으로 나누지 않고 한 줄로 이어 쓰고, 문서는 유형 표시와 제목, 설명을 한 행으로 둔다. */
 .document-counts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
-    margin: 0 0 8px;
-    border-top: 1px solid var(--ink);
-    border-left: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 28px;
+    margin: 0 0 16px;
 }
 
 .document-counts > div {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 12px 16px;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+    gap: 8px;
 }
 
 .document-counts dt {
     color: var(--muted);
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
 }
 
 .document-counts dd {
     margin: 0;
-    font-size: 22px;
+    color: var(--ink);
+    font-size: 16px;
     font-weight: 650;
-    letter-spacing: -0.02em;
-    line-height: 1.35;
+    line-height: 1.5;
     font-variant-numeric: tabular-nums;
     word-break: keep-all;
 }
@@ -102,9 +98,5 @@
     .document-items li {
         grid-template-columns: 84px minmax(0, 1fr);
         gap: 4px 12px;
-    }
-
-    .document-counts dd {
-        font-size: 20px;
     }
 }

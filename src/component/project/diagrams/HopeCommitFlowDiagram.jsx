@@ -197,7 +197,7 @@ const HopeCommitFlowDiagram = () => {
                         <g className="hope-commit-flow__node hope-commit-flow__node--action">
                             <rect x="360" y="356" width="240" height="80" rx="6" />
                             <text className="hope-commit-flow__node-tag" x="480" y="376">
-                                GIT OBJECTS
+                                Git 객체
                             </text>
                             <text className="hope-commit-flow__node-title" x="480" y="400">
                                 변경 코드 수집

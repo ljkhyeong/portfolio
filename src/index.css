@@ -22,9 +22,10 @@
     --ink-soft: #25292e;
     --paper: #ffffff;
     --paper-raised: #f6f8fa;
-    --accent: #0969da;
-    --accent-on-light: #0969da;
-    --accent-soft: #ddf4ff;
+    /* 강조색은 PortfolioTheme.css와 같은 녹색이다. 공유 이미지처럼 테마 밖에서 그리는 화면도 이 값을 쓴다. */
+    --accent: #0f7b5f;
+    --accent-on-light: #0f7b5f;
+    --accent-soft: #e3f1eb;
     --success: #1a7f37;
     --muted: #59636e;
     --line: #d0d7de;

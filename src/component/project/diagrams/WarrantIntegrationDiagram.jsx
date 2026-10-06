@@ -277,7 +277,7 @@ const WarrantIntegrationDiagram = () => (
                     <g className="editorial-diagram__node editorial-diagram__node--focal">
                         <rect x="72" y="120" width="168" height="304" rx="8" />
                         <text className="editorial-diagram__tag" x="88" y="144">
-                            KICS SERVER
+                            맡은 서버
                         </text>
                         <text className="editorial-diagram__node-title" x="88" y="180">
                             <tspan x="88" dy="0">
@@ -328,7 +328,7 @@ const WarrantIntegrationDiagram = () => (
                     <g className="editorial-diagram__node">
                         <rect x="396" y="112" width="168" height="152" rx="8" />
                         <text className="editorial-diagram__tag" x="412" y="136">
-                            PORTAL
+                            포털
                         </text>
                         <text className="editorial-diagram__node-title" x="412" y="168">
                             <tspan x="412" dy="0">
@@ -351,7 +351,7 @@ const WarrantIntegrationDiagram = () => (
                     <g className="editorial-diagram__node editorial-diagram__node--external">
                         <rect x="720" y="120" width="168" height="152" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="144">
-                            INSTITUTION
+                            기관
                         </text>
                         <text className="editorial-diagram__node-title" x="736" y="176">
                             <tspan x="736" dy="0">
@@ -374,7 +374,7 @@ const WarrantIntegrationDiagram = () => (
                     <g className="editorial-diagram__node editorial-diagram__node--external">
                         <rect x="720" y="304" width="168" height="144" rx="8" />
                         <text className="editorial-diagram__tag" x="736" y="328">
-                            INSTITUTION
+                            기관
                         </text>
                         <text className="editorial-diagram__node-title" x="736" y="356">
                             <tspan x="736" dy="0">
