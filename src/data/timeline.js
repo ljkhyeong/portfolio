@@ -110,7 +110,10 @@ const lanes = [
 ]
 
 const rangeStart = Math.min(...lanes.flatMap((lane) => lane.items.map((item) => item.start)))
-const rangeEnd = Date.UTC(new Date(timelineAsOf).getUTCFullYear() + 1, 0, 1) - DAY
+// 축 끝은 기준일 뒤로 석 달 여유만 둔다. 그해 12월 31일까지 그리면 1월에 기록을 갱신할 때
+// "지금"이 축의 80% 근처로 물러나고 남은 한 해가 빈 칸이 된다.
+const END_MARGIN_DAYS = 92
+const rangeEnd = timelineAsOf + END_MARGIN_DAYS * DAY
 const toPercent = (time) =>
     Math.round(((time - rangeStart) / (rangeEnd - rangeStart)) * 10000) / 100
 
@@ -125,7 +128,8 @@ export const timelineLanes = lanes.map((lane) => ({
 }))
 
 const firstYear = new Date(rangeStart).getUTCFullYear()
-const lastYear = new Date(rangeEnd).getUTCFullYear()
+// 연도 눈금은 기준일이 든 해까지만 둔다. 축 끝 여유에 걸친 다음 해 눈금은 그리지 않는다.
+const lastYear = new Date(timelineAsOf).getUTCFullYear()
 
 export const timelineYears = Array.from({ length: lastYear - firstYear }, (_, index) => {
     const year = firstYear + index + 1

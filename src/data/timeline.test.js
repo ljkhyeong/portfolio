@@ -47,7 +47,12 @@ describe("메인 연표 기간", () => {
             expect(item.to).toBeLessThanOrEqual(100)
             expect(item.to).toBeGreaterThan(item.from)
         })
-        timelineYears.forEach(({ at }) => expect(at).toBeGreaterThan(0))
-        expect(timelineNow).toBeLessThanOrEqual(100)
+        timelineYears.forEach(({ at }) => {
+            expect(at).toBeGreaterThan(0)
+            expect(at).toBeLessThanOrEqual(timelineNow)
+        })
+        // 축 끝 여유는 석 달이라 "지금"은 해가 바뀌어도 축 오른쪽 끝 근처에 있다.
+        expect(timelineNow).toBeGreaterThan(85)
+        expect(timelineNow).toBeLessThan(100)
     })
 })
