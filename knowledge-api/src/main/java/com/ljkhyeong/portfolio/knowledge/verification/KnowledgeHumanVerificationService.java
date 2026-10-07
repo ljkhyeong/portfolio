@@ -27,11 +27,11 @@ public class KnowledgeHumanVerificationService {
     }
 
     public Decision verify(String token, String operatorKey) {
-        KnowledgeProperties.HumanVerification configuration = properties.humanVerification();
+        KnowledgeProperties.Turnstile configuration = properties.turnstile();
         if (!configuration.enabled()) {
             return Decision.NOT_REQUIRED;
         }
-        if (SecretMatcher.matches(properties.source().syncKey(), operatorKey)) {
+        if (SecretMatcher.matches(properties.sync().key(), operatorKey)) {
             return Decision.VERIFIED;
         }
         if (!StringUtils.hasText(token) || token.length() > MAX_TOKEN_LENGTH || !token.equals(token.strip())) {

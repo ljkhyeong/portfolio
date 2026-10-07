@@ -28,15 +28,14 @@ Turnstile의 연결 오류·HTTP 5xx·`internal-error`는 같은 멱등 키로 �
 `knowledge-api/.env.ai-gateway.example`을 참고해 API 환경변수에 아래 값을 설정합니다. OpenAI API 키와 Gateway Run 권한의 Cloudflare 토큰이 모두 필요합니다. 이 프로필은 키를 요청에 전달하는 방식이며 Cloudflare에 키를 보관하거나 통합 결제를 설정하지 않습니다.
 
 ```bash
-SPRING_PROFILES_ACTIVE=homeserver,openai,ai-gateway
-AI_PROFILE=openai
+SPRING_PROFILES_ACTIVE=homeserver,ai-gateway
 OPENAI_API_KEY=<OpenAI 키>
 CLOUDFLARE_ACCOUNT_ID=<계정 ID>
 CLOUDFLARE_AI_GATEWAY_ID=<Gateway ID>
 CLOUDFLARE_AI_GATEWAY_TOKEN=<Gateway 인증 토큰>
 ```
 
-Compose도 `SPRING_PROFILES_ACTIVE`와 세 가지 Cloudflare 변수를 전달합니다. `ai-gateway`는 `openai`와 함께 켜야 하며 빈 토큰·잘못된 ID는 기동 단계에서 거부합니다. 기존 Turnstile 사이트 키·비밀 키와는 별개입니다.
+`ai-gateway` 프로필은 프로필 그룹으로 `openai`를 함께 켭니다. Compose도 `SPRING_PROFILES_ACTIVE`와 세 가지 Cloudflare 변수를 전달합니다. 빈 토큰·잘못된 ID는 기동 단계에서 거부합니다. 기존 Turnstile 사이트 키·비밀 키와는 별개입니다.
 
 요청 주소는 `https://gateway.ai.cloudflare.com/v1/<계정 ID>/<Gateway ID>/openai`입니다. OpenAI 키는 `Authorization`, Gateway 토큰은 `cf-aig-authorization`에 전달합니다. 다음 헤더를 기본 적용합니다.
 
@@ -124,8 +123,8 @@ readiness는 Spring Boot 기본 Elasticsearch 상태 지표를 사용합니다. 
 
 | 대상            | 설정                                                                                             |
 | --------------- | ------------------------------------------------------------------------------------------------ |
-| API 기본 프로필 | `SPRING_PROFILES_ACTIVE=homeserver`, `AI_PROFILE=disabled`                                       |
-| OpenAI 사용     | `SPRING_PROFILES_ACTIVE=homeserver,openai`, `AI_PROFILE=openai`, `OPENAI_API_KEY`                |
+| API 기본 프로필 | `SPRING_PROFILES_ACTIVE=homeserver`                                                              |
+| OpenAI 사용     | `SPRING_PROFILES_ACTIVE=homeserver,openai` 또는 `homeserver,ai-gateway`, `OPENAI_API_KEY`        |
 | Elasticsearch   | Nori 플러그인이 포함된 이미지, `ELASTICSEARCH_URL`, 영속 볼륨                                    |
 | 외부 API        | 8080 포트, HTTPS Ingress, `/api/v1/knowledge/*`                                                  |
 | 클라이언트 주소 | 앞단 프록시가 `X-Forwarded-For`에 접속 주소를 덧붙임, 필요하면 `SERVER_TOMCAT_REMOTEIP_*`로 조정 |

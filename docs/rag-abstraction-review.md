@@ -20,7 +20,7 @@ Java 21, Spring Boot 4.1.0, Spring AI 2.0.0, Elasticsearch Java Client 8.19.19�
 [답변 서비스](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/search/KnowledgeAnswerService.java)는 검증된 근거를 사용 순서대로 번호 매겨 본문과 출처 목록을 맞춘다.
 예를 들어 검색 결과 중 두 번째 문서만 인용하면 본문과 화면의 첫 출처가 모두 `[1]`을 사용한다. 응답 DTO와 프런트엔드 형식은 유지했다.
 
-`AI_PROFILE`의 빈 값은 Spring 기본값 바인딩에 따라 `disabled`가 된다. `opneai` 같은 잘못된 이름은 기동 오류로 처리한다.
+`AI_PROFILE`의 빈 값은 Spring 기본값 바인딩에 따라 `disabled`가 된다. `opneai` 같은 잘못된 이름은 기동 오류로 처리한다(이후 `AI_PROFILE`을 삭제하고 Spring 프로필로만 제공자를 정한다. 아래 절).
 JSON 변환과 기본값 처리는 [Spring AI ChatClient](https://docs.spring.io/spring-ai/reference/api/chatclient.html), [Spring Boot 생성자 바인딩](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.constructor-binding)을 따른다.
 
 ## 유지한 구현과 검증
@@ -107,16 +107,22 @@ Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스�
 -   계층: [답변 서비스](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/search/KnowledgeAnswerService.java)가 API DTO 대신 도메인 `KnowledgeAnswer`(상태, 답변, 인용·결과 `SearchHit`)를 반환한다. 인용 전문의 평문 변환과 응답 생성은 `ResponseMapper`가 맡고, `knowledge.answers` 지표는 검색 지표처럼 서비스가 기록한다. `DependencyRulesTest`에 `@Service`가 API 패키지에 의존하지 않는 규칙을 추가했다.
 -   시그니처: 검색·답변 서비스는 `(문장, KnowledgeFilter, 개수)` 하나만 두고 테스트 전용 오버로드를 삭제했다. `knowledge.search.max-limit`과 `Math.min` 제한을 지우고, 기본 개수가 요청 DTO 상한(검색 20, 답변 근거 10)을 넘으면 기동할 때 거부한다.
 -   응답 필드: 읽는 곳이 없는 `results[].score`, 검색 응답의 `query`, 답변 응답의 `question`을 삭제했다. 순위는 목록 순서로 전달하고 `SearchHit`에 저장소 점수를 보관하지 않는다. 웹과 평가 도구가 쓰는 `total`과 답변 응답의 `results`는 유지한다.
--   캐시: 직접 센 `knowledge.cache.lookups`를 Micrometer `CaffeineCacheMetrics`와 `recordStats()`로 바꿔 `cache.gets{cache,result}`, `cache.size`, `cache.puts`, `cache.evictions`를 노출한다. 답변 캐시 키는 SHA-256 문자열 대신 질문과 전달 근거 목록의 record 값 비교를 사용해 `util/Hashing`을 삭제했다. 캐시 끄기는 `AI_ANSWER_CACHE_TTL_SECONDS=0` 하나로 정했다. Caffeine의 `maximumSize(0)`은 비동기 제거라 즉시 재사용을 막지 못해, 최대 개수는 1 이상만 허용한다.
+-   캐시: 직접 센 `knowledge.cache.lookups`를 Micrometer `CaffeineCacheMetrics`와 `recordStats()`로 바꿔 `cache.gets{cache,result}`, `cache.size`, `cache.puts`, `cache.evictions`를 노출한다. 답변 캐시 키는 SHA-256 문자열 대신 질문과 전달 근거 목록의 record 값 비교를 사용해 `util/Hashing`을 삭제했다. 캐시 끄기는 `AI_ANSWER_CACHE_TTL_SECONDS=0`(이후 `KNOWLEDGE_AI_ANSWER_CACHE_TTL_SECONDS`) 하나로 정했다. Caffeine의 `maximumSize(0)`은 비동기 제거라 즉시 재사용을 막지 못해, 최대 개수는 1 이상만 허용한다.
 
 단위 테스트 281건, Elasticsearch 9.4.8 통합 테스트 10건과 검색 화면·요청 처리 웹 테스트 133건을 통과했다. 같은 키의 동시 요청에서 생성 1회와 `miss` 1·`hit` 1, TTL 0에서 매번 생성, 잘못된 임베딩을 저장하지 않는 동작을 기존 테스트로 다시 확인했다. 실제 AI 호출과 검색 품질 평가는 하지 않았다(순위 계산과 색인 내용은 바뀌지 않음).
 
-## AI 제공자와 외부 호출 정리 — `c70f203` 이후
+## AI 제공자, 외부 호출과 설정 정리 — `c70f203` 이후
 
 -   재시도: Spring AI 2.0의 OpenAI 모델은 `spring.ai.retry`를 쓰지 않아 `AI_RETRY_MAX_ATTEMPTS`가 동작하지 않았다. 실제 OpenAI 호출은 SDK 재시도(`max-retries`)만 따르며, SDK는 `Retry-After`를 상한 없이 기다리므로 0으로 고정하고 두 환경변수를 삭제했다. Ollama 답변은 Spring AI 기본 재시도(10회, 최장 3분 간격)를 써서 장애 때 20분 넘게 대기할 수 있어 `spring.ai.retry.max-attempts: 0`으로 막았다.
 -   빌더 조회: [AiPortConfiguration](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/config/AiPortConfiguration.java)의 `getIfAvailable()`과 직접 만든 `IllegalStateException`을 `ObjectProvider.getObject()`로 바꿨다. AI를 켰는데 빌더가 없으면 Spring의 `NoSuchBeanDefinitionException`으로 기동을 중단한다.
 -   Turnstile 클라이언트: Boot가 구성한 `RestClient.Builder`를 주입받아 `http.client.requests` 관측을 적용한다. 요청 팩토리는 `ClientHttpRequestFactoryBuilder.simple()`과 `HttpClientSettings`(연결 3초, 응답 대기 5초, `HttpRedirects.DONT_FOLLOW`)로 고정한다. 지정하지 않으면 자동 감지된 Reactor 팩토리가 시간 제한 없이 쓰인다. `spring-boot-starter-restclient`를 직접 선언했다.
 -   Turnstile 재시도: 직접 만든 반복문을 Spring Framework 7의 `RetryTemplate`(`maxRetries(1)`, `delay(Duration.ZERO)`, 일시 오류 조건)으로 바꿨다. 재시도 대상, 횟수, 같은 멱등 키와 최종 예외는 그대로다.
 -   답변 어댑터: 템플릿 변수를 쓰지 않아 렌더링이 일어나지 않으므로 `NoOpTemplateRenderer`를 삭제했다. 근거의 중괄호 보존 테스트는 회귀 방지용으로 유지한다. 제공자 네이티브 JSON 스키마 출력은 실제 모델 평가가 필요해 적용하지 않았다.
+-   AI 프로필: `AI_PROFILE`과 `knowledge.ai.provider` 매핑을 삭제하고 `SPRING_PROFILES_ACTIVE` 하나로 제공자를 정한다. `spring.profiles.group`으로 `ai-gateway`가 `openai`를 함께 켜므로 Gateway 설정의 제공자 검사 생성자를 지웠다. 존재하지 않는 프로필 이름은 기동 오류 대신 AI 비활성으로 기동한다.
+-   설정 기본값: `application.yml`에서 Boot 기본값(`server.shutdown: graceful`, health probes, `health` 노출)과 `KnowledgeProperties`의 `@DefaultValue`를 다시 적은 줄, 환경변수 매핑 줄을 모두 지웠다. 환경변수는 완화 바인딩 이름으로 연결하도록 동기화 설정을 `knowledge.sync.on-startup`·`knowledge.sync.key`로, Turnstile 설정을 `knowledge.turnstile.*`로 옮겼다(환경변수 이름 유지). 이름이 달라 매핑이 필요하던 `ELASTICSEARCH_INDEX`, `AI_ANSWER_CACHE_*`는 `KNOWLEDGE_ELASTICSEARCH_INDEX_NAME`, `KNOWLEDGE_AI_ANSWER_CACHE_*`로 바꿨다. 쓰는 곳이 없던 `/actuator/info` 노출도 뺐다.
+-   임베딩 모델: 프로필 YAML의 `spring.ai.*.embedding.model`·`dimensions`가 `knowledge.ai.embedding-model-id`·`embedding-dimensions`를 참조해, 색인 메타데이터의 모델과 실제 호출 모델이 어긋나는 설정을 막는다.
+-   Compose: 기본값을 다시 적던 `${변수:-기본값}`을 값 없는 전달 항목으로 바꿔 셸·`.env`에 있는 값만 넘긴다. `homeserver` 설정은 `SPRING_PROFILES_INCLUDE`로 항상 포함하고 관리 포트·노출 환경변수와 `ELASTICSEARCH_INDEX` 계산을 지웠다. `.env` 예시는 빈 값이 기본값을 덮어쓰지 않도록 기본값 항목을 주석으로 바꿨다.
 
 Gateway 대역 서버의 429·503(`Retry-After: 1`)과 Ollama 503에서 답변·임베딩 호출이 한 번뿐인지, 주입한 빌더로 만든 Turnstile 클라이언트가 307 리다이렉트를 따르지 않고 응답 대기 1초 초과에서 재시도 없이 끝나는지 테스트로 고정했다. 재시도를 켜거나 요청 팩토리 지정을 빼면 각 테스트가 실패하는 것도 확인했다. 단위 테스트 283건을 통과했고 실제 OpenAI·Ollama·Turnstile 호출은 하지 않았다.
+
+설정 정리 뒤 단위 테스트 283건, Elasticsearch 9.4.8 통합 테스트 10건과 `bootJar`를 통과했다. 시스템 환경변수 형식의 `KNOWLEDGE_*` 값이 YAML 매핑 없이 바인딩되는지 테스트로 고정했다. `docker compose config`로 미설정 변수가 전달되지 않고(`.env.example` 그대로면 29개 모두 미전달) `SPRING_PROFILES_INCLUDE=homeserver`가 붙는 것을 확인했고, JAR를 `ai-gateway` 프로필로 기동해 `homeserver`, `ai-gateway`, `openai`가 함께 활성화되고 관리 포트의 `/actuator/info`가 404인 것을 확인했다. 실제 AI 호출과 Compose 컨테이너 기동은 하지 않았다.

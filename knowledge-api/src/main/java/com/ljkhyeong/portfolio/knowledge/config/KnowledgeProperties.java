@@ -13,23 +13,23 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.validation.annotation.Validated;
 
+// 기본값은 이 클래스에만 둔다. 환경변수는 완화 바인딩 이름(KNOWLEDGE_SYNC_KEY → knowledge.sync.key)으로 연결한다.
 @Validated
 @ConfigurationProperties(prefix = "knowledge")
 public record KnowledgeProperties(
         @Valid @DefaultValue Source source,
+        @DefaultValue Sync sync,
         @Valid @DefaultValue Elasticsearch elasticsearch,
         @Valid @DefaultValue Search search,
         @Valid @DefaultValue Ai ai,
         @DefaultValue RateLimit rateLimit,
-        @Valid @DefaultValue HumanVerification humanVerification,
+        @Valid @DefaultValue Turnstile turnstile,
         @DefaultValue Cors cors
 ) {
 
     public record Source(
             // 이미지에 포함된 자료만 읽는다. 원격 URL과 파일 경로는 기동 단계에서 거부한다.
             @Pattern(regexp = "classpath:.+") @DefaultValue("classpath:knowledge/portfolio.json") String location,
-            @DefaultValue("false") boolean syncOnStartup,
-            @DefaultValue("") String syncKey,
             @Positive @Max(67108864) @DefaultValue("8388608") int maxBytes,
             @Min(200) @DefaultValue("1200") int maxChunkCharacters,
             @PositiveOrZero @DefaultValue("150") int overlapCharacters
@@ -43,6 +43,13 @@ public record KnowledgeProperties(
         public String chunkingFingerprint() {
             return "chunking-v1|max=%d|overlap=%d".formatted(maxChunkCharacters, overlapCharacters);
         }
+    }
+
+    // 내부 동기화·상태 API와 평가 도구의 Turnstile 우회에 쓰는 운영 키다. 비어 있으면 모두 거부한다.
+    public record Sync(
+            @DefaultValue("false") boolean onStartup,
+            @DefaultValue("") String key
+    ) {
     }
 
     public record Elasticsearch(
@@ -84,14 +91,14 @@ public record KnowledgeProperties(
     ) {
     }
 
-    public record HumanVerification(
+    public record Turnstile(
             @DefaultValue("false") boolean enabled,
             @DefaultValue("") String secretKey,
             @DefaultValue("ljkportfolio.netlify.app") List<String> expectedHostnames,
             @Positive @DefaultValue("3") int connectTimeoutSeconds,
             @Positive @DefaultValue("5") int readTimeoutSeconds
     ) {
-        public HumanVerification {
+        public Turnstile {
             expectedHostnames = expectedHostnames == null
                     ? List.of()
                     : expectedHostnames.stream()

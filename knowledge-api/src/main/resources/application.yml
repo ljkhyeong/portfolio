@@ -1,6 +1,10 @@
 spring:
     application:
         name: portfolio-knowledge-api
+    profiles:
+        group:
+            # Gateway 프로필은 OpenAI 설정의 요청 주소만 바꾸므로 openai 프로필을 함께 켠다.
+            ai-gateway: openai
     elasticsearch:
         uris: ${ELASTICSEARCH_URL:http://localhost:9200}
         username: ${ELASTICSEARCH_USERNAME:}
@@ -24,54 +28,12 @@ spring:
 
 server:
     port: ${PORT:8080}
-    shutdown: graceful
     # 사설망·루프백 프록시가 덧붙인 X-Forwarded-For를 Tomcat RemoteIpValve가 오른쪽부터 해석한다.
     forward-headers-strategy: native
 
 management:
-    endpoints:
-        web:
-            exposure:
-                include: health,info
     endpoint:
         health:
-            probes:
-                enabled: true
             group:
                 readiness:
                     include: readinessState,elasticsearch
-
-knowledge:
-    source:
-        sync-on-startup: ${KNOWLEDGE_SYNC_ON_STARTUP:false}
-        sync-key: ${KNOWLEDGE_SYNC_KEY:}
-        max-bytes: ${KNOWLEDGE_SOURCE_MAX_BYTES:8388608}
-        max-chunk-characters: 1200
-        overlap-characters: 150
-    elasticsearch:
-        index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge}
-    search:
-        default-limit: 10
-        candidate-limit: 40
-        rrf-k: 60
-    ai:
-        provider: ${AI_PROFILE:disabled}
-        embedding-model-id: disabled
-        embedding-dimensions: 1024
-        answer-context-limit: 6
-        answer-cache-ttl-seconds: ${AI_ANSWER_CACHE_TTL_SECONDS:120}
-        answer-cache-max-entries: ${AI_ANSWER_CACHE_MAX_ENTRIES:128}
-    rate-limit:
-        global-answers-per-minute: ${KNOWLEDGE_RATE_LIMIT_GLOBAL_ANSWERS_PER_MINUTE:30}
-        client-answers-per-minute: ${KNOWLEDGE_RATE_LIMIT_CLIENT_ANSWERS_PER_MINUTE:5}
-        global-searches-per-minute: ${KNOWLEDGE_RATE_LIMIT_GLOBAL_SEARCHES_PER_MINUTE:300}
-        client-searches-per-minute: ${KNOWLEDGE_RATE_LIMIT_CLIENT_SEARCHES_PER_MINUTE:30}
-        max-clients-per-minute: ${KNOWLEDGE_RATE_LIMIT_MAX_CLIENTS_PER_MINUTE:100}
-    human-verification:
-        enabled: ${KNOWLEDGE_TURNSTILE_ENABLED:false}
-        secret-key: ${KNOWLEDGE_TURNSTILE_SECRET_KEY:}
-        expected-hostnames: ${KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES:ljkportfolio.netlify.app}
-        connect-timeout-seconds: 3
-        read-timeout-seconds: 5
-    cors:
-        allowed-origins: ${KNOWLEDGE_CORS_ALLOWED_ORIGINS:http://localhost:5173,https://ljkportfolio.netlify.app}

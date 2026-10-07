@@ -34,16 +34,24 @@ class OpenAiProfileConfigurationTest {
     void 운영_환경변수로_OpenAI_호출_제한을_덮어쓴다() throws Exception {
         var environment = new MockEnvironment()
                 .withProperty("OPENAI_REQUEST_TIMEOUT", "17s")
-                .withProperty("OPENAI_MAX_COMPLETION_TOKENS", "321");
+                .withProperty("OPENAI_MAX_COMPLETION_TOKENS", "321")
+                .withProperty("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+                .withProperty("OPENAI_EMBEDDING_DIMENSIONS", "512");
         loadProfile(environment);
         Binder binder = Binder.get(environment);
 
         OpenAiCommonProperties common = bindCommon(binder);
         OpenAiChatProperties chat = bindChat(binder);
+        KnowledgeProperties.Ai knowledge = binder.bindOrCreate("knowledge", KnowledgeProperties.class).ai();
 
         assertThat(common.getTimeout()).isEqualTo(Duration.ofSeconds(17));
         assertThat(common.getMaxRetries()).isZero();
         assertThat(chat.getMaxCompletionTokens()).isEqualTo(321);
+        // 색인 메타데이터의 모델·차원과 실제 임베딩 호출 설정이 같은 값을 따른다.
+        assertThat(knowledge.embeddingModelId()).isEqualTo("text-embedding-3-small");
+        assertThat(knowledge.embeddingDimensions()).isEqualTo(512);
+        assertThat(environment.getProperty("spring.ai.openai.embedding.model")).isEqualTo("text-embedding-3-small");
+        assertThat(environment.getProperty("spring.ai.openai.embedding.dimensions", Integer.class)).isEqualTo(512);
     }
 
     private MockEnvironment loadProfile(MockEnvironment environment) throws Exception {

@@ -12,7 +12,7 @@ import org.springframework.web.client.RestClient;
 @ActiveProfiles("homeserver")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
         "management.server.port=0",
-        "knowledge.source.sync-on-startup=false"
+        "knowledge.sync.on-startup=false"
 })
 class HomeserverMonitoringTest {
 

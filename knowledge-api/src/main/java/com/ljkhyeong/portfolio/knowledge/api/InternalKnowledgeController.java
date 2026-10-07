@@ -33,7 +33,7 @@ public class InternalKnowledgeController {
     }
 
     private void verifySyncKey(String suppliedKey) {
-        if (!SecretMatcher.matches(properties.source().syncKey(), suppliedKey)) {
+        if (!SecretMatcher.matches(properties.sync().key(), suppliedKey)) {
             throw new KnowledgeApiException(HttpStatus.FORBIDDEN, "SYNC_FORBIDDEN", "공개 지식 문서 동기화 권한이 없습니다.");
         }
     }

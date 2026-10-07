@@ -21,7 +21,7 @@ class InternalKnowledgeControllerTest {
 
     @Test
     void 이미_동기화_중이면_409와_진행_중_코드를_반환한다() throws Exception {
-        KnowledgeProperties properties = knowledgeProperties("source.sync-key", "configured-key");
+        KnowledgeProperties properties = knowledgeProperties("sync.key", "configured-key");
         KnowledgeSyncService service = mock(KnowledgeSyncService.class);
         when(service.syncConfiguredManifest()).thenThrow(new KnowledgeSyncInProgressException());
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new InternalKnowledgeController(properties, service))
@@ -36,7 +36,7 @@ class InternalKnowledgeControllerTest {
 
     @Test
     void 동기화_키가_없으면_403을_반환한다() throws Exception {
-        KnowledgeProperties properties = knowledgeProperties("source.sync-key", "configured-key");
+        KnowledgeProperties properties = knowledgeProperties("sync.key", "configured-key");
         InternalKnowledgeController controller = new InternalKnowledgeController(
                 properties,
                 mock(KnowledgeSyncService.class)
@@ -57,7 +57,7 @@ class InternalKnowledgeControllerTest {
 
     @Test
     void 동기화_자료_오류는_내부_메시지를_숨기고_500을_반환한다() throws Exception {
-        KnowledgeProperties properties = knowledgeProperties("source.sync-key", "configured-key");
+        KnowledgeProperties properties = knowledgeProperties("sync.key", "configured-key");
         KnowledgeSyncService service = mock(KnowledgeSyncService.class);
         when(service.syncConfiguredManifest()).thenThrow(new IllegalArgumentException("중복 documentId가 있습니다: a"));
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new InternalKnowledgeController(properties, service))

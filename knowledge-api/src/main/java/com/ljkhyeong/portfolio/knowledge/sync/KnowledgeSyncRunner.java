@@ -22,7 +22,7 @@ public class KnowledgeSyncRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        if (!properties.source().syncOnStartup()) {
+        if (!properties.sync().onStartup()) {
             return;
         }
         KnowledgeSyncService.SyncResult result = syncService.syncConfiguredManifest();

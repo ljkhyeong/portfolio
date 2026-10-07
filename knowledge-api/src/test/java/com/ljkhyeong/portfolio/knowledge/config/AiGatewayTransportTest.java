@@ -27,6 +27,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 
 class AiGatewayTransportTest {
 
+    // ai-gateway 프로필만 지정해도 프로필 그룹으로 openai 설정이 함께 적용된다.
     @Test
     void 답변과_임베딩이_같은_Gateway_경로와_인증_헤더를_사용한다() throws Exception {
         var environment = new MockEnvironment().withProperty("CLOUDFLARE_ACCOUNT_ID", "account")
@@ -74,12 +75,12 @@ class AiGatewayTransportTest {
         });
         server.start();
         try (var context = new SpringApplicationBuilder(KnowledgeApiApplication.class)
-                .web(WebApplicationType.NONE).profiles("openai", "ai-gateway").run(
+                .web(WebApplicationType.NONE).profiles("ai-gateway").run(
                         "--spring.ai.openai.base-url=http://127.0.0.1:" + server.getAddress().getPort()
                                 + "/v1/account/portfolio/openai",
                         "--OPENAI_API_KEY=test-only-openai", "--CLOUDFLARE_ACCOUNT_ID=account",
                         "--CLOUDFLARE_AI_GATEWAY_ID=portfolio", "--CLOUDFLARE_AI_GATEWAY_TOKEN=test-only-gateway",
-                        "--OPENAI_EMBEDDING_DIMENSIONS=2", "--knowledge.source.sync-on-startup=false")) {
+                        "--OPENAI_EMBEDDING_DIMENSIONS=2", "--knowledge.sync.on-startup=false")) {
             assertThat(context.getBean(EmbeddingPort.class).embed(List.of("알림 재처리")))
                     .containsExactly(List.of(1f, 0f));
             assertThat(context.getBean(AnswerGenerationPort.class).generate("알림 복구", List.of()).answerable())

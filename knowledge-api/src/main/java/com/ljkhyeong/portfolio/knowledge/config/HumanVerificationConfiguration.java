@@ -21,7 +21,7 @@ public class HumanVerificationConfiguration {
             RestClient.Builder restClientBuilder,
             KnowledgeProperties properties
     ) {
-        KnowledgeProperties.HumanVerification configuration = properties.humanVerification();
+        KnowledgeProperties.Turnstile configuration = properties.turnstile();
         // 비밀 키가 담긴 요청이 다른 주소로 전달되지 않도록 리다이렉트를 따르지 않는다.
         HttpClientSettings settings = HttpClientSettings.defaults()
                 .withTimeouts(

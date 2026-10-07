@@ -8,16 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.validation.annotation.Validated;
 
+// Gateway 연동값을 기동 단계에서 검증한다. openai 프로필은 application.yml의 프로필 그룹으로 함께 켜진다.
 @Configuration(proxyBeanMethods = false)
 @Profile("ai-gateway")
 @EnableConfigurationProperties(AiGatewayConfiguration.Settings.class)
 public class AiGatewayConfiguration {
-
-    public AiGatewayConfiguration(Settings settings, KnowledgeProperties properties) {
-        if (properties.ai().provider() != KnowledgeProperties.AiProvider.OPENAI) {
-            throw new IllegalArgumentException("ai-gateway 프로필은 openai 프로필과 함께 사용해야 합니다.");
-        }
-    }
 
     @Validated
     @ConfigurationProperties("knowledge.ai-gateway")

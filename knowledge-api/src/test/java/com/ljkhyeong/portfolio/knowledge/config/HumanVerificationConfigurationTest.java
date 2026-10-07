@@ -81,7 +81,7 @@ class HumanVerificationConfigurationTest {
             exchange.close();
         });
 
-        runner("human-verification.read-timeout-seconds", "1").run(context -> {
+        runner("turnstile.read-timeout-seconds", "1").run(context -> {
             long started = System.nanoTime();
             assertThatThrownBy(() -> context.getBean(HumanVerificationPort.class).verify("browser-token"))
                     .isInstanceOf(HumanVerificationUnavailableException.class);

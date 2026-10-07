@@ -74,9 +74,9 @@ class KnowledgeHumanVerificationServiceTest {
         var service = new KnowledgeHumanVerificationService(
                 port,
                 knowledgeProperties(
-                        "source.sync-key", "operator-key",
-                        "human-verification.enabled", "true",
-                        "human-verification.secret-key", "server-secret"
+                        "sync.key", "operator-key",
+                        "turnstile.enabled", "true",
+                        "turnstile.secret-key", "server-secret"
                 )
         );
 
@@ -91,9 +91,9 @@ class KnowledgeHumanVerificationServiceTest {
         return new KnowledgeHumanVerificationService(
                 port,
                 knowledgeProperties(
-                        "human-verification.enabled", "true",
-                        "human-verification.secret-key", "server-secret",
-                        "human-verification.expected-hostnames", "ljkportfolio.netlify.app"
+                        "turnstile.enabled", "true",
+                        "turnstile.secret-key", "server-secret",
+                        "turnstile.expected-hostnames", "ljkportfolio.netlify.app"
                 )
         );
     }

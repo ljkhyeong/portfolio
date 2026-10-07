@@ -15,7 +15,7 @@ Spring AI 2.0.x는 Spring Boot 4.0 및 4.1을 지원합니다. 버전 기준은 
 
 ## 기본 실행
 
-기본 프로필은 `disabled`입니다. API 키 없이 기동하고, 공개 문서를 임베딩 없이 색인해 BM25 검색만 제공합니다. AI 답변 요청은 `GENERATION_UNAVAILABLE`과 기존 검색 결과를 반환합니다.
+AI 프로필을 지정하지 않으면 AI를 끈 상태입니다. API 키 없이 기동하고, 공개 문서를 임베딩 없이 색인해 BM25 검색만 제공합니다. AI 답변 요청은 `GENERATION_UNAVAILABLE`과 기존 검색 결과를 반환합니다.
 
 ```bash
 cd knowledge-api
@@ -30,14 +30,18 @@ KNOWLEDGE_SYNC_ON_STARTUP=true ./gradlew bootRun
 
 `KNOWLEDGE_SYNC_ON_STARTUP`을 설정하지 않으면 애플리케이션은 기존 색인을 조회하되 시작 시 공개 문서를 색인하지 않습니다. 시작 동기화를 끈 환경에서는 `KNOWLEDGE_SYNC_KEY`를 설정하고 아래의 내부 동기화 API를 한 번 호출해야 합니다.
 
-검색은 `ELASTICSEARCH_INDEX`(기본 `portfolio-knowledge`) alias를 조회하며 검색 요청에서 인덱스를 만들지 않습니다. 첫 동기화 전에는 빈 결과를 반환합니다.
+검색은 `KNOWLEDGE_ELASTICSEARCH_INDEX_NAME`(기본 `portfolio-knowledge`) alias를 조회하며 검색 요청에서 인덱스를 만들지 않습니다. 첫 동기화 전에는 빈 결과를 반환합니다.
 
 빌드 시 루트의 `public/knowledge/portfolio.json`을 리소스 처리 단계에서 JAR에 포함합니다. JAR에 별도 문서 사본을 직접 관리하지 않으므로 원본과 색인 자료가 달라지는 문제를 막습니다.
+
+설정 기본값은 [KnowledgeProperties](src/main/java/com/ljkhyeong/portfolio/knowledge/config/KnowledgeProperties.java)에만 두고 `application.yml`에 다시 적지 않습니다. `knowledge.*` 설정은 Spring Boot 완화 바인딩 이름의 환경변수로 바꿉니다. 예를 들어 `knowledge.sync.key`는 `KNOWLEDGE_SYNC_KEY`, `knowledge.elasticsearch.index-name`은 `KNOWLEDGE_ELASTICSEARCH_INDEX_NAME`입니다. [Spring Boot 환경변수 바인딩](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.relaxed-binding.environment-variables).
+
+Compose는 `homeserver` 프로필을 항상 포함하고, 셸이나 `.env`에 값이 있는 변수만 컨테이너에 전달합니다. 빈 값(`KEY=`)도 기본값을 덮어쓰므로 `.env.example`에서 쓰지 않을 항목은 주석으로 둡니다.
 
 ## OpenAI 운영 프로필
 
 ```bash
-AI_PROFILE=openai \
+SPRING_PROFILES_ACTIVE=openai \
 OPENAI_API_KEY=... \
 docker compose up --build
 ```
@@ -50,7 +54,7 @@ OpenAI 요청은 기본 30초 안에 완료되지 않으면 중단하고 추론 
 
 OpenAI 답변과 임베딩은 자동 재시도하지 않고 한 번만 호출합니다. Spring AI 2.0의 OpenAI 모델은 `spring.ai.retry` 설정을 쓰지 않고 OpenAI SDK의 재시도만 사용합니다. SDK 재시도는 서버가 보낸 `Retry-After`를 상한 없이 기다리므로, 켜면 검색 질문의 임베딩이 지연돼 BM25 결과로 바로 대체되지 않습니다. 그래서 `spring.ai.openai.max-retries`를 0으로 고정합니다.
 
-Cloudflare AI Gateway를 경유하려면 `openai,ai-gateway` 프로필과 `.env.ai-gateway.example`의 값을 사용합니다. 홈서버는 `homeserver,openai,ai-gateway` 순서로 지정합니다. 답변·임베딩 모두 같은 Gateway로 전달하며 OpenAI 키와 Gateway 인증 토큰을 구분합니다. Gateway도 재시도하지 않도록 시도 횟수를 1회로 제한하고, 캐시 건너뛰기·원문 로그 미수집 헤더를 적용합니다. 구체적인 설정은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md#선택-cloudflare-ai-gateway)에 정리했습니다.
+Cloudflare AI Gateway를 경유하려면 `ai-gateway` 프로필과 `.env.ai-gateway.example`의 값을 사용합니다. `ai-gateway`는 프로필 그룹으로 `openai`를 함께 켜며, 홈서버는 `homeserver,ai-gateway`로 지정합니다. 답변·임베딩 모두 같은 Gateway로 전달하며 OpenAI 키와 Gateway 인증 토큰을 구분합니다. Gateway도 재시도하지 않도록 시도 횟수를 1회로 제한하고, 캐시 건너뛰기·원문 로그 미수집 헤더를 적용합니다. 구체적인 설정은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md#선택-cloudflare-ai-gateway)에 정리했습니다.
 
 임베딩 응답은 요청 개수와 각 벡터의 순번을 검사하고 입력 순서로 정렬합니다. 순번 누락·중복·범위 오류, 차원 불일치·유효하지 않은 수·영벡터는 캐시나 색인에 넣지 않습니다. [Spring AI 임베딩 응답](https://docs.spring.io/spring-ai/reference/api/embeddings.html#_embeddingresponse).
 
@@ -64,14 +68,14 @@ Ollama 컨테이너와 모델을 먼저 준비합니다.
 docker compose --profile ollama up -d elasticsearch ollama
 docker compose exec ollama ollama pull qwen3:8b
 docker compose exec ollama ollama pull bge-m3
-AI_PROFILE=ollama docker compose --profile ollama up --build knowledge-api
+SPRING_PROFILES_ACTIVE=ollama docker compose --profile ollama up --build knowledge-api
 ```
 
 Ollama 답변도 자동 재시도하지 않습니다. Spring AI 기본값(최대 10회, 2초부터 최장 3분 간격)을 쓰면 Ollama가 내려가 있는 동안 답변 요청 하나가 20분 넘게 대기하므로 `spring.ai.retry.max-attempts`를 0으로 둡니다. 연결에 실패하면 바로 `GENERATION_UNAVAILABLE`과 검색 결과를 반환합니다.
 
-모든 프로필의 기본 검색 alias는 `portfolio-knowledge`이며 `ELASTICSEARCH_INDEX`로 바꿀 수 있습니다. 임베딩 모델이나 차원을 바꾸면 다음 동기화가 전체 문서를 새 색인에 다시 색인한 뒤 검색 대상을 교체합니다.
+모든 프로필의 기본 검색 alias는 `portfolio-knowledge`이며 `KNOWLEDGE_ELASTICSEARCH_INDEX_NAME`으로 바꿀 수 있습니다. 임베딩 모델이나 차원을 바꾸면 다음 동기화가 전체 문서를 새 색인에 다시 색인한 뒤 검색 대상을 교체합니다.
 
-`AI_PROFILE`은 `disabled`, `openai`, `ollama`를 허용하며, 빈 값은 기본값 `disabled`로 바인딩합니다. 철자가 틀린 값은 AI가 비활성화된 상태로 기동하지 않고 설정 오류로 시작을 중단합니다.
+AI 제공자는 `SPRING_PROFILES_ACTIVE`의 프로필 하나로 정합니다. `openai`, `ollama`, `ai-gateway` 중 하나를 지정하고, 지정하지 않으면 AI 없이 기동합니다. 존재하지 않는 프로필 이름(예: `opneai`)은 오류 없이 AI 비활성 상태로 기동하므로 기동 로그의 활성 프로필을 확인합니다.
 
 ## API
 
@@ -328,7 +332,7 @@ npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL" --answers
 
 질문 벡터는 Caffeine으로 2분간 최대 256개 재사용합니다. 문서 검색은 매번 실행합니다.
 
-AI 답변은 질문과 실제 전달 근거가 모두 같을 때만 기본 2분간 최대 128개 재사용합니다. 캐시 키는 질문과 전달한 근거(번호·제목·절·본문)를 값으로 비교하므로 색인이 바뀌면 새 답변을 생성합니다. 동일 키의 동시 요청은 한 번만 생성하고, 제공자 오류와 잘못된 답변은 저장하지 않습니다. `AI_ANSWER_CACHE_TTL_SECONDS`, `AI_ANSWER_CACHE_MAX_ENTRIES`로 조정합니다. `AI_ANSWER_CACHE_TTL_SECONDS`를 0으로 두면 답변을 저장해 재사용하지 않으며, 최대 개수는 1 이상이어야 합니다. 인스턴스 간 공유 캐시는 사용하지 않습니다.
+AI 답변은 질문과 실제 전달 근거가 모두 같을 때만 기본 2분간 최대 128개 재사용합니다. 캐시 키는 질문과 전달한 근거(번호·제목·절·본문)를 값으로 비교하므로 색인이 바뀌면 새 답변을 생성합니다. 동일 키의 동시 요청은 한 번만 생성하고, 제공자 오류와 잘못된 답변은 저장하지 않습니다. `KNOWLEDGE_AI_ANSWER_CACHE_TTL_SECONDS`, `KNOWLEDGE_AI_ANSWER_CACHE_MAX_ENTRIES`로 조정합니다. `KNOWLEDGE_AI_ANSWER_CACHE_TTL_SECONDS`를 0으로 두면 답변을 저장해 재사용하지 않으며, 최대 개수는 1 이상이어야 합니다. 인스턴스 간 공유 캐시는 사용하지 않습니다.
 
 ## 운영 지표
 
@@ -353,7 +357,7 @@ curl -fsS 'http://127.0.0.1:9091/actuator/metrics/http.server.requests?tag=uri:/
 
 아직 실행되지 않은 경로의 지표는 생성 전이므로 404일 수 있습니다. Compose 또는 `homeserver` 프로필은 9091 포트의 `/actuator/prometheus`에서 Prometheus 수집 형식도 제공합니다. 수집기는 이 주소를 조회하고 Grafana는 수집된 지표를 표시합니다. [Spring Boot Prometheus 연동](https://docs.spring.io/spring-boot/reference/actuator/metrics.html#actuator.metrics.export.prometheus).
 
-JAR 직접 실행은 기본 Actuator 설정을 유지합니다. 컨테이너에서는 `homeserver` 프로필을 사용하고, 호스트에서 JAR를 실행할 때는 `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`로 관리 포트를 제한합니다. `homeserver`를 사용하지 않고 별도 설정할 때는 `MANAGEMENT_SERVER_PORT=9091`, `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`, `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,metrics,prometheus`를 함께 지정합니다. [관리 포트 설정](https://docs.spring.io/spring-boot/reference/actuator/monitoring.html).
+JAR 직접 실행은 기본 Actuator 설정을 유지합니다. 컨테이너에서는 `homeserver` 프로필을 사용하고, 호스트에서 JAR를 실행할 때는 `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`로 관리 포트를 제한합니다. `homeserver`를 사용하지 않고 별도 설정할 때는 `MANAGEMENT_SERVER_PORT=9091`, `MANAGEMENT_SERVER_ADDRESS=127.0.0.1`, `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,metrics,prometheus`를 함께 지정합니다. [관리 포트 설정](https://docs.spring.io/spring-boot/reference/actuator/monitoring.html).
 
 홈서버용 환경변수는 `.env.homeserver.example`, 이미지 빌드와 k3s 연결 기준은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md)를 참고합니다.
 

@@ -17,6 +17,7 @@ spring:
             chat:
                 model: ${OPENAI_CHAT_MODEL:gpt-5-mini}
                 max-completion-tokens: ${OPENAI_MAX_COMPLETION_TOKENS:2000}
+            # 색인 메타데이터에 기록하는 모델과 실제 호출 모델이 어긋나지 않게 knowledge.ai 값을 따른다.
             embedding:
-                model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-large}
-                dimensions: ${OPENAI_EMBEDDING_DIMENSIONS:1024}
+                model: ${knowledge.ai.embedding-model-id}
+                dimensions: ${knowledge.ai.embedding-dimensions}

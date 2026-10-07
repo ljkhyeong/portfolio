@@ -44,7 +44,7 @@ class OllamaTransportTest {
         try (var context = new SpringApplicationBuilder(KnowledgeApiApplication.class)
                 .web(WebApplicationType.NONE).profiles("ollama").run(
                         "--OLLAMA_URL=http://127.0.0.1:" + server.getAddress().getPort(),
-                        "--OLLAMA_EMBEDDING_DIMENSIONS=2", "--knowledge.source.sync-on-startup=false")) {
+                        "--OLLAMA_EMBEDDING_DIMENSIONS=2", "--knowledge.sync.on-startup=false")) {
             assertThat(context.getBean(EmbeddingPort.class).embed(List.of("첫 문단", "두 번째 문단")))
                     .containsExactly(List.of(1f, 0f), List.of(0f, 1f));
             assertThat(requests.get()).isEqualTo(1);
@@ -75,7 +75,7 @@ class OllamaTransportTest {
         try (var context = new SpringApplicationBuilder(KnowledgeApiApplication.class)
                 .web(WebApplicationType.NONE).profiles("ollama").run(
                         "--OLLAMA_URL=http://127.0.0.1:" + server.getAddress().getPort(),
-                        "--knowledge.source.sync-on-startup=false")) {
+                        "--knowledge.sync.on-startup=false")) {
             assertThatThrownBy(() -> context.getBean(AnswerGenerationPort.class).generate("알림 복구", List.of()))
                     .isInstanceOf(AnswerGenerationUnavailableException.class);
             assertThat(requests.get()).isEqualTo(1);

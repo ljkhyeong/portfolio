@@ -17,6 +17,8 @@ import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.StandardEnvironment;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.web.cors.CorsConfiguration;
@@ -40,6 +42,41 @@ class KnowledgePropertiesBindingTest {
                 "https://portfolio.example.com",
                 "https://preview.example.com"
         );
+    }
+
+    @Test
+    void 운영_환경변수를_YAML_매핑_없이_완화_바인딩으로_연결한다() {
+        Map<String, Object> variables = Map.ofEntries(
+                Map.entry("KNOWLEDGE_SYNC_ON_STARTUP", "true"),
+                Map.entry("KNOWLEDGE_SYNC_KEY", "operator-key"),
+                Map.entry("KNOWLEDGE_SOURCE_MAX_BYTES", "1024"),
+                Map.entry("KNOWLEDGE_ELASTICSEARCH_INDEX_NAME", "portfolio-test"),
+                Map.entry("KNOWLEDGE_AI_ANSWER_CACHE_TTL_SECONDS", "0"),
+                Map.entry("KNOWLEDGE_AI_ANSWER_CACHE_MAX_ENTRIES", "16"),
+                Map.entry("KNOWLEDGE_RATE_LIMIT_CLIENT_SEARCHES_PER_MINUTE", "0"),
+                Map.entry("KNOWLEDGE_TURNSTILE_ENABLED", "true"),
+                Map.entry("KNOWLEDGE_TURNSTILE_SECRET_KEY", "server-secret"),
+                Map.entry("KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES", "a.example.com,B.example.com"),
+                Map.entry("KNOWLEDGE_CORS_ALLOWED_ORIGINS", "https://a.example.com,https://b.example.com")
+        );
+        MockEnvironment environment = new MockEnvironment();
+        environment.getPropertySources().addFirst(new SystemEnvironmentPropertySource(
+                StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, variables));
+
+        KnowledgeProperties properties = Binder.get(environment)
+                .bind("knowledge", Bindable.of(KnowledgeProperties.class))
+                .get();
+
+        assertThat(properties.sync()).isEqualTo(new KnowledgeProperties.Sync(true, "operator-key"));
+        assertThat(properties.source().maxBytes()).isEqualTo(1024);
+        assertThat(properties.elasticsearch().indexName()).isEqualTo("portfolio-test");
+        assertThat(properties.ai().answerCacheTtlSeconds()).isZero();
+        assertThat(properties.ai().answerCacheMaxEntries()).isEqualTo(16);
+        assertThat(properties.rateLimit().clientSearchesPerMinute()).isZero();
+        assertThat(properties.turnstile().enabled()).isTrue();
+        assertThat(properties.turnstile().secretKey()).isEqualTo("server-secret");
+        assertThat(properties.turnstile().expectedHostnames()).containsExactly("a.example.com", "b.example.com");
+        assertThat(properties.cors().allowedOrigins()).containsExactly("https://a.example.com", "https://b.example.com");
     }
 
     @Test
@@ -83,7 +120,7 @@ class KnowledgePropertiesBindingTest {
     @Test
     void Turnstile을_켜고_비밀키를_누락하면_기동을_거부한다() {
         new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)
-                .withPropertyValues("knowledge.human-verification.enabled=true")
+                .withPropertyValues("knowledge.turnstile.enabled=true")
                 .run(context -> assertThat(context).hasFailed());
     }
 
@@ -93,7 +130,7 @@ class KnowledgePropertiesBindingTest {
             assertThat(context).hasNotFailed();
             KnowledgeProperties properties = context.getBean(KnowledgeProperties.class);
             assertThat(properties).isEqualTo(knowledgeProperties());
-            assertThat(properties.source().syncOnStartup()).isFalse();
+            assertThat(properties.sync().onStartup()).isFalse();
             assertThat(properties.ai().provider()).isEqualTo(KnowledgeProperties.AiProvider.DISABLED);
             assertThat(properties.source().maxChunkCharacters()).isEqualTo(1200);
             assertThat(properties.source().maxBytes()).isEqualTo(8 * 1024 * 1024);
@@ -122,7 +159,7 @@ class KnowledgePropertiesBindingTest {
             "knowledge.search.default-limit=0",
             "knowledge.search.default-limit=21",
             "knowledge.search.rrf-k=-1",
-            "knowledge.human-verification.connect-timeout-seconds=0"
+            "knowledge.turnstile.connect-timeout-seconds=0"
     })
     void 사용할_수_없는_설정은_기동할_때_거부한다(String property) {
         new ApplicationContextRunner().withUserConfiguration(PropertiesConfiguration.class)
