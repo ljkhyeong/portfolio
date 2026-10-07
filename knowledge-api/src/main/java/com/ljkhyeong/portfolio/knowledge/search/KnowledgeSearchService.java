@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -29,14 +28,6 @@ import org.springframework.stereotype.Service;
 public class KnowledgeSearchService {
 
     private static final Logger log = LoggerFactory.getLogger(KnowledgeSearchService.class);
-    private static final Set<String> DOCUMENT_TYPES = Set.of(
-            "project_overview",
-            "service_overview",
-            "architecture_decision",
-            "problem_solution",
-            "implementation_evidence",
-            "representative_document"
-    );
 
     private final KnowledgeProperties properties;
     private final EmbeddingPort embeddingPort;
@@ -81,11 +72,7 @@ public class KnowledgeSearchService {
     ) {
         String normalizedQuery = query.strip();
         int limit = normalizeLimit(requestedLimit);
-        KnowledgeFilter filter = new KnowledgeFilter(
-                normalizeFilterValues(projectIds),
-                normalizeFilterValues(serviceIds),
-                normalizeDocumentTypes(documentTypes)
-        );
+        KnowledgeFilter filter = new KnowledgeFilter(projectIds, serviceIds, documentTypes);
         int candidateLimit = Math.max(limit, properties.search().candidateLimit());
 
         List<SearchHit> bm25 = indexPort.searchBm25(normalizedQuery, filter, candidateLimit);
@@ -141,26 +128,5 @@ public class KnowledgeSearchService {
     private int normalizeLimit(Integer requestedLimit) {
         int limit = requestedLimit == null ? properties.search().defaultLimit() : requestedLimit;
         return Math.min(limit, properties.search().maxLimit());
-    }
-
-    private List<String> normalizeFilterValues(List<String> values) {
-        if (values == null) {
-            return List.of();
-        }
-        return values.stream()
-                .map(String::strip)
-                .map(value -> value.toLowerCase(Locale.ROOT))
-                .filter(value -> !value.isBlank())
-                .distinct()
-                .toList();
-    }
-
-    private List<String> normalizeDocumentTypes(List<String> documentTypes) {
-        List<String> normalized = normalizeFilterValues(documentTypes);
-        List<String> invalid = normalized.stream().filter(value -> !DOCUMENT_TYPES.contains(value)).toList();
-        if (!invalid.isEmpty()) {
-            throw new IllegalArgumentException("지원하지 않는 문서 종류입니다: " + String.join(", ", invalid));
-        }
-        return normalized;
     }
 }

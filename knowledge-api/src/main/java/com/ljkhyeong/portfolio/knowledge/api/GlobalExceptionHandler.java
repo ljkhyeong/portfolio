@@ -7,119 +7,112 @@ import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.sync.KnowledgeSyncInProgressException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.ErrorResponse;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+// 오류 응답은 RFC 9457 ProblemDetail로 반환한다. Spring MVC 표준 오류의 한글 detail은 messages.properties에 둔다.
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException exception) {
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException exception,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request
+    ) {
         Map<String, String> fieldErrors = new LinkedHashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error ->
                 fieldErrors.putIfAbsent(error.getField(), error.getDefaultMessage())
         );
-        return ResponseEntity.badRequest().body(new ApiErrorResponse(
-                "INVALID_REQUEST",
-                "요청 값을 확인해 주세요.",
-                Map.copyOf(fieldErrors)
-        ));
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException exception) {
-        return ResponseEntity.badRequest().body(new ApiErrorResponse(
-                "INVALID_REQUEST",
-                exception.getMessage(),
-                Map.of()
-        ));
-    }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiErrorResponse> handleUnreadableMessage(HttpMessageNotReadableException exception) {
-        return ResponseEntity.badRequest().body(new ApiErrorResponse(
-                "INVALID_REQUEST",
-                "JSON 요청 형식을 확인해 주세요.",
-                Map.of()
-        ));
-    }
-
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ApiErrorResponse> handleUnsupportedMethod(HttpRequestMethodNotSupportedException exception) {
-        return ResponseEntity.status(exception.getStatusCode())
-                .headers(exception.getHeaders())
-                .body(new ApiErrorResponse(
-                        "METHOD_NOT_ALLOWED",
-                        "지원하지 않는 HTTP 메소드입니다.",
-                        Map.of()
-                ));
-    }
-
-    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<ApiErrorResponse> handleUnsupportedMediaType(HttpMediaTypeNotSupportedException exception) {
-        return ResponseEntity.status(exception.getStatusCode())
-                .headers(exception.getHeaders())
-                .body(new ApiErrorResponse(
-                        "UNSUPPORTED_MEDIA_TYPE",
-                        "Content-Type은 application/json을 사용해 주세요.",
-                        Map.of()
-                ));
+        exception.getBody().setProperty("fieldErrors", fieldErrors);
+        return super.handleMethodArgumentNotValid(exception, headers, status, request);
     }
 
     @ExceptionHandler(KnowledgeIndexAccessException.class)
-    public ResponseEntity<ApiErrorResponse> handleElasticsearch(KnowledgeIndexAccessException exception) {
+    public ResponseEntity<Object> handleIndexAccess(KnowledgeIndexAccessException exception, WebRequest request) {
         log.error("검색 저장소 요청 실패", exception);
-        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ApiErrorResponse(
+        return problem(
+                exception,
+                HttpStatus.SERVICE_UNAVAILABLE,
                 "SEARCH_UNAVAILABLE",
                 "현재 문서 검색을 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
-                Map.of()
-        ));
-    }
-
-    @ExceptionHandler(SyncForbiddenException.class)
-    public ResponseEntity<ApiErrorResponse> handleSyncForbidden(SyncForbiddenException exception) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiErrorResponse(
-                "SYNC_FORBIDDEN",
-                exception.getMessage(),
-                Map.of()
-        ));
+                request
+        );
     }
 
     @ExceptionHandler(KnowledgeSyncInProgressException.class)
-    public ResponseEntity<ApiErrorResponse> handleSyncInProgress(KnowledgeSyncInProgressException exception) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiErrorResponse(
-                "SYNC_IN_PROGRESS",
-                exception.getMessage(),
-                Map.of()
-        ));
+    public ResponseEntity<Object> handleSyncInProgress(KnowledgeSyncInProgressException exception, WebRequest request) {
+        return problem(exception, HttpStatus.CONFLICT, "SYNC_IN_PROGRESS", exception.getMessage(), request);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleUnexpected(Exception exception) {
+    public ResponseEntity<Object> handleUnexpected(Exception exception, WebRequest request) {
+        // 상위 클래스 목록에 없는 Spring HTTP 예외도 상태와 헤더를 유지한다.
         if (exception instanceof ErrorResponse errorResponse) {
-            boolean notFound = errorResponse.getStatusCode().value() == HttpStatus.NOT_FOUND.value();
-            return ResponseEntity.status(errorResponse.getStatusCode())
-                    .headers(errorResponse.getHeaders())
-                    .body(new ApiErrorResponse(
-                            notFound ? "NOT_FOUND" : "HTTP_ERROR",
-                            notFound ? "요청한 주소를 찾을 수 없습니다." : "요청을 처리하지 못했습니다.",
-                            Map.of()
-                    ));
+            return handleExceptionInternal(
+                    exception,
+                    null,
+                    errorResponse.getHeaders(),
+                    errorResponse.getStatusCode(),
+                    request
+            );
         }
-        log.error("예상하지 못한 Knowledge API 오류", exception);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiErrorResponse(
-                "INTERNAL_ERROR",
-                "요청을 처리하지 못했습니다.",
-                Map.of()
-        ));
+        return problem(exception, HttpStatus.INTERNAL_SERVER_ERROR, null, "요청을 처리하지 못했습니다.", request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(
+            Exception exception,
+            Object body,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request
+    ) {
+        if (status.value() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+            log.error("예상하지 못한 Knowledge API 오류", exception);
+        }
+        return super.handleExceptionInternal(exception, body, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> createResponseEntity(
+            Object body,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request
+    ) {
+        // 모든 오류 응답에 code를 둔다. 도메인 코드가 없으면 HTTP 상태 이름을 쓴다.
+        if (body instanceof ProblemDetail problem
+                && (problem.getProperties() == null || !problem.getProperties().containsKey("code"))) {
+            HttpStatus resolved = HttpStatus.resolve(status.value());
+            problem.setProperty("code", resolved != null ? resolved.name() : "HTTP_ERROR");
+        }
+        return super.createResponseEntity(body, headers, status, request);
+    }
+
+    private ResponseEntity<Object> problem(
+            Exception exception,
+            HttpStatus status,
+            String code,
+            String detail,
+            WebRequest request
+    ) {
+        ProblemDetail body = ProblemDetail.forStatusAndDetail(status, detail);
+        if (code != null) {
+            body.setProperty("code", code);
+        }
+        return handleExceptionInternal(exception, body, new HttpHeaders(), status, request);
     }
 }

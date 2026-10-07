@@ -62,11 +62,12 @@ knowledge:
         answer-context-limit: 6
         answer-cache-ttl-seconds: ${AI_ANSWER_CACHE_TTL_SECONDS:120}
         answer-cache-max-entries: ${AI_ANSWER_CACHE_MAX_ENTRIES:128}
-        global-answers-per-minute: ${AI_GLOBAL_ANSWERS_PER_MINUTE:30}
-        client-answers-per-minute: ${AI_CLIENT_ANSWERS_PER_MINUTE:5}
-        global-searches-per-minute: ${AI_GLOBAL_SEARCHES_PER_MINUTE:300}
-        client-searches-per-minute: ${AI_CLIENT_SEARCHES_PER_MINUTE:30}
-        max-client-buckets-per-minute: ${AI_MAX_CLIENT_BUCKETS_PER_MINUTE:100}
+    rate-limit:
+        global-answers-per-minute: ${KNOWLEDGE_RATE_LIMIT_GLOBAL_ANSWERS_PER_MINUTE:30}
+        client-answers-per-minute: ${KNOWLEDGE_RATE_LIMIT_CLIENT_ANSWERS_PER_MINUTE:5}
+        global-searches-per-minute: ${KNOWLEDGE_RATE_LIMIT_GLOBAL_SEARCHES_PER_MINUTE:300}
+        client-searches-per-minute: ${KNOWLEDGE_RATE_LIMIT_CLIENT_SEARCHES_PER_MINUTE:30}
+        max-clients-per-minute: ${KNOWLEDGE_RATE_LIMIT_MAX_CLIENTS_PER_MINUTE:100}
     human-verification:
         enabled: ${KNOWLEDGE_TURNSTILE_ENABLED:false}
         secret-key: ${KNOWLEDGE_TURNSTILE_SECRET_KEY:}

@@ -18,7 +18,7 @@ class KnowledgeErrorResponseHttpTest {
     private ElasticsearchKnowledgeRepository repository;
 
     @Test
-    void 없는_정적_리소스는_404와_한글_오류_응답을_반환한다() {
+    void 없는_정적_리소스는_404와_RFC_9457_한글_오류_응답을_반환한다() {
         RestTestClient.bindToServer()
                 .baseUrl("http://127.0.0.1:" + port)
                 .build()
@@ -27,8 +27,12 @@ class KnowledgeErrorResponseHttpTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isNotFound()
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON)
                 .expectBody()
+                .jsonPath("$.title").isEqualTo("Not Found")
+                .jsonPath("$.status").isEqualTo(404)
+                .jsonPath("$.instance").isEqualTo("/missing-resource.css")
                 .jsonPath("$.code").isEqualTo("NOT_FOUND")
-                .jsonPath("$.message").isEqualTo("요청한 주소를 찾을 수 없습니다.");
+                .jsonPath("$.detail").isEqualTo("요청한 주소를 찾을 수 없습니다.");
     }
 }

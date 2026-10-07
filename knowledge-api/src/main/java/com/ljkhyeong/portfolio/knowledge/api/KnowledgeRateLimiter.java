@@ -1,29 +1,21 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
 import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
-import io.github.bucket4j.Bucket;
-import io.github.bucket4j.EstimationProbe;
-import io.github.bucket4j.TimeMeter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class KnowledgeRateLimiter {
 
-    private static final Duration REFILL_PERIOD = Duration.ofMinutes(1);
+    private static final RateLimitDecision ALLOWED = new RateLimitDecision(true, 0);
 
     private final Clock clock;
-    private final TimeMeter timeMeter;
-    private final LimitState answerState;
-    private final LimitState searchState;
+    private final MinuteWindow answers;
+    private final MinuteWindow searches;
 
     @Autowired
     public KnowledgeRateLimiter(KnowledgeProperties properties) {
@@ -31,83 +23,28 @@ public class KnowledgeRateLimiter {
     }
 
     KnowledgeRateLimiter(KnowledgeProperties properties, Clock clock) {
+        KnowledgeProperties.RateLimit limits = properties.rateLimit();
         this.clock = clock;
-        this.timeMeter = new ClockTimeMeter(clock);
-        this.answerState = new LimitState(
-                properties.ai().globalAnswersPerMinute(),
-                properties.ai().clientAnswersPerMinute(),
-                properties.ai().maxClientBucketsPerMinute()
+        this.answers = new MinuteWindow(
+                limits.globalAnswersPerMinute(),
+                limits.clientAnswersPerMinute(),
+                limits.maxClientsPerMinute()
         );
-        this.searchState = new LimitState(
-                properties.ai().globalSearchesPerMinute(),
-                properties.ai().clientSearchesPerMinute(),
-                properties.ai().maxClientBucketsPerMinute()
+        this.searches = new MinuteWindow(
+                limits.globalSearchesPerMinute(),
+                limits.clientSearchesPerMinute(),
+                limits.maxClientsPerMinute()
         );
     }
 
+    // UTC 분 경계마다 전역·클라이언트 횟수를 초기화한다. 거절하면 다음 분까지 남은 초(1~60)를 반환한다.
     public synchronized RateLimitDecision tryAcquire(RequestKind kind, String clientId) {
-        LimitState state = kind == RequestKind.ANSWER ? answerState : searchState;
-        if (state.globalBucket == null && state.clientBuckets == null) {
-            return new RateLimitDecision(true, 0);
+        long second = clock.instant().getEpochSecond();
+        MinuteWindow window = kind == RequestKind.ANSWER ? answers : searches;
+        if (window.tryAcquire(Math.floorDiv(second, 60), clientId)) {
+            return ALLOWED;
         }
-
-        long currentWindow = clock.instant().getEpochSecond() / 60;
-        if (state.clientBuckets != null && state.clientWindow != currentWindow) {
-            state.clientBuckets.clear();
-            state.clientWindow = currentWindow;
-        }
-
-        if (state.globalBucket != null) {
-            EstimationProbe globalProbe = state.globalBucket.estimateAbilityToConsume(1);
-            if (!globalProbe.canBeConsumed()) {
-                return denied(globalProbe);
-            }
-        }
-
-        Bucket clientBucket = state.clientBucket(clientId);
-        if (clientBucket == null && state.clientBuckets != null) {
-            return deniedUntilNextMinute();
-        }
-        if (clientBucket != null) {
-            EstimationProbe clientProbe = clientBucket.estimateAbilityToConsume(1);
-            if (!clientProbe.canBeConsumed()) {
-                return denied(clientProbe);
-            }
-        }
-
-        consume(state.globalBucket);
-        consume(clientBucket);
-        return new RateLimitDecision(true, 0);
-    }
-
-    private void consume(Bucket bucket) {
-        if (bucket != null) {
-            bucket.tryConsume(1);
-        }
-    }
-
-    private RateLimitDecision denied(EstimationProbe probe) {
-        long nanosToWait = probe.getNanosToWaitForRefill();
-        long retryAfter = Math.ceilDiv(nanosToWait, TimeUnit.SECONDS.toNanos(1));
-        return new RateLimitDecision(false, Math.max(1, retryAfter));
-    }
-
-    private RateLimitDecision deniedUntilNextMinute() {
-        Instant now = clock.instant();
-        Instant nextMinute = now.truncatedTo(ChronoUnit.MINUTES).plus(REFILL_PERIOD);
-        long nanosToWait = Duration.between(now, nextMinute).toNanos();
-        long retryAfter = Math.ceilDiv(nanosToWait, TimeUnit.SECONDS.toNanos(1));
-        return new RateLimitDecision(false, Math.max(1, retryAfter));
-    }
-
-    private Bucket newBucket(int limit) {
-        Instant nextMinute = clock.instant().truncatedTo(ChronoUnit.MINUTES).plus(REFILL_PERIOD);
-        return Bucket.builder()
-                .addLimit(bandwidth -> bandwidth
-                        .capacity(limit)
-                        .refillIntervallyAligned(limit, REFILL_PERIOD, nextMinute))
-                .withCustomTimePrecision(timeMeter)
-                .build();
+        return new RateLimitDecision(false, 60 - Math.floorMod(second, 60));
     }
 
     public enum RequestKind {
@@ -115,54 +52,49 @@ public class KnowledgeRateLimiter {
         ANSWER
     }
 
-    private final class LimitState {
-
-        private final int clientLimit;
-        private final int maxClientBuckets;
-        private final Bucket globalBucket;
-        private final Map<String, Bucket> clientBuckets;
-        private long clientWindow = Long.MIN_VALUE;
-
-        private LimitState(int globalLimit, int clientLimit, int maxClientBuckets) {
-            this.clientLimit = clientLimit;
-            this.maxClientBuckets = maxClientBuckets;
-            this.globalBucket = globalLimit > 0 ? newBucket(globalLimit) : null;
-            this.clientBuckets = clientLimit > 0 ? new HashMap<>() : null;
-        }
-
-        private Bucket clientBucket(String clientId) {
-            if (clientBuckets == null) {
-                return null;
-            }
-
-            Bucket existing = clientBuckets.get(clientId);
-            if (existing != null) {
-                return existing;
-            }
-            if (maxClientBuckets > 0 && clientBuckets.size() >= maxClientBuckets) {
-                return null;
-            }
-
-            Bucket created = newBucket(clientLimit);
-            clientBuckets.put(clientId, created);
-            return created;
-        }
+    public record RateLimitDecision(boolean allowed, long retryAfterSeconds) {
     }
 
-    private record ClockTimeMeter(Clock clock) implements TimeMeter {
+    private static final class MinuteWindow {
 
-        @Override
-        public long currentTimeNanos() {
-            Instant now = clock.instant();
-            return now.getEpochSecond() * TimeUnit.SECONDS.toNanos(1) + now.getNano();
+        private final int globalLimit;
+        private final int clientLimit;
+        private final int maxClients;
+        private final Map<String, Integer> clientCounts = new HashMap<>();
+        private long minute = Long.MIN_VALUE;
+        private int globalCount;
+
+        private MinuteWindow(int globalLimit, int clientLimit, int maxClients) {
+            this.globalLimit = globalLimit;
+            this.clientLimit = clientLimit;
+            this.maxClients = maxClients;
         }
 
-        @Override
-        public boolean isWallClockBased() {
+        private boolean tryAcquire(long currentMinute, String clientId) {
+            if (globalLimit <= 0 && clientLimit <= 0) {
+                return true;
+            }
+            if (currentMinute != minute) {
+                minute = currentMinute;
+                globalCount = 0;
+                clientCounts.clear();
+            }
+            if (globalLimit > 0 && globalCount >= globalLimit) {
+                return false;
+            }
+            if (clientLimit > 0) {
+                Integer used = clientCounts.get(clientId);
+                // 새 클라이언트는 분당 클라이언트 수 상한을, 기록된 클라이언트는 클라이언트 한도를 확인한다.
+                boolean rejected = used == null
+                        ? maxClients > 0 && clientCounts.size() >= maxClients
+                        : used >= clientLimit;
+                if (rejected) {
+                    return false;
+                }
+                clientCounts.merge(clientId, 1, Integer::sum);
+            }
+            globalCount++;
             return true;
         }
-    }
-
-    public record RateLimitDecision(boolean allowed, long retryAfterSeconds) {
     }
 }

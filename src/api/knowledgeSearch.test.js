@@ -152,7 +152,7 @@ describe.each([
     })
 
     test("오류 메시지와 코드가 문자열이 아니면 기본 안내를 사용한다", async () => {
-        respond(400, async () => ({ message: { detail: "잘못된 형식" }, code: 123 }))
+        respond(400, async () => ({ detail: { text: "잘못된 형식" }, code: 123 }))
 
         await expect(send()).rejects.toMatchObject({
             status: 400,
@@ -174,8 +174,17 @@ describe.each([
         },
     )
 
-    test("서버가 보낸 오류 메시지와 상태를 유지한다", async () => {
-        respond(429, vi.fn().mockResolvedValue({ message: "호출 제한", code: "RATE_LIMITED" }))
+    test("서버가 보낸 RFC 9457 오류의 detail과 상태를 유지한다", async () => {
+        respond(
+            429,
+            vi.fn().mockResolvedValue({
+                title: "Too Many Requests",
+                status: 429,
+                detail: "호출 제한",
+                instance: "/api/v1/knowledge/search",
+                code: "RATE_LIMITED",
+            }),
+        )
 
         await expect(send()).rejects.toMatchObject({
             status: 429,

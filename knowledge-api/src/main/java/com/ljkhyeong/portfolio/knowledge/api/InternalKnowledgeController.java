@@ -1,8 +1,11 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import static com.ljkhyeong.portfolio.knowledge.api.KnowledgeHumanVerificationInterceptor.OPERATOR_KEY_HEADER;
+
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.sync.KnowledgeSyncService;
 import com.ljkhyeong.portfolio.knowledge.util.SecretMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,7 +26,7 @@ public class InternalKnowledgeController {
 
     @PostMapping("/sync")
     public KnowledgeSyncService.SyncResult sync(
-            @RequestHeader(name = "X-Knowledge-Sync-Key", required = false) String syncKey
+            @RequestHeader(name = OPERATOR_KEY_HEADER, required = false) String syncKey
     ) {
         verifySyncKey(syncKey);
         return syncService.syncConfiguredManifest();
@@ -31,13 +34,13 @@ public class InternalKnowledgeController {
 
     private void verifySyncKey(String suppliedKey) {
         if (!SecretMatcher.matches(properties.source().syncKey(), suppliedKey)) {
-            throw new SyncForbiddenException();
+            throw new KnowledgeApiException(HttpStatus.FORBIDDEN, "SYNC_FORBIDDEN", "공개 지식 문서 동기화 권한이 없습니다.");
         }
     }
 
     @GetMapping("/status")
     public KnowledgeSyncService.IndexStatus status(
-            @RequestHeader(name = "X-Knowledge-Sync-Key", required = false) String syncKey
+            @RequestHeader(name = OPERATOR_KEY_HEADER, required = false) String syncKey
     ) {
         verifySyncKey(syncKey);
         return syncService.status();

@@ -29,7 +29,7 @@ JSON 변환과 기본값 처리는 [Spring AI ChatClient](https://docs.spring.io
 -   임베딩 개수와 차원은 `SpringAiEmbeddingAdapter`와 `EmbeddingPort` 계약으로, 인덱스의 모델·차원·청크 설정은 동기화의 `_meta` 비교로 확인한다(이후 변경).
 -   문서별 부분 색인 복구는 이후 새 색인 전체 색인과 alias 원자 교체로 바꿨다. 교체 전 전체 청크 수와 벌크 응답의 실패를 확인하고, 실패하면 새 색인을 지운다.
 -   BM25 근거가 없으면 AI 호출을 생략하는 정책, 문단별 인용 ID 확인.
--   내부 동기화 키와 요청 DTO 검증, Bucket4j의 전역·클라이언트 한도와 버킷 수 제한.
+-   내부 동기화 키와 요청 DTO 검증, 전역·클라이언트 호출 한도와 분당 클라이언트 수 제한(이후 Bucket4j를 고정 창 카운터로 교체).
 
 | 즉시 교체하지 않은 항목                   | 이유                                                                                                                                                                                                                                                                                                             |
 | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -62,7 +62,7 @@ Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스�
 ### 3. 필터 정규화 중복 제거
 
 [KnowledgeSearchService](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/search/KnowledgeSearchService.java)의 `normalizeFilterValues()`에서 null 처리, 공백 제거, 소문자 변환, 빈 값 제외와 중복 제거를 공통 수행한다.
-문서 종류의 허용값 검사는 유지했다. 누락된 필터, 중복·공백·대문자가 있는 필터와 지원하지 않는 문서 종류를 관련 테스트에서 확인했다.
+문서 종류의 허용값 검사는 유지했다. 누락된 필터, 중복·공백·대문자가 있는 필터와 지원하지 않는 문서 종류를 관련 테스트에서 확인했다. 이후 정규화는 `KnowledgeFilter`로, 허용값 검사는 요청 DTO로 옮겼다(아래 절).
 
 ### 확인 범위
 
@@ -86,9 +86,18 @@ Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스�
 
 요청 처리, 호출 제한, 검색·답변, 임베딩, 문서 로딩·분할과 색인 복구를 확인했다. 현재 요구사항에서 추가로 교체하거나 제거할 실익이 큰 구현은 찾지 못했다.
 
--   [호출 제한](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/KnowledgeRateLimiter.java)은 Bucket4j를 사용한다. 전역·클라이언트 한도를 먼저 함께 확인하는 코드는 클라이언트 요청이 거절됐을 때 전역 토큰을 소모하지 않도록 필요하다. 버킷 수 제한은 메모리 사용을 제한한다.
+-   [호출 제한](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/KnowledgeRateLimiter.java)은 당시 Bucket4j를 사용했다. 전역·클라이언트 한도를 먼저 함께 확인하는 코드는 클라이언트 요청이 거절됐을 때 전역 토큰을 소모하지 않도록 필요하다. 버킷 수 제한은 메모리 사용을 제한한다. 이후 두 규칙을 유지한 채 고정 창 카운터로 바꿨다(아래 절).
 -   요청 DTO는 입력값의 형식과 범위를, 답변 서비스는 AI가 반환한 인용 ID를 검사한다. 동기화 서비스의 임베딩 개수·차원 재검사는 이후 삭제했다. 동기화 경로에서는 두 예외가 같은 500으로 처리돼 어댑터 검사와 실제로 중복이었다.
 -   [해시 생성](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/util/Hashing.java)은 이미 Java의 `MessageDigest`와 `HexFormat`을 사용한다. 임베딩 배열 변환과 짧은 DTO 매핑도 별도 의존성이나 공통 계층을 추가할 정도로 복잡하지 않다.
 -   청크 분할과 RRF 결합은 현재 검색 기준을 구현한다. 인덱스 호환성과 부분 실패 검사는 이후 `_meta` 비교, 교체 전 청크 수 확인과 새 색인 삭제로 바꿨다. 벌크 결과 검사는 유지한다.
 
 이번에는 앱 코드·테스트·의존성·설정을 변경하지 않았으며, 기존 성공 테스트와 빌드를 반복하지 않았다. 검색 품질·성능 측정과 실제 AI 호출은 이번 검토 범위에 포함하지 않았다.
+
+## 오류 응답과 호출 제한 정리 — `c4bc019` 이후
+
+-   오류 응답: [GlobalExceptionHandler](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/api/GlobalExceptionHandler.java)가 `ResponseEntityExceptionHandler`를 상속해 RFC 9457 `ProblemDetail`(`application/problem+json`)을 반환한다. `ApiErrorResponse`를 삭제했다. `message`는 `detail`이 되고, 업무 코드가 없는 오류의 `code`는 HTTP 상태 이름(`INVALID_REQUEST`→`BAD_REQUEST`, `HTTP_ERROR`→해당 상태 이름, `INTERNAL_ERROR`→`INTERNAL_SERVER_ERROR`)을 쓴다. 405·415의 헤더는 Spring이 유지하고, Spring MVC 표준 오류의 한글 문구는 `messages.properties`로 옮겼다. 웹은 `detail`을 읽는다. [Spring 오류 응답](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html).
+-   인터셉터: 호출 제한과 Turnstile 인터셉터가 `ObjectMapper`로 본문을 직접 쓰지 않고 `ErrorResponseException` 하위 `KnowledgeApiException`을 던진다. 상태, 업무 코드, `Retry-After`와 CORS 노출 헤더는 유지한다. 내부 동기화 키 오류도 같은 예외로 바꾸고 `SyncForbiddenException`을 삭제했다.
+-   입력 오류 범위: `IllegalArgumentException`을 모두 `400`과 원문 메시지로 응답하던 처리기를 삭제했다. 매니페스트 읽기·형식 오류처럼 요청과 무관한 오류는 `500`과 서버 오류 로그로 처리해 내부 메시지를 노출하지 않는다. 문서 종류 허용값은 요청 DTO의 `@Pattern`으로 검사해 `fieldErrors`로 알리고, 필터 정규화는 `KnowledgeFilter`가 맡는다.
+-   호출 제한: Bucket4j를 UTC 분 단위 고정 창 카운터로 교체했다. 기존 구성(용량=한도, 분 경계 정렬 리필, 분마다 클라이언트 초기화)은 정의상 고정 창과 같아 허용·거절과 `Retry-After`(1~60초)가 바뀌지 않는다. 설정은 `knowledge.rate-limit.*`(`KNOWLEDGE_RATE_LIMIT_*`)로 옮기고 `max-client-buckets-per-minute`를 `max-clients-per-minute`로 바꿨다.
+
+단위 테스트 273건, Elasticsearch 9.4.8 통합 테스트 10건, 웹 테스트 464건과 웹 빌드를 통과했다. 실제 Tomcat 테스트로 정적 리소스 404의 `ProblemDetail` 필드, 인코딩한 답변 경로의 `429`, 호출 제한 오류의 CORS 헤더와 `Retry-After`를 확인했다. 실제 AI·Turnstile 호출과 배포 환경 확인은 하지 않았다.

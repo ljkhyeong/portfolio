@@ -1,10 +1,13 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import static com.ljkhyeong.portfolio.knowledge.api.SearchRequest.DOCUMENT_TYPE;
+
 import java.util.List;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record AnswerRequest(
@@ -16,7 +19,9 @@ public record AnswerRequest(
         @Size(max = 7, message = "서비스 필터는 최대 7개까지 선택할 수 있습니다.")
         List<@NotBlank(message = "서비스 필터 값을 확인해 주세요.") String> serviceIds,
         @Size(max = 6, message = "문서 종류 필터는 최대 6개까지 선택할 수 있습니다.")
-        List<@NotBlank(message = "문서 종류 필터 값을 확인해 주세요.") String> documentTypes,
+        List<@NotBlank(message = "문서 종류 필터 값을 확인해 주세요.")
+                @Pattern(regexp = DOCUMENT_TYPE, flags = Pattern.Flag.CASE_INSENSITIVE, message = "지원하지 않는 문서 종류입니다.")
+                String> documentTypes,
         @Min(value = 1, message = "답변 근거 수는 1개 이상이어야 합니다.")
         @Max(value = 10, message = "답변 근거는 최대 10개까지 요청할 수 있습니다.")
         Integer limit

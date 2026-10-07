@@ -84,8 +84,8 @@ const postKnowledgeRequest = async (path, body, { signal, headers = {}, timeoutM
 
         if (!response.ok) {
             throw new KnowledgeApiError(
-                typeof payload?.message === "string" && payload.message.trim()
-                    ? payload.message
+                typeof payload?.detail === "string" && payload.detail.trim()
+                    ? payload.detail
                     : "요청을 처리하지 못했습니다.",
                 {
                     status: response.status,

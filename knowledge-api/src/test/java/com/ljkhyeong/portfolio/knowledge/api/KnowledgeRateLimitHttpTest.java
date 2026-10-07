@@ -54,8 +54,8 @@ class KnowledgeRateLimitHttpTest {
     static KnowledgeRateLimiter rateLimiter() {
         return new KnowledgeRateLimiter(
                 knowledgeProperties(
-                        "ai.client-searches-per-minute", "1",
-                        "ai.client-answers-per-minute", "1"
+                        "rate-limit.client-searches-per-minute", "1",
+                        "rate-limit.client-answers-per-minute", "1"
                 ),
                 Clock.fixed(Instant.parse("2026-10-07T12:00:30Z"), ZoneOffset.UTC)
         );
@@ -73,6 +73,7 @@ class KnowledgeRateLimitHttpTest {
         post(path, ANSWER_BODY, clientAddress)
                 .expectStatus().isEqualTo(429)
                 .expectHeader().valueEquals(HttpHeaders.RETRY_AFTER, "30")
+                .expectHeader().contentType(MediaType.APPLICATION_PROBLEM_JSON)
                 .expectBody()
                 .jsonPath("$.code").isEqualTo("ANSWER_RATE_LIMITED");
         // 호출 제한에 걸린 요청은 Turnstile 검증 전에 끝난다.
@@ -88,6 +89,27 @@ class KnowledgeRateLimitHttpTest {
                 .expectBody()
                 .jsonPath("$.code").isEqualTo("SEARCH_RATE_LIMITED");
         post(SEARCH_PATH, SEARCH_BODY, "203.0.113.8").expectStatus().isOk();
+    }
+
+    @Test
+    void 호출_제한_오류에도_CORS_헤더를_유지해_브라우저가_Retry_After를_읽는다() {
+        String clientAddress = "203.0.113.40";
+        post(SEARCH_PATH, SEARCH_BODY, clientAddress).expectStatus().isOk();
+
+        client.post()
+                .uri(uri(SEARCH_PATH))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.ORIGIN, "http://localhost:5173")
+                .header("X-Forwarded-For", clientAddress)
+                .body(SEARCH_BODY)
+                .exchange()
+                .expectStatus().isEqualTo(429)
+                .expectHeader().valueEquals(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:5173")
+                .expectHeader().valueEquals(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.RETRY_AFTER)
+                .expectHeader().valueEquals(HttpHeaders.RETRY_AFTER, "30")
+                .expectBody()
+                .jsonPath("$.code").isEqualTo("SEARCH_RATE_LIMITED")
+                .jsonPath("$.detail").isEqualTo("요청이 많습니다. 잠시 후 다시 시도해 주세요.");
     }
 
     @Test

@@ -27,7 +27,7 @@ class ElasticsearchExceptionTranslationTest {
     private final ElasticsearchClient client = mock(ElasticsearchClient.class);
     private final ElasticsearchKnowledgeRepository repository =
             new ElasticsearchKnowledgeRepository(knowledgeProperties(), client);
-    private final KnowledgeFilter filter = new KnowledgeFilter(List.of(), List.of());
+    private final KnowledgeFilter filter = new KnowledgeFilter(List.of(), List.of(), List.of());
 
     @ParameterizedTest
     @MethodSource("storageFailures")

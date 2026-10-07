@@ -34,7 +34,7 @@ import org.testcontainers.utility.DockerImageName;
 @Tag("integration")
 class ElasticsearchKnowledgeRepositoryIntegrationTest {
 
-    private static final KnowledgeFilter ALL = new KnowledgeFilter(List.of(), List.of());
+    private static final KnowledgeFilter ALL = new KnowledgeFilter(List.of(), List.of(), List.of());
 
     @Container
     @ServiceConnection
@@ -69,7 +69,7 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
     void 공개한_색인을_alias로_BM25와_kNN_검색하고_메타데이터를_읽는다() throws IOException {
         var repository = repository("first-publish");
         String index = publish(repository, metadata("sha256:first", 1), chunk("integration-chunk"));
-        var filter = new KnowledgeFilter(List.of("baton"), List.of("problem_solution"));
+        var filter = new KnowledgeFilter(List.of("baton"), List.of(), List.of("problem_solution"));
 
         assertThat(chunkIds(repository.searchBm25("알림", filter, 5))).containsExactly("integration-chunk");
         assertThat(chunkIds(repository.searchKnn(List.of(1.0f, 0.0f), filter, 5, 10)))

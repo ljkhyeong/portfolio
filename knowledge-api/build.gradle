@@ -29,7 +29,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-elasticsearch'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'com.github.ben-manes.caffeine:caffeine'
-    implementation 'com.bucket4j:bucket4j_jdk17-core:8.19.0'
     implementation 'org.commonmark:commonmark-ext-gfm-tables:0.30.0'
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
     implementation 'org.springframework.ai:spring-ai-starter-model-ollama'

@@ -115,7 +115,7 @@ class ElasticsearchSearchResponseTest {
 
     @Test
     void 벡터_검색은_설정한_임베딩_모델의_청크만_비교한다() throws Exception {
-        repository.searchKnn(List.of(1f, 0f), new KnowledgeFilter(List.of("baton"), List.of()), 5, 10);
+        repository.searchKnn(List.of(1f, 0f), new KnowledgeFilter(List.of("baton"), List.of(), List.of()), 5, 10);
 
         var knn = new ObjectMapper().readTree(requests.getFirst().body()).path("knn");
         assertThat(knn.toString()).contains("\"projectId\":[\"baton\"]",
@@ -214,7 +214,7 @@ class ElasticsearchSearchResponseTest {
     }
 
     private int read(String operation) {
-        var filter = new KnowledgeFilter(List.of(), List.of());
+        var filter = new KnowledgeFilter(List.of(), List.of(), List.of());
         return switch (operation) {
             case "bm25" -> repository.searchBm25("알림", filter, 5).size();
             default -> repository.searchKnn(List.of(1f, 0f), filter, 5, 10).size();

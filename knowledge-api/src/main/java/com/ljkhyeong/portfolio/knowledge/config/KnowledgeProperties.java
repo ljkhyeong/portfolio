@@ -20,6 +20,7 @@ public record KnowledgeProperties(
         @Valid @DefaultValue Elasticsearch elasticsearch,
         @Valid @DefaultValue Search search,
         @Valid @DefaultValue Ai ai,
+        @DefaultValue RateLimit rateLimit,
         @Valid @DefaultValue HumanVerification humanVerification,
         @DefaultValue Cors cors
 ) {
@@ -68,12 +69,17 @@ public record KnowledgeProperties(
             @Positive @DefaultValue("1024") int embeddingDimensions,
             @Positive @DefaultValue("6") int answerContextLimit,
             @PositiveOrZero @DefaultValue("120") int answerCacheTtlSeconds,
-            @PositiveOrZero @DefaultValue("128") int answerCacheMaxEntries,
+            @PositiveOrZero @DefaultValue("128") int answerCacheMaxEntries
+    ) {
+    }
+
+    // 0 이하 값은 해당 한도를 적용하지 않는다.
+    public record RateLimit(
             @DefaultValue("30") int globalAnswersPerMinute,
             @DefaultValue("5") int clientAnswersPerMinute,
             @DefaultValue("300") int globalSearchesPerMinute,
             @DefaultValue("30") int clientSearchesPerMinute,
-            @DefaultValue("100") int maxClientBucketsPerMinute
+            @DefaultValue("100") int maxClientsPerMinute
     ) {
     }
 

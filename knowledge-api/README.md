@@ -92,6 +92,8 @@ Elasticsearch 검색은 부분 결과를 허용하지 않도록 요청합니다.
 
 `projectIds`, `serviceIds`, `documentTypes`는 선택 필터입니다. BATON의 Core·GO·WATCH·RELAY·BRIEF·CAL·ROUND 문서만 조회할 때는 `projectIds`와 `serviceIds`를 함께 지정합니다. 검색과 답변 API에 같은 필터를 전달해야 결과와 답변 근거의 범위가 일치합니다.
 
+필터 값은 앞뒤 공백을 지우고 소문자로 바꾼 뒤 중복을 뺍니다. `documentTypes`는 `project_overview`, `service_overview`, `architecture_decision`, `problem_solution`, `implementation_evidence`, `representative_document`만 허용하며, 다른 값은 검색 전에 `400`과 `fieldErrors`(예: `documentTypes[1]`)로 거부합니다.
+
 발췌문은 Elasticsearch unified highlighter가 찾은 본문 구간을 사용합니다. CommonMark로 제목·강조·링크 등 Markdown을 일반 텍스트로 바꾸고, 긴 글은 280자 안의 문장 또는 단어 경계에서 줄입니다. 일치 구간이 없는 벡터 검색 결과는 본문 앞부분을 표시합니다. [Elasticsearch 발췌 설정](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/highlighting-settings), [CommonMark Java](https://github.com/commonmark/commonmark-java).
 
 ### 근거 기반 답변
@@ -115,6 +117,34 @@ X-Turnstile-Token: 브라우저에서 발급받은 일회용 토큰
 -   `GENERATED`: 답변과 검증된 인용을 반환합니다.
 -   `INSUFFICIENT_EVIDENCE`: 관련 공개 근거가 부족해 답변을 만들지 않습니다.
 -   `GENERATION_UNAVAILABLE`: AI 제공자 오류·비정상 응답·설정 없음으로 답변을 만들지 않고 검색 결과만 반환합니다.
+
+### 오류 응답
+
+오류는 [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) 형식의 `application/problem+json`으로 반환합니다. Spring의 `ProblemDetail` 필드(`title`, `status`, `detail`, `instance`)에 오류 코드 `code`를 더하고, 요청 값 검증 오류에만 필드별 안내 `fieldErrors`를 포함합니다. [Spring 오류 응답](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html).
+
+```json
+{
+    "title": "Bad Request",
+    "status": 400,
+    "detail": "요청 값을 확인해 주세요.",
+    "instance": "/api/v1/knowledge/search",
+    "code": "BAD_REQUEST",
+    "fieldErrors": { "query": "검색어는 2자 이상 300자 이하로 입력해 주세요." }
+}
+```
+
+`code`는 다음 업무 코드를 사용하고, 그 밖의 오류에는 HTTP 상태 이름(`BAD_REQUEST`, `NOT_FOUND`, `METHOD_NOT_ALLOWED`, `UNSUPPORTED_MEDIA_TYPE`, `INTERNAL_SERVER_ERROR` 등)을 사용합니다.
+
+| 상태  | `code`                                       | 의미                                      |
+| ----- | -------------------------------------------- | ----------------------------------------- |
+| `429` | `SEARCH_RATE_LIMITED`, `ANSWER_RATE_LIMITED` | 호출 제한. `Retry-After`를 함께 반환      |
+| `403` | `HUMAN_VERIFICATION_FAILED`                  | Turnstile 토큰·호스트·action 불일치       |
+| `503` | `HUMAN_VERIFICATION_UNAVAILABLE`             | Turnstile 검증 서버·설정 오류             |
+| `503` | `SEARCH_UNAVAILABLE`                         | Elasticsearch 장애나 불완전한 키워드 검색 |
+| `403` | `SYNC_FORBIDDEN`                             | 내부 동기화·상태 API의 키 불일치          |
+| `409` | `SYNC_IN_PROGRESS`                           | 같은 인스턴스에서 동기화 실행 중          |
+
+`405`는 `Allow`, `415`는 `Accept` 헤더를 유지합니다. 예상하지 못한 오류는 내부 예외 메시지를 숨기고 `500 / INTERNAL_SERVER_ERROR`와 일반 안내를 반환하며, 원인은 서버 오류 로그에 남깁니다. Spring MVC 표준 오류의 한글 `detail`은 `src/main/resources/messages.properties`에서 관리합니다. 웹은 `detail`을 오류 안내로, `code`와 `Retry-After`를 상태 구분에 사용합니다.
 
 브라우저는 검색을 90초, AI 답변을 180초까지 기다립니다. 응답 본문을 읽는 시간도 포함하며, 초과하면 `REQUEST_TIMEOUT` 안내와 재시도 버튼을 표시합니다. 검색어·필터는 유지하고, 답변 실패 때는 기존 검색 결과도 유지합니다. 자동 재요청하지 않으며 화면 이동이나 조건 변경으로 취소한 요청은 오류로 표시하지 않습니다. 브라우저의 대기 중단이 서버·AI 작업의 취소나 과금 중단을 보장하지는 않습니다.
 
@@ -206,13 +236,25 @@ X-Knowledge-Sync-Key: 설정한 값
 
 자료는 JAR에 포함된 `classpath:knowledge/portfolio.json`만 읽습니다. 외부 주소를 요청 본문이나 설정으로 받지 않으며, `knowledge.source.location`에 `classpath:` 외의 값(원격 URL, 파일 경로)을 지정하면 기동 단계에서 거부합니다. 자료를 바꾸려면 저장소의 `public/knowledge/portfolio.json`을 갱신하고 이미지를 다시 빌드합니다.
 
-자료는 기본 8MiB까지만 읽으며, 용량 초과나 JSON 검증 실패 시 색인을 변경하지 않습니다. `KNOWLEDGE_SOURCE_MAX_BYTES`(1~67,108,864바이트)로 조정합니다.
+자료는 기본 8MiB까지만 읽으며, 용량 초과나 JSON 검증 실패 시 색인을 변경하지 않습니다. `KNOWLEDGE_SOURCE_MAX_BYTES`(1~67,108,864바이트)로 조정합니다. 자료 읽기·형식 오류는 요청 오류가 아니므로 동기화·상태 API가 `500 / INTERNAL_SERVER_ERROR`를 반환하고, 원인은 서버 로그에서 확인합니다.
 
 ## 비용 제한과 프록시 주소
 
 AI 답변 생성은 기본적으로 인스턴스 전체 분당 30회, 클라이언트별 5회로 제한합니다. OpenAI 프로필에서는 검색 질문의 임베딩에도 비용이 발생하므로 검색은 전체 300회, 클라이언트별 30회로 제한합니다. 초과 시 `429`와 `Retry-After`를 반환하며 브라우저 JavaScript에서도 `Retry-After`를 읽을 수 있게 CORS 응답 헤더로 노출합니다. CORS 사전 요청인 `OPTIONS`는 횟수에 포함하지 않습니다.
 
-요청 종류별로 한 분 동안 최대 100개의 클라이언트 버킷을 유지합니다. 상한에 도달하면 이미 등록된 클라이언트의 제한은 계속 적용하고, 새로운 클라이언트는 다음 분까지 `429`로 차단합니다. `AI_MAX_CLIENT_BUCKETS_PER_MINUTE`로 상한을 조정할 수 있으며 0 이하이면 상한을 적용하지 않습니다.
+횟수는 UTC 분 경계마다 초기화하는 고정 창으로 셉니다. `Retry-After`는 다음 분까지 남은 초(1~60)입니다. 클라이언트 한도에 걸린 요청은 전역 횟수를 소모하지 않습니다.
+
+요청 종류별로 한 분 동안 최대 100개 클라이언트의 횟수를 기록합니다. 상한에 도달하면 기록된 클라이언트에는 제한을 계속 적용하고, 새 클라이언트는 다음 분까지 `429`로 차단합니다.
+
+| 환경 변수                                         | 기본값 | 의미                                |
+| ------------------------------------------------- | ------ | ----------------------------------- |
+| `KNOWLEDGE_RATE_LIMIT_GLOBAL_ANSWERS_PER_MINUTE`  | 30     | 인스턴스 전체 분당 답변 수          |
+| `KNOWLEDGE_RATE_LIMIT_CLIENT_ANSWERS_PER_MINUTE`  | 5      | 클라이언트별 분당 답변 수           |
+| `KNOWLEDGE_RATE_LIMIT_GLOBAL_SEARCHES_PER_MINUTE` | 300    | 인스턴스 전체 분당 검색 수          |
+| `KNOWLEDGE_RATE_LIMIT_CLIENT_SEARCHES_PER_MINUTE` | 30     | 클라이언트별 분당 검색 수           |
+| `KNOWLEDGE_RATE_LIMIT_MAX_CLIENTS_PER_MINUTE`     | 100    | 요청 종류별 분당 클라이언트 수 상한 |
+
+값이 0 이하이면 해당 한도를 적용하지 않습니다.
 
 클라이언트 구분에는 Tomcat이 정한 `remoteAddr`를 사용합니다. `server.forward-headers-strategy: native`로 Tomcat `RemoteIpValve`를 켜 두었으므로, 직접 접속한 주소가 내부 프록시 범위(사설망, 루프백, `100.64.0.0/10` 등 Spring Boot 기본값)이면 `X-Forwarded-For`를 오른쪽부터 확인해 내부 프록시가 아닌 첫 주소를 클라이언트 주소로 씁니다. 클라이언트가 직접 넣은 왼쪽 값으로는 다른 클라이언트로 바꿀 수 없습니다. 쿠버네티스에서는 Spring Boot가 이 방식을 자동으로 켜며, Compose와 JAR 직접 실행에서도 같은 기준을 쓰도록 명시했습니다. 가장 왼쪽 값을 쓰는 Spring의 `framework` 방식은 사용하지 않습니다.
 
@@ -278,7 +320,7 @@ npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL"
 npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL" --answers
 ```
 
-평가 도구는 웹과 같은 응답 검사 함수를 사용합니다. 검색 목록·건수·표시 필드와 답변 상태·본문·출처 주소를 검사하고, 답변 평가의 검색 결과도 확인합니다. 잘못된 응답은 성공으로 집계하지 않고 평가를 중단합니다. 답변 모드는 생성·거절 상태와 답변·출처를 기록하지만, 의미가 근거와 일치하는지는 각 질문의 `criteria`와 원문으로 검토해야 합니다. 형식 검사를 사실 정확도 점수로 계산하지 않습니다. 평가용 인스턴스는 기존 호출 제한에 걸리지 않도록 별도로 설정하되 운영 한도를 낮추지 않습니다.
+평가 도구는 웹과 같은 응답 검사 함수를 사용합니다. 검색 목록·건수·표시 필드와 답변 상태·본문·출처 주소를 검사하고, 답변 평가의 검색 결과도 확인합니다. 잘못된 응답은 성공으로 집계하지 않고 평가를 중단합니다. 답변 모드는 생성·거절 상태와 답변·출처를 기록하지만, 의미가 근거와 일치하는지는 각 질문의 `criteria`와 원문으로 검토해야 합니다. 형식 검사를 사실 정확도 점수로 계산하지 않습니다. 평가용 인스턴스는 기존 호출 제한에 걸리지 않도록 별도로 설정하되(CI는 `KNOWLEDGE_RATE_LIMIT_CLIENT_SEARCHES_PER_MINUTE=0`) 운영 한도를 낮추지 않습니다.
 
 질문 벡터는 Caffeine으로 2분간 최대 256개 재사용합니다. 문서 검색은 매번 실행합니다.
 

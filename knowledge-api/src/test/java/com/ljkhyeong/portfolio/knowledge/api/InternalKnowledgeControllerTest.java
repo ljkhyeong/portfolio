@@ -1,6 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.messageSource;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,13 +25,13 @@ class InternalKnowledgeControllerTest {
         KnowledgeSyncService service = mock(KnowledgeSyncService.class);
         when(service.syncConfiguredManifest()).thenThrow(new KnowledgeSyncInProgressException());
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new InternalKnowledgeController(properties, service))
-                .setControllerAdvice(new GlobalExceptionHandler())
+                .setControllerAdvice(exceptionHandler())
                 .build();
 
         mockMvc.perform(post("/internal/v1/knowledge/sync").header("X-Knowledge-Sync-Key", "configured-key"))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value("SYNC_IN_PROGRESS"))
-                .andExpect(jsonPath("$.message").value("공개 자료 동기화가 이미 실행 중입니다. 완료 후 자료 상태를 확인해 주세요."));
+                .andExpect(jsonPath("$.detail").value("공개 자료 동기화가 이미 실행 중입니다. 완료 후 자료 상태를 확인해 주세요."));
     }
 
     @Test
@@ -41,15 +42,37 @@ class InternalKnowledgeControllerTest {
                 mock(KnowledgeSyncService.class)
         );
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                .setControllerAdvice(new GlobalExceptionHandler())
+                .setControllerAdvice(exceptionHandler())
                 .build();
 
         mockMvc.perform(post("/internal/v1/knowledge/sync"))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.code").value("SYNC_FORBIDDEN"));
+                .andExpect(jsonPath("$.code").value("SYNC_FORBIDDEN"))
+                .andExpect(jsonPath("$.detail").value("공개 지식 문서 동기화 권한이 없습니다."));
         mockMvc.perform(get("/internal/v1/knowledge/status"))
                 .andExpect(status().isForbidden());
         mockMvc.perform(get("/internal/v1/knowledge/status").header("X-Knowledge-Sync-Key", "wrong-key"))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void 동기화_자료_오류는_내부_메시지를_숨기고_500을_반환한다() throws Exception {
+        KnowledgeProperties properties = knowledgeProperties("source.sync-key", "configured-key");
+        KnowledgeSyncService service = mock(KnowledgeSyncService.class);
+        when(service.syncConfiguredManifest()).thenThrow(new IllegalArgumentException("중복 documentId가 있습니다: a"));
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new InternalKnowledgeController(properties, service))
+                .setControllerAdvice(exceptionHandler())
+                .build();
+
+        mockMvc.perform(post("/internal/v1/knowledge/sync").header("X-Knowledge-Sync-Key", "configured-key"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("INTERNAL_SERVER_ERROR"))
+                .andExpect(jsonPath("$.detail").value("요청을 처리하지 못했습니다."));
+    }
+
+    private GlobalExceptionHandler exceptionHandler() {
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        handler.setMessageSource(messageSource());
+        return handler;
     }
 }

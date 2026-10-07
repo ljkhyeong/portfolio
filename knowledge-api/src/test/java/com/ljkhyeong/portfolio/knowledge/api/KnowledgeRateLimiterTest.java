@@ -43,7 +43,7 @@ class KnowledgeRateLimiterTest {
     }
 
     @Test
-    void 클라이언트_거절은_전역_토큰을_소모하지_않는다() {
+    void 클라이언트_거절은_전역_횟수를_소모하지_않는다() {
         KnowledgeRateLimiter limiter = new KnowledgeRateLimiter(
                 properties(2, 1, 0, 0),
                 Clock.fixed(Instant.parse("2026-08-23T12:00:00Z"), ZoneOffset.UTC)
@@ -69,7 +69,7 @@ class KnowledgeRateLimiterTest {
     }
 
     @Test
-    void UTC_고정_분_경계에서_전체_용량을_리필한다() {
+    void UTC_분_경계에서_횟수를_초기화한다() {
         MutableClock clock = new MutableClock(Instant.parse("2026-08-23T12:00:59.900Z"));
         KnowledgeRateLimiter limiter = new KnowledgeRateLimiter(properties(1, 1, 0, 0), clock);
 
@@ -84,12 +84,12 @@ class KnowledgeRateLimiterTest {
     }
 
     @Test
-    void 클라이언트_버킷_상한을_넘으면_새_클라이언트를_다음_분까지_거절한다() {
+    void 클라이언트_수_상한을_넘으면_새_클라이언트를_다음_분까지_거절한다() {
         MutableClock clock = new MutableClock(Instant.parse("2026-08-23T12:00:30Z"));
         KnowledgeProperties properties = knowledgeProperties(
-                "ai.global-answers-per-minute", "0",
-                "ai.client-answers-per-minute", "2",
-                "ai.max-client-buckets-per-minute", "2"
+                "rate-limit.global-answers-per-minute", "0",
+                "rate-limit.client-answers-per-minute", "2",
+                "rate-limit.max-clients-per-minute", "2"
         );
         KnowledgeRateLimiter limiter = new KnowledgeRateLimiter(properties, clock);
 
@@ -106,6 +106,20 @@ class KnowledgeRateLimiterTest {
         assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-c").allowed()).isTrue();
     }
 
+    @Test
+    void 분_정각에_거절하면_다음_분까지_60초를_기다린다() {
+        KnowledgeRateLimiter limiter = new KnowledgeRateLimiter(
+                properties(1, 0, 0, 0),
+                Clock.fixed(Instant.parse("2026-08-23T12:00:00Z"), ZoneOffset.UTC)
+        );
+
+        assertThat(limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-a").allowed()).isTrue();
+        var denied = limiter.tryAcquire(KnowledgeRateLimiter.RequestKind.ANSWER, "client-b");
+
+        assertThat(denied.allowed()).isFalse();
+        assertThat(denied.retryAfterSeconds()).isEqualTo(60);
+    }
+
     private KnowledgeProperties properties(
             int globalAnswers,
             int clientAnswers,
@@ -113,10 +127,10 @@ class KnowledgeRateLimiterTest {
             int clientSearches
     ) {
         return knowledgeProperties(
-                "ai.global-answers-per-minute", String.valueOf(globalAnswers),
-                "ai.client-answers-per-minute", String.valueOf(clientAnswers),
-                "ai.global-searches-per-minute", String.valueOf(globalSearches),
-                "ai.client-searches-per-minute", String.valueOf(clientSearches)
+                "rate-limit.global-answers-per-minute", String.valueOf(globalAnswers),
+                "rate-limit.client-answers-per-minute", String.valueOf(clientAnswers),
+                "rate-limit.global-searches-per-minute", String.valueOf(globalSearches),
+                "rate-limit.client-searches-per-minute", String.valueOf(clientSearches)
         );
     }
 

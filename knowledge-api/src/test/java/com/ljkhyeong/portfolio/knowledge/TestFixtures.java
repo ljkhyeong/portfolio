@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mock.env.MockEnvironment;
 
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
@@ -20,6 +22,14 @@ public final class TestFixtures {
             environment.withProperty("knowledge." + entries[index], entries[index + 1]);
         }
         return Binder.get(environment).bindOrCreate("knowledge", KnowledgeProperties.class);
+    }
+
+    // standalone MockMvc는 Boot 자동 설정 없이 실행되므로 오류 문구 파일을 직접 연결한다.
+    public static MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 
     public static KnowledgeSourceDocument document(String documentId) {

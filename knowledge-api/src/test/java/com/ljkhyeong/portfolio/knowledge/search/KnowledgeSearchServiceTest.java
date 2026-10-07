@@ -30,7 +30,6 @@ import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.ai.embedding.Embedding;
 import org.springframework.ai.embedding.EmbeddingResponse;
@@ -137,7 +136,7 @@ class KnowledgeSearchServiceTest {
         verify(embedding).embed(List.of("결제 재처리"));
         verify(index, times(2)).searchBm25(anyString(), any(), anyInt());
         verify(index).searchKnn(eq(List.of(1.0f, 0.0f)),
-                eq(new KnowledgeFilter(List.of("happygallery"), List.of())), anyInt(), anyInt());
+                eq(new KnowledgeFilter(List.of("happygallery"), List.of(), List.of())), anyInt(), anyInt());
     }
 
     @Test
@@ -190,59 +189,6 @@ class KnowledgeSearchServiceTest {
 
         assertThatThrownBy(() -> service.search("알림 재처리", List.of(), List.of(), 10))
                 .isSameAs(programmingError);
-    }
-
-    @ParameterizedTest
-    @MethodSource("filters")
-    void 프로젝트와_서비스와_문서_종류에_같은_정규화_규칙을_적용한다(
-            List<String> projectIds,
-            List<String> serviceIds,
-            List<String> documentTypes,
-            KnowledgeFilter expected
-    ) {
-        KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
-        var service = new KnowledgeSearchService(
-                knowledgeProperties(), mock(EmbeddingPort.class), indexPort, new RrfRanker(), meters
-        );
-
-        service.search("알림", projectIds, serviceIds, documentTypes, 10);
-
-        verify(indexPort).searchBm25(eq("알림"), eq(expected), anyInt());
-        assertThat(meters.get("knowledge.searches").tag("mode", "keyword").counter().count()).isEqualTo(1);
-    }
-
-    @Test
-    void 정규화_후에도_지원하지_않는_문서_종류는_검색하지_않는다() {
-        KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
-        var service = new KnowledgeSearchService(
-                knowledgeProperties(), mock(EmbeddingPort.class), indexPort, new RrfRanker(), meters
-        );
-
-        assertThatThrownBy(() -> service.search("알림", List.of(), List.of(" PRIVATE "), 10))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("지원하지 않는 문서 종류입니다: private");
-        verify(indexPort, never()).searchBm25(anyString(), any(), anyInt());
-    }
-
-    private static Stream<Arguments> filters() {
-        return Stream.of(
-                Arguments.of(
-                        null,
-                        null,
-                        null,
-                        new KnowledgeFilter(List.of(), List.of(), List.of())
-                ),
-                Arguments.of(
-                        List.of(" BATON ", "baton", ""),
-                        List.of(" GO ", "go", " "),
-                        List.of(" PROJECT_OVERVIEW ", "project_overview", " "),
-                        new KnowledgeFilter(
-                                List.of("baton"),
-                                List.of("go"),
-                                List.of("project_overview")
-                        )
-                )
-        );
     }
 
     private double cacheLookups(String cache, String result) {

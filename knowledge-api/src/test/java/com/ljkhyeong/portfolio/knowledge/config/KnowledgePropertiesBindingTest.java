@@ -21,7 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import tools.jackson.databind.json.JsonMapper;
 
 class KnowledgePropertiesBindingTest {
 
@@ -49,8 +48,7 @@ class KnowledgePropertiesBindingTest {
         WebConfiguration configuration = new WebConfiguration(
                 properties,
                 mock(KnowledgeRateLimiter.class),
-                mock(KnowledgeHumanVerificationInterceptor.class),
-                new JsonMapper()
+                mock(KnowledgeHumanVerificationInterceptor.class)
         );
         InspectableCorsRegistry registry = new InspectableCorsRegistry();
 
@@ -134,17 +132,19 @@ class KnowledgePropertiesBindingTest {
                 .withPropertyValues(
                         "knowledge.ai.provider= OpenAI ",
                         "knowledge.search.rrf-k=0",
-                        "knowledge.ai.global-answers-per-minute=-1",
-                        "knowledge.ai.client-answers-per-minute=0",
-                        "knowledge.ai.max-client-buckets-per-minute=-1"
+                        "knowledge.rate-limit.global-answers-per-minute=-1",
+                        "knowledge.rate-limit.client-answers-per-minute=0",
+                        "knowledge.rate-limit.max-clients-per-minute=-1"
                 ).run(context -> {
                     assertThat(context).hasNotFailed();
-                    var ai = context.getBean(KnowledgeProperties.class).ai();
-                    assertThat(context.getBean(KnowledgeProperties.class).search().rrfK()).isZero();
-                    assertThat(ai.provider()).isEqualTo(KnowledgeProperties.AiProvider.OPENAI);
-                    assertThat(ai.globalAnswersPerMinute()).isEqualTo(-1);
-                    assertThat(ai.clientAnswersPerMinute()).isZero();
-                    assertThat(ai.maxClientBucketsPerMinute()).isEqualTo(-1);
+                    KnowledgeProperties properties = context.getBean(KnowledgeProperties.class);
+                    var rateLimit = properties.rateLimit();
+                    assertThat(properties.search().rrfK()).isZero();
+                    assertThat(properties.ai().provider()).isEqualTo(KnowledgeProperties.AiProvider.OPENAI);
+                    assertThat(rateLimit.globalAnswersPerMinute()).isEqualTo(-1);
+                    assertThat(rateLimit.clientAnswersPerMinute()).isZero();
+                    assertThat(rateLimit.maxClientsPerMinute()).isEqualTo(-1);
+                    assertThat(rateLimit.clientSearchesPerMinute()).isEqualTo(30);
                 });
     }
 

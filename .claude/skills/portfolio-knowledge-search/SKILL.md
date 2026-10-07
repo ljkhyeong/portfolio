@@ -46,6 +46,8 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 
 외부 제공자(OpenAI, Ollama, Elasticsearch, Turnstile)는 Port 뒤의 Adapter로 둔다. 오류는 검색 결과를 유지하는 응답으로 변환한다. 시간 제한, 요청 크기 제한, 리다이렉트 거부 같은 기존 방어 규칙을 완화하지 않는다.
 
+HTTP 오류 본문은 `GlobalExceptionHandler`가 RFC 9457 `ProblemDetail`과 `code`로 만든다. 인터셉터와 컨트롤러는 응답을 직접 쓰지 않고 `KnowledgeApiException`을 던지며, Spring 표준 오류의 한글 문구는 `messages.properties`에 둔다. 웹이 읽는 `detail`, `code`와 `Retry-After`를 바꾸면 `src/api/knowledgeSearch.js`와 테스트를 함께 고친다.
+
 | 범위           | 명령(`knowledge-api/`에서 실행)                                                                                                                    |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 파일 작성 직후 | `npm run check:file -- <파일...>`(루트에서 실행, Java 아키텍처 규칙 포함)                                                                          |
