@@ -232,15 +232,12 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                         IndexedChunkDocument.class)
         );
         verifySearchResponse(response);
-        List<SearchHit> results = new ArrayList<>();
-        response.hits().hits().forEach(hit -> {
-            results.add(new SearchHit(
-                    toChunk(hit.source()),
-                    hit.score() == null ? 0 : hit.score(),
-                    hit.highlight().getOrDefault("content", List.of()).stream().findFirst().orElse(null)
-            ));
-        });
-        return List.copyOf(results);
+        return response.hits().hits().stream()
+                .map(hit -> new SearchHit(
+                        toChunk(hit.source()),
+                        hit.highlight().getOrDefault("content", List.of()).stream().findFirst().orElse(null)
+                ))
+                .toList();
     }
 
     private void verifySearchResponse(SearchResponse<?> response) {

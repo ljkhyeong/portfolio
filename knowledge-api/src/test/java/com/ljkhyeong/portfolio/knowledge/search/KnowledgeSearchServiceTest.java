@@ -1,6 +1,8 @@
 package com.ljkhyeong.portfolio.knowledge.search;
 
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.NO_FILTER;
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.hit;
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -47,7 +49,7 @@ class KnowledgeSearchServiceTest {
         var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
                 index, new RrfRanker(), meters);
 
-        assertThatThrownBy(() -> service.search("알림", List.of(), List.of(), 6)).isSameAs(failure);
+        assertThatThrownBy(() -> service.search("알림", NO_FILTER, 6)).isSameAs(failure);
         verifyNoInteractions(embedding);
         verify(index, never()).searchKnn(anyList(), any(), anyInt(), anyInt());
     }
@@ -59,13 +61,13 @@ class KnowledgeSearchServiceTest {
         when(embedding.embed(anyList())).thenReturn(List.of(List.of(1f, 0f)));
         var index = mock(KnowledgeIndexPort.class);
         when(index.searchBm25(anyString(), any(), anyInt()))
-                .thenReturn(List.of(new SearchHit(chunk("bm25-result"), 1)));
+                .thenReturn(List.of(hit(chunk("bm25-result"))));
         when(index.searchKnn(anyList(), any(), anyInt(), anyInt()))
                 .thenThrow(new KnowledgeIndexAccessException("Elasticsearch 조회가 완료되지 않았습니다."));
         var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
                 index, new RrfRanker(), meters);
 
-        assertThat(service.search("알림", List.of(), List.of(), 6).hits())
+        assertThat(service.search("알림", NO_FILTER, 6).hits())
                 .extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
         assertThat(meters.get("knowledge.searches").tag("mode", "fallback").counter().count()).isEqualTo(1);
     }
@@ -79,15 +81,15 @@ class KnowledgeSearchServiceTest {
         var embedding = new SpringAiEmbeddingAdapter(model, "test-model", 2);
         var index = mock(KnowledgeIndexPort.class);
         when(index.searchBm25(anyString(), any(), anyInt()))
-                .thenReturn(List.of(new SearchHit(chunk("bm25-result"), 1)));
+                .thenReturn(List.of(hit(chunk("bm25-result"))));
         var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
                 index, new RrfRanker(), meters);
 
-        assertThat(service.search("알림 재처리", List.of(), List.of(), 6).hits())
+        assertThat(service.search("알림 재처리", NO_FILTER, 6).hits())
                 .extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
         verify(index, never()).searchKnn(anyList(), any(), anyInt(), anyInt());
-        service.search("알림 재처리", List.of(), List.of(), 6);
-        service.search("알림 재처리", List.of(), List.of(), 6);
+        service.search("알림 재처리", NO_FILTER, 6);
+        service.search("알림 재처리", NO_FILTER, 6);
 
         verify(model, times(2)).embedForResponse(anyList());
         verify(index, times(2)).searchKnn(eq(List.of(1f, 0f)), any(), anyInt(), anyInt());
@@ -107,10 +109,10 @@ class KnowledgeSearchServiceTest {
         var service = new KnowledgeSearchService(knowledgeProperties(), mock(EmbeddingPort.class),
                 index, new RrfRanker(), meters);
         when(index.searchBm25(anyString(), any(), anyInt())).thenReturn(List.of(
-                new SearchHit(chunk("a#0", "a"), 10), new SearchHit(chunk("a#1", "a"), 9),
-                new SearchHit(chunk("b#0", "b"), 8), new SearchHit(chunk("c#0", "c"), 7)));
+                hit(chunk("a#0", "a")), hit(chunk("a#1", "a")),
+                hit(chunk("b#0", "b")), hit(chunk("c#0", "c"))));
 
-        var result = service.search("알림 복구", List.of(), List.of(), 2);
+        var result = service.search("알림 복구", NO_FILTER, 2);
 
         assertThat(result.hits()).extracting(hit -> hit.chunk().documentId()).containsExactly("a", "b");
         assertThat(result.candidates()).extracting(hit -> hit.chunk().chunkId())
@@ -127,8 +129,8 @@ class KnowledgeSearchServiceTest {
         var service = new KnowledgeSearchService(properties, embedding,
                 index, new RrfRanker(), meters);
 
-        service.search("결제 재처리", List.of(), List.of(), 10);
-        service.search("결제 재처리", List.of("happygallery"), List.of(), 6);
+        service.search("결제 재처리", NO_FILTER, 10);
+        service.search("결제 재처리", new KnowledgeFilter(List.of("happygallery"), null, null), 6);
 
         assertThat(meters.get("knowledge.searches").tag("mode", "hybrid").counter().count()).isEqualTo(2);
         assertThat(cacheLookups("query_embedding", "miss")).isEqualTo(1);
@@ -150,7 +152,7 @@ class KnowledgeSearchServiceTest {
                 indexPort,
                 new RrfRanker(), meters
         );
-        SearchHit bm25Hit = new SearchHit(chunk("bm25-result"), 5);
+        SearchHit bm25Hit = hit(chunk("bm25-result"));
         when(embeddingPort.available()).thenReturn(true);
         when(indexPort.searchBm25(anyString(), any(), anyInt())).thenReturn(List.of(bm25Hit));
         when(embeddingPort.embed(anyList())).thenThrow(new EmbeddingUnavailableException(
@@ -158,9 +160,9 @@ class KnowledgeSearchServiceTest {
                 new IllegalStateException("provider error")
         ));
 
-        var result = service.search("알림 재처리", List.of(), List.of(), 10);
+        var result = service.search("알림 재처리", NO_FILTER, 10);
 
-        service.search("알림 재처리", List.of(), List.of(), 10);
+        service.search("알림 재처리", NO_FILTER, 10);
         verify(indexPort, times(2)).searchBm25(anyString(), any(), anyInt());
 
         assertThat(result.hits()).extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
@@ -183,19 +185,19 @@ class KnowledgeSearchServiceTest {
         );
         when(embeddingPort.available()).thenReturn(true);
         when(indexPort.searchBm25(anyString(), any(), anyInt()))
-                .thenReturn(List.of(new SearchHit(chunk("bm25-result"), 5)));
+                .thenReturn(List.of(hit(chunk("bm25-result"))));
         IllegalStateException programmingError = new IllegalStateException("programming error");
         when(embeddingPort.embed(anyList())).thenThrow(programmingError);
 
-        assertThatThrownBy(() -> service.search("알림 재처리", List.of(), List.of(), 10))
+        assertThatThrownBy(() -> service.search("알림 재처리", NO_FILTER, 10))
                 .isSameAs(programmingError);
     }
 
     private double cacheLookups(String cache, String result) {
-        return meters.get("knowledge.cache.lookups")
+        return meters.get("cache.gets")
                 .tag("cache", cache)
                 .tag("result", result)
-                .counter()
+                .functionCounter()
                 .count();
     }
 

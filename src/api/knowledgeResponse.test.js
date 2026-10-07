@@ -11,7 +11,6 @@ const result = {
     snippet: "미전송 알림을 다시 처리합니다.",
     sourceUrl: "https://ljkportfolio.netlify.app/projects/baton/relay#project-problems",
     route: "/projects/baton/relay",
-    score: 0.92,
 }
 const citation = {
     chunkId: result.chunkId,
@@ -21,9 +20,8 @@ const citation = {
     route: result.route,
     excerpt: result.snippet,
 }
-const search = { query: "알림 재처리", total: 1, results: [result] }
+const search = { total: 1, results: [result] }
 const answer = {
-    question: "알림 재처리",
     status: "GENERATED",
     answer: "미전송 알림을 다시 처리합니다. [1]",
     citations: [citation],
@@ -32,7 +30,7 @@ const answer = {
 
 test("현재 API 응답과 빈 검색 결과를 허용한다", () => {
     expect(isSearchResponse(search)).toBe(true)
-    expect(isSearchResponse({ query: "없는 질문", total: 0, results: [] })).toBe(true)
+    expect(isSearchResponse({ total: 0, results: [] })).toBe(true)
     expect(isAnswerResponse(answer)).toBe(true)
 })
 

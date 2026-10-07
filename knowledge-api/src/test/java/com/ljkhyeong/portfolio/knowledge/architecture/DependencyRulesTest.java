@@ -46,6 +46,12 @@ class DependencyRulesTest {
             .because("서비스는 포트를 통해 저장소와 AI 구현을 사용해야 한다");
 
     @ArchTest
+    static final ArchRule 서비스는_API_계층에_의존하지_않는다 = noClasses()
+            .that().areAnnotatedWith(Service.class)
+            .should().dependOnClassesThat().resideInAPackage(BASE + ".api..")
+            .because("서비스는 도메인 결과를 반환하고 응답 변환은 API 계층이 맡아야 한다");
+
+    @ArchTest
     static final ArchRule 포트는_외부_계층에_의존하지_않는다 = noClasses()
             .that().resideInAPackage(BASE + ".port..")
             .should().dependOnClassesThat().resideInAnyPackage(

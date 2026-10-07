@@ -1,9 +1,9 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeAnswerService;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeSearchService;
 import jakarta.validation.Valid;
-import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,44 +17,26 @@ public class KnowledgeController {
     private final KnowledgeSearchService searchService;
     private final KnowledgeAnswerService answerService;
     private final ResponseMapper responseMapper;
-    private final MeterRegistry meters;
 
     public KnowledgeController(
             KnowledgeSearchService searchService,
             KnowledgeAnswerService answerService,
-            ResponseMapper responseMapper,
-            MeterRegistry meters
+            ResponseMapper responseMapper
     ) {
         this.searchService = searchService;
         this.answerService = answerService;
         this.responseMapper = responseMapper;
-        this.meters = meters;
     }
 
     @PostMapping(path = "/search", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SearchResponse search(@Valid @RequestBody SearchRequest request) {
-        var searchResult = searchService.search(
-                request.query(),
-                request.projectIds(),
-                request.serviceIds(),
-                request.documentTypes(),
-                request.limit()
-        );
-        var hits = searchResult.hits();
-        var results = responseMapper.toSearchResults(hits);
-        return new SearchResponse(request.query(), results.size(), results);
+        var filter = new KnowledgeFilter(request.projectIds(), request.serviceIds(), request.documentTypes());
+        return responseMapper.toSearchResponse(searchService.search(request.query(), filter, request.limit()).hits());
     }
 
     @PostMapping(path = "/answers", consumes = MediaType.APPLICATION_JSON_VALUE)
     public AnswerResponse answer(@Valid @RequestBody AnswerRequest request) {
-        AnswerResponse response = answerService.answer(
-                request.question(),
-                request.projectIds(),
-                request.serviceIds(),
-                request.documentTypes(),
-                request.limit()
-        );
-        meters.counter("knowledge.answers", "status", response.status().name()).increment();
-        return response;
+        var filter = new KnowledgeFilter(request.projectIds(), request.serviceIds(), request.documentTypes());
+        return responseMapper.toAnswerResponse(answerService.answer(request.question(), filter, request.limit()));
     }
 }

@@ -41,7 +41,7 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 
 -   Domain → API, Service, Port, Adapter, Config 의존 금지
 -   `@RestController` → Port, Adapter 직접 호출 금지
--   `@Service` → Adapter 구현체 의존 금지
+-   `@Service` → Adapter 구현체, API 의존 금지
 -   Port → API, Service, Adapter, Config 의존 금지
 
 외부 제공자(OpenAI, Ollama, Elasticsearch, Turnstile)는 Port 뒤의 Adapter로 둔다. 오류는 검색 결과를 유지하는 응답으로 변환한다. 시간 제한, 요청 크기 제한, 리다이렉트 거부 같은 기존 방어 규칙을 완화하지 않는다.

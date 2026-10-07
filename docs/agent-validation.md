@@ -37,7 +37,7 @@
 
 -   Domain → API, Service, Port, Adapter, Config
 -   `@RestController` → Port, Adapter
--   `@Service` → Adapter 구현체
+-   `@Service` → Adapter 구현체, API
 -   Port → API, Service, Adapter, Config
 
 ## 변경별 확인 범위

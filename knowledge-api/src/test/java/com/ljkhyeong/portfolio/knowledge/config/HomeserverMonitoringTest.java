@@ -2,9 +2,7 @@ package com.ljkhyeong.portfolio.knowledge.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalManagementPort;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -24,17 +22,14 @@ class HomeserverMonitoringTest {
     @LocalManagementPort
     private int managementPort;
 
-    @Autowired
-    private MeterRegistry meters;
-
     @Test
     void 관리_포트에서_RAG_지표를_Prometheus_형식으로_수집한다() {
-        meters.counter("knowledge.cache.lookups", "cache", "answer", "result", "hit").increment();
         String body = RestClient.create("http://127.0.0.1:" + managementPort).get()
                 .uri("/actuator/prometheus").retrieve().body(String.class);
 
-        assertThat(body).contains("knowledge_cache_lookups_total", "cache=\"answer\"", "result=\"hit\"",
-                "application=\"portfolio-knowledge-api\"");
+        // 캐시 지표는 서비스 생성 때 등록되므로 요청 없이도 0으로 노출된다.
+        assertThat(body).contains("cache_gets_total", "cache=\"answer\"", "cache=\"query_embedding\"",
+                "result=\"hit\"", "application=\"portfolio-knowledge-api\"");
         assertThat(managementPort).isNotEqualTo(apiPort);
         int apiStatus = RestClient.create("http://127.0.0.1:" + apiPort).get()
                 .uri("/actuator/prometheus")

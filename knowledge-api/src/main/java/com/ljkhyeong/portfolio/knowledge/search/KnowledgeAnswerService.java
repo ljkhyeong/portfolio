@@ -7,20 +7,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.ljkhyeong.portfolio.knowledge.api.AnswerResponse;
-import com.ljkhyeong.portfolio.knowledge.api.ResponseMapper;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeAnswer;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeAnswer.Status;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationPort;
 import com.ljkhyeong.portfolio.knowledge.port.AnswerGenerationUnavailableException;
-import com.ljkhyeong.portfolio.knowledge.util.Hashing;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.binder.cache.CaffeineCacheMetrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,66 +36,40 @@ public class KnowledgeAnswerService {
     private final KnowledgeProperties properties;
     private final KnowledgeSearchService searchService;
     private final AnswerGenerationPort answerGenerationPort;
-    private final ResponseMapper responseMapper;
     private final MeterRegistry meters;
-    private final Cache<String, GeneratedContent> generatedAnswers;
-    private final boolean answerCacheEnabled;
+    private final Cache<AnswerCacheKey, GeneratedContent> generatedAnswers;
 
     public KnowledgeAnswerService(
             KnowledgeProperties properties,
             KnowledgeSearchService searchService,
             AnswerGenerationPort answerGenerationPort,
-            ResponseMapper responseMapper,
             MeterRegistry meters
     ) {
         this.properties = properties;
         this.searchService = searchService;
         this.answerGenerationPort = answerGenerationPort;
-        this.responseMapper = responseMapper;
         this.meters = meters;
-        this.answerCacheEnabled = properties.ai().answerCacheMaxEntries() > 0
-                && properties.ai().answerCacheTtlSeconds() > 0;
-        this.generatedAnswers = Caffeine.newBuilder()
+        // TTL이 0이면 저장한 답변을 다시 읽지 않고, 같은 키의 동시 요청만 한 번 생성한다.
+        this.generatedAnswers = CaffeineCacheMetrics.monitor(meters, Caffeine.newBuilder()
                 .maximumSize(properties.ai().answerCacheMaxEntries())
                 .expireAfterWrite(Duration.ofSeconds(properties.ai().answerCacheTtlSeconds()))
-                .build();
+                .recordStats()
+                .build(), "answer");
     }
 
-    public AnswerResponse answer(
-            String question,
-            List<String> projectIds,
-            List<String> documentTypes,
-            Integer requestedLimit
-    ) {
-        return answer(question, projectIds, List.of(), documentTypes, requestedLimit);
+    public KnowledgeAnswer answer(String question, KnowledgeFilter filter, Integer requestedLimit) {
+        KnowledgeAnswer answer = createAnswer(question, filter, requestedLimit);
+        meters.counter("knowledge.answers", "status", answer.status().name()).increment();
+        return answer;
     }
 
-    public AnswerResponse answer(
-            String question,
-            List<String> projectIds,
-            List<String> serviceIds,
-            List<String> documentTypes,
-            Integer requestedLimit
-    ) {
+    private KnowledgeAnswer createAnswer(String question, KnowledgeFilter filter, Integer requestedLimit) {
         int limit = requestedLimit == null ? properties.ai().answerContextLimit() : requestedLimit;
-        KnowledgeSearchResult searchResult = searchService.search(
-                question,
-                projectIds,
-                serviceIds,
-                documentTypes,
-                limit
-        );
+        KnowledgeSearchResult searchResult = searchService.search(question, filter, limit);
         List<SearchHit> hits = selectEvidence(searchResult);
-        var searchResults = responseMapper.toSearchResults(searchResult.hits());
 
         if (!searchResult.hasBm25Evidence(hits)) {
-            return new AnswerResponse(
-                    question,
-                    AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE,
-                    null,
-                    List.of(),
-                    searchResults
-            );
+            return KnowledgeAnswer.withoutAnswer(Status.INSUFFICIENT_EVIDENCE, searchResult.hits());
         }
 
         Map<String, SearchHit> evidenceById = new LinkedHashMap<>();
@@ -112,58 +86,19 @@ public class KnowledgeAnswerService {
         }
 
         try {
-            GeneratedContent generated = answerContent(question, contexts, evidenceById.keySet());
-            if (!generated.answerable()) {
-                return new AnswerResponse(
-                        question,
-                        AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE,
-                        null,
-                        List.of(),
-                        searchResults
-                );
-            }
-            List<AnswerResponse.CitationResponse> citations = generated.citationIds().stream()
-                    .map(id -> citation(evidenceById.get(id)))
-                    .toList();
-            return new AnswerResponse(
-                    question,
-                    AnswerResponse.AnswerStatus.GENERATED,
-                    generated.answer(),
-                    citations,
-                    searchResults
+            GeneratedContent generated = generatedAnswers.get(
+                    new AnswerCacheKey(question, List.copyOf(contexts)),
+                    key -> generateContent(question, contexts, evidenceById.keySet())
             );
+            if (!generated.answerable()) {
+                return KnowledgeAnswer.withoutAnswer(Status.INSUFFICIENT_EVIDENCE, searchResult.hits());
+            }
+            List<SearchHit> citations = generated.citationIds().stream().map(evidenceById::get).toList();
+            return new KnowledgeAnswer(Status.GENERATED, generated.answer(), citations, searchResult.hits());
         } catch (AnswerGenerationUnavailableException exception) {
             log.warn("AI 답변을 제공하지 못해 검색 결과만 반환합니다.", exception);
-            return generationUnavailable(question, searchResults);
+            return KnowledgeAnswer.withoutAnswer(Status.GENERATION_UNAVAILABLE, searchResult.hits());
         }
-    }
-
-    private GeneratedContent answerContent(
-            String question,
-            List<AnswerGenerationPort.AnswerContext> contexts,
-            Set<String> evidenceIds
-    ) {
-        if (!answerCacheEnabled) {
-            recordCacheLookup("answer", "disabled");
-            return generateContent(question, contexts, evidenceIds);
-        }
-        AtomicBoolean loaded = new AtomicBoolean();
-        GeneratedContent content = generatedAnswers.get(
-                answerCacheKey(question, contexts),
-                ignored -> {
-                    loaded.set(true);
-                    recordCacheLookup("answer", "miss");
-                    return generateContent(question, contexts, evidenceIds);
-                }
-        );
-        if (!loaded.get()) {
-            recordCacheLookup("answer", "hit");
-        }
-        return content;
-    }
-
-    private void recordCacheLookup(String cache, String result) {
-        meters.counter("knowledge.cache.lookups", "cache", cache, "result", result).increment();
     }
 
     private GeneratedContent generateContent(
@@ -181,23 +116,6 @@ public class KnowledgeAnswerService {
         Map<String, Integer> citationNumbers = new LinkedHashMap<>();
         String answer = renderAnswer(generated.paragraphs(), evidenceIds, citationNumbers);
         return new GeneratedContent(true, answer, List.copyOf(citationNumbers.keySet()));
-    }
-
-    private String answerCacheKey(String question, List<AnswerGenerationPort.AnswerContext> contexts) {
-        StringBuilder input = new StringBuilder();
-        appendFingerprintPart(input, question);
-        for (var context : contexts) {
-            appendFingerprintPart(input, context.citationId());
-            appendFingerprintPart(input, context.title());
-            appendFingerprintPart(input, context.heading());
-            appendFingerprintPart(input, context.content());
-        }
-        return Hashing.sha256(input.toString());
-    }
-
-    private void appendFingerprintPart(StringBuilder input, String value) {
-        String part = value == null ? "" : value;
-        input.append(part.length()).append(':').append(part);
     }
 
     private List<SearchHit> selectEvidence(KnowledgeSearchResult result) {
@@ -257,28 +175,8 @@ public class KnowledgeAnswerService {
         return String.join("\n\n", rendered);
     }
 
-    private AnswerResponse.CitationResponse citation(SearchHit hit) {
-        return new AnswerResponse.CitationResponse(
-                hit.chunk().chunkId(),
-                hit.chunk().title(),
-                hit.chunk().heading(),
-                hit.chunk().sourceUrl(),
-                hit.chunk().route(),
-                responseMapper.toPlainText(hit.chunk().content())
-        );
-    }
-
-    private AnswerResponse generationUnavailable(
-            String question,
-            List<com.ljkhyeong.portfolio.knowledge.api.SearchResultResponse> searchResults
-    ) {
-        return new AnswerResponse(
-                question,
-                AnswerResponse.AnswerStatus.GENERATION_UNAVAILABLE,
-                null,
-                List.of(),
-                searchResults
-        );
+    // 질문과 실제 전달한 근거 전체를 값으로 비교해 같은 입력의 답변만 재사용한다.
+    private record AnswerCacheKey(String question, List<AnswerGenerationPort.AnswerContext> contexts) {
     }
 
     private record GeneratedContent(boolean answerable, String answer, List<String> citationIds) {

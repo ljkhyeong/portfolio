@@ -29,7 +29,7 @@ public class RrfRanker {
         return merged.values().stream()
                 .sorted(Comparator.comparingDouble(RankedHit::score).reversed()
                         .thenComparing(value -> value.hit().chunk().chunkId()))
-                .map(value -> new SearchHit(value.hit().chunk(), value.score(), value.hit().matchedPassage()))
+                .map(RankedHit::hit)
                 .toList();
     }
 

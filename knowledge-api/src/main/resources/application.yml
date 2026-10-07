@@ -52,7 +52,6 @@ knowledge:
         index-name: ${ELASTICSEARCH_INDEX:portfolio-knowledge}
     search:
         default-limit: 10
-        max-limit: 20
         candidate-limit: 40
         rrf-k: 60
     ai:

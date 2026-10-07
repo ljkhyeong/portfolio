@@ -116,8 +116,11 @@ class KnowledgePropertiesBindingTest {
             "knowledge.ai.embedding-dimensions=0",
             "knowledge.ai.answer-cache-ttl-seconds=-1",
             "knowledge.ai.answer-cache-max-entries=-1",
+            "knowledge.ai.answer-cache-max-entries=0",
+            "knowledge.ai.answer-context-limit=11",
             "knowledge.ai.provider=opneai",
             "knowledge.search.default-limit=0",
+            "knowledge.search.default-limit=21",
             "knowledge.search.rrf-k=-1",
             "knowledge.human-verification.connect-timeout-seconds=0"
     })

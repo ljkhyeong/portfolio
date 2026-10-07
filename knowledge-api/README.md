@@ -86,7 +86,7 @@ Content-Type: application/json
 }
 ```
 
-응답의 `results`에는 `chunkId`, 프로젝트와 서비스, 문서 종류, 제목, 관련 문단, 원문 URL 또는 포트폴리오 경로와 RRF 점수가 포함됩니다. 목록은 문서별 최상위 문단 하나만 표시합니다.
+응답은 결과 수 `total`과 RRF 순서의 `results`만 반환하고, 요청한 검색어와 순위 점수는 되돌려 주지 않습니다. `results`에는 `chunkId`, 프로젝트와 서비스, 문서 종류, 제목, 관련 문단, 원문 URL 또는 포트폴리오 경로가 포함됩니다. 목록은 문서별 최상위 문단 하나만 표시합니다.
 
 Elasticsearch 검색은 부분 결과를 허용하지 않도록 요청합니다. HTTP 200이어도 시간 초과·샤드 실패·조기 종료나 문서 본문 누락이 있으면 결과를 사용하지 않습니다. 키워드 검색이 불완전하면 `503 / SEARCH_UNAVAILABLE`로 종료하고, 벡터 검색만 실패하면 정상 키워드 결과를 유지합니다. [Elasticsearch 검색 응답](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-search).
 
@@ -112,7 +112,7 @@ X-Turnstile-Token: 브라우저에서 발급받은 일회용 토큰
 }
 ```
 
-답변 상태는 다음 세 가지입니다.
+응답은 `status`, `answer`, 인용 근거 전문 `citations`와 검색 결과 `results`를 반환하며 질문은 되돌려 주지 않습니다. 답변 상태는 다음 세 가지입니다.
 
 -   `GENERATED`: 답변과 검증된 인용을 반환합니다.
 -   `INSUFFICIENT_EVIDENCE`: 관련 공개 근거가 부족해 답변을 만들지 않습니다.
@@ -324,25 +324,25 @@ npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL" --answers
 
 질문 벡터는 Caffeine으로 2분간 최대 256개 재사용합니다. 문서 검색은 매번 실행합니다.
 
-AI 답변은 질문과 실제 전달 근거가 모두 같을 때만 기본 2분간 최대 128개 재사용합니다. 키에는 근거 제목·절·본문의 해시를 포함하므로 색인이 바뀌면 새 답변을 생성합니다. 동일 키의 동시 요청은 한 번만 생성하고, 제공자 오류와 잘못된 답변은 저장하지 않습니다. `AI_ANSWER_CACHE_TTL_SECONDS`, `AI_ANSWER_CACHE_MAX_ENTRIES`로 조정하며 둘 중 하나를 0으로 두면 답변 캐시를 끕니다. 인스턴스 간 공유 캐시는 사용하지 않습니다.
+AI 답변은 질문과 실제 전달 근거가 모두 같을 때만 기본 2분간 최대 128개 재사용합니다. 캐시 키는 질문과 전달한 근거(번호·제목·절·본문)를 값으로 비교하므로 색인이 바뀌면 새 답변을 생성합니다. 동일 키의 동시 요청은 한 번만 생성하고, 제공자 오류와 잘못된 답변은 저장하지 않습니다. `AI_ANSWER_CACHE_TTL_SECONDS`, `AI_ANSWER_CACHE_MAX_ENTRIES`로 조정합니다. `AI_ANSWER_CACHE_TTL_SECONDS`를 0으로 두면 답변을 저장해 재사용하지 않으며, 최대 개수는 1 이상이어야 합니다. 인스턴스 간 공유 캐시는 사용하지 않습니다.
 
 ## 운영 지표
 
 Compose는 업무 API를 `127.0.0.1:8080`, Actuator를 `127.0.0.1:9091`에 연결합니다. 컨테이너 상태 확인도 9091의 `/actuator/health/readiness`를 사용합니다. 외부 프록시는 업무 포트만 연결하고 운영 지표 포트는 공개하지 않습니다.
 
-| 지표                      | 용도                                                                                           |
-| ------------------------- | ---------------------------------------------------------------------------------------------- |
-| `http.server.requests`    | Spring 기본 요청 수·응답 시간·HTTP 오류. `uri`와 `status`로 구분                               |
-| `knowledge.answers`       | HTTP 200으로 반환한 `GENERATED`, `INSUFFICIENT_EVIDENCE`, `GENERATION_UNAVAILABLE` 횟수        |
-| `knowledge.searches`      | 결과를 반환한 검색 실행의 `keyword`, `hybrid`, `fallback` 횟수. 답변에 필요한 내부 검색도 포함 |
-| `knowledge.cache.lookups` | 답변·질문 임베딩 캐시의 `hit`, `miss`, `disabled` 횟수                                         |
+| 지표                   | 용도                                                                                           |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| `http.server.requests` | Spring 기본 요청 수·응답 시간·HTTP 오류. `uri`와 `status`로 구분                               |
+| `knowledge.answers`    | HTTP 200으로 반환한 `GENERATED`, `INSUFFICIENT_EVIDENCE`, `GENERATION_UNAVAILABLE` 횟수        |
+| `knowledge.searches`   | 결과를 반환한 검색 실행의 `keyword`, `hybrid`, `fallback` 횟수. 답변에 필요한 내부 검색도 포함 |
+| `cache.gets`           | 답변(`answer`)·질문 임베딩(`query_embedding`) 캐시의 `hit`, `miss` 횟수. Caffeine 기본 지표    |
 
-`keyword`는 AI를 설정하지 않은 검색이고, `fallback`은 임베딩 또는 벡터 검색 실패로 키워드 검색 결과를 반환한 경우입니다. 질문과 문서 ID는 지표 태그에 저장하지 않습니다. 생성 불가 비율은 `GENERATION_UNAVAILABLE / 전체 답변 결과`, 검색 대체 비율은 `fallback / (hybrid + fallback)`, 캐시 적중률은 `hit / (hit + miss)`로 비교합니다. `disabled`는 적중률에서 제외합니다. 지표는 프로세스 재시작 때 초기화되며 장기 보관은 운영 모니터링 시스템에서 구성합니다.
+`keyword`는 AI를 설정하지 않은 검색이고, `fallback`은 임베딩 또는 벡터 검색 실패로 키워드 검색 결과를 반환한 경우입니다. 질문과 문서 ID는 지표 태그에 저장하지 않습니다. 생성 불가 비율은 `GENERATION_UNAVAILABLE / 전체 답변 결과`, 검색 대체 비율은 `fallback / (hybrid + fallback)`, 캐시 적중률은 `hit / (hit + miss)`로 비교합니다. 지표는 프로세스 재시작 때 초기화되며 장기 보관은 운영 모니터링 시스템에서 구성합니다.
 
 ```bash
 curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.answers
 curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.searches
-curl -fsS http://127.0.0.1:9091/actuator/metrics/knowledge.cache.lookups
+curl -fsS 'http://127.0.0.1:9091/actuator/metrics/cache.gets?tag=cache:answer'
 curl -fsS 'http://127.0.0.1:9091/actuator/metrics/http.server.requests?tag=uri:/api/v1/knowledge/answers'
 ```
 

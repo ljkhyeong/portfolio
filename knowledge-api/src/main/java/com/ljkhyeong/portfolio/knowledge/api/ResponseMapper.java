@@ -4,6 +4,7 @@ import java.text.BreakIterator;
 import java.util.List;
 import java.util.Locale;
 
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeAnswer;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import org.commonmark.Extension;
@@ -33,11 +34,38 @@ public class ResponseMapper {
             })
             .build();
 
-    public List<SearchResultResponse> toSearchResults(List<SearchHit> hits) {
+    public SearchResponse toSearchResponse(List<SearchHit> hits) {
+        List<SearchResultResponse> results = toSearchResults(hits);
+        return new SearchResponse(results.size(), results);
+    }
+
+    public AnswerResponse toAnswerResponse(KnowledgeAnswer answer) {
+        return new AnswerResponse(
+                answer.status(),
+                answer.answer(),
+                answer.citations().stream().map(this::toCitation).toList(),
+                toSearchResults(answer.results())
+        );
+    }
+
+    private List<SearchResultResponse> toSearchResults(List<SearchHit> hits) {
         return hits.stream().map(this::toSearchResult).toList();
     }
 
-    public SearchResultResponse toSearchResult(SearchHit hit) {
+    // 인용은 검색 발췌문이 아니라 AI에 전달한 근거 전체를 평문으로 보여 준다.
+    private AnswerResponse.CitationResponse toCitation(SearchHit hit) {
+        KnowledgeChunk chunk = hit.chunk();
+        return new AnswerResponse.CitationResponse(
+                chunk.chunkId(),
+                chunk.title(),
+                chunk.heading(),
+                chunk.sourceUrl(),
+                chunk.route(),
+                toPlainText(chunk.content())
+        );
+    }
+
+    SearchResultResponse toSearchResult(SearchHit hit) {
         KnowledgeChunk chunk = hit.chunk();
         return new SearchResultResponse(
                 chunk.chunkId(),
@@ -49,12 +77,11 @@ public class ResponseMapper {
                 chunk.heading(),
                 snippet(hit),
                 chunk.sourceUrl(),
-                chunk.route(),
-                hit.score()
+                chunk.route()
         );
     }
 
-    public String snippet(SearchHit hit) {
+    String snippet(SearchHit hit) {
         String passage = StringUtils.hasText(hit.matchedPassage()) ? hit.matchedPassage() : hit.chunk().content();
         String content = toPlainText(passage);
         if (content.length() <= SNIPPET_LENGTH) {
@@ -75,7 +102,7 @@ public class ResponseMapper {
         return content.substring(0, end).stripTrailing() + "…";
     }
 
-    public String toPlainText(String content) {
+    private String toPlainText(String content) {
         return plainText.render(markdown.parse(content)).strip();
     }
 }

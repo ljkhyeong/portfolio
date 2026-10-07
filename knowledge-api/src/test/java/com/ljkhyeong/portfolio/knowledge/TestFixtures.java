@@ -9,9 +9,13 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mock.env.MockEnvironment;
 
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSourceDocument;
+import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 
 public final class TestFixtures {
+
+    public static final KnowledgeFilter NO_FILTER = new KnowledgeFilter(null, null, null);
 
     private TestFixtures() {
     }
@@ -72,5 +76,9 @@ public final class TestFixtures {
                 "test-model",
                 List.of(1.0f, 0.0f)
         );
+    }
+
+    public static SearchHit hit(KnowledgeChunk chunk) {
+        return new SearchHit(chunk, null);
     }
 }

@@ -1,8 +1,9 @@
 package com.ljkhyeong.portfolio.knowledge.api;
 
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.hit;
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.messageSource;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
@@ -20,6 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeAnswerService;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeSearchService;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeAnswer;
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import com.ljkhyeong.portfolio.knowledge.verification.KnowledgeHumanVerificationService;
 import java.time.Clock;
@@ -28,7 +31,6 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Set;
 
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -49,7 +51,6 @@ class KnowledgeControllerHttpContractTest {
 
     private final KnowledgeSearchService searchService = mock(KnowledgeSearchService.class);
     private final KnowledgeAnswerService answerService = mock(KnowledgeAnswerService.class);
-    private final SimpleMeterRegistry meters = new SimpleMeterRegistry();
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -58,31 +59,45 @@ class KnowledgeControllerHttpContractTest {
     }
 
     private StandaloneMockMvcBuilder mockMvcBuilder() {
-        KnowledgeController controller = new KnowledgeController(
-                searchService,
-                answerService,
-                new ResponseMapper(),
-                meters
-        );
+        KnowledgeController controller = new KnowledgeController(searchService, answerService, new ResponseMapper());
         GlobalExceptionHandler exceptionHandler = new GlobalExceptionHandler();
         exceptionHandler.setMessageSource(messageSource());
         return MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(exceptionHandler);
     }
 
     @ParameterizedTest
-    @EnumSource(AnswerResponse.AnswerStatus.class)
-    void HTTP_성공과_별개로_AI_답변_결과를_구분한다(AnswerResponse.AnswerStatus answerStatus) throws Exception {
-        when(answerService.answer(anyString(), any(), any(), any(), any())).thenReturn(
-                new AnswerResponse("복구 방법", answerStatus, null, List.of(), List.of()));
+    @EnumSource(KnowledgeAnswer.Status.class)
+    void HTTP_성공과_별개로_AI_답변_결과를_구분한다(KnowledgeAnswer.Status answerStatus) throws Exception {
+        when(answerService.answer(anyString(), any(), any()))
+                .thenReturn(KnowledgeAnswer.withoutAnswer(answerStatus, List.of()));
 
         mockMvc.perform(post(ANSWER_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"question\":\"복구 방법\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(answerStatus.name()));
+    }
 
-        assertThat(meters.get("knowledge.answers").tag("status", answerStatus.name())
-                .counter().count()).isEqualTo(1);
+    @Test
+    void 검색과_답변_응답은_요청_문장과_순위_점수를_되돌려_주지_않는다() throws Exception {
+        var found = hit(chunk("baton#0", "baton"));
+        when(searchService.search(anyString(), any(), any()))
+                .thenReturn(new KnowledgeSearchResult(List.of(found), List.of(found), Set.of("baton#0")));
+        when(answerService.answer(anyString(), any(), any())).thenReturn(new KnowledgeAnswer(
+                KnowledgeAnswer.Status.GENERATED, "알림을 다시 처리합니다. [1]", List.of(found), List.of(found)));
+
+        mockMvc.perform(post(SEARCH_PATH).contentType(MediaType.APPLICATION_JSON).content("{\"query\":\"알림\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.total").value(1))
+                .andExpect(jsonPath("$.results[0].chunkId").value("baton#0"))
+                .andExpect(jsonPath("$.query").doesNotExist())
+                .andExpect(jsonPath("$.results[0].score").doesNotExist());
+        mockMvc.perform(post(ANSWER_PATH).contentType(MediaType.APPLICATION_JSON).content("{\"question\":\"알림\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.citations[0].chunkId").value("baton#0"))
+                .andExpect(jsonPath("$.results[0].chunkId").value("baton#0"))
+                .andExpect(jsonPath("$.question").doesNotExist())
+                .andExpect(jsonPath("$.results[0].score").doesNotExist());
     }
 
     @Test
@@ -100,7 +115,7 @@ class KnowledgeControllerHttpContractTest {
     void Spring_HTTP_예외의_상태와_헤더를_유지한다() throws Exception {
         var exception = new ErrorResponseException(HttpStatus.TOO_MANY_REQUESTS);
         exception.getHeaders().set(HttpHeaders.RETRY_AFTER, "60");
-        when(searchService.search(anyString(), any(), any(), any(), any())).thenThrow(exception);
+        when(searchService.search(anyString(), any(), any())).thenThrow(exception);
 
         mockMvc.perform(post(SEARCH_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -122,7 +137,7 @@ class KnowledgeControllerHttpContractTest {
                         new KnowledgeRateLimitInterceptor(limiter, KnowledgeRateLimiter.RequestKind.SEARCH)
                 )
                 .build();
-        when(searchService.search(anyString(), any(), any(), any(), any()))
+        when(searchService.search(anyString(), any(), any()))
                 .thenReturn(new KnowledgeSearchResult(List.of(), List.of(), Set.of()));
 
         limited.perform(post(SEARCH_PATH).contentType(MediaType.APPLICATION_JSON).content("{\"query\":\"알림\"}"))
@@ -158,7 +173,7 @@ class KnowledgeControllerHttpContractTest {
 
     @Test
     void 예상하지_못한_코드_오류는_500을_반환한다() throws Exception {
-        when(searchService.search(anyString(), any(), any(), any(), any()))
+        when(searchService.search(anyString(), any(), any()))
                 .thenThrow(new IllegalStateException("내부 오류 세부 정보"));
 
         mockMvc.perform(post(SEARCH_PATH)
@@ -171,7 +186,7 @@ class KnowledgeControllerHttpContractTest {
 
     @Test
     void 서비스의_IllegalArgumentException은_입력_오류가_아니라_500으로_숨긴다() throws Exception {
-        when(searchService.search(anyString(), any(), any(), any(), any()))
+        when(searchService.search(anyString(), any(), any()))
                 .thenThrow(new IllegalArgumentException("내부 세부 정보"));
 
         mockMvc.perform(post(SEARCH_PATH)
@@ -275,16 +290,10 @@ class KnowledgeControllerHttpContractTest {
 
     @Test
     void 검색과_답변에_서비스_필터를_전달한다() throws Exception {
-        when(searchService.search(anyString(), any(), any(), any(), any()))
+        when(searchService.search(anyString(), any(), any()))
                 .thenReturn(new KnowledgeSearchResult(List.of(), List.of(), Set.of()));
-        when(answerService.answer(anyString(), any(), any(), any(), any()))
-                .thenReturn(new AnswerResponse(
-                        "링크 중복 생성",
-                        AnswerResponse.AnswerStatus.INSUFFICIENT_EVIDENCE,
-                        null,
-                        List.of(),
-                        List.of()
-                ));
+        when(answerService.answer(anyString(), any(), any()))
+                .thenReturn(KnowledgeAnswer.withoutAnswer(KnowledgeAnswer.Status.INSUFFICIENT_EVIDENCE, List.of()));
 
         String filters = """
                 "projectIds": ["baton"],
@@ -301,20 +310,9 @@ class KnowledgeControllerHttpContractTest {
                         .content("{\"question\":\"링크 중복 생성\"," + filters + "}"))
                 .andExpect(status().isOk());
 
-        verify(searchService).search(
-                "링크 중복 생성",
-                List.of("baton"),
-                List.of("go"),
-                List.of("problem_solution"),
-                6
-        );
-        verify(answerService).answer(
-                "링크 중복 생성",
-                List.of("baton"),
-                List.of("go"),
-                List.of("problem_solution"),
-                6
-        );
+        var filter = new KnowledgeFilter(List.of("baton"), List.of("go"), List.of("problem_solution"));
+        verify(searchService).search("링크 중복 생성", filter, 6);
+        verify(answerService).answer("링크 중복 생성", filter, 6);
     }
 
     @Test

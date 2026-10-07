@@ -51,9 +51,9 @@ public record KnowledgeProperties(
     ) {
     }
 
+    // 요청 DTO의 상한(검색 20개, 답변 근거 10개)을 넘는 기본값은 기동할 때 거부한다.
     public record Search(
-            @Positive @DefaultValue("10") int defaultLimit,
-            @Positive @DefaultValue("20") int maxLimit,
+            @Positive @Max(20) @DefaultValue("10") int defaultLimit,
             @Positive @DefaultValue("40") int candidateLimit,
             @PositiveOrZero @DefaultValue("60") int rrfK
     ) {
@@ -67,9 +67,10 @@ public record KnowledgeProperties(
             @DefaultValue("disabled") AiProvider provider,
             @DefaultValue("disabled") String embeddingModelId,
             @Positive @DefaultValue("1024") int embeddingDimensions,
-            @Positive @DefaultValue("6") int answerContextLimit,
+            @Positive @Max(10) @DefaultValue("6") int answerContextLimit,
+            // 0이면 답변을 저장해 재사용하지 않는다.
             @PositiveOrZero @DefaultValue("120") int answerCacheTtlSeconds,
-            @PositiveOrZero @DefaultValue("128") int answerCacheMaxEntries
+            @Positive @DefaultValue("128") int answerCacheMaxEntries
     ) {
     }
 

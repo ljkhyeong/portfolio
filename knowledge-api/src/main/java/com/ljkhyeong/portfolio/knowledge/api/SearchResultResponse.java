@@ -10,7 +10,6 @@ public record SearchResultResponse(
         String heading,
         String snippet,
         String sourceUrl,
-        String route,
-        double score
+        String route
 ) {
 }

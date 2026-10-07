@@ -106,12 +106,12 @@ scrape_configs:
           - targets: ["knowledge-api-monitoring:9091"]
 ```
 
-대표 지표는 `knowledge_answers_total`, `knowledge_searches_total`, `knowledge_cache_lookups_total`입니다. 예를 들어 최근 5분의 답변 캐시 적중률은 다음과 같이 조회합니다. 요청이 없는 구간은 비율을 계산할 수 없습니다.
+대표 지표는 `knowledge_answers_total`, `knowledge_searches_total`과 Micrometer Caffeine 지표 `cache_gets_total`입니다. 예를 들어 최근 5분의 답변 캐시 적중률은 다음과 같이 조회합니다. 요청이 없는 구간은 비율을 계산할 수 없습니다.
 
 ```promql
-sum(rate(knowledge_cache_lookups_total{cache="answer",result="hit"}[5m]))
+sum(rate(cache_gets_total{cache="answer",result="hit"}[5m]))
 /
-sum(rate(knowledge_cache_lookups_total{cache="answer",result=~"hit|miss"}[5m]))
+sum(rate(cache_gets_total{cache="answer"}[5m]))
 ```
 
 관리 포트는 클러스터 내부에서만 연결합니다. 외부 Ingress에는 업무 API의 8080 포트만 연결하고 `/internal/*`는 제외합니다. API 인스턴스를 여러 개 쓰면 Pod별 수집이 필요하며, 현재 호출 제한도 인스턴스별로 적용됩니다. 홈서버 기본 구성은 API 한 개입니다.

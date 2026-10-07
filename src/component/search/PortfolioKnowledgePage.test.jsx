@@ -18,7 +18,6 @@ const searchResult = {
     heading: "문제와 해결 방법",
     snippet: "결제 승인과 환불 요청에 멱등 키를 적용했습니다.",
     route: "/projects/happygallery",
-    score: 0.92,
 }
 
 const renderPage = (initialEntries = ["/search"]) => {
@@ -463,13 +462,8 @@ test("본문 인용 번호를 누르면 280자 뒤의 근거까지 펼치고 키
 })
 
 test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI 답변을 생성한다", async () => {
-    searchPortfolioKnowledge.mockResolvedValue({
-        query: "happyGallery 문제 해결 방법을 알려주세요.",
-        total: 1,
-        results: [searchResult],
-    })
+    searchPortfolioKnowledge.mockResolvedValue({ total: 1, results: [searchResult] })
     generatePortfolioAnswer.mockResolvedValue({
-        question: "happyGallery 문제 해결 방법을 알려주세요.",
         status: "GENERATED",
         answer: "결제 승인과 환불에 멱등 키를 적용해 같은 요청의 중복 처리를 막았습니다.",
         citations: [searchResult],
@@ -529,7 +523,7 @@ test("검색 결과를 먼저 보여주고 사용자가 요청한 뒤에만 AI �
 })
 
 test("검색 결과가 없으면 검색 범위를 바꾸는 방법을 안내하고 답변 버튼을 비활성화한다", async () => {
-    searchPortfolioKnowledge.mockResolvedValue({ query: "없는 자료", total: 0, results: [] })
+    searchPortfolioKnowledge.mockResolvedValue({ total: 0, results: [] })
 
     renderPage()
 

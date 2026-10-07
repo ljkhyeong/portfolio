@@ -6,11 +6,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.binder.cache.CaffeineCacheMetrics;
 
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
@@ -34,11 +35,7 @@ public class KnowledgeSearchService {
     private final KnowledgeIndexPort indexPort;
     private final RrfRanker rrfRanker;
     private final MeterRegistry meters;
-    // 질문 벡터만 재사용하고 문서 검색은 매번 실행해 색인 변경을 바로 반영한다.
-    private final Cache<String, List<Float>> queryVectors = Caffeine.newBuilder()
-            .maximumSize(256)
-            .expireAfterWrite(Duration.ofMinutes(2))
-            .build();
+    private final Cache<String, List<Float>> queryVectors;
 
     public KnowledgeSearchService(
             KnowledgeProperties properties,
@@ -52,27 +49,17 @@ public class KnowledgeSearchService {
         this.indexPort = indexPort;
         this.rrfRanker = rrfRanker;
         this.meters = meters;
+        // 질문 벡터만 재사용하고 문서 검색은 매번 실행해 색인 변경을 바로 반영한다.
+        this.queryVectors = CaffeineCacheMetrics.monitor(meters, Caffeine.newBuilder()
+                .maximumSize(256)
+                .expireAfterWrite(Duration.ofMinutes(2))
+                .recordStats()
+                .build(), "query_embedding");
     }
 
-    public KnowledgeSearchResult search(
-            String query,
-            List<String> projectIds,
-            List<String> documentTypes,
-            Integer requestedLimit
-    ) {
-        return search(query, projectIds, List.of(), documentTypes, requestedLimit);
-    }
-
-    public KnowledgeSearchResult search(
-            String query,
-            List<String> projectIds,
-            List<String> serviceIds,
-            List<String> documentTypes,
-            Integer requestedLimit
-    ) {
+    public KnowledgeSearchResult search(String query, KnowledgeFilter filter, Integer requestedLimit) {
         String normalizedQuery = query.strip();
-        int limit = normalizeLimit(requestedLimit);
-        KnowledgeFilter filter = new KnowledgeFilter(projectIds, serviceIds, documentTypes);
+        int limit = requestedLimit == null ? properties.search().defaultLimit() : requestedLimit;
         int candidateLimit = Math.max(limit, properties.search().candidateLimit());
 
         List<SearchHit> bm25 = indexPort.searchBm25(normalizedQuery, filter, candidateLimit);
@@ -86,7 +73,8 @@ public class KnowledgeSearchService {
 
         String mode = "hybrid";
         try {
-            List<Float> queryVector = queryVector(normalizedQuery);
+            List<Float> queryVector = queryVectors.get(normalizedQuery,
+                    key -> List.copyOf(embeddingPort.embed(List.of(key)).getFirst()));
             rankings.add(indexPort.searchKnn(queryVector, filter, candidateLimit, candidateLimit * 2));
         } catch (EmbeddingUnavailableException | KnowledgeIndexAccessException exception) {
             mode = "fallback";
@@ -97,23 +85,6 @@ public class KnowledgeSearchService {
         return result(rankings, bm25, limit);
     }
 
-    private List<Float> queryVector(String query) {
-        AtomicBoolean loaded = new AtomicBoolean();
-        List<Float> vector = queryVectors.get(query, key -> {
-            loaded.set(true);
-            recordCacheLookup("query_embedding", "miss");
-            return List.copyOf(embeddingPort.embed(List.of(key)).getFirst());
-        });
-        if (!loaded.get()) {
-            recordCacheLookup("query_embedding", "hit");
-        }
-        return vector;
-    }
-
-    private void recordCacheLookup(String cache, String result) {
-        meters.counter("knowledge.cache.lookups", "cache", cache, "result", result).increment();
-    }
-
     private KnowledgeSearchResult result(List<List<SearchHit>> rankings, List<SearchHit> bm25, int limit) {
         List<SearchHit> candidates = rrfRanker.merge(rankings, properties.search().rrfK());
         Map<String, SearchHit> documents = new LinkedHashMap<>();
@@ -121,12 +92,7 @@ public class KnowledgeSearchService {
         List<SearchHit> hits = documents.values().stream().limit(limit).toList();
         Set<String> bm25ChunkIds = bm25.stream()
                 .map(hit -> hit.chunk().chunkId())
-                .collect(java.util.stream.Collectors.toUnmodifiableSet());
+                .collect(Collectors.toUnmodifiableSet());
         return new KnowledgeSearchResult(hits, candidates, bm25ChunkIds);
-    }
-
-    private int normalizeLimit(Integer requestedLimit) {
-        int limit = requestedLimit == null ? properties.search().defaultLimit() : requestedLimit;
-        return Math.min(limit, properties.search().maxLimit());
     }
 }

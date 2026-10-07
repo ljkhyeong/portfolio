@@ -2,19 +2,14 @@ package com.ljkhyeong.portfolio.knowledge.api;
 
 import java.util.List;
 
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeAnswer;
+
 public record AnswerResponse(
-        String question,
-        AnswerStatus status,
+        KnowledgeAnswer.Status status,
         String answer,
         List<CitationResponse> citations,
         List<SearchResultResponse> results
 ) {
-
-    public enum AnswerStatus {
-        GENERATED,
-        INSUFFICIENT_EVIDENCE,
-        GENERATION_UNAVAILABLE
-    }
 
     public record CitationResponse(
             String chunkId,
