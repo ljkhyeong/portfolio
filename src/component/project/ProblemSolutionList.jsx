@@ -5,7 +5,7 @@ const problemFields = [
     ["문제", "constraint"],
     ["방법", "decision"],
     ["확인", "validation"],
-    ["남은 일", "boundary"],
+    ["한계", "boundary"],
 ]
 
 // 대표 사례 밖의 문제를 번호와 제목만 보이는 색인으로 펼쳐 두고, 누르면 그 자리에서 내용을 연다.

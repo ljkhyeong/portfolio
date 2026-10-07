@@ -86,7 +86,7 @@ const routeMetaContent = {
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:
-            "국방부 산하 4개 기관(군사법원, 군검찰, 군사경찰, 군교정) 연계 시스템에서 수용자 자료 검증 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발한 경력 사례",
+            "국방부 산하 4개 기관(군사법원, 군검찰, 군사경찰, 군교정) 연계 시스템에서 수용자 자료 검증 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/webrtc": {

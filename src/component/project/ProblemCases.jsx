@@ -6,7 +6,7 @@ const caseFields = [
     ["문제", "constraint"],
     ["방법", "decision"],
     ["확인", "validation"],
-    ["남은 일", "boundary"],
+    ["한계", "boundary"],
 ]
 
 const ProcessSteps = ({ title, steps, inline = false }) => (
@@ -27,7 +27,7 @@ const ProcessSteps = ({ title, steps, inline = false }) => (
 )
 
 // 대표 사례 하나. 관련 화면이 있으면 화면과, 처리 순서가 있으면 순서와 짝지어 둔다.
-// 네 칸(문제, 방법, 확인, 남은 일)은 모든 사례가 같은 순서로 쓴다.
+// 네 칸(문제, 방법, 확인, 한계)은 모든 사례가 같은 순서로 쓴다.
 const ProblemCase = ({ project, problem, featured, flip }) => {
     const titleId = useId()
     const steps = featured?.problemNumber === problem.number ? featured.steps : null

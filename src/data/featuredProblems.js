@@ -1,5 +1,5 @@
 // 문제 해결의 대표 사례. 처리 순서와, 사례 제목 아래에 둘 한 문장(problem)만 둔다.
-// 문제, 방법, 확인, 남은 일은 projects.js의 문제 데이터가 담는다.
+// 문제, 방법, 확인, 한계는 projects.js의 문제 데이터가 담는다.
 const featuredProblems = {
     baton: {
         problemNumber: "02",
@@ -12,7 +12,7 @@ const featuredProblems = {
     },
     happygallery: {
         problemNumber: "02",
-        problem: "결제사 응답을 잃어도 승인과 환불을 다시 실행해서는 안 됩니다.",
+        problem: "결제사 응답이 유실되어도 승인과 환불을 다시 실행해서는 안 됩니다.",
         steps: [
             { title: "호출 전 상태 저장", description: "결제 orderId와 환불 UUID 유지" },
             { title: "결제사 호출", description: "DB 트랜잭션 밖에서 실행" },
@@ -59,7 +59,7 @@ const featuredProblems = {
             { title: "외부 API 호출", description: "DB 트랜잭션 밖에서 실행" },
             {
                 title: "완료 또는 재처리",
-                description: "완료 시 상태 초기화, 오래된 P는 N으로 복구",
+                description: "완료 시 상태 초기화, 처리 기한이 지난 P는 N으로 복구",
             },
         ],
     },
@@ -86,7 +86,7 @@ const featuredProblems = {
         problemNumber: "03",
         problem: "동시 요청이나 응답 유실 뒤 재요청이 같은 링크를 여러 건 만들 수 있습니다.",
         steps: [
-            { title: "처리 이력 조회", description: "UUID 해시로 같은 요청 검색" },
+            { title: "처리 이력 조회", description: "멱등 키(UUID) 해시로 같은 요청 검색" },
             { title: "요청 조건 비교", description: "기존 요청과 다르면 거절" },
             { title: "링크 반환", description: "같은 조건이면 기존 링크 재사용" },
         ],
@@ -94,21 +94,21 @@ const featuredProblems = {
     "baton-watch": {
         problemNumber: "05",
         problem:
-            "느린 URL 점검이 DB 연결을 오래 점유하고 늦은 결과가 최신 상태를 덮을 수 있습니다.",
+            "느린 URL 점검이 DB 커넥션을 오래 점유하고 늦은 결과가 최신 상태를 덮을 수 있습니다.",
         steps: [
-            { title: "점검 시도 기록", description: "처리 서버와 기한 저장 후 DB 연결 반환" },
-            { title: "URL 점검", description: "확인한 공인 IP로만 요청" },
+            { title: "점검 시도 기록", description: "처리 서버와 기한 저장 후 DB 커넥션 반환" },
+            { title: "URL 점검", description: "공인 IP만 요청해 SSRF 차단" },
             { title: "현재 결과만 저장", description: "만료된 시도와 과거 URL 결과 차단" },
         ],
     },
     "baton-relay": {
         problemNumber: "07",
         problem:
-            "외부 전송 뒤 응답을 잃으면 성공 여부를 모른 채 같은 내용을 다시 보낼 수 있습니다.",
+            "외부 전송 뒤 응답이 유실되면 성공 여부를 모른 채 같은 내용을 다시 보낼 수 있습니다.",
         steps: [
             { title: "전송 시도 저장", description: "UUID와 외부 서비스 멱등 키 고정" },
             { title: "외부 전송", description: "서버가 바뀌어도 시도 UUID와 멱등 키 유지" },
-            { title: "전송 결과 수동 확정", description: "재전송 없이 기록 확인 후 상태 확정" },
+            { title: "전송 결과 수동 확정", description: "재전송 없이 수신 측 기록 확인 후 확정" },
         ],
     },
     "baton-brief": {
@@ -128,7 +128,10 @@ const featuredProblems = {
         problem: "이전 버전의 일정이 늦게 도착하면 최신 캘린더가 이전 상태로 돌아갈 수 있습니다.",
         steps: [
             { title: "일정 JSON 수신", description: "이벤트 ID와 일정 ID 확인" },
-            { title: "버전 및 내용 비교", description: "이전 버전과 동일 버전의 내용 불일치 구분" },
+            {
+                title: "버전 및 내용 비교",
+                description: "과거 버전과, 버전은 같지만 내용이 다른 일정 구분",
+            },
             { title: "최신 일정 유지", description: "중복 일정과 과거 일정은 반영하지 않음" },
         ],
     },

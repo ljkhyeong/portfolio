@@ -84,7 +84,7 @@ export const projectOgCards = [
         route: "/projects/defense",
         title: ["차세대", "군사법 정보 시스템"],
         category: "경력 프로젝트 / 국방부 산하 4개 기관 연계",
-        description: "수용자 자료 검증 배치와\n대용량 파일 직접 업로드를 개발했습니다.",
+        description: "수용자 자료 검증 배치와\nPresigned URL 업로드를 개발했습니다.",
         caption: "수용자 자료 검증과 군교정 DB 반영",
         steps: [
             ["군사법원, 군검찰, 군사경찰", "기관별 자료 수신"],

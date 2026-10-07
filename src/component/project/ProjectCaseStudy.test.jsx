@@ -860,7 +860,7 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
 
     expect(within(problems).getAllByRole("article")).toHaveLength(2)
     expect(within(latencyCase).getByRole("list", { name: /처리 순서/ })).toBeInTheDocument()
-    ;["문제", "방법", "확인", "남은 일"].forEach((term) =>
+    ;["문제", "방법", "확인", "한계"].forEach((term) =>
         expect(within(mediaFlowProblem).getByText(term)).toBeVisible(),
     )
     expect(mediaFlowProblem).toHaveTextContent(

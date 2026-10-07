@@ -241,7 +241,7 @@ describe("project summary data", () => {
         const publicCopy = JSON.stringify(defense)
 
         expect(defense.systemTitle).toBe("수용자 인적정보 및 영장정보 연계 배치 흐름")
-        expect(defense.oneLine).toContain("CSRF 차단")
+        expect(defense.oneLine).toContain("CSRF 토큰 검증")
         expect(securityProblem.decision).toContain("WebSquare 공통 요청")
         expect(securityProblem.decision).toContain("필터에서 차단")
         expect(uploadProblem.decision).toContain("업로드 권한과 파일 정보를 검증")

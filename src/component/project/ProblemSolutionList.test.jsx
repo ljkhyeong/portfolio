@@ -39,7 +39,7 @@ test("다른 문제 해결은 번호와 제목만 펼쳐 두고 누르면 네 �
     await userEvent.click(within(items[0]).getByText("중복 요청을 한 번만 처리한다"))
 
     expect(firstDetails).toHaveAttribute("open")
-    ;["문제", "방법", "확인", "남은 일"].forEach((term) =>
+    ;["문제", "방법", "확인", "한계"].forEach((term) =>
         expect(within(firstDetails).getByText(term)).toBeVisible(),
     )
     expect(within(firstDetails).getByText("멱등 키로 처리 결과를 재사용합니다.")).toBeVisible()
@@ -67,7 +67,7 @@ test("대표 사례는 네 칸을 펼쳐 보여주고, 처리 순서가 있는 �
             .map((step) => step.querySelector("strong").textContent),
     ).toEqual(["요청 수신", "중복 확인", "결과 반환"])
     ;[first, second].forEach((article) => {
-        ;["문제", "방법", "확인", "남은 일"].forEach((term) =>
+        ;["문제", "방법", "확인", "한계"].forEach((term) =>
             expect(within(article).getByText(term)).toBeVisible(),
         )
     })

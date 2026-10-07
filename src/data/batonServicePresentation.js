@@ -38,12 +38,12 @@ export const batonServicePresentations = {
     watch: {
         target: "위험한 URL 접근과 중단된 점검 작업",
         decision: "공인 IP만 점검하고 기한이 지난 점검 재실행",
-        result: "사설망 접근과 DNS 재조회 시 IP 변경 차단, 이전 결과 저장 방지 확인",
+        result: "사설망 접근과 DNS 리바인딩 차단, 이전 결과 저장 방지 확인",
         verification: [
             {
                 kind: "verified",
                 label: "확인한 것",
-                text: "사설망 접근과 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행, 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. 필수값이 빠진 점검 결과와 전달 결과는 DB 제약으로 저장을 거부합니다.",
+                text: "사설망 접근과 DNS 리바인딩 차단, 중단된 점검 재실행, 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. 필수값이 빠진 점검 결과와 전달 결과는 DB 제약으로 저장을 거부합니다.",
             },
             {
                 kind: "limited",
