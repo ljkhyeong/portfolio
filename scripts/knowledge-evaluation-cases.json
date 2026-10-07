@@ -52,7 +52,7 @@
         "id": "deadline",
         "question": "청년정책의 날짜 마감과 시각 마감은 어떻게 구분하나요?",
         "projectId": "youth-policy-mate",
-        "titleIncludes": "마감 날짜·시각",
+        "titleIncludes": "마감 날짜와 시각",
         "criteria": "마감 기준과 미확인 마감일의 제외를 설명한다."
     },
     {
@@ -108,7 +108,7 @@
         "id": "warrant",
         "question": "전자영장 시스템에서 외부 API 응답을 기다리는 동안 DB 연결은 어떻게 처리했나요?",
         "projectId": "warrant",
-        "titleIncludes": "외부 API 대기 중",
+        "titleIncludes": "이중화 서버의 작업 선점",
         "criteria": "DB 연결 반환과 중복 실행 방지를 설명한다."
     },
     {
