@@ -126,3 +126,72 @@ Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스�
 Gateway 대역 서버의 429·503(`Retry-After: 1`)과 Ollama 503에서 답변·임베딩 호출이 한 번뿐인지, 주입한 빌더로 만든 Turnstile 클라이언트가 307 리다이렉트를 따르지 않고 응답 대기 1초 초과에서 재시도 없이 끝나는지 테스트로 고정했다. 재시도를 켜거나 요청 팩토리 지정을 빼면 각 테스트가 실패하는 것도 확인했다. 단위 테스트 283건을 통과했고 실제 OpenAI·Ollama·Turnstile 호출은 하지 않았다.
 
 설정 정리 뒤 단위 테스트 283건, Elasticsearch 9.4.8 통합 테스트 10건과 `bootJar`를 통과했다. 시스템 환경변수 형식의 `KNOWLEDGE_*` 값이 YAML 매핑 없이 바인딩되는지 테스트로 고정했다. `docker compose config`로 미설정 변수가 전달되지 않고(`.env.example` 그대로면 29개 모두 미전달) `SPRING_PROFILES_INCLUDE=homeserver`가 붙는 것을 확인했고, JAR를 `ai-gateway` 프로필로 기동해 `homeserver`, `ai-gateway`, `openai`가 함께 활성화되고 관리 포트의 `/actuator/info`가 404인 것을 확인했다. 실제 AI 호출과 Compose 컨테이너 기동은 하지 않았다.
+
+## 2026-10-07 직접 구현 정리 — `afa9a3c` 이후 전체
+
+개발 단계라 보존할 색인·운영 데이터가 없어, 설정·환경변수·인덱스 이름, Elasticsearch 주 버전, 지표 이름과 오류 본문의 호환성을 유지하지 않는 조건으로 진행했다. 직접 구현한 코드를 Spring·Spring Boot·Java·Elasticsearch가 제공하는 기능으로 바꾸고 쓰지 않는 코드를 지웠다. 후보마다 실제 의존성(Spring Boot 4.1.0, Spring Framework 7.0.8, Spring AI 2.0.0, Elasticsearch Java Client 9.4.2)에서 API와 동작을 확인한 뒤 채택 여부를 정했다. 웹, 동기화·평가 도구, Compose, CI와 문서는 각 커밋에서 함께 고치고, 마지막에 문서 간 설정 이름과 설명을 다시 맞췄다. 오류 응답, 서비스·캐시, AI·설정의 세부 내용은 위 세 절에 있다. `knowledge-api/src/main`은 789줄을 추가하고 1,335줄을 삭제했다.
+
+### 바꾼 구현
+
+| 직접 구현·고정 의존성                                                        | 바꾼 방식                                                                                                                        |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 클라이언트 8.19.19 고정, `RestClient`·`ElasticsearchClient` 직접 생성과 종료 | `spring-boot-starter-elasticsearch` 자동 설정(Boot 관리 9.4.2, `Rest5Client`), 서버 9.4.8                                        |
+| `ElasticsearchHealthIndicator`                                               | Boot 기본 Elasticsearch 상태 지표(readiness 그룹)                                                                                |
+| 통합 테스트의 저장소 직접 생성, Testcontainers 1.21.3                        | Boot 관리 Testcontainers 2.0.5와 `@ServiceConnection`. Docker가 없으면 건너뛰지 않고 실패                                        |
+| 문서별 `sourceHash` 비교, 오래된 청크 삭제, 첫 검색 지연 초기화              | 새 색인 전체 색인, 매핑 `_meta` 비교, `updateAliases` 한 번으로 alias 교체                                                       |
+| 매니페스트 `JsonNode` 순회 검사, 원격 URL 읽기                               | record·enum 직접 바인딩(필수 속성, null·숫자 enum 거부), `classpath:` 자료만 허용                                                |
+| 오류 DTO와 인터셉터의 `ObjectMapper` 직접 쓰기                               | `ResponseEntityExceptionHandler`, RFC 9457 `ProblemDetail`, `ErrorResponseException` 하위 예외, `messages.properties`            |
+| 서비스의 문서 종류 허용값 검사                                               | 요청 DTO 요소의 `@Pattern`                                                                                                       |
+| Bucket4j 버킷                                                                | UTC 분 고정 창 카운터(의존성 삭제)                                                                                               |
+| URI 접미사로 요청 종류 판별, 수동 POST 분기                                  | 경로별 인터셉터 등록과 `includeHttpMethods(POST)`                                                                                |
+| `X-Forwarded-For` 직접 해석                                                  | `server.forward-headers-strategy: native`(Tomcat `RemoteIpValve`)                                                                |
+| 캐시 조회 수 직접 집계                                                       | Micrometer `CaffeineCacheMetrics`와 `recordStats()`                                                                              |
+| SHA-256 답변 캐시 키                                                         | record 값 비교                                                                                                                   |
+| Turnstile 클라이언트 직접 생성, 재시도 반복문                                | Boot `RestClient.Builder`, `ClientHttpRequestFactoryBuilder.simple()`과 `HttpClientSettings`, Spring Framework 7 `RetryTemplate` |
+| AI 빌더 `getIfAvailable()`과 null 검사                                       | `ObjectProvider.getObject()`                                                                                                     |
+| `AI_PROFILE`과 제공자 매핑                                                   | Spring 프로필과 `spring.profiles.group`                                                                                          |
+| `application.yml`의 기본값 재선언과 환경변수 매핑                            | `KnowledgeProperties`의 `@DefaultValue`와 완화 바인딩                                                                            |
+| Gradle 매니페스트 복사 태스크와 생성 리소스 디렉터리                         | `processResources.from`                                                                                                          |
+
+제공 기능의 기본값이 기존 방어를 약하게 만드는 곳은 설정으로 맞췄다.
+
+-   `Rest5Client`의 기본 응답 대기(0, 무제한)가 `socket-timeout`을 덮어써, `Rest5ClientBuilderCustomizer`로 응답 대기를 같은 값으로 맞추고 리다이렉트를 거부한다.
+-   Elasticsearch 스타터가 넣은 HttpClient 5로 Boot `RestClient` 요청 팩토리 자동 감지가 바뀌어, Ollama 전송 계층이 달라지지 않도록 `spring.http.clients.imperative.factory: reactor`로 고정했다.
+-   Boot `RestClient.Builder`가 자동 감지하는 Reactor 팩토리에는 시간 제한이 없어, Turnstile은 `simple()` 팩토리와 연결 3초·응답 5초·리다이렉트 거부를 명시했다.
+-   벡터 색인 방식은 서버 기본값 변화와 무관하도록 8.19 기본값과 같은 `int8_hnsw`를 명시했다.
+
+### 삭제한 코드와 설정
+
+-   클래스: `KnowledgeIndexInitializer`, `ElasticsearchHealthIndicator`, `ApiErrorResponse`, `SyncForbiddenException`, `util/Hashing`과 각 전용 테스트(`ElasticsearchDeleteResponseTest`, `KnowledgeIndexInitializerTest`, `KnowledgeManifestHttpTest`).
+-   증분 동기화: 색인된 해시 조회, 문서별 삭제, 오래된 청크 삭제와 삭제 응답 검사, 인덱스 호환성 검사, 동기화 서비스의 임베딩 개수·차원 재검사.
+-   읽지 않는 값: Java 매니페스트·청크의 `sourceHash`, `contentHash`, `chunkHash`, `evidenceLevel` 등, 매핑의 `projectName.raw`와 분석기 메타, 응답의 `results[].score`·검색 `query`·답변 `question`, `knowledge.search.max-limit`. 생성기는 `contentHash`만 뺐고 `sourceRevision`은 그대로다.
+-   환경변수: `AI_PROFILE`, `AI_TRUST_PROXY_HEADERS`, `KNOWLEDGE_ALLOW_EMPTY`, `KNOWLEDGE_SOURCE_CONNECT_TIMEOUT_SECONDS`, `KNOWLEDGE_SOURCE_READ_TIMEOUT_SECONDS`, `OPENAI_SDK_MAX_RETRIES`, `AI_RETRY_MAX_ATTEMPTS`를 삭제했다. `AI_*_PER_MINUTE`·`AI_MAX_CLIENT_BUCKETS_PER_MINUTE`는 `KNOWLEDGE_RATE_LIMIT_*`, `ELASTICSEARCH_INDEX`는 `KNOWLEDGE_ELASTICSEARCH_INDEX_NAME`, `AI_ANSWER_CACHE_*`는 `KNOWLEDGE_AI_ANSWER_CACHE_*`로 바꿨다.
+-   외부 계약: 오류 본문은 `code`·`message`에서 `application/problem+json`의 `detail`·`code`·`fieldErrors`로, 캐시 지표는 `knowledge.cache.lookups`에서 `cache.gets`로, 색인은 프로필별 `portfolio-knowledge-<프로필>-v3`에서 alias `portfolio-knowledge`로 바꿨다.
+
+### 발견한 결함
+
+-   인코딩한 답변 경로의 호출 제한 우회(`c4bc019`): 원문 `getRequestURI()`의 접미사로 요청 종류를 판별해, 답변 핸들러와 Turnstile에 도달하는 `answer%73`, `answers;x=1`, `%61nswers`가 검색 한도(분당 클라이언트 30회, 전역 300회)로 계산됐다. 답변 한도(5회, 30회)보다 많은 AI 호출이 가능했다. 핸들러 매핑과 같은 경로 판정을 쓰는 경로별 인터셉터 등록으로 고쳤다.
+-   `X-Forwarded-For` 가장 왼쪽 값 위조(`c4bc019`): `AI_TRUST_PROXY_HEADERS=true`이면 클라이언트가 정하는 가장 왼쪽 값을 클라이언트 키로 썼다. 요청마다 키를 바꿔 클라이언트 한도를 피하고 분당 클라이언트 수 상한(100)을 채워 새 사용자를 그 분 동안 막을 수 있었다. Tomcat `RemoteIpValve`가 오른쪽부터 해석한 `remoteAddr`만 쓰도록 고쳤다.
+-   효과 없던 OpenAI 재시도 설정(`821570f`): Spring AI 2.0의 OpenAI 모델은 `spring.ai.retry`를 쓰지 않아 `AI_RETRY_MAX_ATTEMPTS`가 동작하지 않았고, 문서의 재시도 설명도 실제(SDK `max-retries: 0`, 1회 호출)와 달랐다. SDK 재시도는 `Retry-After`를 상한 없이 기다리므로 0으로 고정했다.
+-   Ollama 장시간 재시도(`821570f`): Ollama 답변은 Spring AI 기본 재시도(10회, 2초부터 최장 3분 간격)를 따라, Ollama가 내려가 있으면 답변 요청 하나가 20분 넘게 대기할 수 있었다. `spring.ai.retry.max-attempts: 0`으로 바로 `GENERATION_UNAVAILABLE`과 검색 결과를 반환한다.
+
+### 채택하지 않은 항목
+
+-   Spring Cache `@Cacheable`: 두 캐시의 설정이 달라 캐시별 등록 코드와 빈 분리(private 메서드 자기 호출)가 필요하고, 지표는 `CaffeineCacheMetrics`로 이미 얻었다.
+-   `CorsUtils.isPreFlightRequest`로 POST 판정: Origin 없는 일반 `OPTIONS`를 거르지 못해 동작이 다르다. 이후 `includeHttpMethods(POST)`로 대체했다.
+-   동기화 키 검사를 인터셉터·Spring Security로 이동: 엔드포인트 두 개에 코드 양이 비슷하고, Security는 필터 체인·CSRF·세션 설정이 늘어난다.
+-   `ApplicationRunner`를 `ApplicationReadyEvent`로 교체: Runner는 readiness 전에 끝나는 Boot 표준 시작 작업이고, 준비 완료 이벤트에서 긴 색인을 하면 의미가 어긋난다.
+-   초기화 플래그를 `SingletonSupplier`로 교체: 재설정 API가 없어 더 길어진다. 이후 초기화 클래스 자체를 삭제했다.
+-   저장 DTO 없이 도메인 청크를 직접 색인: 빈 임베딩 배열이 `dense_vector` 차원 오류를 내고, `dynamic: strict` 매핑이 도메인 필드와 묶인다.
+-   `Duration`·`DataSize` 설정 타입: 대상 필드 대부분이 다른 항목에서 사라져 남은 필드에는 애너테이션만 늘어난다.
+-   `TokenTextSplitter`, `ElasticsearchVectorStore`, Elasticsearch `rrf` retriever, `@ConcurrencyLimit`: 각각 겹침 미지원, BM25·Nori·발췌 불가, 순위 출처를 알 수 없어 BM25 근거 판정과 대체 처리 불가, 상태 조회용 실행 중 플래그가 계속 필요하다.
+-   삭제 응답 검사와 빈 목록 분기 정리: 효과가 작아 제외했고, 이후 증분 동기화 삭제로 대상 코드가 없어졌다.
+-   Spring AI 네이티브 구조화 출력: 실제 OpenAI·Ollama 응답 평가(비용 발생)가 필요해 적용하지 않았다. 효과가 없던 `NoOpTemplateRenderer`만 삭제했다.
+
+### 검증 범위
+
+-   커밋마다 `npm run check:file`과 `./gradlew test`를 통과했다. 마지막 코드 커밋(`57c1625`) 기준 단위 테스트 283건, Elasticsearch 9.4.8(Nori) 통합 테스트 10건과 `bootJar`를 통과했다. 웹 코드를 바꾼 커밋은 웹 테스트 464건과 웹 빌드도 통과했다.
+-   AI를 끈 로컬 실행에서 기준(Elasticsearch 8.19.20)과 변경 후(9.4.8) 모두 공개 문서 123건 동기화 뒤 상위 5건 적중 22/24, MRR@5 0.826으로 같았다. alias 방식에서도 같은 결과와 재동기화 생략(`rebuilt=false`), 청크 설정 변경 시 재색인과 이전 색인 삭제를 확인했다.
+-   보안·방어 설정은 테스트로 고정하고, 되돌리면 실패하는 것을 확인했다(URI 접미사 판별, `includeHttpMethods` 제거, `framework` 전달 헤더 방식, AI 재시도 1회, Turnstile 요청 팩토리 미지정, Elasticsearch 리다이렉트 허용).
+-   `docker compose config`로 환경변수 전달을, JAR를 `ai-gateway` 프로필로 기동해 프로필 그룹과 관리 포트를 확인했다.
+-   실제 OpenAI·Ollama·Cloudflare(Turnstile, AI Gateway) 호출, AI를 켠 검색·답변 평가, Compose 컨테이너 기동, k3s 배포와 실제 프록시 경로의 `X-Forwarded-For`, 인증을 켠 Elasticsearch, 여러 API 인스턴스의 동시 동기화는 확인하지 않았다.

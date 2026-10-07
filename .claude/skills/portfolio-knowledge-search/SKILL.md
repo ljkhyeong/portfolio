@@ -32,7 +32,7 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 
 1. 로컬 문서는 `public/docs/` 아래에 두고 `PUBLIC_LOCAL_DOCUMENTS`에 추가한다. 외부 문서는 공개 저장소의 GitHub blob 주소를 `PUBLIC_EXTERNAL_DOCUMENTS`에 추가한다. 비공개 저장소의 문서는 추가하지 않는다.
 2. 외부 문서를 추가했으면 `npm run knowledge:refresh-docs`로 사본을 받고 `docs/knowledge-document-snapshots.json`의 diff에서 본문과 출처를 검토한다.
-3. `npm run knowledge:generate`로 자료를 만들고 문서 수와 바뀐 범위를 확인한다.
+3. `npm run knowledge:generate`로 자료를 만들고 문서 수와 바뀐 범위를 확인한다. 검색 API는 JAR에 포함된 `classpath:knowledge/portfolio.json`만 읽으므로 API를 다시 빌드해야 색인에 반영된다.
 4. 새 문서가 대표 질문의 답이 되면 `knowledge-evaluation-cases.json`에 질문과 `criteria`를 추가할지 검토한다.
 
 ### 검색 API(Java)를 바꿀 때
@@ -44,7 +44,9 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 -   `@Service` → Adapter 구현체, API 의존 금지
 -   Port → API, Service, Adapter, Config 의존 금지
 
-외부 제공자(OpenAI, Ollama, Elasticsearch, Turnstile)는 Port 뒤의 Adapter로 둔다. 오류는 검색 결과를 유지하는 응답으로 변환한다. 시간 제한, 요청 크기 제한, 리다이렉트 거부 같은 기존 방어 규칙을 완화하지 않는다.
+외부 제공자(OpenAI, Ollama, Elasticsearch, Turnstile)는 Port 뒤의 Adapter로 둔다. 오류는 검색 결과를 유지하는 응답으로 변환한다. 시간 제한, 요청 크기 제한, 리다이렉트 거부 같은 기존 방어 규칙을 완화하지 않는다. AI 자동 재시도도 켜지 않는다(OpenAI `max-retries: 0`, Ollama `spring.ai.retry.max-attempts: 0`, Gateway `cf-aig-max-attempts: 1`).
+
+호출 제한과 Turnstile 인터셉터는 `WebConfiguration`의 경로별 등록과 `includeHttpMethods(POST)`로 적용하고, URI 문자열로 요청 종류를 판별하지 않는다. 클라이언트 주소는 `server.forward-headers-strategy: native`가 정한 `remoteAddr`만 쓰며 `X-Forwarded-For`를 직접 해석하지 않는다.
 
 설정 기본값은 `KnowledgeProperties`의 `@DefaultValue`에만 둔다. `knowledge.*` 환경변수는 완화 바인딩 이름(`KNOWLEDGE_SYNC_KEY` → `knowledge.sync.key`)을 쓰고, `application.yml`에 `${환경변수:기본값}` 매핑을 다시 만들지 않는다. AI 제공자는 Spring 프로필(`openai`, `ollama`, `ai-gateway`)로만 고른다.
 

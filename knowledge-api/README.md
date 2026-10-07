@@ -8,6 +8,7 @@
 -   Spring Boot 4.1.0
 -   Spring AI 2.0.0
 -   Elasticsearch 9.4.8 + 한국어 분석기 Nori
+-   Elasticsearch Java Client 9.4.2(Spring Boot 관리 버전)
 -   운영 AI: OpenAI
 -   로컬 AI: Ollama
 
@@ -46,7 +47,7 @@ OPENAI_API_KEY=... \
 docker compose up --build
 ```
 
-기본 모델은 `gpt-5-mini`, 임베딩 모델은 `text-embedding-3-large` 1024차원입니다. OpenAI의 임베딩 API는 `text-embedding-3` 계열에서 출력 차원 설정을 지원합니다. [OpenAI Embeddings API](https://developers.openai.com/api/reference/resources/embeddings/methods/create)
+기본 모델은 `gpt-5-mini`, 임베딩 모델은 `text-embedding-3-large` 1024차원이며 `OPENAI_CHAT_MODEL`, `OPENAI_EMBEDDING_MODEL`, `OPENAI_EMBEDDING_DIMENSIONS`로 바꿉니다. OpenAI의 임베딩 API는 `text-embedding-3` 계열에서 출력 차원 설정을 지원합니다. [OpenAI Embeddings API](https://developers.openai.com/api/reference/resources/embeddings/methods/create)
 
 API 키는 백엔드 환경 변수에만 설정하며 React의 `VITE_*` 환경 변수에 넣지 않습니다.
 
@@ -72,6 +73,8 @@ SPRING_PROFILES_ACTIVE=ollama docker compose --profile ollama up --build knowled
 ```
 
 Ollama 답변도 자동 재시도하지 않습니다. Spring AI 기본값(최대 10회, 2초부터 최장 3분 간격)을 쓰면 Ollama가 내려가 있는 동안 답변 요청 하나가 20분 넘게 대기하므로 `spring.ai.retry.max-attempts`를 0으로 둡니다. 연결에 실패하면 바로 `GENERATION_UNAVAILABLE`과 검색 결과를 반환합니다.
+
+Ollama의 기본 답변 모델은 `qwen3:8b`, 임베딩 모델은 `bge-m3` 1024차원이며 `OLLAMA_CHAT_MODEL`, `OLLAMA_EMBEDDING_MODEL`, `OLLAMA_EMBEDDING_DIMENSIONS`로 바꿉니다.
 
 모든 프로필의 기본 검색 alias는 `portfolio-knowledge`이며 `KNOWLEDGE_ELASTICSEARCH_INDEX_NAME`으로 바꿀 수 있습니다. 임베딩 모델이나 차원을 바꾸면 다음 동기화가 전체 문서를 새 색인에 다시 색인한 뒤 검색 대상을 교체합니다.
 

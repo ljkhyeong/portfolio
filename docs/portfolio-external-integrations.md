@@ -35,7 +35,7 @@ CLOUDFLARE_AI_GATEWAY_ID=<Gateway ID>
 CLOUDFLARE_AI_GATEWAY_TOKEN=<Gateway 인증 토큰>
 ```
 
-`ai-gateway` 프로필은 프로필 그룹으로 `openai`를 함께 켭니다. Compose도 `SPRING_PROFILES_ACTIVE`와 세 가지 Cloudflare 변수를 전달합니다. 빈 토큰·잘못된 ID는 기동 단계에서 거부합니다. 기존 Turnstile 사이트 키·비밀 키와는 별개입니다.
+`ai-gateway` 프로필은 프로필 그룹으로 `openai`를 함께 켭니다. 위 프로필 값은 k3s 기준입니다. Compose는 `homeserver`를 항상 포함하므로 예시 파일처럼 `SPRING_PROFILES_ACTIVE=ai-gateway`만 지정하고, 이 값과 세 가지 Cloudflare 변수를 컨테이너에 전달합니다. 빈 토큰·잘못된 ID는 기동 단계에서 거부합니다. 기존 Turnstile 사이트 키·비밀 키와는 별개입니다.
 
 요청 주소는 `https://gateway.ai.cloudflare.com/v1/<계정 ID>/<Gateway ID>/openai`입니다. OpenAI 키는 `Authorization`, Gateway 토큰은 `cf-aig-authorization`에 전달합니다. 다음 헤더를 기본 적용합니다.
 
@@ -113,7 +113,7 @@ sum(rate(cache_gets_total{cache="answer",result="hit"}[5m]))
 sum(rate(cache_gets_total{cache="answer"}[5m]))
 ```
 
-관리 포트는 클러스터 내부에서만 연결합니다. 외부 Ingress에는 업무 API의 8080 포트만 연결하고 `/internal/*`는 제외합니다. API 인스턴스를 여러 개 쓰면 Pod별 수집이 필요하며, 현재 호출 제한도 인스턴스별로 적용됩니다. 홈서버 기본 구성은 API 한 개입니다.
+관리 포트는 클러스터 내부에서만 연결합니다. 외부 Ingress에는 업무 API의 8080 포트만 연결하고 `/internal/*`는 제외합니다. API 인스턴스를 여러 개 쓰면 Pod별 수집이 필요하며, 현재 호출 제한도 인스턴스별로 적용됩니다. `homeserver` 프로필은 시작 시 동기화를 켜고 색인 교체 때 같은 이름 규칙의 다른 색인을 삭제하므로, 여러 개로 늘리면 동기화는 한 Pod에서만 실행합니다. 홈서버 기본 구성은 API 한 개입니다.
 
 readiness는 Spring Boot 기본 Elasticsearch 상태 지표를 사용합니다. `green`·`yellow`는 허용하고, 연결 실패·응답 시간 초과·HTTP 오류는 `DOWN`, `red`는 `OUT_OF_SERVICE`로 모두 HTTP `503`을 반환합니다. 복구되면 다음 확인부터 정상으로 전환합니다. liveness는 Elasticsearch와 분리하며, 자료 버전·색인 완료 여부는 기존 `knowledge:sync`로 확인합니다.
 
@@ -121,17 +121,17 @@ readiness는 Spring Boot 기본 Elasticsearch 상태 지표를 사용합니다. 
 
 환경변수 예시는 `knowledge-api/.env.homeserver.example`입니다. 실제 값은 `.env.homeserver.local`이나 k3s ConfigMap/Secret에 저장합니다. 예시는 AI 비활성으로 설정돼 있어 키 없이 기동할 수 있습니다. `.env` 파일을 k3s가 자동으로 읽지는 않으므로 Pod 환경변수로 전달해야 합니다.
 
-| 대상            | 설정                                                                                             |
-| --------------- | ------------------------------------------------------------------------------------------------ |
-| API 기본 프로필 | `SPRING_PROFILES_ACTIVE=homeserver`                                                              |
-| OpenAI 사용     | `SPRING_PROFILES_ACTIVE=homeserver,openai` 또는 `homeserver,ai-gateway`, `OPENAI_API_KEY`        |
-| Elasticsearch   | Nori 플러그인이 포함된 이미지, `ELASTICSEARCH_URL`, 영속 볼륨                                    |
-| 외부 API        | 8080 포트, HTTPS Ingress, `/api/v1/knowledge/*`                                                  |
-| 클라이언트 주소 | 앞단 프록시가 `X-Forwarded-For`에 접속 주소를 덧붙임, 필요하면 `SERVER_TOMCAT_REMOTEIP_*`로 조정 |
-| 관리 API        | 9091 포트, 클러스터 내부 전용                                                                    |
-| 상태 검사       | startup/readiness는 `/actuator/health/readiness`, liveness는 `/actuator/health/liveness`         |
-| 종료            | graceful shutdown 사용, Pod 종료 유예는 앱 기본 30초보다 길게 설정                               |
-| 비밀값          | OpenAI 키, 동기화 키, Turnstile 비밀 키, 필요 시 Elasticsearch 인증 정보                         |
+| 대상            | 설정                                                                                              |
+| --------------- | ------------------------------------------------------------------------------------------------- |
+| API 기본 프로필 | `SPRING_PROFILES_ACTIVE=homeserver`                                                               |
+| OpenAI 사용     | `SPRING_PROFILES_ACTIVE=homeserver,openai` 또는 `homeserver,ai-gateway`, `OPENAI_API_KEY`         |
+| Elasticsearch   | Nori 플러그인이 포함된 이미지, `ELASTICSEARCH_URL`, 영속 볼륨                                     |
+| 외부 API        | 8080 포트, HTTPS Ingress, `/api/v1/knowledge/*`                                                   |
+| 클라이언트 주소 | 앞단 프록시가 `X-Forwarded-For`에 접속 주소를 덧붙임, 필요하면 `SERVER_TOMCAT_REMOTEIP_*`로 조정  |
+| 관리 API        | 9091 포트, 클러스터 내부 전용                                                                     |
+| 상태 검사       | startup/readiness는 `/actuator/health/readiness`, liveness는 `/actuator/health/liveness`          |
+| 종료            | graceful shutdown 사용, Pod 종료 유예는 앱 기본 30초보다 길게 설정                                |
+| 비밀값          | OpenAI 키, 동기화 키, Turnstile 비밀 키, 인증을 켠 Elasticsearch의 `SPRING_ELASTICSEARCH_API_KEY` |
 
 모델이나 임베딩 차원을 바꾸면 다음 동기화가 새 색인을 만든 뒤 검색 alias를 교체합니다. 최초 색인에 필요한 시간만큼 startup probe 대기 시간을 확보하고, Elasticsearch 장애를 liveness 실패로 처리해 API를 반복 재시작하지 않도록 구분합니다.
 
