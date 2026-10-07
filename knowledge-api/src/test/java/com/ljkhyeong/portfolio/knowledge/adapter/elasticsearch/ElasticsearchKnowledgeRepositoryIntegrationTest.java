@@ -6,17 +6,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.mapping.DenseVectorIndexOptionsType;
+import co.elastic.clients.json.jackson.Jackson3JsonpMapper;
+import co.elastic.clients.transport.rest5_client.Rest5ClientTransport;
+import co.elastic.clients.transport.rest5_client.low_level.Rest5Client;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort.IndexMetadata;
+import org.apache.hc.client5.http.impl.async.HttpAsyncClientBuilder;
+import org.apache.hc.core5.http.protocol.HttpCoreContext;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,11 +110,56 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
         assertThatThrownBy(() -> repository.publish(incomplete, 2))
                 .isInstanceOf(KnowledgeIndexAccessException.class)
                 .hasMessageContaining("청크 수");
-        repository.deleteIndex(incomplete);
+        repository.deleteUnpublishedIndex(incomplete);
 
         assertThat(aliasTargets("count-mismatch")).containsExactly(published);
         assertThat(chunkIds(repository.searchBm25("알림", ALL, 5))).containsExactly("kept-chunk");
         assertThat(client.indices().exists(request -> request.index(incomplete)).value()).isFalse();
+    }
+
+    @Test
+    void alias_교체_응답을_잃어도_교체가_적용됐으면_성공으로_보고_공개한_색인을_지우지_않는다() throws IOException {
+        String first = publish(repository("lost-alias-response"), metadata("sha256:first", 1),
+                chunk("old-chunk", "old-doc"));
+        try (Rest5Client rest = restClient(builder -> builder.addResponseInterceptorFirst((response, entity, context) -> {
+            if (HttpCoreContext.cast(context).getRequest().getRequestUri().startsWith("/_aliases")) {
+                throw new IOException("alias 교체 응답 유실");
+            }
+        }))) {
+            var repository = repository("lost-alias-response", rest);
+            String second = repository.createIndex(metadata("sha256:second", 1));
+            repository.bulkIndex(second, List.of(chunk("new-chunk", "new-doc")));
+
+            repository.publish(second, 1);
+            repository.deleteUnpublishedIndex(second);
+
+            assertThat(aliasTargets("lost-alias-response")).containsExactly(second);
+            assertThat(client.indices().exists(request -> request.index(first)).value()).isFalse();
+            assertThat(chunkIds(repository.searchBm25("알림", ALL, 5))).containsExactly("new-chunk");
+        }
+    }
+
+    @Test
+    void alias_교체_요청이_실패하면_기존_alias를_유지하고_새_색인만_지운다() throws IOException {
+        var repository = repository("failed-alias-request");
+        String first = publish(repository, metadata("sha256:first", 1), chunk("old-chunk", "old-doc"));
+        try (Rest5Client rest = restClient(builder -> builder.addRequestInterceptorFirst((request, entity, context) -> {
+            if (request.getRequestUri().startsWith("/_aliases")) {
+                throw new IOException("alias 교체 요청 실패");
+            }
+        }))) {
+            var failing = repository("failed-alias-request", rest);
+            String second = failing.createIndex(metadata("sha256:second", 1));
+            failing.bulkIndex(second, List.of(chunk("new-chunk", "new-doc")));
+
+            assertThatThrownBy(() -> failing.publish(second, 1)).isInstanceOf(KnowledgeIndexAccessException.class)
+                    .hasMessageContaining("alias를 교체하지 못했습니다");
+            failing.deleteUnpublishedIndex(second);
+
+            assertThat(aliasTargets("failed-alias-request")).containsExactly(first);
+            assertThat(client.indices().exists(request -> request.index(second)).value()).isFalse();
+            assertThat(chunkIds(repository.searchBm25("알림", ALL, 5))).containsExactly("old-chunk");
+        }
     }
 
     @Test
@@ -171,8 +223,24 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
     }
 
     private ElasticsearchKnowledgeRepository repository(String alias) {
+        return repository(alias, client);
+    }
+
+    private ElasticsearchKnowledgeRepository repository(String alias, Rest5Client rest) {
+        return repository(alias, new ElasticsearchClient(new Rest5ClientTransport(rest, new Jackson3JsonpMapper())));
+    }
+
+    private ElasticsearchKnowledgeRepository repository(String alias, ElasticsearchClient elasticsearchClient) {
         return new ElasticsearchKnowledgeRepository(
-                knowledgeProperties("elasticsearch.index-name", alias, "ai.embedding-model-id", "test-model"), client);
+                knowledgeProperties("elasticsearch.index-name", alias, "ai.embedding-model-id", "test-model"),
+                elasticsearchClient);
+    }
+
+    // 특정 요청이나 응답만 실패시키는 클라이언트. 같은 컨테이너를 쓴다.
+    private Rest5Client restClient(Consumer<HttpAsyncClientBuilder> customizer) {
+        return Rest5Client.builder(URI.create("http://" + ELASTICSEARCH.getHttpHostAddress()))
+                .setHttpClientConfigCallback(customizer)
+                .build();
     }
 
     private String publish(ElasticsearchKnowledgeRepository repository, IndexMetadata metadata,

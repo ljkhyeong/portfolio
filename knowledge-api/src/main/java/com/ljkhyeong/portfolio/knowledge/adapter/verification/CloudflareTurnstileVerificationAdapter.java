@@ -1,5 +1,7 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.verification;
 
+import java.net.SocketTimeoutException;
+import java.net.http.HttpTimeoutException;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +25,8 @@ public class CloudflareTurnstileVerificationAdapter implements HumanVerification
     private static final Set<String> TOKEN_ERRORS = Set.of(
             "missing-input-response", "invalid-input-response", "timeout-or-duplicate"
     );
-    // 일회용 토큰 재검증은 연결 오류, HTTP 5xx와 internal-error만 같은 멱등 키로 즉시 한 번 재시도한다.
+    // 일회용 토큰 재검증은 연결 실패, HTTP 5xx와 internal-error만 같은 멱등 키로 즉시 한 번 재시도한다.
+    // 시간 초과는 대기 시간이 두 배로 늘지 않도록 요청 팩토리와 관계없이 재시도하지 않는다.
     private static final RetryTemplate RETRY = new RetryTemplate(RetryPolicy.builder()
             .maxRetries(1)
             .delay(Duration.ZERO)
@@ -77,9 +80,13 @@ public class CloudflareTurnstileVerificationAdapter implements HumanVerification
 
     private static boolean isTransient(Throwable exception) {
         return exception instanceof TurnstileInternalError
-                || exception instanceof ResourceAccessException
+                || exception instanceof ResourceAccessException access && !isTimeout(access.getMostSpecificCause())
                 || exception instanceof RestClientResponseException response
                 && response.getStatusCode().is5xxServerError();
+    }
+
+    private static boolean isTimeout(Throwable cause) {
+        return cause instanceof SocketTimeoutException || cause instanceof HttpTimeoutException;
     }
 
     private static final class TurnstileInternalError extends HumanVerificationUnavailableException {

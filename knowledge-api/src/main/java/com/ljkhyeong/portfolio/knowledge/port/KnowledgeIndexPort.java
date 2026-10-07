@@ -20,7 +20,8 @@ public interface KnowledgeIndexPort {
     // 새 색인의 청크 수를 확인한 뒤 검색 대상을 한 번에 바꾸고 이전 색인을 삭제한다.
     void publish(String index, long expectedChunks);
 
-    void deleteIndex(String index);
+    // 실패한 동기화의 새 색인을 지운다. 검색 alias가 이미 가리키는 색인은 지우지 않는다.
+    void deleteUnpublishedIndex(String index);
 
     List<SearchHit> searchBm25(String query, KnowledgeFilter filter, int limit);
 

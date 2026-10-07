@@ -197,7 +197,7 @@ KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES=ljkportfolio.netlify.app
 
 브라우저 위젯의 스크립트 로딩은 20초로 제한합니다. 네트워크 오류·시간 초과·API 누락 시 실패한 스크립트를 제거하고 `확인 다시 불러오기` 버튼으로 새로 로드합니다. 검증 토큰이 없으면 AI 답변 버튼은 비활성 상태를 유지합니다.
 
-연결 오류, HTTP 5xx와 `internal-error`는 같은 토큰·멱등 키로 즉시 한 번만 재시도합니다. 토큰 만료·중복, 잘못된 비밀 키, HTTP 429·그 밖의 4xx, 응답 형식 오류는 재시도하지 않습니다. Siteverify 호출은 연결 3초, 응답 대기 5초로 제한하고 리다이렉트를 따르지 않으며, 응답 대기 초과는 대기 시간이 늘지 않도록 재시도 없이 종료합니다. 알 수 없는 오류도 인증 성공으로 처리하지 않고 `503`으로 종료합니다. [Siteverify 오류 코드·멱등 키](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/#error-codes-reference).
+연결 실패(거부·끊김), HTTP 5xx와 `internal-error`는 같은 토큰·멱등 키로 즉시 한 번만 재시도합니다. 토큰 만료·중복, 잘못된 비밀 키, HTTP 429·그 밖의 4xx, 응답 형식 오류는 재시도하지 않습니다. Siteverify 호출은 연결 3초, 응답 대기 5초로 제한하고 리다이렉트를 따르지 않으며, 연결·응답 대기 시간 초과는 대기 시간이 늘지 않도록 재시도 없이 종료합니다. 알 수 없는 오류도 인증 성공으로 처리하지 않고 `503`으로 종료합니다. [Siteverify 오류 코드·멱등 키](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/#error-codes-reference).
 
 `npm run knowledge:evaluate -- --answers`는 `KNOWLEDGE_SYNC_KEY`를 답변 요청에 함께 보내 인증된 배포 평가임을 증명합니다. 이 키가 서버 설정과 일치할 때만 Turnstile을 우회합니다. 브라우저 CORS에는 해당 헤더를 허용하지 않습니다.
 
@@ -220,7 +220,7 @@ GitHub API 호출 한도가 필요한 환경에서는 `GITHUB_TOKEN` 또는 `GH_
 
 동기화는 자료 버전(`sourceRevision`), 임베딩 모델과 차원, 청크 설정, 문서 수를 검색 alias가 가리키는 색인의 매핑 `_meta`와 비교합니다. 모두 같으면 Elasticsearch에 쓰지 않고 끝냅니다. 하나라도 다르면 alias 이름 뒤에 UTC 생성 시각을 붙인 새 색인(`portfolio-knowledge-20261007010203004` 형식)을 만들고 전체 문서를 32청크씩 임베딩해 벌크 색인합니다. 새로 고침 후 전체 청크 수가 색인한 수와 같을 때만 alias 변경 요청 한 번으로 검색 대상을 옮기고 이전 색인을 삭제합니다. [Elasticsearch alias 변경](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-update-aliases).
 
-임베딩, 벌크 색인, 청크 수 확인이나 alias 교체에 실패하면 새 색인을 지우고 기존 alias를 그대로 둡니다. 검색은 교체 전까지 이전 색인만 보므로 일부만 갱신된 결과가 노출되지 않습니다. 새 색인 삭제까지 실패하면 원래 오류에 함께 기록하며, 남은 색인은 다음 교체 때 삭제합니다.
+임베딩, 벌크 색인, 청크 수 확인이나 alias 교체에 실패하면 새 색인을 지우고 기존 alias를 그대로 둡니다. 검색은 교체 전까지 이전 색인만 보므로 일부만 갱신된 결과가 노출되지 않습니다. alias 교체 응답을 받지 못하면(응답 대기 초과·연결 끊김) alias가 새 색인을 가리키는지 다시 확인해, 이미 교체됐으면 성공으로 처리합니다. 새 색인 정리도 alias가 가리키지 않을 때만 삭제하므로 확인 요청까지 실패해도 공개된 색인을 지우지 않습니다. 새 색인 삭제까지 실패하면 원래 오류에 함께 기록하며, 남은 색인은 다음 교체 때 삭제합니다.
 
 동기화는 API 인스턴스당 한 번에 하나만 실행합니다. 진행 중인 동기화가 있으면 후속 요청은 자료 수집·임베딩·색인을 시작하지 않고 `409 / SYNC_IN_PROGRESS`로 종료합니다. 성공·실패 모두 잠금을 해제하며, 실행 중에는 상태 API의 `upToDate`를 `false`로 반환합니다. 관리 도구는 자동 재요청하지 않으므로 작업이 끝난 뒤 자료 상태를 확인하고 필요할 때 다시 실행합니다.
 

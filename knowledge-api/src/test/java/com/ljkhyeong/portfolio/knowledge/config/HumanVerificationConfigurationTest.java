@@ -85,7 +85,7 @@ class HumanVerificationConfigurationTest {
             long started = System.nanoTime();
             assertThatThrownBy(() -> context.getBean(HumanVerificationPort.class).verify("browser-token"))
                     .isInstanceOf(HumanVerificationUnavailableException.class);
-            // POST 응답 대기 초과는 본문 읽기 오류로 처리돼 대기 시간을 늘리는 재시도를 하지 않는다.
+            // 응답 대기 초과는 대기 시간이 늘지 않도록 재시도하지 않는다.
             assertThat(siteverifyRequests).hasValue(1);
             assertThat(TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - started)).isLessThan(3);
         });

@@ -174,11 +174,13 @@ Gateway 대역 서버의 429·503(`Retry-After: 1`)과 Ollama 503에서 답변·
 -   `X-Forwarded-For` 가장 왼쪽 값 위조(`c4bc019`): `AI_TRUST_PROXY_HEADERS=true`이면 클라이언트가 정하는 가장 왼쪽 값을 클라이언트 키로 썼다. 요청마다 키를 바꿔 클라이언트 한도를 피하고 분당 클라이언트 수 상한(100)을 채워 새 사용자를 그 분 동안 막을 수 있었다. Tomcat `RemoteIpValve`가 오른쪽부터 해석한 `remoteAddr`만 쓰도록 고쳤다.
 -   효과 없던 OpenAI 재시도 설정(`821570f`): Spring AI 2.0의 OpenAI 모델은 `spring.ai.retry`를 쓰지 않아 `AI_RETRY_MAX_ATTEMPTS`가 동작하지 않았고, 문서의 재시도 설명도 실제(SDK `max-retries: 0`, 1회 호출)와 달랐다. SDK 재시도는 `Retry-After`를 상한 없이 기다리므로 0으로 고정했다.
 -   Ollama 장시간 재시도(`821570f`): Ollama 답변은 Spring AI 기본 재시도(10회, 2초부터 최장 3분 간격)를 따라, Ollama가 내려가 있으면 답변 요청 하나가 20분 넘게 대기할 수 있었다. `spring.ai.retry.max-attempts: 0`으로 바로 `GENERATION_UNAVAILABLE`과 검색 결과를 반환한다.
+-   alias 교체 응답 유실 때 공개 색인 삭제(검토 후 수정): Elasticsearch가 `updateAliases`(새 색인 추가와 이전 색인 삭제)를 적용한 뒤 응답만 응답 대기 초과·연결 끊김으로 잃으면, 실패 처리가 방금 공개한 새 색인을 지웠다. 이전 색인도 같은 요청으로 지워져 검색 가능한 색인이 남지 않았고, 검색은 `200` 빈 결과를, readiness는 정상을 반환했다. 교체 요청이 실패하면 alias 대상을 다시 확인해 이미 교체됐으면 성공으로 처리하고, 새 색인 정리는 alias가 가리키지 않는 색인만 지우도록 고쳤다. `/_aliases` 응답만 잃는 경우와 요청이 실패하는 경우를 통합 테스트로 고정했다.
 
 ### 검토 후 정리
 
 -   예외 처리기: `ResponseEntityExceptionHandler`가 `ErrorResponseException`과 Spring MVC의 `ErrorResponse` 예외를 모두 처리해, 기본 처리기의 `ErrorResponse` 분기에 도달하는 예외가 없었다. 분기를 삭제하고, 테스트가 없던 저장소 장애 응답(`503 / SEARCH_UNAVAILABLE`, 내부 메시지 미노출)을 HTTP 계약 테스트에 추가했다.
 -   의존성: Spring Boot 4에서 deprecated된 `spring-boot-starter-web`을 같은 구성의 `spring-boot-starter-webmvc`로 바꿨다.
+-   Turnstile 재시도 조건: 응답 대기 초과를 재시도하지 않는 동작이 `simple()` 팩토리가 이 오류를 `ResourceAccessException`이 아닌 예외로 알리는 데 기대고 있었다. 다른 팩토리에서는 재시도돼 최장 대기가 5초에서 10초로 늘 수 있어, 원인이 `SocketTimeoutException`·`HttpTimeoutException`이면 재시도하지 않도록 조건에 명시했다. 연결 시간 초과(3초)도 같은 이유로 재시도하지 않고, 연결 거부·끊김은 계속 한 번 재시도한다.
 
 ### 채택하지 않은 항목
 

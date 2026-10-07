@@ -13,7 +13,7 @@
 | 검색 장애·응답 시간·캐시 지표 수집 | Prometheus HTTP 수집  | 수집 API·관리 포트 분리 구현                     | 수집 대상, Grafana 연결       |
 | OpenAI 호출 정책·사용량 관리       | Cloudflare AI Gateway | 선택 프로필·공통 인증 헤더 구현                  | 계정 ID, Gateway ID·토큰      |
 
-Turnstile의 연결 오류·HTTP 5xx·`internal-error`는 같은 멱등 키로 한 번만 재시도합니다. 토큰 오류는 `403`, 서버·연동 설정 오류는 `503`으로 구분합니다. 비밀 키 오류·HTTP 429·잘못된 응답은 즉시 재시도하지 않으며, 검증 불가 상태에서 AI 답변을 허용하지 않습니다. [Cloudflare 검증 계약](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/).
+Turnstile의 연결 실패·HTTP 5xx·`internal-error`는 같은 멱등 키로 한 번만 재시도하고, 연결·응답 시간 초과는 재시도하지 않습니다. 토큰 오류는 `403`, 서버·연동 설정 오류는 `503`으로 구분합니다. 비밀 키 오류·HTTP 429·잘못된 응답은 즉시 재시도하지 않으며, 검증 불가 상태에서 AI 답변을 허용하지 않습니다. [Cloudflare 검증 계약](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/).
 
 웹의 대기 상한은 검색 90초·AI 답변 180초·Turnstile 스크립트 로딩 20초입니다. 실패하면 화면에서 수동으로 다시 시도하며, 답변 실패 시 검색 결과는 유지합니다. 브라우저 요청을 중단해도 서버·AI 작업이 계속될 수 있습니다. 재시도 동작은 [Knowledge API 안내](../knowledge-api/README.md#근거-기반-답변)를 참고합니다.
 

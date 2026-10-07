@@ -11,7 +11,10 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withException;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
+import java.io.IOException;
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.http.HttpTimeoutException;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -153,10 +156,33 @@ class CloudflareTurnstileVerificationAdapterTest {
         server.verify();
     }
 
+    @ParameterizedTest
+    @MethodSource("timeouts")
+    void 연결과_응답_시간_초과는_대기가_늘지_않도록_재시도하지_않는다(IOException timeout) {
+        RestClient.Builder builder = RestClient.builder().baseUrl("https://challenges.cloudflare.com");
+        MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
+        var adapter = new CloudflareTurnstileVerificationAdapter(builder.build(), "server-secret");
+        server.expect(ExpectedCount.once(), requestTo("https://challenges.cloudflare.com/turnstile/v0/siteverify"))
+                .andRespond(withException(timeout));
+
+        assertThatThrownBy(() -> adapter.verify("browser-token"))
+                .isInstanceOf(HumanVerificationUnavailableException.class)
+                .hasRootCause(timeout);
+        server.verify();
+    }
+
+    private static Stream<IOException> timeouts() {
+        return Stream.of(
+                new SocketTimeoutException("Connect timed out"),
+                new SocketTimeoutException("Read timed out"),
+                new HttpTimeoutException("request timed out")
+        );
+    }
+
     private static Stream<ResponseCreator> transientResponses() {
         return Stream.of(
                 withServerError(),
-                withException(new SocketTimeoutException("검증 서버 응답 지연")),
+                withException(new ConnectException("검증 서버 연결 거부")),
                 withSuccess("{\"success\":false,\"error-codes\":[\"internal-error\"]}", MediaType.APPLICATION_JSON)
         );
     }

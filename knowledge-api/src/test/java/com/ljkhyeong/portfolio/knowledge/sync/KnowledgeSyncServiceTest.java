@@ -211,7 +211,7 @@ class KnowledgeSyncServiceTest {
         order.verify(indexPort).createIndex(current);
         order.verify(indexPort).bulkIndex(NEW_INDEX, List.of(chunk.withEmbedding("test-model", List.of(1.0f, 0.0f))));
         order.verify(indexPort).publish(NEW_INDEX, 1);
-        verify(indexPort, never()).deleteIndex(anyString());
+        verify(indexPort, never()).deleteUnpublishedIndex(anyString());
     }
 
     @Test
@@ -250,7 +250,7 @@ class KnowledgeSyncServiceTest {
         doThrow(failure).doNothing().when(indexPort).bulkIndex(anyString(), anyList());
 
         assertThatThrownBy(service::syncConfiguredManifest).isSameAs(failure);
-        verify(indexPort).deleteIndex(NEW_INDEX);
+        verify(indexPort).deleteUnpublishedIndex(NEW_INDEX);
         verify(indexPort, never()).publish(anyString(), anyLong());
 
         assertThat(service.syncConfiguredManifest().rebuilt()).isTrue();
@@ -268,7 +268,7 @@ class KnowledgeSyncServiceTest {
         doThrow(failure).when(indexPort).publish(NEW_INDEX, 1);
 
         assertThatThrownBy(service::syncConfiguredManifest).isSameAs(failure);
-        verify(indexPort).deleteIndex(NEW_INDEX);
+        verify(indexPort).deleteUnpublishedIndex(NEW_INDEX);
     }
 
     @Test
@@ -280,7 +280,7 @@ class KnowledgeSyncServiceTest {
         var failure = new EmbeddingUnavailableException("임베딩 실패", new IllegalStateException("provider"));
         when(embeddingPort.embed(anyList())).thenThrow(failure);
         var cleanupFailure = new KnowledgeIndexAccessException("삭제 실패");
-        doThrow(cleanupFailure).when(indexPort).deleteIndex(NEW_INDEX);
+        doThrow(cleanupFailure).when(indexPort).deleteUnpublishedIndex(NEW_INDEX);
 
         assertThatThrownBy(service::syncConfiguredManifest).isSameAs(failure).hasSuppressedException(cleanupFailure);
         verify(indexPort, never()).bulkIndex(anyString(), anyList());
@@ -305,7 +305,7 @@ class KnowledgeSyncServiceTest {
 
         assertThatThrownBy(sync::syncConfiguredManifest).isInstanceOf(EmbeddingUnavailableException.class);
         verify(indexPort, never()).bulkIndex(anyString(), anyList());
-        verify(indexPort).deleteIndex(NEW_INDEX);
+        verify(indexPort).deleteUnpublishedIndex(NEW_INDEX);
 
         assertThat(sync.syncConfiguredManifest().chunks()).isEqualTo(2);
         verify(indexPort).bulkIndex(NEW_INDEX, List.of(

@@ -73,7 +73,7 @@ public class KnowledgeSyncService {
             indexPort.publish(index, chunks.size());
         } catch (RuntimeException exception) {
             try {
-                indexPort.deleteIndex(index);
+                indexPort.deleteUnpublishedIndex(index);
             } catch (RuntimeException cleanupFailure) {
                 exception.addSuppressed(cleanupFailure);
             }

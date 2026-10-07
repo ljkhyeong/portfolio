@@ -148,16 +148,31 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }
 
         List<String> previous = previousIndices(index);
-        // alias 추가와 이전 색인 삭제를 한 요청으로 보내 검색이 빈 색인이나 두 색인을 보지 않게 한다.
-        execute("Elasticsearch 검색 alias를 교체하지 못했습니다.", () -> client.indices().updateAliases(request -> {
-            request.actions(action -> action.add(add -> add.index(index).alias(alias())));
-            previous.forEach(old -> request.actions(action -> action.removeIndex(remove -> remove.index(old))));
-            return request;
-        }));
+        try {
+            // alias 추가와 이전 색인 삭제를 한 요청으로 보내 검색이 빈 색인이나 두 색인을 보지 않게 한다.
+            execute("Elasticsearch 검색 alias를 교체하지 못했습니다.", () -> client.indices().updateAliases(request -> {
+                request.actions(action -> action.add(add -> add.index(index).alias(alias())));
+                previous.forEach(old -> request.actions(action -> action.removeIndex(remove -> remove.index(old))));
+                return request;
+            }));
+        } catch (KnowledgeIndexAccessException failure) {
+            // 응답만 잃었을 수 있으므로 교체가 이미 적용됐으면 성공으로 본다.
+            try {
+                if (isPublished(index)) {
+                    return;
+                }
+            } catch (KnowledgeIndexAccessException checkFailure) {
+                failure.addSuppressed(checkFailure);
+            }
+            throw failure;
+        }
     }
 
     @Override
-    public void deleteIndex(String index) {
+    public void deleteUnpublishedIndex(String index) {
+        if (isPublished(index)) {
+            return;
+        }
         execute("Elasticsearch 인덱스를 삭제하지 못했습니다.", () -> client.indices().delete(request -> request.index(index)));
     }
 
@@ -203,6 +218,11 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                         .numCandidates(Math.max(candidates, limit))
                         .filter(query -> query.bool(bool -> bool.filter(filters))))
         );
+    }
+
+    private boolean isPublished(String index) {
+        return execute("Elasticsearch 검색 alias를 확인하지 못했습니다.",
+                () -> client.indices().existsAlias(request -> request.index(index).name(alias()))).value();
     }
 
     private List<String> previousIndices(String index) {
