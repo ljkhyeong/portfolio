@@ -91,7 +91,7 @@ describe("project summary data", () => {
 
         expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
         expect(caseResults["intent-trace"]).toContain("v0.7.0")
-        expect(intentTrace.status.text).toContain("개발 브랜치 125684c")
+        expect(intentTrace.status.text).toContain("공개 main f24eabf")
         expect(intentTrace.architecture.tradeoff).toContain("GitHub 원본 코드 비교는 별도 조회")
         expect(intentTrace.documents).toEqual(
             expect.arrayContaining([
@@ -115,7 +115,7 @@ describe("project summary data", () => {
         ])
         expect(
             youthPolicyMate.screenshots.map(({ width, height }) => `${width}x${height}`),
-        ).toEqual(["780x1688", "780x1688", "780x1688", "390x844"])
+        ).toEqual(["780x1688", "780x1688", "780x1688", "780x1688"])
         expect(youthPolicyMate.screenshotNote).toContain("온통청년에서 수집해 저장한 공개 데이터")
         expect(caseResults["youth-policy-mate"]).toContain(
             "OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다",

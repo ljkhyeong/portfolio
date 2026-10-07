@@ -12,7 +12,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "구현 상태",
-                text: "공개 main bf93dc3 기준입니다. 관리용 상태 필터와 기간 필터, 일괄 조회, 링크 상태 안내와 재시도 화면을 제공합니다.",
+                text: "공개 main f7459e1 기준입니다. 관리용 상태 필터와 기간 필터, 일괄 조회, 링크 상태 안내와 재시도 화면을 제공합니다.",
             },
             {
                 kind: "unverified",
@@ -43,12 +43,12 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인한 것",
-                text: "사설망 접근과 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행, 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. DB 제약(Flyway V6)으로 점검 결과와 전달 결과에서 필수값이 빠진 9가지 조합의 저장도 거부합니다.",
+                text: "사설망 접근과 DNS 재조회 중 IP 변경 차단, 중단된 점검 재실행, 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. 필수값이 빠진 점검 결과와 전달 결과는 DB 제약으로 저장을 거부합니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 697e60b 기준입니다. DB 제약, 백업 복원, 부하, 프로세스 복구는 로컬 검증 기록을 확인했습니다.",
+                text: "공개 main 9dde469 기준입니다. DB 제약, 부하, 프로세스 복구 테스트는 main CI에서 통과했고, 백업 복원은 로컬 검증 기록을 확인했습니다.",
             },
             {
                 kind: "unverified",
@@ -83,7 +83,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "구현 상태",
-                text: "Discord, Slack, Webhook, SQS 전달과 결과 수동 확정을 구현했습니다.",
+                text: "비공개 main 4cf90a78 기준입니다. Discord, Slack, Webhook, SQS 전달과 결과 수동 확정을 구현했고, 비활성 대상에 쌓인 대기 작업은 운영자가 종료하거나 다시 처리할 수 있습니다.",
             },
             {
                 kind: "unverified",
@@ -120,7 +120,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 2a96b04와 Core의 로컬 교차 검증 기록 기준입니다.",
+                text: "공개 main fc6dede와 이전 Core 로컬 교차 검증 기록 기준입니다.",
             },
             {
                 kind: "unverified",
@@ -156,7 +156,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 817720d와 게시된 후보 규격 1.1.0-rc.2 기준입니다. 정식 규격은 1.0.0입니다.",
+                text: "공개 main 8cb55f8과 게시된 후보 규격 1.1.0-rc.2 기준입니다. 정식 규격은 1.0.0입니다.",
             },
             {
                 kind: "unverified",
@@ -187,7 +187,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인한 것",
-                text: "이전 CI의 브라우저 테스트와 Core 연동 검사 통과 기록을 확인했습니다. 공개 main bdf63eb에는 스피커 소리 확인, 공유 화면 작은 창과 통화 제어, 대화 전체 복사를 구현했습니다.",
+                text: "공개 main a43c6f5의 CI에서 Chromium과 WebKit 브라우저 테스트, BATON 연동 검사가 통과했습니다. 스피커 소리 확인, 공유 화면 작은 창과 통화 제어, 대화 전체 복사를 구현했습니다.",
             },
             {
                 kind: "limited",

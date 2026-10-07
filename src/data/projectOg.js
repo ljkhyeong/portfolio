@@ -45,7 +45,7 @@ export const projectOgCards = [
         description: "서울 청년 정책을 찾아보고\n저장한 정책의 변경 내용과 마감을 확인합니다.",
         caption: "조건 확인, 정책 변경 비교, 마감 알림",
         steps: [
-            ["공개 정책 조회", "접수 상태와 질문 제공 여부 검색"],
+            ["공개 정책 조회", "분야 필터와 마감일 순 정렬"],
             [
                 "검토한 조건 질문",
                 `정책 ${youthPolicyCoverage.questionPolicies}건의 일부 요건과 근거`,

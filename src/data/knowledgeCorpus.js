@@ -38,7 +38,7 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/ADR/0001_%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D%EA%B3%BC_%EC%B1%85%EC%9E%84_%EB%B6%84%EB%A6%AC.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/eligibility-decision.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/deadline-reminder-candidates.md",
-    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-reservation-recovery-heartbeat.md",
+    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-automation.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/admin-collection-exceptions.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/policy-rule-data.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-drafts.md",
@@ -61,6 +61,7 @@ export const PUBLIC_EXTERNAL_DOCUMENTS = [
 
 export const PUBLIC_EXTERNAL_DOCUMENTS_METADATA_ONLY = [
     "https://github.com/ljkhyeong/happyGallery/blob/main/docs/PRD/0001_%EA%B8%B0%EC%A4%80_%EC%8A%A4%ED%8E%99/spec.md",
+    "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-automation.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/admin-collection-exceptions.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/policy-rule-data.md",
     "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/ai-rule-drafts.md",

@@ -330,8 +330,8 @@ const diagrams = {
                 width: 224,
                 height: 104,
                 tag: "입력",
-                title: ["조건 입력"],
-                detail: ["연령, 지역, 취업, 소득"],
+                title: ["조건 입력(선택)"],
+                detail: ["생년월일, 자치구, 취업 상태"],
             },
             {
                 id: "condition-confirmation",

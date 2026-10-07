@@ -7,9 +7,9 @@ import { warrantPerformance } from "./warrantEvidence"
 // 갱신한 날(activity.to)까지 그린다. 막대 옆 글은 확인한 결과와 그 조건이다.
 const timelineNotes = {
     warrant: `성능 테스트 환경에서 ${warrantPerformance.load}로 ${warrantPerformance.duration} 동안 모두 처리`,
-    defense: "멈춘 배치를 찾아 해당 기관 배치만 다시 실행",
-    happygallery: "공개 서비스로 배포",
-    baton: "통합 테스트에서 같은 요청 8건을 동시에 보내도 링크 1건",
+    defense: "중단된 기관 배치만 찾아 재실행",
+    happygallery: "main 병합 시 k3s 자동 배포",
+    baton: "통합 테스트에서 동시 요청 8건에도 링크 1건만 생성",
     "hope-commit": "GitHub Actions에서 자동화 테스트 343개 통과",
     webrtc: "팀 시연에서 재생 지연 약 35초 → 약 17초",
 }

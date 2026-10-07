@@ -179,7 +179,7 @@ test("메인은 상세의 문제 해결, 문서와 서비스 구성을 반복하
         screen.queryByRole("navigation", { name: "BATON 마이크로서비스 상세" }),
     ).not.toBeInTheDocument()
     expect(screen.getByRole("region", { name: "경력" })).toHaveTextContent(
-        "SKIP LOCKED로 다른 서버가 잡은 작업은 건너뛰게 하고",
+        "SKIP LOCKED로 다른 서버가 선점한 작업은 건너뛰고",
     )
 })
 
@@ -370,17 +370,17 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
     expect(screen.getAllByText(/미전송 알림/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
+            name: "happyGallery 상품 상세에서 색상과 각인 문구를 고르고 옵션 조합별 가격과 추가 가능 수량을 확인하는 주문표",
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "선택한 상품만 주문하고 미선택 상품은 장바구니에 보관하는 화면",
+            name: "happyGallery 장바구니에서 세 작품 중 두 작품만 선택하고 수령 방법과 결제수단을 고르는 화면",
         }),
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 관리자 화면에서 결과가 확정되지 않은 스마트스토어 요청을 확인하는 모습",
+            name: "happyGallery 관리자 화면에서 결과를 확인하지 못한 스마트스토어 발송 요청의 운송장을 네이버 현재 상태와 대조하는 모습",
         }),
     ).toBeInTheDocument()
     expect(
@@ -390,7 +390,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
     ).toBeInTheDocument()
     expect(
         screen.getByRole("img", {
-            name: "happyGallery 클래스 목록에서 수업과 예약 회차를 확인하는 모습",
+            name: "happyGallery 클래스 목록에서 상황 필터를 적용하고 수업 가격과 다음 수업 일정을 확인하는 모습",
         }),
     ).toBeInTheDocument()
     expect(screen.getByText(/카드는 Toss 통합 결제창/)).toBeInTheDocument()
@@ -421,22 +421,22 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     expect(within(screenshots).getAllByRole("img")).toHaveLength(3)
     expect(
         within(screenshots).getByRole("img", {
-            name: "조건 입력과 공개 정책 탐색을 시작하는 청년정책메이트 홈",
+            name: "상황을 선택해 분야별 정책을 찾는 청년정책메이트 홈",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "공개 정책 40건을 접수 상태와 질문 제공 여부로 검색하는 화면",
+            name: "공개 정책 40건을 분야 필터와 마감일 순으로 보여 주는 정책 목록 화면",
         }),
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년내일저축계좌 상세에서 지원 내용과 공식 공고와의 차이를 확인하는 화면",
+            name: "청년내일저축계좌 상세에서 공식 지침과의 출생일 기준 차이와 온통청년 표기 연령을 확인하는 화면",
         }),
     ).toBeInTheDocument()
     expect(
         within(conditionScreen).getByRole("img", {
-            name: "햇살론유스 조건 질문으로 연령, 이용 대상, 소득 조건을 확인하는 화면",
+            name: "햇살론유스 신청 조건 확인에서 나이, 이용 대상, 소득 기준 질문이 열린 화면",
         }),
     ).toBeInTheDocument()
     expect(screenshots).toHaveAccessibleDescription(/온통청년에서 수집해 저장한 공개 데이터/)

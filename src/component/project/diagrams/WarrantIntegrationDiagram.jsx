@@ -18,8 +18,8 @@ const WarrantIntegrationDiagram = () => (
             >
                 <title id="warrant-integration-title">KICS 요청 변환 및 기관 연계 흐름</title>
                 <desc id="warrant-integration-desc">
-                    KICS 연계 서버와 배치는 요청을 통신사용 또는 포털용 형식으로 변환해 전달하고,
-                    통신사와 금융기관의 제출 자료를 KICS에 반영합니다.
+                    KICS 연계 서버와 배치는 요청을 통신사와 포털 형식으로 변환해 전달하고, 통신사와
+                    금융기관의 제출 자료를 KICS에 반영합니다.
                 </desc>
                 <defs>
                     <marker

@@ -276,7 +276,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
 
     expect(
         screen.getByText(
-            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 맞추는 서비스입니다.",
+            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 동기화하는 서비스입니다.",
         ),
     ).toBeInTheDocument()
     expect(screen.queryByText("주요 구현 및 해결")).not.toBeInTheDocument()
@@ -413,7 +413,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정과 알림 처리")).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /조건 규칙의 버전 관리.*OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.*개발 브랜치 4f7d030/,
+        /공개 main 2065081에서 웹과 서버 CI가 통과.*OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.*이메일 발송 상태 조회/,
     )
     expect(
         within(document.getElementById("project-problems")).getAllByRole("article"),
@@ -463,7 +463,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
         }),
     ).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /v0\.7\.0.*PR Check Run 게시와 공개 운영은 아직 확인하지 않았습니다.*개발 브랜치 125684c.*IntelliJ 기록 검색/,
+        /v0\.7\.0.*PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.*공개 main f24eabf.*Zed 편집기 hover/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
@@ -483,7 +483,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         screen.getByRole("heading", { name: "KICS와 기관 간 요청 및 자료 연계 흐름" }),
     ).toBeInTheDocument()
     const integrationDiagram = screen.getByRole("img", {
-        name: /KICS 요청 변환 및 기관 연계 흐름.*요청을 통신사용 또는 포털용 형식으로 변환.*제출 자료를 KICS에 반영/,
+        name: /KICS 요청 변환 및 기관 연계 흐름.*요청을 통신사와 포털 형식으로 변환.*제출 자료를 KICS에 반영/,
     })
 
     expect(integrationDiagram).toBeInTheDocument()
@@ -688,10 +688,10 @@ test.each([
 })
 
 test.each([
-    ["go", "GO", ["Java 21", "Spring Data JPA", "MySQL 8.4"]],
+    ["go", "GO", ["Java 21", "Spring JDBC", "MySQL 8.4"]],
     ["watch", "WATCH", ["Spring JDBC", "PostgreSQL 18", "Apache HttpClient 5"]],
     ["relay", "RELAY", ["RabbitMQ / Spring AMQP", "AWS SQS FIFO", "PostgreSQL 18"]],
-    ["brief", "BRIEF", ["Kotlin 2.4.10", "Java 21", "Spring JDBC"]],
+    ["brief", "BRIEF", ["Kotlin 2.4.20", "Java 21", "Spring JDBC"]],
     ["cal", "CAL", ["Kotlin 2.4.10", "Java 25", "iCal4j 4.3.0"]],
     ["round", "ROUND", ["React 19", "WebRTC / RTCDataChannel", "Spring WebSocket"]],
 ])(
@@ -732,7 +732,7 @@ test.each([
         /BRIEF 공개 저장소 보기/,
         [
             /점검 상태, 보고서 이력과 비교.*업무 종류, 주간, 시간대 필터.*304/,
-            /공개 main 2a96b04와 Core의 로컬 교차 검증 기록/,
+            /공개 main fc6dede와 이전 Core 로컬 교차 검증 기록/,
             /공인 DNS와 원격 환경의 전체 서비스 연결은 아직 확인하지 않았습니다/,
         ],
         /주간 보고서와 점검 항목 조회, 이벤트 수신, 검증 기록/,
@@ -741,14 +741,14 @@ test.each([
         "cal",
         "CAL",
         "중복 일정과 이전 버전 일정의 반영 방지",
-        "https://github.com/ljkhyeong/baton-cal/tree/817720d",
+        "https://github.com/ljkhyeong/baton-cal/tree/8cb55f8",
         /CAL 공개 main 고정 커밋 보기/,
         [
             /Core 교차 테스트 5개와 HTTP 캐시, 복구 검증 기록/,
             /게시된 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
             /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 아직 확인하지 않았습니다/,
         ],
-        /일정 묶음 처리와 후보 규격 1.1.0-rc.2를 확인한 공개 main/,
+        /일정 묶음 처리를 확인한 공개 main/,
     ],
 ])(
     "BATON %s 상세는 구현 범위와 공개 저장소 상태를 정확히 보여준다",

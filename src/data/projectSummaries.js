@@ -1,4 +1,4 @@
-export const youthPolicyCoverage = { policies: 40, questionPolicies: 11, agePolicies: 9 }
+export const youthPolicyCoverage = { policies: 40, questionPolicies: 12, agePolicies: 10 }
 
 export const projectSummaries = [
     {
@@ -11,7 +11,7 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "역할, 반복 업무, 인수인계 서비스",
         homeSummary:
-            "팀의 역할과 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 한 화면에 모아 보는 서비스입니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC 스터디룸은 각각 별도 서비스로 나눴습니다.",
+            "팀의 역할과 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 한 화면에 모아 보는 서비스입니다. 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC 스터디룸은 6개 서비스로 분리했습니다.",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/baton",
@@ -19,15 +19,15 @@ export const projectSummaries = [
         summary:
             "역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.",
         homeStory:
-            "같은 요청이나 이벤트가 다시 들어와도 링크와 전송은 한 번만 만들어지게 했습니다. 외부 전송 중 응답을 잃으면 다시 보내지 않고, 운영자가 외부 기록을 확인해 상태를 정합니다.",
+            "같은 요청이나 이벤트가 다시 들어와도 멱등 키로 링크 생성과 외부 전송을 한 번만 실행합니다. 외부 전송의 응답이 유실되면 자동 재전송하지 않고, 운영자가 수신 측 기록을 확인해 결과를 확정합니다.",
         homeCheck:
-            "Core와 BRIEF, CAL, ROUND의 연동은 로컬에서 확인했습니다. 실제 자격 증명으로 6개 서비스를 모두 연결하는 것은 아직 확인하지 않았습니다.",
+            "Core와 BRIEF, CAL, ROUND의 연동은 로컬에서 확인했습니다. 배포 환경에서 6개 서비스를 모두 연결하는 것은 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "today",
             src: "baton-core-today.webp",
-            label: "오늘 할 일",
-            caption: "이번 회차 업무, 내 담당 업무와 재확인할 자료",
-            alt: "이번 회차 업무, 내 담당 업무와 재확인할 자료를 보는 BATON 오늘 화면",
+            label: "내 할 일",
+            caption: "도착한 인수인계와 내가 맡은 업무",
+            alt: "BATON 할 일 화면에서 도착한 인수인계 알림과 내 업무를 확인하는 모습",
             note: "테스트 데이터로 찍은 화면",
             width: 1440,
             height: 960,
@@ -82,11 +82,11 @@ export const projectSummaries = [
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계",
         timelineLabel: "전송형 전자영장",
         homeSummary:
-            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 잇는 시스템입니다. 형사사법정보시스템(KICS)의 요청을 통신사용 또는 포털용 형식으로 바꿔 보내고, 제출된 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 잇는 시스템입니다. 형사사법정보시스템(KICS)의 요청을 통신사와 포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         summary:
             "법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         homeStory:
-            "서버가 이중화되어 같은 연계 작업이 두 번 실행될 수 있었습니다. SKIP LOCKED로 다른 서버가 잡은 작업은 건너뛰게 하고, 외부 API를 기다리는 동안 DB 연결을 붙잡지 않도록 호출 앞뒤의 트랜잭션을 나눴습니다. 처리 중에 멈춘 작업은 일정 시간이 지나면 다시 처리합니다.",
+            "이중화된 서버에서 같은 연계 작업이 중복 실행될 수 있었습니다. SKIP LOCKED로 다른 서버가 선점한 작업은 건너뛰고, 외부 API 호출을 트랜잭션 밖으로 분리해 DB 커넥션을 오래 점유하지 않게 했습니다. 처리 중 멈춘 작업은 설정한 시간이 지나면 재처리합니다.",
         period: "2026.03.24 — 현재",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
@@ -104,7 +104,7 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매와 예약 서비스",
         homeSummary:
-            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 맞추는 서비스입니다. 카드와 간편결제, 공휴일과 주소 조회도 붙였습니다.",
+            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 동기화하는 서비스입니다. 카드와 간편결제, 공휴일과 주소 조회도 연동했습니다.",
         liveSite: {
             label: "서비스 보기",
             href: "https://happy-gallery.com",
@@ -117,15 +117,15 @@ export const projectSummaries = [
         summary:
             "공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.",
         homeStory:
-            "결제사 응답을 잃어도 승인이나 환불을 다시 실행하지 않도록, 같은 결제 키로 처리 결과를 다시 조회하게 했습니다. 서버가 멈춰 보내지 못한 알림은 나중에 다시 보내고, 스마트스토어 주문이 다시 들어오면 바뀐 수량만 재고에 반영합니다.",
+            "결제사 응답이 유실되면 승인이나 환불을 다시 요청하지 않고, 같은 결제 키로 처리 결과를 조회합니다. 서버 중단으로 보내지 못한 알림은 재처리하고, 스마트스토어 주문이 다시 들어오면 바뀐 수량만 재고에 반영합니다.",
         homeCheck:
             "결제 흐름은 모의 결제사 응답으로 통합 테스트했습니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "product-options",
             src: "happygallery-product-options.webp",
             label: "상품 옵션",
-            caption: "색상과 각인 선택, 옵션 조합별 가격 및 재고 확인",
-            alt: "happyGallery 상품 상세에서 색상과 각인 옵션을 선택하고 조합별 가격과 재고를 확인하는 모습",
+            caption: "색상과 각인 선택, 옵션 조합별 가격과 추가 가능 수량 확인",
+            alt: "happyGallery 상품 상세에서 색상과 각인 문구를 고르고 옵션 조합별 가격과 추가 가능 수량을 확인하는 주문표",
             note: "E2E 테스트용 모의 응답으로 찍은 화면",
             width: 1440,
             height: 960,
@@ -150,15 +150,15 @@ export const projectSummaries = [
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
-        homeSummary: `서울 청년 정책 ${youthPolicyCoverage.policies}건을 찾아보는 웹앱입니다. 그중 ${youthPolicyCoverage.questionPolicies}건은 신청 조건 일부를 내 답변과 비교해 신청 가능, 불가, 추가 확인 필요로 알려 줍니다. 저장한 정책이 바뀌거나 마감이 다가오면 알림을 보냅니다.`,
+        homeSummary: `서울 청년 정책 ${youthPolicyCoverage.policies}건을 찾아보는 웹앱입니다. 그중 ${youthPolicyCoverage.questionPolicies}건은 신청 조건 일부를 사용자 답변과 비교해 신청 가능, 불가, 추가 확인 필요로 알려 줍니다. 저장한 정책이 바뀌거나 마감이 다가오면 알림을 보냅니다.`,
         homeCheck:
-            "PostgreSQL 통합 테스트로 확인했고, OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
+            "정책 조회와 조건 판정은 PostgreSQL 통합 테스트로 확인했습니다. OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "home",
             src: "youth-policy-mate-home.webp",
             label: "정책 탐색 홈",
-            caption: "조건 입력과 공개 정책 탐색을 시작하는 웹앱 홈",
-            alt: "조건 입력과 공개 정책 탐색을 시작하는 청년정책메이트 홈",
+            caption: "상황을 선택해 분야별 정책을 찾는 웹앱 홈",
+            alt: "상황을 선택해 분야별 정책을 찾는 청년정책메이트 홈",
             note: "로컬 앱, 공개 정책 데이터",
             width: 780,
             height: 1688,
@@ -192,7 +192,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML",
         homeSummary:
-            "SeungIl 님의 Hope 6.0.0을 포크해, 지정한 커밋을 AI가 리뷰하고 각 설명을 실제로 바뀐 줄에 연결한 HTML로 보여 주는 기능을 더했습니다.",
+            "SeungIl 님의 Hope 6.0.0을 포크해, 지정한 커밋을 AI가 리뷰하고 각 리뷰 설명을 변경된 줄에 연결해 HTML로 보여 주는 기능을 추가했습니다.",
         homeCheck:
             "Hope Commit v5.0.2로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
         coverScreenshot: {
@@ -228,9 +228,9 @@ export const projectSummaries = [
         navigationLabel: "IntentTrace",
         eyebrow: "AI 코드 변경의 요청, 근거, 검증 기록",
         homeSummary:
-            "AI가 바꾼 코드에 왜 바꿨는지와 무엇으로 검증했는지를 커밋, 파일, 줄 단위로 남기는 도구입니다. IDE와 웹에서 기록을 검색합니다.",
+            "AI가 바꾼 코드의 변경 이유와 검증 결과를 커밋, 파일, 줄 단위로 기록하는 도구입니다. 웹, IntelliJ, Zed에서 기록을 조회합니다.",
         homeCheck:
-            "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. PR Check Run 게시와 공개 운영은 아직 확인하지 않았습니다.",
+            "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "history",
             src: "intent-trace-history.webp",
@@ -266,9 +266,9 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "BEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영",
         homeSummary:
-            "국방부 산하 4개 기관이 쓰는 폐쇄망 시스템에서 세 기관의 수용자 자료를 군교정 DB에 반영하는 배치를 만들었습니다. CSRF 차단과 대용량 파일 직접 업로드도 개발했습니다.",
+            "국방부 산하 4개 기관이 쓰는 폐쇄망 시스템에서 세 기관의 수용자 자료를 군교정 DB에 반영하는 배치를 만들었습니다. CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드도 개발했습니다.",
         homeStory:
-            "배치가 멈추면 Jenkins, JEUS, Tibero 기록을 대조해 실패한 단계를 찾고, 해당 기관 배치만 다시 실행했습니다.",
+            "배치가 멈추면 Jenkins 실행 이력, JEUS 로그, Tibero 데이터를 대조해 실패 단계를 찾고 해당 기관 배치만 재실행했습니다.",
         summary:
             "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 차단과 대용량 파일 직접 업로드를 개발했습니다. 중단된 배치는 Jenkins, JEUS, Tibero 정보를 대조해 재실행했습니다.",
         period: "2024.06.23 — 2026.01.30",

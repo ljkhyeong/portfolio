@@ -72,8 +72,8 @@ test("ROUND의 통과 범위, 설계상 제한과 미검증 범위를 나눠 표
     const unverified = within(status).getByText("아직 확인하지 않은 것").closest("div")
 
     expect(verified).toHaveClass("baton-service-status__item--verified")
-    expect(verified).toHaveTextContent("이전 CI의 브라우저 테스트")
-    expect(verified).toHaveTextContent("Core 연동")
+    expect(verified).toHaveTextContent("Chromium과 WebKit 브라우저 테스트")
+    expect(verified).toHaveTextContent("BATON 연동")
     expect(verified).toHaveTextContent("스피커 소리 확인")
     expect(verified).toHaveTextContent("공유 화면 작은 창과 통화 제어")
     expect(limited).toHaveClass("baton-service-status__item--limited")
@@ -95,34 +95,34 @@ test("ROUND의 입장 확인, 통화와 화면 공유를 현재 대표 화면으
             label: "스터디 진행 도구",
             src: "baton-round-study.webp",
             height: 960,
-            alt: "두 참가자가 연결된 방에서 공용 타이머, 주제, 손들기 순서를 확인하는 화면",
+            alt: "BATON ROUND 통화 화면에서 남은 시간, 주제와 손들기 순서를 확인하는 모습",
         },
         {
             label: "QR 초대",
             src: "baton-round-invite.webp",
             height: 960,
-            alt: "BATON ROUND에서 QR 코드와 초대 링크를 확인하는 화면",
+            alt: "BATON ROUND 통화 중 QR 코드와 초대 링크를 보여 주는 초대 대화상자",
         },
         {
             label: "입장 전 장치 확인",
             src: "baton-round-prejoin.webp",
-            alt: "BATON ROUND 입장 전 화면에서 카메라와 마이크를 확인하는 모습",
+            alt: "BATON ROUND 입장 전 화면에서 카메라 미리보기, 장치 선택과 이름 입력을 확인하는 모습",
         },
         {
             label: "통화와 채팅",
             src: "baton-round-call-chat.webp",
-            alt: "BATON ROUND 통화 화면에서 참가자 영상과 채팅을 확인하는 모습",
+            alt: "BATON ROUND 통화 화면에서 참가자 영상과 채팅 메시지를 함께 보는 모습",
         },
         {
             label: "화면 공유",
             src: "baton-round-screen-share.webp",
-            alt: "BATON ROUND 통화 화면에서 공유 화면과 통화 제어를 확인하는 모습",
+            alt: "BATON ROUND 통화 화면에서 참가자의 공유 화면을 고정하고 확대 조작을 보여 주는 모습",
         },
     ]
 
     expect(within(gallery).getAllByRole("button")).toHaveLength(expectedScreens.length)
 
-    expectedScreens.forEach(({ label, src, alt, height = 900 }) => {
+    expectedScreens.forEach(({ label, src, alt, height = 960 }) => {
         expect(
             within(gallery).getByRole("button", {
                 name: `BATON ROUND ${label} 화면 확대해서 보기`,

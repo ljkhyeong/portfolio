@@ -18,12 +18,12 @@ test("개인 프로젝트는 실제 화면과 촬영 조건, 확인한 범위를
     renderProjects()
 
     const baton = articleOf("BATON")
-    expect(within(baton).getByRole("img", { name: /BATON 오늘 화면/ })).toHaveAttribute(
+    expect(within(baton).getByRole("img", { name: /BATON 할 일 화면/ })).toHaveAttribute(
         "src",
         expect.stringContaining("baton-core-today.webp"),
     )
-    expect(baton).toHaveTextContent("오늘 할 일 테스트 데이터로 찍은 화면")
-    expect(baton).toHaveTextContent("링크와 전송은 한 번만 만들어지게 했습니다")
+    expect(baton).toHaveTextContent("내 할 일 테스트 데이터로 찍은 화면")
+    expect(baton).toHaveTextContent("링크 생성과 외부 전송을 한 번만 실행합니다")
     expect(baton).toHaveTextContent("확인한 범위")
     expect(baton).toHaveTextContent("아직 확인하지 않았습니다")
     expect(baton).toHaveTextContent("2026.07 — 현재, 개발 중, 공개 저장소 6개")

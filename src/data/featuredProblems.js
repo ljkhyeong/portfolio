@@ -116,7 +116,7 @@ const featuredProblems = {
         problem: "BRIEF가 조직 상태를 다시 판정하면 Core와 결과가 달라질 수 있습니다.",
         steps: [
             { title: "Core 점검 결과 수신", description: "담당자 공백 및 업무 지연 등 5개 상태" },
-            { title: "이벤트 검증", description: "ID, 해시와 버전 번호 비교" },
+            { title: "이벤트 검증", description: "저장 값과 버전 번호 비교" },
             {
                 title: "점검 항목 반영",
                 description: "미해결(ACTIVE) 또는 해결됨(RESOLVED)으로 반영",

@@ -29,6 +29,7 @@ export const homeSkillGroups = [
             "ArchUnit",
             "Docker",
             "k3s",
+            "GitHub Actions",
             "Jenkins",
             "JEUS",
             "Tibero",
