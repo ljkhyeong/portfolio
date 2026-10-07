@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -59,16 +58,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUnexpected(Exception exception, WebRequest request) {
-        // 상위 클래스 목록에 없는 Spring HTTP 예외도 상태와 헤더를 유지한다.
-        if (exception instanceof ErrorResponse errorResponse) {
-            return handleExceptionInternal(
-                    exception,
-                    null,
-                    errorResponse.getHeaders(),
-                    errorResponse.getStatusCode(),
-                    request
-            );
-        }
         return problem(exception, HttpStatus.INTERNAL_SERVER_ERROR, null, "요청을 처리하지 못했습니다.", request);
     }
 

@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeAnswerService;
 import com.ljkhyeong.portfolio.knowledge.search.KnowledgeSearchService;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeAnswer;
@@ -112,7 +113,22 @@ class KnowledgeControllerHttpContractTest {
     }
 
     @Test
-    void Spring_HTTP_예외의_상태와_헤더를_유지한다() throws Exception {
+    void 검색_저장소_장애는_503과_전용_코드를_반환하고_내부_메시지를_숨긴다() throws Exception {
+        when(searchService.search(anyString(), any(), any()))
+                .thenThrow(new KnowledgeIndexAccessException("Elasticsearch 검색에 실패했습니다. 상태 코드: 500"));
+
+        mockMvc.perform(post(SEARCH_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"query\":\"알림\"}"))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(jsonPath("$.code").value("SEARCH_UNAVAILABLE"))
+                .andExpect(jsonPath("$.detail").value("현재 문서 검색을 사용할 수 없습니다. 잠시 후 다시 시도해 주세요."))
+                .andExpect(content().string(not(containsString("Elasticsearch"))));
+    }
+
+    @Test
+    void ErrorResponseException은_상태와_헤더를_유지하고_코드를_채운다() throws Exception {
         var exception = new ErrorResponseException(HttpStatus.TOO_MANY_REQUESTS);
         exception.getHeaders().set(HttpHeaders.RETRY_AFTER, "60");
         when(searchService.search(anyString(), any(), any())).thenThrow(exception);

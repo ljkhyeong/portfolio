@@ -175,6 +175,11 @@ Gateway 대역 서버의 429·503(`Retry-After: 1`)과 Ollama 503에서 답변·
 -   효과 없던 OpenAI 재시도 설정(`821570f`): Spring AI 2.0의 OpenAI 모델은 `spring.ai.retry`를 쓰지 않아 `AI_RETRY_MAX_ATTEMPTS`가 동작하지 않았고, 문서의 재시도 설명도 실제(SDK `max-retries: 0`, 1회 호출)와 달랐다. SDK 재시도는 `Retry-After`를 상한 없이 기다리므로 0으로 고정했다.
 -   Ollama 장시간 재시도(`821570f`): Ollama 답변은 Spring AI 기본 재시도(10회, 2초부터 최장 3분 간격)를 따라, Ollama가 내려가 있으면 답변 요청 하나가 20분 넘게 대기할 수 있었다. `spring.ai.retry.max-attempts: 0`으로 바로 `GENERATION_UNAVAILABLE`과 검색 결과를 반환한다.
 
+### 검토 후 정리
+
+-   예외 처리기: `ResponseEntityExceptionHandler`가 `ErrorResponseException`과 Spring MVC의 `ErrorResponse` 예외를 모두 처리해, 기본 처리기의 `ErrorResponse` 분기에 도달하는 예외가 없었다. 분기를 삭제하고, 테스트가 없던 저장소 장애 응답(`503 / SEARCH_UNAVAILABLE`, 내부 메시지 미노출)을 HTTP 계약 테스트에 추가했다.
+-   의존성: Spring Boot 4에서 deprecated된 `spring-boot-starter-web`을 같은 구성의 `spring-boot-starter-webmvc`로 바꿨다.
+
 ### 채택하지 않은 항목
 
 -   Spring Cache `@Cacheable`: 두 캐시의 설정이 달라 캐시별 등록 코드와 빈 분리(private 메서드 자기 호출)가 필요하고, 지표는 `CaffeineCacheMetrics`로 이미 얻었다.
