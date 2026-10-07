@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSourceDocument;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -39,8 +40,7 @@ class KnowledgeManifestLoaderTest {
                       "content":"공개된 프로젝트 설명입니다.",
                       "route":"/projects/baton/",
                       "visibility":"public",
-                      "sourceHash":"sha256:public-source",
-                      "contentHash":"sha256:public"
+                      "sourceHash":"sha256:public-source"
                     },
                     {
                       "documentId":"private-doc",
@@ -75,7 +75,7 @@ class KnowledgeManifestLoaderTest {
     @Test
     void 공개_문서의_필수값을_표준_검증으로_확인한다() {
         var mapper = new JsonMapper();
-        var document = document("doc-1", "sha256:content");
+        var document = document("doc-1");
         var invalidDocument = mapper.valueToTree(document).deepCopy();
         ((ObjectNode) invalidDocument).put("title", " ");
         byte[] json = mapper.writeValueAsBytes(Map.of(
@@ -111,7 +111,23 @@ class KnowledgeManifestLoaderTest {
     }
 
     @Test
-    void 로컬_자료에도_동일한_용량_제한을_적용한다() {
+    void 용량_상한과_같은_자료는_읽는다() {
+        byte[] json = new JsonMapper().writeValueAsBytes(Map.of(
+                "schemaVersion", "1.0", "sourceRevision", "sha256:revision", "documents", List.of(document("doc-1"))
+        ));
+        ResourceLoader resources = mock(ResourceLoader.class);
+        when(resources.getResource("memory:limit.json")).thenReturn(new ByteArrayResource(json));
+        try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
+            validator.afterPropertiesSet();
+            var loader = new KnowledgeManifestLoader(resources, new JsonMapper(), validator,
+                    knowledgeProperties("source.max-bytes", String.valueOf(json.length)));
+
+            assertThat(loader.load("memory:limit.json").documents()).containsExactly(document("doc-1"));
+        }
+    }
+
+    @Test
+    void 자료에_용량_제한을_적용한다() {
         ResourceLoader resources = mock(ResourceLoader.class);
         when(resources.getResource("memory:large.json")).thenReturn(new ByteArrayResource(new byte[65]));
         try (LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean()) {
@@ -143,7 +159,8 @@ class KnowledgeManifestLoaderTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", ",\"visibility\":null", ",\"visibility\":\"pubic\"",
-            ",\"visibility\":\"PUBLIC\"", ",\"visibility\":\"\"", ",\"visibility\":false"})
+            ",\"visibility\":\"PUBLIC\"", ",\"visibility\":\"\"", ",\"visibility\":false",
+            ",\"visibility\":0", ",\"visibility\":\"1\""})
     void 공개_범위가_불명확한_문서를_조용히_제외하지_않는다(String visibilityField) {
         assertRejected("""
                 {"schemaVersion":"1.0","sourceRevision":"sha256:revision",
@@ -164,7 +181,8 @@ class KnowledgeManifestLoaderTest {
 
             var bundled = new KnowledgeManifestLoader(new DefaultResourceLoader(), new JsonMapper(), validator,
                     knowledgeProperties()).load("classpath:knowledge/portfolio.json");
-            assertThat(bundled.documents()).isNotEmpty().allMatch(document -> "public".equals(document.visibility()));
+            assertThat(bundled.documents()).isNotEmpty()
+                    .allMatch(document -> document.visibility() == KnowledgeSourceDocument.Visibility.PUBLIC);
         }
     }
 

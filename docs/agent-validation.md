@@ -35,10 +35,10 @@
 
 검색 API의 `DependencyRulesTest`는 다음 의존을 일반 테스트처럼 실패시킨다.
 
--   Domain → API, Service, Port, Adapter, Config, Index
+-   Domain → API, Service, Port, Adapter, Config
 -   `@RestController` → Port, Adapter
 -   `@Service` → Adapter 구현체
--   Port → API, Service, Adapter, Config, Index
+-   Port → API, Service, Adapter, Config
 
 ## 변경별 확인 범위
 

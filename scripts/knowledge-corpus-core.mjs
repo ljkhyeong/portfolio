@@ -58,7 +58,6 @@ const buildDocument = (source) => {
     const content = normalizeKnowledgeContent(source.content)
     const sourceIdentity = [source.projectId, source.documentType, source.sourceKey].join(":")
     const documentId = `knowledge_${sha256(`${KNOWLEDGE_SCHEMA_VERSION}:${sourceIdentity}`).slice(0, 24)}`
-    const contentHash = sha256(content)
     const sourceHash = sha256(
         stableStringify({
             schemaVersion: KNOWLEDGE_SCHEMA_VERSION,
@@ -93,7 +92,6 @@ const buildDocument = (source) => {
         visibility: source.visibility,
         evidenceLevel: source.evidenceLevel,
         sourceHash,
-        contentHash,
     }
 }
 

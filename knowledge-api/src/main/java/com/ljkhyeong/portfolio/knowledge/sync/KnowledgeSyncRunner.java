@@ -27,12 +27,11 @@ public class KnowledgeSyncRunner implements ApplicationRunner {
         }
         KnowledgeSyncService.SyncResult result = syncService.syncConfiguredManifest();
         log.info(
-                "공개 지식 문서 동기화 완료: revision={}, indexed={}, unchanged={}, deleted={}, chunks={}",
+                "공개 지식 문서 동기화 완료: revision={}, documents={}, chunks={}, rebuilt={}",
                 result.sourceRevision(),
-                result.indexedDocuments(),
-                result.unchangedDocuments(),
-                result.deletedDocuments(),
-                result.indexedChunks()
+                result.documents(),
+                result.chunks(),
+                result.rebuilt()
         );
     }
 }

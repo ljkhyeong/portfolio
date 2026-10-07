@@ -6,7 +6,6 @@ import java.util.List;
 import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSourceDocument;
-import com.ljkhyeong.portfolio.knowledge.util.Hashing;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,10 +24,8 @@ public class KnowledgeChunker {
         List<String> texts = splitText(content);
         List<KnowledgeChunk> chunks = new ArrayList<>(texts.size());
         for (int index = 0; index < texts.size(); index++) {
-            String chunkContent = texts.get(index);
-            String chunkId = "%s#%03d".formatted(document.documentId(), index);
             chunks.add(new KnowledgeChunk(
-                    chunkId,
+                    "%s#%03d".formatted(document.documentId(), index),
                     document.documentId(),
                     document.projectId(),
                     document.projectName(),
@@ -36,14 +33,9 @@ public class KnowledgeChunker {
                     document.documentType(),
                     document.title(),
                     document.heading(),
-                    chunkContent,
+                    texts.get(index),
                     document.sourceUrl(),
                     document.route(),
-                    document.evidenceLevel(),
-                    document.sourceRevision(),
-                    document.sourceHash(),
-                    document.contentHash(),
-                    Hashing.sha256(chunkContent),
                     null,
                     List.of()
             ));

@@ -1,23 +1,24 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
 import static com.ljkhyeong.portfolio.knowledge.TestFixtures.chunk;
+import static com.ljkhyeong.portfolio.knowledge.TestFixtures.knowledgeProperties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.mapping.DenseVectorIndexOptionsType;
-import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeChunk;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
+import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
-import org.junit.jupiter.api.BeforeAll;
+import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort.IndexMetadata;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.health.actuate.endpoint.HealthEndpoint;
 import org.springframework.boot.health.contributor.Status;
@@ -28,13 +29,12 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-@SpringBootTest(properties = "knowledge.elasticsearch.index-name=" + ElasticsearchKnowledgeRepositoryIntegrationTest.INDEX)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest
 @Testcontainers
 @Tag("integration")
 class ElasticsearchKnowledgeRepositoryIntegrationTest {
 
-    static final String INDEX = "portfolio-knowledge-integration-test";
+    private static final KnowledgeFilter ALL = new KnowledgeFilter(List.of(), List.of());
 
     @Container
     @ServiceConnection
@@ -46,133 +46,152 @@ class ElasticsearchKnowledgeRepositoryIntegrationTest {
             .withStartupTimeout(Duration.ofSeconds(120));
 
     @Autowired
-    private ElasticsearchKnowledgeRepository repository;
-
-    @Autowired
     private ElasticsearchClient client;
-
-    @Autowired
-    private KnowledgeProperties properties;
 
     @Autowired
     private HealthEndpoint health;
 
-    @BeforeAll
-    void setUp() {
+    @Test
+    void 자동_설정한_클라이언트로_클러스터_상태를_확인한다() {
         assertThat(health.healthForPath("readiness").getStatus()).isEqualTo(Status.UP);
-        String chunkingFingerprint = properties.source().chunkingFingerprint();
-        repository.ensureIndex("test-model", 2, chunkingFingerprint);
-        repository.ensureIndex("test-model", 2, chunkingFingerprint);
-        repository.bulkIndex(List.of(chunk("integration-chunk")));
     }
 
     @Test
-    void 벡터_색인_방식을_서버_기본값과_무관하게_int8_hnsw로_고정한다() throws IOException {
-        var mappings = client.indices().getMapping(request -> request.index(INDEX)).get(INDEX).mappings();
+    void 첫_동기화_전에는_검색_결과와_공개_색인이_없다() {
+        var repository = repository("empty-alias");
 
+        assertThat(repository.publishedMetadata()).isEmpty();
+        assertThat(repository.searchBm25("알림", ALL, 5)).isEmpty();
+        assertThat(repository.searchKnn(List.of(1.0f, 0.0f), ALL, 5, 10)).isEmpty();
+    }
+
+    @Test
+    void 공개한_색인을_alias로_BM25와_kNN_검색하고_메타데이터를_읽는다() throws IOException {
+        var repository = repository("first-publish");
+        String index = publish(repository, metadata("sha256:first", 1), chunk("integration-chunk"));
+        var filter = new KnowledgeFilter(List.of("baton"), List.of("problem_solution"));
+
+        assertThat(chunkIds(repository.searchBm25("알림", filter, 5))).containsExactly("integration-chunk");
+        assertThat(chunkIds(repository.searchKnn(List.of(1.0f, 0.0f), filter, 5, 10)))
+                .containsExactly("integration-chunk");
+        assertThat(repository.publishedMetadata()).contains(metadata("sha256:first", 1));
+        var mappings = client.indices().getMapping(request -> request.index(index)).get(index).mappings();
         assertThat(mappings.properties().get("embedding").denseVector().indexOptions().type())
                 .isEqualTo(DenseVectorIndexOptionsType.Int8Hnsw);
         assertThat(mappings.properties().get("projectName").text().fields()).isEmpty();
     }
 
     @Test
-    void 문서를_색인하고_BM25와_kNN으로_조회한다() {
-        var filter = new KnowledgeFilter(List.of("baton"), List.of("problem_solution"));
+    void 두_번째_공개는_검색_결과를_한_번에_바꾸고_이전_색인을_삭제한다() throws IOException {
+        var repository = repository("second-publish");
+        String first = publish(repository, metadata("sha256:first", 1), chunk("old-chunk", "old-doc"));
+        String second = publish(repository, metadata("sha256:second", 1), chunk("new-chunk", "new-doc"));
 
-        var bm25 = repository.searchBm25("알림", filter, 5);
-        var knn = repository.searchKnn(List.of(1.0f, 0.0f), filter, 5, 10);
+        assertThat(chunkIds(repository.searchBm25("알림", ALL, 5))).containsExactly("new-chunk");
+        assertThat(repository.publishedMetadata()).contains(metadata("sha256:second", 1));
+        assertThat(client.indices().exists(request -> request.index(first)).value()).isFalse();
+        assertThat(aliasTargets("second-publish")).containsExactly(second);
+    }
 
-        assertThat(bm25).extracting(hit -> hit.chunk().chunkId()).contains("integration-chunk");
-        assertThat(knn).extracting(hit -> hit.chunk().chunkId()).contains("integration-chunk");
-        assertThat(repository.findIndexedSourceHashes()).containsEntry("doc-1", "sha256:source");
+    @Test
+    void 청크_수가_다르면_alias를_옮기지_않고_기존_검색_결과를_유지한다() throws IOException {
+        var repository = repository("count-mismatch");
+        String published = publish(repository, metadata("sha256:first", 1), chunk("kept-chunk", "kept-doc"));
+        String incomplete = repository.createIndex(metadata("sha256:second", 2));
+        repository.bulkIndex(incomplete, List.of(chunk("partial-chunk", "partial-doc")));
+
+        assertThatThrownBy(() -> repository.publish(incomplete, 2))
+                .isInstanceOf(KnowledgeIndexAccessException.class)
+                .hasMessageContaining("청크 수");
+        repository.deleteIndex(incomplete);
+
+        assertThat(aliasTargets("count-mismatch")).containsExactly(published);
+        assertThat(chunkIds(repository.searchBm25("알림", ALL, 5))).containsExactly("kept-chunk");
+        assertThat(client.indices().exists(request -> request.index(incomplete)).value()).isFalse();
+    }
+
+    @Test
+    void 다른_임베딩_모델로_만든_벡터는_kNN에서_비교하지_않는다() {
+        var repository = repository("model-filter");
+        KnowledgeChunk otherModel = chunk("other-model-chunk", "other-doc").withEmbedding("old-model", List.of(1f, 0f));
+        publish(repository, metadata("sha256:first", 2), chunk("current-chunk"), otherModel);
+
+        assertThat(chunkIds(repository.searchKnn(List.of(1.0f, 0.0f), ALL, 5, 10)))
+                .containsExactly("current-chunk");
+        assertThat(chunkIds(repository.searchBm25("알림", ALL, 5)))
+                .containsExactlyInAnyOrder("current-chunk", "other-model-chunk");
+    }
+
+    @Test
+    void alias와_같은_이름의_기존_색인은_첫_공개에서_교체한다() throws IOException {
+        client.indices().create(request -> request.index("legacy-name"));
+        var repository = repository("legacy-name");
+        assertThat(repository.publishedMetadata()).isEmpty();
+
+        String index = publish(repository, metadata("sha256:first", 1), chunk("replacing-chunk"));
+
+        assertThat(aliasTargets("legacy-name")).containsExactly(index);
+        assertThat(repository.publishedMetadata()).contains(metadata("sha256:first", 1));
     }
 
     @Test
     void 조사가_붙은_한국어_질문도_같은_근거를_찾는다() {
-        var filter = new KnowledgeFilter(List.of("baton"), List.of("problem_solution"));
-        assertThat(repository.searchBm25("알림을", filter, 5))
-                .extracting(hit -> hit.chunk().chunkId()).contains("integration-chunk");
+        var repository = repository("korean-particle");
+        publish(repository, metadata("sha256:first", 1), chunk("integration-chunk"));
+
+        assertThat(chunkIds(repository.searchBm25("알림을", ALL, 5))).containsExactly("integration-chunk");
     }
 
     @Test
     void 본문_뒤쪽의_한국어_일치_문단을_태그_없이_발췌한다() {
+        var repository = repository("highlight");
         String content = "# 시스템 소개\n\n" + "이 문서는 프로젝트 구성을 설명합니다. ".repeat(25)
                 + "\n\n권한 철회는 기존 구독 토큰을 폐기하고 새 접근을 차단합니다.\n\n"
                 + "기타 세부 사항은 원문을 확인하세요. ".repeat(10);
-        repository.bulkIndex(List.of(chunk("highlight#0", "highlight-doc", content)));
+        publish(repository, metadata("sha256:first", 1), chunk("highlight#0", "highlight-doc", content));
 
-        var hits = repository.searchBm25("권한을 철회하면", new KnowledgeFilter(List.of(), List.of()), 5);
-
-        assertThat(hits).filteredOn(hit -> hit.chunk().chunkId().equals("highlight#0"))
-                .singleElement().satisfies(hit -> assertThat(hit.matchedPassage())
+        assertThat(repository.searchBm25("권한을 철회하면", ALL, 5)).singleElement()
+                .satisfies(hit -> assertThat(hit.matchedPassage())
                         .contains("권한 철회", "구독 토큰").doesNotContain("<em>", "시스템 소개"));
-        repository.deleteByDocumentId("highlight-doc");
     }
 
     @Test
     void 임베딩이_없는_청크도_BM25_문서로_색인한다() {
-        KnowledgeChunk source = chunk("disabled-embedding-chunk");
-        KnowledgeChunk withoutEmbedding = new KnowledgeChunk(
-                source.chunkId(),
-                "disabled-doc",
-                source.projectId(),
-                source.projectName(),
-                source.serviceId(),
-                source.documentType(),
-                source.title(),
-                source.heading(),
-                "기본 설정에서는 임베딩 없이 BM25 검색을 제공합니다.",
-                source.sourceUrl(),
-                source.route(),
-                source.evidenceLevel(),
-                source.sourceRevision(),
-                source.sourceHash(),
-                "sha256:disabled-content",
-                "sha256:disabled-chunk",
-                null,
-                List.of()
-        );
-        KnowledgeChunk staleChunk = new KnowledgeChunk(
-                "disabled-stale-chunk",
-                withoutEmbedding.documentId(),
-                withoutEmbedding.projectId(),
-                withoutEmbedding.projectName(),
-                withoutEmbedding.serviceId(),
-                withoutEmbedding.documentType(),
-                withoutEmbedding.title(),
-                withoutEmbedding.heading(),
-                "임베딩 없이 BM25 검색을 제공하던 오래된 청크입니다.",
-                withoutEmbedding.sourceUrl(),
-                withoutEmbedding.route(),
-                withoutEmbedding.evidenceLevel(),
-                withoutEmbedding.sourceRevision(),
-                withoutEmbedding.sourceHash(),
-                "sha256:stale-content",
-                "sha256:stale-chunk",
-                null,
-                List.of()
-        );
+        var repository = repository("without-embedding");
+        KnowledgeChunk source = chunk("disabled-embedding-chunk", "disabled-doc",
+                "기본 설정에서는 임베딩 없이 BM25 검색을 제공합니다.");
+        KnowledgeChunk withoutEmbedding = new KnowledgeChunk(source.chunkId(), source.documentId(),
+                source.projectId(), source.projectName(), source.serviceId(), source.documentType(), source.title(),
+                source.heading(), source.content(), source.sourceUrl(), source.route(), null, List.of());
+        publish(repository, metadata("sha256:first", 1), withoutEmbedding);
 
-        repository.bulkIndex(List.of(withoutEmbedding, staleChunk));
-        repository.bulkIndex(List.of(withoutEmbedding));
-        repository.deleteStaleChunks("disabled-doc", List.of("disabled-embedding-chunk"));
-
-        var result = repository.searchBm25("임베딩 없이 BM25 검색", new KnowledgeFilter(List.of(), List.of()), 5);
-        assertThat(result).extracting(hit -> hit.chunk().chunkId())
-                .contains("disabled-embedding-chunk")
-                .doesNotContain("disabled-stale-chunk");
-        assertThat(repository.findIndexedSourceHashes()).containsEntry("disabled-doc", "sha256:source");
-
-        repository.deleteByDocumentId("disabled-doc");
-
-        var deleted = repository.searchBm25("임베딩 없이 BM25 검색", new KnowledgeFilter(List.of(), List.of()), 5);
-        assertThat(deleted).extracting(hit -> hit.chunk().chunkId()).doesNotContain("disabled-embedding-chunk");
+        assertThat(chunkIds(repository.searchBm25("임베딩 없이 BM25 검색", ALL, 5)))
+                .containsExactly("disabled-embedding-chunk");
+        assertThat(repository.searchKnn(List.of(1.0f, 0.0f), ALL, 5, 10)).isEmpty();
     }
 
-    @Test
-    void 청크_설정_지문이_다른_기존_인덱스는_재사용하지_않는다() {
-        assertThatThrownBy(() -> repository.ensureIndex("test-model", 2, "sha256:changed-chunking"))
-                .isInstanceOf(KnowledgeIndexAccessException.class)
-                .hasMessageContaining("청크 설정");
+    private ElasticsearchKnowledgeRepository repository(String alias) {
+        return new ElasticsearchKnowledgeRepository(
+                knowledgeProperties("elasticsearch.index-name", alias, "ai.embedding-model-id", "test-model"), client);
+    }
+
+    private String publish(ElasticsearchKnowledgeRepository repository, IndexMetadata metadata,
+                           KnowledgeChunk... chunks) {
+        String index = repository.createIndex(metadata);
+        repository.bulkIndex(index, List.of(chunks));
+        repository.publish(index, chunks.length);
+        return index;
+    }
+
+    private IndexMetadata metadata(String sourceRevision, int documentCount) {
+        return new IndexMetadata(sourceRevision, "test-model", 2, "chunking-v1|max=1200|overlap=150", documentCount);
+    }
+
+    private Set<String> aliasTargets(String alias) throws IOException {
+        return client.indices().getAlias(request -> request.name(alias)).aliases().keySet();
+    }
+
+    private static List<String> chunkIds(List<SearchHit> hits) {
+        return hits.stream().map(hit -> hit.chunk().chunkId()).toList();
     }
 }

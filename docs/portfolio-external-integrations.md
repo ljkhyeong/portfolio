@@ -34,7 +34,6 @@ OPENAI_API_KEY=<OpenAI 키>
 CLOUDFLARE_ACCOUNT_ID=<계정 ID>
 CLOUDFLARE_AI_GATEWAY_ID=<Gateway ID>
 CLOUDFLARE_AI_GATEWAY_TOKEN=<Gateway 인증 토큰>
-ELASTICSEARCH_INDEX=portfolio-knowledge-openai-v3
 ```
 
 Compose도 `SPRING_PROFILES_ACTIVE`와 세 가지 Cloudflare 변수를 전달합니다. `ai-gateway`는 `openai`와 함께 켜야 하며 빈 토큰·잘못된 ID는 기동 단계에서 거부합니다. 기존 Turnstile 사이트 키·비밀 키와는 별개입니다.
@@ -81,13 +80,11 @@ node --env-file=.env.integrations.local scripts/dispatch-knowledge-refresh.mjs
 
 수집은 요청당 30초·문서당 1MiB로 제한하고, 잘못된 커밋·빈 본문·이메일/휴대전화가 감지되면 저장 전에 중단합니다. 모든 문서를 확인한 뒤 스냅샷을 교체하므로 일부 다운로드 실패로 기존 파일을 덮어쓰지 않습니다. 토큰은 GitHub 커밋 API에만 전달하며 리다이렉트를 따라가지 않습니다. 연락처 검사만으로 비공개 정보 검토를 대신하지는 않습니다.
 
-## 원격 검색 자료 읽기
+## 검색 자료 위치
 
-기본값은 이미지에 포함된 `classpath:knowledge/portfolio.json`입니다. 웹과 API의 자료 버전을 맞추기 위해 이 구성을 유지합니다. 별도 저장소나 정적 호스팅의 JSON을 읽어야 할 때만 `KNOWLEDGE_SOURCE_LOCATION`에 최종 HTTPS 주소를 지정합니다. 일반 README가 아니라 이 저장소에서 생성한 공개 자료 형식이어야 합니다.
+검색 API는 이미지에 포함된 `classpath:knowledge/portfolio.json`만 읽습니다. 웹과 API의 자료 버전을 맞추기 위해 원격 URL과 파일 경로는 기동 단계에서 거부합니다. 다른 저장소의 문서는 이 저장소의 공개 자료에 반영한 뒤 이미지를 다시 빌드합니다.
 
-원격 연결은 기본 3초, 읽기 대기는 10초로 제한합니다. HTTP 200만 허용하고 리다이렉트는 거부합니다. 로컬·원격 자료 모두 8MiB까지 읽으며 `Content-Length`가 없는 응답도 제한합니다. 읽기 제한은 전체 다운로드 시간이 아닌 데이터 수신 대기 시간입니다.
-
-환경변수 `KNOWLEDGE_SOURCE_CONNECT_TIMEOUT_SECONDS`, `KNOWLEDGE_SOURCE_READ_TIMEOUT_SECONDS`, `KNOWLEDGE_SOURCE_MAX_BYTES`로 조정합니다. 다운로드 실패·용량 초과·잘못된 JSON은 색인 변경 전에 중단합니다. 원격 자료를 사용해도 기존 자료 버전 확인과 공개 문서 검토 절차는 유지합니다.
+자료는 8MiB까지 읽으며 `KNOWLEDGE_SOURCE_MAX_BYTES`로 조정합니다. 용량 초과와 잘못된 JSON은 색인 변경 전에 중단합니다.
 
 ## Prometheus / Grafana 연결
 
@@ -130,14 +127,13 @@ readiness는 Spring Boot 기본 Elasticsearch 상태 지표를 사용합니다. 
 | API 기본 프로필 | `SPRING_PROFILES_ACTIVE=homeserver`, `AI_PROFILE=disabled`                               |
 | OpenAI 사용     | `SPRING_PROFILES_ACTIVE=homeserver,openai`, `AI_PROFILE=openai`, `OPENAI_API_KEY`        |
 | Elasticsearch   | Nori 플러그인이 포함된 이미지, `ELASTICSEARCH_URL`, 영속 볼륨                            |
-| OpenAI 인덱스   | `ELASTICSEARCH_INDEX=portfolio-knowledge-openai-v3`                                      |
 | 외부 API        | 8080 포트, HTTPS Ingress, `/api/v1/knowledge/*`                                          |
 | 관리 API        | 9091 포트, 클러스터 내부 전용                                                            |
 | 상태 검사       | startup/readiness는 `/actuator/health/readiness`, liveness는 `/actuator/health/liveness` |
 | 종료            | graceful shutdown 사용, Pod 종료 유예는 앱 기본 30초보다 길게 설정                       |
 | 비밀값          | OpenAI 키, 동기화 키, Turnstile 비밀 키, 필요 시 Elasticsearch 인증 정보                 |
 
-모델·임베딩 차원을 바꿀 때는 새 인덱스 이름을 지정합니다. 최초 색인에 필요한 시간만큼 startup probe 대기 시간을 확보하고, Elasticsearch 장애를 liveness 실패로 처리해 API를 반복 재시작하지 않도록 구분합니다.
+모델이나 임베딩 차원을 바꾸면 다음 동기화가 새 색인을 만든 뒤 검색 alias를 교체합니다. 최초 색인에 필요한 시간만큼 startup probe 대기 시간을 확보하고, Elasticsearch 장애를 liveness 실패로 처리해 API를 반복 재시작하지 않도록 구분합니다.
 
 사용자가 실행할 이미지 빌드 명령입니다. 저장소 루트에서 Node 22로 웹 자료를 생성한 뒤 빌드합니다.
 

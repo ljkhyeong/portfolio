@@ -35,8 +35,7 @@
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "84421cab5a094fc2a1f55534341e630ce82e3ffec0f53383f33dd647a44c3f3b",
-      "contentHash": "5de2cd47206b92fa9690bbfc6bfb671058b0011ba653ce56c27a563dec4b995f"
+      "sourceHash": "84421cab5a094fc2a1f55534341e630ce82e3ffec0f53383f33dd647a44c3f3b"
     },
     {
       "schemaVersion": "1.0",
@@ -53,8 +52,7 @@
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "7ab4f6305b2b1a1e606f569d82faff0f46b82e066ffbe0d01ca4180d4bb3659a",
-      "contentHash": "ecce0e249079792ae5576374d34fe4cb5124eac94fd1e647e3f7832cdca63640"
+      "sourceHash": "7ab4f6305b2b1a1e606f569d82faff0f46b82e066ffbe0d01ca4180d4bb3659a"
     },
     {
       "schemaVersion": "1.0",
@@ -71,8 +69,7 @@
       "route": "/projects/baton/go",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c9502b84e6b8c4fbae742617f0667b7c40733f1faf0119dc8d164b305d2265be",
-      "contentHash": "116bbcf554183126cfc5f65b26061a4322545e75dba8df7259e5c57511502e5d"
+      "sourceHash": "c9502b84e6b8c4fbae742617f0667b7c40733f1faf0119dc8d164b305d2265be"
     },
     {
       "schemaVersion": "1.0",
@@ -89,8 +86,7 @@
       "route": "/projects/baton/watch",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "67364147f0b059f2fb73f16038e6e2a7006799da9952aeb4daf3d0948c46a2d1",
-      "contentHash": "480ddea2bb952915bc50a2fed30bb9ced36b480928f70e92e8c1728e7cfa8d5a"
+      "sourceHash": "67364147f0b059f2fb73f16038e6e2a7006799da9952aeb4daf3d0948c46a2d1"
     },
     {
       "schemaVersion": "1.0",
@@ -107,8 +103,7 @@
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "f5bbfc58bc8f029effa472a36fbced394a1e85d874a195799c3c764cb598701d",
-      "contentHash": "8746862e6d8dcc1812c3920f576b00fa29637792981d7104892ac428c8edefa3"
+      "sourceHash": "f5bbfc58bc8f029effa472a36fbced394a1e85d874a195799c3c764cb598701d"
     },
     {
       "schemaVersion": "1.0",
@@ -125,8 +120,7 @@
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "f56e73d27bacc286bf57656b9d0c9a6d2a83250ed9dd7f31992084ccc65db9f7",
-      "contentHash": "f90e79638a8904cd52ddebabe75d48f6b47a6f56682491006b83edde42178efb"
+      "sourceHash": "f56e73d27bacc286bf57656b9d0c9a6d2a83250ed9dd7f31992084ccc65db9f7"
     },
     {
       "schemaVersion": "1.0",
@@ -143,8 +137,7 @@
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "0db7242cf0ce84116f1b5f5c3d950473c2bcad53092e1267c84ec73cf8951dfa",
-      "contentHash": "6ccb6e78ee32e4b337d0c66ad97cf435bff0e47148db72a5eea5e0490789792f"
+      "sourceHash": "0db7242cf0ce84116f1b5f5c3d950473c2bcad53092e1267c84ec73cf8951dfa"
     },
     {
       "schemaVersion": "1.0",
@@ -161,8 +154,7 @@
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d881a5351840826f74a5790aa517d8b9373708fb12555dc502fac179cf6d9999",
-      "contentHash": "06460573ad3ea047f45511ef62c7f56596ce69958a4bd43ba23d4f84d6aadbcf"
+      "sourceHash": "d881a5351840826f74a5790aa517d8b9373708fb12555dc502fac179cf6d9999"
     },
     {
       "schemaVersion": "1.0",
@@ -179,8 +171,7 @@
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d5a289981446e506c2e662145000cbe24c102d3383f65ca3f566e94062bb0127",
-      "contentHash": "df9ec548dd17de5fcf6605a2d55b1e9dc9136f8880ec75e1040b215c2ea6f8d7"
+      "sourceHash": "d5a289981446e506c2e662145000cbe24c102d3383f65ca3f566e94062bb0127"
     },
     {
       "schemaVersion": "1.0",
@@ -197,8 +188,7 @@
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c0989b0bfb4cc764ab514166e05be3e2ad95583ea99f8b56dddc6e7243ea55b0",
-      "contentHash": "06fbf13f298af7045b67c11e440bf0de1254fd156b06865aeb2d0a543dfda713"
+      "sourceHash": "c0989b0bfb4cc764ab514166e05be3e2ad95583ea99f8b56dddc6e7243ea55b0"
     },
     {
       "schemaVersion": "1.0",
@@ -215,8 +205,7 @@
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "1b5407a2f5f9df1d78facda82a1d6a4172bbeed3347c9bdb9f9e9e1f66b85af0",
-      "contentHash": "4638c353758b257654a03b3548232d35442d5991d606f803e63f9341bb8181a3"
+      "sourceHash": "1b5407a2f5f9df1d78facda82a1d6a4172bbeed3347c9bdb9f9e9e1f66b85af0"
     },
     {
       "schemaVersion": "1.0",
@@ -233,8 +222,7 @@
       "route": "/projects/baton/go",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "287e1da03290152b3ac47cc5257afeee1636599cbdc90ed5f223fc5a96e7927a",
-      "contentHash": "df26f5c132c43d607fae5df24368a97e8d83110ebaff9f1828c5c5470e3aff96"
+      "sourceHash": "287e1da03290152b3ac47cc5257afeee1636599cbdc90ed5f223fc5a96e7927a"
     },
     {
       "schemaVersion": "1.0",
@@ -251,8 +239,7 @@
       "route": "/projects/baton/go",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "671accf9809ecb9323e6612329419bd91e8f8008c147706a1aa2d1aa483a421b",
-      "contentHash": "d7e10394d5ea3a983004e4433670851893b6b1a49c43d757f116820ea5324064"
+      "sourceHash": "671accf9809ecb9323e6612329419bd91e8f8008c147706a1aa2d1aa483a421b"
     },
     {
       "schemaVersion": "1.0",
@@ -269,8 +256,7 @@
       "route": "/projects/baton/watch",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "1976fa617e8b5baf95774d0e57ea7409a358ac746665f2ccfbe9e993255d57e6",
-      "contentHash": "9561d43ae9161c0bee63f23710e395b6d2d732371c6f76f996929266474eee20"
+      "sourceHash": "1976fa617e8b5baf95774d0e57ea7409a358ac746665f2ccfbe9e993255d57e6"
     },
     {
       "schemaVersion": "1.0",
@@ -287,8 +273,7 @@
       "route": "/projects/baton/watch",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e004a8c2ba10d1eddb8f0155b624307cdd0633cbc7c8218750de23f23fd5b807",
-      "contentHash": "b340bc08c969ba43331ab684fde0b5da6cfd1be98a1117c8dc4a0db2189ef5bc"
+      "sourceHash": "e004a8c2ba10d1eddb8f0155b624307cdd0633cbc7c8218750de23f23fd5b807"
     },
     {
       "schemaVersion": "1.0",
@@ -305,8 +290,7 @@
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e2d38be1e78f62f46d58d90a4ce471ba1cb11d9a48d9e223017ae322f7505c8a",
-      "contentHash": "676c69295332b0bed8c139f97f69545bbe8e6c68df896a7a22c65f4d0e7604d9"
+      "sourceHash": "e2d38be1e78f62f46d58d90a4ce471ba1cb11d9a48d9e223017ae322f7505c8a"
     },
     {
       "schemaVersion": "1.0",
@@ -323,8 +307,7 @@
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "76c088aff13d1179b2bdf25c377c46b64f7059e616a588f88959c39568820a19",
-      "contentHash": "7f4971071922ea8db9064781a266668a5342fcddf9c011316c31082a0ceba6d0"
+      "sourceHash": "76c088aff13d1179b2bdf25c377c46b64f7059e616a588f88959c39568820a19"
     },
     {
       "schemaVersion": "1.0",
@@ -341,8 +324,7 @@
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "20ce7a0442d85ce0f1e8b480a52b4b7da0999f4c761f7ba573d93af466e53a86",
-      "contentHash": "f800ce75fde4fdb9fcfa25880d1b1e4e3e2b63f43ddc58f728487670e40da61a"
+      "sourceHash": "20ce7a0442d85ce0f1e8b480a52b4b7da0999f4c761f7ba573d93af466e53a86"
     },
     {
       "schemaVersion": "1.0",
@@ -359,8 +341,7 @@
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c7006428657125296388c14fed96e542bdecaf3a898cf4a2213005df78731282",
-      "contentHash": "a72639f94cff7340e9c7772e0a3da69902b281c7445acecf7f980fdc14563144"
+      "sourceHash": "c7006428657125296388c14fed96e542bdecaf3a898cf4a2213005df78731282"
     },
     {
       "schemaVersion": "1.0",
@@ -377,8 +358,7 @@
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "760d9b370ced3469cb71fdf5b216065e17215b59a62860e2c97bf39115827310",
-      "contentHash": "8bf5572213d33044e896a0e92bfaff3d0d065833dc55f5704029134e5332335f"
+      "sourceHash": "760d9b370ced3469cb71fdf5b216065e17215b59a62860e2c97bf39115827310"
     },
     {
       "schemaVersion": "1.0",
@@ -395,8 +375,7 @@
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "3cb75d51e4a1d3f24dbe7d52dbba3dab686ec36880ca7fd504065c1c52e5d1c7",
-      "contentHash": "fc530f3c3b67e17880cf28e6b0b8bd054854cd519091be807ca6ce5a2be75264"
+      "sourceHash": "3cb75d51e4a1d3f24dbe7d52dbba3dab686ec36880ca7fd504065c1c52e5d1c7"
     },
     {
       "schemaVersion": "1.0",
@@ -413,8 +392,7 @@
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "2e7190522efd43f430b0750b2671ce9ef9eaadb200341edd4849849c22ea36f7",
-      "contentHash": "4f4f4f546b6b8131c25fb7db7c4073e904780768579d59880cc91fa41701ae16"
+      "sourceHash": "2e7190522efd43f430b0750b2671ce9ef9eaadb200341edd4849849c22ea36f7"
     },
     {
       "schemaVersion": "1.0",
@@ -431,8 +409,7 @@
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "5b8028319032b262e680950d576c2600a5bd107bc914dcb474882a70f9356ec2",
-      "contentHash": "5a48c1feac18c17f900f6aab259eb542743704fb7c89dcc4f513bc8589053e26"
+      "sourceHash": "5b8028319032b262e680950d576c2600a5bd107bc914dcb474882a70f9356ec2"
     },
     {
       "schemaVersion": "1.0",
@@ -449,8 +426,7 @@
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "69f5afde0834dda02d2f4757205abe944582e1f096578a34fe77bd569d3c7892",
-      "contentHash": "81a458d877a03d1ce8d794f0d6b85f504e285994c2011146421cb011ddf194f9"
+      "sourceHash": "69f5afde0834dda02d2f4757205abe944582e1f096578a34fe77bd569d3c7892"
     },
     {
       "schemaVersion": "1.0",
@@ -467,8 +443,7 @@
       "route": "/projects/baton/go",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "bec50fa16a52be98d7325bdd14383ba24cb372bf7a731138ac3c5f5d8d1cafed",
-      "contentHash": "361c15542bd8037941c5d750e1ab4c4460a6ead52634924f5b09dc6add8b5564"
+      "sourceHash": "bec50fa16a52be98d7325bdd14383ba24cb372bf7a731138ac3c5f5d8d1cafed"
     },
     {
       "schemaVersion": "1.0",
@@ -485,8 +460,7 @@
       "route": "/projects/baton/watch",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "601348222457b936ca8c265292cc2e040c287c039524a77ec630e53aa1459bf0",
-      "contentHash": "8aed05de46873238523ec20b926264ae04ad4efcbb2c7e7e8980490d8da125e2"
+      "sourceHash": "601348222457b936ca8c265292cc2e040c287c039524a77ec630e53aa1459bf0"
     },
     {
       "schemaVersion": "1.0",
@@ -503,8 +477,7 @@
       "route": "/projects/baton/watch",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "8c7802622aff3867de0f9d212c4a63aea9b255d0d4328ecea95d47121c10519f",
-      "contentHash": "ff8aababd809060f045ae9d1bab2a4405251f01a7f8e4b26adf6ced4a7f31742"
+      "sourceHash": "8c7802622aff3867de0f9d212c4a63aea9b255d0d4328ecea95d47121c10519f"
     },
     {
       "schemaVersion": "1.0",
@@ -521,8 +494,7 @@
       "route": "/projects/baton/relay",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "d15b497e4f7db8c8e464ee4670ddd4bf0356a0d7274f4cd30a5bd63ec801f96a",
-      "contentHash": "0742686c680e9be235ee1d56c4562acf90fc74b82c9a5ac8c4e0a4c988d49ae7"
+      "sourceHash": "d15b497e4f7db8c8e464ee4670ddd4bf0356a0d7274f4cd30a5bd63ec801f96a"
     },
     {
       "schemaVersion": "1.0",
@@ -539,8 +511,7 @@
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "1cda0fec892f83b73d61a283f5edd8bde4f1b0417ca63424bc4e127b6ac83628",
-      "contentHash": "1abf907bce26444994c835e419a6f7cede401b51ac3728070b5513d9426f2ba1"
+      "sourceHash": "1cda0fec892f83b73d61a283f5edd8bde4f1b0417ca63424bc4e127b6ac83628"
     },
     {
       "schemaVersion": "1.0",
@@ -557,8 +528,7 @@
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "2c5481f4012bdde46d54a30dcdb39849b952ae8291b026b7a68ad3e7035fe979",
-      "contentHash": "4b6ba4ba0fe475ea5f65115f155dc4ac736401dd98736fa935033c3bed8023db"
+      "sourceHash": "2c5481f4012bdde46d54a30dcdb39849b952ae8291b026b7a68ad3e7035fe979"
     },
     {
       "schemaVersion": "1.0",
@@ -575,8 +545,7 @@
       "route": "/projects/baton/brief",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "798cc8926ecf3c89821df3bfb5cc4084dcddddb1e8cf7c00ff77684369856bc7",
-      "contentHash": "2b114e3bf676e334c8c96b7f2fc377d1e80dd161fd16c000fbb81fad5d09ed5c"
+      "sourceHash": "798cc8926ecf3c89821df3bfb5cc4084dcddddb1e8cf7c00ff77684369856bc7"
     },
     {
       "schemaVersion": "1.0",
@@ -593,8 +562,7 @@
       "route": "/projects/baton/cal",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "9a4e703f8a1472c368ccac69826d7331850fa07600ffee6482b54669090e814d",
-      "contentHash": "3b218d940a11d1ea40d2524d31d866ddbb9cef1b0484009af5605c15f62afad4"
+      "sourceHash": "9a4e703f8a1472c368ccac69826d7331850fa07600ffee6482b54669090e814d"
     },
     {
       "schemaVersion": "1.0",
@@ -611,8 +579,7 @@
       "route": "/projects/baton/round",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "dacb35501e5fd9685d2dc61bb2a3e1500895ba2f1d99bc2a3c4796b14e793cb8",
-      "contentHash": "953e8eec2d22c202e6b2f1726c37a6b6f437dd6ac8c8fd334effd3a63da218e0"
+      "sourceHash": "dacb35501e5fd9685d2dc61bb2a3e1500895ba2f1d99bc2a3c4796b14e793cb8"
     },
     {
       "schemaVersion": "1.0",
@@ -629,8 +596,7 @@
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "bf1ec147af2f8d0abf1f852789011d20cc4b651c03dedf26169ef20a18e6b20f",
-      "contentHash": "72b0766802e22b0df66c478a243de796bd2d44707ee0ff8bc48eabc77d900dde"
+      "sourceHash": "bf1ec147af2f8d0abf1f852789011d20cc4b651c03dedf26169ef20a18e6b20f"
     },
     {
       "schemaVersion": "1.0",
@@ -647,8 +613,7 @@
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "a93392959e4adc0e0f2cd342f982634eb58d8fe99d629c1033d1405162b8580e",
-      "contentHash": "a4468bf2d9d516868ff9ceee979f2a7ff507794b3befcf7e262b350070b1e574"
+      "sourceHash": "a93392959e4adc0e0f2cd342f982634eb58d8fe99d629c1033d1405162b8580e"
     },
     {
       "schemaVersion": "1.0",
@@ -665,8 +630,7 @@
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "0aa73e35c37f9a27fc11ba5fec06065670aa4ae03f5277b9f1bca4bde95bf89a",
-      "contentHash": "740c0023273996cdd6a428ebc5340079d372a584013ac8e701db5069f83f5e3a"
+      "sourceHash": "0aa73e35c37f9a27fc11ba5fec06065670aa4ae03f5277b9f1bca4bde95bf89a"
     },
     {
       "schemaVersion": "1.0",
@@ -683,8 +647,7 @@
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "a401db1a1ba13ddc6b6436419dd905ab279fe1edd8fc994fcc0a2262880f59f8",
-      "contentHash": "02f6da91bd4cc0b46edc73e8fe40e61f9142514ccf1c3789994e46612c23cd0e"
+      "sourceHash": "a401db1a1ba13ddc6b6436419dd905ab279fe1edd8fc994fcc0a2262880f59f8"
     },
     {
       "schemaVersion": "1.0",
@@ -701,8 +664,7 @@
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "b999132d77f13951ecbd5fd1ba270ffdb0c46ae56e1dc4ed831fa49411dfb854",
-      "contentHash": "677d8b38b42e6b8ec02410fb2d579d996634abd265fbcaf101a5e9cd2659065a"
+      "sourceHash": "b999132d77f13951ecbd5fd1ba270ffdb0c46ae56e1dc4ed831fa49411dfb854"
     },
     {
       "schemaVersion": "1.0",
@@ -719,8 +681,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "5c76d21c4024a84e93b4565975a90e4a1afbefbd1623f719bf505ef541a89bb8",
-      "contentHash": "e54dc3375ee4d39495fd2076aaa86302e3d948bb6ee60413f49f0173bfc9a6b9"
+      "sourceHash": "5c76d21c4024a84e93b4565975a90e4a1afbefbd1623f719bf505ef541a89bb8"
     },
     {
       "schemaVersion": "1.0",
@@ -737,8 +698,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "36f906ff318d5b09351e720cbbe8facc776c2023849bc1caf2fff3d6635fc999",
-      "contentHash": "3525cfaa03a5a03bd30e595dbd74c76b4a8778869eff2db11b723dd7f6d672f2"
+      "sourceHash": "36f906ff318d5b09351e720cbbe8facc776c2023849bc1caf2fff3d6635fc999"
     },
     {
       "schemaVersion": "1.0",
@@ -755,8 +715,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e5379a13108288529a5000f19becdaf0be5c6baadb5030c8012d2948c66088e2",
-      "contentHash": "5f87b9573ae937e43cc39c8cf7acf08a23cdb82e1db32ee1ae7584dbd32cd261"
+      "sourceHash": "e5379a13108288529a5000f19becdaf0be5c6baadb5030c8012d2948c66088e2"
     },
     {
       "schemaVersion": "1.0",
@@ -773,8 +732,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "adb191526ec88d625c6dc183c322a63d86e9a5d768b626b77a88e29851de8dc6",
-      "contentHash": "97dd3bf39b05516f5210267fa8a461218504b800e3a91530e9e6ae89dbd069ba"
+      "sourceHash": "adb191526ec88d625c6dc183c322a63d86e9a5d768b626b77a88e29851de8dc6"
     },
     {
       "schemaVersion": "1.0",
@@ -791,8 +749,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "62c4d011cb866e1f82f25e084c9878bcd511ca2d8b0f2b573a8cf3ebc09f4b5e",
-      "contentHash": "c8399f3dae120883e4574b681321c08d4177237142264480661abbe744fa4d8a"
+      "sourceHash": "62c4d011cb866e1f82f25e084c9878bcd511ca2d8b0f2b573a8cf3ebc09f4b5e"
     },
     {
       "schemaVersion": "1.0",
@@ -809,8 +766,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "782dd2fef8a8855bab52045966c0409d8192ed2960428eec0a7451bbe18df6bd",
-      "contentHash": "d1f9f8574f3d09fe14d8abe63dc23765e4c292fbaaa76c0030e624cbed560918"
+      "sourceHash": "782dd2fef8a8855bab52045966c0409d8192ed2960428eec0a7451bbe18df6bd"
     },
     {
       "schemaVersion": "1.0",
@@ -827,8 +783,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "21522b36b94f7f8d080aa3191e550b67d39a98913bfdfceffc55241a0356237a",
-      "contentHash": "503703d59b11a1eda15357e5507c0311fa316bb31dc00ae0b5b0c46a81d167b4"
+      "sourceHash": "21522b36b94f7f8d080aa3191e550b67d39a98913bfdfceffc55241a0356237a"
     },
     {
       "schemaVersion": "1.0",
@@ -845,8 +800,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d389d3e04de4a49c08cefceca79cfd6fee973f931fc187055c9c1d0975afb902",
-      "contentHash": "fcdf011a0dfede612741f5146ec5380179c73b036bcd0c47ab7021de231e1723"
+      "sourceHash": "d389d3e04de4a49c08cefceca79cfd6fee973f931fc187055c9c1d0975afb902"
     },
     {
       "schemaVersion": "1.0",
@@ -863,8 +817,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "eaaf159abd0af28f43beb614fef4cca26a5c12b0516750043de410981d2e27b2",
-      "contentHash": "391252a8ac03726af6aaf367b2c34cdb2407ac2d1b0d2ab08130806cf39f77ed"
+      "sourceHash": "eaaf159abd0af28f43beb614fef4cca26a5c12b0516750043de410981d2e27b2"
     },
     {
       "schemaVersion": "1.0",
@@ -881,8 +834,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e6c156013d8be8130a1aff4b0d906904c69f50c42ab948711ca5aa9a7d538db2",
-      "contentHash": "14b01883352910fbb2795c833a535164465bb72e48a2dc8c6cb5c805382c77b5"
+      "sourceHash": "e6c156013d8be8130a1aff4b0d906904c69f50c42ab948711ca5aa9a7d538db2"
     },
     {
       "schemaVersion": "1.0",
@@ -899,8 +851,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "ad578ac465ef2a5a11e7f0daec65593ae33288414f15b06d36398107b8b2b71d",
-      "contentHash": "ba7807bed9461e597882ba29671574bfc4f4951fc63aa7a6f0173947f95fe2d3"
+      "sourceHash": "ad578ac465ef2a5a11e7f0daec65593ae33288414f15b06d36398107b8b2b71d"
     },
     {
       "schemaVersion": "1.0",
@@ -917,8 +868,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "266e01cb8e7f1ee305ac8f879356b33d46e1091481e4f81f6b3170d2e9e031d8",
-      "contentHash": "07a3f9b09df66702d6b571ebfb7dfde2d47d4758668c616500a5e2c1dc865282"
+      "sourceHash": "266e01cb8e7f1ee305ac8f879356b33d46e1091481e4f81f6b3170d2e9e031d8"
     },
     {
       "schemaVersion": "1.0",
@@ -935,8 +885,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "a409c02ea7de40bae06b531f61be051342b715c29ad4da342b844723d0b18c1d",
-      "contentHash": "e9e76deffe2b7afbff0e971d219212847c9d96215324c2af986ac4564fc85dbf"
+      "sourceHash": "a409c02ea7de40bae06b531f61be051342b715c29ad4da342b844723d0b18c1d"
     },
     {
       "schemaVersion": "1.0",
@@ -953,8 +902,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "ed24496e83922201db2dc0f9fd0b955b5eb636af6aaa75b9314d34df1c6503c8",
-      "contentHash": "e4bc469f753cf8a63dbc50bbcb2f5c24bdaf90b761c2eba0fd6f3b642c6bfc2a"
+      "sourceHash": "ed24496e83922201db2dc0f9fd0b955b5eb636af6aaa75b9314d34df1c6503c8"
     },
     {
       "schemaVersion": "1.0",
@@ -971,8 +919,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "8a08847b215bf1cc7abececec24b023619d99515545f9bb9c38d17d2f95b01d0",
-      "contentHash": "f03117cd50cb412b5803c29e6a30cc541aa5c6a42d3b7080595ddc406a92dc8e"
+      "sourceHash": "8a08847b215bf1cc7abececec24b023619d99515545f9bb9c38d17d2f95b01d0"
     },
     {
       "schemaVersion": "1.0",
@@ -989,8 +936,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "756129b78a59f7b6762312e2893ab572bd17e8d4545564fa42fecb8232799e7e",
-      "contentHash": "626a5cdfae27f795be0297468294c3cab24d74c1177d8dc8c1fb14e4b24890be"
+      "sourceHash": "756129b78a59f7b6762312e2893ab572bd17e8d4545564fa42fecb8232799e7e"
     },
     {
       "schemaVersion": "1.0",
@@ -1007,8 +953,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "071469171f9d79bf28433167a75e3a4df70f6dfa0cb85d505df926e69c38fe3c",
-      "contentHash": "e6b10a54670f7297aa6fc6744874dd7b7147fd1618c07962f608de95ef674bb9"
+      "sourceHash": "071469171f9d79bf28433167a75e3a4df70f6dfa0cb85d505df926e69c38fe3c"
     },
     {
       "schemaVersion": "1.0",
@@ -1025,8 +970,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "8149d625f290db4788c5c3cc602eb3be8f589167693c26ece4ee492f756c6bc1",
-      "contentHash": "2db2d9772718c653a15f812f82521fc50d875841d854c82f9584b5cbf9dbd60c"
+      "sourceHash": "8149d625f290db4788c5c3cc602eb3be8f589167693c26ece4ee492f756c6bc1"
     },
     {
       "schemaVersion": "1.0",
@@ -1043,8 +987,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "2466645cf7e2d631f6831305d4f7f831fce7d261e1007cded6dafdf50369f69c",
-      "contentHash": "0f08e41d2df284588b3c662561f761289f5b4b3b2e5fca6985617328921fbf33"
+      "sourceHash": "2466645cf7e2d631f6831305d4f7f831fce7d261e1007cded6dafdf50369f69c"
     },
     {
       "schemaVersion": "1.0",
@@ -1061,8 +1004,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "178c04f188afe7c17c7c34b6c90b841230020a8ced7b61e3625082b65b3d1d52",
-      "contentHash": "25ec8f77f1bedffb06b4a6d590bad306dae5679fab8e4d70673f8674d1df179d"
+      "sourceHash": "178c04f188afe7c17c7c34b6c90b841230020a8ced7b61e3625082b65b3d1d52"
     },
     {
       "schemaVersion": "1.0",
@@ -1079,8 +1021,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "d2b0671e6a1c6628c6373342f913422319d245d4cda180207231efcfd36ccce6",
-      "contentHash": "569c9c76f34615c4021c84fdafbb62d7bfd15f5acfab7ee59d4db859994be6fb"
+      "sourceHash": "d2b0671e6a1c6628c6373342f913422319d245d4cda180207231efcfd36ccce6"
     },
     {
       "schemaVersion": "1.0",
@@ -1097,8 +1038,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "ccc3f3f099810571fa2978ab91ddeed7310be2cdaebaacf0b8bee98917cee32e",
-      "contentHash": "07f6a6a954570b5a5e93e131d458d18772789604e9576506b9174cf031b955c6"
+      "sourceHash": "ccc3f3f099810571fa2978ab91ddeed7310be2cdaebaacf0b8bee98917cee32e"
     },
     {
       "schemaVersion": "1.0",
@@ -1115,8 +1055,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "8e6afdb3d804de644de8a4e8ca077d5e2e2232472535a31249fca0997cb63499",
-      "contentHash": "6d824860c17ac7283573fd9a5174dce6d87700cf6ac4e53648d90a25ec7aa37b"
+      "sourceHash": "8e6afdb3d804de644de8a4e8ca077d5e2e2232472535a31249fca0997cb63499"
     },
     {
       "schemaVersion": "1.0",
@@ -1133,8 +1072,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "61e74f6cf2d9c4375bf6c8a5afdf35fb86bd76b4548f7f18e360380cb4f296be",
-      "contentHash": "7764baa1caa404125ccfae0e3ee84cd07706416e97acff72ccb50042a0851c21"
+      "sourceHash": "61e74f6cf2d9c4375bf6c8a5afdf35fb86bd76b4548f7f18e360380cb4f296be"
     },
     {
       "schemaVersion": "1.0",
@@ -1151,8 +1089,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "2beb11ee05c1a3a2b7328a5327278f20d93916aa1370c3f9262c3ff08c0b54eb",
-      "contentHash": "b1ff9fb19405e2809c25a1a0f6258a9ddc3bc04a5f340b2a2bdbe0db1aed3f9a"
+      "sourceHash": "2beb11ee05c1a3a2b7328a5327278f20d93916aa1370c3f9262c3ff08c0b54eb"
     },
     {
       "schemaVersion": "1.0",
@@ -1169,8 +1106,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "5c8336b41ef131cd636a42b5f4b58a451f9110613087587cc23701fcf1634315",
-      "contentHash": "d1660de093ab54c88fc230a06d597163ddb19ca76d5cf86a9f5a94dea0ba2d14"
+      "sourceHash": "5c8336b41ef131cd636a42b5f4b58a451f9110613087587cc23701fcf1634315"
     },
     {
       "schemaVersion": "1.0",
@@ -1187,8 +1123,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "213fc52c022bc615283038e87126ff7ba500897045b6ed1d7e49763fe8592ab9",
-      "contentHash": "52c7e3bda161580535944ed5089dff808ef12b4c29d1a86938e5ac49e3e9f5cd"
+      "sourceHash": "213fc52c022bc615283038e87126ff7ba500897045b6ed1d7e49763fe8592ab9"
     },
     {
       "schemaVersion": "1.0",
@@ -1205,8 +1140,7 @@
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "eea273c8b95590282ea03ea46d24b97c72aaefbb6de8fab3079d6d607f302329",
-      "contentHash": "7a981c13acb30ab8b425583afd73171ed28101ee5ac323639df394d4897e88b8"
+      "sourceHash": "eea273c8b95590282ea03ea46d24b97c72aaefbb6de8fab3079d6d607f302329"
     },
     {
       "schemaVersion": "1.0",
@@ -1223,8 +1157,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "0b5502a5cf6d1b76a7724f265f9e6520bf4ad5163f63bbe1af3abd6fb4ac1a50",
-      "contentHash": "8082496d4addfed774da3733f8abc7a33519a3971118277e547587989216f37d"
+      "sourceHash": "0b5502a5cf6d1b76a7724f265f9e6520bf4ad5163f63bbe1af3abd6fb4ac1a50"
     },
     {
       "schemaVersion": "1.0",
@@ -1241,8 +1174,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "3fd48e9d00d02f23362e7bc97952d76d03582fd7a38bb18d6ce59772d7c9b0dd",
-      "contentHash": "2695e7352fd76974b43e8695c93c8d01a5aceee17aef70cfc94ceff131487cbc"
+      "sourceHash": "3fd48e9d00d02f23362e7bc97952d76d03582fd7a38bb18d6ce59772d7c9b0dd"
     },
     {
       "schemaVersion": "1.0",
@@ -1259,8 +1191,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "cfccc7c2a184f56e1877613caebce80b9cec1aecdc475387e65a6936969e8325",
-      "contentHash": "54e49cfca0658e2ad3280139b561117ad1d60f449b6dbda31d389d043d35d102"
+      "sourceHash": "cfccc7c2a184f56e1877613caebce80b9cec1aecdc475387e65a6936969e8325"
     },
     {
       "schemaVersion": "1.0",
@@ -1277,8 +1208,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "3daac6adf5426f1b0dc5d2cbfaf3dcbd5bdf0578bb7c58d2c92588b6f6dbfc6f",
-      "contentHash": "e5d2592a3de3e911536518971e7161ed6be71e496c26f17701658e76bdd9429a"
+      "sourceHash": "3daac6adf5426f1b0dc5d2cbfaf3dcbd5bdf0578bb7c58d2c92588b6f6dbfc6f"
     },
     {
       "schemaVersion": "1.0",
@@ -1295,8 +1225,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "b06507e4944be69aab4fdf0ecc4c0a59bb5b3b10e707cdebd93f4d9a14ad9aa9",
-      "contentHash": "48c3856278ae00baa2bc67a96fdd5b1056df3d953475edb7861e4cd9ecab0f8e"
+      "sourceHash": "b06507e4944be69aab4fdf0ecc4c0a59bb5b3b10e707cdebd93f4d9a14ad9aa9"
     },
     {
       "schemaVersion": "1.0",
@@ -1313,8 +1242,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "dfc417c5ca76ee8b1df34fce18c9285997c917f275c8ad198d392d98477ef723",
-      "contentHash": "b837d65e8029d5577d41a658abba03a49f3a0fb717a1488637d199aa27b30232"
+      "sourceHash": "dfc417c5ca76ee8b1df34fce18c9285997c917f275c8ad198d392d98477ef723"
     },
     {
       "schemaVersion": "1.0",
@@ -1331,8 +1259,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "04c99eb974db8a20c49a0f425e6afae88a80d68cc945556fdf191f9c610c1177",
-      "contentHash": "8db4d40e5ba5644c63f24f0409c984bfba6a89201c8d5400b04a76545d88bf48"
+      "sourceHash": "04c99eb974db8a20c49a0f425e6afae88a80d68cc945556fdf191f9c610c1177"
     },
     {
       "schemaVersion": "1.0",
@@ -1349,8 +1276,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "88ee4a732cd39c0388e523b719ccfd1c3cd66b1cb367b402f3bdda8e8aa868f1",
-      "contentHash": "65e917e782afb1319fb8ebc7ec7ea0b28ed3c41f3943aee90f2e9ab9445722f9"
+      "sourceHash": "88ee4a732cd39c0388e523b719ccfd1c3cd66b1cb367b402f3bdda8e8aa868f1"
     },
     {
       "schemaVersion": "1.0",
@@ -1367,8 +1293,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "7d2ea1ff82fc9d75b42b595a444e93ab80102228dfa898b0ab7b7c432195a7a6",
-      "contentHash": "ade3ef3cf29165012d43bb895384627ea39d395038687a8ea76270660c0063c4"
+      "sourceHash": "7d2ea1ff82fc9d75b42b595a444e93ab80102228dfa898b0ab7b7c432195a7a6"
     },
     {
       "schemaVersion": "1.0",
@@ -1385,8 +1310,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "0460c57e892894cbc6f69903b31fd49791acf102a629a12e5043690149bbe546",
-      "contentHash": "12587d9bc845d742b04e7f5b3d66ad4cc751e76a55991e078d6dc9d5196f7133"
+      "sourceHash": "0460c57e892894cbc6f69903b31fd49791acf102a629a12e5043690149bbe546"
     },
     {
       "schemaVersion": "1.0",
@@ -1403,8 +1327,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "96a4ccbc8fe55053a5f3dd19642bbbbaf373e43ec7b2c440b12298fd64dfc227",
-      "contentHash": "635c21c24b0cfad1cec7ab5d2a1955018e58e4d5addea144ea52972045f490df"
+      "sourceHash": "96a4ccbc8fe55053a5f3dd19642bbbbaf373e43ec7b2c440b12298fd64dfc227"
     },
     {
       "schemaVersion": "1.0",
@@ -1421,8 +1344,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "7d41733eb26f6d0a4a72923494a7aec70235f5c3e919019b222c34794c500a95",
-      "contentHash": "3871861daa2e9e43533a9673f9f96eaf0f704ef41d080bf41f1d49d897c3d4d4"
+      "sourceHash": "7d41733eb26f6d0a4a72923494a7aec70235f5c3e919019b222c34794c500a95"
     },
     {
       "schemaVersion": "1.0",
@@ -1439,8 +1361,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "361d9c3bb08ccddfff04d927919b96c2e90a31a6aae07dd23daf862063d0e8f0",
-      "contentHash": "6f4b950631eeecf03fd5c430a3c546bafadce2e0302e232c79ae182d91f8b7b4"
+      "sourceHash": "361d9c3bb08ccddfff04d927919b96c2e90a31a6aae07dd23daf862063d0e8f0"
     },
     {
       "schemaVersion": "1.0",
@@ -1457,8 +1378,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "564a2bf5e47a3f3985a873436c4a3fa8f141bdee1e6e6ae3c65f2680ae818054",
-      "contentHash": "2e93830bc88cbafe43a3c3487d3f3495285a307fbc58e32355f54f0a8d61bd26"
+      "sourceHash": "564a2bf5e47a3f3985a873436c4a3fa8f141bdee1e6e6ae3c65f2680ae818054"
     },
     {
       "schemaVersion": "1.0",
@@ -1475,8 +1395,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "4f495137ca84bb85631e3e9f599ac00e892651ac8ad392bd57e6ff34db90352a",
-      "contentHash": "adf2912410fb5bab93229f849f58bac8510381d1a4034f4dbdf00afc941b77b0"
+      "sourceHash": "4f495137ca84bb85631e3e9f599ac00e892651ac8ad392bd57e6ff34db90352a"
     },
     {
       "schemaVersion": "1.0",
@@ -1493,8 +1412,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "1007baa5894ba8edf4723a66ffe9c86d8d02b7709dc72d830fc42312ba643437",
-      "contentHash": "f2b03db9f57f7500feb39398c8bc6d51d5421d366952fcd1cdaa74b20ba5f006"
+      "sourceHash": "1007baa5894ba8edf4723a66ffe9c86d8d02b7709dc72d830fc42312ba643437"
     },
     {
       "schemaVersion": "1.0",
@@ -1511,8 +1429,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "a63fab0dce0f45089b0beaa2cd6447502839c2f99a61565290a3f73445239427",
-      "contentHash": "fb29dadef7fa5df3abc3b1ebbf9095574fc332f4c16e7f3757878456dfbe4caa"
+      "sourceHash": "a63fab0dce0f45089b0beaa2cd6447502839c2f99a61565290a3f73445239427"
     },
     {
       "schemaVersion": "1.0",
@@ -1529,8 +1446,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "38bd90e4117d196a1964a1da4acf211389c463d0c78643af423e886b499d9d8f",
-      "contentHash": "2457c89dab5397a2bc70ea6a0185a0b93ffad0e723d0d09fabb494ba3722f5fa"
+      "sourceHash": "38bd90e4117d196a1964a1da4acf211389c463d0c78643af423e886b499d9d8f"
     },
     {
       "schemaVersion": "1.0",
@@ -1547,8 +1463,7 @@
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "public_document_metadata",
-      "sourceHash": "37ff96d0648e8dac1e4e494dfbc6fb8c59f071788086963ce001d8ff62862e2b",
-      "contentHash": "9d77b60323acbe9e6e3b0d47c288947857c8637fe95f5e098b5e59ffd01fe0e9"
+      "sourceHash": "37ff96d0648e8dac1e4e494dfbc6fb8c59f071788086963ce001d8ff62862e2b"
     },
     {
       "schemaVersion": "1.0",
@@ -1565,8 +1480,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "aaa783b958cecfb602677b967ab89e9a17b28d76f745e880737d050adce3119e",
-      "contentHash": "d361480dfaa8a4d2164fea5ad1fc44dabec311c72aabd0e5840b0ebde016caac"
+      "sourceHash": "aaa783b958cecfb602677b967ab89e9a17b28d76f745e880737d050adce3119e"
     },
     {
       "schemaVersion": "1.0",
@@ -1583,8 +1497,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "a0ffeaae3361dde5425acefd6a7386c488487367749e3c8557438744e0d41fd8",
-      "contentHash": "9a6dae853ecc5a16b8d26ea0e72ab59754c6e0cdf64ca11f72db1ed214b32f43"
+      "sourceHash": "a0ffeaae3361dde5425acefd6a7386c488487367749e3c8557438744e0d41fd8"
     },
     {
       "schemaVersion": "1.0",
@@ -1601,8 +1514,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "072b656d1f87dd7ce49fa10280da495753287b0d6bc55d76d35ad211734df9b1",
-      "contentHash": "472f54c8ac0dd29a94feb27764c13c66c66f950c9b857a8219aa5eda6178aacd"
+      "sourceHash": "072b656d1f87dd7ce49fa10280da495753287b0d6bc55d76d35ad211734df9b1"
     },
     {
       "schemaVersion": "1.0",
@@ -1619,8 +1531,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "618c9a27ad6f1be1bd698e968b9aca746582b9092f8fcdb5c4b3b50c32c8da1e",
-      "contentHash": "27c61c0415196334929e9641efcc8ab81019763add1794a723528be295f29d76"
+      "sourceHash": "618c9a27ad6f1be1bd698e968b9aca746582b9092f8fcdb5c4b3b50c32c8da1e"
     },
     {
       "schemaVersion": "1.0",
@@ -1637,8 +1548,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d029fa442b84ec26f83447b4a3061f03a18f3c4222e0f7488185d49cdb93bdec",
-      "contentHash": "6d7bc2c29ac37f942b747e3c226894c7152529977b9787a15f6c9e5161d2fc60"
+      "sourceHash": "d029fa442b84ec26f83447b4a3061f03a18f3c4222e0f7488185d49cdb93bdec"
     },
     {
       "schemaVersion": "1.0",
@@ -1655,8 +1565,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e260c5688c6840132cfe9790c6b30c0b031531d0adbf1e00b56c9979040f5012",
-      "contentHash": "1b40eff82e70fc199c2a0e6f87d4a121bd62ae3a1875eda415d83af48c170faf"
+      "sourceHash": "e260c5688c6840132cfe9790c6b30c0b031531d0adbf1e00b56c9979040f5012"
     },
     {
       "schemaVersion": "1.0",
@@ -1673,8 +1582,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "8522568366c84af907ef0f8147e9de98a947c06dff99e3423a51272cdb6a42ab",
-      "contentHash": "85afb8839d36b653262d523e668988550d454e8377ff2b1a67f0243a9e39296f"
+      "sourceHash": "8522568366c84af907ef0f8147e9de98a947c06dff99e3423a51272cdb6a42ab"
     },
     {
       "schemaVersion": "1.0",
@@ -1691,8 +1599,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "d51fbe14bdc390431db3069d5b29667e2b00326b1f63cda8402adda79511cfcc",
-      "contentHash": "c6b18a36af9535fab481179663fe77e5458be1de09bb0da5f6a68513f822d56e"
+      "sourceHash": "d51fbe14bdc390431db3069d5b29667e2b00326b1f63cda8402adda79511cfcc"
     },
     {
       "schemaVersion": "1.0",
@@ -1709,8 +1616,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "31e64d27671a96617a738cf15969d78a5ea47eafe7c31f41ac2f0c92ba545747",
-      "contentHash": "22290adb82a209b78066f0ab4caac070e72b3d0807256bb951a8578137048a4e"
+      "sourceHash": "31e64d27671a96617a738cf15969d78a5ea47eafe7c31f41ac2f0c92ba545747"
     },
     {
       "schemaVersion": "1.0",
@@ -1727,8 +1633,7 @@
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "1670accbe2035245bc9bd22c1dca0381e3137f2183636fad030bf7a4b3afce43",
-      "contentHash": "c3095b36d64470982eaa9b173d2c8ebd3b823ff41c9e643f9ed5b1dec1ece0ad"
+      "sourceHash": "1670accbe2035245bc9bd22c1dca0381e3137f2183636fad030bf7a4b3afce43"
     },
     {
       "schemaVersion": "1.0",
@@ -1745,8 +1650,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "c365b91c4904a6e8e9562a68f3fa35acc8ef0d25cd7864c7247410574e5d34c6",
-      "contentHash": "32c39c2b8ef874b87b8542f4675b9e9f5847e9f80481d273c7cb49e4911823a0"
+      "sourceHash": "c365b91c4904a6e8e9562a68f3fa35acc8ef0d25cd7864c7247410574e5d34c6"
     },
     {
       "schemaVersion": "1.0",
@@ -1763,8 +1667,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "7530d4256c5c772985c6d04d962154c614a740b53486537392d71871cf4e830d",
-      "contentHash": "67145b3c5fe8f47a3ed54b41ba332be07ed32495d21b0272d6d5fb64127ff05e"
+      "sourceHash": "7530d4256c5c772985c6d04d962154c614a740b53486537392d71871cf4e830d"
     },
     {
       "schemaVersion": "1.0",
@@ -1781,8 +1684,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "cd3d7b4c9a5a8c98b70a1d70f459e65ab84d571782f50914cd88911515c7d7ff",
-      "contentHash": "aba1030d4e1af4721561695428b9a6bb5084c684e1950ce73942c2446410cd73"
+      "sourceHash": "cd3d7b4c9a5a8c98b70a1d70f459e65ab84d571782f50914cd88911515c7d7ff"
     },
     {
       "schemaVersion": "1.0",
@@ -1799,8 +1701,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "450c685c93f1daaddc376a3e6cbe1bc01f4135e0c66c54e23210e5c36bb86981",
-      "contentHash": "af3e6400f4121a25c27fab68d7bbe5178f401a3de6bc8538b4e0ba4b993b2e8a"
+      "sourceHash": "450c685c93f1daaddc376a3e6cbe1bc01f4135e0c66c54e23210e5c36bb86981"
     },
     {
       "schemaVersion": "1.0",
@@ -1817,8 +1718,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "9f0793bf724fd05bf2cd25b82030ab27efa58993406576d23cb90c7c8423c03e",
-      "contentHash": "80460bfa53a00ada4ccdf1aa784aa9cb8826b9c35c087dfd1c0fd8206f9bf0e5"
+      "sourceHash": "9f0793bf724fd05bf2cd25b82030ab27efa58993406576d23cb90c7c8423c03e"
     },
     {
       "schemaVersion": "1.0",
@@ -1835,8 +1735,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c69319a5440bd97212dd370a9ab05c4ed47a129613bed158309db609921f6192",
-      "contentHash": "69f2b36e466d5d958a3131bf9ba838b50957d735b4d610fa9e41059c17e9c018"
+      "sourceHash": "c69319a5440bd97212dd370a9ab05c4ed47a129613bed158309db609921f6192"
     },
     {
       "schemaVersion": "1.0",
@@ -1853,8 +1752,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d349e9df76f016d388396384d902e85cb4da7a7a1525d5c3f6d17937f1bce6c3",
-      "contentHash": "941e583f8a59be7f74ef6b68c0680dd88aefb63737e7b49b2337c5240bf72464"
+      "sourceHash": "d349e9df76f016d388396384d902e85cb4da7a7a1525d5c3f6d17937f1bce6c3"
     },
     {
       "schemaVersion": "1.0",
@@ -1871,8 +1769,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "ac231647d781150667dc35ab71954c6dd7027c17e52c507a23fdb96f5a480d41",
-      "contentHash": "09cfa868c917e02836fd40fe467e81ce47e36b8cd09eb31d1513fdbf75a6c6ba"
+      "sourceHash": "ac231647d781150667dc35ab71954c6dd7027c17e52c507a23fdb96f5a480d41"
     },
     {
       "schemaVersion": "1.0",
@@ -1889,8 +1786,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d0b9240f85a297f60f31701ebccc407be641058a953439b346ff74cce8ef66c6",
-      "contentHash": "b706861431995e5b7a6eac2a1d593bf5d10d1118998cd9ce53f18608d64951ab"
+      "sourceHash": "d0b9240f85a297f60f31701ebccc407be641058a953439b346ff74cce8ef66c6"
     },
     {
       "schemaVersion": "1.0",
@@ -1907,8 +1803,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "71ebb88eb44a89ba800360ecafdc538276cb0e92dd6cc3be3f51ea7ee174e1ad",
-      "contentHash": "cdf6ad8a2bc31798942b54e386220588827e706508cde86b173d00271d0b5414"
+      "sourceHash": "71ebb88eb44a89ba800360ecafdc538276cb0e92dd6cc3be3f51ea7ee174e1ad"
     },
     {
       "schemaVersion": "1.0",
@@ -1925,8 +1820,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "2956cfb0b093c4aa310caf64e2859270df6eadb9780609ee842eb4a82779916a",
-      "contentHash": "143721c00fcd447685754b79d0adc2e1785055b5573e60a70af790a7625dc879"
+      "sourceHash": "2956cfb0b093c4aa310caf64e2859270df6eadb9780609ee842eb4a82779916a"
     },
     {
       "schemaVersion": "1.0",
@@ -1943,8 +1837,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "f8bbedbbcc7f19e397bb471ae1bef73e116c143b652aceecc641a77cc04708c0",
-      "contentHash": "47e524e243c1b73d9f00623d0adfef6c3e7079bbfcf178642d7768c123d2762d"
+      "sourceHash": "f8bbedbbcc7f19e397bb471ae1bef73e116c143b652aceecc641a77cc04708c0"
     },
     {
       "schemaVersion": "1.0",
@@ -1961,8 +1854,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "d8b0c22e016fc3ee91b3d5a55c019147ea0e0bf6ab13eeba0056fe8408ea5766",
-      "contentHash": "6470371a10234a114750d33b765de12b71b9760155420dd859f5aad73257da20"
+      "sourceHash": "d8b0c22e016fc3ee91b3d5a55c019147ea0e0bf6ab13eeba0056fe8408ea5766"
     },
     {
       "schemaVersion": "1.0",
@@ -1979,8 +1871,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "b87c7f6fcb6309d359946285d1239afa5eee1d9c7127c63550d1bf11474070c8",
-      "contentHash": "dbe41d28698b8d3f23103eaedd02414c8c5b64e27569a336070818aec51c9df9"
+      "sourceHash": "b87c7f6fcb6309d359946285d1239afa5eee1d9c7127c63550d1bf11474070c8"
     },
     {
       "schemaVersion": "1.0",
@@ -1997,8 +1888,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "96b104bcc888243ce89ce9659a5a6ac0587413220f54fe4cc79ca28118ac3c3f",
-      "contentHash": "0954c4955bdcfdae05bc9b7b3540f5239dcd147b70b2e6f4a9f66f69bfcde293"
+      "sourceHash": "96b104bcc888243ce89ce9659a5a6ac0587413220f54fe4cc79ca28118ac3c3f"
     },
     {
       "schemaVersion": "1.0",
@@ -2015,8 +1905,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "072867292001d4c1b59691d395b0250ce01b31a834b6925b58312296d882fc22",
-      "contentHash": "fdac113fb3c618d3915c1204643fff2819294531128e79d2219be2875e6ab659"
+      "sourceHash": "072867292001d4c1b59691d395b0250ce01b31a834b6925b58312296d882fc22"
     },
     {
       "schemaVersion": "1.0",
@@ -2033,8 +1922,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "cf03d789ac0763d38cebc9d233ac76bac8dd9b6d0ecfe5943055f4bda08031a0",
-      "contentHash": "359c95f0ee522135e569c6553edc2055cd469e62b4294000ec4708d8508d82ee"
+      "sourceHash": "cf03d789ac0763d38cebc9d233ac76bac8dd9b6d0ecfe5943055f4bda08031a0"
     },
     {
       "schemaVersion": "1.0",
@@ -2051,8 +1939,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "89f60359ce44ffe8525507e54f1eb4d9b24563eca7aa94718baed10b544a0289",
-      "contentHash": "0fb53a069d8da818055c034bb0508c5025baa62519e90883db254fdbaba7a306"
+      "sourceHash": "89f60359ce44ffe8525507e54f1eb4d9b24563eca7aa94718baed10b544a0289"
     },
     {
       "schemaVersion": "1.0",
@@ -2069,8 +1956,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "415b56f6c62526a8d7e929dd3d150753b2d35f42f7403b92132c8a5aead8f126",
-      "contentHash": "33be5e814290aa64644ea975973d30db38458cc096aec563e8160c139a7fe900"
+      "sourceHash": "415b56f6c62526a8d7e929dd3d150753b2d35f42f7403b92132c8a5aead8f126"
     },
     {
       "schemaVersion": "1.0",
@@ -2087,8 +1973,7 @@
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "public_document",
-      "sourceHash": "ab8a6637e51245bb9e7a509a164509c627cb522fa092c5bdd36bdfc924db5444",
-      "contentHash": "ed471ffd77599d013350be927ff9f79d69b30ea8a29552a3d9408f16bf83f3d7"
+      "sourceHash": "ab8a6637e51245bb9e7a509a164509c627cb522fa092c5bdd36bdfc924db5444"
     },
     {
       "schemaVersion": "1.0",
@@ -2105,8 +1990,7 @@
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "21529864d00557f3d504e2ef4249960e2782adfd902d1c532db89c68a85a683a",
-      "contentHash": "6864dbe6209ceb0f276e7cd7d4401dc5d0942d9185d829c05ab47ff05c91062e"
+      "sourceHash": "21529864d00557f3d504e2ef4249960e2782adfd902d1c532db89c68a85a683a"
     },
     {
       "schemaVersion": "1.0",
@@ -2123,8 +2007,7 @@
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d3fcac5f93ffe34ee1200ba5db2e7ed26bac37b466c6a69073250bb81e21ad8c",
-      "contentHash": "3ea806a92b5a8cc88f33b2e80b534bc373353e01c082cea8a233f271fa32be34"
+      "sourceHash": "d3fcac5f93ffe34ee1200ba5db2e7ed26bac37b466c6a69073250bb81e21ad8c"
     },
     {
       "schemaVersion": "1.0",
@@ -2141,8 +2024,7 @@
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "a03fd4463fb46c1ca0fce46ea3f3d99bc6ba6317af310becc531dfd120b41741",
-      "contentHash": "8212392b619d2dd15c5deb6f183f973c651a2de04cfc1019695eea2a7b6bee02"
+      "sourceHash": "a03fd4463fb46c1ca0fce46ea3f3d99bc6ba6317af310becc531dfd120b41741"
     },
     {
       "schemaVersion": "1.0",
@@ -2159,8 +2041,7 @@
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "df0a7ae0e72f7102fb6e68d1ab5da9bff936f8e475393506eaf86f96914dade3",
-      "contentHash": "9d3dd4b42f20c3ae91f41a8856df2e3640c7ae684009eea20b439656c9db857b"
+      "sourceHash": "df0a7ae0e72f7102fb6e68d1ab5da9bff936f8e475393506eaf86f96914dade3"
     },
     {
       "schemaVersion": "1.0",
@@ -2177,8 +2058,7 @@
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "8c8a6a5d03d1649b180812ee19ca0d692e883ee788ba33894da1af68af05b677",
-      "contentHash": "e7ec528a618643f56a6024275edcd309d44b335f487c3083a08740a6e2637860"
+      "sourceHash": "8c8a6a5d03d1649b180812ee19ca0d692e883ee788ba33894da1af68af05b677"
     },
     {
       "schemaVersion": "1.0",
@@ -2195,8 +2075,7 @@
       "route": "/projects/webrtc",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "b87b67edd335524822f304cbeaa9a17def7e173954532b356586b49f1e9009ed",
-      "contentHash": "226be26dff8fa7f03d396b8cc70de40726231294074dbd546aa4c51cad42187d"
+      "sourceHash": "b87b67edd335524822f304cbeaa9a17def7e173954532b356586b49f1e9009ed"
     },
     {
       "schemaVersion": "1.0",
@@ -2213,8 +2092,7 @@
       "route": "/projects/webrtc",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c4bb46c6188d030243a50838d37509d7d662e4008dfd40beea27eb8f8a3d2907",
-      "contentHash": "e202ac9e160cbfecd5eb925ec97accd6f0dabfbb5a422652fdeb9f9c701bcdd0"
+      "sourceHash": "c4bb46c6188d030243a50838d37509d7d662e4008dfd40beea27eb8f8a3d2907"
     },
     {
       "schemaVersion": "1.0",
@@ -2231,8 +2109,7 @@
       "route": "/projects/webrtc",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "72f4dd6e514772fe439662d8f7b2bb5518702b82535ab4720220bf331b9b961c",
-      "contentHash": "a0ecc8dfae094fe31b1cba939c0811e48eff197df9fc6e953cbcf2a2834692d4"
+      "sourceHash": "72f4dd6e514772fe439662d8f7b2bb5518702b82535ab4720220bf331b9b961c"
     }
   ]
 }

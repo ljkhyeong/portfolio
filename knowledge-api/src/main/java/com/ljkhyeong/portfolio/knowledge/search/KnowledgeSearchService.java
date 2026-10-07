@@ -17,7 +17,6 @@ import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeSearchResult;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
-import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
@@ -42,7 +41,6 @@ public class KnowledgeSearchService {
     private final KnowledgeProperties properties;
     private final EmbeddingPort embeddingPort;
     private final KnowledgeIndexPort indexPort;
-    private final KnowledgeIndexInitializer indexInitializer;
     private final RrfRanker rrfRanker;
     private final MeterRegistry meters;
     // 질문 벡터만 재사용하고 문서 검색은 매번 실행해 색인 변경을 바로 반영한다.
@@ -54,7 +52,6 @@ public class KnowledgeSearchService {
     public KnowledgeSearchService(
             KnowledgeProperties properties,
             EmbeddingPort embeddingPort,
-            KnowledgeIndexInitializer indexInitializer,
             KnowledgeIndexPort indexPort,
             RrfRanker rrfRanker,
             MeterRegistry meters
@@ -62,7 +59,6 @@ public class KnowledgeSearchService {
         this.properties = properties;
         this.embeddingPort = embeddingPort;
         this.indexPort = indexPort;
-        this.indexInitializer = indexInitializer;
         this.rrfRanker = rrfRanker;
         this.meters = meters;
     }
@@ -92,7 +88,6 @@ public class KnowledgeSearchService {
         );
         int candidateLimit = Math.max(limit, properties.search().candidateLimit());
 
-        indexInitializer.ensureInitialized();
         List<SearchHit> bm25 = indexPort.searchBm25(normalizedQuery, filter, candidateLimit);
         List<List<SearchHit>> rankings = new ArrayList<>();
         rankings.add(bm25);

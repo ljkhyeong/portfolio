@@ -3,10 +3,10 @@ package com.ljkhyeong.portfolio.knowledge.config;
 import java.util.List;
 import java.util.Locale;
 
-import com.ljkhyeong.portfolio.knowledge.util.Hashing;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -25,12 +25,10 @@ public record KnowledgeProperties(
 ) {
 
     public record Source(
-            @DefaultValue("classpath:knowledge/portfolio.json") String location,
+            // 이미지에 포함된 자료만 읽는다. 원격 URL과 파일 경로는 기동 단계에서 거부한다.
+            @Pattern(regexp = "classpath:.+") @DefaultValue("classpath:knowledge/portfolio.json") String location,
             @DefaultValue("false") boolean syncOnStartup,
             @DefaultValue("") String syncKey,
-            @DefaultValue("false") boolean allowEmpty,
-            @Positive @Max(300) @DefaultValue("3") int connectTimeoutSeconds,
-            @Positive @Max(300) @DefaultValue("10") int readTimeoutSeconds,
             @Positive @Max(67108864) @DefaultValue("8388608") int maxBytes,
             @Min(200) @DefaultValue("1200") int maxChunkCharacters,
             @PositiveOrZero @DefaultValue("150") int overlapCharacters
@@ -42,14 +40,13 @@ public record KnowledgeProperties(
         }
 
         public String chunkingFingerprint() {
-            return Hashing.sha256("chunking-v1|max=%d|overlap=%d".formatted(
-                    maxChunkCharacters, overlapCharacters
-            ));
+            return "chunking-v1|max=%d|overlap=%d".formatted(maxChunkCharacters, overlapCharacters);
         }
     }
 
     public record Elasticsearch(
-            @DefaultValue("portfolio-knowledge-disabled-v3") String indexName
+            // 검색 alias 이름이다. 실제 색인은 동기화마다 이름 뒤에 생성 시각을 붙여 새로 만든다.
+            @Pattern(regexp = "[a-z0-9][a-z0-9_-]*") @DefaultValue("portfolio-knowledge") String indexName
     ) {
     }
 

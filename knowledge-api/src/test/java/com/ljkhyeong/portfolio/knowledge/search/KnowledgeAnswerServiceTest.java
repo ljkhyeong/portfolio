@@ -358,8 +358,7 @@ class KnowledgeAnswerServiceTest {
                 .thenReturn(List.of(keyword));
         when(index.searchKnn(anyList(), any(), org.mockito.ArgumentMatchers.anyInt(), org.mockito.ArgumentMatchers.anyInt()))
                 .thenReturn(List.of(semantic));
-        var realSearch = new KnowledgeSearchService(properties, embedding,
-                mock(com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer.class), index,
+        var realSearch = new KnowledgeSearchService(properties, embedding, index,
                 new RrfRanker(), new io.micrometer.core.instrument.simple.SimpleMeterRegistry());
         var answerService = new KnowledgeAnswerService(
                 properties, realSearch, answerGenerationPort, new ResponseMapper(), meters

@@ -24,7 +24,6 @@ class DependencyRulesTest {
                     BASE + ".adapter..",
                     BASE + ".api..",
                     BASE + ".config..",
-                    BASE + ".index..",
                     BASE + ".port..",
                     BASE + ".search..",
                     BASE + ".sync.."
@@ -53,7 +52,6 @@ class DependencyRulesTest {
                     BASE + ".adapter..",
                     BASE + ".api..",
                     BASE + ".config..",
-                    BASE + ".index..",
                     BASE + ".search..",
                     BASE + ".sync.."
             )

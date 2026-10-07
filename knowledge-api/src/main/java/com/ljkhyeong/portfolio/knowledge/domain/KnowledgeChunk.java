@@ -14,11 +14,6 @@ public record KnowledgeChunk(
         String content,
         String sourceUrl,
         String route,
-        String evidenceLevel,
-        String sourceRevision,
-        String sourceHash,
-        String contentHash,
-        String chunkHash,
         String embeddingModelId,
         List<Float> embedding
 ) {
@@ -36,11 +31,6 @@ public record KnowledgeChunk(
                 content,
                 sourceUrl,
                 route,
-                evidenceLevel,
-                sourceRevision,
-                sourceHash,
-                contentHash,
-                chunkHash,
                 modelId,
                 List.copyOf(vector)
         );

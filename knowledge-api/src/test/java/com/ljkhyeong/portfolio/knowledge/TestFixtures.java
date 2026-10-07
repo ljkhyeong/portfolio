@@ -22,14 +22,8 @@ public final class TestFixtures {
         return Binder.get(environment).bindOrCreate("knowledge", KnowledgeProperties.class);
     }
 
-    public static KnowledgeSourceDocument document(String documentId, String contentHash) {
-        return document(documentId, "sha256:source", contentHash);
-    }
-
-    public static KnowledgeSourceDocument document(String documentId, String sourceHash, String contentHash) {
+    public static KnowledgeSourceDocument document(String documentId) {
         return new KnowledgeSourceDocument(
-                "1.0",
-                "sha256:revision",
                 documentId,
                 "baton",
                 "BATON",
@@ -40,10 +34,7 @@ public final class TestFixtures {
                 "알림 처리 중단 시 DB에 기록된 이벤트를 다시 처리합니다.",
                 null,
                 "/projects/baton/#notification",
-                "public",
-                "verified",
-                sourceHash,
-                contentHash
+                KnowledgeSourceDocument.Visibility.PUBLIC
         );
     }
 
@@ -68,11 +59,6 @@ public final class TestFixtures {
                 content,
                 null,
                 "/projects/baton/#notification",
-                "verified",
-                "sha256:revision",
-                "sha256:source",
-                "sha256:content",
-                "sha256:chunk",
                 "test-model",
                 List.of(1.0f, 0.0f)
         );

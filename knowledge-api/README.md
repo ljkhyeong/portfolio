@@ -28,9 +28,9 @@ docker compose up --build
 KNOWLEDGE_SYNC_ON_STARTUP=true ./gradlew bootRun
 ```
 
-`KNOWLEDGE_SYNC_ON_STARTUP`을 설정하지 않으면 애플리케이션은 기존 인덱스를 조회하되 시작 시 공개 문서를 색인하지 않습니다. 시작 동기화를 끈 환경에서는 `KNOWLEDGE_SYNC_KEY`를 설정하고 아래의 내부 동기화 API를 한 번 호출해야 합니다.
+`KNOWLEDGE_SYNC_ON_STARTUP`을 설정하지 않으면 애플리케이션은 기존 색인을 조회하되 시작 시 공개 문서를 색인하지 않습니다. 시작 동기화를 끈 환경에서는 `KNOWLEDGE_SYNC_KEY`를 설정하고 아래의 내부 동기화 API를 한 번 호출해야 합니다.
 
-인덱스 생성과 호환성 검사는 첫 검색에서 한 번 수행하고 동기화 때 다시 실행합니다. 초기화 실패는 다음 요청에서 재시도합니다. 실행 중 외부에서 인덱스를 교체했다면 내부 동기화를 호출하거나 앱을 재시작해야 호환성을 다시 확인합니다.
+검색은 `ELASTICSEARCH_INDEX`(기본 `portfolio-knowledge`) alias를 조회하며 검색 요청에서 인덱스를 만들지 않습니다. 첫 동기화 전에는 빈 결과를 반환합니다.
 
 빌드 시 루트의 `public/knowledge/portfolio.json`을 리소스 처리 단계에서 JAR에 포함합니다. JAR에 별도 문서 사본을 직접 관리하지 않으므로 원본과 색인 자료가 달라지는 문제를 막습니다.
 
@@ -52,7 +52,7 @@ Cloudflare AI Gateway를 경유하려면 `openai,ai-gateway` 프로필과 `.env.
 
 임베딩 응답은 요청 개수와 각 벡터의 순번을 검사하고 입력 순서로 정렬합니다. 순번 누락·중복·범위 오류, 차원 불일치·유효하지 않은 수·영벡터는 캐시나 색인에 넣지 않습니다. [Spring AI 임베딩 응답](https://docs.spring.io/spring-ai/reference/api/embeddings.html#_embeddingresponse).
 
-잘못된 응답을 받으면 검색은 BM25 결과를 유지하고, 색인은 해당 문서를 쓰기 전에 중단합니다. 응답 오류를 이유로 AI를 자동 재호출하지 않으며 다음 검색·동기화 요청에서 다시 시도합니다. Ollama는 Spring AI가 부여한 배열 순번을 사용합니다.
+잘못된 응답을 받으면 검색은 BM25 결과를 유지하고, 동기화는 만들던 새 색인을 지운 뒤 기존 검색 대상을 유지합니다. 응답 오류를 이유로 AI를 자동 재호출하지 않으며 다음 검색·동기화 요청에서 다시 시도합니다. Ollama는 Spring AI가 부여한 배열 순번을 사용합니다.
 
 ## Ollama 로컬 프로필
 
@@ -65,7 +65,7 @@ docker compose exec ollama ollama pull bge-m3
 AI_PROFILE=ollama docker compose --profile ollama up --build knowledge-api
 ```
 
-프로필별 기본 인덱스는 `portfolio-knowledge-disabled-v3`, `portfolio-knowledge-openai-v3`, `portfolio-knowledge-ollama-v3`로 분리됩니다. Compose에서 `ELASTICSEARCH_INDEX`를 설정하면 사용자 지정 이름을 우선 사용합니다. 임베딩 모델 또는 차원을 변경하면 기존 벡터와 호환되지 않으므로 새 인덱스 이름으로 전체 문서를 다시 색인해야 합니다.
+모든 프로필의 기본 검색 alias는 `portfolio-knowledge`이며 `ELASTICSEARCH_INDEX`로 바꿀 수 있습니다. 임베딩 모델이나 차원을 바꾸면 다음 동기화가 전체 문서를 새 색인에 다시 색인한 뒤 검색 대상을 교체합니다.
 
 `AI_PROFILE`은 `disabled`, `openai`, `ollama`를 허용하며, 빈 값은 기본값 `disabled`로 바인딩합니다. 철자가 틀린 값은 AI가 비활성화된 상태로 기동하지 않고 설정 오류로 시작을 중단합니다.
 
@@ -177,19 +177,23 @@ GitHub API 호출 한도가 필요한 환경에서는 `GITHUB_TOKEN` 또는 `GH_
 
 외부 도구에서 `repository_dispatch`의 `knowledge-documents-changed` 이벤트를 보내도 같은 검사를 실행합니다. 전송 도구는 `scripts/dispatch-knowledge-refresh.mjs`, 환경변수 예시는 루트 `.env.integrations.example`입니다. `--dry-run`으로 실제 전송 없이 요청을 확인할 수 있습니다. 토큰·실행 절차는 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md)에 정리했습니다.
 
-증분 동기화는 본문, 제목, 링크 등 공개 입력 전체를 계산한 `sourceHash`로 변경 여부를 판단합니다. `contentHash`는 본문만의 변경 이력을 확인할 수 있도록 각 청크에 함께 저장합니다. 변경된 청크를 먼저 upsert한 뒤 더 이상 사용하지 않는 이전 청크를 삭제하므로 벌크 색인 실패 시 기존 전체 문서가 먼저 사라지지 않습니다. 문서 목록에서 빠진 항목은 Elasticsearch에서 삭제합니다.
+동기화는 자료 버전(`sourceRevision`), 임베딩 모델과 차원, 청크 설정, 문서 수를 검색 alias가 가리키는 색인의 매핑 `_meta`와 비교합니다. 모두 같으면 Elasticsearch에 쓰지 않고 끝냅니다. 하나라도 다르면 alias 이름 뒤에 UTC 생성 시각을 붙인 새 색인(`portfolio-knowledge-20261007010203004` 형식)을 만들고 전체 문서를 32청크씩 임베딩해 벌크 색인합니다. 새로 고침 후 전체 청크 수가 색인한 수와 같을 때만 alias 변경 요청 한 번으로 검색 대상을 옮기고 이전 색인을 삭제합니다. [Elasticsearch alias 변경](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-indices-update-aliases).
+
+임베딩, 벌크 색인, 청크 수 확인이나 alias 교체에 실패하면 새 색인을 지우고 기존 alias를 그대로 둡니다. 검색은 교체 전까지 이전 색인만 보므로 일부만 갱신된 결과가 노출되지 않습니다. 새 색인 삭제까지 실패하면 원래 오류에 함께 기록하며, 남은 색인은 다음 교체 때 삭제합니다.
 
 동기화는 API 인스턴스당 한 번에 하나만 실행합니다. 진행 중인 동기화가 있으면 후속 요청은 자료 수집·임베딩·색인을 시작하지 않고 `409 / SYNC_IN_PROGRESS`로 종료합니다. 성공·실패 모두 잠금을 해제하며, 실행 중에는 상태 API의 `upToDate`를 `false`로 반환합니다. 관리 도구는 자동 재요청하지 않으므로 작업이 끝난 뒤 자료 상태를 확인하고 필요할 때 다시 실행합니다.
 
-이 잠금은 같은 인스턴스의 중복 실행만 막습니다. 여러 API 인스턴스가 같은 인덱스를 쓰는 경우에는 동기화 실행 주체를 하나로 정해야 합니다. 전체 색인의 원자적 교체나 실패 시 롤백을 제공하지는 않으며, 중간 실패는 재실행으로 보완합니다.
+이 잠금은 같은 인스턴스의 중복 실행만 막습니다. 여러 API 인스턴스가 같은 alias를 쓰는 경우에는 동기화 실행 주체를 하나로 정해야 합니다. alias 교체 때 같은 이름 규칙의 다른 색인을 함께 삭제하므로, 다른 인스턴스가 만들고 있던 색인도 지워질 수 있습니다.
 
-색인 상태 조회는 정확한 전체 청크 건수를 요청해 실제 받은 건수와 비교합니다. 건수 누락·하한값·불일치, 부분 응답과 기존 조회 상한인 10,000청크 초과는 실패로 처리하며, 동기화는 임베딩·청크 갱신·삭제를 시작하지 않습니다. 10,000청크를 넘는 색인은 페이지 단위 전체 조회 구현이 필요합니다. 일반 문서 검색의 상위 결과 개수에는 이 전체 건수 비교를 적용하지 않습니다.
+검색 alias가 여러 색인을 가리키면 상태 조회와 동기화를 중단합니다. 매핑 `_meta`의 형식 버전이 코드와 다르거나 alias와 같은 이름의 일반 인덱스가 있으면 공개한 색인이 없는 것으로 보고 다음 동기화에서 새 색인으로 교체합니다.
 
-최대 청크 길이와 겹침 범위는 Elasticsearch 인덱스 매핑에 호환성 지문으로 저장합니다. 두 값 중 하나를 바꾸면 기존 인덱스를 재사용하지 않으므로 `ELASTICSEARCH_INDEX`에 새 이름을 지정한 뒤 전체 문서를 다시 색인해야 합니다.
+최대 청크 길이와 겹침 범위는 `chunking-v1|max=1200|overlap=150` 형식으로 `_meta`에 저장합니다. 두 값 중 하나를 바꾸면 다음 동기화에서 전체 문서를 다시 색인합니다.
 
-문서 0건인 목록은 생성 오류로 간주해 기본적으로 동기화를 거부합니다. 전체 삭제가 의도된 별도 작업에서만 `KNOWLEDGE_ALLOW_EMPTY=true`를 설정합니다.
+벡터 검색은 청크에 저장한 `embeddingModelId`가 현재 설정 모델과 같은 청크만 비교합니다. 모델을 바꾼 뒤 재색인 전에는 벡터 검색 결과가 없거나 차원 불일치로 실패하며, 두 경우 모두 BM25 결과를 반환합니다.
 
-자료의 `documents`는 배열이며 각 항목은 JSON 객체여야 합니다. 누락·`null`은 빈 목록으로 처리하지 않습니다. `visibility`는 `public`·`private`만 허용하고, `private` 문서는 색인에서 제외합니다. 공개 범위가 없거나 잘못됐으면 일부 문서를 누락한 채 진행하지 않고 전체 동기화를 중단합니다. `KNOWLEDGE_ALLOW_EMPTY=true`여도 형식 검사는 생략하지 않습니다.
+문서 0건인 목록은 생성 오류로 간주해 동기화를 거부하고, 상태 API에서도 최신으로 판정하지 않습니다.
+
+자료의 `documents`는 배열이며 각 항목은 JSON 객체여야 합니다. 누락과 `null`은 빈 목록으로 처리하지 않습니다. `visibility`는 문자열 `public`과 `private`만 허용하고(숫자 값 거부), `private` 문서는 색인에서 제외합니다. 공개 범위가 없거나 잘못됐으면 일부 문서를 누락한 채 진행하지 않고 전체 동기화를 중단합니다.
 
 수동 동기화를 사용하려면 `KNOWLEDGE_SYNC_KEY`를 설정합니다.
 
@@ -198,11 +202,11 @@ POST /internal/v1/knowledge/sync
 X-Knowledge-Sync-Key: 설정한 값
 ```
 
-외부 주소를 요청 본문으로 받지 않고 서버에 설정된 `KNOWLEDGE_SOURCE_LOCATION`만 읽습니다.
+응답은 `sourceRevision`, `documents`, `chunks`(이번에 색인한 청크 수, 건너뛰면 0), `embeddingModelId`, `rebuilt`(새 색인으로 교체했는지)를 반환합니다.
 
-기본 자료는 JAR에 포함된 JSON입니다. 원격 URL을 지정하면 연결은 기본 3초, 읽기 대기는 10초로 제한하고 HTTP 200만 받습니다. 리다이렉트는 따라가지 않으므로 최종 HTTPS 주소를 설정합니다. 읽기 시간은 전체 다운로드 시간이 아니라 데이터가 도착하지 않는 대기 시간입니다.
+자료는 JAR에 포함된 `classpath:knowledge/portfolio.json`만 읽습니다. 외부 주소를 요청 본문이나 설정으로 받지 않으며, `knowledge.source.location`에 `classpath:` 외의 값(원격 URL, 파일 경로)을 지정하면 기동 단계에서 거부합니다. 자료를 바꾸려면 저장소의 `public/knowledge/portfolio.json`을 갱신하고 이미지를 다시 빌드합니다.
 
-로컬·원격 자료 모두 기본 8MiB까지만 읽습니다. `Content-Length`가 없는 응답도 제한하며, 다운로드·JSON 검증에 실패하면 색인을 변경하지 않습니다. `.env.example`의 `KNOWLEDGE_SOURCE_CONNECT_TIMEOUT_SECONDS`, `KNOWLEDGE_SOURCE_READ_TIMEOUT_SECONDS`(각 1~300초), `KNOWLEDGE_SOURCE_MAX_BYTES`(1~67,108,864바이트)로 조정합니다.
+자료는 기본 8MiB까지만 읽으며, 용량 초과나 JSON 검증 실패 시 색인을 변경하지 않습니다. `KNOWLEDGE_SOURCE_MAX_BYTES`(1~67,108,864바이트)로 조정합니다.
 
 ## 비용 제한과 프록시 주소
 
@@ -238,13 +242,13 @@ docker build -f elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:9.
 ./gradlew bootJar
 ```
 
-단위 테스트는 공개 문서와 필수값 검증, 인덱스 초기화·재검사·실패 후 재시도, `sourceHash` 증분 판정, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. `DependencyRulesTest`는 Domain·Port의 독립성과 Controller·Service의 계층 간 의존 규칙을 확인합니다. 통합 테스트는 위에서 빌드한 Nori 이미지를 Testcontainers로 실행하고, Spring Boot 자동 설정 연결과 readiness, 벡터 색인 방식(`int8_hnsw`), 임베딩 유무, 한국어 조사, BM25 및 kNN 검색을 확인합니다. Docker가 없거나 이미지를 만들지 않았으면 건너뛰지 않고 실패합니다.
+단위 테스트는 공개 문서와 필수값 검증, 색인 메타데이터 비교와 전체 재색인, 실패 시 새 색인 정리, RRF 순위, 저장소·제공자 장애 처리, 구조화 답변과 인용 순서, 설정 바인딩 및 요청 제한을 확인합니다. `DependencyRulesTest`는 Domain·Port의 독립성과 Controller·Service의 계층 간 의존 규칙을 확인합니다. 통합 테스트는 위에서 빌드한 Nori 이미지를 Testcontainers로 실행하고, Spring Boot 자동 설정 연결과 readiness, 벡터 색인 방식(`int8_hnsw`), 임베딩 유무, 한국어 조사, BM25 및 kNN 검색을 확인합니다. alias 교체와 이전 색인 삭제, 청크 수가 다를 때 기존 alias 유지, 첫 동기화 전 빈 검색, 다른 임베딩 모델 벡터 제외, alias와 같은 이름의 기존 인덱스 교체도 실제 Elasticsearch에서 확인합니다. Docker가 없거나 이미지를 만들지 않았으면 건너뛰지 않고 실패합니다.
 
 ## 검색 품질과 배포 자료 확인
 
-Nori로 색인하므로 이전 `v2` 인덱스를 재사용하지 않습니다. 기본값은 `v3`이며 사용자 지정 인덱스도 새 이름으로 바꿔 전체 색인해야 합니다. 기존 인덱스는 자동 삭제하지 않습니다. 관리형 Elasticsearch에서도 같은 버전의 `analysis-nori` 설치가 필요합니다. [Nori 공식 문서](https://www.elastic.co/docs/reference/elasticsearch/plugins/analysis-nori-analyzer).
+이전 버전이 만든 `portfolio-knowledge-openai-v3` 같은 인덱스는 새 이름 규칙과 달라 사용하지도 자동 삭제하지도 않습니다. 필요 없으면 직접 삭제하거나 Compose 볼륨을 초기화합니다. 관리형 Elasticsearch에서도 같은 버전의 `analysis-nori` 설치가 필요합니다. [Nori 공식 문서](https://www.elastic.co/docs/reference/elasticsearch/plugins/analysis-nori-analyzer).
 
-`GET /internal/v1/knowledge/status`는 동기화와 같은 `X-Knowledge-Sync-Key`를 요구합니다. API에 포함된 자료 버전, 기대 문서 수, 색인 문서 수, 해시가 같은 문서 수와 `upToDate`를 반환합니다. 문서 수가 같아도 본문이 다르면 최신으로 판정하지 않습니다.
+`GET /internal/v1/knowledge/status`는 동기화와 같은 `X-Knowledge-Sync-Key`를 요구합니다. API에 포함된 자료 버전, 기대 문서 수, 공개한 색인의 문서 수, 일치 문서 수와 `upToDate`를 반환합니다. `upToDate`는 동기화 중이 아니고 자료가 비어 있지 않으며, 공개한 색인의 자료 버전, 임베딩 모델과 차원, 청크 설정, 문서 수가 모두 현재 값과 같을 때만 참입니다. 일치 문서 수는 최신이면 기대 문서 수, 아니면 0입니다.
 
 다음은 저장소 루트에서 실행합니다. 배포 자동화에서는 **같은 공개 자료로 API를 배포한 뒤** 동기화 명령을 실행합니다.
 
@@ -255,7 +259,7 @@ npm run knowledge:sync
 npm run knowledge:evaluate -- --url "$KNOWLEDGE_API_BASE_URL"
 ```
 
-동기화 명령은 현재 자료와 API 버전이 다르면 색인을 수정하지 않습니다. 최신이면 재색인을 생략하고, 동기화 후에도 해시가 다르면 실패합니다. CI에서는 새 API 이미지로 이 절차와 검색 평가를 실행하고 결과 JSON을 보관합니다. 원격 운영 배포 대상은 이 저장소에 설정돼 있지 않습니다.
+동기화 명령은 현재 자료와 API 버전이 다르면 색인을 수정하지 않습니다. 최신이면 재색인을 생략하고, 동기화 후에도 최신이 아니면 실패합니다. CI에서는 새 API 이미지로 이 절차와 검색 평가를 실행하고 결과 JSON을 보관합니다. 원격 운영 배포 대상은 이 저장소에 설정돼 있지 않습니다.
 
 동기화·평가 도구는 최종 API 주소만 호출하고 리다이렉트를 거부합니다. 주소에 인증 정보·쿼리·해시를 넣지 않으며, 동기화 키는 상태 확인·동기화·인증된 답변 평가에만 전달합니다. 일반 검색 평가에는 키를 보내지 않습니다. [Fetch 리다이렉트 설정](https://developer.mozilla.org/en-US/docs/Web/API/Request/redirect).
 

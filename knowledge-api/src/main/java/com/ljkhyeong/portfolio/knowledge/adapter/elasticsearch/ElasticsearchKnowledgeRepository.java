@@ -1,20 +1,20 @@
 package com.ljkhyeong.portfolio.knowledge.adapter.elasticsearch;
 
 import java.io.IOException;
+import java.time.Clock;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.Conflicts;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.FieldValue;
-import co.elastic.clients.elasticsearch._types.Refresh;
 import co.elastic.clients.elasticsearch._types.mapping.DenseVectorIndexOptionsType;
 import co.elastic.clients.elasticsearch._types.mapping.DenseVectorSimilarity;
 import co.elastic.clients.elasticsearch._types.mapping.DynamicMapping;
@@ -23,14 +23,12 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
-import co.elastic.clients.elasticsearch.core.DeleteByQueryResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.core.search.HighlightField;
 import co.elastic.clients.elasticsearch.core.search.HighlighterOrder;
-import co.elastic.clients.elasticsearch.core.search.TotalHitsRelation;
-import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
+import co.elastic.clients.elasticsearch.indices.get.Feature;
 import co.elastic.clients.json.JsonData;
 import co.elastic.clients.util.NamedValue;
 import co.elastic.clients.util.ObjectBuilder;
@@ -41,37 +39,59 @@ import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexPort;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 @Repository
 public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
 
-    private static final int INDEXED_CHUNK_SCAN_LIMIT = 10_000;
+    // 매핑을 바꾸면 값을 올린다. 다음 동기화가 기존 색인을 쓰지 않고 새로 만든다.
+    private static final int MAPPING_VERSION = 1;
+    private static final List<String> META_KEYS = List.of("mappingVersion", "sourceRevision", "embeddingModelId",
+            "embeddingDimensions", "chunkingFingerprint", "documentCount");
+    private static final DateTimeFormatter INDEX_SUFFIX =
+            DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").withZone(ZoneOffset.UTC);
 
     private final KnowledgeProperties properties;
     private final ElasticsearchClient client;
+    private final Clock clock;
+    private final Pattern generatedIndex;
 
+    @Autowired
     public ElasticsearchKnowledgeRepository(KnowledgeProperties properties, ElasticsearchClient client) {
+        this(properties, client, Clock.systemUTC());
+    }
+
+    ElasticsearchKnowledgeRepository(KnowledgeProperties properties, ElasticsearchClient client, Clock clock) {
         this.properties = properties;
         this.client = client;
+        this.clock = clock;
+        this.generatedIndex = Pattern.compile(Pattern.quote(alias()) + "-\\d{17}");
     }
 
     @Override
-    public void ensureIndex(String embeddingModelId, int dimensions, String chunkingFingerprint) {
-        if (indexExists()) {
-            verifyIndexCompatibility(embeddingModelId, dimensions, chunkingFingerprint);
-            return;
+    public Optional<IndexMetadata> publishedMetadata() {
+        var mappings = execute("Elasticsearch 매핑을 조회하지 못했습니다.", () -> client.indices().getMapping(request -> request
+                .index(alias())
+                .ignoreUnavailable(true)
+                .allowNoIndices(true)
+        )).mappings();
+        if (mappings.size() > 1) {
+            throw new KnowledgeIndexAccessException("검색 alias가 여러 색인을 가리킵니다: " + mappings.keySet());
         }
+        return mappings.values().stream().findFirst().flatMap(mapping -> toMetadata(mapping.mappings().meta()));
+    }
 
+    @Override
+    public String createIndex(IndexMetadata metadata) {
+        String index = alias() + "-" + INDEX_SUFFIX.format(clock.instant());
         execute("Elasticsearch 인덱스를 생성하지 못했습니다.", () -> client.indices().create(request -> request
-                .index(indexName())
+                .index(index)
                 .settings(settings -> settings.numberOfReplicas("0"))
                 .mappings(mapping -> mapping
                         .dynamic(DynamicMapping.Strict)
-                        .meta("embeddingModelId", JsonData.of(embeddingModelId))
-                        .meta("embeddingDimensions", JsonData.of(dimensions))
-                        .meta("chunkingFingerprint", JsonData.of(chunkingFingerprint))
+                        .meta(toMeta(metadata))
                         .properties("chunkId", keyword())
                         .properties("documentId", keyword())
                         .properties("projectId", keyword())
@@ -83,100 +103,29 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                         .properties("content", analyzedText())
                         .properties("sourceUrl", keyword())
                         .properties("route", keyword())
-                        .properties("evidenceLevel", keyword())
-                        .properties("sourceRevision", keyword())
-                        .properties("sourceHash", keyword())
-                        .properties("contentHash", keyword())
-                        .properties("chunkHash", keyword())
                         .properties("embeddingModelId", keyword())
-                        .properties("documentChunkCount", property -> property.integer(integer -> integer))
                         .properties("embedding", property -> property.denseVector(vector -> vector
-                                .dims(dimensions)
+                                .dims(metadata.embeddingDimensions())
                                 .index(true)
                                 .similarity(DenseVectorSimilarity.Cosine)
                                 .indexOptions(options -> options.type(DenseVectorIndexOptionsType.Int8Hnsw))
                         ))
                 )
         ));
+        return index;
     }
 
     @Override
-    public Map<String, String> findIndexedSourceHashes() {
-        SearchResponse<IndexedChunkDocument> response = execute(
-                "Elasticsearch 조회에 실패했습니다.",
-                () -> client.search(request -> request
-                                .index(indexName())
-                                .size(INDEXED_CHUNK_SCAN_LIMIT)
-                                .allowPartialSearchResults(false)
-                                .trackTotalHits(total -> total.enabled(true))
-                                .source(source -> source.filter(filter -> filter.includes(
-                                        "documentId",
-                                        "sourceHash",
-                                        "documentChunkCount"
-                                )))
-                                .query(query -> query.matchAll(matchAll -> matchAll)),
-                        IndexedChunkDocument.class
-                )
-        );
-        verifySearchResponse(response);
-        var total = response.hits().total();
-        if (total == null || total.relation() != TotalHitsRelation.Eq
-                || total.value() > INDEXED_CHUNK_SCAN_LIMIT || total.value() != response.hits().hits().size()) {
-            throw new KnowledgeIndexAccessException(
-                    "색인 청크 전체를 확인하지 못했습니다. 전체 건수·반환 건수와 10,000개 조회 한도를 확인하세요.");
-        }
-
-        Map<String, IndexedDocumentState> states = new LinkedHashMap<>();
-        response.hits().hits().stream()
-                .map(hit -> hit.source())
-                .forEach(document -> states
-                        .computeIfAbsent(valueOrEmpty(document.documentId()), ignored -> new IndexedDocumentState())
-                        .add(
-                                valueOrEmpty(document.sourceHash()),
-                                document.documentChunkCount() == null ? 0 : document.documentChunkCount()
-                        ));
-
-        Map<String, String> hashes = new LinkedHashMap<>();
-        states.forEach((documentId, state) -> hashes.put(documentId, state.completeSourceHash()));
-        return Map.copyOf(hashes);
-    }
-
-    @Override
-    public void deleteByDocumentId(String documentId) {
-        deleteByQuery(Query.of(query -> query.term(term -> term.field("documentId").value(documentId))));
-    }
-
-    @Override
-    public void deleteStaleChunks(String documentId, List<String> retainedChunkIds) {
-        if (retainedChunkIds.isEmpty()) {
-            deleteByDocumentId(documentId);
-            return;
-        }
-
-        deleteByQuery(Query.of(query -> query.bool(bool -> bool
-                .must(must -> must.term(term -> term.field("documentId").value(documentId)))
-                .mustNot(mustNot -> mustNot.ids(ids -> ids.values(retainedChunkIds)))
-        )));
-    }
-
-    @Override
-    public void bulkIndex(List<KnowledgeChunk> chunks) {
+    public void bulkIndex(String index, List<KnowledgeChunk> chunks) {
         if (chunks.isEmpty()) {
             return;
         }
 
-        Map<String, Long> chunkCounts = chunks.stream().collect(Collectors.groupingBy(
-                KnowledgeChunk::documentId,
-                Collectors.counting()
-        ));
-        BulkRequest.Builder request = new BulkRequest.Builder().refresh(Refresh.True);
-        chunks.forEach(chunk -> request.operations(operation -> operation.index(index -> index
-                .index(indexName())
+        BulkRequest.Builder request = new BulkRequest.Builder();
+        chunks.forEach(chunk -> request.operations(operation -> operation.index(document -> document
+                .index(index)
                 .id(chunk.chunkId())
-                .document(IndexedChunkDocument.from(
-                        chunk,
-                        chunkCounts.get(chunk.documentId()).intValue()
-                ))
+                .document(IndexedChunkDocument.from(chunk))
         )));
 
         BulkResponse response = execute(
@@ -186,6 +135,30 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         if (response.errors()) {
             throw new KnowledgeIndexAccessException("Elasticsearch 벌크 색인 실패: " + bulkFailureSummary(response));
         }
+    }
+
+    @Override
+    public void publish(String index, long expectedChunks) {
+        execute("Elasticsearch 색인을 새로 고치지 못했습니다.", () -> client.indices().refresh(request -> request.index(index)));
+        long count = execute("Elasticsearch 문서 수를 확인하지 못했습니다.",
+                () -> client.count(request -> request.index(index))).count();
+        if (count != expectedChunks) {
+            throw new KnowledgeIndexAccessException(
+                    "새 색인의 청크 수가 다릅니다. 기대=%d, 실제=%d".formatted(expectedChunks, count));
+        }
+
+        List<String> previous = previousIndices(index);
+        // alias 추가와 이전 색인 삭제를 한 요청으로 보내 검색이 빈 색인이나 두 색인을 보지 않게 한다.
+        execute("Elasticsearch 검색 alias를 교체하지 못했습니다.", () -> client.indices().updateAliases(request -> {
+            request.actions(action -> action.add(add -> add.index(index).alias(alias())));
+            previous.forEach(old -> request.actions(action -> action.removeIndex(remove -> remove.index(old))));
+            return request;
+        }));
+    }
+
+    @Override
+    public void deleteIndex(String index) {
+        execute("Elasticsearch 인덱스를 삭제하지 못했습니다.", () -> client.indices().delete(request -> request.index(index)));
     }
 
     @Override
@@ -204,7 +177,6 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }));
 
         return search(request -> request
-                .index(indexName())
                 .size(limit)
                 .source(source -> source.filter(sourceFilter -> sourceFilter.excludes("embedding")))
                 .query(bm25Query)
@@ -217,47 +189,46 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
 
     @Override
     public List<SearchHit> searchKnn(List<Float> queryVector, KnowledgeFilter filter, int limit, int candidates) {
-        List<Query> filters = filters(filter);
+        // 다른 임베딩 모델로 만든 벡터는 비교하지 않는다.
+        List<Query> filters = new ArrayList<>(filters(filter));
+        filters.add(Query.of(query -> query.term(term -> term
+                .field("embeddingModelId")
+                .value(properties.ai().embeddingModelId()))));
         return search(request -> request
-                .index(indexName())
                 .size(limit)
                 .source(source -> source.filter(sourceFilter -> sourceFilter.excludes("embedding")))
-                .knn(knn -> {
-                    knn.field("embedding")
-                            .queryVector(queryVector)
-                            .k(limit)
-                            .numCandidates(Math.max(candidates, limit));
-                    if (!filters.isEmpty()) {
-                        knn.filter(query -> query.bool(bool -> bool.filter(filters)));
-                    }
-                    return knn;
-                })
+                .knn(knn -> knn.field("embedding")
+                        .queryVector(queryVector)
+                        .k(limit)
+                        .numCandidates(Math.max(candidates, limit))
+                        .filter(query -> query.bool(bool -> bool.filter(filters))))
         );
     }
 
-    private void deleteByQuery(Query query) {
-        DeleteByQueryResponse response = execute(
-                "Elasticsearch 문서 삭제 요청에 실패했습니다.",
-                () -> client.deleteByQuery(request -> request
-                        .index(indexName())
-                        .refresh(true)
-                        .conflicts(Conflicts.Proceed)
-                        .query(query)
-                )
-        );
-        verifyDeleteByQueryResponse(
-                Boolean.TRUE.equals(response.timedOut()),
-                response.versionConflicts() == null ? 0 : response.versionConflicts(),
-                response.failures().size()
-        );
+    private List<String> previousIndices(String index) {
+        var indices = execute("Elasticsearch 이전 색인을 조회하지 못했습니다.", () -> client.indices().get(request -> request
+                .index(alias(), alias() + "-*")
+                .ignoreUnavailable(true)
+                .allowNoIndices(true)
+                .features(Feature.Aliases)
+        )).indices();
+        // 같은 이름의 기존 색인과 이전 동기화가 남긴 생성 시각 색인만 삭제한다.
+        return indices.keySet().stream()
+                .filter(name -> !name.equals(index))
+                .filter(name -> name.equals(alias()) || generatedIndex.matcher(name).matches())
+                .toList();
     }
 
     private List<SearchHit> search(
             Function<SearchRequest.Builder, ObjectBuilder<SearchRequest>> requestFactory
     ) {
+        // 첫 동기화 전에는 alias가 없으므로 빈 결과를 반환한다.
         SearchResponse<IndexedChunkDocument> response = execute(
                 "Elasticsearch 검색에 실패했습니다.",
-                () -> client.search(request -> requestFactory.apply(request.allowPartialSearchResults(false)),
+                () -> client.search(request -> requestFactory.apply(request
+                                .index(alias())
+                                .ignoreUnavailable(true)
+                                .allowPartialSearchResults(false)),
                         IndexedChunkDocument.class)
         );
         verifySearchResponse(response);
@@ -284,35 +255,28 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }
     }
 
-    private boolean indexExists() {
-        return execute(
-                "Elasticsearch 인덱스를 확인하지 못했습니다.",
-                () -> client.indices().exists(request -> request.index(indexName())).value()
+    private static Map<String, JsonData> toMeta(IndexMetadata metadata) {
+        return Map.of(
+                "mappingVersion", JsonData.of(MAPPING_VERSION),
+                "sourceRevision", JsonData.of(metadata.sourceRevision()),
+                "embeddingModelId", JsonData.of(metadata.embeddingModelId()),
+                "embeddingDimensions", JsonData.of(metadata.embeddingDimensions()),
+                "chunkingFingerprint", JsonData.of(metadata.chunkingFingerprint()),
+                "documentCount", JsonData.of(metadata.documentCount())
         );
     }
 
-    private void verifyIndexCompatibility(String embeddingModelId, int dimensions, String chunkingFingerprint) {
-        GetMappingResponse response = execute(
-                "Elasticsearch 매핑을 조회하지 못했습니다.",
-                () -> client.indices().getMapping(request -> request.index(indexName()))
-        );
-        var indexMapping = response.get(indexName());
-        Map<String, JsonData> metadata = indexMapping == null
-                ? Map.of()
-                : indexMapping.mappings().meta();
-        JsonData modelValue = metadata.get("embeddingModelId");
-        JsonData dimensionsValue = metadata.get("embeddingDimensions");
-        JsonData chunkingValue = metadata.get("chunkingFingerprint");
-        String currentModel = modelValue == null ? "" : modelValue.to(String.class);
-        int currentDimensions = dimensionsValue == null ? 0 : dimensionsValue.to(Integer.class);
-        String currentChunkingFingerprint = chunkingValue == null ? "" : chunkingValue.to(String.class);
-        if (!embeddingModelId.equals(currentModel)
-                || currentDimensions != dimensions
-                || !chunkingFingerprint.equals(currentChunkingFingerprint)) {
-            throw new KnowledgeIndexAccessException(
-                    "현재 인덱스의 임베딩 모델, 차원 또는 청크 설정이 다릅니다. 새 인덱스 이름으로 전체 색인하세요."
-            );
+    private static Optional<IndexMetadata> toMetadata(Map<String, JsonData> meta) {
+        if (!meta.keySet().containsAll(META_KEYS) || meta.get("mappingVersion").to(Integer.class) != MAPPING_VERSION) {
+            return Optional.empty();
         }
+        return Optional.of(new IndexMetadata(
+                meta.get("sourceRevision").to(String.class),
+                meta.get("embeddingModelId").to(String.class),
+                meta.get("embeddingDimensions").to(Integer.class),
+                meta.get("chunkingFingerprint").to(String.class),
+                meta.get("documentCount").to(Integer.class)
+        ));
     }
 
     private Property analyzedText() {
@@ -357,11 +321,6 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                 valueOrEmpty(source.content()),
                 source.sourceUrl(),
                 source.route(),
-                source.evidenceLevel(),
-                source.sourceRevision(),
-                source.sourceHash(),
-                valueOrEmpty(source.contentHash()),
-                valueOrEmpty(source.chunkHash()),
                 source.embeddingModelId(),
                 List.of()
         );
@@ -381,15 +340,6 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         return "id=%s, status=%d, reason=%s".formatted(valueOrEmpty(item.id()), item.status(), reason);
     }
 
-    static void verifyDeleteByQueryResponse(boolean timedOut, long versionConflicts, int failureCount) {
-        if (timedOut || versionConflicts > 0 || failureCount > 0) {
-            throw new KnowledgeIndexAccessException(
-                    "Elasticsearch 문서 삭제가 완료되지 않았습니다. timedOut=%s, versionConflicts=%d, failures=%d"
-                            .formatted(timedOut, versionConflicts, failureCount)
-            );
-        }
-    }
-
     private <T> T execute(String message, ElasticsearchCall<T> call) {
         try {
             return call.execute();
@@ -400,7 +350,7 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
         }
     }
 
-    private String indexName() {
+    private String alias() {
         return properties.elasticsearch().indexName();
     }
 
@@ -426,19 +376,13 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
             String content,
             String sourceUrl,
             String route,
-            String evidenceLevel,
-            String sourceRevision,
-            String sourceHash,
-            String contentHash,
-            String chunkHash,
             @JsonInclude(JsonInclude.Include.NON_NULL)
             String embeddingModelId,
             @JsonInclude(JsonInclude.Include.NON_NULL)
-            List<Float> embedding,
-            Integer documentChunkCount
+            List<Float> embedding
     ) {
 
-        private static IndexedChunkDocument from(KnowledgeChunk chunk, int documentChunkCount) {
+        private static IndexedChunkDocument from(KnowledgeChunk chunk) {
             return new IndexedChunkDocument(
                     chunk.chunkId(),
                     chunk.documentId(),
@@ -451,35 +395,9 @@ public class ElasticsearchKnowledgeRepository implements KnowledgeIndexPort {
                     chunk.content(),
                     chunk.sourceUrl(),
                     chunk.route(),
-                    chunk.evidenceLevel(),
-                    chunk.sourceRevision(),
-                    chunk.sourceHash(),
-                    chunk.contentHash(),
-                    chunk.chunkHash(),
                     StringUtils.hasText(chunk.embeddingModelId()) ? chunk.embeddingModelId() : null,
-                    chunk.embedding().isEmpty() ? null : List.copyOf(chunk.embedding()),
-                    documentChunkCount
+                    chunk.embedding().isEmpty() ? null : List.copyOf(chunk.embedding())
             );
-        }
-    }
-
-    private static final class IndexedDocumentState {
-
-        private final Set<String> sourceHashes = new HashSet<>();
-        private int actualChunkCount;
-        private int expectedChunkCount;
-
-        private void add(String sourceHash, int chunkCount) {
-            sourceHashes.add(sourceHash);
-            actualChunkCount++;
-            expectedChunkCount = Math.max(expectedChunkCount, chunkCount);
-        }
-
-        private String completeSourceHash() {
-            if (sourceHashes.size() != 1 || actualChunkCount != expectedChunkCount) {
-                return "__incomplete__";
-            }
-            return sourceHashes.iterator().next();
         }
     }
 }

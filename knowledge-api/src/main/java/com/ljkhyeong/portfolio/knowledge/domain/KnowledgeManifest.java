@@ -2,17 +2,19 @@ package com.ljkhyeong.portfolio.knowledge.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+
 public record KnowledgeManifest(
         String schemaVersion,
         String sourceRevision,
-        List<String> documentTypes,
-        List<String> projectIds,
+        // 누락, null과 null 항목을 빈 목록으로 바꾸지 않는다.
+        @JsonProperty(required = true) @JsonSetter(nulls = Nulls.FAIL, contentNulls = Nulls.FAIL)
         List<KnowledgeSourceDocument> documents
 ) {
 
     public KnowledgeManifest {
-        documentTypes = documentTypes == null ? List.of() : List.copyOf(documentTypes);
-        projectIds = projectIds == null ? List.of() : List.copyOf(projectIds);
-        documents = documents == null ? List.of() : List.copyOf(documents);
+        documents = List.copyOf(documents);
     }
 }

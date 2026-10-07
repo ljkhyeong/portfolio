@@ -13,6 +13,6 @@ const before = await client.readStatus(corpus)
 if (!before.upToDate) await client.sync()
 const status = await client.readStatus(corpus)
 if (!status.upToDate) {
-    throw new Error("색인의 문서 수·본문 해시가 현재 자료와 일치하지 않습니다.")
+    throw new Error("동기화 후에도 공개한 색인의 자료 버전이나 색인 설정이 현재 자료와 다릅니다.")
 }
 console.log(`검색 자료 반영 확인: ${status.sourceRevision}, ${status.matchedDocuments}건`)

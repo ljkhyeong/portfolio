@@ -23,7 +23,6 @@ import com.ljkhyeong.portfolio.knowledge.config.KnowledgeProperties;
 import com.ljkhyeong.portfolio.knowledge.adapter.ai.SpringAiEmbeddingAdapter;
 import com.ljkhyeong.portfolio.knowledge.domain.KnowledgeFilter;
 import com.ljkhyeong.portfolio.knowledge.domain.SearchHit;
-import com.ljkhyeong.portfolio.knowledge.index.KnowledgeIndexInitializer;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingPort;
 import com.ljkhyeong.portfolio.knowledge.port.EmbeddingUnavailableException;
 import com.ljkhyeong.portfolio.knowledge.port.KnowledgeIndexAccessException;
@@ -47,7 +46,7 @@ class KnowledgeSearchServiceTest {
         var failure = new KnowledgeIndexAccessException("Elasticsearch 조회가 완료되지 않았습니다.");
         when(index.searchBm25(anyString(), any(), anyInt())).thenThrow(failure);
         var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
-                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+                index, new RrfRanker(), meters);
 
         assertThatThrownBy(() -> service.search("알림", List.of(), List.of(), 6)).isSameAs(failure);
         verifyNoInteractions(embedding);
@@ -65,7 +64,7 @@ class KnowledgeSearchServiceTest {
         when(index.searchKnn(anyList(), any(), anyInt(), anyInt()))
                 .thenThrow(new KnowledgeIndexAccessException("Elasticsearch 조회가 완료되지 않았습니다."));
         var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
-                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+                index, new RrfRanker(), meters);
 
         assertThat(service.search("알림", List.of(), List.of(), 6).hits())
                 .extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
@@ -83,7 +82,7 @@ class KnowledgeSearchServiceTest {
         when(index.searchBm25(anyString(), any(), anyInt()))
                 .thenReturn(List.of(new SearchHit(chunk("bm25-result"), 1)));
         var service = new KnowledgeSearchService(knowledgeProperties(), embedding,
-                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+                index, new RrfRanker(), meters);
 
         assertThat(service.search("알림 재처리", List.of(), List.of(), 6).hits())
                 .extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
@@ -107,7 +106,7 @@ class KnowledgeSearchServiceTest {
     void 검색_목록은_문서별로_제한하고_답변용_문단은_유지한다() {
         KnowledgeIndexPort index = mock(KnowledgeIndexPort.class);
         var service = new KnowledgeSearchService(knowledgeProperties(), mock(EmbeddingPort.class),
-                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+                index, new RrfRanker(), meters);
         when(index.searchBm25(anyString(), any(), anyInt())).thenReturn(List.of(
                 new SearchHit(chunk("a#0", "a"), 10), new SearchHit(chunk("a#1", "a"), 9),
                 new SearchHit(chunk("b#0", "b"), 8), new SearchHit(chunk("c#0", "c"), 7)));
@@ -127,7 +126,7 @@ class KnowledgeSearchServiceTest {
         when(embedding.available()).thenReturn(true);
         when(embedding.embed(List.of("결제 재처리"))).thenReturn(List.of(List.of(1.0f, 0.0f)));
         var service = new KnowledgeSearchService(properties, embedding,
-                mock(KnowledgeIndexInitializer.class), index, new RrfRanker(), meters);
+                index, new RrfRanker(), meters);
 
         service.search("결제 재처리", List.of(), List.of(), 10);
         service.search("결제 재처리", List.of("happygallery"), List.of(), 6);
@@ -149,13 +148,10 @@ class KnowledgeSearchServiceTest {
         KnowledgeSearchService service = new KnowledgeSearchService(
                 properties,
                 embeddingPort,
-                new KnowledgeIndexInitializer(properties, embeddingPort, indexPort),
                 indexPort,
                 new RrfRanker(), meters
         );
         SearchHit bm25Hit = new SearchHit(chunk("bm25-result"), 5);
-        when(embeddingPort.modelId()).thenReturn("test-model");
-        when(embeddingPort.dimensions()).thenReturn(2);
         when(embeddingPort.available()).thenReturn(true);
         when(indexPort.searchBm25(anyString(), any(), anyInt())).thenReturn(List.of(bm25Hit));
         when(embeddingPort.embed(anyList())).thenThrow(new EmbeddingUnavailableException(
@@ -166,7 +162,6 @@ class KnowledgeSearchServiceTest {
         var result = service.search("알림 재처리", List.of(), List.of(), 10);
 
         service.search("알림 재처리", List.of(), List.of(), 10);
-        verify(indexPort).ensureIndex("test-model", 2, properties.source().chunkingFingerprint());
         verify(indexPort, times(2)).searchBm25(anyString(), any(), anyInt());
 
         assertThat(result.hits()).extracting(hit -> hit.chunk().chunkId()).containsExactly("bm25-result");
@@ -184,12 +179,9 @@ class KnowledgeSearchServiceTest {
         KnowledgeSearchService service = new KnowledgeSearchService(
                 properties,
                 embeddingPort,
-                new KnowledgeIndexInitializer(properties, embeddingPort, indexPort),
                 indexPort,
                 new RrfRanker(), meters
         );
-        when(embeddingPort.modelId()).thenReturn("test-model");
-        when(embeddingPort.dimensions()).thenReturn(2);
         when(embeddingPort.available()).thenReturn(true);
         when(indexPort.searchBm25(anyString(), any(), anyInt()))
                 .thenReturn(List.of(new SearchHit(chunk("bm25-result"), 5)));
@@ -210,8 +202,7 @@ class KnowledgeSearchServiceTest {
     ) {
         KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
         var service = new KnowledgeSearchService(
-                knowledgeProperties(), mock(EmbeddingPort.class), mock(KnowledgeIndexInitializer.class),
-                indexPort, new RrfRanker(), meters
+                knowledgeProperties(), mock(EmbeddingPort.class), indexPort, new RrfRanker(), meters
         );
 
         service.search("알림", projectIds, serviceIds, documentTypes, 10);
@@ -224,8 +215,7 @@ class KnowledgeSearchServiceTest {
     void 정규화_후에도_지원하지_않는_문서_종류는_검색하지_않는다() {
         KnowledgeIndexPort indexPort = mock(KnowledgeIndexPort.class);
         var service = new KnowledgeSearchService(
-                knowledgeProperties(), mock(EmbeddingPort.class), mock(KnowledgeIndexInitializer.class),
-                indexPort, new RrfRanker(), meters
+                knowledgeProperties(), mock(EmbeddingPort.class), indexPort, new RrfRanker(), meters
         );
 
         assertThatThrownBy(() -> service.search("알림", List.of(), List.of(" PRIVATE "), 10))

@@ -62,11 +62,11 @@ class KnowledgePropertiesBindingTest {
     @Test
     void 청크_길이나_겹침_범위가_바뀌면_호환성_지문도_바뀐다() {
         KnowledgeProperties properties = knowledgeProperties();
-        String defaultFingerprint = properties.source().chunkingFingerprint();
+        assertThat(properties.source().chunkingFingerprint()).isEqualTo("chunking-v1|max=1200|overlap=150");
 
         properties = knowledgeProperties("source.overlap-characters", "200");
 
-        assertThat(properties.source().chunkingFingerprint()).isNotEqualTo(defaultFingerprint);
+        assertThat(properties.source().chunkingFingerprint()).isEqualTo("chunking-v1|max=1200|overlap=200");
     }
 
     @Test
@@ -96,9 +96,8 @@ class KnowledgePropertiesBindingTest {
             assertThat(properties.source().syncOnStartup()).isFalse();
             assertThat(properties.ai().provider()).isEqualTo(KnowledgeProperties.AiProvider.DISABLED);
             assertThat(properties.source().maxChunkCharacters()).isEqualTo(1200);
-            assertThat(properties.source().connectTimeoutSeconds()).isEqualTo(3);
-            assertThat(properties.source().readTimeoutSeconds()).isEqualTo(10);
             assertThat(properties.source().maxBytes()).isEqualTo(8 * 1024 * 1024);
+            assertThat(properties.elasticsearch().indexName()).isEqualTo("portfolio-knowledge");
         });
     }
 
@@ -107,10 +106,11 @@ class KnowledgePropertiesBindingTest {
             "knowledge.source.max-chunk-characters=199",
             "knowledge.source.overlap-characters=-1",
             "knowledge.source.overlap-characters=1200",
-            "knowledge.source.connect-timeout-seconds=0",
-            "knowledge.source.connect-timeout-seconds=301",
-            "knowledge.source.read-timeout-seconds=0",
-            "knowledge.source.read-timeout-seconds=301",
+            "knowledge.source.location=https://example.com/portfolio.json",
+            "knowledge.source.location=file://127.0.0.1/portfolio.json",
+            "knowledge.source.location=classpath:",
+            "knowledge.elasticsearch.index-name=*",
+            "knowledge.elasticsearch.index-name=Portfolio",
             "knowledge.source.max-bytes=0",
             "knowledge.source.max-bytes=67108865",
             "knowledge.ai.embedding-dimensions=0",

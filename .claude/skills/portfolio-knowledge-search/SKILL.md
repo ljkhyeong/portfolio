@@ -23,7 +23,7 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 | 자료 생성      | `scripts/generate-knowledge-corpus.mjs`, `knowledge-corpus-core.mjs` → `public/knowledge/portfolio.json`                            |
 | 외부 문서 사본 | `npm run knowledge:refresh-docs` → `docs/knowledge-document-snapshots.json`(커밋 SHA와 함께 보관)                                   |
 | 동기화·평가    | `scripts/sync-knowledge-index.mjs`, `evaluate-knowledge.mjs`, `knowledge-evaluation-cases.json`(대표 질문 24개, 근거 없는 질문 4개) |
-| 검색 API       | `knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/{domain,port,adapter,search,api,index,sync,verification,config}`     |
+| 검색 API       | `knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/{domain,port,adapter,search,api,sync,verification,config}`           |
 | CI             | `.github/workflows/knowledge-api.yml`, `knowledge-release-check.yml`, `knowledge-source-refresh.yml`                                |
 
 ## 변경별 작업
@@ -39,10 +39,10 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 
 `DependencyRulesTest`가 계층 의존을 일반 테스트처럼 막는다. 설계를 이 규칙에 맞춘다.
 
--   Domain → API, Service, Port, Adapter, Config, Index 의존 금지
+-   Domain → API, Service, Port, Adapter, Config 의존 금지
 -   `@RestController` → Port, Adapter 직접 호출 금지
 -   `@Service` → Adapter 구현체 의존 금지
--   Port → API, Service, Adapter, Config, Index 의존 금지
+-   Port → API, Service, Adapter, Config 의존 금지
 
 외부 제공자(OpenAI, Ollama, Elasticsearch, Turnstile)는 Port 뒤의 Adapter로 둔다. 오류는 검색 결과를 유지하는 응답으로 변환한다. 시간 제한, 요청 크기 제한, 리다이렉트 거부 같은 기존 방어 규칙을 완화하지 않는다.
 
@@ -53,7 +53,7 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 | 통합 테스트    | 루트에서 `docker build -f knowledge-api/elasticsearch.Dockerfile -t portfolio-knowledge-elasticsearch:9.4.8-nori .` 후 `./gradlew integrationTest` |
 | 배포 파일      | `./gradlew bootJar`                                                                                                                                |
 
-Docker가 없거나 이미지를 만들지 못하면 `integrationTest`는 건너뛰지 않고 실패한다. 이때는 통합 테스트를 실행하지 않았다고 기록한다. 단위 테스트 통과를 통합 검증으로 보고하지 않는다. 청크 길이나 겹침을 바꾸면 인덱스 호환성 지문이 바뀌므로 새 `ELASTICSEARCH_INDEX` 이름과 전체 재색인이 필요하다고 안내한다.
+Docker가 없거나 이미지를 만들지 못하면 `integrationTest`는 건너뛰지 않고 실패한다. 이때는 통합 테스트를 실행하지 않았다고 기록한다. 단위 테스트 통과를 통합 검증으로 보고하지 않는다. 청크 길이나 겹침, 임베딩 모델이나 차원을 바꾸면 다음 동기화가 새 색인에 전체 재색인한 뒤 alias를 교체한다. `ELASTICSEARCH_INDEX` 이름을 바꾸라고 안내하지 않는다.
 
 ### 검색 화면을 바꿀 때
 

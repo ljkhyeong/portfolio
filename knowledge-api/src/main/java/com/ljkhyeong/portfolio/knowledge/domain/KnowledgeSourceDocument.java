@@ -1,10 +1,11 @@
 package com.ljkhyeong.portfolio.knowledge.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import jakarta.validation.constraints.NotBlank;
 
 public record KnowledgeSourceDocument(
-        String schemaVersion,
-        String sourceRevision,
         @NotBlank String documentId,
         @NotBlank String projectId,
         @NotBlank String projectName,
@@ -15,9 +16,11 @@ public record KnowledgeSourceDocument(
         @NotBlank String content,
         String sourceUrl,
         String route,
-        String visibility,
-        String evidenceLevel,
-        @NotBlank String sourceHash,
-        @NotBlank String contentHash
+        @JsonProperty(required = true) @JsonSetter(nulls = Nulls.FAIL) Visibility visibility
 ) {
+
+    public enum Visibility {
+        @JsonProperty("public") PUBLIC,
+        @JsonProperty("private") PRIVATE
+    }
 }
