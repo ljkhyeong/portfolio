@@ -7,6 +7,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.ljkhyeong.portfolio.knowledge.KnowledgeApiApplication;
@@ -38,6 +39,7 @@ class AiGatewayTransportTest {
 
         List<Request> requests = new CopyOnWriteArrayList<>();
         var finishReason = new AtomicReference<>("stop");
+        var responseStatus = new AtomicInteger(200);
         var embeddingData = new AtomicReference<>("""
                 {"object":"embedding","index":0,"embedding":[1.0,0.0]}
                 """);
@@ -49,7 +51,9 @@ class AiGatewayTransportTest {
                     headers.getFirst("cf-aig-authorization"), headers.getFirst("cf-aig-skip-cache"),
                     headers.getFirst("cf-aig-collect-log-payload"), headers.getFirst("cf-aig-max-attempts")));
             exchange.getRequestBody().readAllBytes();
-            String response = path.endsWith("/embeddings") ? """
+            String response = responseStatus.get() != 200
+                    ? "{\"error\":{\"message\":\"busy\",\"type\":\"server_error\"}}"
+                    : path.endsWith("/embeddings") ? """
                     {"object":"list","model":"text-embedding-3-large","data":[%s],
                       "usage":{"prompt_tokens":2,"total_tokens":2}}
                     """.formatted(embeddingData.get()) : """
@@ -60,7 +64,10 @@ class AiGatewayTransportTest {
                     """.formatted(finishReason.get());
             byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
             exchange.getResponseHeaders().set("Content-Type", "application/json");
-            exchange.sendResponseHeaders(200, bytes.length);
+            if (responseStatus.get() != 200) {
+                exchange.getResponseHeaders().set("Retry-After", "1");
+            }
+            exchange.sendResponseHeaders(responseStatus.get(), bytes.length);
             try (var output = exchange.getResponseBody()) {
                 output.write(bytes);
             }
@@ -110,6 +117,16 @@ class AiGatewayTransportTest {
                         .isInstanceOf(AnswerGenerationUnavailableException.class)
                         .hasMessageContaining("정상 종료");
                 assertThat(requests).hasSize(previousRequests + 1);
+            }
+            for (int status : List.of(429, 503)) {
+                responseStatus.set(status);
+                int previousRequests = requests.size();
+                assertThatThrownBy(() -> context.getBean(AnswerGenerationPort.class).generate("알림 복구", List.of()))
+                        .isInstanceOf(AnswerGenerationUnavailableException.class);
+                assertThatThrownBy(() -> context.getBean(EmbeddingPort.class).embed(List.of("알림 재처리")))
+                        .isInstanceOf(EmbeddingUnavailableException.class);
+                // SDK가 Retry-After를 따라 다시 보내지 않고 답변과 임베딩을 한 번씩만 호출한다.
+                assertThat(requests).hasSize(previousRequests + 2);
             }
         } finally {
             server.stop(0);

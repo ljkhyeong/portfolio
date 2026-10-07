@@ -16,7 +16,7 @@ import org.springframework.mock.env.MockEnvironment;
 class OpenAiProfileConfigurationTest {
 
     @Test
-    void 기본_호출_시간과_출력량을_제한하고_SDK_중복_재시도를_끈다() throws Exception {
+    void 기본_호출_시간과_출력량을_제한하고_SDK_재시도를_끈다() throws Exception {
         MockEnvironment environment = loadProfile(new MockEnvironment());
         Binder binder = Binder.get(environment);
 
@@ -26,15 +26,14 @@ class OpenAiProfileConfigurationTest {
         assertThat(common.getTimeout()).isEqualTo(Duration.ofSeconds(30));
         assertThat(common.getMaxRetries()).isZero();
         assertThat(chat.getMaxCompletionTokens()).isEqualTo(2_000);
-        assertThat(environment.getProperty("spring.ai.retry.max-attempts", Integer.class)).isEqualTo(2);
+        // OpenAI 모델은 RetryTemplate을 쓰지 않으므로 효과 없는 재시도 설정을 두지 않는다.
+        assertThat(environment.containsProperty("spring.ai.retry.max-attempts")).isFalse();
     }
 
     @Test
     void 운영_환경변수로_OpenAI_호출_제한을_덮어쓴다() throws Exception {
         var environment = new MockEnvironment()
                 .withProperty("OPENAI_REQUEST_TIMEOUT", "17s")
-                .withProperty("OPENAI_SDK_MAX_RETRIES", "0")
-                .withProperty("AI_RETRY_MAX_ATTEMPTS", "2")
                 .withProperty("OPENAI_MAX_COMPLETION_TOKENS", "321");
         loadProfile(environment);
         Binder binder = Binder.get(environment);
@@ -45,7 +44,6 @@ class OpenAiProfileConfigurationTest {
         assertThat(common.getTimeout()).isEqualTo(Duration.ofSeconds(17));
         assertThat(common.getMaxRetries()).isZero();
         assertThat(chat.getMaxCompletionTokens()).isEqualTo(321);
-        assertThat(environment.getProperty("spring.ai.retry.max-attempts", Integer.class)).isEqualTo(2);
     }
 
     private MockEnvironment loadProfile(MockEnvironment environment) throws Exception {

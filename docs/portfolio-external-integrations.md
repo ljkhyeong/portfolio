@@ -4,14 +4,14 @@
 
 ## 연동 구성
 
-| 목적                               | 연동                  | 코드 상태                             | 사용자가 설정할 값            |
-| ---------------------------------- | --------------------- | ------------------------------------- | ----------------------------- |
-| 공개 문서 답변·질문 임베딩         | OpenAI + Spring AI    | 기존 구현, 시간 제한·재시도·캐시 적용 | API 키, 프로필                |
-| 공개 기술문서 읽기                 | GitHub API            | 기존 허용 목록·커밋 고정 방식         | 필요 시 조회 토큰             |
-| 문서 변경 시 최신화 검사           | GitHub 이벤트 API     | 이벤트 수신·전송 도구 구현            | 이벤트 발신 도구의 전용 토큰  |
-| AI 답변 자동 호출 방지             | Cloudflare Turnstile  | 서버 오류 분류·멱등 재시도 적용       | 사이트 키·비밀 키·허용 호스트 |
-| 검색 장애·응답 시간·캐시 지표 수집 | Prometheus HTTP 수집  | 수집 API·관리 포트 분리 구현          | 수집 대상, Grafana 연결       |
-| OpenAI 호출 정책·사용량 관리       | Cloudflare AI Gateway | 선택 프로필·공통 인증 헤더 구현       | 계정 ID, Gateway ID·토큰      |
+| 목적                               | 연동                  | 코드 상태                                        | 사용자가 설정할 값            |
+| ---------------------------------- | --------------------- | ------------------------------------------------ | ----------------------------- |
+| 공개 문서 답변·질문 임베딩         | OpenAI + Spring AI    | 기존 구현, 시간 제한·캐시 적용, 자동 재시도 없음 | API 키, 프로필                |
+| 공개 기술문서 읽기                 | GitHub API            | 기존 허용 목록·커밋 고정 방식                    | 필요 시 조회 토큰             |
+| 문서 변경 시 최신화 검사           | GitHub 이벤트 API     | 이벤트 수신·전송 도구 구현                       | 이벤트 발신 도구의 전용 토큰  |
+| AI 답변 자동 호출 방지             | Cloudflare Turnstile  | 서버 오류 분류·멱등 재시도 적용                  | 사이트 키·비밀 키·허용 호스트 |
+| 검색 장애·응답 시간·캐시 지표 수집 | Prometheus HTTP 수집  | 수집 API·관리 포트 분리 구현                     | 수집 대상, Grafana 연결       |
+| OpenAI 호출 정책·사용량 관리       | Cloudflare AI Gateway | 선택 프로필·공통 인증 헤더 구현                  | 계정 ID, Gateway ID·토큰      |
 
 Turnstile의 연결 오류·HTTP 5xx·`internal-error`는 같은 멱등 키로 한 번만 재시도합니다. 토큰 오류는 `403`, 서버·연동 설정 오류는 `503`으로 구분합니다. 비밀 키 오류·HTTP 429·잘못된 응답은 즉시 재시도하지 않으며, 검증 불가 상태에서 AI 답변을 허용하지 않습니다. [Cloudflare 검증 계약](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/).
 
@@ -40,11 +40,11 @@ Compose도 `SPRING_PROFILES_ACTIVE`와 세 가지 Cloudflare 변수를 전달합
 
 요청 주소는 `https://gateway.ai.cloudflare.com/v1/<계정 ID>/<Gateway ID>/openai`입니다. OpenAI 키는 `Authorization`, Gateway 토큰은 `cf-aig-authorization`에 전달합니다. 다음 헤더를 기본 적용합니다.
 
-| 헤더                         | 값      | 목적                                   |
-| ---------------------------- | ------- | -------------------------------------- |
-| `cf-aig-max-attempts`        | `1`     | Spring AI와 Gateway의 재시도 중첩 방지 |
-| `cf-aig-skip-cache`          | `true`  | 기존 애플리케이션 캐시 정책 유지       |
-| `cf-aig-collect-log-payload` | `false` | 질문·근거·답변 본문 로그 저장 제외     |
+| 헤더                         | 값      | 목적                                                         |
+| ---------------------------- | ------- | ------------------------------------------------------------ |
+| `cf-aig-max-attempts`        | `1`     | 앱과 Gateway 모두 자동 재시도 없음(중복 과금·대기 증가 방지) |
+| `cf-aig-skip-cache`          | `true`  | 기존 애플리케이션 캐시 정책 유지                             |
+| `cf-aig-collect-log-payload` | `false` | 질문·근거·답변 본문 로그 저장 제외                           |
 
 요청은 Cloudflare를 경유하며 본문 로그 제외와 별개로 요청량·토큰 수 등 메타데이터는 Gateway 설정에 따라 기록됩니다. Gateway 장애가 나면 기존 검색·답변 대체 처리를 사용하고 직접 OpenAI 호출로 자동 우회하지 않습니다. [요청 헤더](https://developers.cloudflare.com/ai-gateway/usage/rest-api/#per-request-configuration), [로그 본문 설정](https://developers.cloudflare.com/ai-gateway/observability/logging/).
 

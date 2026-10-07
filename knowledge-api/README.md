@@ -46,9 +46,11 @@ docker compose up --build
 
 API 키는 백엔드 환경 변수에만 설정하며 React의 `VITE_*` 환경 변수에 넣지 않습니다.
 
-OpenAI 요청은 기본 30초 안에 완료되지 않으면 중단하고 추론 토큰을 포함한 답변 출력을 최대 2,000토큰으로 제한합니다. OpenAI SDK 자체 재시도는 끄고 Spring AI에서만 최대 2회 시도해 두 재시도 계층이 중첩되지 않게 합니다. `OPENAI_REQUEST_TIMEOUT`, `OPENAI_MAX_COMPLETION_TOKENS`, `AI_RETRY_MAX_ATTEMPTS`로 조정할 수 있습니다. SDK 재시도를 다시 켜야 하는 별도 환경에서만 `OPENAI_SDK_MAX_RETRIES`를 변경합니다. [Spring AI OpenAI 설정](https://docs.spring.io/spring-ai/reference/api/embeddings/openai-embeddings.html#_configuration_properties)
+OpenAI 요청은 기본 30초 안에 완료되지 않으면 중단하고 추론 토큰을 포함한 답변 출력을 최대 2,000토큰으로 제한합니다. `OPENAI_REQUEST_TIMEOUT`, `OPENAI_MAX_COMPLETION_TOKENS`로 조정할 수 있습니다. [Spring AI OpenAI 설정](https://docs.spring.io/spring-ai/reference/api/embeddings/openai-embeddings.html#_configuration_properties)
 
-Cloudflare AI Gateway를 경유하려면 `openai,ai-gateway` 프로필과 `.env.ai-gateway.example`의 값을 사용합니다. 홈서버는 `homeserver,openai,ai-gateway` 순서로 지정합니다. 답변·임베딩 모두 같은 Gateway로 전달하며 OpenAI 키와 Gateway 인증 토큰을 구분합니다. Gateway 추가 재시도는 1회, 캐시 건너뛰기·원문 로그 미수집 헤더를 적용합니다. 구체적인 설정은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md#선택-cloudflare-ai-gateway)에 정리했습니다.
+OpenAI 답변과 임베딩은 자동 재시도하지 않고 한 번만 호출합니다. Spring AI 2.0의 OpenAI 모델은 `spring.ai.retry` 설정을 쓰지 않고 OpenAI SDK의 재시도만 사용합니다. SDK 재시도는 서버가 보낸 `Retry-After`를 상한 없이 기다리므로, 켜면 검색 질문의 임베딩이 지연돼 BM25 결과로 바로 대체되지 않습니다. 그래서 `spring.ai.openai.max-retries`를 0으로 고정합니다.
+
+Cloudflare AI Gateway를 경유하려면 `openai,ai-gateway` 프로필과 `.env.ai-gateway.example`의 값을 사용합니다. 홈서버는 `homeserver,openai,ai-gateway` 순서로 지정합니다. 답변·임베딩 모두 같은 Gateway로 전달하며 OpenAI 키와 Gateway 인증 토큰을 구분합니다. Gateway도 재시도하지 않도록 시도 횟수를 1회로 제한하고, 캐시 건너뛰기·원문 로그 미수집 헤더를 적용합니다. 구체적인 설정은 [외부 연동 및 홈서버 준비](../docs/portfolio-external-integrations.md#선택-cloudflare-ai-gateway)에 정리했습니다.
 
 임베딩 응답은 요청 개수와 각 벡터의 순번을 검사하고 입력 순서로 정렬합니다. 순번 누락·중복·범위 오류, 차원 불일치·유효하지 않은 수·영벡터는 캐시나 색인에 넣지 않습니다. [Spring AI 임베딩 응답](https://docs.spring.io/spring-ai/reference/api/embeddings.html#_embeddingresponse).
 
@@ -64,6 +66,8 @@ docker compose exec ollama ollama pull qwen3:8b
 docker compose exec ollama ollama pull bge-m3
 AI_PROFILE=ollama docker compose --profile ollama up --build knowledge-api
 ```
+
+Ollama 답변도 자동 재시도하지 않습니다. Spring AI 기본값(최대 10회, 2초부터 최장 3분 간격)을 쓰면 Ollama가 내려가 있는 동안 답변 요청 하나가 20분 넘게 대기하므로 `spring.ai.retry.max-attempts`를 0으로 둡니다. 연결에 실패하면 바로 `GENERATION_UNAVAILABLE`과 검색 결과를 반환합니다.
 
 모든 프로필의 기본 검색 alias는 `portfolio-knowledge`이며 `ELASTICSEARCH_INDEX`로 바꿀 수 있습니다. 임베딩 모델이나 차원을 바꾸면 다음 동기화가 전체 문서를 새 색인에 다시 색인한 뒤 검색 대상을 교체합니다.
 

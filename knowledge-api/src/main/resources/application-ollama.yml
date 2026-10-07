@@ -18,3 +18,6 @@ spring:
                 temperature: 0.2
             embedding:
                 model: ${OLLAMA_EMBEDDING_MODEL:bge-m3}
+        retry:
+            # Spring AI 2.0은 이 값을 재시도 횟수로 쓴다. 기본 10회면 Ollama 장애 때 답변 요청 하나가 20분 넘게 대기한다.
+            max-attempts: 0
