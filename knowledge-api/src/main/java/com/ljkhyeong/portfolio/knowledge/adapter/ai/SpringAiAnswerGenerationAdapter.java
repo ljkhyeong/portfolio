@@ -9,7 +9,6 @@ import com.openai.errors.OpenAIException;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.retry.NonTransientAiException;
 import org.springframework.ai.retry.TransientAiException;
-import org.springframework.ai.template.NoOpTemplateRenderer;
 import org.springframework.web.client.RestClientException;
 import tools.jackson.core.JacksonException;
 
@@ -30,10 +29,7 @@ public class SpringAiAnswerGenerationAdapter implements AnswerGenerationPort {
     private final ChatClient chatClient;
 
     public SpringAiAnswerGenerationAdapter(ChatClient.Builder builder) {
-        this.chatClient = builder
-                .defaultSystem(SYSTEM_PROMPT)
-                .defaultTemplateRenderer(new NoOpTemplateRenderer())
-                .build();
+        this.chatClient = builder.defaultSystem(SYSTEM_PROMPT).build();
     }
 
     @Override

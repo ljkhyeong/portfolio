@@ -62,20 +62,6 @@ class CloudflareTurnstileVerificationAdapterTest {
         server.verify();
     }
 
-    @Test
-    void Siteverify_장애는_검증_불가로_변환한다() {
-        RestClient.Builder builder = RestClient.builder().baseUrl("https://challenges.cloudflare.com");
-        MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
-        var adapter = new CloudflareTurnstileVerificationAdapter(builder.build(), "server-secret");
-        server.expect(ExpectedCount.twice(), requestTo("https://challenges.cloudflare.com/turnstile/v0/siteverify"))
-                .andRespond(withServerError());
-
-        assertThatThrownBy(() -> adapter.verify("browser-token"))
-                .isInstanceOf(HumanVerificationUnavailableException.class)
-                .hasMessage("Turnstile 검증 요청에 실패했습니다.");
-        server.verify();
-    }
-
     @ParameterizedTest
     @MethodSource("transientResponses")
     void 일시_오류는_같은_토큰과_멱등키로_한_번_재시도한다(ResponseCreator firstResponse) {

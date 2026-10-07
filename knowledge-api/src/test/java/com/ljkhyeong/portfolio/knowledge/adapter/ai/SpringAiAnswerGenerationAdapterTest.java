@@ -47,6 +47,7 @@ class SpringAiAnswerGenerationAdapterTest {
         )));
         var adapter = new SpringAiAnswerGenerationAdapter(ChatClient.builder(chatModel));
 
+        // 템플릿 변수를 쓰지 않으므로 근거의 중괄호가 렌더링되지 않고 그대로 전달돼야 한다.
         var answer = adapter.generate(
                 "알림은 어떻게 복구하나요?",
                 List.of(new AnswerContext("1", "BATON", "알림 복구", "{재처리} 근거"))

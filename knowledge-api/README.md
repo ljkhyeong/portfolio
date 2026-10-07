@@ -190,7 +190,7 @@ KNOWLEDGE_TURNSTILE_EXPECTED_HOSTNAMES=ljkportfolio.netlify.app
 
 브라우저 위젯의 스크립트 로딩은 20초로 제한합니다. 네트워크 오류·시간 초과·API 누락 시 실패한 스크립트를 제거하고 `확인 다시 불러오기` 버튼으로 새로 로드합니다. 검증 토큰이 없으면 AI 답변 버튼은 비활성 상태를 유지합니다.
 
-연결 오류, HTTP 5xx와 `internal-error`는 같은 토큰·멱등 키로 한 번만 재시도합니다. 토큰 만료·중복, 잘못된 비밀 키, HTTP 429·그 밖의 4xx, 응답 형식 오류는 재시도하지 않습니다. 알 수 없는 오류도 인증 성공으로 처리하지 않고 `503`으로 종료합니다. [Siteverify 오류 코드·멱등 키](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/#error-codes-reference).
+연결 오류, HTTP 5xx와 `internal-error`는 같은 토큰·멱등 키로 즉시 한 번만 재시도합니다. 토큰 만료·중복, 잘못된 비밀 키, HTTP 429·그 밖의 4xx, 응답 형식 오류는 재시도하지 않습니다. Siteverify 호출은 연결 3초, 응답 대기 5초로 제한하고 리다이렉트를 따르지 않으며, 응답 대기 초과는 대기 시간이 늘지 않도록 재시도 없이 종료합니다. 알 수 없는 오류도 인증 성공으로 처리하지 않고 `503`으로 종료합니다. [Siteverify 오류 코드·멱등 키](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/#error-codes-reference).
 
 `npm run knowledge:evaluate -- --answers`는 `KNOWLEDGE_SYNC_KEY`를 답변 요청에 함께 보내 인증된 배포 평가임을 증명합니다. 이 키가 서버 설정과 일치할 때만 Turnstile을 우회합니다. 브라우저 CORS에는 해당 헤더를 허용하지 않습니다.
 
@@ -340,6 +340,7 @@ Compose는 업무 API를 `127.0.0.1:8080`, Actuator를 `127.0.0.1:9091`에 연�
 | `knowledge.answers`    | HTTP 200으로 반환한 `GENERATED`, `INSUFFICIENT_EVIDENCE`, `GENERATION_UNAVAILABLE` 횟수        |
 | `knowledge.searches`   | 결과를 반환한 검색 실행의 `keyword`, `hybrid`, `fallback` 횟수. 답변에 필요한 내부 검색도 포함 |
 | `cache.gets`           | 답변(`answer`)·질문 임베딩(`query_embedding`) 캐시의 `hit`, `miss` 횟수. Caffeine 기본 지표    |
+| `http.client.requests` | Turnstile 등 `RestClient` 외부 호출 수·응답 시간·오류. `client.name`으로 구분                  |
 
 `keyword`는 AI를 설정하지 않은 검색이고, `fallback`은 임베딩 또는 벡터 검색 실패로 키워드 검색 결과를 반환한 경우입니다. 질문과 문서 ID는 지표 태그에 저장하지 않습니다. 생성 불가 비율은 `GENERATION_UNAVAILABLE / 전체 답변 결과`, 검색 대체 비율은 `fallback / (hybrid + fallback)`, 캐시 적중률은 `hit / (hit + miss)`로 비교합니다. 지표는 프로세스 재시작 때 초기화되며 장기 보관은 운영 모니터링 시스템에서 구성합니다.
 

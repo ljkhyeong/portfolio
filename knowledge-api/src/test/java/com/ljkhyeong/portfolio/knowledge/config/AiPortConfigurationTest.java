@@ -28,6 +28,7 @@ import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.model.chat.client.autoconfigure.ChatClientAutoConfiguration;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
@@ -47,9 +48,10 @@ class AiPortConfigurationTest {
     void AI를_켰는데_빌더가_없으면_설정_오류로_기동을_중단한다() {
         contextRunner("openai").run(context -> {
             assertThat(context).hasFailed();
-            assertThat(context.getStartupFailure()).hasRootCauseMessage(
-                    "AI provider가 설정되었지만 ChatClient.Builder를 찾을 수 없습니다."
-            );
+            assertThat(context.getStartupFailure())
+                    .hasRootCauseInstanceOf(NoSuchBeanDefinitionException.class)
+                    .rootCause()
+                    .hasMessageContaining("ChatClient$Builder");
         });
     }
 

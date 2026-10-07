@@ -54,7 +54,7 @@ JSON 변환과 기본값 처리는 [Spring AI ChatClient](https://docs.spring.io
 ### 2. 자동 설정된 `ChatClient.Builder` 주입
 
 [AiPortConfiguration](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/config/AiPortConfiguration.java)은 `ObjectProvider<ChatClient.Builder>`로 빌더를 받아 답변 어댑터에 전달한다.
-어댑터는 이 빌더에 시스템 지침과 `NoOpTemplateRenderer`를 적용한다. `disabled` 프로필에서는 빌더 없이 기동하고, AI를 켠 상태에서 빌더가 없으면 설정 오류로 시작을 중단한다.
+어댑터는 이 빌더에 시스템 지침을 적용한다(효과가 없던 `NoOpTemplateRenderer`는 이후 삭제). `disabled` 프로필에서는 빌더 없이 기동하고, AI를 켠 상태에서 빌더가 없으면 설정 오류로 시작을 중단한다.
 
 Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스트에서 빌더 커스터마이저의 공통 옵션과 `spring.ai.chat.client` 관측 이벤트를 확인했다.
 이는 앱 내부 설정의 연결 검증이며 운영 추적 서버로의 전송을 확인한 것은 아니다. [ChatClient 공식 문서](https://docs.spring.io/spring-ai/reference/api/chatclient.html).
@@ -110,3 +110,13 @@ Spring AI 2.0.0의 실제 자동 설정과 가짜 ChatModel을 사용한 테스�
 -   캐시: 직접 센 `knowledge.cache.lookups`를 Micrometer `CaffeineCacheMetrics`와 `recordStats()`로 바꿔 `cache.gets{cache,result}`, `cache.size`, `cache.puts`, `cache.evictions`를 노출한다. 답변 캐시 키는 SHA-256 문자열 대신 질문과 전달 근거 목록의 record 값 비교를 사용해 `util/Hashing`을 삭제했다. 캐시 끄기는 `AI_ANSWER_CACHE_TTL_SECONDS=0` 하나로 정했다. Caffeine의 `maximumSize(0)`은 비동기 제거라 즉시 재사용을 막지 못해, 최대 개수는 1 이상만 허용한다.
 
 단위 테스트 281건, Elasticsearch 9.4.8 통합 테스트 10건과 검색 화면·요청 처리 웹 테스트 133건을 통과했다. 같은 키의 동시 요청에서 생성 1회와 `miss` 1·`hit` 1, TTL 0에서 매번 생성, 잘못된 임베딩을 저장하지 않는 동작을 기존 테스트로 다시 확인했다. 실제 AI 호출과 검색 품질 평가는 하지 않았다(순위 계산과 색인 내용은 바뀌지 않음).
+
+## AI 제공자와 외부 호출 정리 — `c70f203` 이후
+
+-   재시도: Spring AI 2.0의 OpenAI 모델은 `spring.ai.retry`를 쓰지 않아 `AI_RETRY_MAX_ATTEMPTS`가 동작하지 않았다. 실제 OpenAI 호출은 SDK 재시도(`max-retries`)만 따르며, SDK는 `Retry-After`를 상한 없이 기다리므로 0으로 고정하고 두 환경변수를 삭제했다. Ollama 답변은 Spring AI 기본 재시도(10회, 최장 3분 간격)를 써서 장애 때 20분 넘게 대기할 수 있어 `spring.ai.retry.max-attempts: 0`으로 막았다.
+-   빌더 조회: [AiPortConfiguration](../knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/config/AiPortConfiguration.java)의 `getIfAvailable()`과 직접 만든 `IllegalStateException`을 `ObjectProvider.getObject()`로 바꿨다. AI를 켰는데 빌더가 없으면 Spring의 `NoSuchBeanDefinitionException`으로 기동을 중단한다.
+-   Turnstile 클라이언트: Boot가 구성한 `RestClient.Builder`를 주입받아 `http.client.requests` 관측을 적용한다. 요청 팩토리는 `ClientHttpRequestFactoryBuilder.simple()`과 `HttpClientSettings`(연결 3초, 응답 대기 5초, `HttpRedirects.DONT_FOLLOW`)로 고정한다. 지정하지 않으면 자동 감지된 Reactor 팩토리가 시간 제한 없이 쓰인다. `spring-boot-starter-restclient`를 직접 선언했다.
+-   Turnstile 재시도: 직접 만든 반복문을 Spring Framework 7의 `RetryTemplate`(`maxRetries(1)`, `delay(Duration.ZERO)`, 일시 오류 조건)으로 바꿨다. 재시도 대상, 횟수, 같은 멱등 키와 최종 예외는 그대로다.
+-   답변 어댑터: 템플릿 변수를 쓰지 않아 렌더링이 일어나지 않으므로 `NoOpTemplateRenderer`를 삭제했다. 근거의 중괄호 보존 테스트는 회귀 방지용으로 유지한다. 제공자 네이티브 JSON 스키마 출력은 실제 모델 평가가 필요해 적용하지 않았다.
+
+Gateway 대역 서버의 429·503(`Retry-After: 1`)과 Ollama 503에서 답변·임베딩 호출이 한 번뿐인지, 주입한 빌더로 만든 Turnstile 클라이언트가 307 리다이렉트를 따르지 않고 응답 대기 1초 초과에서 재시도 없이 끝나는지 테스트로 고정했다. 재시도를 켜거나 요청 팩토리 지정을 빼면 각 테스트가 실패하는 것도 확인했다. 단위 테스트 283건을 통과했고 실제 OpenAI·Ollama·Turnstile 호출은 하지 않았다.

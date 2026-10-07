@@ -23,11 +23,7 @@ public class AiPortConfiguration {
         if (properties.ai().provider() == KnowledgeProperties.AiProvider.DISABLED) {
             return new UnavailableAnswerGenerationAdapter();
         }
-        ChatClient.Builder builder = chatClientBuilderProvider.getIfAvailable();
-        if (builder == null) {
-            throw new IllegalStateException("AI provider가 설정되었지만 ChatClient.Builder를 찾을 수 없습니다.");
-        }
-        return new SpringAiAnswerGenerationAdapter(builder);
+        return new SpringAiAnswerGenerationAdapter(chatClientBuilderProvider.getObject());
     }
 
     @Bean
@@ -38,12 +34,8 @@ public class AiPortConfiguration {
         if (properties.ai().provider() == KnowledgeProperties.AiProvider.DISABLED) {
             return new UnavailableEmbeddingAdapter(properties.ai().embeddingDimensions());
         }
-        EmbeddingModel embeddingModel = embeddingModelProvider.getIfAvailable();
-        if (embeddingModel == null) {
-            throw new IllegalStateException("AI provider가 설정되었지만 EmbeddingModel을 찾을 수 없습니다.");
-        }
         return new SpringAiEmbeddingAdapter(
-                embeddingModel,
+                embeddingModelProvider.getObject(),
                 properties.ai().embeddingModelId(),
                 properties.ai().embeddingDimensions()
         );
