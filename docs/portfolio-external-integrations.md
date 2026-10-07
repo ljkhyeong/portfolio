@@ -122,16 +122,17 @@ readiness는 Spring Boot 기본 Elasticsearch 상태 지표를 사용합니다. 
 
 환경변수 예시는 `knowledge-api/.env.homeserver.example`입니다. 실제 값은 `.env.homeserver.local`이나 k3s ConfigMap/Secret에 저장합니다. 예시는 AI 비활성으로 설정돼 있어 키 없이 기동할 수 있습니다. `.env` 파일을 k3s가 자동으로 읽지는 않으므로 Pod 환경변수로 전달해야 합니다.
 
-| 대상            | 설정                                                                                     |
-| --------------- | ---------------------------------------------------------------------------------------- |
-| API 기본 프로필 | `SPRING_PROFILES_ACTIVE=homeserver`, `AI_PROFILE=disabled`                               |
-| OpenAI 사용     | `SPRING_PROFILES_ACTIVE=homeserver,openai`, `AI_PROFILE=openai`, `OPENAI_API_KEY`        |
-| Elasticsearch   | Nori 플러그인이 포함된 이미지, `ELASTICSEARCH_URL`, 영속 볼륨                            |
-| 외부 API        | 8080 포트, HTTPS Ingress, `/api/v1/knowledge/*`                                          |
-| 관리 API        | 9091 포트, 클러스터 내부 전용                                                            |
-| 상태 검사       | startup/readiness는 `/actuator/health/readiness`, liveness는 `/actuator/health/liveness` |
-| 종료            | graceful shutdown 사용, Pod 종료 유예는 앱 기본 30초보다 길게 설정                       |
-| 비밀값          | OpenAI 키, 동기화 키, Turnstile 비밀 키, 필요 시 Elasticsearch 인증 정보                 |
+| 대상            | 설정                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------ |
+| API 기본 프로필 | `SPRING_PROFILES_ACTIVE=homeserver`, `AI_PROFILE=disabled`                                       |
+| OpenAI 사용     | `SPRING_PROFILES_ACTIVE=homeserver,openai`, `AI_PROFILE=openai`, `OPENAI_API_KEY`                |
+| Elasticsearch   | Nori 플러그인이 포함된 이미지, `ELASTICSEARCH_URL`, 영속 볼륨                                    |
+| 외부 API        | 8080 포트, HTTPS Ingress, `/api/v1/knowledge/*`                                                  |
+| 클라이언트 주소 | 앞단 프록시가 `X-Forwarded-For`에 접속 주소를 덧붙임, 필요하면 `SERVER_TOMCAT_REMOTEIP_*`로 조정 |
+| 관리 API        | 9091 포트, 클러스터 내부 전용                                                                    |
+| 상태 검사       | startup/readiness는 `/actuator/health/readiness`, liveness는 `/actuator/health/liveness`         |
+| 종료            | graceful shutdown 사용, Pod 종료 유예는 앱 기본 30초보다 길게 설정                               |
+| 비밀값          | OpenAI 키, 동기화 키, Turnstile 비밀 키, 필요 시 Elasticsearch 인증 정보                         |
 
 모델이나 임베딩 차원을 바꾸면 다음 동기화가 새 색인을 만든 뒤 검색 alias를 교체합니다. 최초 색인에 필요한 시간만큼 startup probe 대기 시간을 확보하고, Elasticsearch 장애를 liveness 실패로 처리해 API를 반복 재시작하지 않도록 구분합니다.
 

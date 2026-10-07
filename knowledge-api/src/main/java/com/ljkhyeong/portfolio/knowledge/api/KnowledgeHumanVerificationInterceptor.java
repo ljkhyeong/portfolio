@@ -31,10 +31,6 @@ public class KnowledgeHumanVerificationInterceptor implements HandlerInterceptor
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        if (!"POST".equalsIgnoreCase(request.getMethod())) {
-            return true;
-        }
-
         return switch (verificationService.verify(
                 request.getHeader(TOKEN_HEADER),
                 request.getHeader(OPERATOR_KEY_HEADER)

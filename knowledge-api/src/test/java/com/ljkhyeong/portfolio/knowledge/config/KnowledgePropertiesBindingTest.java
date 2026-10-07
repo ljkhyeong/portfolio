@@ -7,8 +7,8 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Map;
 
-import com.ljkhyeong.portfolio.knowledge.api.KnowledgeRateLimitInterceptor;
 import com.ljkhyeong.portfolio.knowledge.api.KnowledgeHumanVerificationInterceptor;
+import com.ljkhyeong.portfolio.knowledge.api.KnowledgeRateLimiter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import tools.jackson.databind.json.JsonMapper;
 
 class KnowledgePropertiesBindingTest {
 
@@ -47,8 +48,9 @@ class KnowledgePropertiesBindingTest {
         KnowledgeProperties properties = knowledgeProperties();
         WebConfiguration configuration = new WebConfiguration(
                 properties,
-                mock(KnowledgeRateLimitInterceptor.class),
-                mock(KnowledgeHumanVerificationInterceptor.class)
+                mock(KnowledgeRateLimiter.class),
+                mock(KnowledgeHumanVerificationInterceptor.class),
+                new JsonMapper()
         );
         InspectableCorsRegistry registry = new InspectableCorsRegistry();
 

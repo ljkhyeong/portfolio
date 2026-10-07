@@ -50,15 +50,6 @@ class KnowledgeHumanVerificationInterceptorTest {
         assertThat(response.getContentAsString()).contains("HUMAN_VERIFICATION_UNAVAILABLE");
     }
 
-    @Test
-    void CORS_사전_요청은_검증하지_않는다() throws Exception {
-        assertThat(interceptor.preHandle(
-                request("OPTIONS"),
-                new MockHttpServletResponse(),
-                new Object()
-        )).isTrue();
-    }
-
     private MockHttpServletRequest request(String method) {
         return new MockHttpServletRequest(method, "/api/v1/knowledge/answers");
     }

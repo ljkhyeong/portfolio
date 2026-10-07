@@ -73,8 +73,7 @@ public record KnowledgeProperties(
             @DefaultValue("5") int clientAnswersPerMinute,
             @DefaultValue("300") int globalSearchesPerMinute,
             @DefaultValue("30") int clientSearchesPerMinute,
-            @DefaultValue("100") int maxClientBucketsPerMinute,
-            @DefaultValue("false") boolean trustProxyHeaders
+            @DefaultValue("100") int maxClientBucketsPerMinute
     ) {
     }
 

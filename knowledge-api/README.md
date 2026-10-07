@@ -214,9 +214,11 @@ AI 답변 생성은 기본적으로 인스턴스 전체 분당 30회, 클라이�
 
 요청 종류별로 한 분 동안 최대 100개의 클라이언트 버킷을 유지합니다. 상한에 도달하면 이미 등록된 클라이언트의 제한은 계속 적용하고, 새로운 클라이언트는 다음 분까지 `429`로 차단합니다. `AI_MAX_CLIENT_BUCKETS_PER_MINUTE`로 상한을 조정할 수 있으며 0 이하이면 상한을 적용하지 않습니다.
 
-클라이언트 구분에는 기본적으로 소켓의 `remoteAddr`를 사용합니다. `AI_TRUST_PROXY_HEADERS=true`는 신뢰하는 프록시가 외부 입력의 `X-Forwarded-For`를 제거하고 새 값으로 설정하는 환경에서만 사용해야 합니다.
+클라이언트 구분에는 Tomcat이 정한 `remoteAddr`를 사용합니다. `server.forward-headers-strategy: native`로 Tomcat `RemoteIpValve`를 켜 두었으므로, 직접 접속한 주소가 내부 프록시 범위(사설망, 루프백, `100.64.0.0/10` 등 Spring Boot 기본값)이면 `X-Forwarded-For`를 오른쪽부터 확인해 내부 프록시가 아닌 첫 주소를 클라이언트 주소로 씁니다. 클라이언트가 직접 넣은 왼쪽 값으로는 다른 클라이언트로 바꿀 수 없습니다. 쿠버네티스에서는 Spring Boot가 이 방식을 자동으로 켜며, Compose와 JAR 직접 실행에서도 같은 기준을 쓰도록 명시했습니다. 가장 왼쪽 값을 쓰는 Spring의 `framework` 방식은 사용하지 않습니다.
 
-현재 호출 제한 카운터는 인스턴스 메모리에 저장됩니다. 서버를 여러 대로 확장하면 인스턴스별로 한도가 따로 적용되지만, Turnstile을 켠 답변 요청은 각 인스턴스에서 같은 외부 검증을 거칩니다. 정확한 전체 호출 상한이 필요하면 API Gateway 또는 Redis 기반의 공유 호출 제한으로 교체해야 합니다. 역방향 프록시 뒤에서는 프록시가 외부의 전달 헤더를 덮어쓰도록 설정하고, 신뢰할 수 있는 구간에서만 `AI_TRUST_PROXY_HEADERS`를 활성화합니다.
+앞단 프록시는 받은 `X-Forwarded-For` 뒤에 자신에게 접속한 주소를 덧붙여야 합니다. 프록시가 이 헤더를 자기 접속 주소로 덮어쓰면 모든 요청이 프록시 주소 하나로 합쳐집니다. 내부 범위를 좁히려면 `SERVER_TOMCAT_REMOTEIP_INTERNALPROXIES`(CIDR 목록, 예: k3s Pod 대역 `10.42.0.0/16`)를, 공인 주소의 프록시가 헤더에 남는 구성이면 `SERVER_TOMCAT_REMOTEIP_TRUSTEDPROXIES`(정규식)를 설정합니다. Cloudflare Tunnel 뒤의 Ingress가 `X-Forwarded-For`를 덮어쓰면 `SERVER_TOMCAT_REMOTEIP_REMOTEIPHEADER=CF-Connecting-IP`로 Cloudflare가 넣은 주소를 쓸 수 있습니다. 실제 배포 경로(cloudflared에서 Ingress를 거쳐 Service로 가는지)와 프록시의 헤더 처리 방식은 운영 환경에서 확인해야 합니다. 사설망에서 프록시를 거치지 않고 API에 접근할 수 있으면 그 사용자는 `X-Forwarded-For`로 클라이언트 주소를 바꿀 수 있으므로 업무 포트는 프록시에만 노출합니다.
+
+현재 호출 제한 카운터는 인스턴스 메모리에 저장됩니다. 서버를 여러 대로 확장하면 인스턴스별로 한도가 따로 적용되지만, Turnstile을 켠 답변 요청은 각 인스턴스에서 같은 외부 검증을 거칩니다. 정확한 전체 호출 상한이 필요하면 API Gateway 또는 Redis 기반의 공유 호출 제한으로 교체해야 합니다.
 
 Compose의 Knowledge API 상태 확인은 `/actuator/health/readiness`를 사용하며, Spring Boot 기본 Elasticsearch 상태 지표가 클러스터 상태를 조회합니다. 연결 실패, 응답 시간 초과와 HTTP 오류는 `DOWN`, `red`는 `OUT_OF_SERVICE`로 모두 HTTP `503`을 반환합니다. HTTP 200이어도 응답 본문의 상태를 검사하며, `green`과 `yellow`는 요청 수신을 허용합니다. [Elasticsearch 상태 API](https://www.elastic.co/docs/api/doc/elasticsearch/v9/operation/operation-cluster-health).
 

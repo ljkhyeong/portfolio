@@ -25,6 +25,8 @@ spring:
 server:
     port: ${PORT:8080}
     shutdown: graceful
+    # 사설망·루프백 프록시가 덧붙인 X-Forwarded-For를 Tomcat RemoteIpValve가 오른쪽부터 해석한다.
+    forward-headers-strategy: native
 
 management:
     endpoints:
@@ -65,7 +67,6 @@ knowledge:
         global-searches-per-minute: ${AI_GLOBAL_SEARCHES_PER_MINUTE:300}
         client-searches-per-minute: ${AI_CLIENT_SEARCHES_PER_MINUTE:30}
         max-client-buckets-per-minute: ${AI_MAX_CLIENT_BUCKETS_PER_MINUTE:100}
-        trust-proxy-headers: ${AI_TRUST_PROXY_HEADERS:false}
     human-verification:
         enabled: ${KNOWLEDGE_TURNSTILE_ENABLED:false}
         secret-key: ${KNOWLEDGE_TURNSTILE_SECRET_KEY:}
