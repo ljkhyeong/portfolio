@@ -1,12 +1,12 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/defense.png",
-    "sourceSha256": "9e62ec10286f7cb3b79d2563eef62609bc1bffdd7fd79f55943c0957ee5d5e34",
+    "sourceSha256": "73f604ffdc04a1a038083bc387e27c484a638795ccb77520146953b85c15aceb",
     "artifactSha256": "6cdcabfdbd8da1d58e11d68f1da0df421b1cc6e2b9a9bf5e81328dfc9d930b46",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
-        "version": "Google Chrome 154.0.8037.98",
+        "version": "Google Chrome 154.0.8037.99",
         "platform": "darwin",
         "architecture": "arm64"
     }
