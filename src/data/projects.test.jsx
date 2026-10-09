@@ -91,7 +91,7 @@ describe("project summary data", () => {
 
         expect(intentTrace.category).toBe("오픈소스 및 개발 도구")
         expect(caseResults["intent-trace"]).toContain("v0.7.0")
-        expect(intentTrace.status.text).toContain("공개 main f24eabf")
+        expect(intentTrace.status.text).toContain("공개 main 4be09d2")
         expect(intentTrace.architecture.tradeoff).toContain("GitHub 원본 코드 비교는 별도 조회")
         expect(intentTrace.documents).toEqual(
             expect.arrayContaining([

@@ -26,7 +26,7 @@ export const caseResults = {
     "hope-commit":
         "커밋 AI 리뷰 HTML(Commit Diff)을 구현해 Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
     "intent-trace":
-        "서버, 웹 조회와 IntelliJ, Zed 연동을 구현했고 공개 main의 b7ac92a 로컬 검증에서 서버 테스트 264개가 통과했습니다. v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. 실제 PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.",
+        "서버, 웹 조회와 IntelliJ, Zed 연동을 구현했습니다. 공개 main 4be09d2의 GitHub Actions 검증과 서버 테스트 264개가 통과했습니다. v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. 실제 PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.",
     warrant: `기관별 요청 변환과 Spring Batch를 구현했습니다. 망 분리 구간 연계와, PDF 완료 응답이 요청 상태 저장보다 먼저 도착하는 경우를 시나리오로 확인했습니다. 성능 테스트 환경에서는 ${warrantPerformanceSummary}`,
     defense:
         "수용자 자료 검증 배치, CSRF 토큰 검증, Presigned URL 기반 대용량 파일 업로드를 폐쇄망에서 확인했습니다. 운영 중 멈춘 배치는 중단 단계를 찾은 뒤 해당 기관 배치만 다시 실행했습니다.",

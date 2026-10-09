@@ -275,9 +275,9 @@ const projects = [
                     {
                         id: "link-error",
                         src: "baton-go-link-error.webp",
-                        label: "링크 오류 안내",
-                        caption: "존재하지 않거나 아직 사용할 수 없는 링크, 만료와 폐기 안내",
-                        alt: "BATON GO가 사용할 수 없는 링크 상태를 한글로 안내하는 화면",
+                        label: "링크 상태 안내",
+                        caption: "활성 전 링크의 이용 시작 시각과 다시 열기 링크",
+                        alt: "BATON GO가 아직 사용할 수 없는 링크에 이용 시작 시각과 다시 열기 링크를 보여 주는 화면",
                         width: 1440,
                         height: 900,
                     },
@@ -1789,7 +1789,7 @@ const projects = [
             "사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.",
         status: {
             label: "그 밖의 구현",
-            text: "공개 main f24eabf에 Zed 편집기 hover와 PR 코드 줄 주석 게시를 추가했습니다. 실제 Zed 앱과 GitHub 게시는 확인하지 않았습니다.",
+            text: "공개 main 4be09d2에 Zed 편집기 hover와 PR 코드 줄 주석 게시를 추가하고, 웹 화면을 Thymeleaf로 바꿨습니다. 실제 Zed 앱과 GitHub 게시는 확인하지 않았습니다.",
         },
         visualCaption:
             "원문 대화와 숨은 추론은 저장하지 않습니다. 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
@@ -1886,6 +1886,7 @@ const projects = [
             "Spring Boot 4.1.1",
             "Spring AI MCP 2.0.1",
             "Spring MVC",
+            "Thymeleaf",
             "Spring JDBC",
             "Flyway",
             "PostgreSQL 17 / H2",
@@ -1900,9 +1901,9 @@ const projects = [
                 note: "서버, Codex 연동, IntelliJ 플러그인과 운영 문서",
             },
             {
-                label: "PR #26 검증 결과",
-                href: "https://github.com/ljkhyeong/intent-trace/actions/runs/37279250421",
-                note: "공개 main f24eabf와 같은 코드의 서버, IntelliJ, Zed 검증",
+                label: "공개 main 검증 결과",
+                href: "https://github.com/ljkhyeong/intent-trace/actions/runs/37591867661",
+                note: "공개 main 4be09d2의 서버, IntelliJ, Zed 검증",
             },
             {
                 label: "v0.7.0 릴리스",
@@ -1916,8 +1917,8 @@ const projects = [
                 id: "evidence",
                 src: "intent-trace-evidence.webp",
                 label: "GitHub 코드와 비교",
-                caption: "저장소 스냅샷과 관련 코드의 해시 일치 여부를 확인하는 웹 화면",
-                alt: "저장소 스냅샷과 관련 코드의 해시 일치 여부를 확인하는 웹 화면",
+                caption: "저장소 스냅샷과 관련 코드 줄의 해시를 GitHub 커밋과 비교한 결과",
+                alt: "스냅샷 해시와 관련 코드 줄 해시가 모두 일치한다고 표시한 비교 화면",
                 width: 1440,
                 height: 960,
             },
@@ -1932,7 +1933,7 @@ const projects = [
             },
         ],
         screenshotNote:
-            "서버 통합 테스트가 생성한 HTML을 2026년 9월 8일 로컬 Chrome에서 다시 확인했습니다. 저장소, 커밋, 기록은 테스트 데이터이며 실제 GitHub 게시 결과가 아닙니다.",
+            "공개 main의 서버 통합 테스트가 생성한 HTML을 2026년 10월 9일 로컬 Chrome에서 촬영했습니다. 저장소, 커밋, 기록은 테스트 데이터이며 실제 GitHub 게시 결과가 아닙니다.",
     },
     {
         ...projectSummariesById.warrant,

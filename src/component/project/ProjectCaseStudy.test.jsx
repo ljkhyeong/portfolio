@@ -463,7 +463,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
         }),
     ).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /v0\.7\.0.*PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.*공개 main f24eabf.*Zed 편집기 hover/,
+        /v0\.7\.0.*PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.*공개 main 4be09d2.*Zed 편집기 hover/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),

@@ -118,7 +118,7 @@ describe("공개 지식 문서 목록", () => {
         )
 
         expect(intentTraceOverview.content).toContain("변경 근거와 검증 결과를 코드 위치에")
-        expect(intentTraceOverview.content).toContain("공개 main f24eabf에 Zed 편집기 hover")
+        expect(intentTraceOverview.content).toContain("공개 main 4be09d2에 Zed 편집기 hover")
 
         const youthPolicyOverview = corpus.documents.find(
             (document) =>
