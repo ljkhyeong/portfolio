@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:84d168d06086",
+  "sourceRevision": "sha256:f32103834f24",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -22,7 +22,7 @@
   "documents": [
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:80bfa1d66d59",
+      "sourceRevision": "sha256:71b0b9844349",
       "documentId": "knowledge_8912b20b35d7ee59c5fdbf08",
       "projectId": "baton",
       "projectName": "BATON",
@@ -30,12 +30,12 @@
       "documentType": "project_overview",
       "title": "BATON 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: BATON\n\n역할, 반복 업무, 인수인계 서비스\n\n역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.\n\n기간: 2026.07.20 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소 6개\n\n담당: Core와 6개 서비스의 API, 데이터 저장, 이벤트 전달, 중단 작업 재처리 설계와 구현\n\n주요 구현 및 해결: 여러 팀의 오늘 할 일과 인수인계 문서를 Core에 모으고, 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC를 독립 서비스로 구현했습니다.\n\n확인한 범위: Core와 6개 서비스를 구현하고 서비스별 통합 테스트로 확인했습니다. Core와 BRIEF, CAL, ROUND의 연동은 로컬에서만 확인했습니다. 배포 환경에서 6개 서비스를 모두 연결하는 것은 아직 확인하지 않았습니다.\n\n현재 상태: 여러 팀의 내 업무 모아 보기, 자료 정기 확인 일정, 주간 보고서 필터와 공유, 개인 캘린더 구독을 구현했습니다.\n\n사용 기술: Java 21 / 25, Kotlin 2.4, TypeScript, Spring Boot, Spring MVC, Spring Data JPA / Spring JDBC, React 19 / Vite, MySQL 8.4 / PostgreSQL 18, Flyway, RabbitMQ 4.3 / Discord / AWS SQS FIFO, iCal4j 4.3, WebRTC / Spring WebSocket, Testcontainers / Playwright, Docker / Kubernetes / Caddy",
+      "content": "프로젝트: BATON\n\n역할, 반복 업무, 인수인계 서비스\n\n역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.\n\n기간: 2026.07.20 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 공개 저장소 6개\n\n담당: Core와 6개 서비스의 API, 데이터 저장, 이벤트 전달, 중단 작업 재처리 설계와 구현\n\n주요 구현 및 해결: 여러 팀의 오늘 할 일과 인수인계 문서를 Core에 모으고, 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC를 독립 서비스로 구현했습니다.\n\n확인한 범위: Core와 6개 서비스를 구현하고 서비스별 통합 테스트로 확인했습니다. Core와 BRIEF, CAL, ROUND의 연동은 로컬에서만 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.\n\n현재 상태: 여러 팀의 내 업무 모아 보기, 자료 정기 확인 일정, 주간 보고서 필터와 공유, 개인 캘린더 구독을 구현했습니다.\n\n사용 기술: Java 21 / 25, Kotlin 2.4, TypeScript, Spring Boot, Spring MVC, Spring Data JPA / Spring JDBC, React 19 / Vite, MySQL 8.4 / PostgreSQL 18, Flyway, RabbitMQ 4.3 / Discord / AWS SQS FIFO, iCal4j 4.3, WebRTC / Spring WebSocket, Testcontainers / Playwright, Docker / Kubernetes / Caddy",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/baton#project-overview",
       "route": "/projects/baton",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "80bfa1d66d59f2615113641d0d37adf3bc930869181f101862fdedc43f742639"
+      "sourceHash": "71b0b98443493b027926697c991b9c12cc888376705fb9a9cacd336d42114256"
     },
     {
       "schemaVersion": "1.0",
