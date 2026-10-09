@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-relay.png",
-    "sourceSha256": "bf1fdb21a4eda8f9ec5688c9baced50a20deb45a993ae5c7b82ae780095128ed",
-    "artifactSha256": "a8c51c45266e23b98ed7539cf9956239c72a8df91acdc08bf1dfb5e8f7503074",
+    "sourceSha256": "2ba7377b79fd6fe4f9338e299ca829baae32b8973086625308d9e5da3a5cb564",
+    "artifactSha256": "5632dc36d34d70e6fcc8585f752d18581aadfd8cfef8d6d2b8e4bd5cf52faa25",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
