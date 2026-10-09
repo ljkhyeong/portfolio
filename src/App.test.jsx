@@ -179,7 +179,7 @@ test("메인은 상세의 문제 해결, 문서와 서비스 구성을 반복하
         screen.queryByRole("navigation", { name: "BATON 마이크로서비스 상세" }),
     ).not.toBeInTheDocument()
     expect(screen.getByRole("region", { name: "경력" })).toHaveTextContent(
-        "SKIP LOCKED로 다른 서버가 선점한 작업은 건너뛰고",
+        "SKIP LOCKED로 작업을 선점했습니다",
     )
 })
 

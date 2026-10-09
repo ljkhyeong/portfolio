@@ -11,7 +11,7 @@ export const projectSummaries = [
         navigationLabel: "BATON",
         eyebrow: "역할, 반복 업무, 인수인계 서비스",
         homeSummary:
-            "팀의 역할과 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 한 화면에 모아 보는 서비스입니다. 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC 스터디룸은 6개 서비스로 분리했습니다.",
+            "팀의 역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 한 화면에 모아 보는 서비스입니다. 짧은 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC 스터디룸은 6개 마이크로서비스로 분리했습니다.",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/baton",
@@ -19,9 +19,9 @@ export const projectSummaries = [
         summary:
             "역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.",
         homeStory:
-            "같은 요청이나 이벤트가 다시 들어와도 멱등 키로 링크 생성과 외부 전송을 한 번만 실행합니다. 외부 전송의 응답이 유실되면 자동 재전송하지 않고, 운영자가 수신 측 기록을 확인해 결과를 확정합니다.",
+            "중복 요청과 이벤트는 멱등 키로 걸러 링크 생성과 외부 전송을 한 번만 실행합니다. 전송 응답이 유실되면 자동 재전송하지 않고, 운영자가 수신 측 기록을 확인해 결과를 확정합니다.",
         homeCheck:
-            "Core와 BRIEF, CAL, ROUND의 연동은 로컬에서 확인했습니다. 배포 환경에서 6개 서비스를 모두 연결하는 것은 아직 확인하지 않았습니다.",
+            "Core와 BRIEF, CAL, ROUND의 연동은 로컬에서 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "today",
             src: "baton-core-today.webp",
@@ -82,11 +82,11 @@ export const projectSummaries = [
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계",
         timelineLabel: "전송형 전자영장",
         homeSummary:
-            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 잇는 시스템입니다. 형사사법정보시스템(KICS)의 요청을 통신사와 포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다. 형사사법정보시스템(KICS)의 요청을 통신사와 포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         summary:
             "법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         homeStory:
-            "이중화된 서버에서 같은 연계 작업이 중복 실행될 수 있었습니다. SKIP LOCKED로 다른 서버가 선점한 작업은 건너뛰고, 외부 API 호출을 트랜잭션 밖으로 분리해 DB 커넥션을 오래 점유하지 않게 했습니다. 처리 중 멈춘 작업은 설정한 시간이 지나면 재처리합니다.",
+            "이중화 서버에서 같은 연계 작업이 중복 실행되지 않도록 SKIP LOCKED로 작업을 선점했습니다. 외부 API 호출은 트랜잭션 밖으로 분리해 DB 커넥션을 오래 점유하지 않게 했고, 처리 중 멈춘 작업은 설정한 시간이 지나면 재처리합니다.",
         period: "2026.03.24 — 현재",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
@@ -104,7 +104,7 @@ export const projectSummaries = [
         navigationLabel: "happyGallery",
         eyebrow: "공방 상품 판매와 예약 서비스",
         homeSummary:
-            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 동기화하는 서비스입니다. 카드와 간편결제, 공휴일과 주소 조회도 연동했습니다.",
+            "공방의 상품 주문과 클래스 예약을 받고, 스마트스토어 주문과 재고를 동기화하는 서비스입니다. 카드와 간편결제는 Toss로 연동했습니다.",
         liveSite: {
             label: "서비스 보기",
             href: "https://happy-gallery.com",
@@ -117,7 +117,7 @@ export const projectSummaries = [
         summary:
             "공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.",
         homeStory:
-            "결제사 응답이 유실되면 승인이나 환불을 다시 요청하지 않고, 같은 결제 키로 처리 결과를 조회합니다. 서버 중단으로 보내지 못한 알림은 재처리하고, 스마트스토어 주문이 다시 들어오면 바뀐 수량만 재고에 반영합니다.",
+            "결제사 응답이 유실되면 승인이나 환불을 다시 요청하지 않고, orderId와 멱등 키로 결과를 조회합니다. 서버 중단으로 보내지 못한 알림은 Outbox로 재처리하고, 스마트스토어 변경 주문은 수량 차이만 재고에 반영합니다.",
         homeCheck:
             "결제 흐름은 모의 결제사 응답으로 통합 테스트했습니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
@@ -159,7 +159,7 @@ export const projectSummaries = [
             label: "정책 탐색 홈",
             caption: "상황을 선택해 분야별 정책을 찾는 웹앱 홈",
             alt: "상황을 선택해 분야별 정책을 찾는 청년정책메이트 홈",
-            note: "로컬 앱, 공개 정책 데이터",
+            note: "로컬에서 공개 정책 데이터로 찍은 화면",
             width: 780,
             height: 1688,
             // 세로 화면은 카드(16:10)에서 위쪽만 보이므로 그 부분만 잘라 둔다.
@@ -192,7 +192,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML",
         homeSummary:
-            "SeungIl 님의 Hope 6.0.0을 포크해, 지정한 커밋을 AI가 리뷰하고 각 리뷰 설명을 변경된 줄에 연결해 HTML로 보여 주는 기능을 추가했습니다.",
+            "SeungIl 님의 Hope 6.0.0을 포크해 커밋 리뷰 기능을 추가했습니다. 지정한 커밋을 AI가 리뷰하고, 각 리뷰 항목을 변경된 코드 줄에 연결해 HTML로 보여 줍니다.",
         homeCheck:
             "Hope Commit v5.0.2로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
         coverScreenshot: {
@@ -266,9 +266,9 @@ export const projectSummaries = [
         navigationLabel: "군사법",
         eyebrow: "BEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영",
         homeSummary:
-            "국방부 산하 4개 기관이 쓰는 폐쇄망 시스템에서 세 기관의 수용자 자료를 군교정 DB에 반영하는 배치를 만들었습니다. CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드도 개발했습니다.",
+            "군사법원, 군검찰, 군사경찰의 수용자 자료를 군교정 DB에 반영하는 배치를 개발했습니다. CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드도 구현했습니다.",
         homeStory:
-            "배치가 멈추면 Jenkins 실행 이력, JEUS 로그, Tibero 데이터를 대조해 실패 단계를 찾고 해당 기관 배치만 재실행했습니다.",
+            "통합 모니터링이 없는 폐쇄망에서 배치가 멈추면 Jenkins 실행 이력, JEUS 로그, Tibero 데이터를 대조해 실패 단계를 찾고 해당 기관 배치만 재실행했습니다.",
         summary:
             "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 중단된 배치는 Jenkins, JEUS, Tibero 정보를 대조해 재실행했습니다.",
         period: "2024.06.23 — 2026.01.30",
@@ -292,7 +292,7 @@ export const projectSummaries = [
         eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
         timelineLabel: "WebRTC/HLS 팀 프로젝트",
         homeSummary:
-            "카카오 클라우드 스쿨에서 6명이 만든 실시간 강의 서비스입니다. 저는 RTP 영상을 HLS로 바꾸는 서버와 React 화면을 맡았습니다.",
+            "카카오 클라우드 스쿨에서 6명이 만든 실시간 강의 서비스입니다. 저는 RTP 영상을 HLS로 변환하는 서버와 React 화면을 맡았습니다.",
         coverText: { text: "RTP → HLS → React", label: "맡은 부분", note: "변환 서버와 재생 화면" },
         summary:
             "WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
