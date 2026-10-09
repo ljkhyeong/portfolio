@@ -396,7 +396,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
     expect(screen.getByText(/카드는 Toss 통합 결제창/)).toBeInTheDocument()
     expect(
         screen.getByRole("link", {
-            name: /업무 규칙과 웹 및 DB 코드 분리 대표 문서 새 창에서 보기/,
+            name: /포트와 어댑터 구조로 업무 규칙 분리 대표 문서 새 창에서 보기/,
         }),
     ).toHaveAttribute("href", expect.stringContaining("ADR/0021"))
     expect(screen.getAllByText("적용 범위와 제약").length).toBeGreaterThan(0)

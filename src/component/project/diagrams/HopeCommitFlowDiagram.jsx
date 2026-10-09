@@ -174,7 +174,7 @@ const HopeCommitFlowDiagram = () => {
                                 최초 커밋
                             </text>
                             <text className="hope-commit-flow__node-title" x="480" y="280">
-                                Git 빈 상태
+                                Git 빈 트리
                             </text>
                             <text className="hope-commit-flow__node-detail" x="480" y="304">
                                 비교 기준

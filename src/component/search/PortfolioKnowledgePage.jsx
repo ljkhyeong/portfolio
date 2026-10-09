@@ -542,7 +542,7 @@ const PortfolioKnowledgePage = () => {
                                 placeholder={
                                     projectId
                                         ? `예: ${suggestions.questions[0]}`
-                                        : "예: 결제 승인 응답이 누락되면 어떻게 처리했나요?"
+                                        : "예: 결제 승인 응답이 유실되면 어떻게 처리했나요?"
                                 }
                                 autoComplete="off"
                             />

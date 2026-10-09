@@ -50,7 +50,7 @@ const routeMetaContent = {
     "/projects/baton/round": {
         title: "BATON ROUND | 임정규 포트폴리오",
         description:
-            "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고 Cloudflare TURN 또는 coturn을 지원하는 ROUND 마이크로서비스",
+            "Core 입장 토큰을 검증해 최대 6명의 WebRTC 시그널링 메시지를 전달하고 Cloudflare TURN 또는 coturn을 지원하는 ROUND 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/e-warrant": {

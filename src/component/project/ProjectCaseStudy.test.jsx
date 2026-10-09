@@ -515,7 +515,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(
         screen.getByRole("list", { name: "전송형 전자영장 시스템 기술 스택" }),
     ).toHaveTextContent("Oracle Database")
-    expect(screen.getByText(/KICS 요청과 기관 제출 자료가 독립망 사이/)).toBeInTheDocument()
+    expect(screen.getByText(/KICS 요청과 기관 제출 자료가 분리된 망 사이/)).toBeInTheDocument()
     expect(screen.getByText(projectsById.warrant.role)).toBeInTheDocument()
     expect(screen.queryByText(projectsById.warrant.oneLine)).not.toBeInTheDocument()
     expect(screen.getAllByText(/FOR UPDATE SKIP LOCKED/).length).toBeGreaterThan(0)
@@ -652,8 +652,8 @@ test.each([
     [
         "round",
         "ROUND",
-        "Core 입장 토큰을 검증해 최대 6명의 WebRTC 연결 메시지를 전달하고, Cloudflare TURN 또는 coturn 접속 정보를 제공합니다.",
-        /이전 연결 메시지 차단/,
+        "Core 입장 토큰을 검증해 최대 6명의 WebRTC 시그널링 메시지를 전달하고, Cloudflare TURN 또는 coturn 접속 정보를 제공합니다.",
+        /이전 연결의 늦은 메시지 차단/,
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
     renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
@@ -732,7 +732,7 @@ test.each([
         /BRIEF 공개 저장소 보기/,
         [
             /점검 상태, 보고서 이력과 비교.*업무 종류, 주간, 시간대 필터.*304/,
-            /공개 main fc6dede와 이전 Core 로컬 교차 검증 기록/,
+            /공개 main fc6dede 기준입니다. Core 연동은 이전 버전에서 로컬로 교차 검증한 기록입니다/,
             /공인 DNS와 원격 환경의 전체 서비스 연결은 아직 확인하지 않았습니다/,
         ],
         /주간 보고서와 점검 항목 조회, 이벤트 수신, 검증 기록/,
@@ -782,7 +782,7 @@ test("BATON ROUND 상세는 Core의 방 입장 확인과 ROUND의 WebRTC 처리�
     expect(screen.getByRole("heading", { name: "ROUND", level: 1 })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "Core는 입장 권한, ROUND는 연결 중계 담당",
+            name: "Core는 입장 권한, ROUND는 시그널링 담당",
         }),
     ).toBeInTheDocument()
     expect(

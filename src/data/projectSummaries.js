@@ -145,7 +145,7 @@ export const projectSummaries = [
         presentation: "webapp-case",
         title: "청년정책메이트",
         navigationLabel: "청년정책메이트",
-        eyebrow: "서울 청년 정책 탐색과 일정 관리 웹앱",
+        eyebrow: "서울 청년 정책 탐색과 마감 알림 웹앱",
         homeRepository: {
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",

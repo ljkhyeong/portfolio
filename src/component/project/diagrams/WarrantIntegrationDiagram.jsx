@@ -429,7 +429,7 @@ const WarrantIntegrationDiagram = () => (
                         rx="4"
                     />
                     <text x="600" y="520">
-                        독립망 경계
+                        망 경계
                     </text>
                 </g>
             </svg>

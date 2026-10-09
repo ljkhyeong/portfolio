@@ -7,7 +7,7 @@ export const projectOgCards = [
         title: ["BATON"],
         category: "개인 프로젝트 / 역할, 업무, 인수인계",
         description: "역할, 업무, 인수인계는 Core가,\n나머지 6개 기능은 독립 서비스가 처리합니다.",
-        caption: "조직 업무를 맡는 Core와 6개 독립 서비스",
+        caption: "역할과 인수인계를 맡는 Core와 6개 독립 서비스",
         labels: ["GO", "WATCH", "RELAY", "BRIEF", "CAL", "ROUND"],
     },
     {
@@ -29,7 +29,7 @@ export const projectOgCards = [
         route: "/projects/happygallery",
         title: ["happyGallery"],
         category: "개인 프로젝트 / 공방 주문과 예약",
-        description: "카드와 간편결제를 처리하고\n스마트스토어 주문과 재고를 맞춥니다.",
+        description: "카드와 간편결제를 처리하고\n스마트스토어 주문과 재고를 동기화합니다.",
         caption: "자사몰과 스마트스토어의 주문 및 재고 연동",
         steps: [
             ["자사몰 결제", "카드, 네이버페이, 카카오페이"],

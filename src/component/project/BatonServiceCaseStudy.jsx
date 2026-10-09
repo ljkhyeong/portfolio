@@ -105,7 +105,7 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                     ) : null}
                     <BatonServiceFlowDiagram serviceId={serviceId} />
                     <details className="baton-service-scope">
-                        <summary>구현 범위와 제약</summary>
+                        <summary>구현 상세</summary>
                         <div>
                             <p>{service.contribution}</p>
                             <dl>

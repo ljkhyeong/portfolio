@@ -120,7 +120,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main fc6dede와 이전 Core 로컬 교차 검증 기록 기준입니다.",
+                text: "공개 main fc6dede 기준입니다. Core 연동은 이전 버전에서 로컬로 교차 검증한 기록입니다.",
             },
             {
                 kind: "unverified",
@@ -201,13 +201,13 @@ export const batonServicePresentations = {
             },
         ],
         flow: {
-            title: "입장은 Core가, 연결 메시지는 ROUND가 담당합니다",
+            title: "입장은 Core가, 시그널링은 ROUND가 담당합니다",
             description:
-                "Core가 발급한 RS256 입장 토큰을 ROUND가 검증한 뒤 WebSocket으로 연결 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고, 연결이 어려우면 Cloudflare TURN 또는 coturn을 사용합니다.",
+                "Core가 발급한 RS256 입장 토큰을 ROUND가 검증한 뒤 WebSocket으로 시그널링 메시지를 전달합니다. 브라우저는 mesh로 직접 연결하고, 연결이 어려우면 Cloudflare TURN 또는 coturn을 사용합니다.",
             note: "미디어는 시그널링 서버를 거치지 않습니다. 현재 연결 순번이 아닌 SDP와 ICE 메시지는 버립니다.",
             compact: {
                 input: ["Core 입장 토큰", "RS256 서명 검증"],
-                action: ["WebSocket 시그널링", "연결 메시지만 전달"],
+                action: ["WebSocket 시그널링", "SDP와 ICE만 전달"],
                 outputs: [
                     ["직접 연결", "mesh WebRTC"],
                     ["직접 연결 어려움", "Cloudflare TURN"],
