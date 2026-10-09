@@ -15,6 +15,7 @@ import {
     renderPreloadTags,
     routeEntryModule,
 } from "./route-preload.mjs"
+import { readAssetVersions } from "./asset-versions.mjs"
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const buildDirectory = path.join(repositoryRoot, "build")
@@ -40,6 +41,8 @@ const loadProjects = async () => {
 }
 
 const projects = await loadProjects()
+// 화면의 이미지 주소와 같은 버전을 써야 미리 받은 캡처를 그대로 재사용한다.
+const assetVersions = readAssetVersions(buildDirectory)
 
 const preloadTagsFor = (pathname) => {
     const moduleKey = routeEntryModule(manifest, pathname)
@@ -49,6 +52,7 @@ const preloadTagsFor = (pathname) => {
     return renderPreloadTags({
         ...collectRouteAssets(manifest, moduleKey),
         image: firstScreenshotPath(projects, pathname),
+        assetVersions,
     })
 }
 

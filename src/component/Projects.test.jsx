@@ -20,7 +20,7 @@ test("개인 프로젝트는 실제 화면과 촬영 조건, 확인한 범위를
     const baton = articleOf("BATON")
     expect(within(baton).getByRole("img", { name: /BATON 할 일 화면/ })).toHaveAttribute(
         "src",
-        expect.stringContaining("baton-core-today.webp"),
+        expect.stringMatching(/\/baton-core-today\.webp\?v=[0-9a-f]{10}$/),
     )
     expect(baton).toHaveTextContent("내 할 일 테스트 데이터로 찍은 화면")
     expect(baton).toHaveTextContent("링크 생성과 외부 전송을 한 번만 실행합니다")

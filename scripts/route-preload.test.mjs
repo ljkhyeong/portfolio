@@ -71,6 +71,9 @@ describe("경로별 미리 불러오기", () => {
         expect(tags).toContain('<link rel="modulepreload" crossorigin href="/assets/x.js" />')
         expect(tags).toContain('<link rel="preload" as="style" crossorigin href="/assets/x.css" />')
         expect(tags).toContain('media="(min-width: 1024px)" href="/a%20b.webp"')
+        expect(
+            renderPreloadTags({ image: "a b.webp", assetVersions: { "a b.webp": "0123456789" } }),
+        ).toContain('href="/a%20b.webp?v=0123456789"')
         expect(injectPreloadTags("<head>\n    </head>", tags)).toMatch(/x\.js[\s\S]*<\/head>/)
         expect(injectPreloadTags("<head></head>", "")).toBe("<head></head>")
     })
