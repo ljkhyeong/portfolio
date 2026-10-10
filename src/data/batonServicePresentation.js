@@ -1,8 +1,5 @@
 export const batonServicePresentations = {
     go: {
-        target: "재요청과 동시 요청으로 생기는 중복 링크",
-        decision: "UUID와 요청 조건을 비교해 기존 링크 반환",
-        result: "동시 요청 8건에도 링크와 처리 기록 각 1건",
         verification: [
             {
                 kind: "verified",
@@ -36,9 +33,6 @@ export const batonServicePresentations = {
         },
     },
     watch: {
-        target: "위험한 URL 접근과 중단된 점검 작업",
-        decision: "공인 IP만 점검하고 기한이 지난 점검 재실행",
-        result: "사설망 접근과 DNS 리바인딩 차단, 이전 결과 저장 방지 확인",
         verification: [
             {
                 kind: "verified",
@@ -71,9 +65,6 @@ export const batonServicePresentations = {
         },
     },
     relay: {
-        target: "이벤트 중복 수신과 전송 결과 미확인",
-        decision: "시도 UUID를 유지하고 결과 미확인은 재전송 중단",
-        result: "중복 수신 차단과 서버 중단 후 시도 UUID와 멱등 키 유지 확인",
         verification: [
             {
                 kind: "verified",
@@ -108,9 +99,6 @@ export const batonServicePresentations = {
         },
     },
     brief: {
-        target: "Core 판정과 보고서 내용의 불일치",
-        decision: "5개 점검 결과를 그대로 반영하고 발행 보고서는 보존",
-        result: "상태 반영, 보고서 수정 차단과 실제 Core 연동 확인",
         verification: [
             {
                 kind: "verified",
@@ -144,9 +132,6 @@ export const batonServicePresentations = {
         },
     },
     cal: {
-        target: "늦게 도착한 이전 일정의 덮어쓰기",
-        decision: "버전 번호 검증, 읽기 전용 피드와 ETag 응답",
-        result: "Core 일정 호환성, 과거 버전 차단과 304 응답 확인",
         verification: [
             {
                 kind: "verified",
@@ -180,9 +165,6 @@ export const batonServicePresentations = {
         },
     },
     round: {
-        target: "스터디 입장 권한과 WebRTC 연결 처리 분리",
-        decision: "Core 입장 토큰 검증 후 시그널링, 필요하면 TURN",
-        result: "Chromium, WebKit 호환성과 Core 연동 검사 통과",
         verification: [
             {
                 kind: "verified",
