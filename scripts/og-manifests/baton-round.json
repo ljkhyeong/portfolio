@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-round.png",
-    "sourceSha256": "b3d6572e029bb751070f7f208b4084dc86c15a1376ed72c015078e4e7b8e5ca0",
-    "artifactSha256": "378531fa7a77662bee995ac6c9c1b040a0d236208cefb8a7fac5267b59d1665b",
+    "sourceSha256": "934662d6750513c940b2ecd4a8c4df0bfb0e60e3849ba82bfac89d1ba37ca09d",
+    "artifactSha256": "3f3e430bdf3490b3d4bf527c59c5fc50aa842aa2d111a2de6a9fabe8e8822a2b",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",

@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-watch.png",
-    "sourceSha256": "b3d6572e029bb751070f7f208b4084dc86c15a1376ed72c015078e4e7b8e5ca0",
-    "artifactSha256": "d2883624b933ea1bb726ea9df20120604a86d67ce7c038768f3087770412f239",
+    "sourceSha256": "934662d6750513c940b2ecd4a8c4df0bfb0e60e3849ba82bfac89d1ba37ca09d",
+    "artifactSha256": "c997cda8ad22ee3f6d354a50e4c88ab73e63edbafb8b2e6b001c851442870185",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
