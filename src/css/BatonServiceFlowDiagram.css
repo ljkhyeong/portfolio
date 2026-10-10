@@ -72,8 +72,9 @@
     font-weight: 700;
 }
 
+/* 연한 초록 배경 위 작은 태그는 강조색으로도 대비가 4.5:1에 조금 못 미쳐 한 단계 진한 초록을 쓴다. */
 .service-flow-node--focal .service-flow-node__tag {
-    fill: var(--accent, #0f7b5f);
+    fill: var(--diagram-accent-text, #0b6e54);
 }
 
 .service-flow-node__title {

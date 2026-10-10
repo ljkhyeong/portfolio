@@ -481,6 +481,7 @@ a.career-timeline__item:focus-visible .career-timeline__name {
     margin-top: 8px;
     color: var(--muted);
     font-size: 13px;
+    word-break: keep-all;
 }
 
 .home-shot figcaption strong {

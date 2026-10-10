@@ -8,6 +8,7 @@
     --diagram-rule-strong: #afb8c1;
     --diagram-accent: #0f7b5f;
     --diagram-accent-tint: rgba(15, 123, 95, 0.08);
+    --diagram-accent-text: #0b6e54;
     --diagram-zone-fill: rgba(31, 35, 40, 0.015);
     --diagram-zone-stroke: rgba(31, 35, 40, 0.18);
     --diagram-external-fill: rgba(31, 35, 40, 0.025);
@@ -146,9 +147,9 @@
     stroke-width: 1.2;
 }
 
-/* 강조 노드의 배경이 밝아져 보조색 태그는 대비가 부족하므로 강조색을 쓴다. */
+/* 강조 노드의 연한 초록 배경 위 작은 태그는 강조색으로도 대비가 4.5:1에 조금 못 미쳐 한 단계 진한 초록을 쓴다. */
 .editorial-diagram__node--focal > .editorial-diagram__tag {
-    fill: var(--diagram-accent);
+    fill: var(--diagram-accent-text);
 }
 
 .editorial-diagram__node--external > rect {
