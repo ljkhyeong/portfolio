@@ -21,7 +21,7 @@ export const projectOgCards = [
         steps: [
             ["KICS", "영장과 자료 요청"],
             ["기관별 규격 변환", "연계 서버와 Spring Batch"],
-            ["통신사와 집행포털", "자료 제출 후 KICS 반영"],
+            ["통신사와 영장집행포털", "자료 제출 후 KICS 반영"],
         ],
     },
     {

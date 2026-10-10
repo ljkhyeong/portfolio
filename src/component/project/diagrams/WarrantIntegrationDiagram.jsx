@@ -2,7 +2,7 @@ const WarrantIntegrationDiagram = () => (
     <figure className="editorial-diagram warrant-integration">
         <figcaption className="editorial-diagram__header">
             <h3 className="editorial-diagram__title">KICS 요청 변환 및 제출 자료 반영</h3>
-            <p>요청은 통신사 및 포털 형식으로 전달하고, 제출 자료는 KICS에 반영합니다.</p>
+            <p>요청은 통신사 및 영장집행포털 형식으로 전달하고, 제출 자료는 KICS에 반영합니다.</p>
         </figcaption>
         <div
             className="editorial-diagram__viewport"
@@ -18,8 +18,8 @@ const WarrantIntegrationDiagram = () => (
             >
                 <title id="warrant-integration-title">KICS 요청 변환 및 기관 연계 흐름</title>
                 <desc id="warrant-integration-desc">
-                    KICS 연계 서버와 배치는 요청을 통신사와 포털 형식으로 변환해 전달하고, 통신사와
-                    금융기관의 제출 자료를 KICS에 반영합니다.
+                    KICS 연계 서버와 배치는 요청을 통신사와 영장집행포털 형식으로 변환해 전달하고,
+                    통신사와 금융기관의 제출 자료를 KICS에 반영합니다.
                 </desc>
                 <defs>
                     <marker
@@ -101,7 +101,7 @@ const WarrantIntegrationDiagram = () => (
                         y="56"
                         textAnchor="middle"
                     >
-                        인터넷망 / 전자영장 포털
+                        인터넷망 / 영장집행포털
                     </text>
                     <rect
                         className="editorial-diagram__label-mask"
@@ -332,7 +332,7 @@ const WarrantIntegrationDiagram = () => (
                         </text>
                         <text className="editorial-diagram__node-title" x="412" y="168">
                             <tspan x="412" dy="0">
-                                전자영장
+                                영장집행
                             </tspan>
                             <tspan x="412" dy="28">
                                 포털

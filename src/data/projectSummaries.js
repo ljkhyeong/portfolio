@@ -82,7 +82,7 @@ export const projectSummaries = [
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계",
         timelineLabel: "전송형 전자영장",
         homeSummary:
-            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다. 형사사법정보시스템(KICS)의 요청을 통신사와 포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다. 형사사법정보시스템(KICS)의 요청을 통신사와 영장집행포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         summary:
             "법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.",
         homeStory:

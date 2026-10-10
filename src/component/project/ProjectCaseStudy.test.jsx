@@ -483,7 +483,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         screen.getByRole("heading", { name: "KICS와 기관 간 요청 및 자료 연계 흐름" }),
     ).toBeInTheDocument()
     const integrationDiagram = screen.getByRole("img", {
-        name: /KICS 요청 변환 및 기관 연계 흐름.*요청을 통신사와 포털 형식으로 변환.*제출 자료를 KICS에 반영/,
+        name: /KICS 요청 변환 및 기관 연계 흐름.*요청을 통신사와 영장집행포털 형식으로 변환.*제출 자료를 KICS에 반영/,
     })
 
     expect(integrationDiagram).toBeInTheDocument()
@@ -511,7 +511,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(screen.getByText("통신사용 요청")).toBeInTheDocument()
     expect(screen.getByText("통신사 제출 자료")).toBeInTheDocument()
     expect(screen.getByText("KICS 행정망")).toBeInTheDocument()
-    expect(screen.getByText("인터넷망 / 전자영장 포털")).toBeInTheDocument()
+    expect(screen.getByText("인터넷망 / 영장집행포털")).toBeInTheDocument()
     expect(
         screen.getByRole("list", { name: "전송형 전자영장 시스템 기술 스택" }),
     ).toHaveTextContent("Oracle Database")

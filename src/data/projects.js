@@ -1939,9 +1939,9 @@ const projects = [
     {
         ...projectSummariesById.warrant,
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "형사사법정보시스템(KICS) 요청을 통신사와 포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현",
+        role: "형사사법정보시스템(KICS) 요청을 통신사와 영장집행포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현",
         oneLine:
-            "KICS 요청을 통신사와 집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.",
+            "KICS 요청을 통신사와 영장집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.",
         status: {
             label: "공개 범위",
             text: "BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.",
