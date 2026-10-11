@@ -5,7 +5,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "외부 연동과 배치를 개발하는 Java 백엔드 개발자 임정규의 포트폴리오입니다. 전자영장 연계 서버와 결제 연동, 마이크로서비스로 분리한 개인 프로젝트를 소개합니다.",
+        "외부 연동과 배치에서 중복과 누락을 막는 Java 백엔드 개발자 임정규의 포트폴리오입니다. 전자영장 연계 서버와 결제 연동, 마이크로서비스로 분리한 개인 프로젝트를 소개합니다.",
     image: "/og-cover.png",
 }
 
@@ -56,7 +56,7 @@ const routeMetaContent = {
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
         description:
-            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관(법무부, 공수처, 검찰, 경찰, 해양경찰) 전자영장 연계 시스템의 KICS 요청 변환과 제출 자료 반영 서버와 Spring Batch를 개발 중인 경력 사례",
+            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관 전자영장 연계 서버와 배치(Spring Batch)를 개발하며, 이중화 서버의 중복 실행 방지와 중단 작업 재처리를 구현한 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/happygallery": {
@@ -86,7 +86,7 @@ const routeMetaContent = {
     "/projects/defense": {
         title: "차세대 군사법 정보 시스템 | 임정규 포트폴리오",
         description:
-            "국방부 산하 4개 기관(군사법원, 군검찰, 군사경찰, 군교정) 연계 시스템에서 수용자 자료 검증 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발한 경력 사례",
+            "국방부 산하 4개 기관(군사법원, 군검찰, 군사경찰, 군교정) 연계 시스템에서 수용자 자료 검증 배치, 중단 배치 재실행, CSRF 토큰 검증, Presigned URL 기반 대용량 파일 업로드를 맡은 경력 사례",
         image: "/og-cover.png",
     },
     "/projects/webrtc": {

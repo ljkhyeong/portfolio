@@ -1,3 +1,4 @@
+import { Fragment } from "react"
 import { assetPath } from "../utils/assetPath"
 import { homeHeroContent } from "../data/homeHero"
 import { portfolioProfile } from "../data/profile"
@@ -19,7 +20,12 @@ const HomeIntro = () => (
                     {portfolioProfile.name}
                 </p>
                 <h1 id="home-hero-title" data-route-heading="/">
-                    {homeHeroContent.headline}
+                    {homeHeroContent.headlinePhrases.map((phrase, index) => (
+                        <Fragment key={phrase}>
+                            {index > 0 && " "}
+                            <span className="home-intro__phrase">{phrase}</span>
+                        </Fragment>
+                    ))}
                 </h1>
             </div>
             <div className="home-intro__side">

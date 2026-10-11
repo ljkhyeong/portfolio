@@ -75,6 +75,11 @@
     word-break: keep-all;
 }
 
+/* 구절이 들어갈 폭이면 한 줄로 두고, 좁은 화면에서만 구절 안에서 줄을 바꾼다. */
+.home-intro__phrase {
+    display: inline-block;
+}
+
 .home-intro__side {
     flex: 0 1 430px;
     min-width: 0;
