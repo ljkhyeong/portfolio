@@ -51,7 +51,7 @@ description: 포트폴리오의 한국어 문구를 작성, 수정, 검토할 �
 | PDF                             | 홈 데이터를 재사용한다. 인쇄 전용 문구는 `src/component/print/PortfolioPrintPage.jsx`                                                                              |
 | README                          | `README.md`의 프로젝트 목록                                                                                                                                        |
 
-`public/knowledge/portfolio.json`과 `docs/knowledge-document-snapshots.json`은 생성물이나 외부 저장소 사본이므로 직접 고치지 않는다. 홈 제목은 강조 구간 길이로 줄을 나누므로 제목과 강조 구간을 함께 고친다.
+`public/knowledge/portfolio.json`과 `docs/knowledge-document-snapshots.json`은 생성물이나 외부 저장소 사본이므로 직접 고치지 않는다. 홈 제목은 `homeHero.js`의 `headlinePhrases` 구절 사이에서만 줄을 바꾸므로, 제목을 고칠 때 구절 나눔도 함께 정하고 1440px과 390px에서 줄바꿈을 확인한다.
 
 ## 절차
 

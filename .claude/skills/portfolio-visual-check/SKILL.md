@@ -45,7 +45,7 @@ node .claude/skills/portfolio-visual-check/scripts/capture.mjs --routes /,/proje
 
 변경한 요소가 보이는 캡처는 Read 도구로 직접 확인한다. 다음 항목은 자동 검사가 잡지 못한다.
 
--   제목과 강조 구간의 줄바꿈, 한 글자만 다음 줄로 넘어간 줄
+-   제목 구절의 줄바꿈, 한 글자만 다음 줄로 넘어간 줄
 -   HTML 글자와 이미지의 겹침, 카드와 열의 정렬
 -   모바일에서 숨기거나 다시 배치한 요소가 의도대로 보이는지
 -   인쇄 화면(`/portfolio/print`)의 밝은 배경과 A4 배치. PDF 자체는 `portfolio-artifacts` 스킬로 확인한다.
