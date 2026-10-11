@@ -236,7 +236,7 @@ test("경력은 메인 한 곳에서 회사, 기간, 맡은 일과 상세 링크
 
     expect(summary.compareDocumentPosition(projects)).toBe(Node.DOCUMENT_POSITION_FOLLOWING)
     expect(summary).toHaveTextContent("BEINTECH 백엔드 개발자, 2024년 6월부터")
-    expect(currentRow).toHaveTextContent("2026.03 — 현재, 진행 중")
+    expect(currentRow).toHaveTextContent("2026.03 — 현재, 운영 중")
     expect(currentRow).toHaveTextContent("LG CNS 컨소시엄 참여, 5개 기관 연계 시스템")
     expect(previousRow).toHaveTextContent("2024.06 — 2026.01, 종료")
     expect(previousRow).toHaveTextContent("국방부 산하 4개 기관 연계 시스템")

@@ -91,7 +91,7 @@ export const projectSummaries = [
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
         visual: "warrant",
-        stage: "진행 중",
+        stage: "운영 중",
         visibility: "담당 구현과 테스트 요약 공개",
     },
     {

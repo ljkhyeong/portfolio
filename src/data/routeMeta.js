@@ -1,11 +1,12 @@
 import { projectOgImagesByRoute } from "./projectOg.js"
+import { warrantOperation } from "./warrantEvidence.js"
 
 export const siteUrl = "https://ljkportfolio.netlify.app"
 
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "외부 연동과 배치에서 중복과 누락을 막는 Java 백엔드 개발자 임정규의 포트폴리오입니다. 전자영장 연계 서버와 결제 연동, 마이크로서비스로 분리한 개인 프로젝트를 소개합니다.",
+        "5개 기관이 쓰는 전자영장 연계 서버를 개발하는 백엔드 개발자 임정규의 포트폴리오입니다. 결제를 연동한 서비스와 마이크로서비스로 분리한 개인 프로젝트도 소개합니다.",
     image: "/og-cover.png",
 }
 
@@ -55,8 +56,7 @@ const routeMetaContent = {
     },
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
-        description:
-            "BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 5개 기관 전자영장 연계 서버와 배치(Spring Batch)를 개발하며, 이중화 서버의 중복 실행 방지와 중단 작업 재처리를 구현한 경력 사례",
+        description: `BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 ${warrantOperation.openedOn} 개통한 5개 기관 전자영장 연계 서버와 배치(Spring Batch)를 개발하며, 이중화 서버의 중복 실행 방지와 중단 작업 재처리를 구현한 경력 사례`,
         image: "/og-cover.png",
     },
     "/projects/happygallery": {

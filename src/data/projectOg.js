@@ -14,7 +14,7 @@ export const projectOgCards = [
         id: "e-warrant",
         route: "/projects/e-warrant",
         title: ["전송형", "전자영장 시스템"],
-        category: "경력 프로젝트 / LG CNS 컨소시엄 / 5개 기관 연계",
+        category: "경력 프로젝트 / LG CNS 컨소시엄 / 5개 기관 연계 / 운영 중",
         description:
             "기관별 요청 형식을 변환하고\n제출 자료를 형사사법정보시스템(KICS)에 반영합니다.",
         caption: "요청 전달과 제출 자료 반영",
