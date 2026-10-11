@@ -491,7 +491,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     expect(
         await screen.findByRole("heading", { name: "WATCH", level: 1 }, lazyRouteLoadOptions),
     ).toBeInTheDocument()
-    expect(screen.getByText("BATON / MICROSERVICE")).toBeInTheDocument()
+    expect(screen.getByText("BATON / 마이크로서비스")).toBeInTheDocument()
     expect(
         screen.getByText(
             "사설망 접근을 차단하고, 공개 URL의 응답 상태와 헤더로 연결 상태를 점검합니다. 상태 변경은 Core로 전달합니다.",

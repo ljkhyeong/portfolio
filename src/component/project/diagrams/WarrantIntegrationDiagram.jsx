@@ -398,7 +398,7 @@ const WarrantIntegrationDiagram = () => (
                 <g className="editorial-diagram__legend">
                     <line x1="32" y1="488" x2="928" y2="488" />
                     <text className="editorial-diagram__legend-title" x="32" y="520">
-                        LEGEND
+                        범례
                     </text>
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--accent"

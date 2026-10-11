@@ -235,7 +235,7 @@ const projects = [
             {
                 id: "go",
                 name: "GO",
-                kind: "MICROSERVICE",
+                kind: "마이크로서비스",
                 route: "/projects/baton/go",
                 role: "BATON 및 ROUND 짧은 링크",
                 summary:
@@ -300,7 +300,7 @@ const projects = [
             {
                 id: "watch",
                 name: "WATCH",
-                kind: "MICROSERVICE",
+                kind: "마이크로서비스",
                 route: "/projects/baton/watch",
                 role: "URL 상태 점검",
                 summary:
@@ -356,7 +356,7 @@ const projects = [
             {
                 id: "relay",
                 name: "RELAY",
-                kind: "MICROSERVICE",
+                kind: "마이크로서비스",
                 route: "/projects/baton/relay",
                 role: "Discord, Slack, Webhook, AWS SQS FIFO 이벤트 전달",
                 summary:
@@ -409,7 +409,7 @@ const projects = [
                 name: "BRIEF",
                 screenshotNote:
                     "2026년 10월 7일 Core 공개 main 7ffbd74a 화면을 E2E 테스트용 모의 API 응답으로 촬영했습니다.",
-                kind: "MICROSERVICE",
+                kind: "마이크로서비스",
                 route: "/projects/baton/brief",
                 role: "담당자 공백 및 업무 지연 점검과 주간 보고서",
                 summary:
@@ -478,7 +478,7 @@ const projects = [
             {
                 id: "cal",
                 name: "CAL",
-                kind: "MICROSERVICE",
+                kind: "마이크로서비스",
                 route: "/projects/baton/cal",
                 role: "외부 캘린더 구독",
                 summary: "Core 일정과 마감을 외부 캘린더가 구독하는 읽기 전용 피드로 제공합니다.",
@@ -534,7 +534,7 @@ const projects = [
                 name: "ROUND",
                 screenshotNote:
                     "2026년 10월 7일 공개 main a43c6f5를 로컬 standalone 서버와 가상 카메라로 실행해 촬영한 테스트 화면입니다. 실제 TURN 중계나 외부망 접속 결과가 아닙니다.",
-                kind: "MICROSERVICE",
+                kind: "마이크로서비스",
                 route: "/projects/baton/round",
                 role: "WebRTC 스터디룸",
                 summary:
@@ -1034,7 +1034,7 @@ const projects = [
             "상품 주문, 간편결제, 클래스 예약, 스마트스토어 주문과 재고 연동을 하나의 서비스로 구현했습니다.",
         status: {
             label: "그 밖의 구현",
-            text: "카드는 Toss 통합 결제창, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.",
+            text: "카드는 Toss 통합 결제창으로, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.",
         },
         visualCaption:
             "기능 설명용 테스트 데이터로 촬영한 화면입니다. 실제 네이버 판매자 계정이나 결제사 관리 화면은 아닙니다.",
@@ -1939,7 +1939,7 @@ const projects = [
     {
         ...projectSummariesById.warrant,
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "형사사법정보시스템(KICS) 요청을 통신사와 영장집행포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현",
+        role: "형사사법정보시스템(KICS) 요청을 통신사와 영장집행포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 배치(Spring Batch) 구현",
         oneLine:
             "KICS 요청을 통신사와 영장집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.",
         status: {
@@ -2022,7 +2022,7 @@ const projects = [
         problems: [
             {
                 number: "01",
-                title: "세 기관의 수용자 및 영장정보 연계 배치",
+                title: "세 기관 자료를 검증해 군교정 DB에 반영",
                 constraint:
                     "군사법원, 군검찰, 군사경찰마다 수용 대상자의 인적정보와 영장정보의 형식과 전달 시점이 달랐고, 연계가 중단되면 수용과 후속 군교정 업무를 처리할 수 없었습니다.",
                 decision:
