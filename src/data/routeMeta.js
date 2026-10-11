@@ -6,7 +6,7 @@ export const siteUrl = "https://ljkportfolio.netlify.app"
 export const defaultRouteMeta = {
     title: "임정규 | 백엔드 개발자",
     description:
-        "5개 기관이 쓰는 전자영장 연계 서버를 개발하는 백엔드 개발자 임정규의 포트폴리오입니다. 결제를 연동한 서비스와 마이크로서비스로 분리한 개인 프로젝트도 소개합니다.",
+        "풀스택을 지향하는 주니어 개발자 임정규의 포트폴리오입니다. 5개 기관이 쓰는 전자영장 연계 서버와 결제를 연동한 서비스, 마이크로서비스로 분리한 개인 프로젝트를 소개합니다.",
     image: "/og-cover.png",
 }
 
