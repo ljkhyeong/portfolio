@@ -7,5 +7,5 @@ export const homeHeroContent = {
     headline: headlinePhrases.join(" "),
     headlinePhrases,
     summary:
-        "서버에서는 멱등 처리, 동시성 제어, 중단된 작업의 재처리를 주로 구현해 왔고, React와 Next.js로 화면도 만듭니다. 지금은 5개 기관이 실제 업무에 쓰는 전자영장 연계 서버를 개발합니다.",
+        "서버에서는 멱등 처리, 동시성 제어, 중단된 작업의 재처리를 주로 구현해 왔고, React와 Next.js로 화면도 만듭니다. 지금은 해양경찰 KICS에서 전자영장 연계 기능과 배치를 개발합니다.",
 }

@@ -1939,14 +1939,13 @@ const projects = [
     {
         ...projectSummariesById.warrant,
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "형사사법정보시스템(KICS) 요청을 통신사와 영장집행포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 배치(Spring Batch) 구현",
-        oneLine:
-            "KICS 요청을 통신사와 영장집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.",
+        role: "해양경찰 형사사법정보시스템(KICS)에서 5개 기관이 함께 쓰는 전자영장 연계 서버와의 연계 기능과 배치(Spring Batch) 구현",
+        oneLine: "해양경찰 KICS에서 전자영장 연계 서버와의 연계 기능과 배치를 구현했습니다.",
         status: {
             label: "공개 범위",
             text: "BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스, 운영 데이터와 내부 문서는 제외했습니다.",
         },
-        systemTitle: "KICS와 기관 간 요청 및 자료 연계 흐름",
+        systemTitle: "해양경찰 KICS와 기관 간 자료 연계 흐름",
         systemNavLabel: "업무 흐름",
         visualCaption: "KICS 요청과 기관 제출 자료가 분리된 망 사이를 오가는 흐름입니다.",
         problems: [
