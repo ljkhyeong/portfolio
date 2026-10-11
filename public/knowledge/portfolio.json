@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:0799cc1cbbb4",
+  "sourceRevision": "sha256:34bbac2c729f",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -583,7 +583,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:224a059f1590",
+      "sourceRevision": "sha256:9a29df3f8830",
       "documentId": "knowledge_a7c844f9619aa89663f2d166",
       "projectId": "warrant",
       "projectName": "전송형 전자영장 시스템",
@@ -591,12 +591,12 @@
       "documentType": "project_overview",
       "title": "전송형 전자영장 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 등 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 Spring Batch를 개발합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 형사사법정보시스템(KICS) 요청을 통신사와 영장집행포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 Spring Batch 구현\n\n주요 구현 및 해결: KICS 요청을 통신사와 영장집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.\n\n확인한 범위: 기관별 요청 변환과 Spring Batch를 구현했습니다. 망 분리 구간 연계와, PDF 완료 응답이 요청 상태 저장보다 먼저 도착하는 경우를 시나리오로 확인했습니다. 성능 테스트 환경에서는 100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류, DB 잠금 문제 없이 전량 처리했습니다.\n\n공개 범위: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
+      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 5개 기관 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 5개 기관의 전자영장 업무를 연계하는 시스템입니다. KICS 요청을 기관별 규격으로 변환해 전달하고 제출 자료를 KICS에 반영하는 서버와 배치(Spring Batch)를 개발합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 형사사법정보시스템(KICS) 요청을 통신사와 영장집행포털 형식으로 변환해 보내고, 제출 자료를 KICS에 반영하는 서버와 배치(Spring Batch) 구현\n\n주요 구현 및 해결: KICS 요청을 통신사와 영장집행포털 규격으로 변환해 보내고, 제출 자료를 KICS에 반영했습니다.\n\n확인한 범위: 기관별 요청 변환 기능과 배치(Spring Batch)를 구현했습니다. 망 분리 구간 연계와, PDF 완료 응답이 요청 상태 저장보다 먼저 도착하는 경우를 시나리오로 확인했습니다. 성능 테스트 환경에서는 100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류, DB 잠금 문제 없이 전량 처리했습니다.\n\n공개 범위: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/e-warrant#project-overview",
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "224a059f1590608c4edd004e95c0d912674d6cf20dd88262ea46f7f54f02a82d"
+      "sourceHash": "9a29df3f8830ff5e0fb15c263cae68f40c4de710822c8ea1f51ef94b9e3f814b"
     },
     {
       "schemaVersion": "1.0",
@@ -668,7 +668,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:582cd86114de",
+      "sourceRevision": "sha256:b608c3027250",
       "documentId": "knowledge_e35aae37f4a24244d1c3cdc7",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -676,12 +676,12 @@
       "documentType": "project_overview",
       "title": "happyGallery 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: happyGallery\n\n공방 상품 판매와 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 서비스와 저장소 공개\n\n담당: 요구사항 정리, Java와 Spring Boot API, React 화면, 결제와 스마트스토어 연동, 자동화 테스트와 k3s 배포 자동화\n\n주요 구현 및 해결: 상품 주문, 간편결제, 클래스 예약, 스마트스토어 주문과 재고 연동을 하나의 서비스로 구현했습니다.\n\n확인한 범위: 주문, 예약, 스마트스토어 연동을 구현하고 Testcontainers 통합 테스트와 E2E로 확인했습니다. main에 병합하면 GitHub Actions가 검사한 이미지를 k3s에 롤링 배포합니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.\n\n그 밖의 구현: 카드는 Toss 통합 결제창, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
+      "content": "프로젝트: happyGallery\n\n공방 상품 판매와 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 서비스와 저장소 공개\n\n담당: 요구사항 정리, Java와 Spring Boot API, React 화면, 결제와 스마트스토어 연동, 자동화 테스트와 k3s 배포 자동화\n\n주요 구현 및 해결: 상품 주문, 간편결제, 클래스 예약, 스마트스토어 주문과 재고 연동을 하나의 서비스로 구현했습니다.\n\n확인한 범위: 주문, 예약, 스마트스토어 연동을 구현하고 Testcontainers 통합 테스트와 E2E로 확인했습니다. main에 병합하면 GitHub Actions가 검사한 이미지를 k3s에 롤링 배포합니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.\n\n그 밖의 구현: 카드는 Toss 통합 결제창으로, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-overview",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "582cd86114dea4078cf001e0c2c94f93935b4797ce05f76556dec8e6c947029f"
+      "sourceHash": "b608c30272504e1113452d7fec0e58f65668787364f7f1486555847a55ba62aa"
     },
     {
       "schemaVersion": "1.0",
@@ -1994,20 +1994,20 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:006614287e14",
+      "sourceRevision": "sha256:1bf31b49655f",
       "documentId": "knowledge_866555079d9244754207ec14",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
       "serviceId": null,
       "documentType": "problem_solution",
-      "title": "세 기관의 수용자 및 영장정보 연계 배치",
+      "title": "세 기관 자료를 검증해 군교정 DB에 반영",
       "heading": "문제와 해결 방법",
       "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 군사법원, 군검찰, 군사경찰마다 수용 대상자의 인적정보와 영장정보의 형식과 전달 시점이 달랐고, 연계가 중단되면 수용과 후속 군교정 업무를 처리할 수 없었습니다.\n\n해결 방법: 세 기관의 인적정보와 영장정보를 검증해 군교정 DB에 반영했습니다. Jenkins에서 실패 단계를 확인해 해당 기관 배치만 재실행했습니다.\n\n확인: 세 기관의 인적정보와 영장정보가 검증 후 군교정 DB에 반영되는 것을 확인했습니다.\n\n제약과 남은 작업: 기관별 자료 형식이 바뀌면 해당 기관의 검증과 변환 규칙을 함께 수정해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-problems",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "006614287e147c8951e9287e5d64050b24f20bcd3b559bcaed24817d0177bbd7"
+      "sourceHash": "1bf31b49655f019cb165326c4438ee9e35dceb14dd6f039384204668f1dab2be"
     },
     {
       "schemaVersion": "1.0",
