@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/hope-commit.png",
-    "sourceSha256": "6e60b6062fc16431708b3e6b36b045ccf0711058e66352f9d846fb611f75edec",
-    "artifactSha256": "5cf5db38cc07da250a2a7dff8bfab706915399c2ebb53c7e2a90c70b68582d9b",
+    "sourceSha256": "42b3810e9b486730023c887af4bb2ca0f187241ea40795fa196ee8d30cbe26a0",
+    "artifactSha256": "186e2086e036e52d4e9276e3a9967866af43f6538683a1e8a6bb2024b5eb41f9",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",

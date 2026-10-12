@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-brief.png",
-    "sourceSha256": "6e60b6062fc16431708b3e6b36b045ccf0711058e66352f9d846fb611f75edec",
+    "sourceSha256": "42b3810e9b486730023c887af4bb2ca0f187241ea40795fa196ee8d30cbe26a0",
     "artifactSha256": "26b223e3b03dca626051aea64fffc71c956a81b0ae4d5e33c1c4f18db921dd3f",
     "renderer": {
         "id": "chrome",
