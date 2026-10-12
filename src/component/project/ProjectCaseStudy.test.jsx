@@ -483,7 +483,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         screen.getByRole("heading", { name: "해양경찰 KICS와 기관 간 자료 연계 흐름" }),
     ).toBeInTheDocument()
     const integrationDiagram = screen.getByRole("img", {
-        name: /해양경찰 KICS와 기관 간 자료 연계 흐름.*KICS 서버와 분리된 해양경찰 연계 서버가 5개 기관 연계 시스템으로/,
+        name: /해양경찰 KICS와 기관 간 자료 연계 흐름.*KICS 서버와 분리된 해양경찰 연계 서버가 영장집행포털로.*5개 기관과 피집행기관을 연결/,
     })
 
     expect(integrationDiagram).toBeInTheDocument()
@@ -492,15 +492,16 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         integrationDiagram.querySelectorAll(
             ".warrant-integration__nodes > .editorial-diagram__node",
         ),
-    ).toHaveLength(6)
-    // 맡은 부분은 해양경찰 연계 서버 쪽이다. 5개 기관 연계 시스템을 강조 노드로 그리지 않는다.
+    ).toHaveLength(5)
+    // 맡은 부분은 해양경찰 연계 서버 쪽이다. 5개 기관 연계 시스템인 영장집행포털을 강조 노드로 그리지 않는다.
     const focalNode = integrationDiagram.querySelector(".editorial-diagram__node--focal")
     expect(focalNode).toHaveTextContent("해양경찰")
     expect(focalNode).toHaveTextContent("연계 서버")
     expect(focalNode).not.toHaveTextContent("5개 기관")
+    expect(focalNode).not.toHaveTextContent("포털")
     expect(
         screen.getByRole("heading", {
-            name: "해양경찰 연계 서버와 5개 기관 연계 시스템",
+            name: "해양경찰 연계 서버와 영장집행포털",
             level: 3,
         }),
     ).toBeInTheDocument()
@@ -515,8 +516,14 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         }),
     ).toBeInTheDocument()
     expect(screen.getByText("KICS 서버")).toBeInTheDocument()
-    expect(screen.getByText("통신사 요청")).toBeInTheDocument()
-    expect(screen.getByText("통신사 제출 자료")).toBeInTheDocument()
+    // 금융기관과 통신사는 포털이 연결하는 피집행기관이다.
+    const institutionTags = integrationDiagram.querySelectorAll(
+        ".editorial-diagram__node--external .editorial-diagram__tag",
+    )
+    expect([...institutionTags].map((tag) => tag.textContent.trim())).toEqual([
+        "피집행기관",
+        "피집행기관",
+    ])
     expect(screen.getByText("KICS 행정망")).toBeInTheDocument()
     expect(screen.getByText("인터넷망")).toBeInTheDocument()
     expect(
