@@ -56,7 +56,7 @@ const routeMetaContent = {
     },
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
-        description: `BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 ${warrantOperation.openedOn} 개통한 전자영장 시스템에서 해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 개발하며, 이중화 서버의 중복 실행 방지와 중단 작업 재처리를 구현한 경력 사례`,
+        description: `BEINTECH 소속으로 LG CNS 컨소시엄에 참여해 ${warrantOperation.openedOn} 개통한 전자영장 시스템에서 해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 개발하며, 이중화 연계 서버의 중복 실행 방지와 중단 작업 재처리를 구현한 경력 사례`,
         image: "/og-cover.png",
     },
     "/projects/happygallery": {

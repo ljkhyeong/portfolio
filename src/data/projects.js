@@ -1939,8 +1939,8 @@ const projects = [
     {
         ...projectSummariesById.warrant,
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "해양경찰 형사사법정보시스템(KICS)에서 5개 기관이 함께 쓰는 전자영장 연계 서버와의 연계 기능과 배치(Spring Batch) 구현",
-        oneLine: "해양경찰 KICS에서 전자영장 연계 서버와의 연계 기능과 배치를 구현했습니다.",
+        role: "해양경찰 형사사법정보시스템(KICS) 쪽에서 5개 기관 연계 시스템과 연계하는 기능과 배치(Spring Batch) 구현",
+        oneLine: "해양경찰 KICS 쪽에서 5개 기관 연계 시스템과 연계하는 기능과 배치를 구현했습니다.",
         status: {
             label: "공개 범위",
             text: "BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스, 운영 데이터와 내부 문서는 제외했습니다.",
@@ -1988,7 +1988,7 @@ const projects = [
                 number: "04",
                 title: "이중화 서버의 작업 선점과 중단 작업 재처리",
                 constraint:
-                    "인터페이스 서버가 이중화되면서 한 프로세스 안에서만 동작하는 ReentrantLock으로는 서버 간 중복 실행을 막을 수 없었습니다. 외부 API 대기 중 DB 커넥션을 오래 점유하는 문제도 피해야 했습니다.",
+                    "KICS 서버와 분리된 해양경찰 연계 서버가 이중화되면서, 한 프로세스 안에서만 동작하는 ReentrantLock으로는 서버 간 중복 실행을 막을 수 없었습니다. 외부 API 대기 중 DB 커넥션을 오래 점유하는 문제도 피해야 했습니다.",
                 decision:
                     "FOR UPDATE SKIP LOCKED로 잠긴 행을 건너뛰고 N(처리대상)을 P(처리 중)로 바꿔 선점했습니다. 외부 API는 트랜잭션 밖에서 호출했습니다. 선점 상태 저장과 완료 후 처리 상태 초기화는 각각 별도 트랜잭션으로 처리했습니다.",
                 validation: warrantPerformanceSummary,

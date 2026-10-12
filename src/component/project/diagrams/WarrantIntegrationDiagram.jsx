@@ -1,12 +1,12 @@
-// 맡은 부분은 해양경찰 KICS의 연계 기능과 배치다. 전자영장 연계 서버는 5개 기관이 함께 쓰는 서버로,
-// 맡은 부분과 구분해 강조하지 않는다(2026-10-11 사용자 정정).
+// 맡은 부분은 해양경찰 쪽 연계 기능과 배치다. 연계는 KICS 서버와 분리된 해양경찰 연계 서버(이중화)가
+// 처리하고, 5개 기관 연계 시스템은 기관들이 함께 쓰는 시스템이라 강조하지 않는다(2026-10-11~12 사용자 정정).
 const WarrantIntegrationDiagram = () => (
     <figure className="editorial-diagram warrant-integration">
         <figcaption className="editorial-diagram__header">
-            <h3 className="editorial-diagram__title">해양경찰 KICS와 전자영장 연계 서버</h3>
+            <h3 className="editorial-diagram__title">해양경찰 연계 서버와 5개 기관 연계 시스템</h3>
             <p>
-                해양경찰 KICS의 연계 기능과 배치를 맡았습니다. 5개 기관이 함께 쓰는 연계 서버가
-                요청을 영장집행포털과 통신사로 전달합니다.
+                해양경찰 쪽 연계 기능과 배치를 맡았습니다. 연계는 KICS 서버와 분리된 이중화 연계
+                서버가 처리하고, 5개 기관 연계 시스템이 요청을 영장집행포털과 통신사로 전달합니다.
             </p>
         </figcaption>
         <div
@@ -23,9 +23,10 @@ const WarrantIntegrationDiagram = () => (
             >
                 <title id="warrant-integration-title">해양경찰 KICS와 기관 간 자료 연계 흐름</title>
                 <desc id="warrant-integration-desc">
-                    해양경찰 KICS의 연계 기능과 배치는 5개 기관이 함께 쓰는 전자영장 연계 서버로
-                    자료 제공 요청을 보내고 제출 자료를 받습니다. 연계 서버는 영장집행포털과
-                    통신사로 요청을 전달하고, 금융기관은 영장집행포털로 자료를 제출합니다.
+                    KICS 서버와 분리된 해양경찰 연계 서버가 5개 기관 연계 시스템으로 자료 제공
+                    요청을 보내고 제출 자료를 받습니다. 연계 시스템은 영장집행포털과 통신사로 요청을
+                    전달하고, 금융기관은 영장집행포털로 자료를 제출합니다. 맡은 부분은 해양경찰 쪽
+                    연계 기능과 배치입니다.
                 </desc>
                 <defs>
                     <marker
@@ -130,23 +131,23 @@ const WarrantIntegrationDiagram = () => (
                 <g className="warrant-integration__paths">
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--accent"
-                        x1="184"
-                        y1="240"
-                        x2="280"
-                        y2="240"
+                        x1="96"
+                        y1="184"
+                        x2="96"
+                        y2="248"
                         markerEnd="url(#warrant-arrow-request)"
                     />
                     <rect
                         className="editorial-diagram__label-mask"
-                        x="206"
+                        x="40"
                         y="204"
-                        width="52"
+                        width="48"
                         height="24"
                         rx="2"
                     />
                     <text
                         className="editorial-diagram__connector-label"
-                        x="232"
+                        x="64"
                         y="224"
                         textAnchor="middle"
                     >
@@ -155,16 +156,66 @@ const WarrantIntegrationDiagram = () => (
 
                     <line
                         className="editorial-diagram__connector editorial-diagram__connector--muted editorial-diagram__connector--dashed"
+                        x1="136"
+                        y1="248"
+                        x2="136"
+                        y2="184"
+                        markerEnd="url(#warrant-arrow-submission)"
+                    />
+                    <rect
+                        className="editorial-diagram__label-mask"
+                        x="144"
+                        y="204"
+                        width="84"
+                        height="24"
+                        rx="2"
+                    />
+                    <text
+                        className="editorial-diagram__connector-label"
+                        x="186"
+                        y="224"
+                        textAnchor="middle"
+                    >
+                        제출 자료
+                    </text>
+
+                    <line
+                        className="editorial-diagram__connector editorial-diagram__connector--accent"
+                        x1="184"
+                        y1="312"
+                        x2="280"
+                        y2="312"
+                        markerEnd="url(#warrant-arrow-request)"
+                    />
+                    <rect
+                        className="editorial-diagram__label-mask"
+                        x="206"
+                        y="276"
+                        width="52"
+                        height="24"
+                        rx="2"
+                    />
+                    <text
+                        className="editorial-diagram__connector-label"
+                        x="232"
+                        y="296"
+                        textAnchor="middle"
+                    >
+                        요청
+                    </text>
+
+                    <line
+                        className="editorial-diagram__connector editorial-diagram__connector--muted editorial-diagram__connector--dashed"
                         x1="280"
-                        y1="296"
+                        y1="376"
                         x2="184"
-                        y2="296"
+                        y2="376"
                         markerEnd="url(#warrant-arrow-submission)"
                     />
                     <rect
                         className="editorial-diagram__label-mask"
                         x="190"
-                        y="260"
+                        y="340"
                         width="84"
                         height="24"
                         rx="2"
@@ -172,7 +223,7 @@ const WarrantIntegrationDiagram = () => (
                     <text
                         className="editorial-diagram__connector-label"
                         x="232"
-                        y="280"
+                        y="360"
                         textAnchor="middle"
                     >
                         제출 자료
@@ -330,32 +381,48 @@ const WarrantIntegrationDiagram = () => (
                 </g>
 
                 <g className="warrant-integration__nodes">
+                    <g className="editorial-diagram__node">
+                        <rect x="48" y="88" width="136" height="96" rx="8" />
+                        <text className="editorial-diagram__tag" x="64" y="112">
+                            해양경찰
+                        </text>
+                        <text className="editorial-diagram__node-title" x="64" y="144">
+                            KICS 서버
+                        </text>
+                        <text className="editorial-diagram__node-meta" x="64" y="168">
+                            영장 업무
+                        </text>
+                    </g>
+
                     <g className="editorial-diagram__node editorial-diagram__node--focal">
-                        <rect x="48" y="184" width="136" height="168" rx="8" />
-                        <text className="editorial-diagram__tag" x="64" y="208">
+                        <rect x="48" y="248" width="136" height="192" rx="8" />
+                        <text className="editorial-diagram__tag" x="64" y="272">
                             맡은 부분
                         </text>
-                        <text className="editorial-diagram__node-title" x="64" y="240">
+                        <text className="editorial-diagram__node-title" x="64" y="304">
                             <tspan x="64" dy="0">
                                 해양경찰
                             </tspan>
                             <tspan x="64" dy="28">
-                                KICS
+                                연계 서버
                             </tspan>
                         </text>
                         <line
                             className="editorial-diagram__node-rule"
                             x1="64"
-                            y1="288"
+                            y1="352"
                             x2="168"
-                            y2="288"
+                            y2="352"
                         />
-                        <text className="editorial-diagram__node-meta" x="64" y="312">
+                        <text className="editorial-diagram__node-meta" x="64" y="376">
                             <tspan x="64" dy="0">
                                 연계 기능
                             </tspan>
                             <tspan x="64" dy="20">
                                 Spring Batch
+                            </tspan>
+                            <tspan x="64" dy="20">
+                                이중화 구성
                             </tspan>
                         </text>
                     </g>
@@ -363,14 +430,14 @@ const WarrantIntegrationDiagram = () => (
                     <g className="editorial-diagram__node">
                         <rect x="280" y="120" width="136" height="304" rx="8" />
                         <text className="editorial-diagram__tag" x="296" y="144">
-                            5개 기관 공용
+                            공용
                         </text>
                         <text className="editorial-diagram__node-title" x="296" y="176">
                             <tspan x="296" dy="0">
-                                전자영장
+                                5개 기관
                             </tspan>
                             <tspan x="296" dy="28">
-                                연계 서버
+                                연계 시스템
                             </tspan>
                         </text>
                         <line
