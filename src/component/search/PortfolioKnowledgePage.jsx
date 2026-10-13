@@ -4,8 +4,10 @@ import { portfolioProfile } from "../../data/profile"
 import { projectSummaries, projectSummariesById } from "../../data/projectSummaries"
 import { siteUrl } from "../../data/routeMeta"
 import PortfolioNavigation from "../PortfolioNavigation"
+import PortfolioFlowDiagram from "../project/diagrams/PortfolioFlowDiagram"
 import TurnstileWidget, { turnstileSiteKey } from "./TurnstileWidget"
 import usePortfolioKnowledge from "./usePortfolioKnowledge"
+import "../../css/EditorialDiagram.css"
 import "../../css/PortfolioKnowledge.css"
 
 const defaultSuggestionQuestions = [
@@ -513,8 +515,8 @@ const PortfolioKnowledgePage = () => {
                             프로젝트 문서 검색
                         </h1>
                         <p>
-                            기관 연계, 결제 중복 방지, 서버 중단 후 재처리를 설명한 공개 문서와
-                            출처를 찾습니다.
+                            공개 문서에서 근거 문단을 먼저 찾고, 요청하면 그 문단만 AI에 전달해
+                            출처를 붙여 답하는 RAG 검색입니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">
@@ -612,6 +614,14 @@ const PortfolioKnowledgePage = () => {
                         onVerificationTokenChange={setVerificationToken}
                     />
                 </div>
+
+                {/* 검색 결과 아래에 두어, 검색할 때 입력과 결과를 아래로 밀어내지 않는다. */}
+                <section className="knowledge-flow" aria-labelledby="knowledge-flow-title">
+                    <h2 id="knowledge-flow-title" className="sr-only">
+                        검색과 답변 처리 흐름
+                    </h2>
+                    <PortfolioFlowDiagram variant="knowledge" />
+                </section>
             </main>
             <footer className="knowledge-footer">
                 <span>{portfolioProfile.name} / 포트폴리오 문서 검색</span>

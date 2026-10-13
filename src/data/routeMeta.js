@@ -98,7 +98,7 @@ const routeMetaContent = {
     "/search": {
         title: "백엔드 프로젝트 문서 검색 | 임정규",
         description:
-            "외부 기관 연동, 결제와 환불의 중복 실행 방지, 서버 중단 후 작업 재처리를 설명한 프로젝트 문서를 출처와 함께 찾습니다.",
+            "공개 프로젝트 문서에서 근거 문단을 찾아 출처와 함께 보여 주고, 요청하면 그 문단만 근거로 AI가 답하는 RAG 검색입니다.",
         image: "/og-cover.png",
     },
     "/portfolio/print": {

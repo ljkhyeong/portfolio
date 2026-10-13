@@ -157,6 +157,14 @@ test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () 
         screen.queryByRole("button", { name: "결제와 환불 중복 처리를 어떻게 막았나요?" }),
     ).not.toBeInTheDocument()
     expect(searchPortfolioKnowledge).not.toHaveBeenCalled()
+    // 검색 전에도 RAG 처리 흐름과 확인한 범위를 보여 준다.
+    const flow = screen.getByRole("region", { name: "검색과 답변 처리 흐름" })
+    expect(flow).toContainElement(
+        screen.getByRole("img", {
+            name: /검색 증강 생성\(RAG\) 흐름.*키워드 근거가 없으면 AI를 호출하지 않습니다/,
+        }),
+    )
+    expect(flow).toHaveTextContent("공개 사이트에는 검색 API를 아직 연결하지 않았습니다.")
 })
 
 test("BATON 서비스 범위를 주소에서 복원하고 변경한 서비스도 주소와 API에 반영한다", async () => {

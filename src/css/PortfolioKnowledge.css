@@ -928,3 +928,31 @@
         animation: none;
     }
 }
+
+/* 검색과 답변 처리 흐름(RAG). 프로젝트 상세의 흐름도와 같은 글자 크기를 쓴다. */
+.knowledge-flow {
+    margin-top: 72px;
+}
+
+/* 영역 이름이 4.5:1 대비를 넘도록 상세 화면과 같은 진한 회색을 쓴다. */
+.knowledge-flow .editorial-diagram {
+    --diagram-soft: #5f6973;
+}
+
+.knowledge-flow .editorial-diagram__title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.knowledge-flow .portfolio-flow .editorial-diagram__zone-label,
+.knowledge-flow .portfolio-flow .editorial-diagram__tag,
+.knowledge-flow .portfolio-flow .editorial-diagram__connector-label,
+.knowledge-flow .portfolio-flow .editorial-diagram__node-meta {
+    font-family: var(--sans);
+    font-size: 10px;
+}
+
+.knowledge-flow .portfolio-flow .editorial-diagram__node-title {
+    font-size: 18px;
+}
