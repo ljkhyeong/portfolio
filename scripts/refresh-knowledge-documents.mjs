@@ -110,10 +110,16 @@ export async function refreshKnowledgeDocuments({
             revisions.set(referenceKey, revision)
         }
         const revision = revisions.get(referenceKey)
-        const content = await fetchText(
-            `https://raw.githubusercontent.com/${repo}/${revision}/${sourcePath}`,
-            MAX_DOCUMENT_BYTES,
-        )
+        let content
+        try {
+            content = await fetchText(
+                `https://raw.githubusercontent.com/${repo}/${revision}/${sourcePath}`,
+                MAX_DOCUMENT_BYTES,
+            )
+        } catch (error) {
+            // 원본 저장소에서 문서가 옮겨지거나 지워지면 어느 문서인지 바로 알 수 있게 주소를 남긴다.
+            throw new Error(`${error.message} (${href})`, { cause: error })
+        }
         if (!content.trim()) throw new Error(`공개 문서 본문이 비어 있습니다: ${href}`)
         assertNoContactInformation(content, href)
         const sourceUrl = (sha) => `https://github.com/${repo}/blob/${sha}/${sourcePath}`

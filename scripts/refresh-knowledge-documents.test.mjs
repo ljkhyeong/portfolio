@@ -163,6 +163,18 @@ test.each(["", " \n\t", "담당자: test@example.invalid", "문의: 010-1234-567
     },
 )
 
+test("원본 문서가 없으면 오류에 문서 주소를 남긴다", async () => {
+    const fetchImpl = responses(
+        new Response(revision),
+        new Response("# 먼저 읽은 새 문서"),
+        new Response(null, { status: 404 }),
+    )
+    await expect(run(fetchImpl, { documents: [first, second] })).rejects.toThrow(
+        `GitHub 문서 수집 실패: HTTP 404 (${second})`,
+    )
+    await unchanged()
+})
+
 test.each([302, 401, 429, 503])(
     "HTTP %i로 중단되면 먼저 받은 문서도 저장하지 않는다",
     async (status) => {

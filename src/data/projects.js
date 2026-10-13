@@ -1362,9 +1362,9 @@ const projects = [
             },
             {
                 type: "구현 기록",
-                label: "마감 알림 후보 계산",
-                href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/deadline-reminder-candidates.md",
-                note: "한국 시간 기준 D-7, D-3, D-1 후보 날짜와 발송 시각 확인 기준",
+                label: "관심 정책 저장과 마감 알림",
+                href: "https://github.com/ljkhyeong/youth-policy-mate/blob/main/docs/development/member-policy-flow.md",
+                note: "서울 날짜 기준 마감일과 저장과 같은 트랜잭션의 D-7, D-3, D-1 알림 예약",
             },
             {
                 type: "구현 기록",
