@@ -9,13 +9,13 @@ description: 포트폴리오의 아키텍처 도식, 처리 흐름도, BATON 서
 
 ## 컴포넌트
 
-| 컴포넌트                        | 사용 위치                                        | 데이터 형식                                                                    |
-| ------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `PortfolioFlowDiagram.jsx`      | 군사법, WebRTC, IntentTrace, 청년정책메이트 상세 | `diagrams[variant]`의 `zones`, `nodes`, `edges`, `height`, `note`              |
-| `BatonServiceFlowDiagram.jsx`   | BATON 서비스 상세 6개, **서비스 공유 이미지**    | `fullFlows[serviceId]`의 `node()`·`edge()` 도우미, 공유 이미지용 `compactFlow` |
-| `BatonArchitectureDiagram.jsx`  | BATON 상세                                       | `NODE_DEFINITIONS`, `CONNECTIONS`                                              |
-| `WarrantIntegrationDiagram.jsx` | 전자영장 상세                                    | SVG 직접 작성                                                                  |
-| `HopeCommitFlowDiagram.jsx`     | Hope Commit 상세                                 | SVG 직접 작성(순서도)                                                          |
+| 컴포넌트                        | 사용 위치                                                                               | 데이터 형식                                                                    |
+| ------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `PortfolioFlowDiagram.jsx`      | 군사법, WebRTC, IntentTrace, 청년정책메이트 상세, 문서 검색 화면(`knowledge`, RAG 흐름) | `diagrams[variant]`의 `zones`, `nodes`, `edges`, `height`, `note`              |
+| `BatonServiceFlowDiagram.jsx`   | BATON 서비스 상세 6개, **서비스 공유 이미지**                                           | `fullFlows[serviceId]`의 `node()`·`edge()` 도우미, 공유 이미지용 `compactFlow` |
+| `BatonArchitectureDiagram.jsx`  | BATON 상세                                                                              | `NODE_DEFINITIONS`, `CONNECTIONS`                                              |
+| `WarrantIntegrationDiagram.jsx` | 전자영장 상세                                                                           | SVG 직접 작성                                                                  |
+| `HopeCommitFlowDiagram.jsx`     | Hope Commit 상세                                                                        | SVG 직접 작성(순서도)                                                          |
 
 공통 스타일은 `src/css/EditorialDiagram.css`, BATON 서비스 흐름은 `BatonServiceFlowDiagram.css`다. 상세 화면에서는 `CaseShowcase.css`의 `main.case-showcase …` 규칙이 글자 크기를 키운다. 도식에 쓰는 수치는 데이터 상수(`youthPolicyCoverage` 등)에서 가져온다.
 

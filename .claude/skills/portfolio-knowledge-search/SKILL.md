@@ -63,7 +63,7 @@ Docker가 없거나 이미지를 만들지 못하면 `integrationTest`는 건너
 
 ### 검색 화면을 바꿀 때
 
-`src/api/*.test.js`, `src/component/search/*.test.jsx`를 실행한다. 대기, 검색 중, 오류, 결과 없음, 답변 생성, 답변 실패, Turnstile 실패 상태의 문구와 배치를 확인한다. 화면 문구는 `portfolio-copy`, 배치는 `portfolio-ui` 기준을 따른다. API 없이 확인했으면 그 사실을 기록한다.
+`src/api/*.test.js`, `src/component/search/*.test.jsx`를 실행한다. 검색 화면 아래의 RAG 흐름도(`PortfolioFlowDiagram`의 `knowledge`)는 README의 처리 기준과 같아야 한다. 청크·근거 선택 기준이나 CI 검색 평가 결과가 바뀌면 도식의 노드와 `확인한 범위` 문장을 함께 고친다. 대기, 검색 중, 오류, 결과 없음, 답변 생성, 답변 실패, Turnstile 실패 상태의 문구와 배치를 확인한다. 화면 문구는 `portfolio-copy`, 배치는 `portfolio-ui` 기준을 따른다. API 없이 확인했으면 그 사실을 기록한다.
 
 ## 비용과 운영 작업
 
