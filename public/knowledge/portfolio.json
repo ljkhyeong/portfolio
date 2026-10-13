@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:773039ff56f9",
+  "sourceRevision": "sha256:7ab649b2cd40",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -1195,7 +1195,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:a6d8f38a3762",
+      "sourceRevision": "sha256:53a4b79a840c",
       "documentId": "knowledge_804fbec08fc6cdcc267b6fa9",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1203,12 +1203,12 @@
       "documentType": "problem_solution",
       "title": "마감 날짜와 시각에 맞춘 알림 예약, 미확인 마감 제외",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 청년정책메이트\n\n문제: 날짜 마감과 시각 마감을 같은 방식으로 비교하거나 상시 정책이나 기간 미확인 정책에 임의 마감일을 만들면 잘못된 알림을 보낼 수 있습니다.\n\n해결 방법: 마감 날짜와 시간대, 수신 동의를 확인해 D-7, D-3, D-1 알림을 예약합니다. 관심 정책 해제와 동의 변경 시 관련 예약을 취소합니다.\n\n확인: 미확인 마감 제외, 중복 예약 방지, 저장 해제와 동의 변경 뒤 취소를 서버 테스트로 확인했습니다.\n\n제약과 남은 작업: SMTP와 Resend 어댑터만 구현했고, 실제 발신 도메인과 외부 수신함 전달은 미검증입니다.",
+      "content": "프로젝트: 청년정책메이트\n\n문제: 날짜 마감과 시각 마감을 같은 방식으로 비교하거나 상시 정책이나 기간 미확인 정책에 임의 마감일을 만들면 잘못된 알림을 보낼 수 있습니다.\n\n해결 방법: 마감 날짜와 시간대, 수신 동의를 확인해 D-7, D-3, D-1 알림을 예약합니다. 관심 정책 해제와 동의 변경 시 관련 예약을 취소합니다.\n\n확인: 미확인 마감 제외, 중복 예약 방지, 저장 해제와 동의 변경 뒤 취소를 서버 테스트로 확인했습니다.\n\n제약과 남은 작업: 이메일은 Resend로만 보내도록 구현했고, 실제 발신 도메인과 외부 수신함 전달은 미검증입니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-problems",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "a6d8f38a37628a4c82a5b25346f62c6c70cc97e54275c7fa84a9457299e4f293"
+      "sourceHash": "53a4b79a840c051e514ac824ca6d3af31c853d768ee540c52cee5509191e20a4"
     },
     {
       "schemaVersion": "1.0",
@@ -1246,7 +1246,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:04c99eb974db",
+      "sourceRevision": "sha256:8b9ab4d58406",
       "documentId": "knowledge_1214943157d1a4264d97254e",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1254,12 +1254,12 @@
       "documentType": "problem_solution",
       "title": "서버 DTO와 웹 API 타입 일치",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 청년정책메이트\n\n문제: 웹과 서버가 요청 타입과 응답 타입을 따로 관리하면 자격 상태나 날짜 의미가 한쪽에서만 바뀔 수 있습니다.\n\n해결 방법: 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성하고 생성 결과가 최신인지 CI에서 확인합니다.\n\n확인: 공개 정책, 회원 저장, 일정, 알림 API의 생성 타입 검사와 웹 빌드 검증 기록을 확인했습니다.\n\n제약과 남은 작업: 개발 전용 예시 경로는 운영 빌드에서 제외합니다. 실제 OAuth와 SMTP 외부 연동은 별도 확인이 필요합니다.",
+      "content": "프로젝트: 청년정책메이트\n\n문제: 웹과 서버가 요청 타입과 응답 타입을 따로 관리하면 자격 상태나 날짜 의미가 한쪽에서만 바뀔 수 있습니다.\n\n해결 방법: 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성하고 생성 결과가 최신인지 CI에서 확인합니다.\n\n확인: 공개 정책, 회원 저장, 일정, 알림 API의 생성 타입 검사와 웹 빌드 검증 기록을 확인했습니다.\n\n제약과 남은 작업: 실제 OAuth와 Resend 외부 연동은 별도 확인이 필요합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-problems",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "04c99eb974db8a20c49a0f425e6afae88a80d68cc945556fdf191f9c610c1177"
+      "sourceHash": "8b9ab4d58406c2ac241210f8dcf3b7980f43c5d14bbde4775ea7a75e65b703bb"
     },
     {
       "schemaVersion": "1.0",

@@ -1423,7 +1423,7 @@ const projects = [
                 validation:
                     "미확인 마감 제외, 중복 예약 방지, 저장 해제와 동의 변경 뒤 취소를 서버 테스트로 확인했습니다.",
                 boundary:
-                    "SMTP와 Resend 어댑터만 구현했고, 실제 발신 도메인과 외부 수신함 전달은 미검증입니다.",
+                    "이메일은 Resend로만 보내도록 구현했고, 실제 발신 도메인과 외부 수신함 전달은 미검증입니다.",
             },
             {
                 number: "03",
@@ -1457,8 +1457,7 @@ const projects = [
                     "서버 DTO에서 OpenAPI와 TypeScript 타입을 생성하고 생성 결과가 최신인지 CI에서 확인합니다.",
                 validation:
                     "공개 정책, 회원 저장, 일정, 알림 API의 생성 타입 검사와 웹 빌드 검증 기록을 확인했습니다.",
-                boundary:
-                    "개발 전용 예시 경로는 운영 빌드에서 제외합니다. 실제 OAuth와 SMTP 외부 연동은 별도 확인이 필요합니다.",
+                boundary: "실제 OAuth와 Resend 외부 연동은 별도 확인이 필요합니다.",
             },
             {
                 number: "06",
