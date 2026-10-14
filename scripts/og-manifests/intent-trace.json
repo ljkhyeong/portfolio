@@ -1,12 +1,12 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/intent-trace.png",
-    "sourceSha256": "42b3810e9b486730023c887af4bb2ca0f187241ea40795fa196ee8d30cbe26a0",
+    "sourceSha256": "c3b31010501dd89042c06d1a45ae49215d7550933ec5693a3292f05eb652370e",
     "artifactSha256": "4543b9497ba3fd3daa7a581a290d6261cd0547148bb90ec9c0a552a518b1c4a1",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
-        "version": "Google Chrome 154.0.8037.99",
+        "version": "Google Chrome 155.0.8059.41",
         "platform": "darwin",
         "architecture": "arm64"
     }
