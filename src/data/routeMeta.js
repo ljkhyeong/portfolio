@@ -45,7 +45,7 @@ const routeMetaContent = {
     "/projects/baton/cal": {
         title: "BATON CAL | 임정규 포트폴리오",
         description:
-            "BATON 일정과 마감을 읽기 전용 iCalendar로 제공하고 일정 버전을 검사하며 구독 토큰을 교체하고 폐기하는 CAL 마이크로서비스",
+            "BATON 일정과 마감을 읽기 전용 iCalendar 피드로 제공하고, 과거 버전 일정과 폐기한 구독 토큰을 차단하는 CAL 마이크로서비스",
         image: "/og-cover.png",
     },
     "/projects/baton/round": {
@@ -74,7 +74,7 @@ const routeMetaContent = {
     "/projects/hope-commit": {
         title: "Hope Commit | 임정규 포트폴리오",
         description:
-            "SeungIl 님의 Hope 6.0.0을 포크해 지정한 커밋만 검토하고 설명을 실제 변경 줄에 연결한 HTML 리뷰를 생성하는 비공식 도구",
+            "SeungIl 님의 Hope 6.0.0을 포크해 지정한 커밋만 리뷰하고 리뷰 항목을 실제 변경 줄에 연결한 HTML 리뷰를 생성하는 비공식 도구",
         image: "/og-cover.png",
     },
     "/projects/intent-trace": {

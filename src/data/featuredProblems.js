@@ -3,7 +3,7 @@
 const featuredProblems = {
     baton: {
         problemNumber: "02",
-        problem: "인수인계만 수락되고 담당자가 바뀌지 않으면 역할 정보가 어긋납니다.",
+        problem: "인수인계만 수락되고 담당자가 바뀌지 않으면 역할 담당자가 이전 사람으로 남습니다.",
         steps: [
             { title: "인수인계 준비", description: "다음 담당자와 담당 기간 고정" },
             { title: "전달 전 확인", description: "누락 항목 검사" },

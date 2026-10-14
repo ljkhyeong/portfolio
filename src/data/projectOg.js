@@ -57,11 +57,11 @@ export const projectOgCards = [
         route: "/projects/hope-commit",
         title: ["Hope Commit"],
         category: "개발 도구 / SeungIl 님의 Hope 비공식 포크",
-        description: "지정한 커밋만 리뷰하고\n설명에 해당하는 코드 줄을 표시합니다.",
+        description: "지정한 커밋만 리뷰하고\n리뷰 항목에 해당하는 코드 줄을 표시합니다.",
         caption: "검토 범위 고정부터 HTML 리뷰까지",
         steps: [
             ["대상 커밋 확정", "비교 기준과 커밋 범위 고정"],
-            ["변경 줄 확인", "설명과 실제 diff 연결"],
+            ["변경 줄 확인", "리뷰 항목과 실제 diff 연결"],
             ["HTML 리뷰 생성", "파일과 변경 줄을 함께 확인"],
         ],
     },

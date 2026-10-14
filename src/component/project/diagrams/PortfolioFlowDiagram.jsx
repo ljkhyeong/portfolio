@@ -483,7 +483,7 @@ const diagrams = {
                 height: 104,
                 tag: "판단",
                 title: ["근거 문단 선택"],
-                detail: ["문서당 최대 3개, 12,000자", "키워드 근거 없으면 중단"],
+                detail: ["문서당 최대 3개, 12,000자", "BM25 일치 문단 없으면 중단"],
             },
             {
                 id: "generation",

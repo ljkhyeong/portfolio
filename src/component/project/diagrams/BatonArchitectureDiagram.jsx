@@ -165,8 +165,8 @@ const BatonArchitectureDiagram = ({ services = [] }) => {
                 </h3>
                 <p className="editorial-diagram__summary baton-architecture__summary">
                     Core가 역할과 인수인계를 저장하고, 6개 서비스는 링크, URL 점검, 이벤트 전달,
-                    보고서, 캘린더, WebRTC 스터디룸을 맡습니다. 공개 환경에서 전체 서비스를 연결해
-                    확인하지는 않았습니다.
+                    보고서, 캘린더, WebRTC 스터디룸을 맡습니다. 배포 환경에서 전체 서비스 연동은
+                    확인하지 않았습니다.
                 </p>
             </figcaption>
 

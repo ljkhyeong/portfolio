@@ -9,7 +9,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "구현 상태",
-                text: "공개 main f7459e1 기준입니다. 관리용 상태 필터와 기간 필터, 일괄 조회, 링크 상태 안내와 재시도 화면을 제공합니다.",
+                text: "공개 main f7459e1 기준입니다. 관리용 상태 필터와 기간 필터, 일괄 조회, 링크 상태 안내 화면과 다시 열기 링크를 제공합니다.",
             },
             {
                 kind: "unverified",
@@ -103,7 +103,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인한 것",
-                text: "점검 상태, 보고서 이력과 비교, 주간 이월, 신규, 해결 내역을 검증했습니다. 업무 종류, 주간, 시간대 필터와 변경 없는 비교 결과의 304 응답도 지원합니다.",
+                text: "점검 상태 반영, 보고서 이력, 지난주 미해결 이월과 신규, 해결 구분을 테스트했습니다. 업무 종류, 주간, 시간대 필터와, 변경이 없으면 304로 응답하는 보고서 비교도 구현했습니다.",
             },
             {
                 kind: "limited",
@@ -146,7 +146,7 @@ export const batonServicePresentations = {
             {
                 kind: "unverified",
                 label: "아직 확인하지 않은 것",
-                text: "실제 캘린더 앱 구독, 운영 환경의 전체 일정 재전송과 공개 배포는 아직 확인하지 않았습니다.",
+                text: "실제 캘린더 앱 구독, 운영 환경의 전체 일정 재동기화와 공개 배포는 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
