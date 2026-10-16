@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:4702a4e8e72b",
+  "sourceRevision": "sha256:425440b64c24",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -838,7 +838,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:ad578ac465ef",
+      "sourceRevision": "sha256:dcef313d98a2",
       "documentId": "knowledge_62d8f51ec6a384b20c19c1d4",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -846,12 +846,12 @@
       "documentType": "problem_solution",
       "title": "옵션별 가격과 재고, 결제 당시 주문 보존",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 옵션별 가격과 재고가 다르고, 옵션 변경 뒤에도 결제 당시 주문 조건을 재현해야 했습니다.\n\n해결 방법: 선택 조합마다 SKU를 만들고 서버가 가격과 수량을 다시 계산했습니다. 주문에는 결제 당시 옵션, 추가 금액과 SKU를 저장했습니다.\n\n확인: 잘못된 옵션과 동시 재고 차감을 막고, 옵션 변경 뒤에도 기존 주문의 가격, 환불과 재고 복구가 유지되는지 확인했습니다.\n\n제약과 남은 작업: SKU 조합은 500개로 제한했으며 관리자가 가격과 재고를 직접 관리해야 합니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 옵션별 가격과 재고가 다르고, 옵션 변경 뒤에도 결제 당시 주문 조건을 재현해야 했습니다.\n\n해결 방법: 선택 조합마다 SKU를 만들고 서버가 가격과 수량을 다시 계산했습니다. 주문에는 결제 당시 옵션, 추가 금액과 SKU를 저장했습니다.\n\n확인: 잘못된 옵션과 동시 재고 차감을 막고, 옵션 변경 뒤에도 기존 주문의 가격, 환불과 재고 복구가 유지되는지 확인했습니다.\n\n제약과 남은 작업: SKU 조합은 500개로 제한했고, 조합별 가격과 재고는 관리자가 직접 입력해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "ad578ac465ef2a5a11e7f0daec65593ae33288414f15b06d36398107b8b2b71d"
+      "sourceHash": "dcef313d98a22cff994b27c6a62e54f9163b74e95c7715f6b5641ad3884a184c"
     },
     {
       "schemaVersion": "1.0",
@@ -940,7 +940,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:fcbd356572bd",
+      "sourceRevision": "sha256:09ae54b72c67",
       "documentId": "knowledge_9ecdeffb6b0c6d25b766c306",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -948,12 +948,12 @@
       "documentType": "problem_solution",
       "title": "선택한 상품만 결제하고 재주문 조건을 다시 확인",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 장바구니 전체를 한 번에 결제하거나 이전 주문 가격을 그대로 쓰면 원하지 않는 상품이 포함되거나 현재 판매 조건과 어긋날 수 있습니다.\n\n해결 방법: 선택한 항목과 장바구니 버전을 결제 요청에 묶고 미선택 상품은 유지합니다. 재주문은 현재 가격, 재고, 옵션을 확인한 뒤 다시 담습니다.\n\n확인: 선택 유지, 결제 전 장바구니 변경, 재주문 조건 변경을 Playwright E2E로 확인했습니다.\n\n제약과 남은 작업: 이전 주문의 가격과 옵션을 보장하지 않습니다. 실제 Toss 결제는 별도 검증 대상입니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 장바구니 전체를 한 번에 결제하거나 이전 주문 가격을 그대로 쓰면 원하지 않는 상품까지 결제되거나, 지금의 가격과 재고와 다른 조건으로 주문될 수 있습니다.\n\n해결 방법: 선택한 항목과 장바구니 버전을 결제 요청에 묶고 미선택 상품은 유지합니다. 재주문은 현재 가격, 재고, 옵션을 확인한 뒤 다시 담습니다.\n\n확인: 선택 유지, 결제 전 장바구니 변경, 재주문 조건 변경을 Playwright E2E로 확인했습니다.\n\n제약과 남은 작업: 이전 주문의 가격과 옵션을 보장하지 않습니다. 실제 Toss 결제는 별도 검증 대상입니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "fcbd356572bd89b8a5b2823fc8b31d6bc764afd17017007833721d4a5268a1f4"
+      "sourceHash": "09ae54b72c679397b47af89713481ed6d9b188359f60a933e8531efbcb4630b1"
     },
     {
       "schemaVersion": "1.0",
@@ -1246,7 +1246,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:6fb48369969b",
+      "sourceRevision": "sha256:7e59619178d7",
       "documentId": "knowledge_1214943157d1a4264d97254e",
       "projectId": "youth-policy-mate",
       "projectName": "청년정책메이트",
@@ -1254,12 +1254,12 @@
       "documentType": "problem_solution",
       "title": "서버 DTO와 웹 API 타입 일치",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 청년정책메이트\n\n문제: 웹과 서버가 요청 타입과 응답 타입을 따로 관리하면 자격 상태나 날짜 의미가 한쪽에서만 바뀔 수 있습니다.\n\n해결 방법: 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성하고 생성 결과가 최신인지 CI에서 확인합니다.\n\n확인: 공개 정책, 회원 저장, 일정, 알림 API의 생성 타입 검사와 웹 빌드 검증 기록을 확인했습니다.\n\n제약과 남은 작업: 생성한 타입은 요청과 응답의 형태만 맞춥니다. 같은 필드의 의미가 바뀌는 변경은 테스트로 따로 확인해야 합니다.",
+      "content": "프로젝트: 청년정책메이트\n\n문제: 웹과 서버가 요청 타입과 응답 타입을 각자 정의하면 자격 상태나 날짜 의미가 한쪽에서만 바뀔 수 있습니다.\n\n해결 방법: 서버 DTO에서 OpenAPI와 TypeScript 타입을 생성하고 생성 결과가 최신인지 CI에서 확인합니다.\n\n확인: 공개 정책, 회원 저장, 일정, 알림 API의 생성 타입 검사와 웹 빌드 검증 기록을 확인했습니다.\n\n제약과 남은 작업: 생성한 타입은 요청과 응답의 형태만 맞춥니다. 같은 필드의 의미가 바뀌는 변경은 테스트로 따로 확인해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/youth-policy-mate#project-problems",
       "route": "/projects/youth-policy-mate",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "6fb48369969bf458b519b8fc767e2559a8cb4dd95167506c262a81376a1ba0dd"
+      "sourceHash": "7e59619178d7b40168995a856c980119ed0e94178b58ce1c91e94aa9ae1383b4"
     },
     {
       "schemaVersion": "1.0",
@@ -2028,7 +2028,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:c46a973c067d",
+      "sourceRevision": "sha256:66364f0d0f27",
       "documentId": "knowledge_05bbe2d13922761877360bfb",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -2036,12 +2036,12 @@
       "documentType": "problem_solution",
       "title": "Presigned URL로 대용량 파일 직접 업로드",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 업무 서버가 대용량 파일 본문을 중계하면 동시 업로드 때 메모리, 디스크, 네트워크 부하가 커질 수 있었습니다. 기존 파일 저장 시스템은 유지해야 했습니다.\n\n해결 방법: 업로드 권한과 파일 정보를 검증한 뒤 Presigned URL을 발급해 브라우저가 파일 저장 시스템으로 직접 전송하게 했습니다.\n\n확인: 권한이 없는 요청에는 Presigned URL을 발급하지 않고, 허용된 파일은 업무 서버를 거치지 않고 저장되는 것을 확인했습니다.\n\n제약과 남은 작업: Presigned URL의 만료 시간과 업로드 조건, 업로드 완료 상태를 별도로 관리해야 합니다. 브라우저와 파일 저장 시스템 사이에서 실패한 업로드를 다시 확인하는 절차도 필요합니다.",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 업무 서버가 대용량 파일 본문을 중계하면 동시 업로드 때 메모리, 디스크, 네트워크 부하가 커질 수 있었습니다. 기존 파일 저장 시스템은 유지해야 했습니다.\n\n해결 방법: 업로드 권한과 파일 정보를 검증한 뒤 Presigned URL을 발급해 브라우저가 파일 저장 시스템으로 직접 전송하게 했습니다.\n\n확인: 권한이 없는 요청에는 Presigned URL을 발급하지 않고, 허용된 파일은 업무 서버를 거치지 않고 저장되는 것을 확인했습니다.\n\n제약과 남은 작업: Presigned URL의 만료 시간과 업로드 조건을 정해야 하고, 업로드 완료 여부는 서버가 따로 확인해야 합니다. 브라우저와 파일 저장 시스템 사이에서 실패한 업로드를 다시 확인하는 절차도 필요합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-problems",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "c46a973c067d100945e8d43d6500d65b7c703d28025fbbe35a9b22006c159c21"
+      "sourceHash": "66364f0d0f27ba856a97d8511f48f482069029e873ea302f62f704d83e2b9958"
     },
     {
       "schemaVersion": "1.0",
