@@ -33,7 +33,7 @@ const featuredProblems = {
         problemNumber: "03",
         problem: "실제 변경 코드에 없는 설명이나 지적이 리뷰에 섞일 수 있습니다.",
         steps: [
-            { title: "이전 대화 없이 코드 분석", description: "AI 리뷰 설명과 지적 생성" },
+            { title: "이전 대화 없이 코드 분석", description: "AI 리뷰 항목 생성" },
             { title: "파일과 줄 연결", description: "실제 수집한 코드 범위인지 검사" },
             { title: "형식 및 길이 검증", description: "잘못된 근거와 형식 거절" },
         ],

@@ -161,7 +161,7 @@ test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () 
     const flow = screen.getByRole("region", { name: "검색과 답변 처리 흐름" })
     expect(flow).toContainElement(
         screen.getByRole("img", {
-            name: /검색 증강 생성\(RAG\) 흐름.*키워드 근거가 없으면 AI를 호출하지 않습니다/,
+            name: /검색 증강 생성\(RAG\) 흐름.*BM25 일치 문단이 없으면 AI를 호출하지 않습니다/,
         }),
     )
     expect(flow).toHaveTextContent("공개 사이트에는 검색 API를 아직 연결하지 않았습니다.")

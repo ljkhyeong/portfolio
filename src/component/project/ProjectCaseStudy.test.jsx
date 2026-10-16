@@ -107,7 +107,7 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         }),
     ).toBeInTheDocument()
     const architecture = screen.getByRole("group", {
-        name: /Core와 6개 서비스의 담당 기능 및 연동 흐름.*선은 서비스 사이에서 주고받는 요청과 이벤트이며 공개 환경 전체 연동 완료를 뜻하지 않습니다/,
+        name: /Core와 6개 서비스의 담당 기능 및 연동 흐름.*선은 서비스 사이에서 주고받는 요청과 이벤트이며 배포 환경 전체 연동 완료를 뜻하지 않습니다/,
     })
     expect(screen.getByLabelText("Core: 조직, 역할 및 인수인계")).toBeInTheDocument()
     expect(screen.getByLabelText("GO: 짧은 링크 발급")).toBeInTheDocument()
