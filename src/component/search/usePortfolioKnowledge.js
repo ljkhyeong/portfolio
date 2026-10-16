@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react"
-import { generatePortfolioAnswer, searchPortfolioKnowledge } from "../../api/knowledgeSearch"
+import {
+    generatePortfolioAnswer,
+    knowledgeApiConfigured,
+    searchPortfolioKnowledge,
+} from "../../api/knowledgeSearch"
+import { searchLocalKnowledge } from "../../api/localKnowledgeSearch"
 
-const emptySearch = { state: "idle", results: [], total: 0, errorMessage: "" }
+// source가 "local"이면 검색 API 대신 브라우저에서 공개 자료를 검색한 결과다. 이때는 AI 답변을 만들지 않는다.
+const emptySearch = { state: "idle", results: [], total: 0, errorMessage: "", source: "api" }
 const emptyAnswer = { state: "idle", answer: "", citations: [], errorMessage: "" }
 
 const getRequestErrorMessage = (error, action) => {
@@ -24,32 +30,59 @@ const getRequestErrorMessage = (error, action) => {
     return error.message || `${action} 요청을 처리하지 못했습니다.`
 }
 
+// 검색 서버에 닿지 못했거나 서버 쪽 오류일 때만 브라우저 검색으로 바꾼다.
+// 요청 제한(429)과 잘못된 요청(400)은 서버가 답한 결과이므로 그대로 안내한다.
+const canSearchLocally = (error) =>
+    ["NETWORK_ERROR", "REQUEST_TIMEOUT", "INVALID_RESPONSE"].includes(error?.code) ||
+    error?.status === 404 ||
+    error?.status >= 500
+
+// 검색 API 주소가 없거나, API가 없거나(404) 연결되지 않으면 같은 화면에서는 다시 부르지 않는다.
+// 다시 시도하면 주소 설정 여부로 초기화한다.
+const isApiMissing = (error) => error?.code === "NETWORK_ERROR" || error?.status === 404
+
 const usePortfolioKnowledge = ({ query, projectId, serviceId, documentType }) => {
     const [search, setSearch] = useState(emptySearch)
     const [answer, setAnswer] = useState(emptyAnswer)
     const [retryCount, setRetryCount] = useState(0)
     const activeAnswer = useRef(null)
+    const apiMissing = useRef(!knowledgeApiConfigured)
 
     useEffect(() => {
         const controller = new AbortController()
         setAnswer(emptyAnswer)
         setSearch({ ...emptySearch, state: query ? "loading" : "idle" })
 
+        const runSearch = async () => {
+            const request = { query, projectId, serviceId, documentType, signal: controller.signal }
+            let apiError = null
+            if (!apiMissing.current) {
+                try {
+                    return { response: await searchPortfolioKnowledge(request), source: "api" }
+                } catch (error) {
+                    if (controller.signal.aborted || !canSearchLocally(error)) throw error
+                    apiError = error
+                }
+            }
+            try {
+                const response = await searchLocalKnowledge(request)
+                if (isApiMissing(apiError)) apiMissing.current = true
+                return { response, source: "local" }
+            } catch (localError) {
+                throw apiError ?? localError
+            }
+        }
+
         if (query) {
-            searchPortfolioKnowledge({
-                query,
-                projectId,
-                serviceId,
-                documentType,
-                signal: controller.signal,
-            })
-                .then((response) => {
+            runSearch()
+                .then(({ response, source }) => {
                     if (!controller.signal.aborted) {
                         setSearch({
                             state: "success",
                             results: response.results || [],
                             total: response.total ?? response.results?.length ?? 0,
                             errorMessage: "",
+                            source,
                         })
                     }
                 })
@@ -71,7 +104,11 @@ const usePortfolioKnowledge = ({ query, projectId, serviceId, documentType }) =>
     }, [query, projectId, serviceId, documentType, retryCount])
 
     const generateAnswer = async (turnstileToken) => {
-        if (search.state !== "success" || search.results.length === 0) {
+        if (
+            search.state !== "success" ||
+            search.results.length === 0 ||
+            search.source === "local"
+        ) {
             return
         }
 
@@ -125,7 +162,10 @@ const usePortfolioKnowledge = ({ query, projectId, serviceId, documentType }) =>
         search,
         answer,
         generateAnswer,
-        retrySearch: () => setRetryCount((count) => count + 1),
+        retrySearch: () => {
+            apiMissing.current = !knowledgeApiConfigured
+            setRetryCount((count) => count + 1)
+        },
     }
 }
 

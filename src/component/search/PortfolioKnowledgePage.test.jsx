@@ -2,11 +2,17 @@ import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { createMemoryRouter, RouterProvider } from "react-router-dom"
 import { generatePortfolioAnswer, searchPortfolioKnowledge } from "../../api/knowledgeSearch"
+import { searchLocalKnowledge } from "../../api/localKnowledgeSearch"
 import PortfolioKnowledgePage from "./PortfolioKnowledgePage"
 
 vi.mock("../../api/knowledgeSearch", () => ({
+    knowledgeApiConfigured: true,
     searchPortfolioKnowledge: vi.fn(),
     generatePortfolioAnswer: vi.fn(),
+}))
+
+vi.mock("../../api/localKnowledgeSearch", () => ({
+    searchLocalKnowledge: vi.fn(),
 }))
 
 const searchResult = {
@@ -30,6 +36,8 @@ const renderPage = (initialEntries = ["/search"]) => {
 
 beforeEach(() => {
     vi.resetAllMocks()
+    // 기본은 브라우저 검색도 실패해 검색 API의 오류 안내를 그대로 보여 준다.
+    searchLocalKnowledge.mockRejectedValue(new Error("공개 문서 자료를 불러오지 못했습니다."))
 })
 
 test.each(["constructor", "__proto__", "new_document_type"])(
@@ -164,7 +172,9 @@ test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () 
             name: /검색 증강 생성\(RAG\) 흐름.*BM25 일치 문단이 없으면 AI를 호출하지 않습니다/,
         }),
     )
-    expect(flow).toHaveTextContent("공개 사이트에는 검색 API를 아직 연결하지 않았습니다.")
+    expect(flow).toHaveTextContent(
+        "공개 사이트에는 검색 API를 아직 연결하지 않아, 같은 공개 문서를 브라우저에서 같은 기준의 키워드 검색으로 찾고 AI 답변은 제공하지 않습니다.",
+    )
 })
 
 test("BATON 서비스 범위를 주소에서 복원하고 변경한 서비스도 주소와 API에 반영한다", async () => {
@@ -572,3 +582,65 @@ test.each([
         expect(searchPortfolioKnowledge).toHaveBeenCalledOnce()
     },
 )
+
+test.each([
+    ["연결 실패", { code: "NETWORK_ERROR" }],
+    ["없는 경로", { status: 404, code: "REQUEST_FAILED" }],
+    ["서버 오류", { status: 503, code: "REQUEST_FAILED" }],
+    ["시간 초과", { code: "REQUEST_TIMEOUT" }],
+])(
+    "검색 API %s 때 같은 공개 자료를 브라우저에서 검색하고 AI 답변은 막는다",
+    async (message, error) => {
+        searchPortfolioKnowledge.mockRejectedValue(Object.assign(new Error(message), error))
+        searchLocalKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
+
+        renderPage(["/search?project=happygallery&q=결제"])
+
+        expect(await screen.findByRole("heading", { name: searchResult.title })).toBeVisible()
+        expect(
+            screen.getByText(/검색 서버에 연결하지 못해 같은 공개 문서를 브라우저에서/),
+        ).toBeVisible()
+        expect(searchLocalKnowledge).toHaveBeenCalledWith(
+            expect.objectContaining({ query: "결제", projectId: "happygallery" }),
+        )
+        expect(screen.getByText(/AI 답변은 만들 수 없습니다/)).toBeVisible()
+        expect(screen.getByRole("button", { name: /검색 결과로 답변 생성/ })).toBeDisabled()
+        expect(screen.queryByRole("alert")).not.toBeInTheDocument()
+        expect(generatePortfolioAnswer).not.toHaveBeenCalled()
+    },
+)
+
+test("검색 API가 없으면 같은 화면의 다음 검색은 브라우저에서 바로 한다", async () => {
+    searchPortfolioKnowledge.mockRejectedValue(
+        Object.assign(new Error("없는 경로"), { status: 404, code: "REQUEST_FAILED" }),
+    )
+    searchLocalKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
+
+    renderPage(["/search?q=결제"])
+    await screen.findByRole("heading", { name: searchResult.title })
+
+    await act(async () => {
+        userEvent.clear(screen.getByRole("searchbox"))
+        userEvent.type(screen.getByRole("searchbox"), "환불")
+        userEvent.click(screen.getByRole("button", { name: "문서 검색" }))
+    })
+
+    await waitFor(() =>
+        expect(searchLocalKnowledge).toHaveBeenLastCalledWith(
+            expect.objectContaining({ query: "환불" }),
+        ),
+    )
+    expect(searchPortfolioKnowledge).toHaveBeenCalledOnce()
+})
+
+test("요청 제한(429)은 브라우저 검색으로 바꾸지 않고 안내한다", async () => {
+    searchPortfolioKnowledge.mockRejectedValue(
+        Object.assign(new Error("요청 실패"), { status: 429, code: "RATE_LIMITED" }),
+    )
+    searchLocalKnowledge.mockResolvedValue({ results: [searchResult], total: 1 })
+
+    renderPage(["/search?q=결제"])
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("검색 요청이 많습니다.")
+    expect(searchLocalKnowledge).not.toHaveBeenCalled()
+})

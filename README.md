@@ -66,6 +66,13 @@ OpenAI 또는 Ollama 실행 설정에서는 BM25 결과와 의미 유사도를 �
 대규모 언어 모델(LLM)에 전달합니다. 답변 생성이 중단되어도 검색 결과와 원문 링크는 그대로
 유지됩니다.
 
+검색 API 주소(`VITE_KNOWLEDGE_API_BASE_URL`)를 설정하지 않았거나 검색 API에 연결할 수 없으면(연결
+실패, 404, 5xx, 시간 초과, 잘못된 응답) 화면은 같은 공개 자료
+`public/knowledge/portfolio.json`을 받아 브라우저에서 검색합니다(`src/api/localKnowledgeSearch.js`).
+서버와 같은 문단 분할과 필드 가중치의 BM25를 쓰고, 형태소 분석 대신 한글을 두 글자씩 나눠
+비교합니다. 이때 AI 답변은 만들지 않습니다. 요청 제한(429)과 잘못된 요청(400)은 그대로 안내합니다.
+`npm run knowledge:evaluate -- --local`은 같은 대표 질문으로 브라우저 검색을 평가합니다.
+
 -   프론트엔드: 현재 React 및 Netlify 애플리케이션
 -   검색 API: `knowledge-api/`의 별도 Spring Boot 애플리케이션
 -   검색 저장소: Elasticsearch

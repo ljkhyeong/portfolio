@@ -201,7 +201,7 @@ const KnowledgeFilters = ({
     </fieldset>
 )
 
-const SearchResults = ({ state, total, results, query, errorMessage, onRetry }) => {
+const SearchResults = ({ state, total, results, query, errorMessage, onRetry, source }) => {
     if (state === "idle") {
         return (
             <div className="knowledge-state knowledge-state--idle">
@@ -250,6 +250,12 @@ const SearchResults = ({ state, total, results, query, errorMessage, onRetry }) 
                 <h2 id="knowledge-results-title">“{query}” 검색 결과</h2>
                 <strong>{total}건</strong>
             </div>
+            {source === "local" && (
+                <p className="knowledge-results__notice" role="status">
+                    검색 서버에 연결하지 못해 같은 공개 문서를 브라우저에서 키워드로 검색했습니다.
+                    순위는 서버 검색과 다를 수 있습니다.
+                </p>
+            )}
             <ol>
                 {results.map((result, index) => (
                     <li key={result.chunkId || `${result.title}-${index}`}>
@@ -351,6 +357,7 @@ const AnswerPanel = ({
     errorMessage,
     onGenerate,
     canGenerate,
+    localSearch,
     verificationEnabled,
     verificationResetKey,
     onVerificationTokenChange,
@@ -363,7 +370,11 @@ const AnswerPanel = ({
 
         {state === "idle" && (
             <div className="knowledge-answer__empty">
-                <p>문서를 검색한 뒤 답변을 생성할 수 있습니다.</p>
+                <p>
+                    {localSearch
+                        ? "검색 서버에 연결되지 않아 AI 답변은 만들 수 없습니다. 검색 결과와 원문 링크를 확인하세요."
+                        : "문서를 검색한 뒤 답변을 생성할 수 있습니다."}
+                </p>
             </div>
         )}
 
@@ -457,7 +468,8 @@ const PortfolioKnowledgePage = () => {
         serviceId,
         documentType,
     })
-    const hasAnswerContext = search.state === "success" && search.results.length > 0
+    const localSearch = search.state === "success" && search.source === "local"
+    const hasAnswerContext = search.state === "success" && search.results.length > 0 && !localSearch
 
     useEffect(() => setQuery(searchedQuery), [searchedQuery, searchParams])
     useEffect(() => {
@@ -605,6 +617,7 @@ const PortfolioKnowledgePage = () => {
                     <SearchResults {...search} query={searchedQuery} onRetry={retrySearch} />
                     <AnswerPanel
                         {...answer}
+                        localSearch={localSearch}
                         onGenerate={handleGenerateAnswer}
                         canGenerate={
                             hasAnswerContext && (!verificationEnabled || Boolean(verificationToken))

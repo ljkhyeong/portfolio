@@ -15,16 +15,17 @@ description: 포트폴리오의 공개 문서 검색과 AI 답변(RAG) 기능을
 
 ## 구성
 
-| 영역           | 위치                                                                                                                                |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| 검색 화면      | `src/component/search/PortfolioKnowledgePage.jsx`, `usePortfolioKnowledge.js`, `TurnstileWidget.jsx`                                |
-| 요청·응답 처리 | `src/api/knowledgeSearch.js`, `knowledgeResponse.js`(평가 도구도 같은 검사 함수를 사용), `knowledgeRequestPolicy.js`                |
-| 공개 자료 정의 | `src/data/knowledgeCorpus.js`의 `PUBLIC_LOCAL_DOCUMENTS`(`public/docs/**`), `PUBLIC_EXTERNAL_DOCUMENTS`(GitHub 허용 목록)           |
-| 자료 생성      | `scripts/generate-knowledge-corpus.mjs`, `knowledge-corpus-core.mjs` → `public/knowledge/portfolio.json`                            |
-| 외부 문서 사본 | `npm run knowledge:refresh-docs` → `docs/knowledge-document-snapshots.json`(커밋 SHA와 함께 보관)                                   |
-| 동기화·평가    | `scripts/sync-knowledge-index.mjs`, `evaluate-knowledge.mjs`, `knowledge-evaluation-cases.json`(대표 질문 24개, 근거 없는 질문 4개) |
-| 검색 API       | `knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/{domain,port,adapter,search,api,sync,verification,config}`           |
-| CI             | `.github/workflows/knowledge-api.yml`, `knowledge-release-check.yml`, `knowledge-source-refresh.yml`                                |
+| 영역           | 위치                                                                                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 검색 화면      | `src/component/search/PortfolioKnowledgePage.jsx`, `usePortfolioKnowledge.js`, `TurnstileWidget.jsx`                                              |
+| 요청·응답 처리 | `src/api/knowledgeSearch.js`, `knowledgeResponse.js`(평가 도구도 같은 검사 함수를 사용), `knowledgeRequestPolicy.js`                              |
+| 브라우저 폴백  | `src/api/localKnowledgeSearch.js`: 검색 API에 연결할 수 없을 때(연결 실패, 404, 5xx, 시간 초과, 잘못된 응답) `portfolio.json`을 브라우저에서 검색 |
+| 공개 자료 정의 | `src/data/knowledgeCorpus.js`의 `PUBLIC_LOCAL_DOCUMENTS`(`public/docs/**`), `PUBLIC_EXTERNAL_DOCUMENTS`(GitHub 허용 목록)                         |
+| 자료 생성      | `scripts/generate-knowledge-corpus.mjs`, `knowledge-corpus-core.mjs` → `public/knowledge/portfolio.json`                                          |
+| 외부 문서 사본 | `npm run knowledge:refresh-docs` → `docs/knowledge-document-snapshots.json`(커밋 SHA와 함께 보관)                                                 |
+| 동기화·평가    | `scripts/sync-knowledge-index.mjs`, `evaluate-knowledge.mjs`, `knowledge-evaluation-cases.json`(대표 질문 24개, 근거 없는 질문 4개)               |
+| 검색 API       | `knowledge-api/src/main/java/com/ljkhyeong/portfolio/knowledge/{domain,port,adapter,search,api,sync,verification,config}`                         |
+| CI             | `.github/workflows/knowledge-api.yml`, `knowledge-release-check.yml`, `knowledge-source-refresh.yml`                                              |
 
 ## 변경별 작업
 
@@ -60,6 +61,13 @@ HTTP 오류 본문은 `GlobalExceptionHandler`가 RFC 9457 `ProblemDetail`과 `c
 | 배포 파일      | `./gradlew bootJar`                                                                                                                                |
 
 Docker가 없거나 이미지를 만들지 못하면 `integrationTest`는 건너뛰지 않고 실패한다. 이때는 통합 테스트를 실행하지 않았다고 기록한다. 단위 테스트 통과를 통합 검증으로 보고하지 않는다. 청크 길이나 겹침, 임베딩 모델이나 차원을 바꾸면 다음 동기화가 새 색인에 전체 재색인한 뒤 alias를 교체한다. alias 이름(`KNOWLEDGE_ELASTICSEARCH_INDEX_NAME`)을 바꾸라고 안내하지 않는다.
+
+### 브라우저 폴백 검색
+
+공개 사이트는 검색 API를 아직 연결하지 않아 이 경로로 검색한다(2026-10-16 추가). `VITE_KNOWLEDGE_API_BASE_URL`이 비어 있으면 API를 부르지 않고 처음부터 브라우저에서 검색한다(`knowledgeApiConfigured`). AI 답변은 만들지 않고 결과 위에 안내를 보여 준다. 요청 제한(429)과 잘못된 요청(400)은 폴백하지 않는다.
+
+-   서버와 같은 기준을 쓴다. `KnowledgeChunker`(1,200자, 150자 겹침), `searchBm25`의 필드 가중치(`title^3`, `heading^2`, `projectName^2`, `content`, best_fields), 요약 280자. 서버 기준을 바꾸면 이 파일도 함께 고친다.
+-   형태소 분석 대신 한글은 두 글자씩 나눠 비교한다. 순위 확인은 `npm run knowledge:evaluate -- --local`(대표 질문 24개, 서버와 같은 지표). 2026-10-16 기준 상위 5건 24/24, MRR@5 0.903이다.
 
 ### 검색 화면을 바꿀 때
 

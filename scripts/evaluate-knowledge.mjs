@@ -1,6 +1,8 @@
 import { readFile, mkdir, writeFile } from "node:fs/promises"
 import { parseArgs } from "node:util"
 import path from "node:path"
+import { fileURLToPath } from "node:url"
+import { createServer } from "vite"
 import { createKnowledgeApiClient } from "./knowledge-api-client.mjs"
 
 const { values } = parseArgs({
@@ -8,8 +10,13 @@ const { values } = parseArgs({
         url: { type: "string", default: "http://127.0.0.1:8080" },
         output: { type: "string", default: "output/validation/knowledge-evaluation.json" },
         answers: { type: "boolean", default: false },
+        // 검색 API 대신 화면의 브라우저 폴백 검색(src/api/localKnowledgeSearch.js)을 같은 질문으로 잰다.
+        local: { type: "boolean", default: false },
     },
 })
+if (values.local && values.answers) {
+    throw new Error("--local은 브라우저 검색만 평가합니다. AI 답변 평가와 함께 쓰지 않습니다.")
+}
 const cases = JSON.parse(
     await readFile(new URL("./knowledge-evaluation-cases.json", import.meta.url)),
 )
@@ -20,8 +27,26 @@ const client = createKnowledgeApiClient({
     baseUrl: values.url,
     syncKey: process.env.KNOWLEDGE_SYNC_KEY,
 })
+const loadLocalSearch = async () => {
+    const vite = await createServer({
+        root: path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."),
+        appType: "custom",
+        logLevel: "silent",
+        server: { middlewareMode: true },
+    })
+    try {
+        const { buildLocalIndex, searchLocalIndex } = await vite.ssrLoadModule(
+            "/src/api/localKnowledgeSearch.js",
+        )
+        const index = buildLocalIndex(corpus)
+        return (body) => searchLocalIndex(index, body)
+    } finally {
+        await vite.close()
+    }
+}
+const searchLocally = values.local ? await loadLocalSearch() : null
 let verifiedSourceRevision = null
-if (process.env.KNOWLEDGE_SYNC_KEY) {
+if (!values.local && process.env.KNOWLEDGE_SYNC_KEY) {
     const status = await client.readStatus(corpus)
     if (!status.upToDate) {
         throw new Error("평가 API의 색인과 현재 공개 자료가 다릅니다. 먼저 동기화하세요.")
@@ -31,7 +56,11 @@ if (process.env.KNOWLEDGE_SYNC_KEY) {
 const rows = []
 const request = async (body) => {
     const start = performance.now()
-    const payload = await (values.answers ? client.answer(body) : client.search(body))
+    const payload = await (values.local
+        ? searchLocally(body)
+        : values.answers
+          ? client.answer(body)
+          : client.search(body))
     return { payload, elapsedMs: Math.round(performance.now() - start) }
 }
 for (const item of cases) {
@@ -81,7 +110,7 @@ const mrrAt5 =
 const report = {
     expectedSourceRevision: corpus.sourceRevision,
     verifiedSourceRevision,
-    mode: values.answers ? "answers" : "search",
+    mode: values.local ? "local-search" : values.answers ? "answers" : "search",
     hitAt5,
     mrrAt5,
     meanElapsedMs: Math.round(rows.reduce((sum, row) => sum + row.elapsedMs, 0) / rows.length),

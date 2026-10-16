@@ -7,6 +7,9 @@ import {
 
 const API_BASE_URL = (import.meta.env.VITE_KNOWLEDGE_API_BASE_URL ?? "").replace(/\/$/, "")
 
+// 검색 API 주소를 설정하지 않은 빌드(현재 공개 사이트)는 API를 부르지 않고 브라우저 검색을 쓴다.
+export const knowledgeApiConfigured = API_BASE_URL !== ""
+
 export class KnowledgeApiError extends Error {
     constructor(
         message,
