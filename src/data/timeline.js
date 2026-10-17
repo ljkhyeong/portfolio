@@ -1,16 +1,17 @@
 import activity from "./githubActivity.json"
 import { education } from "./profile"
 import { projectSummariesById } from "./projectSummaries"
-import { warrantPerformance } from "./warrantEvidence"
+import { warrantOperation } from "./warrantEvidence"
 
 // 메인 첫 화면 연표. 기간은 각 프로젝트의 period에서 읽고, 진행 중인 막대는 GitHub 기여 기록을
-// 갱신한 날(activity.to)까지 그린다. 막대 옆 글은 확인한 결과와 그 조건이다.
+// 갱신한 날(activity.to)까지 그린다. 막대 옆 글은 프로젝트마다 가장 강한 사실 하나다. 실제 운영과
+// 전후 비교 측정값을 먼저 쓰고, 없으면 맡은 범위나 해결한 문제를 쓴다. 테스트 개수, 재실행 같은 절차,
+// 비교 기준 없이 작아 보이는 수치는 쓰지 않고, 쓸 사실이 없으면 글을 두지 않는다(2026-10-17 사용자 판단).
 const timelineNotes = {
-    warrant: `성능 테스트 환경에서 ${warrantPerformance.load}로 ${warrantPerformance.duration} 동안 모두 처리`,
-    defense: "중단된 기관 배치만 찾아 재실행",
-    happygallery: "main 병합 시 k3s 자동 배포",
-    baton: "통합 테스트에서 동시 요청 8건에도 링크 1건만 생성",
-    "hope-commit": "GitHub Actions에서 자동화 테스트 343개 통과",
+    warrant: `${warrantOperation.openedOn} 개통 후 운영 중`,
+    defense: "3개 기관 수용자 자료 연계 배치 개발과 장애 대응",
+    happygallery: "결제사 응답 유실에도 결제와 환불을 중복 없이 처리",
+    baton: "Core와 6개 마이크로서비스 구현",
     webrtc: "팀 시연에서 재생 지연 약 35초 → 약 17초",
 }
 

@@ -194,7 +194,7 @@ export const projectSummaries = [
         homeSummary:
             "SeungIl 님의 AI 코딩 도구용 스킬 모음 Hope 6.0.0을 포크해 커밋 리뷰 기능을 추가했습니다. 지정한 커밋을 AI가 리뷰하고, 각 리뷰 항목을 변경된 코드 줄에 연결해 HTML로 보여 줍니다.",
         homeCheck:
-            "Hope Commit v5.0.2로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
+            "Hope Commit v5.0.2로 공개 릴리스했습니다. 변경 범위 밖을 가리키는 리뷰 항목 거절과 자격 증명 제외를 자동화 테스트로 확인했습니다.",
         coverScreenshot: {
             id: "review-summary",
             src: "hope-commit-review-summary.webp",
@@ -268,9 +268,9 @@ export const projectSummaries = [
         homeSummary:
             "군사법원, 군검찰, 군사경찰의 수용자 자료를 군교정 DB에 반영하는 배치를 개발했습니다. CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드도 구현했습니다.",
         homeStory:
-            "통합 모니터링이 없는 폐쇄망에서 배치가 멈추면 Jenkins 실행 이력, JEUS 로그, Tibero 데이터를 대조해 실패 단계를 찾고 해당 기관 배치만 재실행했습니다.",
+            "연계 배치가 멈추면 수용과 후속 군교정 업무를 처리할 수 없었습니다. 통합 모니터링이 없는 폐쇄망이라 Jenkins 실행 이력, JEUS 로그, Tibero 데이터를 대조해 실패 단계를 찾고, 자료가 군교정 DB에 반영될 때까지 복구했습니다.",
         summary:
-            "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 중단된 배치는 Jenkins, JEUS, Tibero 정보를 대조해 재실행했습니다.",
+            "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 운영 중 멈춘 배치는 Jenkins, JEUS, Tibero 기록을 대조해 실패 단계를 찾고 복구했습니다.",
         period: "2024.06.23 — 2026.01.30",
         route: "/projects/defense",
         tags: ["Java 8", "전자정부 표준프레임워크 4.1", "MyBatis", "Tibero", "Jenkins"],

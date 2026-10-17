@@ -97,7 +97,7 @@ test("그 밖의 프로젝트에도 기간, 확인한 범위와 원작 포크 �
     expect(articleOf("Hope Commit")).toHaveTextContent(
         "SeungIl 님의 AI 코딩 도구용 스킬 모음 Hope 6.0.0을 포크",
     )
-    expect(articleOf("Hope Commit")).toHaveTextContent("v5.0.2로 공개 릴리스했고")
+    expect(articleOf("Hope Commit")).toHaveTextContent("v5.0.2로 공개 릴리스했습니다")
     // 화면 캡처가 없는 교육 프로젝트는 맡은 처리 흐름을 글자로 보여 준다.
     expect(
         within(articleOf("WebRTC/HLS 현장강의 보조 서비스")).getByRole("img", {

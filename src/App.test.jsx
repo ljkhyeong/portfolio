@@ -18,14 +18,14 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(screen.getByRole("region", { name: "경력" })).toHaveTextContent(
         "BEINTECH 백엔드 개발자, 2024년 6월부터",
     )
-    // 첫 화면 연표는 실제 기간과 확인한 결과를 함께 보여 준다.
+    // 첫 화면 연표는 실제 기간과 프로젝트마다 가장 강한 사실 하나를 함께 보여 준다.
     const timeline = screen.getByRole("figure", { name: /지금까지 한 일의 연표/ })
     expect(
         within(within(timeline).getByRole("group", { name: "경력 기간" })).getAllByRole("link"),
     ).toHaveLength(2)
-    expect(timeline).toHaveTextContent(
-        "성능 테스트 환경에서 100 RPS·300 TPS로 1시간 동안 모두 처리",
-    )
+    expect(timeline).toHaveTextContent("2026년 9월 28일 개통 후 운영 중")
+    // 테스트 개수, 재실행 절차, 비교 기준 없는 처리량은 연표에 쓰지 않는다(2026-10-17 사용자 판단).
+    expect(timeline).not.toHaveTextContent(/RPS|자동화 테스트 \d+개|재실행/)
     expect(document.title).toBe("임정규 | 백엔드 개발자")
 
     const projects = screen.getByRole("region", { name: "개인 프로젝트" })
@@ -245,7 +245,7 @@ test("경력은 메인 한 곳에서 회사, 기간, 맡은 일과 상세 링크
     )
     expect(within(currentCareer).getByRole("link")).toHaveAttribute("href", "/projects/e-warrant")
     expect(within(previousCareer).getByRole("link")).toHaveAttribute("href", "/projects/defense")
-    // 측정 결과는 첫 화면 연표에만 두고 경력 카드에서 반복하지 않는다.
+    // 성능 테스트 수치는 메인에 쓰지 않고 상세의 검증 근거로만 둔다.
     expect(summary).not.toHaveTextContent("100 RPS·300 TPS")
     expect(within(projects).queryByText("전송형 전자영장 시스템")).not.toBeInTheDocument()
     expect(within(projects).queryByText("차세대 군사법 정보 시스템")).not.toBeInTheDocument()
@@ -471,7 +471,7 @@ test("Hope Commit 상세는 원본 포크와 직접 추가한 커밋 검토 범�
     expect(screen.getByText("사용자가 고른 부모")).toBeInTheDocument()
     expect(screen.getByText("저장하지 않고 중단")).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /v5\.0\.2.*GitHub Actions에서 자동화 테스트 343개가 통과/,
+        /v5\.0\.2.*변경 범위 밖을 가리키는 리뷰 항목 거절.*GitHub Actions 자동화 테스트로 확인/,
     )
     expect(
         screen.getByRole("link", { name: "Hope Commit GitHub 저장소 새 창에서 보기" }),
