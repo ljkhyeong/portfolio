@@ -94,7 +94,9 @@ test("그 밖의 프로젝트에도 기간, 확인한 범위와 원작 포크 �
     expect(youth).toHaveTextContent("2026.08 — 현재")
     expect(youth).toHaveTextContent("웹앱입니다")
     expect(youth).toHaveTextContent("OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다")
-    expect(articleOf("Hope Commit")).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
+    expect(articleOf("Hope Commit")).toHaveTextContent(
+        "SeungIl 님의 AI 코딩 도구용 스킬 모음 Hope 6.0.0을 포크",
+    )
     expect(articleOf("Hope Commit")).toHaveTextContent("v5.0.2로 공개 릴리스했고")
     // 화면 캡처가 없는 교육 프로젝트는 맡은 처리 흐름을 글자로 보여 준다.
     expect(

@@ -21,7 +21,7 @@ export const projectSummaries = [
         homeStory:
             "중복 요청과 이벤트는 멱등 키로 걸러 링크 생성과 외부 전송을 한 번만 실행합니다. 전송 응답이 유실되면 자동 재전송하지 않고, 운영자가 수신 측 기록을 확인해 결과를 확정합니다.",
         homeCheck:
-            "Core와 BRIEF, CAL, ROUND의 연동은 로컬에서 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
+            "Core와 3개 서비스(BRIEF, CAL, ROUND)의 연동은 로컬에서 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
             id: "today",
             src: "baton-core-today.webp",
@@ -82,11 +82,11 @@ export const projectSummaries = [
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 해양경찰 KICS 전자영장 연계",
         timelineLabel: "전송형 전자영장",
         homeSummary:
-            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다. 저는 해양경찰 형사사법정보시스템(KICS) 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch)를 개발합니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다. 저는 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch)를 개발합니다.",
         summary:
             "법무부, 공수처, 검찰, 경찰, 해양경찰 5개 기관의 전자영장 업무를 연계하는 시스템입니다. 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch)를 개발합니다. 영장집행포털은 5개 기관과 피집행기관을 연결하고, 해양경찰 쪽 연계는 KICS 서버와 분리된 이중화 연계 서버가 처리합니다.",
         homeStory:
-            "KICS 서버와 분리된 이중화 연계 서버에서 같은 연계 작업이 중복 실행되지 않도록 SKIP LOCKED로 작업을 선점했습니다. 외부 API 호출은 트랜잭션 밖으로 분리해 DB 커넥션을 오래 점유하지 않게 했고, 처리 중 멈춘 작업은 설정한 시간이 지나면 재처리합니다.",
+            "KICS 서버와 분리된 이중화 연계 서버에서 같은 작업이 중복 실행되지 않도록 SKIP LOCKED로 작업을 선점했습니다. 외부 API 호출은 트랜잭션 밖으로 분리해 DB 커넥션을 오래 점유하지 않게 했습니다. 처리 중 멈춘 작업은 설정한 시간이 지나면 재처리합니다.",
         period: "2026.03.24 — 현재",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],
@@ -108,7 +108,7 @@ export const projectSummaries = [
         liveSite: {
             label: "서비스 보기",
             href: "https://happy-gallery.com",
-            note: "배포된 공방 홈페이지와 작품과 클래스 안내",
+            note: "배포된 공방 홈페이지, 작품과 클래스 안내",
         },
         homeRepository: {
             label: "GitHub",
@@ -117,7 +117,7 @@ export const projectSummaries = [
         summary:
             "공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.",
         homeStory:
-            "결제사 응답이 유실되면 승인이나 환불을 다시 요청하지 않고, orderId와 멱등 키로 결과를 조회합니다. 서버 중단으로 보내지 못한 알림은 Outbox로 재처리하고, 스마트스토어 변경 주문은 수량 차이만 재고에 반영합니다.",
+            "결제사 응답이 유실되면 승인이나 환불을 다시 요청하지 않고 orderId와 멱등 키로 결과를 조회합니다. 서버 중단으로 보내지 못한 알림은 Outbox로 재처리합니다. 스마트스토어 변경 주문은 바뀐 수량만 재고에 반영합니다.",
         homeCheck:
             "결제 흐름은 모의 결제사 응답으로 통합 테스트했습니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
@@ -192,7 +192,7 @@ export const projectSummaries = [
         navigationLabel: "Hope Commit",
         eyebrow: "Hope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML",
         homeSummary:
-            "SeungIl 님의 Hope 6.0.0을 포크해 커밋 리뷰 기능을 추가했습니다. 지정한 커밋을 AI가 리뷰하고, 각 리뷰 항목을 변경된 코드 줄에 연결해 HTML로 보여 줍니다.",
+            "SeungIl 님의 AI 코딩 도구용 스킬 모음 Hope 6.0.0을 포크해 커밋 리뷰 기능을 추가했습니다. 지정한 커밋을 AI가 리뷰하고, 각 리뷰 항목을 변경된 코드 줄에 연결해 HTML로 보여 줍니다.",
         homeCheck:
             "Hope Commit v5.0.2로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.",
         coverScreenshot: {

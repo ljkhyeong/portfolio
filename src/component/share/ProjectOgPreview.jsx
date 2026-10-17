@@ -10,7 +10,7 @@ const ProjectOgDiagram = ({ card }) => {
             <title id={`${prefix}-title`}>{card.caption}</title>
             <desc id={`${prefix}-desc`}>
                 {card.steps?.map(([title, detail]) => `${title}: ${detail}`).join(". ") ??
-                    "Core는 역할·반복 업무·인수인계 문서를 저장하고, GO·WATCH·RELAY·BRIEF·CAL·ROUND는 기능별 데이터를 따로 처리합니다."}
+                    "Core는 역할, 반복 업무, 인수인계 문서를 저장하고, GO, WATCH, RELAY, BRIEF, CAL, ROUND는 기능별 데이터를 따로 처리합니다."}
             </desc>
             <defs>
                 <marker

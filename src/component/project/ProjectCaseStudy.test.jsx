@@ -463,7 +463,7 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
         }),
     ).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /v0\.7\.0.*PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.*공개 main 4be09d2.*Zed 편집기 hover/,
+        /v0\.7\.0.*PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.*공개 main 4be09d2.*Zed 편집기의 줄 위 기록 요약/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
@@ -747,7 +747,7 @@ test.each([
         [
             /점검 상태 반영, 보고서 이력.*업무 종류, 주간, 시간대 필터.*304/,
             /공개 main fc6dede 기준입니다. Core 연동은 이전 버전에서 로컬로 교차 검증한 기록입니다/,
-            /공인 DNS와 원격 환경의 전체 서비스 연결은 아직 확인하지 않았습니다/,
+            /공인 DNS와 배포 환경의 전체 서비스 연동은 아직 확인하지 않았습니다/,
         ],
         /주간 보고서와 점검 항목 조회, 이벤트 수신, 검증 기록/,
     ],
@@ -758,9 +758,9 @@ test.each([
         "https://github.com/ljkhyeong/baton-cal/tree/8cb55f8",
         /CAL 공개 main 고정 커밋 보기/,
         [
-            /Core 교차 테스트 5개와 HTTP 캐시, 복구 검증 기록/,
-            /게시된 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
-            /실제 캘린더 앱 구독, 운영 환경의 전체 일정 재동기화와 공개 배포는 아직 확인하지 않았습니다/,
+            /Core 교차 테스트 5개 통과와 HTTP 캐시 응답\(304\).*복구 절차는 로컬 검증 기록/,
+            /게시된 릴리스 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
+            /실제 캘린더 앱 구독과 배포 환경에서의 전체 일정 재동기화는 아직 확인하지 않았습니다/,
         ],
         /일정 묶음 처리를 확인한 공개 main/,
     ],

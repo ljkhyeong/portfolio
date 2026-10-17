@@ -26,7 +26,7 @@ const featuredProblems = {
         steps: [
             { title: "정책 조건 확인", description: "조건 정의, 적용 범위, 기준일 확인" },
             { title: "사용자 답변 비교", description: "조건별 충족, 불충족과 미확인 판단" },
-            { title: "근거와 함께 표시", description: "3단계 결과와 추가 확인 이유 제공" },
+            { title: "근거와 함께 표시", description: "가능, 불가, 추가 확인 필요와 그 이유 표시" },
         ],
     },
     "hope-commit": {
@@ -42,7 +42,7 @@ const featuredProblems = {
         problemNumber: "02",
         problem: "코드가 바뀌면 기존 변경 기록이 어느 상태를 설명하는지 불분명해집니다.",
         steps: [
-            { title: "코드 상태 기록", description: "커밋 ID, 파일, 줄 범위와 해시 저장" },
+            { title: "코드 상태 기록", description: "커밋 해시, 파일, 줄 범위와 내용 해시 저장" },
             { title: "작성자 확인", description: "해당 코드의 기록 확정" },
             { title: "공개 전 변경 확인", description: "확인 뒤 코드가 바뀌면 공개 차단" },
         ],

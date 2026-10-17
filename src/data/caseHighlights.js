@@ -8,7 +8,7 @@ export const caseIntroductions = {
     "youth-policy-mate":
         "서울 청년 정책을 찾아보고, 저장한 정책이 바뀌거나 마감이 다가오면 알려 주는 웹앱입니다.",
     "hope-commit":
-        "SeungIl 님의 Hope 6.0.0을 포크해 커밋 리뷰 기능을 추가했습니다. 지정한 커밋을 AI가 리뷰하고, 각 리뷰 항목을 변경된 코드 줄에 연결해 HTML로 보여 줍니다.",
+        "SeungIl 님의 AI 코딩 도구용 스킬 모음 Hope 6.0.0을 포크해 커밋 리뷰 기능을 추가했습니다. 지정한 커밋을 AI가 리뷰하고, 각 리뷰 항목을 변경된 코드 줄에 연결해 HTML로 보여 줍니다.",
     "intent-trace":
         "AI가 바꾼 코드의 변경 이유와 검증 결과를 커밋과 코드 줄에 연결해 기록하는 도구입니다.",
     warrant: "법무부, 공수처, 검찰, 경찰, 해양경찰의 전자영장 업무를 연계하는 시스템입니다.",
@@ -18,7 +18,7 @@ export const caseIntroductions = {
 
 // 상세 첫 화면의 확인한 범위. 어디까지 확인했는지와 확인하지 않은 범위를 문장으로 쓴다.
 export const caseResults = {
-    baton: "Core와 6개 서비스를 구현하고 서비스별 통합 테스트로 확인했습니다. Core와 BRIEF, CAL, ROUND의 연동은 로컬에서만 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
+    baton: "Core와 6개 서비스를 구현하고 서비스별 통합 테스트로 확인했습니다. Core와 3개 서비스(BRIEF, CAL, ROUND)의 연동은 로컬에서만 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
     happygallery:
         "주문, 예약, 스마트스토어 연동을 구현하고 Testcontainers 통합 테스트와 E2E로 확인했습니다. main에 병합하면 GitHub Actions가 검사한 이미지를 k3s에 롤링 배포합니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
     "youth-policy-mate":

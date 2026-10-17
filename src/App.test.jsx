@@ -111,7 +111,7 @@ test("프로필 사진과 실명을 포트폴리오 식별 정보로 사용한�
     const brand = screen.getByRole("link", { name: "임정규 포트폴리오 홈" })
     const avatar = brand.querySelector("img")
     const navigation = screen.getByRole("navigation", { name: "주요 메뉴" })
-    const pdfDownload = within(navigation).getByRole("link", { name: "이력서 PDF 내려받기" })
+    const pdfDownload = within(navigation).getByRole("link", { name: "포트폴리오 PDF 내려받기" })
 
     expect(brand).toHaveTextContent("임정규")
     expect(avatar).toHaveAttribute("src", expect.stringContaining("ljkhyeong-avatar.png"))

@@ -55,7 +55,7 @@ const Main = () => {
                             rel="noreferrer"
                             download
                         >
-                            이력서 PDF
+                            포트폴리오 PDF
                         </a>
                     </li>
                 </ul>

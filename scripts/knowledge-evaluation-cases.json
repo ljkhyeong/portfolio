@@ -157,7 +157,7 @@
         "id": "brief-permissions",
         "question": "BRIEF가 사용자 인증과 멤버십을 직접 처리하지 않는 이유는 무엇인가요?",
         "projectId": "baton",
-        "titleIncludes": "BRIEF 사용자 권한과 보고서 생성 책임 분리",
+        "titleIncludes": "BRIEF 보고서 생성과 Core 권한 확인 분리",
         "criteria": "Core가 사용자·시즌 권한을 판정하고 BRIEF가 보고서 생성·멱등성을 담당함을 설명한다. 공개 이벤트 경로와 비공개 조회 경로를 구분한다."
     },
     {

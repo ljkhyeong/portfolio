@@ -115,3 +115,26 @@ RELAY의 `운영 환경의 백업 RPO·RTO`는 운영 지표를 말하므로 그
 -   1~5번은 `homeHero.js`, `projectSummaries.js`, `caseHighlights.js`, README를 바꾸므로 홈 공유 이미지, PDF, 검색 자료를 다시 만들고(`check:finish`) 메인을 1440px과 390px에서 캡처한다. 1번과 2번은 함께 반영해야 KICS 풀이가 한 번만 나온다.
 -   6~34번은 `projects.js`, `featuredProblems.js`, `batonServicePresentation.js`, `routeMeta.js`, `ProjectOgPreview.jsx`를 바꾸므로 검색 자료를 다시 만들고 바뀐 상세와 BATON 서비스 화면을 캡처한다. 33번은 BATON 공유 이미지 입력이라 `og:generate`가 다시 생성한다.
 -   같은 문장을 확인하는 테스트 기대값(`src/data/projects.test.jsx`, `src/component/project/BatonServiceCaseStudy.content.test.jsx` 등)은 같은 의미의 새 문구로 고친다. 새 글자가 생기면 `font:check`가 알려 준다.
+
+## 반영 및 검증 결과
+
+사용자가 권장사항대로 진행을 요청해 1~35번을 반영했고, 확인 필요 36~40번은 원본 저장소로 확인한 범위만 반영했다. 새 성과나 수치는 더하지 않았다.
+
+-   반영한 위치: 데이터 7개 파일(`homeHero`, `projectSummaries`, `caseHighlights`, `routeMeta`, `projects`, `featuredProblems`, `batonServicePresentation`), 컴포넌트 3개(`Header`, `Main`, `ProjectOgPreview`), README, 공개 요약 문서 5개(BATON brief, cal, core, go, relay), 검색 평가 질문의 BRIEF 문서 제목 조건(`scripts/knowledge-evaluation-cases.json`). 테스트 기대값 11곳(7개 파일)을 같은 의미의 새 문구로 고쳤다.
+-   35번: 헤더 라벨과 접근성 이름, 푸터의 `이력서 PDF`를 `포트폴리오 PDF`로 맞췄다.
+-   36번: 원본 Hope README에서 Codex와 Claude Code에서 쓰는 개발 스킬 8개 모음임을 확인했다. 메인 카드, 상세 소개, 경로 메타, README의 첫 등장에 `AI 코딩 도구용 스킬 모음 Hope 6.0.0`으로 썼고 상태 문장과 공유 이미지 분류는 그대로다.
+-   37번: happyGallery README에서 `Delivery API`가 유료 배송조회 서비스 이름(deliveryapi.co.kr)임을 확인해 `웹훅 배송조회는 유료 Delivery API 한 곳만 지원하며`로 썼다. 우체국 무료 조회가 따로 있다는 사실은 문구 작업 범위 밖이라 현행화 때 반영한다.
+-   38번: baton-cal README의 복구 모드와 recovery-run 계약(DB 복원 뒤 BATON이 최신 전체 일정을 다시 보내고 CAL이 시즌 다이제스트를 검증)을 확인했다. 수정안의 `피드를 다시 만드는 복구`는 사실과 달라 `DB 복원 뒤 전체 일정을 다시 받는 복구 절차는 로컬 검증 기록으로 확인했습니다`로 썼다.
+-   39번: intent-trace `verify.yml`(서버 `gradlew test`, IntelliJ 플러그인 테스트, Zed 확장 테스트)과 youth-policy-mate `ci.yml`(`check:api-types`, `build:web`), backend 테스트로 확인해 `공개 main 4be09d2의 자동화 테스트로`, `서버 테스트로`, `CI에서 통과한 것을`로 썼다.
+-   40번: 전자영장의 `시나리오로 확인`은 공개 근거가 없어 그대로 두었다.
+-   수정안과 다르게 반영한 것: 19번 ROUND `확인한 것`의 구현 목록은 지우지 않고 같은 화면의 `구현 상세` 끝으로 옮겼다. 주요 기능 설명에 통화 제어와 대화 전체 복사가 없어 사실이 빠지기 때문이다. 24번은 공개 요약 문서 5곳(`공개 배포`, `원격 배포`, `공개 환경`, `제공자별`, `후보 규격`)도 같은 이름으로 맞췄다.
+-   남은 옛 표현은 외부 문서 사본(검색 자료의 ADR 원문)과 서비스 이름을 같은 문장에서 이미 소개한 BATON 문제 01 확인 문장뿐이다.
+
+### 검증
+
+-   `font:check` 통과(새 글자 없음). `check:file`(변경 파일 17개, 후속 8개)과 대응 테스트 통과. 전체 테스트는 `check:finish`에서 통과했다.
+-   `knowledge:generate` 123건 유지, 89줄 변경. `evaluate-knowledge.mjs --local` 24/24, MRR@5 0.903으로 이전과 같다.
+-   `capture.mjs --expand --full` 1440·390px: 메인과 인쇄 4건, 상세 12경로 24건 실패 0건. 첫 실행에서 상세 24건이 Vite 의존성 재최적화(504 Outdated Optimize Dep)로 빈 화면이었고, 서버를 예열한 뒤 다시 실행해 통과했다. 메인 1440·390px의 소개 문장과 카드 줄바꿈, ROUND 390px 화면 설명을 캡처로 확인했다.
+-   `og:generate`: 홈 1개와 상세 11개를 다시 만들었다. 홈 이미지의 새 소개 문장과 `포트폴리오 PDF` 버튼, ROUND 이미지 문구를 확인했다. `pdf:generate`: 4쪽(594×841pt), 1,388,449바이트. PDFKit으로 렌더링해 1~3쪽의 바뀐 문장을 확인했다.
+-   `check:diff` 통과, `check:finish` 1회 통과(전체 테스트, 산출물 검사, 빌드, 경로 메타 17개). 실행 중 산출물 변경 없음.
+-   미확인: 실제 휴대폰과 Safari, 배포 후 화면.

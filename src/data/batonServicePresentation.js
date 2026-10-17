@@ -8,13 +8,13 @@ export const batonServicePresentations = {
             },
             {
                 kind: "limited",
-                label: "구현 상태",
+                label: "공개 상태",
                 text: "공개 main f7459e1 기준입니다. 관리용 상태 필터와 기간 필터, 일괄 조회, 링크 상태 안내 화면과 다시 열기 링크를 제공합니다.",
             },
             {
                 kind: "unverified",
                 label: "아직 확인하지 않은 것",
-                text: "BATON의 링크 생성과 폐기 요청부터 대상 서비스의 접근 권한 확인까지 이어지는 전체 연동, 실제 클러스터와 공개 배포는 아직 확인하지 않았습니다.",
+                text: "BATON의 링크 생성과 폐기 요청부터 대상 서비스의 접근 권한 확인까지 이어지는 전체 연동, 실제 클러스터 배포는 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -47,7 +47,7 @@ export const batonServicePresentations = {
             {
                 kind: "unverified",
                 label: "아직 확인하지 않은 것",
-                text: "공개 환경에서 WATCH가 Core로 보내는 콜백, 외부 대시보드와 알림은 확인하지 않았습니다.",
+                text: "배포 환경에서 WATCH가 Core로 보내는 콜백, 외부 대시보드와 알림은 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -113,7 +113,7 @@ export const batonServicePresentations = {
             {
                 kind: "unverified",
                 label: "아직 확인하지 않은 것",
-                text: "공인 DNS와 원격 환경의 전체 서비스 연결은 아직 확인하지 않았습니다.",
+                text: "공인 DNS와 배포 환경의 전체 서비스 연동은 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -136,17 +136,17 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인한 것",
-                text: "Core 교차 테스트 5개와 HTTP 캐시, 복구 검증 기록을 확인했습니다.",
+                text: "Core 교차 테스트 5개 통과와 HTTP 캐시 응답(304)을 확인했습니다. DB 복원 뒤 전체 일정을 다시 받는 복구 절차는 로컬 검증 기록으로 확인했습니다.",
             },
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 8cb55f8과 게시된 후보 규격 1.1.0-rc.2 기준입니다. 정식 규격은 1.0.0입니다.",
+                text: "공개 main 8cb55f8과 게시된 릴리스 후보 규격 1.1.0-rc.2 기준입니다. 정식 규격은 1.0.0입니다.",
             },
             {
                 kind: "unverified",
                 label: "아직 확인하지 않은 것",
-                text: "실제 캘린더 앱 구독, 운영 환경의 전체 일정 재동기화와 공개 배포는 아직 확인하지 않았습니다.",
+                text: "실제 캘린더 앱 구독과 배포 환경에서의 전체 일정 재동기화는 아직 확인하지 않았습니다.",
             },
         ],
         flow: {
@@ -169,7 +169,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인한 것",
-                text: "공개 main a43c6f5의 CI에서 Chromium과 WebKit 브라우저 테스트, BATON 연동 검사가 통과했습니다. 스피커 소리 확인, 공유 화면 작은 창과 통화 제어, 대화 전체 복사를 구현했습니다.",
+                text: "공개 main a43c6f5의 CI에서 Chromium과 WebKit 브라우저 테스트, BATON 연동 검사가 통과했습니다.",
             },
             {
                 kind: "limited",

@@ -71,12 +71,12 @@ const Header = () => {
                     <a
                         className="site-nav__contact"
                         href={assetPath("임정규_포트폴리오.pdf")}
-                        aria-label="이력서 PDF 내려받기"
+                        aria-label="포트폴리오 PDF 내려받기"
                         target="_blank"
                         rel="noreferrer"
                         download
                     >
-                        이력서 PDF
+                        포트폴리오 PDF
                     </a>
                 }
             />
