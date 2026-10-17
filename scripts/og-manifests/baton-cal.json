@@ -1,12 +1,12 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-cal.png",
-    "sourceSha256": "c3b31010501dd89042c06d1a45ae49215d7550933ec5693a3292f05eb652370e",
-    "artifactSha256": "3b9f151904372db50a5d2f4f97620cbc64503fbdc604f1498fdcac4c40b15d66",
+    "sourceSha256": "ac85e6dcc03e62bcf0103c7f52b44ed80cacd626b5149c73316ae300a9c8dea4",
+    "artifactSha256": "e27c52cac118f12f9c1691d17607aecfbc34b2ff2fe9b3def767f5abc8668755",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",
-        "version": "Google Chrome 155.0.8059.41",
+        "version": "Google Chrome 155.0.8059.82",
         "platform": "darwin",
         "architecture": "arm64"
     }
