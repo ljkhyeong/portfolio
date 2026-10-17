@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:7210e2cd309f",
+  "sourceRevision": "sha256:06f65ad4a32a",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -583,7 +583,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:0d05e3b2626e",
+      "sourceRevision": "sha256:46e8200e040c",
       "documentId": "knowledge_a7c844f9619aa89663f2d166",
       "projectId": "warrant",
       "projectName": "전송형 전자영장 시스템",
@@ -591,12 +591,12 @@
       "documentType": "project_overview",
       "title": "전송형 전자영장 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 해양경찰 KICS 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 5개 기관의 전자영장 업무를 연계하는 시스템입니다. 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch)를 개발합니다. 영장집행포털은 5개 기관과 피집행기관을 연결하고, 해양경찰 쪽 연계는 KICS 서버와 분리된 이중화 연계 서버가 처리합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 해양경찰 형사사법정보시스템(KICS) 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch) 구현\n\n주요 구현 및 해결: 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치를 구현했습니다.\n\n확인한 범위: 해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 구현했습니다. 망 분리 구간 연계와, PDF 완료 응답이 요청 상태 저장보다 먼저 도착하는 경우를 시나리오로 확인했습니다. 성능 테스트 환경에서는 100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류, DB 잠금 문제 없이 전량 처리했습니다. 시스템은 2026년 9월 28일 개통해 운영 중입니다.\n\n공개 범위: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스, 운영 데이터와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
+      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 해양경찰 KICS 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 5개 기관의 전자영장 업무를 연계하는 시스템입니다. 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch)를 개발합니다. 영장집행포털은 5개 기관과 피집행기관을 연결하고, 해양경찰 쪽 연계는 KICS 서버와 분리된 이중화 연계 서버가 처리합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 해양경찰 형사사법정보시스템(KICS) 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch) 구현\n\n주요 구현 및 해결: 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치를 구현했습니다.\n\n확인한 범위: 해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 구현했습니다. 시스템은 2026년 9월 28일 개통해 운영 중입니다. 망 분리 구간 연계와, PDF 완료 응답이 요청 상태 저장보다 먼저 도착하는 경우를 시나리오로 확인했습니다. 성능 테스트 환경에서는 100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류, DB 잠금 문제 없이 전량 처리했습니다.\n\n공개 범위: BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스, 운영 데이터와 내부 문서는 제외했습니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/e-warrant#project-overview",
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "0d05e3b2626e4ebbfc9cfe39b11333e009275b26244797dd5d1cea691f8363ed"
+      "sourceHash": "46e8200e040c2ff672182b68f07e5e7bf0814c273960157f9840d34810e12d90"
     },
     {
       "schemaVersion": "1.0",
@@ -1467,7 +1467,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:09c738ec57e7",
+      "sourceRevision": "sha256:1af957c0971c",
       "documentId": "knowledge_196d5b180644fac747338191",
       "projectId": "hope-commit",
       "projectName": "Hope Commit",
@@ -1475,12 +1475,12 @@
       "documentType": "project_overview",
       "title": "Hope Commit 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: Hope Commit\n\nHope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML\n\nSeungIl 님의 Hope 6.0.0을 포크한 비공식 도구입니다. 지정한 커밋만 검토하고 각 설명을 실제 변경 줄에 연결한 오프라인 HTML 리뷰를 생성합니다.\n\n기간: 2026.08.22 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: SeungIl 님의 Hope 6.0.0 포크에 지정한 커밋의 diff 수집, 리뷰 근거 코드를 표시하는 HTML 리뷰와 자동화 테스트 추가\n\n주요 구현 및 해결: 지정한 커밋의 diff만 리뷰하고, 참조한 파일과 코드 줄을 검증한 결과를 새 HTML로 저장합니다.\n\n확인한 범위: 커밋 AI 리뷰 HTML(Commit Diff)을 구현해 Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스했고, GitHub Actions에서 자동화 테스트 343개가 통과했습니다.\n\n공개 상태: SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 원본과 구분했습니다.\n\n사용 기술: JavaScript, Node.js 22 이상, Git CLI, JSON Schema, HTML / CSS, Node Test Runner, Playwright",
+      "content": "프로젝트: Hope Commit\n\nHope 6.0.0 비공식 포크 / 커밋 AI 리뷰 HTML\n\nSeungIl 님의 Hope 6.0.0을 포크한 비공식 도구입니다. 지정한 커밋만 검토하고 각 설명을 실제 변경 줄에 연결한 오프라인 HTML 리뷰를 생성합니다.\n\n기간: 2026.08.22 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: SeungIl 님의 Hope 6.0.0 포크에 지정한 커밋의 diff 수집, 리뷰 근거 코드를 표시하는 HTML 리뷰와 자동화 테스트 추가\n\n주요 구현 및 해결: 지정한 커밋의 diff만 리뷰하고, 참조한 파일과 코드 줄을 검증한 결과를 새 HTML로 저장합니다.\n\n확인한 범위: 커밋 AI 리뷰 HTML(Commit Diff)을 구현해 Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스했습니다. 커밋 종류별 비교 기준 확정, 변경 범위 밖을 가리키는 리뷰 항목 거절, 자격 증명 제외와 중단 후 재개를 GitHub Actions 자동화 테스트로 확인했습니다.\n\n공개 상태: SeungIl 님의 Hope 6.0.0에서 파생한 비공식 포크이며, 제가 추가한 Commit Diff는 README와 NOTICE에 원본과 구분했습니다.\n\n사용 기술: JavaScript, Node.js 22 이상, Git CLI, JSON Schema, HTML / CSS, Node Test Runner, Playwright",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/hope-commit#project-overview",
       "route": "/projects/hope-commit",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "09c738ec57e7276c1f0d6d205ffd0f11a2740ab418bb19874391d4948e6bd6a0"
+      "sourceHash": "1af957c0971cd4caa198b2a342d471e9f536add6999747f8ad6243f6f3371f5d"
     },
     {
       "schemaVersion": "1.0",
@@ -1637,7 +1637,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:30b23d3fc481",
+      "sourceRevision": "sha256:cc2d0fb5f99a",
       "documentId": "knowledge_047a8f8c6427b84a32857d43",
       "projectId": "intent-trace",
       "projectName": "IntentTrace",
@@ -1645,12 +1645,12 @@
       "documentType": "project_overview",
       "title": "IntentTrace 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: IntentTrace\n\nAI 코드 변경의 요청, 근거, 검증 기록\n\nAI 코드의 변경 이유와 검증 결과를 커밋, 파일, 줄에 연결해 남깁니다. 웹과 IDE에서 기록을 검색하고 원본 코드, 이슈, PR, CI 결과를 함께 확인합니다.\n\n기간: 2026.08.27 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: Kotlin Spring 서버, 웹 기록 조회와 원본 비교, GitHub 인증과 게시, IntelliJ, Zed, MCP 연동 구현\n\n주요 구현 및 해결: 사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.\n\n확인한 범위: 서버, 웹 조회와 IntelliJ, Zed 연동을 구현했습니다. 공개 main 4be09d2의 GitHub Actions 검증과 서버 테스트 264개가 통과했습니다. v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. 실제 PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.\n\n그 밖의 구현: 공개 main 4be09d2에 Zed 편집기의 줄 위 기록 요약과 PR 코드 줄 주석 게시를 추가하고, 웹 화면을 Thymeleaf로 바꿨습니다. 실제 Zed 앱과 GitHub 게시는 확인하지 않았습니다.\n\n사용 기술: Kotlin 2.3.21, JDK 21, Spring Boot 4.1.1, Spring AI MCP 2.0.1, Spring MVC, Thymeleaf, Spring JDBC, Flyway, PostgreSQL 17 / H2, Docker Compose / Caddy, IntelliJ Platform 2025.3.2, Zed / MCP stdio",
+      "content": "프로젝트: IntentTrace\n\nAI 코드 변경의 요청, 근거, 검증 기록\n\nAI 코드의 변경 이유와 검증 결과를 커밋, 파일, 줄에 연결해 남깁니다. 웹과 IDE에서 기록을 검색하고 원본 코드, 이슈, PR, CI 결과를 함께 확인합니다.\n\n기간: 2026.08.27 — 현재\n\n구분: 오픈소스 및 개발 도구\n\n공개 범위: 공개 저장소\n\n담당: Kotlin Spring 서버, 웹 기록 조회와 원본 비교, GitHub 인증과 게시, IntelliJ, Zed, MCP 연동 구현\n\n주요 구현 및 해결: 사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.\n\n확인한 범위: 서버, 웹 조회와 IntelliJ, Zed 연동을 구현했습니다. 공개 main 4be09d2의 GitHub Actions에서 서버, IntelliJ 플러그인, Zed 확장 검증이 모두 통과했습니다. v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. 실제 PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.\n\n그 밖의 구현: 공개 main 4be09d2에 Zed 편집기의 줄 위 기록 요약과 PR 코드 줄 주석 게시를 추가하고, 웹 화면을 Thymeleaf로 바꿨습니다. 실제 Zed 앱과 GitHub 게시는 확인하지 않았습니다.\n\n사용 기술: Kotlin 2.3.21, JDK 21, Spring Boot 4.1.1, Spring AI MCP 2.0.1, Spring MVC, Thymeleaf, Spring JDBC, Flyway, PostgreSQL 17 / H2, Docker Compose / Caddy, IntelliJ Platform 2025.3.2, Zed / MCP stdio",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/intent-trace#project-overview",
       "route": "/projects/intent-trace",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "30b23d3fc481f7cf6aacaa5460da93ee552e5431ff51db4c728f2e6d8355fbb0"
+      "sourceHash": "cc2d0fb5f99a2fa3f260c6d2e0b1db4507619c370606b687a038a26bce2a68d6"
     },
     {
       "schemaVersion": "1.0",
@@ -1977,7 +1977,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:6fbb69889801",
+      "sourceRevision": "sha256:60a755559c87",
       "documentId": "knowledge_2a22962d9934e4c7beb6a52e",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -1985,16 +1985,16 @@
       "documentType": "project_overview",
       "title": "차세대 군사법 정보 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영\n\n국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 중단된 배치는 Jenkins, JEUS, Tibero 정보를 대조해 재실행했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 중단 배치 재실행\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 구현했습니다.\n\n확인한 범위: 수용자 자료 검증 배치, CSRF 토큰 검증, Presigned URL 기반 대용량 파일 업로드를 폐쇄망에서 확인했습니다. 운영 중 멈춘 배치는 중단 단계를 찾은 뒤 해당 기관 배치만 다시 실행했습니다.\n\n공개 범위: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당한 개발과 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영\n\n국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 운영 중 멈춘 배치는 Jenkins, JEUS, Tibero 기록을 대조해 실패 단계를 찾고 복구했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 운영 장애 대응\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 구현했습니다.\n\n확인한 범위: 수용자 자료 검증 배치, CSRF 토큰 검증, Presigned URL 기반 대용량 파일 업로드를 폐쇄망에서 확인했습니다. 운영 중 멈춘 배치는 실행 이력, 로그와 DB를 대조해 중단 단계를 찾고, 재처리한 자료가 군교정 DB에 반영된 것까지 확인했습니다.\n\n공개 범위: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당한 개발과 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-overview",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "6fbb698898018e25fca28bd0cdd29101f364ec40fd1b75319e6caa2aa8542b16"
+      "sourceHash": "60a755559c873d8bf09b82d818a5dcee9f730c5ff74dcff87be00866ed8959e9"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:3e4700eeb3b0",
+      "sourceRevision": "sha256:c6a2435bc222",
       "documentId": "knowledge_866555079d9244754207ec14",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -2002,12 +2002,12 @@
       "documentType": "problem_solution",
       "title": "세 기관 자료를 검증해 군교정 DB에 반영",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 군사법원, 군검찰, 군사경찰마다 수용 대상자의 인적정보와 영장정보의 형식과 전달 시점이 달랐고, 연계가 중단되면 수용과 후속 군교정 업무를 처리할 수 없었습니다.\n\n해결 방법: 기관별 배치에서 필수값과 형식을 검증하고 자료를 변환해 군교정 DB에 반영했습니다. 실패하면 Jenkins에서 실패 단계를 확인해 해당 기관 배치만 재실행했습니다.\n\n확인: 세 기관의 인적정보와 영장정보가 검증 후 군교정 DB에 반영되는 것을 확인했습니다.\n\n제약과 남은 작업: 기관별 자료 형식이 바뀌면 해당 기관의 검증과 변환 규칙을 함께 수정해야 합니다.",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 군사법원, 군검찰, 군사경찰마다 수용 대상자의 인적정보와 영장정보의 형식과 전달 시점이 달랐고, 연계가 중단되면 수용과 후속 군교정 업무를 처리할 수 없었습니다.\n\n해결 방법: 기관별 배치에서 필수값과 형식을 검증하고 자료를 변환해 군교정 DB에 반영했습니다.\n\n확인: 세 기관의 인적정보와 영장정보가 검증 후 군교정 DB에 반영되는 것을 확인했습니다.\n\n제약과 남은 작업: 기관별 자료 형식이 바뀌면 해당 기관의 검증과 변환 규칙을 함께 수정해야 합니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-problems",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "3e4700eeb3b03efc93242fa466f6f638dd714d82f50f1c0d73765476bfdc1519"
+      "sourceHash": "c6a2435bc2220d42b8a4d0718e0f1840623800c98ac3a80b9f2d13911f59114f"
     },
     {
       "schemaVersion": "1.0",
