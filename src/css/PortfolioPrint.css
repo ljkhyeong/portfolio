@@ -241,6 +241,11 @@ body.portfolio-print-mode {
         font-size: 21px;
     }
 
+    /* 인쇄본은 화면 카드의 소속 줄 아래 여백 없이 문단 간격만 둔다. */
+    .portfolio-web-print .home-section .home-card__scope {
+        margin-bottom: 0;
+    }
+
     /* 개인 프로젝트는 화면을 작게 왼쪽에 두고 글을 오른쪽에 둔다. */
     .portfolio-web-print .home-features {
         gap: 18px;
@@ -290,8 +295,13 @@ body.portfolio-print-mode {
         font-size: 18px;
     }
 
-    .portfolio-web-print .home-card__links {
-        margin-top: 8px;
+    /* 화면의 바닥 맞춤 여백을 빼고 글 바로 아래에 둔다. */
+    .portfolio-web-print
+        .home-section
+        :is(.home-card, .home-feature, .home-more__item)
+        > .home-card__links {
+        margin-top: 6px;
+        padding-top: 0;
     }
 
     .portfolio-web-print .home-card__links a {

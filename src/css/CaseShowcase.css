@@ -477,7 +477,8 @@ main.case-showcase .case-meta__links a {
     font-weight: 500;
 }
 
-/* 도면도 메인과 같은 배경, 표면, 초록 강조색을 사용한다. */
+/* 도면도 메인과 같은 배경, 표면, 초록 강조색을 사용한다.
+   배경이 페이지와 같아 좌우 여백을 두면 제목과 기준선만 안쪽으로 밀려 보이므로 본문 폭에 맞춘다. */
 main.case-showcase .editorial-diagram,
 main.case-showcase .baton-service-flow {
     --paper: var(--portfolio-bg);
@@ -500,7 +501,7 @@ main.case-showcase .baton-service-flow {
     --diagram-zone-stroke: rgba(21, 24, 28, 0.2);
     --diagram-external-fill: rgba(21, 24, 28, 0.02);
     --diagram-external-stroke: rgba(21, 24, 28, 0.36);
-    padding: 32px;
+    padding: 32px 0;
     background: var(--paper);
     color: var(--ink);
     color-scheme: light;
@@ -916,7 +917,7 @@ main.case-showcase ::selection {
 
     main.case-showcase .editorial-diagram,
     main.case-showcase .baton-service-flow {
-        padding: 20px 14px;
+        padding: 20px 0;
     }
 
     main.case-showcase .screenshot-gallery__item figcaption {

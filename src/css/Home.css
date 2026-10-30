@@ -357,7 +357,9 @@ a.career-timeline__item:focus-visible .career-timeline__name {
     text-underline-offset: 5px;
 }
 
-.home-section :is(.home-card, .home-feature, .home-more__item) > p {
+/* 카드 문단의 기본값. :where()로 우선순위를 낮춰 아래 날짜, 소속, 확인한 범위, 링크 줄 규칙이
+   덮게 한다(F4 시안: 본문 16px, 보조 줄 13~15px). flex 안이라 위아래 여백이 겹치지 않는다. */
+.home-section :where(.home-card, .home-feature, .home-more__item) > p {
     margin: 10px 0 0;
     font-size: 16px;
     line-height: 1.8;
@@ -378,6 +380,7 @@ a.career-timeline__item:focus-visible .career-timeline__name {
 }
 
 .home-section .home-card__check {
+    margin-top: 14px;
     color: var(--muted);
     font-size: 15px;
     line-height: 1.7;
@@ -388,11 +391,13 @@ a.career-timeline__item:focus-visible .career-timeline__name {
     font-weight: 650;
 }
 
+/* 카드는 세로 flex로 두고 링크 줄을 바닥에 붙여 같은 줄 카드끼리 링크 높이를 맞춘다. */
 .home-section .home-card__links {
     display: flex;
     flex-wrap: wrap;
     gap: 6px 22px;
-    margin-top: 16px;
+    margin-top: auto;
+    padding-top: 14px;
 }
 
 .home-card__links a,
@@ -418,12 +423,22 @@ a.career-timeline__item:focus-visible .career-timeline__name {
     list-style: none;
 }
 
-.home-career > li {
+.home-career > li,
+.home-features > li,
+.home-more > li {
     display: flex;
 }
 
-.home-card {
+.home-card,
+.home-feature,
+.home-more__item {
+    display: flex;
     flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.home-card {
     padding: 28px 32px 30px;
     border: 1px solid var(--line);
     border-radius: 4px;
@@ -540,7 +555,7 @@ a.career-timeline__item:focus-visible .career-timeline__name {
 
 .home-more__item .home-card__links {
     gap: 4px 16px;
-    margin-top: 10px;
+    padding-top: 10px;
 }
 
 .home-more__item .home-card__links a {
@@ -906,7 +921,7 @@ a.career-timeline__item:focus-visible .career-timeline__name {
         font-size: 28px;
     }
 
-    .home-section :is(.home-card, .home-feature) > p {
+    .home-section :where(.home-card, .home-feature) > p {
         font-size: 15px;
         line-height: 1.75;
     }
