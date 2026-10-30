@@ -242,3 +242,40 @@ test("메뉴가 옆으로 넘칠 때만 끝을 흐리게 표시한다", () => {
     fireEvent.scroll(list)
     expect(list).not.toHaveAttribute("data-overflow-end")
 })
+
+test("위쪽에 붙은 메뉴에 가린 초점 요소만 메뉴 아래로 스크롤한다", () => {
+    const scrollBy = vi.spyOn(window, "scrollBy").mockImplementation(() => {})
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+        callback()
+        return 1
+    })
+    render(
+        <article>
+            <CaseSectionNavigation sections={[{ id: "overview", label: "개요" }]} />
+            <section id="overview">
+                <a href="#detail">상세 링크</a>
+                <div role="dialog">
+                    <button type="button">닫기</button>
+                </div>
+            </section>
+        </article>,
+    )
+    const navigation = screen.getByRole("navigation")
+    const link = screen.getByRole("link", { name: "상세 링크" })
+    const dialogButton = screen.getByRole("button", { name: "닫기" })
+    navigation.getBoundingClientRect = () => ({ top: 0, bottom: 60 })
+    link.getBoundingClientRect = () => ({ top: 20, bottom: 47 })
+    dialogButton.getBoundingClientRect = () => ({ top: 12, bottom: 56 })
+
+    fireEvent.focusIn(link)
+    expect(scrollBy).toHaveBeenCalledWith({ top: -56, behavior: "instant" })
+
+    scrollBy.mockClear()
+    fireEvent.focusIn(dialogButton)
+    link.getBoundingClientRect = () => ({ top: 120, bottom: 147 })
+    fireEvent.focusIn(link)
+    navigation.getBoundingClientRect = () => ({ top: 300, bottom: 360 })
+    link.getBoundingClientRect = () => ({ top: 20, bottom: 47 })
+    fireEvent.focusIn(link)
+    expect(scrollBy).not.toHaveBeenCalled()
+})

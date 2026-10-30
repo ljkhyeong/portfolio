@@ -66,15 +66,26 @@ body.portfolio-print-mode {
     font: inherit;
 }
 
+/* 사이트의 강조색은 녹색 하나이므로 인쇄 버튼도 같은 녹색을 쓴다(글자 대비 4.8:1). */
 .print-toolbar button {
     justify-self: end;
     min-height: 36px;
     padding: 0 12px;
-    border: 1px solid #1858c8;
+    border: 1px solid var(--portfolio-accent);
     border-radius: 6px;
-    background: #1858c8;
+    background: var(--portfolio-accent);
     cursor: pointer;
     font-weight: 700;
+}
+
+/* 첫 쪽 소개에 사진과 이름이 있으므로 미리보기와 인쇄본 모두 상단 메뉴를 반복하지 않는다.
+   화면에서는 메인의 고정 메뉴가 인쇄 도구 막대를 덮기도 한다. */
+.portfolio-web-print .site-nav {
+    display: none;
+}
+
+.portfolio-web-print .home-intro {
+    padding-top: 48px;
 }
 
 .portfolio-web-print__document {
@@ -154,11 +165,6 @@ body.portfolio-print-mode {
     .portfolio-web-print *::after {
         animation: none !important;
         transition: none !important;
-    }
-
-    /* 첫 쪽 소개에 사진과 이름이 있으므로 상단 메뉴를 반복하지 않는다. */
-    .portfolio-web-print .site-nav {
-        display: none;
     }
 
     /* A4 폭(약 726px)에서는 연표가 항목마다 작은 막대를 단 목록이 된다. 행 간격만 줄인다. */

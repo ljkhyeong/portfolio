@@ -25,6 +25,20 @@ const ProjectScreenshotGallery = ({
         )
     // 상세의 첫 캡처는 지연 로딩하지 않는다. 경로별 HTML은 넓은 화면에서만 같은 파일을 미리 받는다.
     const isLeadImage = (index) => index === 0 && context.startsWith("case")
+
+    // 좁은 화면에서는 캡처를 옆으로 넘기는 띠로 보여 준다. 일부만 보이는 캡처에 초점이 가면 브라우저가
+    // 띠를 스크롤하지 않으므로, 초점 받은 캡처를 띠의 시작 위치(스냅 지점)로 옮긴다.
+    const revealInStrip = (event) => {
+        const item = event.currentTarget.closest(".screenshot-gallery__item")
+        const strip = item?.parentElement
+        if (!item || !strip || strip.scrollWidth <= strip.clientWidth) return
+
+        const itemBounds = item.getBoundingClientRect()
+        const stripBounds = strip.getBoundingClientRect()
+        if (itemBounds.left >= stripBounds.left && itemBounds.right <= stripBounds.right) return
+        item.scrollIntoView({ block: "nearest", inline: "start" })
+    }
+
     const isOpen = activeIndex !== null
     const activeScreenshot = isOpen ? screenshots[activeIndex] : null
     const activeNote = activeScreenshot?.note ?? project.screenshotNote
@@ -150,6 +164,7 @@ const ProjectScreenshotGallery = ({
                             aria-haspopup="dialog"
                             aria-label={`${project.title} ${screenshot.label} 화면 확대해서 보기`}
                             onClick={(event) => openLightbox(index, event.currentTarget)}
+                            onFocus={revealInStrip}
                         >
                             <img
                                 src={assetPath(screenshot.src)}

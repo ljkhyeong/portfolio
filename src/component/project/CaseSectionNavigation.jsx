@@ -32,6 +32,9 @@ const copyText = async (value) => {
     }
 }
 
+// 메뉴에 가린 초점 요소를 메뉴 아래로 옮길 때 남기는 간격
+const FOCUS_GAP = 16
+
 const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" }) => {
     const navigationRef = useRef(null)
     const listRef = useRef(null)
@@ -201,6 +204,44 @@ const CaseSectionNavigation = ({ sections, label = "상세 섹션 바로가기" 
         window.clearTimeout(copyResetTimerRef.current)
         setCopyState("idle")
     }, [activeId])
+
+    // 위쪽에 붙은 메뉴 밑의 요소도 Chrome은 화면 안에 있다고 보고 스크롤하지 않는다.
+    // Shift+Tab으로 올라온 초점이 메뉴에 가리면 메뉴 아래로 보이게 스크롤한다. 고정된 대화상자 안의 초점은 제외한다.
+    // 화면 밖 요소는 브라우저가 초점 이벤트 뒤에 스크롤하므로 다음 프레임에 위치를 잰다.
+    useEffect(() => {
+        const navigation = navigationRef.current
+        if (!navigation) return undefined
+        let frame = null
+        const revealFocusedElement = (event) => {
+            const target = event.target
+            if (
+                !(target instanceof Element) ||
+                navigation.contains(target) ||
+                target.closest('dialog, [role="dialog"], [aria-modal="true"]')
+            ) {
+                return
+            }
+            window.cancelAnimationFrame(frame)
+            frame = window.requestAnimationFrame(() => {
+                frame = null
+                const navigationBounds = navigation.getBoundingClientRect()
+                if (navigationBounds.top > 1) return
+                const targetBounds = target.getBoundingClientRect()
+                if (targetBounds.top < navigationBounds.bottom && targetBounds.bottom > 0) {
+                    window.scrollBy({
+                        top: targetBounds.top - navigationBounds.bottom - FOCUS_GAP,
+                        behavior: "instant",
+                    })
+                }
+            })
+        }
+
+        document.addEventListener("focusin", revealFocusedElement)
+        return () => {
+            window.cancelAnimationFrame(frame)
+            document.removeEventListener("focusin", revealFocusedElement)
+        }
+    }, [])
 
     useEffect(
         () => () => {

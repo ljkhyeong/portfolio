@@ -117,7 +117,9 @@
 
 .knowledge-query__input-row:focus-within {
     border-color: var(--knowledge-accent);
-    box-shadow: 0 0 0 3px rgba(15, 123, 95, 0.18);
+    box-shadow:
+        0 0 0 1px var(--knowledge-accent),
+        0 0 0 4px rgba(15, 123, 95, 0.18);
 }
 
 .knowledge-query__input-row > span {

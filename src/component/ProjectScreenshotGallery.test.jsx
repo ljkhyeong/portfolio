@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react"
+import { vi } from "vitest"
 import ProjectScreenshotGallery from "./ProjectScreenshotGallery"
 
 const project = {
@@ -172,4 +173,27 @@ test("확대 화면에서도 공통 안내와 이미지별 테스트 범위를 �
     fireEvent.keyDown(window, { key: "ArrowLeft" })
     expect(screen.getByRole("dialog")).toHaveAccessibleDescription(imageNote)
     expect(within(screen.getByRole("dialog")).getByText(imageNote)).toBeVisible()
+})
+
+test("옆으로 넘기는 띠에서 일부만 보이는 캡처에 초점이 가면 띠의 시작 위치로 옮긴다", () => {
+    render(<ProjectScreenshotGallery project={project} />)
+    const gallery = screen.getByRole("group", { name: "테스트 프로젝트 대표 화면" })
+    const buttons = within(gallery).getAllByRole("button")
+    const items = buttons.map((button) => button.closest("figure"))
+    Object.defineProperties(gallery, {
+        scrollWidth: { value: 931 },
+        clientWidth: { value: 350 },
+    })
+    gallery.getBoundingClientRect = () => ({ left: 20, right: 370 })
+    items[0].getBoundingClientRect = () => ({ left: 20, right: 321 })
+    items[1].getBoundingClientRect = () => ({ left: 335, right: 636 })
+    items.forEach((item) => {
+        item.scrollIntoView = vi.fn()
+    })
+
+    fireEvent.focus(buttons[0])
+    expect(items[0].scrollIntoView).not.toHaveBeenCalled()
+
+    fireEvent.focus(buttons[1])
+    expect(items[1].scrollIntoView).toHaveBeenCalledWith({ block: "nearest", inline: "start" })
 })
