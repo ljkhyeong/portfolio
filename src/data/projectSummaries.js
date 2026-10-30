@@ -1,4 +1,10 @@
-export const youthPolicyCoverage = { policies: 40, questionPolicies: 12, agePolicies: 10 }
+// 청년정책메이트 범위(공개 main a7f4a69 기준). 로컬 수집은 온통청년 서울 정책의 일부이며,
+// 질문을 제공하는 검토 정책 중 일부는 수집 범위 밖에 있으므로 두 수를 "그중"으로 잇지 않는다.
+export const youthPolicyCoverage = {
+    sourcePolicies: 730,
+    collectedPolicies: 90,
+    questionPolicies: 15,
+}
 
 export const projectSummaries = [
     {
@@ -150,7 +156,7 @@ export const projectSummaries = [
             label: "GitHub",
             href: "https://github.com/ljkhyeong/youth-policy-mate",
         },
-        homeSummary: `서울 청년 정책 ${youthPolicyCoverage.policies}건을 찾아보는 웹앱입니다. 그중 ${youthPolicyCoverage.questionPolicies}건은 신청 조건 일부를 사용자 답변과 비교해 신청 가능, 불가, 추가 확인 필요로 알려 줍니다. 저장한 정책이 바뀌거나 마감이 다가오면 알림을 보냅니다.`,
+        homeSummary: `서울 청년 정책을 찾아보는 웹앱입니다. 검토한 정책 ${youthPolicyCoverage.questionPolicies}건은 신청 조건 일부를 사용자 답변과 비교해 신청 가능, 불가, 추가 확인 필요로 알려 줍니다. 저장한 정책이 바뀌거나 마감이 다가오면 알림을 보냅니다.`,
         homeCheck:
             "정책 조회와 조건 판정은 PostgreSQL 통합 테스트로 확인했습니다. OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
@@ -170,7 +176,7 @@ export const projectSummaries = [
                 crop: { x: 0, y: 0 },
             },
         },
-        summary: `정책 ${youthPolicyCoverage.policies}건을 검색하고, 그중 ${youthPolicyCoverage.questionPolicies}건은 신청 요건 일부를 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
+        summary: `공개 정책을 검색하고, 검토한 정책 ${youthPolicyCoverage.questionPolicies}건은 신청 요건 일부를 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
         period: "2026.08.30 — 현재",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],

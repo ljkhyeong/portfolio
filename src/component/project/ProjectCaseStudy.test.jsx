@@ -413,7 +413,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정과 알림 처리")).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /공개 main 2065081에서 웹과 서버 CI가 통과.*OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.*이메일 발송 상태 조회/,
+        /공개 main a7f4a69에서 웹과 서버 CI가 통과.*OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.*이메일 발송 상태 조회/,
     )
     expect(
         within(document.getElementById("project-problems")).getAllByRole("article"),

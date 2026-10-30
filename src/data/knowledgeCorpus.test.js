@@ -129,7 +129,7 @@ describe("공개 지식 문서 목록", () => {
         )
 
         expect(youthPolicyOverview.content).toContain("구분: 개인 웹앱 프로젝트")
-        expect(youthPolicyOverview.content).toContain("정책 40건")
+        expect(youthPolicyOverview.content).toContain("검토한 정책 15건")
         expect(youthPolicyOverview.content).toContain(
             "확인한 범위: 조건 질문, 관심 정책 일정과 알림을 구현하고",
         )

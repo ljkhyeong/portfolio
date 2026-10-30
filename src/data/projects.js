@@ -1117,11 +1117,11 @@ const projects = [
                 number: "07",
                 title: "이용권 변경 후에도 기존 구매와 환불 조건 보존",
                 constraint:
-                    "판매 이용권을 8회에서 4회로 바꾸더라도 기존 구매와 결제 대기 건의 횟수와 금액은 유지해야 합니다. 환불과 예약이 동시에 실행될 때 이용 이력도 일치해야 합니다.",
+                    "판매 이용권의 횟수나 가격이 바뀌어도 이미 구매한 이용권과 결제 대기 건의 횟수와 금액은 유지해야 합니다. 환불과 예약이 동시에 실행될 때 이용 이력도 일치해야 합니다.",
                 decision:
                     "구매 당시 상품, 횟수, 금액을 저장하고, 이용권과 예약을 순서대로 잠가 취소, 횟수 차감, 사용 이력을 함께 반영합니다. 환불액은 구매 금액과 환불할 횟수로 계산합니다.",
                 validation:
-                    "4회권과 기존 8회권의 비례 환불(원 단위 미만 버림), 전환 전 결제 대기 중인 8회권의 조건 유지와 전체 횟수 환불 시 결제액 전액 환불을 테스트했습니다.",
+                    "4회권의 비례 환불(원 단위 미만 버림), 전체 횟수 환불 시 결제액 전액 환불, 결제 승인 때 준비 단계의 금액을 구매 내역에 저장하는 동작을 테스트했습니다.",
                 boundary:
                     "결제사 환불 완료 전에도 예약 취소와 이용 횟수 차감이 먼저 끝날 수 있습니다. 환불 상태를 DB에 남기고, 자동 복구나 관리자 재처리로 결제사 환불을 마무리해야 합니다.",
             },
@@ -1282,8 +1282,8 @@ const projects = [
                 id: "policies",
                 src: "youth-policy-mate-policies.webp",
                 label: "정책 목록",
-                caption: `공개 정책 ${youthPolicyCoverage.policies}건의 분야 필터, 마감일 순 정렬과 D-day`,
-                alt: `공개 정책 ${youthPolicyCoverage.policies}건을 분야 필터와 마감일 순으로 보여 주는 정책 목록 화면`,
+                caption: "공개 정책의 분야 필터, 마감일 순 정렬과 D-day",
+                alt: "공개 정책을 분야 필터와 마감일 순으로 보여 주는 정책 목록 화면",
                 width: 780,
                 height: 1688,
             },
@@ -1312,7 +1312,7 @@ const projects = [
             title: "Next.js와 Spring Boot를 분리하고, 서버 DTO에서 TypeScript API 타입을 생성합니다.",
             description:
                 "정책 수집, 조건 판정, 회원 저장과 알림을 기능별로 나누고 JDBC와 PostgreSQL 트랜잭션으로 처리합니다.",
-            tradeoff: `정책 ${youthPolicyCoverage.policies}건을 수집했습니다. 질문은 검토한 정책 ${youthPolicyCoverage.questionPolicies}건의 일부 공통 요건만 다룹니다.`,
+            tradeoff: `온통청년 서울 정책 ${youthPolicyCoverage.sourcePolicies}건 중 ${youthPolicyCoverage.collectedPolicies}건을 로컬에 수집했습니다. 질문은 검토한 정책 ${youthPolicyCoverage.questionPolicies}건의 일부 공통 요건만 다룹니다.`,
         },
         featuredProblemNumbers: ["01", "03", "04", "07"],
         documentGroups: [
@@ -1526,8 +1526,8 @@ const projects = [
             },
             {
                 label: "공개 main CI 결과",
-                href: "https://github.com/ljkhyeong/youth-policy-mate/actions/runs/37401517891",
-                note: "공개 main 2065081의 웹과 서버 검사 결과",
+                href: "https://github.com/ljkhyeong/youth-policy-mate/actions/runs/41048740192",
+                note: "공개 main a7f4a69의 웹과 서버 검사 결과",
             },
         ],
     },

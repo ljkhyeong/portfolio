@@ -22,7 +22,7 @@ export const caseResults = {
     happygallery:
         "주문, 예약, 스마트스토어 연동을 구현하고 Testcontainers 통합 테스트와 E2E로 확인했습니다. main에 병합하면 GitHub Actions가 검사한 이미지를 k3s에 롤링 배포합니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
     "youth-policy-mate":
-        "조건 질문, 관심 정책 일정과 알림을 구현하고 PostgreSQL 통합 테스트로 확인했습니다. 공개 main 2065081에서 웹과 서버 CI가 통과했습니다. OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
+        "조건 질문, 관심 정책 일정과 알림을 구현하고 PostgreSQL 통합 테스트로 확인했습니다. 공개 main a7f4a69에서 웹과 서버 CI가 통과했습니다. OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
     "hope-commit":
         "커밋 AI 리뷰 HTML(Commit Diff)을 구현해 Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스했습니다. 커밋 종류별 비교 기준 확정, 변경 범위 밖을 가리키는 리뷰 항목 거절, 자격 증명 제외와 중단 후 재개를 GitHub Actions 자동화 테스트로 확인했습니다.",
     "intent-trace":

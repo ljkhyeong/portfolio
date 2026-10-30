@@ -426,7 +426,7 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "공개 정책 40건을 분야 필터와 마감일 순으로 보여 주는 정책 목록 화면",
+            name: "공개 정책을 분야 필터와 마감일 순으로 보여 주는 정책 목록 화면",
         }),
     ).toBeInTheDocument()
     expect(
