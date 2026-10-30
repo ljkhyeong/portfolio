@@ -31,6 +31,7 @@ description: 포트폴리오의 화면 구성, 레이아웃, CSS, 반응형 배�
 | 문서 검색           | `search/PortfolioKnowledgePage.jsx`                                                                                                                                                                                            | `PortfolioKnowledge.css`                                                                                                                        |
 | 인쇄·PDF            | `print/PortfolioPrintPage.jsx`                                                                                                                                                                                                 | `PortfolioPrint.css`(A4 폭, 인쇄용 크기와 쪽 나눔)                                                                                              |
 | 공유 이미지         | `share/ProjectOgPreview.jsx`                                                                                                                                                                                                   | `ProjectOg.css`                                                                                                                                 |
+| 404                 | `NotFound.jsx`(검색 화면과 같은 머리글)                                                                                                                                                                                        | `App.css`                                                                                                                                       |
 
 상세 화면은 `ProjectCaseStudy.jsx` 등 공용 컴포넌트를 먼저 사용한다. 프로젝트별 화면을 따로 만들지 않는다. 경로를 추가하면 `src/App.jsx`와 `src/data/routeMeta.js`를 함께 갱신한다.
 
@@ -47,7 +48,7 @@ description: 포트폴리오의 화면 구성, 레이아웃, CSS, 반응형 배�
 -   **모션은 사용자의 동작에 답할 때만 쓴다.** 접기와 펼치기, 확대 창처럼 변화를 보여 주는 경우에 쓰고 `prefers-reduced-motion`을 지원한다. 섹션마다 등장 애니메이션을 넣지 않는다.
 -   **접근성 기준을 유지한다.** 키보드 초점 표시, 가로 스크롤 영역의 `tabIndex`와 `aria-label`, 이미지 대체 설명, WCAG AA 글자 대비를 지킨다.
 -   **CSS를 지울 때는 계산값으로 확인한다.** 상세 화면 CSS는 `Project.css`·`BatonService.css` 같은 기본 규칙 위에 `CaseShowcase.css`가 덮이고, 운영 빌드에서는 청크 순서 때문에 개발 서버와 적용 순서가 다를 수 있다. 우선순위가 같은 두 규칙에 기대지 말고, 규칙을 지울 때는 여러 폭과 두 로딩 순서에서 요소 위치·크기와 계산값을 전후 비교한다.
--   **CSS 선택자 충돌을 확인한다.** 상세 화면은 `main.case-showcase …` 선택자로 공통 규칙을 덮어쓴다. 새 규칙을 추가하기 전에 같은 요소의 기존 규칙과 우선순위를 `rg`로 확인한다. `!important`로 해결하지 않는다.
+-   **CSS 선택자 충돌을 확인한다.** 상세 화면은 `main.case-showcase …` 선택자로 공통 규칙을 덮어쓴다. 새 규칙을 추가하기 전에 같은 요소의 기존 규칙과 우선순위를 `rg`로 확인한다. `!important`로 해결하지 않는다. 여러 요소에 기본값을 주는 공통 규칙은 `:where()`로 우선순위를 낮춘다. 메인 카드의 `> p` 규칙이 날짜, 소속, 확인한 범위 규칙을 덮어 F4 시안의 보조 글자 크기가 3주 동안 적용되지 않았다(`docs/design-check-2026-10-30.md`). 글자 크기를 바꾸면 계산값으로 확인한다.
 -   **인쇄와 공유 이미지를 함께 본다.** 메인 컴포넌트와 데이터는 PDF에서도 쓰고, 일부 도식과 CSS는 공유 이미지에서도 쓴다. 공통 파일을 바꾸면 `portfolio-artifacts`로 산출물 입력이 바뀌었는지 확인한다.
 
 ## 큰 변경의 진행
