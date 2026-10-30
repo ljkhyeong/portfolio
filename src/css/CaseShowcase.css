@@ -240,8 +240,8 @@ main.case-showcase .screenshot-gallery--case-overview {
     height: auto;
 }
 
-/* 첫 캡처(4장이면 마지막 캡처도)를 넓게 두는 배치는 2열일 때만 쓴다. */
-@media (min-width: 801px) {
+/* 첫 캡처(4장이면 마지막 캡처도)를 넓게 두는 배치는 2열일 때(701px 이상)만 쓴다. */
+@media (min-width: 701px) {
     main.case-showcase
         .screenshot-gallery--case-overview:not(.screenshot-gallery--count-2):not(
             .screenshot-gallery--youth-policy-mate
@@ -535,6 +535,12 @@ main.case-showcase .baton-service-scope summary {
     padding-left: 0;
     color: var(--accent);
     font-weight: 500;
+}
+
+/* 구현 상세와 확인한 범위의 문장은 본문 폭 전체로 늘리면 한 줄이 60자를 넘으므로 폭을 제한한다. */
+main.case-showcase .baton-service-scope > div,
+main.case-showcase .baton-service-status dd {
+    max-width: 48em;
 }
 
 main.case-showcase .project-switcher a.is-current {
@@ -996,7 +1002,7 @@ main.case-showcase .case-problem-index__heading span {
 
 main.case-showcase .problem-solution-list--index {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
     align-items: start;
     column-gap: 48px;
     border-top: 1px solid var(--ink);

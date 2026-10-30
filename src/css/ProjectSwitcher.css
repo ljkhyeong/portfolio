@@ -71,6 +71,7 @@
     right: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(190px, 1fr));
+    align-items: start;
     gap: 8px;
     width: min(460px, calc(100vw - 36px));
     max-height: calc(100vh - 92px);

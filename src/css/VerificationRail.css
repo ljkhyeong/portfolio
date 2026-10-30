@@ -18,13 +18,13 @@
 }
 
 .verification-rail__summary {
-    flex: 1 1 480px;
+    flex: 1 1 440px;
     color: var(--ink);
     font-size: 16px;
 }
 
 .verification-rail__note {
-    flex: 1 1 360px;
+    flex: 1 1 320px;
     color: var(--muted);
     font-size: 15px;
 }

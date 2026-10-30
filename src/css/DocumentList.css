@@ -30,7 +30,7 @@
 
 .document-items {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr));
     column-gap: 48px;
     margin: 0;
     padding: 0;

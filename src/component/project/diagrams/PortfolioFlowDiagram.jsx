@@ -519,7 +519,8 @@ const diagrams = {
             { d: "M288 488 H364", kind: "accent" },
             { d: "M596 488 H672", kind: "accent" },
         ],
-        note: "확인한 범위: 2026년 10월 13일 CI에서 AI 없이 키워드 검색만 실행해 대표 질문 24개의 근거 문서가 모두 상위 5건에 들었습니다(MRR@5 0.906). 임베딩 검색은 테스트용 임베딩으로, AI 답변은 고정 응답으로 동작을 확인했고 실제 모델의 답변 품질은 측정하지 않았습니다. 공개 사이트에는 검색 API를 아직 연결하지 않아, 같은 공개 문서를 브라우저에서 같은 기준의 키워드 검색으로 찾고 AI 답변은 제공하지 않습니다. 이 브라우저 검색도 같은 대표 질문 24개의 근거 문서를 모두 상위 5건에 찾았습니다(MRR@5 0.903).",
+        noteLabel: "확인한 범위",
+        note: "2026년 10월 13일 CI에서 AI 없이 키워드 검색만 실행해 대표 질문 24개의 근거 문서가 모두 상위 5건에 들었습니다(MRR@5 0.906). 임베딩 검색은 테스트용 임베딩으로, AI 답변은 고정 응답으로 동작을 확인했고 실제 모델의 답변 품질은 측정하지 않았습니다. 공개 사이트에는 검색 API를 아직 연결하지 않아, 같은 공개 문서를 브라우저에서 같은 기준의 키워드 검색으로 찾고 AI 답변은 제공하지 않습니다. 이 브라우저 검색도 같은 대표 질문 24개의 근거 문서를 모두 상위 5건에 찾았습니다(MRR@5 0.903).",
     },
 }
 
@@ -682,7 +683,11 @@ const PortfolioFlowDiagram = ({ variant }) => {
                     </g>
                 </svg>
             </div>
-            <p className="portfolio-flow__note">{diagram.note}</p>
+            <p className="portfolio-flow__note">
+                {diagram.noteLabel ? <strong>{diagram.noteLabel}</strong> : null}
+                {diagram.noteLabel ? " " : null}
+                {diagram.note}
+            </p>
         </figure>
     )
 }

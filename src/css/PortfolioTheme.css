@@ -20,6 +20,11 @@
     --portfolio-caption: 14px;
 }
 
+/* 여러 줄 제목은 줄 길이를 고르게 나눠 마지막 줄에 한두 글자만 남지 않게 한다. */
+:is(.portfolio-page, main.case-showcase, .knowledge-page, .not-found) :is(h2, h3, h4) {
+    text-wrap: balance;
+}
+
 :is(.portfolio-page, main.case-showcase, .knowledge-page, .not-found) {
     --paper: var(--portfolio-bg);
     --paper-raised: var(--portfolio-surface);

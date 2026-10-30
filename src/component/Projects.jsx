@@ -32,10 +32,11 @@ const ProjectLinks = ({ project }) => (
     </p>
 )
 
-// 카드 표시 폭(Home.css 기준). 대표 카드는 900px 이하에서 한 열, 그 밖의 카드는 좁은 휴대폰에서 한 열이 된다.
+// 카드 표시 폭(Home.css 기준). 대표 카드는 900px 이하에서 한 열, 그 밖의 카드는 1180px 이하에서 두 열,
+// 560px 이하에서 한 열이 된다.
 const COVER_SIZES = {
     wide: "(max-width: 900px) 100vw, 600px",
-    card: "(max-width: 560px) 100vw, 380px",
+    card: "(max-width: 560px) 100vw, (max-width: 1180px) 50vw, 300px",
 }
 
 // 실제 화면은 상세의 화면 묶음으로 이어진다. 촬영 조건(테스트 데이터 등)을 화면 아래에 함께 쓴다.

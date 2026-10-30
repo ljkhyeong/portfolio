@@ -212,10 +212,18 @@
 }
 
 .portfolio-flow__note {
+    max-width: 48em;
     margin: 18px 0 0;
     color: var(--diagram-muted);
     font-size: 14px;
     line-height: 1.7;
+    word-break: keep-all;
+}
+
+.portfolio-flow__note strong {
+    margin-right: 4px;
+    color: var(--diagram-ink);
+    font-weight: 650;
 }
 
 .warrant-integration__canvas {

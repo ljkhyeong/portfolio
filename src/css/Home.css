@@ -523,9 +523,10 @@ a.career-timeline__item:focus-visible .career-timeline__name {
 }
 
 /* 그 밖의 프로젝트 */
+/* 4장이라 3열이면 마지막 줄에 한 장만 남으므로 4열, 2열, 1열만 쓴다. */
 .home-more {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 40px 28px;
     margin: 0;
     padding: 0;
@@ -866,9 +867,21 @@ a.career-timeline__item:focus-visible .career-timeline__name {
     }
 }
 
+@media (max-width: 1180px) {
+    .home-more {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 900px) {
     .home-career,
     .home-features {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .home-more {
         grid-template-columns: minmax(0, 1fr);
     }
 }

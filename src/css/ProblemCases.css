@@ -22,6 +22,13 @@
     flex-direction: row-reverse;
 }
 
+/* 1060px 아래에서는 화면과 글이 위아래로 쌓여 캡처가 커지고 글 줄이 길어지므로 1000px까지는 좌우 배치를 유지한다. */
+@media (min-width: 1000px) {
+    .problem-case--visual {
+        flex-wrap: nowrap;
+    }
+}
+
 .problem-case__visual {
     flex: 6 1 480px;
     min-width: 0;
@@ -149,7 +156,7 @@
     font-weight: 650;
 }
 
-.problem-case__steps p {
+.problem-case__steps li p {
     margin: 2px 0 0;
     color: var(--muted);
     font-size: 14.5px;
@@ -194,14 +201,14 @@
     font-size: 15px;
 }
 
-.problem-case__steps--inline p {
+.problem-case__steps--inline li p {
     font-size: 13.5px;
 }
 
-/* 글만 있는 사례는 두 열로 둔다. 개수가 홀수여도 마지막 사례가 한 줄을 다 차지하지 않는다. */
+/* 글만 있는 사례는 두 열로 둔다. 개수가 홀수이거나 한 건이어도 한 줄을 다 차지하지 않도록 빈 열을 남긴다(auto-fill). */
 .problem-cases__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(480px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr));
     column-gap: 64px;
     border-top: 1px solid var(--line);
 }
