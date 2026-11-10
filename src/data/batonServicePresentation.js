@@ -9,7 +9,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main f7459e1 기준입니다. 관리용 상태 필터와 기간 필터, 일괄 조회, 링크 상태 안내 화면과 다시 열기 링크를 제공합니다.",
+                text: "공개 main ae314d8 기준입니다. 실행 중 Redis 장애가 관리 API까지 막지 않도록 시작 탐침을 분리하고, 관리 조회와 정리 SQL의 전체 행 읽기와 잠금을 줄였습니다.",
             },
             {
                 kind: "unverified",
@@ -42,7 +42,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 9dde469 기준입니다. DB 제약, 부하, 프로세스 복구 테스트는 main CI에서 통과했고, 백업 복원은 로컬 검증 기록을 확인했습니다.",
+                text: "공개 main 07c4845 기준입니다. 여러 호스트의 무응답을 점검 서버 측 연결 장애로 구분하고, API 토큰 교체 중에는 이전 토큰 하나를 함께 허용합니다.",
             },
             {
                 kind: "unverified",
@@ -108,7 +108,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main fc6dede 기준입니다. Core 연동은 이전 버전에서 로컬로 교차 검증한 기록입니다.",
+                text: "공개 main 02ee01e 기준입니다. Core c9111eec 화면에 지난주 비교와 저장 이후 변경 확인을 연결했습니다. 서비스 간 연동은 로컬 교차 검증 기록 기준입니다.",
             },
             {
                 kind: "unverified",
@@ -141,7 +141,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main 8cb55f8과 게시된 릴리스 후보 규격 1.1.0-rc.2 기준입니다. 정식 규격은 1.0.0입니다.",
+                text: "공개 main 45e2dda에 전체 시즌 캘린더 재생성과 구독별 최근 조회일을 구현했습니다. 게시된 후보 규격은 1.1.0-rc.2이며 정식 규격은 1.0.0입니다.",
             },
             {
                 kind: "unverified",
@@ -169,7 +169,7 @@ export const batonServicePresentations = {
             {
                 kind: "verified",
                 label: "확인한 것",
-                text: "공개 main a43c6f5의 CI에서 Chromium과 WebKit 브라우저 테스트, BATON 연동 검사가 통과했습니다.",
+                text: "공개 main eb664d7의 로컬 Chrome에서 가상 장치로 두 명의 통화, 채팅과 화면 공유를 확인했습니다. Chromium과 WebKit 브라우저 테스트, BATON 연동 CI 통과 기록은 이전 main a43c6f5 기준입니다.",
             },
             {
                 kind: "limited",

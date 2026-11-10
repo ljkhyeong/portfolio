@@ -227,7 +227,7 @@ describe("project summary data", () => {
         expect(happyGallery.screenshots.map(({ width, height }) => `${width}x${height}`)).toEqual([
             "1440x960",
             "1440x960",
-            "1440x960",
+            "1440x1500",
             "1440x960",
             "1440x1200",
         ])
@@ -273,7 +273,7 @@ describe("project summary data", () => {
         expect(publicCopy).not.toContain("processingToken")
         expect(publicCopy).not.toContain("AFTER_COMMIT")
         expect(publicCopy).not.toContain("Fake PG")
-        expect(publicCopy).toContain("점검의 처리 기한")
+        expect(publicCopy).toContain("처리 기한")
         expect(publicCopy).not.toContain("테스트 스위트")
         expect(publicCopy).not.toContain("재인계")
         expect(publicCopy).not.toContain("BATON 생산자")

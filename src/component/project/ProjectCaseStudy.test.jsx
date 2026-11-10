@@ -172,13 +172,13 @@ test("개인 프로젝트 상세는 유형별 이동과 섹션 바로가기를 �
         within(relatedLinks).getByText("BATON RELAY GitHub 저장소").closest("li"),
     ).toHaveTextContent("비공개 저장소")
 
-    // 대표 사례는 네 칸을 펼쳐 보여 주고, 나머지 문제는 번호와 제목 색인으로 두고 누르면 펼친다.
+    // 대표 사례는 다섯 칸을 펼쳐 보여 주고, 나머지 문제는 번호와 제목 색인으로 두고 누르면 펼친다.
     const additionalProblems = screen.getByRole("list", { name: "다른 문제와 해결 방법 목록" })
     const problemSection = document.getElementById("project-problems")
 
     expect(screen.getByRole("heading", { name: "다른 문제 해결" })).toBeInTheDocument()
-    expect(within(problemSection).getAllByRole("article")).toHaveLength(4)
-    expect(within(additionalProblems).getAllByRole("listitem")).toHaveLength(10)
+    expect(within(problemSection).getAllByRole("article")).toHaveLength(5)
+    expect(within(additionalProblems).getAllByRole("listitem")).toHaveLength(9)
 
     const firstAdditional = additionalProblems.querySelector("details")
     expect(firstAdditional).not.toHaveAttribute("open")
@@ -413,7 +413,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
     expect(screen.getByText("조건별 판정")).toBeInTheDocument()
     expect(screen.getByText("일정과 알림 처리")).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /공개 main a7f4a69에서 웹과 서버 CI가 통과.*OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.*이메일 발송 상태 조회/,
+        /공개 main a7f4a69에서 웹과 서버 CI가 통과.*OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.*자치구 필터/,
     )
     expect(
         within(document.getElementById("project-problems")).getAllByRole("article"),
@@ -705,8 +705,8 @@ test.each([
     ["go", "GO", ["Java 21", "Spring JDBC", "MySQL 8.4"]],
     ["watch", "WATCH", ["Spring JDBC", "PostgreSQL 18", "Apache HttpClient 5"]],
     ["relay", "RELAY", ["RabbitMQ / Spring AMQP", "AWS SQS FIFO", "PostgreSQL 18"]],
-    ["brief", "BRIEF", ["Kotlin 2.4.20", "Java 21", "Spring JDBC"]],
-    ["cal", "CAL", ["Kotlin 2.4.10", "Java 25", "iCal4j 4.3.0"]],
+    ["brief", "BRIEF", ["Kotlin 2.4.21", "Java 21", "Spring JDBC"]],
+    ["cal", "CAL", ["Kotlin 2.4.21", "Java 25", "iCal4j 4.4.0"]],
     ["round", "ROUND", ["React 19", "WebRTC / RTCDataChannel", "Spring WebSocket"]],
 ])(
     "BATON %s 상세는 %s 구현에 실제 사용한 기술을 Core와 같은 위치에 보여준다",
@@ -746,7 +746,7 @@ test.each([
         /BRIEF 공개 저장소 보기/,
         [
             /점검 상태 반영, 보고서 이력.*업무 종류, 주간, 시간대 필터.*304/,
-            /공개 main fc6dede 기준입니다. Core 연동은 이전 버전에서 로컬로 교차 검증한 기록입니다/,
+            /공개 main 02ee01e 기준입니다. Core c9111eec 화면에 지난주 비교와 저장 이후 변경 확인을 연결했습니다/,
             /공인 DNS와 배포 환경의 전체 서비스 연동은 아직 확인하지 않았습니다/,
         ],
         /주간 보고서와 점검 항목 조회, 이벤트 수신, 검증 기록/,
@@ -755,11 +755,11 @@ test.each([
         "cal",
         "CAL",
         "중복 일정과 이전 버전 일정의 반영 방지",
-        "https://github.com/ljkhyeong/baton-cal/tree/8cb55f8",
+        "https://github.com/ljkhyeong/baton-cal/tree/45e2dda",
         /CAL 공개 main 고정 커밋 보기/,
         [
             /Core 교차 테스트 5개 통과와 HTTP 캐시 응답\(304\).*복구 절차는 로컬 검증 기록/,
-            /게시된 릴리스 후보 규격 1.1.0-rc.2.*정식 규격은 1.0.0/,
+            /게시된 후보 규격은 1.1.0-rc.2.*정식 규격은 1.0.0/,
             /실제 캘린더 앱 구독과 배포 환경에서의 전체 일정 재동기화는 아직 확인하지 않았습니다/,
         ],
         /일정 묶음 처리를 확인한 공개 main/,

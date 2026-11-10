@@ -25,7 +25,7 @@ export const projectSummaries = [
         summary:
             "역할, 반복 업무, 인수인계 문서를 기록하고 여러 팀의 할 일을 모아 보여 줍니다. 링크, URL 점검, 이벤트 전달, 주간 보고서, 캘린더, WebRTC는 6개 마이크로서비스로 분리했습니다.",
         homeStory:
-            "중복 요청과 이벤트는 멱등 키로 걸러 링크 생성과 외부 전송을 한 번만 실행합니다. 전송 응답이 유실되면 자동 재전송하지 않고, 운영자가 수신 측 기록을 확인해 결과를 확정합니다.",
+            "중복 요청과 이벤트는 멱등 키로 걸러 링크 생성과 외부 전송을 한 번만 실행합니다. WATCH는 점검 서버의 연결 장애를 대상 URL 장애와 구분합니다. BRIEF는 발행한 보고서를 보존하면서 지난주와 달라진 내용과 저장 이후 변경을 보여 줍니다.",
         homeCheck:
             "Core와 3개 서비스(BRIEF, CAL, ROUND)의 연동은 로컬에서 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
         coverScreenshot: {
@@ -132,7 +132,7 @@ export const projectSummaries = [
             label: "상품 옵션",
             caption: "색상과 각인 선택, 옵션 조합별 가격과 추가 가능 수량 확인",
             alt: "happyGallery 상품 상세에서 색상과 각인 문구를 고르고 옵션 조합별 가격과 추가 가능 수량을 확인하는 주문표",
-            note: "E2E 테스트용 모의 응답으로 찍은 화면",
+            note: "개발 브랜치 디자인과 모의 응답으로 찍은 화면",
             width: 1440,
             height: 960,
         },
@@ -176,7 +176,7 @@ export const projectSummaries = [
                 crop: { x: 0, y: 0 },
             },
         },
-        summary: `공개 정책을 검색하고, 검토한 정책 ${youthPolicyCoverage.questionPolicies}건은 신청 요건 일부를 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
+        summary: `자치구와 검색어로 정책을 찾고 접수 중인 정책을 먼저 보여 줍니다. 검토한 정책 ${youthPolicyCoverage.questionPolicies}건은 신청 요건 일부를 확인합니다. 저장한 정책의 변경 비교, 마감 일정, 알림과 관리자용 조건 규칙 검토를 제공합니다.`,
         period: "2026.08.30 — 현재",
         route: "/projects/youth-policy-mate",
         tags: ["Java 25 / Spring Boot 4.1", "Next.js 16 / React 19", "TypeScript", "PostgreSQL 18"],

@@ -18,9 +18,9 @@ export const caseIntroductions = {
 
 // 상세 첫 화면의 확인한 범위. 어디까지 확인했는지와 확인하지 않은 범위를 문장으로 쓴다.
 export const caseResults = {
-    baton: "Core와 6개 서비스를 구현하고 서비스별 통합 테스트로 확인했습니다. Core와 3개 서비스(BRIEF, CAL, ROUND)의 연동은 로컬에서만 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
+    baton: "Core와 6개 서비스를 구현하고 서비스별 통합 테스트로 확인했습니다. 주간 보고서 비교, URL 점검 장애 구분과 통화 재연결을 공개 main에 반영했습니다. Core와 3개 서비스(BRIEF, CAL, ROUND)의 연동은 로컬에서만 확인했습니다. 배포 환경에서 6개 서비스 전체 연동은 아직 확인하지 않았습니다.",
     happygallery:
-        "주문, 예약, 스마트스토어 연동을 구현하고 Testcontainers 통합 테스트와 E2E로 확인했습니다. main에 병합하면 GitHub Actions가 검사한 이미지를 k3s에 롤링 배포합니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
+        "주문, 예약, 스마트스토어 연동을 구현하고 Testcontainers 통합 테스트와 E2E로 확인했습니다. main에 병합하면 GitHub Actions가 검사한 이미지를 k3s에 롤링 배포합니다. 공개 main 2bd7012f의 Production 실행 성공을 확인했습니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
     "youth-policy-mate":
         "조건 질문, 관심 정책 일정과 알림을 구현하고 PostgreSQL 통합 테스트로 확인했습니다. 공개 main a7f4a69에서 웹과 서버 CI가 통과했습니다. OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
     "hope-commit":

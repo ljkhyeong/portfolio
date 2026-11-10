@@ -431,7 +431,7 @@ test("청년정책메이트 상세는 웹앱 구현 화면과 미구현 외부 �
     ).toBeInTheDocument()
     expect(
         within(screenshots).getByRole("img", {
-            name: "청년내일저축계좌 상세에서 공식 지침과의 출생일 기준 차이와 온통청년 표기 연령을 확인하는 화면",
+            name: "햇살론유스 상세에서 참고용 연령과 소득 조건, 지원 내용과 공식 안내를 확인하는 화면",
         }),
     ).toBeInTheDocument()
     expect(

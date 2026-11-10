@@ -29,7 +29,7 @@ test("개인 프로젝트는 실제 화면과 촬영 조건, 확인한 범위를
     expect(baton).toHaveTextContent("2026.07 — 현재, 개발 중, 공개 저장소 6개")
 
     const gallery = articleOf("happyGallery")
-    expect(gallery).toHaveTextContent("E2E 테스트용 모의 응답으로 찍은 화면")
+    expect(gallery).toHaveTextContent("개발 브랜치 디자인과 모의 응답으로 찍은 화면")
     expect(gallery).toHaveTextContent("네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다")
 })
 
