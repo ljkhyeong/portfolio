@@ -206,3 +206,7 @@ npm run og:check
 보조 설명과 메뉴 및 구성도 설명은 16px로 표시합니다.
 
 배포: [ljkportfolio.netlify.app](https://ljkportfolio.netlify.app/)
+
+### 최근 반영 범위 (2026-11-09)
+
+BATON은 주간 보고서 비교와 저장 이후 변경 확인, 점검 서버 측 연결 장애 구분, 전체 캘린더 재생성과 통화 재연결을 보강했습니다. 청년정책메이트는 자치구 검색과 접수 중 우선 정렬을 제공합니다. happyGallery의 공개 main `2bd7012f`는 Production 배포가 성공했으며, 새 디자인 캡처는 아직 초안 PR인 로컬 `a2135f06` 기준입니다. IntentTrace의 후속 검색과 게시 복구는 로컬 `847f127` 기준으로 공개 릴리스와 구분합니다.
