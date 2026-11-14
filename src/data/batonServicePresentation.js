@@ -9,7 +9,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "공개 상태",
-                text: "공개 main ae314d8 기준입니다. 실행 중 Redis 장애가 관리 API까지 막지 않도록 시작 탐침을 분리하고, 관리 조회와 정리 SQL의 전체 행 읽기와 잠금을 줄였습니다.",
+                text: "main ae314d8에서 Redis 장애가 관리 API를 막지 않도록 시작 상태 검사를 분리했습니다. 관리 조회와 정리 SQL의 전체 행 조회와 잠금도 줄였습니다.",
             },
             {
                 kind: "unverified",
@@ -117,7 +117,7 @@ export const batonServicePresentations = {
             },
         ],
         flow: {
-            title: "Core 판정을 그대로 반영하고 발행한 보고서는 고치지 않습니다",
+            title: "Core 판정 반영과 보고서 버전 관리",
             description:
                 "Core의 점검 결과를 미해결(ACTIVE) 또는 해결됨(RESOLVED)으로 저장합니다. 같은 조건의 주간 보고서는 재사용하고 변경된 내용은 새 보고서로 발행합니다.",
             note: "5개 점검 결과는 담당자 공백, 후임자 공백, 역할 준비 부족, 반복 업무 지연, 미완료 인수인계입니다. BRIEF는 판정 규칙을 다시 만들지 않습니다.",
@@ -152,7 +152,7 @@ export const batonServicePresentations = {
         flow: {
             title: "캐시가 유효하면 304를 반환합니다",
             description:
-                "Core 일정의 버전 번호를 검사해 iCalendar를 만들고, 유효한 구독 토큰에만 피드를 제공합니다. 조건부 요청의 ETag 또는 수정 시각을 검사해 캐시가 유효하면 304를 반환합니다. 그 외에는 .ics 본문을 반환하며 토큰 교체 시 이전 토큰을 폐기합니다.",
+                "최신 일정으로 iCalendar를 만들고 구독 토큰을 검증해 제공합니다. ETag 또는 수정 시각이 유효하면 304, 아니면 .ics 본문을 반환합니다.",
             note: "일정 ID는 UID, 버전 번호는 SEQUENCE로 사용합니다. 토큰을 교체하면 이전 구독 주소는 더 이상 사용할 수 없습니다.",
             compact: {
                 input: ["Core 일정", "일정 ID + 버전 번호"],
@@ -174,7 +174,7 @@ export const batonServicePresentations = {
             {
                 kind: "limited",
                 label: "설계상 제한",
-                text: "방과 참가자 연결 상태는 프로세스 메모리에 있어 현재는 단일 시그널링 인스턴스로 운용해야 합니다.",
+                text: "방과 참가자 상태를 메모리에 저장하므로 시그널링 서버는 단일 인스턴스로 실행합니다.",
             },
             {
                 kind: "unverified",

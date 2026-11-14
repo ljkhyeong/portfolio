@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/happygallery.png",
-    "sourceSha256": "442c46835b2baf52942595019ab77f84a273c777d7f62b92806852673e4ad446",
+    "sourceSha256": "484e2a5e93872f68276e6c3ffbcc3d1dd6cb23f22ec7defe83858d2028348bf2",
     "artifactSha256": "3009584e07db9920dc2fcd4b2d14cb4184eb93c0e529947b2b04d3a44223fb98",
     "renderer": {
         "id": "chrome",

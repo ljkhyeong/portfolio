@@ -212,7 +212,7 @@ describe("project summary data", () => {
             decision: expect.stringContaining("독립 트랜잭션"),
         })
         expect(passRefundProblem).toMatchObject({
-            title: "이용권 변경 후에도 기존 구매와 환불 조건 보존",
+            title: "이용권 변경 시 기존 구매 조건 보존",
             decision: expect.stringContaining("순서대로 잠가"),
             boundary: expect.stringContaining("관리자 재처리"),
         })

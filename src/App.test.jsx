@@ -179,7 +179,7 @@ test("메인은 상세의 문제 해결, 문서와 서비스 구성을 반복하
         screen.queryByRole("navigation", { name: "BATON 마이크로서비스 상세" }),
     ).not.toBeInTheDocument()
     expect(screen.getByRole("region", { name: "경력" })).toHaveTextContent(
-        "SKIP LOCKED로 작업을 선점했습니다",
+        "SKIP LOCKED로 중복 실행을 막았습니다",
     )
 })
 
@@ -509,7 +509,7 @@ test("BATON 마이크로서비스 상세는 입력과 처리 결과, 문제 해�
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: "대표 문서" })).toBeInTheDocument()
     expect(screen.getByText("공개 저장소")).toBeInTheDocument()
-    expect(screen.getByText("URL 점검 중 DB 커넥션 반환과 늦은 결과 차단")).toBeInTheDocument()
+    expect(screen.getByText("URL 점검의 트랜잭션 분리와 과거 결과 차단")).toBeInTheDocument()
     expect(screen.queryByText("HMAC 키와 링크 데이터의 복구 시점 일치")).not.toBeInTheDocument()
     expect(screen.queryByText("전송 결과 미확인 시 중복 발송 방지")).not.toBeInTheDocument()
     expect(screen.getByRole("link", { name: /WATCH 상태 변경 이벤트 전달/ })).toHaveAttribute(
@@ -539,7 +539,7 @@ test("WebRTC/HLS 상세는 담당 흐름, 문제 해결과 확인 결과를 보�
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축",
+            name: "HLS 재생 지연 약 35초 → 약 17초",
         }),
     ).toBeInTheDocument()
 })

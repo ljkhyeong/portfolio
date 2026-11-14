@@ -49,7 +49,7 @@ const projects = [
         ],
         architecture: {
             label: "서비스 구성과 담당 업무",
-            title: "역할, 반복 업무, 인수인계 문서는 Core에 저장하고, 6개 기능은 독립 서비스로 분리했습니다.",
+            title: "업무와 인수인계는 Core에, 나머지 기능은 6개 서비스에 분리했습니다.",
             description:
                 "각 서비스는 독립 배포하고 DB를 공유하지 않습니다. ROUND의 방 상태는 메모리에 저장합니다.",
             tradeoff:
@@ -664,9 +664,9 @@ const projects = [
             {
                 number: "02",
                 serviceIds: ["core"],
-                title: "인수인계 수락과 담당자 변경을 한 트랜잭션으로 처리",
+                title: "인수인계 수락과 담당자 변경을 함께 저장",
                 constraint:
-                    "인수인계 수락과 담당자 변경을 따로 저장하면, 수락은 됐는데 역할 담당자는 이전 사람으로 남을 수 있었습니다.",
+                    "수락과 담당자 변경을 따로 저장하면 수락 후에도 이전 담당자가 남을 수 있었습니다.",
                 decision:
                     "준비 때 다음 담당자와 기간을 고정하고 전달 때 누락 항목을 확인했습니다. 수락 시 담당자와 기간을 한 트랜잭션에서 바꾸고 역할별 진행 중 인수인계는 1건만 허용했습니다.",
                 validation: "상태 전이, 취소, 중복 인수인계와 전달 후 수정을 테스트했습니다.",
@@ -689,7 +689,7 @@ const projects = [
             {
                 number: "04",
                 serviceIds: ["go"],
-                title: "HMAC 키와 링크 데이터의 복구 시점 맞추기",
+                title: "HMAC 키와 DB의 복구 시점 일치",
                 constraint:
                     "DB와 HMAC 키의 복구 시점이 다르면 기존 링크 코드를 재현할 수 없습니다.",
                 decision:
@@ -702,11 +702,11 @@ const projects = [
             {
                 number: "05",
                 serviceIds: ["watch"],
-                title: "URL 점검 중 DB 커넥션 반환과 늦은 결과 차단",
+                title: "URL 점검의 트랜잭션 분리와 과거 결과 차단",
                 constraint:
                     "느린 URL 점검이 DB 커넥션을 오래 점유하고 늦은 결과가 최신 상태를 덮을 수 있었습니다.",
                 decision:
-                    "점검 시도마다 처리 서버와 기한을 기록한 뒤 DB 커넥션을 반환했습니다. DNS로 확인한 IP가 공인 IP일 때만 요청해 내부망 접근(SSRF)을 막았습니다. 기한이 지나면 기존 시도를 종료하고 새로 점검하며, 이전 시도나 이전 URL 버전의 결과는 저장하지 않았습니다. 서로 다른 호스트가 연속으로 응답하지 않으면 다섯 번째부터 내부 실패로 기록해 대상 URL의 장애 상태가 Core로 전파되지 않게 했습니다.",
+                    "점검 서버와 처리 기한을 저장한 뒤 트랜잭션을 종료했습니다. 공인 IP만 요청해 SSRF를 차단하고, 만료된 시도와 과거 URL의 결과는 버립니다. 기한 초과 시 새 점검을 시작합니다. 서로 다른 호스트의 연속 무응답은 다섯 번째부터 내부 실패로 기록해 Core에 대상 URL 장애로 전달하지 않습니다.",
                 validation:
                     "사설망 접근, DNS 리바인딩, 응답 크기 초과, 서버 중단과 늦은 결과를 테스트했습니다. 공개 main 07c4845에는 여러 호스트의 무응답을 점검 서버 측 연결 장애로 구분하는 테스트도 있습니다.",
                 boundary:
@@ -727,7 +727,7 @@ const projects = [
             {
                 number: "07",
                 serviceIds: ["relay"],
-                title: "전송 결과 미확인 시 중복 전송 방지",
+                title: "응답 유실 시 중복 전송 방지",
                 constraint:
                     "외부 전송 뒤 응답이 유실되면 성공 여부를 모른 채 중복 전송할 수 있었습니다.",
                 decision:
@@ -764,9 +764,9 @@ const projects = [
             {
                 number: "10",
                 serviceIds: ["brief"],
-                title: "발행한 주간 보고서는 수정하지 않음",
+                title: "주간 보고서 버전 관리",
                 constraint:
-                    "DB에 저장한 이벤트로 운영 점검 목록을 다시 만들 때 항목 순서나 결과가 달라지면, 이미 발행한 주간 보고서의 내용이 바뀔 수 있었습니다.",
+                    "이벤트로 점검 목록을 재생성할 때 이미 발행한 보고서까지 바뀌면 이전 내용을 비교할 수 없습니다.",
                 decision:
                     "수신 이벤트 전체로 목록을 다시 만들고 주간, 마지막 이벤트 순번과 항목이 같으면 기존 보고서를 반환했습니다. 변경이 있으면 새 보고서를 만들고 이전 보고서는 수정하지 않았습니다. Core 화면에서 보고서 버전을 비교하고, 저장 뒤 추가 전달 여부와 내용 변경 여부를 따로 확인하게 했습니다.",
                 validation:
@@ -777,9 +777,8 @@ const projects = [
             {
                 number: "11",
                 serviceIds: ["cal"],
-                title: "중복 일정과 이전 버전 일정의 반영 방지",
-                constraint:
-                    "네트워크 재시도로 같은 일정 JSON이 다시 오거나 과거 버전 번호가 늦게 도착하면 최신 캘린더가 이전 일정으로 돌아갈 수 있습니다.",
+                title: "일정 중복과 역순 반영 방지",
+                constraint: "중복 이벤트나 늦게 도착한 과거 버전이 최신 일정을 덮을 수 있습니다.",
                 decision:
                     "이벤트 ID, 일정 ID, 버전, 해시로 중복 일정과 과거 일정을 걸러냅니다. 최대 100건을 한 트랜잭션으로 받고 변경된 시즌의 캘린더를 한 번씩 갱신합니다.",
                 validation:
@@ -790,7 +789,7 @@ const projects = [
             {
                 number: "12",
                 serviceIds: ["cal"],
-                title: "iCalendar 시간대 및 취소 처리와 HTTP 캐시 적용",
+                title: "iCalendar 호환성과 HTTP 캐시",
                 constraint:
                     "캘린더 앱마다 시간대, 취소 일정, 캐시를 처리하는 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.",
                 decision:
@@ -803,7 +802,7 @@ const projects = [
             {
                 number: "13",
                 serviceIds: ["round"],
-                title: "이전 WebRTC 연결의 늦은 메시지 차단",
+                title: "WebRTC 재연결 시 과거 메시지 차단",
                 constraint:
                     "피어 연결을 다시 만들거나 ICE를 재시작한 뒤 이전 연결의 SDP와 ICE 후보가 늦게 도착하면 새 연결 상태가 손상될 수 있습니다.",
                 decision:
@@ -1092,7 +1091,7 @@ const projects = [
             },
             {
                 number: "05",
-                title: "전화번호 및 주소 암호화와 전화번호 일치 검색",
+                title: "개인정보 암호화와 전화번호 검색",
                 constraint:
                     "전화번호와 주소를 평문으로 저장하지 않으면서도 주문 조회와 비회원 이력 찾기를 지원해야 했습니다.",
                 decision:
@@ -1116,7 +1115,7 @@ const projects = [
             },
             {
                 number: "07",
-                title: "이용권 변경 후에도 기존 구매와 환불 조건 보존",
+                title: "이용권 변경 시 기존 구매 조건 보존",
                 constraint:
                     "판매 이용권의 횟수나 가격이 바뀌어도 이미 구매한 이용권과 결제 대기 건의 횟수와 금액은 유지해야 합니다. 환불과 예약이 동시에 실행될 때 이용 이력도 일치해야 합니다.",
                 decision:
@@ -1128,7 +1127,7 @@ const projects = [
             },
             {
                 number: "08",
-                title: "공개 화면만 서버 렌더링하고 비공개 화면은 검색 제외",
+                title: "공개 페이지 SSR과 비공개 페이지 검색 제외",
                 constraint:
                     "SPA에서는 공개 본문과 경로별 메타데이터가 없고 없는 경로도 HTTP 200을 반환했습니다.",
                 decision:
@@ -1152,7 +1151,7 @@ const projects = [
             },
             {
                 number: "10",
-                title: "운영시간과 휴일 규칙으로 예약 슬롯 자동 생성",
+                title: "운영시간과 휴일에 따른 예약 슬롯 생성",
                 constraint:
                     "예약 슬롯을 자동 생성하면서 기존 예약의 슬롯 연결과 동시 예약의 잠금 규칙을 유지해야 했습니다.",
                 decision:
@@ -1188,7 +1187,7 @@ const projects = [
             },
             {
                 number: "13",
-                title: "결제 웹훅과 알림 접수 응답을 최종 결과와 구분",
+                title: "결제와 알림의 최종 결과 확인",
                 constraint:
                     "Toss 웹훅이나 NHN 발송 접수 응답만으로 완료를 확정하면 중복 웹훅, 정산 차이와 실제 수신 실패를 놓칠 수 있습니다.",
                 decision:
@@ -1200,7 +1199,7 @@ const projects = [
             },
             {
                 number: "14",
-                title: "예약 부분취소 시 환불액과 잔여석 반영, 빈자리 알림",
+                title: "예약 부분취소와 빈자리 알림",
                 constraint:
                     "만석 회차의 취소로 자리가 생겨도 고객이 알기 어렵고, 여러 명 예약의 일부만 취소할 때 취소 인원에 맞춰 환불액과 잔여석을 계산해야 했습니다.",
                 decision:
@@ -1212,9 +1211,9 @@ const projects = [
             },
             {
                 number: "15",
-                title: "선택한 상품만 결제하고 재주문 조건을 다시 확인",
+                title: "장바구니 선택 결제와 재주문 검증",
                 constraint:
-                    "장바구니 전체를 한 번에 결제하거나 이전 주문 가격을 그대로 쓰면 원하지 않는 상품까지 결제되거나, 지금의 가격과 재고와 다른 조건으로 주문될 수 있습니다.",
+                    "장바구니의 일부만 결제할 수 있어야 했습니다. 재주문에는 이전 주문이 아닌 현재 가격, 재고, 옵션을 적용해야 했습니다.",
                 decision:
                     "선택한 항목과 장바구니 버전을 결제 요청에 묶고 미선택 상품은 유지합니다. 재주문은 현재 가격, 재고, 옵션을 확인한 뒤 다시 담습니다.",
                 validation:
@@ -1224,7 +1223,7 @@ const projects = [
             },
             {
                 number: "16",
-                title: "AI 코드 변경을 파일 검사와 구조 검사로 확인",
+                title: "AI 코드 수정 후 자동 검사",
                 constraint:
                     "AI 에이전트가 긴 작업에서 초기 개발 규칙을 놓칠 수 있어, 파일을 수정할 때마다 검사 결과를 에이전트에 돌려줘야 했습니다.",
                 decision:
@@ -1309,7 +1308,7 @@ const projects = [
         ],
         architecture: {
             label: "웹, 서버, DB 분리와 API 타입 생성",
-            title: "Next.js와 Spring Boot를 분리하고, 서버 DTO에서 TypeScript API 타입을 생성합니다.",
+            title: "서버 DTO에서 웹 API 타입을 생성합니다.",
             description:
                 "정책 수집, 조건 판정, 회원 저장과 알림을 기능별로 나누고 JDBC와 PostgreSQL 트랜잭션으로 처리합니다.",
             tradeoff: `온통청년 서울 정책 ${youthPolicyCoverage.sourcePolicies}건 중 ${youthPolicyCoverage.collectedPolicies}건을 로컬에 수집했습니다. 질문은 검토한 정책 ${youthPolicyCoverage.questionPolicies}건의 일부 공통 요건만 다룹니다.`,
@@ -1406,10 +1405,10 @@ const projects = [
         problems: [
             {
                 number: "01",
-                title: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
+                title: "미확인 신청 조건을 별도 상태로 처리",
                 screenshotId: "questions",
                 constraint:
-                    "정책 조건을 해석하지 못했거나 사용자 정보가 없을 때 단순 참과 거짓으로 처리하면 신청 가능 여부를 잘못 안내할 수 있습니다.",
+                    "조건이나 사용자 정보가 부족한데 가능 또는 불가로 단정하면 잘못된 안내가 됩니다.",
                 decision:
                     "정책별 질문의 답변을 공고별 판정표와 비교해 가능, 불가, 추가 확인 필요로 집계합니다. 기본 조건 입력은 생년월일로 연령만 비교하고, 판정에는 정책 개정, 조건 정의와 기준일을 함께 남깁니다.",
                 validation: `정책 ${youthPolicyCoverage.questionPolicies}건의 질문과 판정 데이터로 조건 충족, 불충족, 정보 누락이 각각 가능, 불가, 추가 확인 필요로 집계되는지 서버 테스트로 확인했습니다.`,
@@ -1417,7 +1416,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "마감 날짜와 시각에 맞춘 알림 예약, 미확인 마감 제외",
+                title: "마감 기준 알림 예약과 취소",
                 constraint:
                     "날짜 마감과 시각 마감을 같은 방식으로 비교하거나 상시 정책이나 기간 미확인 정책에 임의 마감일을 만들면 잘못된 알림을 보낼 수 있습니다.",
                 decision:
@@ -1429,7 +1428,7 @@ const projects = [
             },
             {
                 number: "03",
-                title: "과거 정책 개정과 늦은 AI 결과의 덮어쓰기 차단",
+                title: "과거 정책과 AI 결과의 덮어쓰기 차단",
                 constraint:
                     "수집과 AI 처리가 비동기로 끝나면 이전 정책 개정이나 오래된 요청의 결과가 최신 정책을 덮을 수 있습니다.",
                 decision:
@@ -1452,7 +1451,7 @@ const projects = [
             },
             {
                 number: "05",
-                title: "서버 DTO와 웹 API 타입 일치",
+                title: "서버와 웹의 API 타입 동기화",
                 constraint:
                     "웹과 서버가 요청 타입과 응답 타입을 각자 정의하면 자격 상태나 날짜 의미가 한쪽에서만 바뀔 수 있습니다.",
                 decision:
@@ -1488,7 +1487,7 @@ const projects = [
             },
             {
                 number: "08",
-                title: "저장한 정책의 변경 내용을 저장 시점과 비교",
+                title: "저장 시점 기준 정책 변경 비교",
                 constraint:
                     "저장 후 여러 번 개정된 정책을 직전 공고와만 비교하면 사용자가 처음 확인한 내용과의 차이를 놓칠 수 있습니다.",
                 decision:
@@ -1694,7 +1693,7 @@ const projects = [
         systemNavLabel: "화면",
         architecture: {
             label: "공개 기준",
-            title: "변경 근거를 커밋과 코드 위치에 연결하고, 확인 후 코드가 바뀌면 기록 공개를 차단합니다.",
+            title: "코드 버전과 변경 기록을 연결합니다.",
             description:
                 "사용자 요청, 변경 근거와 출처, 전체 커밋 해시, 저장소 스냅샷, 파일과 줄의 내용 해시를 한 기록에 저장합니다. 검증은 실행한 명령, 종료 코드, 실행 시간, 출력 해시와 요약으로 남깁니다.",
             tradeoff:
@@ -1792,7 +1791,7 @@ const projects = [
             "사용자 요청, 변경 근거와 검증 결과를 코드 위치에 기록하고 작성자가 확인한 기록을 팀에 공개합니다.",
         status: {
             label: "그 밖의 구현",
-            text: "공개 main 4be09d2에 Zed 편집기의 줄 위 기록 요약과 PR 코드 줄 주석 게시를 추가하고, 웹 화면을 Thymeleaf로 바꿨습니다. 실제 Zed 앱과 GitHub 게시는 확인하지 않았습니다. 로컬 개발 브랜치 847f127에는 결과 미확인 게시 복구, 커밋과 스냅샷 필터, IntelliJ 조회 취소를 추가했습니다. 이 후속 기능은 공개 main과 릴리스에 아직 포함되지 않았습니다.",
+            text: "공개 main 4be09d2에는 Zed 줄 요약, PR 코드 주석, Thymeleaf 웹 화면을 반영했습니다. 실제 Zed 앱과 GitHub 게시는 미검증입니다. 로컬 847f127의 게시 복구, 커밋과 스냅샷 필터, IntelliJ 조회 취소는 공개 main과 릴리스에 포함되지 않았습니다.",
         },
         visualCaption:
             "원문 대화와 숨은 추론은 저장하지 않습니다. 작성자 확인 뒤 코드가 바뀌면 공개를 차단합니다.",
@@ -1811,7 +1810,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "변경 기록에 커밋 해시, 파일 경로, 줄 범위 저장",
+                title: "변경 기록과 코드 버전 연결",
                 screenshotId: "evidence",
                 constraint:
                     "짧은 커밋 ID나 파일명만 남기면 이후 코드가 바뀌었을 때 어느 상태를 설명하는 기록인지 판단하기 어렵습니다.",
@@ -1848,7 +1847,7 @@ const projects = [
             },
             {
                 number: "05",
-                title: "PR, 웹, IDE에서 코드 변경 이유와 검증 기록 조회",
+                title: "PR, 웹, IDE에서 변경 기록 조회",
                 constraint:
                     "변경 기록이 별도 화면에만 있으면 PR 리뷰와 이후 코드 탐색 중 필요한 시점에 찾기 어렵습니다.",
                 decision:
@@ -1860,7 +1859,7 @@ const projects = [
             },
             {
                 number: "06",
-                title: "GitHub 자료를 읽어 초안 근거로 사용하고 기록을 Markdown으로 저장",
+                title: "GitHub 근거 수집과 Markdown 내보내기",
                 constraint:
                     "이슈나 PR의 요구사항과 이미 실행된 CI 결과를 기록 작성 때 다시 옮기면 출처가 빠지거나 다른 커밋의 결과가 섞일 수 있습니다.",
                 decision:
@@ -1976,9 +1975,9 @@ const projects = [
             },
             {
                 number: "03",
-                title: "요청 상태 저장보다 먼저 도착한 PDF 완료 응답 재조회",
+                title: "PDF 완료 응답의 순서 역전 처리",
                 constraint:
-                    "외부 PDF 변환을 요청한 뒤 애플리케이션이 요청 상태를 DB에 저장하기 전에 완료 응답이 도착하면, 대상 요청을 찾지 못해 정상 변환 결과가 누락될 수 있었습니다.",
+                    "PDF 완료 응답이 요청 상태의 DB 저장보다 먼저 도착하면 대상 요청을 찾지 못해 결과가 누락될 수 있었습니다.",
                 decision:
                     "Spring Retry로 요청 상태를 다시 조회하고, 백오프와 지터(무작위 지연)로 재조회 시점을 분산했습니다.",
                 validation:
@@ -2036,12 +2035,11 @@ const projects = [
             {
                 number: "02",
                 title: "WebSquare 상태 변경 요청에 CSRF 토큰 적용",
-                constraint:
-                    "위조 요청으로 WebSquare의 저장 및 변경 기능이 실행되는 것을 막아야 했습니다. 모든 상태 변경 요청에 CSRF 토큰이 필요했습니다.",
+                constraint: "WebSquare의 모든 상태 변경 요청에서 CSRF 공격을 막아야 했습니다.",
                 decision:
                     "CSRF 토큰을 WebSquare 공통 요청에 포함하고 누락되거나 일치하지 않는 요청은 필터에서 차단했습니다.",
                 validation:
-                    "정상 토큰, 토큰 누락과 불일치 요청을 각각 실행해 정상 요청만 처리되고 나머지는 필터에서 차단되는 것을 확인했습니다.",
+                    "정상 토큰만 허용하고, 누락 또는 불일치 요청은 필터에서 차단하는지 확인했습니다.",
                 boundary:
                     "새 상태 변경 요청을 추가할 때마다 WebSquare 공통 요청 로직으로 토큰을 보내는지 확인해야 합니다.",
             },
@@ -2107,7 +2105,7 @@ const projects = [
             },
             {
                 number: "02",
-                title: "HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축",
+                title: "HLS 재생 지연 약 35초 → 약 17초",
                 constraint:
                     "초기 설정에서는 RTP 영상이 React HLS 플레이어에서 재생되기까지 약 35초가 걸려, 방금 놓친 강의 구간을 바로 다시 볼 수 없었습니다.",
                 decision:

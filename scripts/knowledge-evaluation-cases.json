@@ -45,21 +45,21 @@
         "id": "eligibility",
         "question": "청년정책의 소득 조건이 확인되지 않으면 신청 가능으로 판단하나요?",
         "projectId": "youth-policy-mate",
-        "titleIncludes": "확인되지 않은 정책",
+        "titleIncludes": "미확인 신청 조건",
         "criteria": "미확인 조건을 충족으로 단정하지 않는다."
     },
     {
         "id": "deadline",
         "question": "청년정책의 날짜 마감과 시각 마감은 어떻게 구분하나요?",
         "projectId": "youth-policy-mate",
-        "titleIncludes": "마감 날짜와 시각",
+        "titleIncludes": "마감 기준 알림",
         "criteria": "마감 기준과 미확인 마감일의 제외를 설명한다."
     },
     {
         "id": "stale-ai",
         "question": "청년정책에 늦게 도착한 AI 결과가 최신 개정을 덮어쓰지 않나요?",
         "projectId": "youth-policy-mate",
-        "titleIncludes": "늦은 AI 결과",
+        "titleIncludes": "과거 정책과 AI 결과",
         "criteria": "개정과 늦은 응답의 관계를 설명한다."
     },
     {
@@ -94,14 +94,14 @@
         "id": "cal",
         "question": "캘린더의 시간대와 취소된 일정은 어떻게 처리하나요?",
         "projectId": "baton",
-        "titleIncludes": "iCalendar 시간대",
+        "titleIncludes": "iCalendar 호환성",
         "criteria": "CAL의 시간대와 취소 표현을 설명한다."
     },
     {
         "id": "round",
         "question": "ROUND에서 이전 WebRTC 연결의 메시지가 늦게 도착하면 어떻게 하나요?",
         "projectId": "baton",
-        "titleIncludes": "이전 WebRTC 연결",
+        "titleIncludes": "WebRTC 재연결 시 과거 메시지",
         "criteria": "이전 연결의 늦은 메시지 차단을 설명한다."
     },
     {
@@ -129,14 +129,14 @@
         "id": "intent",
         "question": "IntentTrace는 기록을 어떤 커밋과 코드 위치에 연결하나요?",
         "projectId": "intent-trace",
-        "titleIncludes": "변경 근거를 커밋과 코드 위치",
+        "titleIncludes": "코드 버전과 변경 기록을 연결",
         "criteria": "전체 커밋 해시와 코드 위치를 근거로 설명한다."
     },
     {
         "id": "webrtc",
         "question": "HLS 다시보기 재생 지연을 얼마나 줄였나요?",
         "projectId": "webrtc",
-        "titleIncludes": "HLS 다시보기",
+        "titleIncludes": "HLS 재생 지연",
         "criteria": "약 35초에서 약 17초라는 확인 결과를 ROUND 성과로 옮기지 않는다."
     },
     {

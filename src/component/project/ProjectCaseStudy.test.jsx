@@ -419,7 +419,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
         within(document.getElementById("project-problems")).getAllByRole("article"),
     ).toHaveLength(4)
     const conditionCase = screen.getByRole("article", {
-        name: "확인되지 않은 정책 조건을 신청 가능으로 단정하지 않음",
+        name: "미확인 신청 조건을 별도 상태로 처리",
     })
     expect(
         within(conditionCase).getByRole("group", { name: "청년정책메이트 관련 화면" }),
@@ -459,11 +459,11 @@ test("IntentTrace는 저장하는 근거와 공개 수명주기를 변경 기록
     expect(within(lifecycleDiagram).getByText("기존 기록 조회 가능")).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "변경 근거를 커밋과 코드 위치에 연결하고, 확인 후 코드가 바뀌면 기록 공개를 차단합니다.",
+            name: "코드 버전과 변경 기록을 연결합니다.",
         }),
     ).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        /v0\.7\.0.*PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.*공개 main 4be09d2.*Zed 편집기의 줄 위 기록 요약/,
+        /v0\.7\.0.*PR Check Run 게시와 서버 운영 배포는 미검증입니다.*공개 main 4be09d2.*Zed 줄 요약/,
     )
     expect(
         screen.getByRole("link", { name: "IntentTrace GitHub 저장소 새 창에서 보기" }),
@@ -754,7 +754,7 @@ test.each([
     [
         "cal",
         "CAL",
-        "중복 일정과 이전 버전 일정의 반영 방지",
+        "일정 중복과 역순 반영 방지",
         "https://github.com/ljkhyeong/baton-cal/tree/45e2dda",
         /CAL 공개 main 고정 커밋 보기/,
         [
@@ -866,7 +866,7 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     // 교육 프로젝트는 문제 두 건을 모두 대표 사례로 펼친다. 지연 개선 사례에는 처리 순서를 둔다.
     const problems = document.getElementById("project-problems")
     const latencyCase = screen.getByRole("article", {
-        name: "HLS 다시보기 재생 지연을 약 35초에서 약 17초로 단축",
+        name: "HLS 재생 지연 약 35초 → 약 17초",
     })
     const mediaFlowProblem = screen.getByRole("article", {
         name: "WebRTC 실시간 재생과 HLS 지난 구간 다시보기",
@@ -899,7 +899,7 @@ test("상세 상단에 확인한 범위를 상태 점 없이 문장으로 한 �
         hero.compareDocumentPosition(verification) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy()
     expect(verification).toHaveTextContent(caseResults.baton)
-    expect(verification).toHaveTextContent("아직 확인하지 않았습니다")
+    expect(verification).toHaveTextContent("배포 환경의 전체 연동은 미검증입니다")
     expect(within(verification).queryByRole("listitem")).not.toBeInTheDocument()
     // 확인한 범위 문장은 상단 정보에서 반복하지 않는다.
     expect(hero).not.toHaveTextContent(caseResults.baton)

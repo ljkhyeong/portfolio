@@ -169,12 +169,10 @@ test("프로젝트만 지정한 주소는 검색어 입력을 기다린다", () 
     const flow = screen.getByRole("region", { name: "검색과 답변 처리 흐름" })
     expect(flow).toContainElement(
         screen.getByRole("img", {
-            name: /검색 증강 생성\(RAG\) 흐름.*BM25 일치 문단이 없으면 AI를 호출하지 않습니다/,
+            name: /검색 증강 생성\(RAG\) 흐름.*BM25 일치 문단이 없으면 AI를 호출하지 않으며/,
         }),
     )
-    expect(flow).toHaveTextContent(
-        "공개 사이트에는 검색 API를 아직 연결하지 않아, 같은 공개 문서를 브라우저에서 같은 기준의 키워드 검색으로 찾고 AI 답변은 제공하지 않습니다.",
-    )
+    expect(flow).toHaveTextContent("공개 사이트는 API 연결 없이 브라우저 키워드 검색만 제공합니다.")
 })
 
 test("BATON 서비스 범위를 주소에서 복원하고 변경한 서비스도 주소와 API에 반영한다", async () => {

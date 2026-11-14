@@ -527,8 +527,8 @@ const PortfolioKnowledgePage = () => {
                             프로젝트 문서 검색
                         </h1>
                         <p>
-                            공개 문서에서 근거 문단을 먼저 찾고, 요청하면 그 문단만 AI에 전달해
-                            출처를 붙여 답하는 RAG 검색입니다.
+                            프로젝트의 구현과 설계 문서를 검색합니다. 검색 결과에서 관련 문단과
+                            원문을 확인할 수 있습니다.
                         </p>
                     </div>
                     <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">

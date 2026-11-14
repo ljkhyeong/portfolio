@@ -15,7 +15,7 @@ const routeMetaContent = {
     "/projects/baton": {
         title: "BATON | 임정규 포트폴리오",
         description:
-            "역할, 반복 업무, 인수인계 문서를 기록하는 Core와 링크, URL 점검, 이벤트 전달, 보고서, 캘린더, WebRTC를 맡는 6개 마이크로서비스로 구성한 BATON 프로젝트",
+            "팀 업무와 인수인계를 관리하는 BATON. Core와 6개 마이크로서비스의 구현, 중복 처리 방지와 장애 복구 사례",
         image: "/og-cover.png",
     },
     "/projects/baton/go": {
@@ -68,7 +68,7 @@ const routeMetaContent = {
     "/projects/youth-policy-mate": {
         title: "청년정책메이트 | 임정규 포트폴리오",
         description:
-            "서울 청년 정책을 찾아보고 저장한 정책의 변경 내용, 마감, 알림을 확인하며, 관리자가 조건 규칙과 AI 초안을 검토하는 모바일 웹앱 개발 프로젝트",
+            "서울 청년 정책 검색, 일부 신청 조건 확인과 마감 알림을 제공하는 청년정책메이트 개발 프로젝트",
         image: "/og-cover.png",
     },
     "/projects/hope-commit": {
@@ -80,7 +80,7 @@ const routeMetaContent = {
     "/projects/intent-trace": {
         title: "IntentTrace | 임정규 포트폴리오",
         description:
-            "AI 코드의 변경 이유와 검증 결과를 웹과 IDE에서 검색하고, 파일명이나 줄이 바뀐 뒤의 코드 위치와 GitHub 이슈, PR, CI를 함께 확인하는 개발 도구",
+            "AI 코드의 변경 이유와 검증 결과를 기록하는 IntentTrace. 웹과 IDE에서 기록을 검색하고 코드 위치를 추적하는 개발 도구",
         image: "/og-cover.png",
     },
     "/projects/defense": {
@@ -97,8 +97,7 @@ const routeMetaContent = {
     },
     "/search": {
         title: "백엔드 프로젝트 문서 검색 | 임정규",
-        description:
-            "공개 프로젝트 문서에서 근거 문단을 찾아 출처와 함께 보여 주고, 요청하면 그 문단만 근거로 AI가 답하는 RAG 검색입니다.",
+        description: "프로젝트의 구현과 설계 문서를 검색하고 관련 문단과 원문을 확인합니다.",
         image: "/og-cover.png",
     },
     "/portfolio/print": {
