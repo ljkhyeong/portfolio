@@ -7,5 +7,5 @@ export const homeHeroContent = {
     headline: headlinePhrases.join(" "),
     headlinePhrases,
     summary:
-        "해양경찰 형사사법정보시스템(KICS)의 전자영장 연계 API와 배치를 개발합니다. 중복 요청과 동시성 문제를 처리하고, React와 Next.js로 화면도 만듭니다.",
+        "해양경찰 형사사법정보시스템(KICS)의 전자영장 연계 API와 배치를 개발합니다. 이중화 서버에서 같은 배치 작업이 두 번 실행되지 않도록 구현했습니다. 개인 프로젝트에서는 React와 Next.js로 화면을 개발합니다.",
 }

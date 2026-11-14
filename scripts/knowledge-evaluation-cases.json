@@ -45,7 +45,7 @@
         "id": "eligibility",
         "question": "청년정책의 소득 조건이 확인되지 않으면 신청 가능으로 판단하나요?",
         "projectId": "youth-policy-mate",
-        "titleIncludes": "미확인 신청 조건",
+        "titleIncludes": "확인할 수 없는 신청 조건",
         "criteria": "미확인 조건을 충족으로 단정하지 않는다."
     },
     {
@@ -94,7 +94,7 @@
         "id": "cal",
         "question": "캘린더의 시간대와 취소된 일정은 어떻게 처리하나요?",
         "projectId": "baton",
-        "titleIncludes": "iCalendar 호환성",
+        "titleIncludes": "iCalendar 시간대와 취소 일정 처리",
         "criteria": "CAL의 시간대와 취소 표현을 설명한다."
     },
     {

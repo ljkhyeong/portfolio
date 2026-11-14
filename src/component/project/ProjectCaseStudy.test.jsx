@@ -419,7 +419,7 @@ test("청년정책메이트는 웹앱으로 구분하고 현재 화면과 미구
         within(document.getElementById("project-problems")).getAllByRole("article"),
     ).toHaveLength(4)
     const conditionCase = screen.getByRole("article", {
-        name: "미확인 신청 조건을 별도 상태로 처리",
+        name: "확인할 수 없는 신청 조건은 ‘추가 확인 필요’로 표시",
     })
     expect(
         within(conditionCase).getByRole("group", { name: "청년정책메이트 관련 화면" }),
@@ -745,8 +745,8 @@ test.each([
         "https://github.com/ljkhyeong/baton-brief",
         /BRIEF 공개 저장소 보기/,
         [
-            /점검 상태 반영, 보고서 이력.*업무 종류, 주간, 시간대 필터.*304/,
-            /공개 main 02ee01e 기준입니다. Core c9111eec 화면에 지난주 비교와 저장 이후 변경 확인을 연결했습니다/,
+            /점검 상태 반영과 보고서 이력.*미해결 항목이 이월.*신규 항목과 해결 항목/,
+            /공개 main 02ee01e 기준입니다. Core c9111eec 화면에 지난주 비교와 저장 이후 변경 확인을 연결했습니다.*시간대 필터.*304/,
             /공인 DNS와 배포 환경의 전체 서비스 연동은 아직 확인하지 않았습니다/,
         ],
         /주간 보고서와 점검 항목 조회, 이벤트 수신, 검증 기록/,

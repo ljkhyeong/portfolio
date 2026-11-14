@@ -16,7 +16,10 @@ const featuredProblems = {
         steps: [
             { title: "호출 전 상태 저장", description: "결제 orderId와 환불 UUID 유지" },
             { title: "결제사 호출", description: "DB 트랜잭션 밖에서 실행" },
-            { title: "결과 반영 또는 재조회", description: "응답 유실 시 같은 키로 결과 확인" },
+            {
+                title: "결과 반영 또는 재조회",
+                description: "결제는 주문 ID, 환불은 환불 UUID로 조회",
+            },
         ],
     },
     "youth-policy-mate": {

@@ -23,7 +23,7 @@ test("개인 프로젝트는 실제 화면과 촬영 조건, 확인한 범위를
         expect.stringMatching(/\/baton-core-today\.webp\?v=[0-9a-f]{10}$/),
     )
     expect(baton).toHaveTextContent("내 할 일 테스트 데이터로 찍은 화면")
-    expect(baton).toHaveTextContent("링크 중복 생성과 이벤트 중복 전송을 막았습니다")
+    expect(baton).toHaveTextContent("같은 이벤트 ID를 다시 받으면 전송 작업을 새로 만들지 않습니다")
     expect(baton).toHaveTextContent("확인한 범위")
     expect(baton).toHaveTextContent("배포 환경의 전체 연동은 미검증입니다")
     expect(baton).toHaveTextContent("2026.07 — 현재, 개발 중, 공개 저장소 6개")

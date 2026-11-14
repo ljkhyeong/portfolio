@@ -373,7 +373,7 @@ const AnswerPanel = ({
                 <p>
                     {localSearch
                         ? "검색 서버에 연결되지 않아 AI 답변은 만들 수 없습니다. 검색 결과와 원문 링크를 확인하세요."
-                        : "문서를 검색한 뒤 답변을 생성할 수 있습니다."}
+                        : "검색 API에 연결되면 관련 문단에서 출처가 있는 AI 답변을 요청할 수 있습니다."}
                 </p>
             </div>
         )}
@@ -526,16 +526,8 @@ const PortfolioKnowledgePage = () => {
                         <h1 id="knowledge-title" data-route-heading="/search">
                             프로젝트 문서 검색
                         </h1>
-                        <p>
-                            프로젝트의 구현과 설계 문서를 검색합니다. 검색 결과에서 관련 문단과
-                            원문을 확인할 수 있습니다.
-                        </p>
+                        <p>키워드로 공개 프로젝트 문서를 검색하고 관련 문단과 원문을 확인하세요.</p>
                     </div>
-                    <ul className="knowledge-hero__rules" aria-label="검색 및 답변 원칙">
-                        <li>공개 문서만 검색합니다.</li>
-                        <li>답변마다 출처를 붙입니다.</li>
-                        <li>관련 문서가 부족하면 답하지 않습니다.</li>
-                    </ul>
                 </section>
 
                 <section className="knowledge-query" aria-labelledby="knowledge-query-title">

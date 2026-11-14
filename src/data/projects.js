@@ -789,7 +789,7 @@ const projects = [
             {
                 number: "12",
                 serviceIds: ["cal"],
-                title: "iCalendar 호환성과 HTTP 캐시",
+                title: "iCalendar 시간대와 취소 일정 처리, HTTP 캐시",
                 constraint:
                     "캘린더 앱마다 시간대, 취소 일정, 캐시를 처리하는 방식이 달라 일정이 중복되거나 변경 내용이 반영되지 않을 수 있습니다.",
                 decision:
@@ -1405,7 +1405,7 @@ const projects = [
         problems: [
             {
                 number: "01",
-                title: "미확인 신청 조건을 별도 상태로 처리",
+                title: "확인할 수 없는 신청 조건은 ‘추가 확인 필요’로 표시",
                 screenshotId: "questions",
                 constraint:
                     "조건이나 사용자 정보가 부족한데 가능 또는 불가로 단정하면 잘못된 안내가 됩니다.",
@@ -1975,7 +1975,7 @@ const projects = [
             },
             {
                 number: "03",
-                title: "PDF 완료 응답의 순서 역전 처리",
+                title: "요청 저장 전에 도착한 PDF 완료 응답 재처리",
                 constraint:
                     "PDF 완료 응답이 요청 상태의 DB 저장보다 먼저 도착하면 대상 요청을 찾지 못해 결과가 누락될 수 있었습니다.",
                 decision:
