@@ -38,7 +38,7 @@ test("기술은 묶음별 기술 이름만 쉼표로 보여주고 AI 활용만 �
 
     expect(groups).toEqual(["백엔드", "테스트와 운영", "AI 활용", "프론트엔드"])
     expect(skills).toHaveTextContent("Java, Spring Boot, Spring MVC")
-    expect(skills).toHaveTextContent("ESLint와 컴파일 검사를")
+    expect(skills).toHaveTextContent("정적 분석, 컴파일, 아키텍처 검사를")
     expect(within(skills).getAllByRole("link")).toHaveLength(1)
     expect(skills).not.toHaveTextContent("·")
 })

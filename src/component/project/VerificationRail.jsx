@@ -1,3 +1,5 @@
+import HighlightedText from "../HighlightedText"
+import { hlsImpact } from "../../data/hlsEvidence"
 import "../../css/VerificationRail.css"
 
 // 어디까지 확인했는지를 문장으로 쓴다. 확인하지 않은 범위도 같은 문장에서 밝힌다.
@@ -12,7 +14,11 @@ const VerificationRail = ({ projectId, summary, note }) => {
     return (
         <section className="verification-rail" aria-labelledby={headingId}>
             <p className="verification-rail__summary">
-                <strong id={headingId}>확인한 범위</strong> {summary}
+                <strong id={headingId}>확인한 범위</strong>{" "}
+                <HighlightedText
+                    text={summary}
+                    highlight={projectId === "webrtc" ? hlsImpact : undefined}
+                />
             </p>
             {note ? (
                 <p className="verification-rail__note">

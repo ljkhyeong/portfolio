@@ -1,3 +1,4 @@
+import { hlsImpact, hlsResult } from "./hlsEvidence.js"
 import { projectSummaries, projectSummariesById, youthPolicyCoverage } from "./projectSummaries"
 import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence"
 
@@ -1227,9 +1228,9 @@ const projects = [
                 constraint:
                     "AI 에이전트가 긴 작업에서 초기 개발 규칙을 놓칠 수 있어, 파일을 수정할 때마다 검사 결과를 에이전트에 돌려줘야 했습니다.",
                 decision:
-                    "토스 기술 블로그의 피드백 루프를 참고해, 파일을 수정하면 ESLint와 컴파일 검사를, 작업을 끝내기 전에는 전체 diff와 ArchUnit 검사를 실행하도록 연결했습니다. 검사 범위는 파일 경로와 확장자로 고르고, 코드 수정과 설계 판단은 작업 중인 에이전트가 맡습니다.",
+                    "토스 기술 블로그를 참고해 파일 수정 후 ESLint와 컴파일 검사를, 작업 종료 전 전체 diff와 ArchUnit 검사를 자동 실행했습니다. 파일 경로와 확장자로 검사 범위를 정하고 결과를 에이전트에 전달합니다.",
                 validation:
-                    "훅과 수동 명령이 같은 검사기를 사용합니다. 작업 중 커밋과 새 파일 포함, 변경이 없을 때 검사 생략, 반복 수정 요청 제한을 회귀 테스트 16건으로 확인합니다. 이 테스트와 계층 의존 규칙은 CI에서도 실행합니다.",
+                    "작업 중 커밋과 새 파일의 검사 포함, 변경이 없을 때 검사 생략, 반복 수정 요청 제한을 회귀 테스트 16건으로 확인합니다. 회귀 테스트와 계층 의존 검사는 CI에서도 실행합니다.",
                 boundary:
                     "자동 검사는 선언한 의존 규칙만 확인합니다. 업무 책임 배분과 과한 추상화는 에이전트가 전체 diff를 보고 판단하며, 검사 선택에는 LLM을 쓰지 않습니다.",
             },
@@ -2105,13 +2106,12 @@ const projects = [
             },
             {
                 number: "02",
-                title: "HLS 재생 지연 약 35초 → 약 17초",
+                title: hlsImpact,
                 constraint:
                     "초기 설정에서는 RTP 영상이 React HLS 플레이어에서 재생되기까지 약 35초가 걸려, 방금 놓친 강의 구간을 바로 다시 볼 수 없었습니다.",
                 decision:
                     "HLS 세그먼트 길이를 줄이고 FFmpeg 인코딩 설정을 조정해 첫 세그먼트가 더 빨리 생성되도록 했습니다.",
-                validation:
-                    "같은 시연 흐름에서 RTP 입력부터 React HLS 재생까지 걸리는 시간을 설정 변경 전후로 비교해 약 35초에서 약 17초로 줄어든 것을 확인했습니다.",
+                validation: `RTP 입력부터 React HLS 재생까지의 시간을 설정 변경 전후로 비교했습니다. ${hlsResult}.`,
                 boundary:
                     "시연 환경에서 측정한 결과이며 네트워크와 기기를 통제한 벤치마크는 아닙니다.",
             },

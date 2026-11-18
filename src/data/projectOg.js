@@ -1,3 +1,4 @@
+import { hlsImpact, hlsTiming } from "./hlsEvidence.js"
 import { youthPolicyCoverage } from "./projectSummaries.js"
 
 export const projectOgCards = [
@@ -95,13 +96,13 @@ export const projectOgCards = [
         id: "webrtc",
         route: "/projects/webrtc",
         title: ["WebRTC / HLS", "현장강의 보조"],
-        category: "교육 프로젝트 / 6인 팀 시연 환경",
-        description: "실시간 강의와 다시보기를 제공하고\nHLS 재생 지연을 줄였습니다.",
+        category: "교육 프로젝트 / 팀 시연 환경",
+        description: `${hlsImpact}\n${hlsTiming}, 팀 시연 환경`,
         caption: "RTP 출력의 HLS 변환과 지난 구간 다시보기",
         steps: [
             ["mediasoup RTP 출력", "강의 영상 전달"],
             ["HLS 변환", "FFmpeg와 GStreamer"],
-            ["지난 구간 다시보기", "시연 환경 재생 지연 약 35초 → 약 17초"],
+            ["지난 구간 다시보기", `시연 환경 ${hlsTiming}`],
         ],
     },
     ...[

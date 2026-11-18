@@ -1,3 +1,4 @@
+import HighlightedText from "./HighlightedText"
 import { Link } from "react-router-dom"
 import { assetPath } from "../utils/assetPath"
 import { coverImageOf, coverVariantsOf } from "../utils/coverImage"
@@ -93,10 +94,14 @@ const FeaturedProject = ({ project }) => (
             <p className="home-card__meta">
                 {[formatPeriod(project.period), project.stage, project.visibility].join(", ")}
             </p>
-            <p>{project.homeSummary}</p>
-            <p>{project.homeStory}</p>
+            <p>
+                <HighlightedText text={project.homeSummary} highlight={project.homeHighlight} />
+            </p>
+            <p>
+                <HighlightedText text={project.homeStory} highlight={project.homeHighlight} />
+            </p>
             <p className="home-card__check">
-                <strong>확인한 범위</strong> {project.homeCheck}
+                <span>확인한 범위</span> {project.homeCheck}
             </p>
             <ProjectLinks project={project} />
         </article>
@@ -111,7 +116,9 @@ const MoreProject = ({ project }) => (
             <h3>
                 <Link to={project.route}>{project.title}</Link>
             </h3>
-            <p>{project.homeSummary}</p>
+            <p>
+                <HighlightedText text={project.homeSummary} highlight={project.homeHighlight} />
+            </p>
             {project.homeCheck ? <p className="home-card__check">{project.homeCheck}</p> : null}
             <ProjectLinks project={project} />
         </article>

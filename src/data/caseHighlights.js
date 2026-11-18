@@ -1,3 +1,4 @@
+import { hlsResult } from "./hlsEvidence.js"
 import { warrantOperationSummary, warrantPerformanceSummary } from "./warrantEvidence"
 
 // 상세 첫 화면의 한 줄 소개
@@ -31,5 +32,5 @@ export const caseResults = {
     warrant: `해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 구현했습니다. ${warrantOperationSummary} 망 분리 구간 연계와 요청 저장 전에 PDF 완료 응답이 도착하는 경우를 검증했습니다. 성능 테스트 환경에서는 ${warrantPerformanceSummary}`,
     defense:
         "폐쇄망에서 수용자 자료 배치, CSRF 검증, Presigned URL 업로드를 확인했습니다. 운영 중단 배치는 이력, 로그, DB로 원인을 찾고 재처리 후 군교정 DB 반영까지 확인했습니다.",
-    webrtc: "HLS 변환 서버와 React 화면을 만들고 팀 시연에서 실시간 시청과 지난 구간 재생을 확인했습니다. 팀 시연 환경에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
+    webrtc: `HLS 변환 서버와 재생 화면을 구현하고 실시간 시청과 지난 구간 재생을 확인했습니다. ${hlsResult}.`,
 }

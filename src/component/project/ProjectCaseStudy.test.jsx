@@ -866,7 +866,7 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     // 교육 프로젝트는 문제 두 건을 모두 대표 사례로 펼친다. 지연 개선 사례에는 처리 순서를 둔다.
     const problems = document.getElementById("project-problems")
     const latencyCase = screen.getByRole("article", {
-        name: "HLS 재생 지연 약 35초 → 약 17초",
+        name: "HLS 재생 지연 약 51% 감소",
     })
     const mediaFlowProblem = screen.getByRole("article", {
         name: "WebRTC 실시간 재생과 HLS 지난 구간 다시보기",
@@ -882,7 +882,7 @@ test("WebRTC/HLS 상세는 RTP 입력부터 실시간 및 다시보기 구현과
     )
 
     expect(screen.getByRole("region", { name: "확인한 범위" })).toHaveTextContent(
-        "약 35초에서 약 17초",
+        "약 35초 → 약 17초",
     )
     expect(
         screen.getByRole("list", { name: "WebRTC/HLS 현장강의 보조 서비스 기술 스택" }),

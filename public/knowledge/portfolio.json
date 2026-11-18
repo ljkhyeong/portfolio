@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:c3512b3b6041",
+  "sourceRevision": "sha256:b5eea2f73bde",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -957,7 +957,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:d48f0543cb90",
+      "sourceRevision": "sha256:b10440fc72ec",
       "documentId": "knowledge_f579b56cda9b70573841bf1d",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -965,12 +965,12 @@
       "documentType": "problem_solution",
       "title": "AI 코드 수정 후 자동 검사",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: AI 에이전트가 긴 작업에서 초기 개발 규칙을 놓칠 수 있어, 파일을 수정할 때마다 검사 결과를 에이전트에 돌려줘야 했습니다.\n\n해결 방법: 토스 기술 블로그의 피드백 루프를 참고해, 파일을 수정하면 ESLint와 컴파일 검사를, 작업을 끝내기 전에는 전체 diff와 ArchUnit 검사를 실행하도록 연결했습니다. 검사 범위는 파일 경로와 확장자로 고르고, 코드 수정과 설계 판단은 작업 중인 에이전트가 맡습니다.\n\n확인: 훅과 수동 명령이 같은 검사기를 사용합니다. 작업 중 커밋과 새 파일 포함, 변경이 없을 때 검사 생략, 반복 수정 요청 제한을 회귀 테스트 16건으로 확인합니다. 이 테스트와 계층 의존 규칙은 CI에서도 실행합니다.\n\n제약과 남은 작업: 자동 검사는 선언한 의존 규칙만 확인합니다. 업무 책임 배분과 과한 추상화는 에이전트가 전체 diff를 보고 판단하며, 검사 선택에는 LLM을 쓰지 않습니다.",
+      "content": "프로젝트: happyGallery\n\n문제: AI 에이전트가 긴 작업에서 초기 개발 규칙을 놓칠 수 있어, 파일을 수정할 때마다 검사 결과를 에이전트에 돌려줘야 했습니다.\n\n해결 방법: 토스 기술 블로그를 참고해 파일 수정 후 ESLint와 컴파일 검사를, 작업 종료 전 전체 diff와 ArchUnit 검사를 자동 실행했습니다. 파일 경로와 확장자로 검사 범위를 정하고 결과를 에이전트에 전달합니다.\n\n확인: 작업 중 커밋과 새 파일의 검사 포함, 변경이 없을 때 검사 생략, 반복 수정 요청 제한을 회귀 테스트 16건으로 확인합니다. 회귀 테스트와 계층 의존 검사는 CI에서도 실행합니다.\n\n제약과 남은 작업: 자동 검사는 선언한 의존 규칙만 확인합니다. 업무 책임 배분과 과한 추상화는 에이전트가 전체 diff를 보고 판단하며, 검사 선택에는 LLM을 쓰지 않습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "d48f0543cb90c2374cb97590f1589c885e91893c3bb1ab4cc42cb9d8e0f1bc8b"
+      "sourceHash": "b10440fc72eceec2d6ff8f43dec06946055589b89d2152f0a2c9ad62f2a5bae8"
     },
     {
       "schemaVersion": "1.0",
@@ -2062,7 +2062,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:94419909165f",
+      "sourceRevision": "sha256:fa87141421bb",
       "documentId": "knowledge_68b8aae29a61744155ed95d8",
       "projectId": "webrtc",
       "projectName": "WebRTC/HLS 현장강의 보조 서비스",
@@ -2070,12 +2070,12 @@
       "documentType": "project_overview",
       "title": "WebRTC/HLS 현장강의 보조 서비스 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n카카오 클라우드 스쿨 3기 / 6인 팀\n\nWebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.\n\n기간: 2023.09.01 — 2023.11.10\n\n구분: 교육 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: mediasoup RTP-HLS 변환 서버와 WebRTC, HLS React 재생 화면 구현\n\n주요 구현 및 해결: 현재 강의는 WebRTC로 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer로 HLS로 변환해 지난 구간 다시보기에 사용했습니다.\n\n확인한 범위: HLS 변환 서버와 React 화면을 만들고 팀 시연에서 실시간 시청과 지난 구간 재생을 확인했습니다. 팀 시연 환경에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.\n\n프로젝트 상태: 2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.\n\n사용 기술: React, WebRTC, HLS, mediasoup, FFmpeg, GStreamer, Node.js",
+      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n카카오 클라우드 스쿨 3기\n\nWebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 재생 화면을 맡았습니다. HLS 재생 지연 약 51% 감소(약 35초 → 약 17초, 팀 시연 환경).\n\n기간: 2023.09.01 — 2023.11.10\n\n구분: 교육 프로젝트\n\n공개 범위: 공개 저장소\n\n담당: mediasoup RTP-HLS 변환 서버와 WebRTC, HLS React 재생 화면 구현\n\n주요 구현 및 해결: 현재 강의는 WebRTC로 재생하고, mediasoup의 RTP 출력은 FFmpeg와 GStreamer로 HLS로 변환해 지난 구간 다시보기에 사용했습니다.\n\n확인한 범위: HLS 변환 서버와 재생 화면을 구현하고 실시간 시청과 지난 구간 재생을 확인했습니다. HLS 재생 지연 약 51% 감소(약 35초 → 약 17초, 팀 시연 환경).\n\n프로젝트 상태: 2023년 교육 팀 프로젝트로 개발과 시연을 완료했습니다. 현재 운영하지 않으며 구현은 공개 저장소에서 확인할 수 있습니다.\n\n사용 기술: React, WebRTC, HLS, mediasoup, FFmpeg, GStreamer, Node.js",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/webrtc#project-overview",
       "route": "/projects/webrtc",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "94419909165f7ffaa42936dc80c56cbf447c409f8d235876d2fb9a30c0486a64"
+      "sourceHash": "fa87141421bbf1b3416a9945d6cb08b2656589582f68770d8197d8923d49b944"
     },
     {
       "schemaVersion": "1.0",
@@ -2096,20 +2096,20 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:667f67f11fb4",
+      "sourceRevision": "sha256:708286c9409a",
       "documentId": "knowledge_8cbeebcfc039daac5cfda854",
       "projectId": "webrtc",
       "projectName": "WebRTC/HLS 현장강의 보조 서비스",
       "serviceId": null,
       "documentType": "problem_solution",
-      "title": "HLS 재생 지연 약 35초 → 약 17초",
+      "title": "HLS 재생 지연 약 51% 감소",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n문제: 초기 설정에서는 RTP 영상이 React HLS 플레이어에서 재생되기까지 약 35초가 걸려, 방금 놓친 강의 구간을 바로 다시 볼 수 없었습니다.\n\n해결 방법: HLS 세그먼트 길이를 줄이고 FFmpeg 인코딩 설정을 조정해 첫 세그먼트가 더 빨리 생성되도록 했습니다.\n\n확인: 같은 시연 흐름에서 RTP 입력부터 React HLS 재생까지 걸리는 시간을 설정 변경 전후로 비교해 약 35초에서 약 17초로 줄어든 것을 확인했습니다.\n\n제약과 남은 작업: 시연 환경에서 측정한 결과이며 네트워크와 기기를 통제한 벤치마크는 아닙니다.",
+      "content": "프로젝트: WebRTC/HLS 현장강의 보조 서비스\n\n문제: 초기 설정에서는 RTP 영상이 React HLS 플레이어에서 재생되기까지 약 35초가 걸려, 방금 놓친 강의 구간을 바로 다시 볼 수 없었습니다.\n\n해결 방법: HLS 세그먼트 길이를 줄이고 FFmpeg 인코딩 설정을 조정해 첫 세그먼트가 더 빨리 생성되도록 했습니다.\n\n확인: RTP 입력부터 React HLS 재생까지의 시간을 설정 변경 전후로 비교했습니다. HLS 재생 지연 약 51% 감소(약 35초 → 약 17초, 팀 시연 환경).\n\n제약과 남은 작업: 시연 환경에서 측정한 결과이며 네트워크와 기기를 통제한 벤치마크는 아닙니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/webrtc#project-problems",
       "route": "/projects/webrtc",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "667f67f11fb4b24adce442ff71fe5f389ef6e6c8d8346912f142cee560719a13"
+      "sourceHash": "708286c9409a9a4fd815e9eb0e396a1a47a2c3d65d8a8378007334b714e7480f"
     }
   ]
 }

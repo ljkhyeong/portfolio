@@ -1,3 +1,5 @@
+import HighlightedText from "../HighlightedText"
+import { hlsImpact } from "../../data/hlsEvidence"
 import { projectOgCardsById } from "../../data/projectOg"
 import { BatonServiceFlowSvg } from "../project/diagrams/BatonServiceFlowDiagram"
 import "../../css/ProjectOg.css"
@@ -111,7 +113,7 @@ const ProjectOgPreview = ({ imageId }) => {
                 <span className="project-og__brand">
                     ljkhyeong<span aria-hidden="true"> / </span>PORTFOLIO
                 </span>
-                <span>백엔드 개발자 임정규</span>
+                <span>풀스택 개발자 임정규</span>
             </header>
             <div className="project-og__body">
                 <section className="project-og__copy">
@@ -127,7 +129,12 @@ const ProjectOgPreview = ({ imageId }) => {
                             <span key={line}>{line}</span>
                         ))}
                     </h1>
-                    <p className="project-og__description">{card.description}</p>
+                    <p className="project-og__description">
+                        <HighlightedText
+                            text={card.description}
+                            highlight={card.id === "webrtc" ? hlsImpact : undefined}
+                        />
+                    </p>
                 </section>
                 <figure className="project-og__visual">
                     <figcaption>{card.caption}</figcaption>

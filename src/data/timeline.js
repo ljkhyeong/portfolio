@@ -1,3 +1,4 @@
+import { hlsImpact } from "./hlsEvidence.js"
 import activity from "./githubActivity.json"
 import { education } from "./profile"
 import { projectSummariesById } from "./projectSummaries"
@@ -12,7 +13,7 @@ const timelineNotes = {
     defense: "3개 기관 수용자 자료 연계 배치 개발과 장애 대응",
     happygallery: "결제사 응답 유실에도 결제와 환불을 중복 없이 처리",
     baton: "Core와 6개 마이크로서비스 구현",
-    webrtc: "팀 시연에서 재생 지연 약 35초 → 약 17초",
+    webrtc: `${hlsImpact}(팀 시연)`,
 }
 
 const ONGOING = "현재"

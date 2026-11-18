@@ -38,8 +38,7 @@ export const homeSkillGroups = [
     {
         id: "ai-development",
         label: "AI 활용",
-        summary:
-            "Codex 훅으로 파일을 수정할 때마다 ESLint와 컴파일 검사를, 작업을 끝내기 전에는 전체 diff와 ArchUnit 검사를 실행합니다.",
+        summary: "AI 에이전트의 코드 수정 후 정적 분석, 컴파일, 아키텍처 검사를 자동 실행합니다.",
         link: { label: "happyGallery 적용 사례", route: "/projects/happygallery#project-problems" },
     },
     {

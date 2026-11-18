@@ -24,13 +24,18 @@ test("개인 프로젝트는 실제 화면과 촬영 조건, 확인한 범위를
     )
     expect(baton).toHaveTextContent("내 할 일 테스트 데이터로 찍은 화면")
     expect(baton).toHaveTextContent("같은 이벤트 ID를 다시 받으면 전송 작업을 새로 만들지 않습니다")
+    for (const project of projectSummaries.filter((item) => item.homeCategory !== "career")) {
+        const article = articleOf(project.title)
+        expect(article.querySelectorAll(".project-impact")).toHaveLength(1)
+        expect(article.querySelector(".project-impact")).toHaveTextContent(project.homeHighlight)
+    }
     expect(baton).toHaveTextContent("확인한 범위")
     expect(baton).toHaveTextContent("배포 환경의 전체 연동은 미검증입니다")
     expect(baton).toHaveTextContent("2026.07 — 현재, 개발 중, 공개 저장소 6개")
 
     const gallery = articleOf("happyGallery")
     expect(gallery).toHaveTextContent("개발 브랜치 디자인과 모의 응답으로 찍은 화면")
-    expect(gallery).toHaveTextContent("네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다")
+    expect(gallery).toHaveTextContent("네이버, Toss, NHN 실제 계정 연동은 미검증입니다")
 })
 
 test("상세 링크와 공개된 저장소 링크를 구분한다", () => {
@@ -93,9 +98,9 @@ test("그 밖의 프로젝트에도 기간, 확인한 범위와 원작 포크 �
     const youth = articleOf("청년정책메이트")
     expect(youth).toHaveTextContent("2026.08 — 현재")
     expect(youth).toHaveTextContent("웹앱입니다")
-    expect(youth).toHaveTextContent("OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다")
+    expect(youth).toHaveTextContent("OAuth, OpenAI, Resend 운영 연동은 미검증입니다")
     expect(articleOf("Hope Commit")).toHaveTextContent("SeungIl 님의 Hope 6.0.0을 포크")
-    expect(articleOf("Hope Commit")).toHaveTextContent("v5.0.2로 공개 릴리스했습니다")
+    expect(articleOf("Hope Commit")).toHaveTextContent("v5.0.2를 공개했습니다")
     // 화면 캡처가 없는 교육 프로젝트는 맡은 처리 흐름을 글자로 보여 준다.
     expect(
         within(articleOf("WebRTC/HLS 현장강의 보조 서비스")).getByRole("img", {

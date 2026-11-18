@@ -1,3 +1,4 @@
+import HighlightedText from "./HighlightedText"
 import { Link } from "react-router-dom"
 import { careers } from "../data/profile"
 import { projectSummariesById } from "../data/projectSummaries"
@@ -40,8 +41,18 @@ const CareerSummary = () => {
                                         .filter(Boolean)
                                         .join(", ")}
                                 </p>
-                                <p>{project.homeSummary}</p>
-                                <p>{project.homeStory}</p>
+                                <p>
+                                    <HighlightedText
+                                        text={project.homeSummary}
+                                        highlight={project.homeHighlight}
+                                    />
+                                </p>
+                                <p>
+                                    <HighlightedText
+                                        text={project.homeStory}
+                                        highlight={project.homeHighlight}
+                                    />
+                                </p>
                                 <p className="home-card__links">
                                     <Link
                                         to={project.route}

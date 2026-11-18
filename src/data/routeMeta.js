@@ -1,12 +1,13 @@
+import { hlsResult } from "./hlsEvidence.js"
 import { projectOgImagesByRoute } from "./projectOg.js"
 import { warrantOperation } from "./warrantEvidence.js"
 
 export const siteUrl = "https://ljkportfolio.netlify.app"
 
 export const defaultRouteMeta = {
-    title: "임정규 | 백엔드 개발자",
+    title: "임정규 | 풀스택 개발자",
     description:
-        "풀스택을 지향하는 주니어 개발자 임정규의 포트폴리오입니다. 해양경찰 KICS의 전자영장 연계 기능, 결제를 연동한 서비스, 마이크로서비스로 분리한 개인 프로젝트를 소개합니다.",
+        "풀스택 개발자 임정규의 포트폴리오입니다. 해양경찰 KICS의 전자영장 연계 기능, 결제를 연동한 서비스, 마이크로서비스로 분리한 개인 프로젝트를 소개합니다.",
     image: "/og-cover.png",
 }
 
@@ -91,8 +92,7 @@ const routeMetaContent = {
     },
     "/projects/webrtc": {
         title: "WebRTC/HLS 현장강의 보조 서비스 | 임정규 포트폴리오",
-        description:
-            "2023년 6인 팀 프로젝트에서 WebRTC 실시간 강의와 HLS 다시보기를 구현하고, 팀 시연 환경에서 HLS 재생 지연을 약 35초에서 약 17초로 줄인 교육 프로젝트",
+        description: `2023년 교육 프로젝트에서 WebRTC 실시간 강의와 HLS 다시보기를 구현했습니다. ${hlsResult}.`,
         image: "/og-cover.png",
     },
     "/search": {
@@ -116,7 +116,7 @@ export const routeMeta = Object.fromEntries(
             image: projectOgImagesByRoute[route] ?? meta.image,
             imageAlt: projectOgImagesByRoute[route]
                 ? `${meta.title.split(" | ")[0]}의 핵심 처리 흐름`
-                : "백엔드 개발자 임정규의 프로젝트 경험을 소개하는 포트폴리오 홈 화면",
+                : "풀스택 개발자 임정규의 프로젝트 경험을 소개하는 포트폴리오 홈 화면",
         },
     ]),
 )

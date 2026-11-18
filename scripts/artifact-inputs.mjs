@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url"
 export const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 
 const runtimeSourceTargets = [
+    "src/data/hlsEvidence.js",
+    "src/component/HighlightedText.jsx",
     "package.json",
     "package-lock.json",
     "vite.config.js",

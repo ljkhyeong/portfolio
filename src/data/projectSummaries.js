@@ -1,3 +1,4 @@
+import { hlsImpact, hlsResult } from "./hlsEvidence.js"
 // 청년정책메이트 범위(공개 main a7f4a69 기준). 로컬 수집은 온통청년 서울 정책의 일부이며,
 // 질문을 제공하는 검토 정책 중 일부는 수집 범위 밖에 있으므로 두 수를 "그중"으로 잇지 않는다.
 export const youthPolicyCoverage = {
@@ -9,6 +10,7 @@ export const youthPolicyCoverage = {
 export const projectSummaries = [
     {
         id: "baton",
+        homeHighlight: "전송 작업을 새로 만들지 않습니다",
         homeCategory: "personal",
         index: "01",
         projectType: "personal",
@@ -27,7 +29,7 @@ export const projectSummaries = [
         homeStory:
             "링크는 멱등 키로 중복 생성을 막습니다. 같은 이벤트 ID를 다시 받으면 전송 작업을 새로 만들지 않습니다. URL 점검 서버의 장애를 대상 URL 장애와 구분하고, 주간 보고서의 변경 이력을 보존합니다.",
         homeCheck:
-            "보고서, 캘린더, 통화 서비스의 Core 연동은 로컬에서 확인했습니다. 배포 환경의 전체 연동은 미검증입니다.",
+            "보고서, 캘린더, 통화는 로컬 연동을 확인했습니다. 배포 환경의 전체 연동은 미검증입니다.",
         coverScreenshot: {
             id: "today",
             src: "baton-core-today.webp",
@@ -77,6 +79,7 @@ export const projectSummaries = [
     },
     {
         id: "warrant",
+        homeHighlight: "SKIP LOCKED로 중복 실행을 막았습니다",
         homeCategory: "career",
         collaboration: "LG CNS 컨소시엄 참여",
         agencyScope: "5개 기관 연계 시스템",
@@ -101,6 +104,7 @@ export const projectSummaries = [
     },
     {
         id: "happygallery",
+        homeHighlight: "결제는 주문 ID로, 환불은 환불 요청의 멱등 키로 결과를 조회합니다",
         homeCategory: "personal",
         index: "02",
         projectType: "personal",
@@ -124,7 +128,7 @@ export const projectSummaries = [
         homeStory:
             "결제사 응답이 유실되면 결제는 주문 ID로, 환불은 환불 요청의 멱등 키로 결과를 조회합니다. 미전송 알림은 Outbox로 재처리하고, 스마트스토어 주문은 수량 변경분만 재고에 반영합니다.",
         homeCheck:
-            "결제 흐름은 모의 결제사 응답으로 통합 테스트했습니다. 네이버, Toss, NHN 실제 계정 연동은 아직 확인하지 않았습니다.",
+            "모의 결제사로 통합 테스트했습니다. 네이버, Toss, NHN 실제 계정 연동은 미검증입니다.",
         coverScreenshot: {
             id: "product-options",
             src: "happygallery-product-options.webp",
@@ -144,6 +148,7 @@ export const projectSummaries = [
     },
     {
         id: "youth-policy-mate",
+        homeHighlight: "신청 가능, 불가, 추가 확인 필요로 안내합니다",
         homeCategory: "more",
         index: "01",
         projectType: "webapp",
@@ -157,7 +162,7 @@ export const projectSummaries = [
         },
         homeSummary: `서울 청년 정책을 검색하고 변경과 마감을 알려 주는 웹앱입니다. 검토한 정책 ${youthPolicyCoverage.questionPolicies}건의 일부 조건을 비교해 신청 가능, 불가, 추가 확인 필요로 안내합니다.`,
         homeCheck:
-            "정책 조회와 조건 판정은 PostgreSQL 통합 테스트로 확인했습니다. OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
+            "정책 조회와 조건 판정은 통합 테스트했습니다. OAuth, OpenAI, Resend 운영 연동은 미검증입니다.",
         coverScreenshot: {
             id: "home",
             src: "youth-policy-mate-home.webp",
@@ -185,6 +190,7 @@ export const projectSummaries = [
     },
     {
         id: "hope-commit",
+        homeHighlight: "리뷰 항목과 변경된 코드 줄을 함께 보여 주는 HTML",
         homeCategory: "more",
         index: "01",
         projectType: "tooling",
@@ -199,7 +205,7 @@ export const projectSummaries = [
         homeSummary:
             "SeungIl 님의 Hope 6.0.0을 포크해 AI 커밋 리뷰를 추가했습니다. 리뷰 항목과 변경된 코드 줄을 함께 보여 주는 HTML을 생성합니다.",
         homeCheck:
-            "Hope Commit v5.0.2로 공개 릴리스했습니다. 변경 범위 밖을 가리키는 리뷰 항목 거절과 자격 증명 제외를 자동화 테스트로 확인했습니다.",
+            "v5.0.2를 공개했습니다. 리뷰의 코드 참조 검증과 자격 증명 제외를 자동화 테스트했습니다.",
         coverScreenshot: {
             id: "review-summary",
             src: "hope-commit-review-summary.webp",
@@ -221,6 +227,7 @@ export const projectSummaries = [
     },
     {
         id: "intent-trace",
+        homeHighlight: "변경 이유와 검증 결과를 커밋, 파일, 줄 단위로 기록",
         homeCategory: "more",
         index: "02",
         projectType: "tooling",
@@ -235,7 +242,7 @@ export const projectSummaries = [
         homeSummary:
             "AI가 바꾼 코드의 변경 이유와 검증 결과를 커밋, 파일, 줄 단위로 기록하는 도구입니다. 웹, IntelliJ, Zed에서 기록을 조회합니다.",
         homeCheck:
-            "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개 릴리스했습니다. PR Check Run 게시와 서버 운영 배포는 아직 확인하지 않았습니다.",
+            "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개했습니다. PR Check Run 게시와 서버 운영 배포는 미검증입니다.",
         coverScreenshot: {
             id: "history",
             src: "intent-trace-history.webp",
@@ -262,6 +269,7 @@ export const projectSummaries = [
     },
     {
         id: "defense",
+        homeHighlight: "DB 반영까지 복구를 맡았습니다",
         homeCategory: "career",
         agencyScope: "국방부 산하 4개 기관 연계 시스템",
         index: "02",
@@ -285,6 +293,7 @@ export const projectSummaries = [
     },
     {
         id: "webrtc",
+        homeHighlight: hlsImpact,
         homeCategory: "more",
         index: "2023 교육 프로젝트",
         projectType: "education",
@@ -294,13 +303,11 @@ export const projectSummaries = [
             label: "HLS GitHub",
             href: "https://github.com/TeamyRoom/TMeRoom-HLSServer",
         },
-        eyebrow: "카카오 클라우드 스쿨 3기 / 6인 팀",
+        eyebrow: "카카오 클라우드 스쿨 3기",
         timelineLabel: "WebRTC/HLS 팀 프로젝트",
-        homeSummary:
-            "카카오 클라우드 스쿨에서 6명이 만든 실시간 강의 서비스입니다. 저는 RTP 영상을 HLS로 변환하는 서버와 React 화면을 맡았습니다.",
+        homeSummary: `실시간 강의와 다시보기를 제공하는 교육 프로젝트입니다. RTP-HLS 변환 서버와 재생 화면을 맡았습니다. ${hlsResult}.`,
         coverText: { text: "RTP → HLS → React", label: "맡은 부분", note: "변환 서버와 재생 화면" },
-        summary:
-            "WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 React 화면을 맡았습니다. 팀 시연에서 HLS 재생 지연을 약 35초에서 약 17초로 줄였습니다.",
+        summary: `WebRTC 실시간 강의와 HLS 다시보기를 제공하는 서비스입니다. RTP-HLS 변환 서버와 재생 화면을 맡았습니다. ${hlsResult}.`,
         period: "2023.09.01 — 2023.11.10",
         route: "/projects/webrtc",
         tags: ["WebRTC", "HLS", "React", "FFmpeg", "GStreamer"],

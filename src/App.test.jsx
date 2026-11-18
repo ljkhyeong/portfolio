@@ -26,7 +26,7 @@ test("프로젝트 목록을 확인하고 BATON 상세로 이동할 수 있다",
     expect(timeline).toHaveTextContent("2026년 9월 28일 개통 후 운영 중")
     // 테스트 개수, 재실행 절차, 비교 기준 없는 처리량은 연표에 쓰지 않는다(2026-10-17 사용자 판단).
     expect(timeline).not.toHaveTextContent(/RPS|자동화 테스트 \d+개|재실행/)
-    expect(document.title).toBe("임정규 | 백엔드 개발자")
+    expect(document.title).toBe("임정규 | 풀스택 개발자")
 
     const projects = screen.getByRole("region", { name: "개인 프로젝트" })
     const more = screen.getByRole("region", { name: "그 밖의 프로젝트" })
@@ -539,7 +539,7 @@ test("WebRTC/HLS 상세는 담당 흐름, 문제 해결과 확인 결과를 보�
     expect(screen.getByRole("heading", { name: "문제와 해결 방법" })).toBeInTheDocument()
     expect(
         screen.getByRole("heading", {
-            name: "HLS 재생 지연 약 35초 → 약 17초",
+            name: "HLS 재생 지연 약 51% 감소",
         }),
     ).toBeInTheDocument()
 })
