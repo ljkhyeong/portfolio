@@ -1,8 +1,8 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/e-warrant.png",
-    "sourceSha256": "58b045ed96ee815f79fdfbcd864b623cf3c0f543f009f667c8bf21627c76af6a",
-    "artifactSha256": "dc8b96e1f10f6c7f554a648f065b092cb564cbc24745ed550c6e6d587ca65b98",
+    "sourceSha256": "d346f96747340bfba733423f8f374ce43081c367b04b662a9cdea149cf7b57bf",
+    "artifactSha256": "5cd0a17cd4d013f859dd005fc3913580a599fd1dc5f7e0bfcb5c4501cca3d620",
     "renderer": {
         "id": "chrome",
         "name": "Chrome 또는 Chromium",

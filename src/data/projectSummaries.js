@@ -1,3 +1,4 @@
+import { warrantTelecomStatus } from "./warrantEvidence.js"
 import { hlsImpact, hlsResult } from "./hlsEvidence.js"
 // 청년정책메이트 범위(공개 main a7f4a69 기준). 로컬 수집은 온통청년 서울 정책의 일부이며,
 // 질문을 제공하는 검토 정책 중 일부는 수집 범위 밖에 있으므로 두 수를 "그중"으로 잇지 않는다.
@@ -90,11 +91,12 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 해양경찰 KICS 전자영장 연계",
         timelineLabel: "전송형 전자영장",
-        homeSummary: "해양경찰 KICS와 영장집행포털을 연결하는 API와 배치 작업을 개발합니다.",
+        homeSummary: "해양경찰 KICS의 영장집행포털 연계 API, 배치와 통신사 연계를 구현했습니다.",
         summary:
-            "법무부, 공수처, 검찰, 경찰, 해양경찰 5개 기관의 전자영장 업무를 연계하는 시스템입니다. 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch)를 개발합니다. 영장집행포털은 5개 기관과 피집행기관을 연결하고, 해양경찰 쪽 연계는 KICS 서버와 분리된 이중화 연계 서버가 처리합니다.",
+            "법무부, 공수처, 검찰, 경찰, 해양경찰 5개 기관의 전자영장 업무를 연계하는 시스템입니다. 해양경찰 KICS의 영장집행포털 연계 API, 배치와 EAI/SFTP 기반 3통신사 연계를 구현했습니다. 영장집행포털은 5개 기관과 피집행기관을 연결하고, 해양경찰 쪽 연계는 KICS 서버와 분리된 이중화 연계 서버가 처리합니다.",
         homeStory:
             "이중화 연계 서버에서 SKIP LOCKED로 중복 실행을 막았습니다. 외부 API는 트랜잭션 밖에서 호출하고, 중단된 작업은 설정한 시간이 지나면 재처리합니다.",
+        homeCheck: warrantTelecomStatus,
         period: "2026.03.24 — 현재",
         route: "/projects/e-warrant",
         tags: ["Java 11", "Spring Boot 2.6", "Spring Batch", "Oracle Database", "WebSquare"],

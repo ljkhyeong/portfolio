@@ -14,3 +14,12 @@ export const warrantOperation = {
 }
 
 export const warrantOperationSummary = `시스템은 ${warrantOperation.openedOn} 개통해 운영 중입니다.`
+
+// 추가 연계의 개발 상태와 일정은 사용자 확인(2026-11-18) 기준이다.
+export const warrantTelecom = {
+    plannedOpening: "2026년 11월 27일",
+    implementation:
+        "업무 DB의 요청정보로 XML을 생성하고, 회신 XML을 파싱해 업무 테이블에 반영했습니다. 회신 파일의 압축 해제와 업로드도 구현했습니다.",
+}
+
+export const warrantTelecomStatus = `별정통신사 연계는 개발을 완료하고 통신사와 테스트 중입니다. ${warrantTelecom.plannedOpening} 오픈 예정입니다.`

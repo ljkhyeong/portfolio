@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/hope-commit.png",
-    "sourceSha256": "58b045ed96ee815f79fdfbcd864b623cf3c0f543f009f667c8bf21627c76af6a",
+    "sourceSha256": "d346f96747340bfba733423f8f374ce43081c367b04b662a9cdea149cf7b57bf",
     "artifactSha256": "77f93e3b9cbeb29c21e48646fc63eabb1fe0ade73717f5c579a58885c5d1c083",
     "renderer": {
         "id": "chrome",

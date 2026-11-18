@@ -1,6 +1,11 @@
 import { hlsImpact, hlsResult } from "./hlsEvidence.js"
 import { projectSummaries, projectSummariesById, youthPolicyCoverage } from "./projectSummaries"
-import { warrantPerformance, warrantPerformanceSummary } from "./warrantEvidence"
+import {
+    warrantPerformance,
+    warrantPerformanceSummary,
+    warrantTelecom,
+    warrantTelecomStatus,
+} from "./warrantEvidence"
 
 const projects = [
     {
@@ -1941,11 +1946,11 @@ const projects = [
     {
         ...projectSummariesById.warrant,
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "해양경찰 형사사법정보시스템(KICS) 쪽에서 영장집행포털과 연계하는 기능과 배치(Spring Batch) 구현",
+        role: "해양경찰 KICS의 영장집행포털 연계 API, 배치와 통신사 연계 구현",
         oneLine: "해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치를 구현했습니다.",
         status: {
-            label: "공개 범위",
-            text: "BEINTECH 소속으로 LG CNS 컨소시엄에 참여 중입니다. 담당 연계 구조, 역할과 성능 테스트 요약을 공개하며 접속 주소, 설정, 소스, 운영 데이터와 내부 문서는 제외했습니다.",
+            label: "별정통신사 추가 연계",
+            text: warrantTelecomStatus,
         },
         systemTitle: "해양경찰 KICS와 기관 간 자료 연계 흐름",
         systemNavLabel: "업무 흐름",
@@ -1996,6 +2001,16 @@ const projects = [
                 validation: warrantPerformanceSummary,
                 boundary:
                     "서버가 중단되면 해당 작업은 설정한 경과 시간과 점검 주기가 지난 뒤에 재처리됩니다.",
+            },
+            {
+                number: "05",
+                title: "EAI/SFTP 기반 3통신사 자료 연계",
+                constraint: "업무 DB의 요청정보와 통신사의 XML, 회신 파일을 연계해야 했습니다.",
+                decision:
+                    "EAI 연계 서버를 거치는 SFTP 송수신 구조에 맞춰 XML과 파일 처리를 구현했습니다.",
+                validation: warrantTelecom.implementation,
+                boundary:
+                    "기존 3통신사 연계의 구현 범위입니다. 별정통신사 연계는 추가 개발분입니다.",
             },
         ],
         stack: [
