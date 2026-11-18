@@ -1,13 +1,11 @@
-// 맡은 부분은 해양경찰 쪽 연계 기능과 배치다. 연계는 KICS 서버와 분리된 해양경찰 연계 서버(이중화)가 처리한다.
-// 5개 기관 연계 시스템은 영장집행포털이며, 5개 기관과 피집행기관(금융기관, 통신사)을 연결한다
-// (2026-10-11~12 사용자 정정). 포털은 맡은 부분이 아니므로 강조하지 않는다.
+// 집행포털은 전자영장 시스템의 다른 명칭이다. 도식은 해양경찰 KICS 연계 흐름을 보여 준다.
 const WarrantIntegrationDiagram = () => (
     <figure className="editorial-diagram warrant-integration">
         <figcaption className="editorial-diagram__header">
-            <h3 className="editorial-diagram__title">해양경찰 연계 서버와 영장집행포털</h3>
+            <h3 className="editorial-diagram__title">해양경찰 KICS와 전자영장 시스템</h3>
             <p>
                 해양경찰 쪽 연계 기능과 배치를 맡았습니다. KICS 서버와 분리된 이중화 연계 서버가
-                영장집행포털과 연계하고, 포털이 5개 기관과 피집행기관을 연결합니다.
+                전자영장 시스템과 연계하고, 전자영장 시스템이 5개 기관과 피집행기관을 연결합니다.
             </p>
         </figcaption>
         <div
@@ -24,9 +22,9 @@ const WarrantIntegrationDiagram = () => (
             >
                 <title id="warrant-integration-title">해양경찰 KICS와 기관 간 자료 연계 흐름</title>
                 <desc id="warrant-integration-desc">
-                    KICS 서버와 분리된 해양경찰 연계 서버가 영장집행포털로 자료 제공 요청을 보내고
-                    제출 자료를 받습니다. 영장집행포털은 5개 기관과 피집행기관을 연결하는 연계
-                    시스템으로, 금융기관과 통신사에 요청을 전달하고 제출 자료를 받습니다. 맡은
+                    KICS 서버와 분리된 해양경찰 연계 서버가 전자영장 시스템으로 자료 제공 요청을
+                    보내고 제출 자료를 받습니다. 전자영장 시스템은 5개 기관과 피집행기관을 연결하는
+                    연계 시스템으로, 금융기관과 통신사에 요청을 전달하고 제출 자료를 받습니다. 맡은
                     부분은 해양경찰 쪽 연계 기능과 배치입니다.
                 </desc>
                 <defs>
@@ -385,10 +383,10 @@ const WarrantIntegrationDiagram = () => (
                         </text>
                         <text className="editorial-diagram__node-title" x="528" y="176">
                             <tspan x="528" dy="0">
-                                영장집행
+                                전자영장
                             </tspan>
                             <tspan x="528" dy="28">
-                                포털
+                                시스템
                             </tspan>
                         </text>
                         <line

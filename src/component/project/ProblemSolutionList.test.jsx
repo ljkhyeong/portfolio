@@ -9,6 +9,7 @@ const problems = [
     {
         number: "01",
         title: "중복 요청을 한 번만 처리한다",
+        highlights: { decision: "멱등 키" },
         constraint: "같은 요청이 동시에 들어올 수 있습니다.",
         decision: "멱등 키로 처리 결과를 재사용합니다.",
         validation: "동시 요청 테스트에서 결과가 한 건만 생성됐습니다.",
@@ -42,7 +43,8 @@ test("다른 문제 해결은 번호와 제목만 펼쳐 두고 누르면 네 �
     ;["문제", "방법", "확인", "한계"].forEach((term) =>
         expect(within(firstDetails).getByText(term)).toBeVisible(),
     )
-    expect(within(firstDetails).getByText("멱등 키로 처리 결과를 재사용합니다.")).toBeVisible()
+    expect(firstDetails.querySelector("strong.project-impact")).toHaveTextContent("멱등 키")
+    expect(firstDetails).toHaveTextContent("멱등 키로 처리 결과를 재사용합니다.")
 })
 
 test("대표 사례는 네 칸을 펼쳐 보여주고, 처리 순서가 있는 사례에 순서와 한 문장을 둔다", () => {

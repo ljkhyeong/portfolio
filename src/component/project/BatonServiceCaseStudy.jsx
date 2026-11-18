@@ -1,3 +1,4 @@
+import HighlightedText from "../HighlightedText"
 import { Link } from "react-router-dom"
 import { batonServicesById, projectsById } from "../../data/projects"
 import { batonServicePresentations } from "../../data/batonServicePresentation"
@@ -180,7 +181,9 @@ const BatonServiceCaseStudy = ({ serviceId }) => {
                                 className={`baton-service-status__item baton-service-status__item--${item.kind}`}
                             >
                                 <dt>{item.label}</dt>
-                                <dd>{item.text}</dd>
+                                <dd>
+                                    <HighlightedText text={item.text} highlight={item.highlight} />
+                                </dd>
                             </div>
                         ))}
                     </dl>

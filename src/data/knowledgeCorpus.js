@@ -110,6 +110,12 @@ const createProjectOverview = (project, caseResult) =>
             labeledContent("공개 범위", project.visibility),
             labeledContent("담당", project.role),
             labeledContent("주요 구현 및 해결", project.oneLine),
+            ...(project.implementations ?? []).map((item) =>
+                labeledContent(
+                    `담당 구현: ${item.title}`,
+                    joinContent([item.description, item.detail, item.note]),
+                ),
+            ),
             labeledContent("확인한 범위", caseResult),
             labeledContent(project.status?.label, project.status?.text),
             labeledContent("사용 기술", project.stack?.join(", ")),

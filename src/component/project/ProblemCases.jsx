@@ -1,3 +1,4 @@
+import HighlightedText from "../HighlightedText"
 import { useId } from "react"
 import ProjectScreenshotGallery from "../ProjectScreenshotGallery"
 import "../../css/ProblemCases.css"
@@ -62,7 +63,12 @@ const ProblemCase = ({ project, problem, featured, flip }) => {
                     {caseFields.map(([term, field]) => (
                         <div key={field}>
                             <dt>{term}</dt>
-                            <dd>{problem[field]}</dd>
+                            <dd>
+                                <HighlightedText
+                                    text={problem[field]}
+                                    highlight={problem.highlights?.[field]}
+                                />
+                            </dd>
                         </div>
                     ))}
                 </dl>

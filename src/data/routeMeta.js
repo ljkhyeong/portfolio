@@ -57,7 +57,7 @@ const routeMetaContent = {
     },
     "/projects/e-warrant": {
         title: "전송형 전자영장 시스템 | 임정규 포트폴리오",
-        description: `BEINTECH 소속으로 LG CNS 컨소시엄에 참여한 전자영장 시스템(${warrantOperation.openedOn} 개통)에서 해양경찰 KICS의 포털 연계 API, 배치와 EAI/SFTP 기반 3통신사 연계를 구현한 경력 사례`,
+        description: `BEINTECH 소속으로 LG CNS 컨소시엄에 참여한 전자영장 시스템(${warrantOperation.openedOn} 개통)에서 해양경찰 KICS 연계 API와 배치, 3통신사 자료 연계 및 별정통신사 발송과 재처리를 구현한 경력 사례`,
         image: "/og-cover.png",
     },
     "/projects/happygallery": {

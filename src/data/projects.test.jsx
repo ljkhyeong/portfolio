@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { caseResults } from "./caseHighlights"
+import { caseResults, caseResultHighlights } from "./caseHighlights"
 import { careers } from "./profile"
 import { projectSummaries, projectSummariesById } from "./projectSummaries"
 import {
@@ -18,6 +18,14 @@ describe("project summary data", () => {
         projectSummaries.forEach((summary) => {
             expect(projectsById[summary.id]).toMatchObject(summary)
             expect(projectSummariesById[summary.id]).toBe(summary)
+            expect(caseResults[summary.id]).toContain(caseResultHighlights[summary.id])
+            for (const problem of projectsById[summary.id].problems) {
+                for (const [field, highlight] of Object.entries(problem.highlights ?? {})) {
+                    expect(problem[field], `${summary.id} ${problem.number} ${field}`).toContain(
+                        highlight,
+                    )
+                }
+            }
         })
     })
 

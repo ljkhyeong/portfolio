@@ -208,3 +208,38 @@ main.case-showcase .prior-case > header .case-hero-facts {
         white-space: normal;
     }
 }
+
+.case-implementations {
+    margin: 64px 0;
+    scroll-margin-top: 96px;
+}
+
+.case-implementations__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 32px 64px;
+}
+
+.case-implementations__item {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+}
+
+.case-implementations__item h3 {
+    margin: 0 0 16px;
+    font-size: 22px;
+    line-height: 1.4;
+    word-break: keep-all;
+}
+
+.case-implementations__item p {
+    margin: 12px 0 0;
+    font-size: 16px;
+    line-height: 1.75;
+    word-break: keep-all;
+}
+
+.case-implementations__item .case-implementations__note {
+    color: var(--muted);
+    font-size: 14px;
+}

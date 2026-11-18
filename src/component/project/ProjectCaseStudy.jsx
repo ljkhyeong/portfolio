@@ -1,3 +1,4 @@
+import HighlightedText from "../HighlightedText"
 import { Link } from "react-router-dom"
 import { educationCaseStudies, navigableCaseStudies, projectsById } from "../../data/projects"
 import { caseResults, caseIntroductions } from "../../data/caseHighlights"
@@ -298,13 +299,16 @@ const CaseDocuments = ({ documentGroups, documents }) => {
     )
 }
 
-const projectSections = ({ hasArchitecture, hasDocuments, systemNavLabel }) => [
+const projectSections = ({ hasArchitecture, hasDocuments, hasImplementations, systemNavLabel }) => [
     { id: "project-overview", label: "개요", mobileLabel: "개요" },
     {
         id: "project-system",
         label: systemNavLabel ?? "대표 화면",
         mobileLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
     },
+    ...(hasImplementations
+        ? [{ id: "project-implementations", label: "담당 구현", mobileLabel: "구현" }]
+        : []),
     { id: "project-problems", label: "문제 해결", mobileLabel: "문제" },
     ...(hasArchitecture
         ? [{ id: "project-architecture", label: "구현 방법", mobileLabel: "방법" }]
@@ -497,9 +501,44 @@ const ProjectCaseStudy = ({ projectId }) => {
                     sections={projectSections({
                         hasArchitecture,
                         hasDocuments,
+                        hasImplementations: Boolean(project.implementations?.length),
                         systemNavLabel: project.systemNavLabel,
                     })}
                 />
+
+                {project.implementations?.length > 0 ? (
+                    <section
+                        className="case-implementations"
+                        id="project-implementations"
+                        aria-labelledby="implementations-title"
+                    >
+                        <div className="case-section-heading">
+                            <h2 id="implementations-title">담당 구현</h2>
+                        </div>
+                        <div className="case-implementations__grid">
+                            {project.implementations.map((item) => (
+                                <div className="case-implementations__item" key={item.title}>
+                                    <h3>{item.title}</h3>
+                                    <p>
+                                        <HighlightedText
+                                            text={item.description}
+                                            highlight={item.highlight}
+                                        />
+                                    </p>
+                                    <p>
+                                        <HighlightedText
+                                            text={item.detail}
+                                            highlight={item.detailHighlight}
+                                        />
+                                    </p>
+                                    {item.note ? (
+                                        <p className="case-implementations__note">{item.note}</p>
+                                    ) : null}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                ) : null}
 
                 <section
                     className="case-problems"

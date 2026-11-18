@@ -3,6 +3,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
+                highlight: "같은 요청 8건의 동시 처리",
                 label: "확인한 것",
                 text: "같은 요청 8건의 동시 처리, Redis 공유 요청률 제한과 HMAC 키 교체를 확인했습니다.",
             },
@@ -36,6 +37,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
+                highlight: "이전 URL 버전의 늦은 결과 차단",
                 label: "확인한 것",
                 text: "사설망 접근과 DNS 리바인딩 차단, 중단된 점검 재실행, 이전 URL 버전의 늦은 결과 차단을 테스트했습니다. 필수값이 빠진 점검 결과와 전달 결과는 DB 제약으로 저장을 거부합니다.",
             },
@@ -68,6 +70,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
+                highlight: "이벤트 중복 수신 차단",
                 label: "확인한 것",
                 text: "이벤트 중복 수신 차단, 중단 후 시도 UUID와 멱등 키 유지를 검증했습니다.",
             },
@@ -102,6 +105,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
+                highlight: "지난주 미해결 항목이 이월되고 신규 항목과 해결 항목이 구분",
                 label: "확인한 것",
                 text: "점검 상태 반영과 보고서 이력을 테스트했습니다. 지난주 미해결 항목이 이월되고 신규 항목과 해결 항목이 구분되는지 확인했습니다.",
             },
@@ -135,6 +139,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
+                highlight: "DB 복원 뒤 전체 일정을 다시 받는 복구 절차",
                 label: "확인한 것",
                 text: "Core 교차 테스트 5개 통과와 HTTP 캐시 응답(304)을 확인했습니다. DB 복원 뒤 전체 일정을 다시 받는 복구 절차는 로컬 검증 기록으로 확인했습니다.",
             },
@@ -168,6 +173,7 @@ export const batonServicePresentations = {
         verification: [
             {
                 kind: "verified",
+                highlight: "가상 장치로 두 명의 통화, 채팅과 화면 공유",
                 label: "확인한 것",
                 text: "공개 main eb664d7의 로컬 Chrome에서 가상 장치로 두 명의 통화, 채팅과 화면 공유를 확인했습니다. Chromium과 WebKit 브라우저 테스트, BATON 연동 CI 통과 기록은 이전 main a43c6f5 기준입니다.",
             },

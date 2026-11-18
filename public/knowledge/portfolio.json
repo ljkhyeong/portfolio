@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:fcf1b1499bfa",
+  "sourceRevision": "sha256:08da2ecc43a0",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -583,7 +583,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:a864e77ce0dc",
+      "sourceRevision": "sha256:33636e77631b",
       "documentId": "knowledge_a7c844f9619aa89663f2d166",
       "projectId": "warrant",
       "projectName": "전송형 전자영장 시스템",
@@ -591,12 +591,12 @@
       "documentType": "project_overview",
       "title": "전송형 전자영장 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 해양경찰 KICS 전자영장 연계\n\n법무부, 공수처, 검찰, 경찰, 해양경찰 5개 기관의 전자영장 업무를 연계하는 시스템입니다. 해양경찰 KICS의 영장집행포털 연계 API, 배치와 EAI/SFTP 기반 3통신사 연계를 구현했습니다. 영장집행포털은 5개 기관과 피집행기관을 연결하고, 해양경찰 쪽 연계는 KICS 서버와 분리된 이중화 연계 서버가 처리합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 해양경찰 KICS의 영장집행포털 연계 API, 배치와 통신사 연계 구현\n\n주요 구현 및 해결: 해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치를 구현했습니다.\n\n확인한 범위: 해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 구현했습니다. 시스템은 2026년 9월 28일 개통해 운영 중입니다. 망 분리 구간 연계와 요청 저장 전에 PDF 완료 응답이 도착하는 경우를 검증했습니다. 성능 테스트 환경에서는 100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류, DB 잠금 문제 없이 전량 처리했습니다.\n\n별정통신사 추가 연계: 별정통신사 연계는 개발을 완료하고 통신사와 테스트 중입니다. 2026년 11월 27일 오픈 예정입니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
+      "content": "프로젝트: 전송형 전자영장 시스템\n\nBEINTECH / LG CNS 컨소시엄 / 해양경찰 KICS 전자영장 연계\n\n5개 기관과 금융기관, 통신사를 연결하는 전송형 전자영장 시스템입니다. 해양경찰 KICS 연계 API와 배치, EAI/SFTP 기반 3통신사 연계를 구현했습니다. 추가 개발한 별정통신사 모듈은 통신사별 요청 발송과 실패 건 재처리를 담당합니다.\n\n기간: 2026.03.24 — 현재\n\n구분: BEINTECH / LG CNS 컨소시엄 공공 SI\n\n공개 범위: 담당 구현과 테스트 요약 공개\n\n담당: 해양경찰 KICS 연계 API와 배치, 3통신사 및 별정통신사 연계 구현\n\n주요 구현 및 해결: 해양경찰 KICS 연계 API와 배치, 통신사 요청 발송과 실패 건 재처리를 구현했습니다.\n\n담당 구현: 3통신사 자료 송수신: EAI 연계 서버를 통한 SFTP 방식으로 요청과 회신 자료를 처리했습니다.\n\n업무 DB의 요청정보로 XML을 생성하고, 회신 XML을 파싱해 업무 테이블에 반영했습니다. 회신 파일의 압축 해제와 업로드도 구현했습니다.\n\n담당 구현: 별정통신사 요청 발송과 재처리: 통화내역과 위치추적 시작, 중지 요청을 통신사별 파일/API 규격에 맞춰 발송하도록 구현했습니다.\n\n요청 파일은 완성 후 송신 경로로 옮기고, 실패 건은 화면에서 요청서 전체 또는 대상별로 재처리합니다.\n\n응답과 결과 파일 수집은 별도 배치 담당 범위입니다.\n\n확인한 범위: 해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 구현했습니다. 시스템은 2026년 9월 28일 개통해 운영 중입니다. 망 분리 구간 연계와 요청 저장 전에 PDF 완료 응답이 도착하는 경우를 검증했습니다. 성능 테스트 환경에서는 100 RPS·300 TPS 부하로 1시간 테스트해 커넥션 풀 고갈, 오류, DB 잠금 문제 없이 전량 처리했습니다.\n\n별정통신사 추가 연계: 별정통신사 연계는 개발을 완료하고 통신사와 테스트 중입니다. 2026년 11월 27일 오픈 예정입니다.\n\n사용 기술: Java 11, Spring Boot 2.6, Spring Batch, Oracle Database, WebSquare, Maven",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/e-warrant#project-overview",
       "route": "/projects/e-warrant",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "a864e77ce0dccdbb5f8d94fa78ae6605bfc1224de6b7e41663c7a7553034a589"
+      "sourceHash": "33636e77631b0662cb21c48d88c0bddaaf5910327581bbc253b2fa97f84d7240"
     },
     {
       "schemaVersion": "1.0",
@@ -665,23 +665,6 @@
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
       "sourceHash": "dee2e921e8ec81af6058af1bf2bbd02481f2d85b05a2f58210c8d21260d996cb"
-    },
-    {
-      "schemaVersion": "1.0",
-      "sourceRevision": "sha256:2d87733f5258",
-      "documentId": "knowledge_4050d841f1adfb1a4debbfd5",
-      "projectId": "warrant",
-      "projectName": "전송형 전자영장 시스템",
-      "serviceId": null,
-      "documentType": "problem_solution",
-      "title": "EAI/SFTP 기반 3통신사 자료 연계",
-      "heading": "문제와 해결 방법",
-      "content": "프로젝트: 전송형 전자영장 시스템\n\n문제: 업무 DB의 요청정보와 통신사의 XML, 회신 파일을 연계해야 했습니다.\n\n해결 방법: EAI 연계 서버를 거치는 SFTP 송수신 구조에 맞춰 XML과 파일 처리를 구현했습니다.\n\n확인: 업무 DB의 요청정보로 XML을 생성하고, 회신 XML을 파싱해 업무 테이블에 반영했습니다. 회신 파일의 압축 해제와 업로드도 구현했습니다.\n\n제약과 남은 작업: 기존 3통신사 연계의 구현 범위입니다. 별정통신사 연계는 추가 개발분입니다.",
-      "sourceUrl": "https://ljkportfolio.netlify.app/projects/e-warrant#project-problems",
-      "route": "/projects/e-warrant",
-      "visibility": "public",
-      "evidenceLevel": "portfolio_detail",
-      "sourceHash": "2d87733f52588efb30aaa3827c3c9e32aebcd83748ade29582d9d3d3bd2b680c"
     },
     {
       "schemaVersion": "1.0",

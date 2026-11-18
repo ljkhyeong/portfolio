@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
-import { caseResults } from "../../data/caseHighlights"
+import { caseResults, caseResultHighlights } from "../../data/caseHighlights"
 import { projectsById } from "../../data/projects"
 import { formatPeriod } from "../../data/timeline"
 import BatonServiceCaseStudy from "./BatonServiceCaseStudy"
@@ -30,9 +30,13 @@ test.each([
         caseResults[projectId],
     )
     expect(screen.queryByLabelText("프로젝트 핵심 요약")).not.toBeInTheDocument()
+    expect(
+        screen.getByRole("region", { name: "확인한 범위" }).querySelector("strong.project-impact"),
+    ).toHaveTextContent(caseResultHighlights[projectId])
     const problems = document.getElementById("project-problems")
     const system = document.getElementById("project-system")
     expect(within(problems).getAllByRole("article").length).toBeGreaterThan(0)
+    expect(problems.querySelector("strong.project-impact")).not.toBeNull()
     expect(system.compareDocumentPosition(problems) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(screen.getByRole("main")).toHaveClass("case-showcase")
     const navigation = screen.getByRole("navigation", { name: "프로젝트 상세 탐색" })
@@ -474,6 +478,20 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     renderWithRouter(<ProjectCaseStudy projectId="warrant" />)
 
     expect(screen.getByText("5개 기관 연계 시스템")).toBeInTheDocument()
+    const implementations = screen.getByRole("region", { name: "담당 구현" })
+    expect(
+        within(implementations).getByRole("heading", { name: "3통신사 자료 송수신" }),
+    ).toBeVisible()
+    expect(
+        within(implementations).getByRole("heading", { name: "별정통신사 요청 발송과 재처리" }),
+    ).toBeVisible()
+    expect(implementations).toHaveTextContent("요청서 전체 또는 대상별로 재처리")
+    expect(implementations.querySelector("dl")).toBeNull()
+    expect(document.getElementById("project-problems")).not.toHaveTextContent("3통신사 자료 송수신")
+    expect(document.getElementById("project-problems")).not.toHaveTextContent(
+        "별정통신사 요청 발송과 재처리",
+    )
+
     expect(screen.getByText(/법무부, 공수처, 검찰, 경찰, 해양경찰/)).toBeInTheDocument()
     expect(screen.getByText("경력 프로젝트 01 / 02")).toBeInTheDocument()
     expect(
@@ -483,7 +501,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         screen.getByRole("heading", { name: "해양경찰 KICS와 기관 간 자료 연계 흐름" }),
     ).toBeInTheDocument()
     const integrationDiagram = screen.getByRole("img", {
-        name: /해양경찰 KICS와 기관 간 자료 연계 흐름.*KICS 서버와 분리된 해양경찰 연계 서버가 영장집행포털로.*5개 기관과 피집행기관을 연결/,
+        name: /해양경찰 KICS와 기관 간 자료 연계 흐름.*KICS 서버와 분리된 해양경찰 연계 서버가 전자영장 시스템으로.*5개 기관과 피집행기관을 연결/,
     })
 
     expect(integrationDiagram).toBeInTheDocument()
@@ -493,7 +511,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
             ".warrant-integration__nodes > .editorial-diagram__node",
         ),
     ).toHaveLength(5)
-    // 맡은 부분은 해양경찰 연계 서버 쪽이다. 5개 기관 연계 시스템인 영장집행포털을 강조 노드로 그리지 않는다.
+    // 맡은 부분은 해양경찰 연계 서버 쪽이다. 5개 기관 연계 시스템인 전자영장 시스템을 강조 노드로 그리지 않는다.
     const focalNode = integrationDiagram.querySelector(".editorial-diagram__node--focal")
     expect(focalNode).toHaveTextContent("해양경찰")
     expect(focalNode).toHaveTextContent("연계 서버")
@@ -501,7 +519,7 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
     expect(focalNode).not.toHaveTextContent("포털")
     expect(
         screen.getByRole("heading", {
-            name: "해양경찰 연계 서버와 영장집행포털",
+            name: "해양경찰 KICS와 전자영장 시스템",
             level: 3,
         }),
     ).toBeInTheDocument()
@@ -671,6 +689,12 @@ test.each([
     ],
 ])("BATON %s 상세 상단은 %s의 서비스 목적을 먼저 설명한다", (id, name, summary, detail) => {
     renderWithRouter(<BatonServiceCaseStudy serviceId={id} />)
+    expect(
+        document.getElementById("service-verification").querySelector("strong.project-impact"),
+    ).not.toBeNull()
+    expect(
+        document.getElementById("service-problems").querySelector("strong.project-impact"),
+    ).not.toBeNull()
 
     const navigation = screen.getByRole("navigation", { name: "BATON 서비스 상세 탐색" })
     const brand = within(navigation).getByRole("link", { name: "임정규 포트폴리오 홈" })

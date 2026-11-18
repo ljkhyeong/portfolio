@@ -16,12 +16,12 @@ export const projectOgCards = [
         route: "/projects/e-warrant",
         title: ["전송형", "전자영장 시스템"],
         category: "경력 프로젝트 / LG CNS 컨소시엄 / 5개 기관 연계 / 운영 중",
-        description: "해양경찰 KICS의 포털 연계 API, 배치와\n통신사 연계를 구현했습니다.",
-        caption: "해양경찰 연계 서버와 영장집행포털",
+        description: "해양경찰 KICS 연계 API, 배치와\n통신사 연계를 구현했습니다.",
+        caption: "해양경찰 KICS와 전자영장 시스템",
         steps: [
             ["해양경찰 KICS 서버", "영장과 자료 요청"],
             ["해양경찰 연계 서버", "맡은 부분, 연계 기능과 배치"],
-            ["영장집행포털", "5개 기관과 피집행기관 연결"],
+            ["전자영장 시스템", "5개 기관과 피집행기관 연결"],
         ],
     },
     {

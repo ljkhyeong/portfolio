@@ -671,6 +671,7 @@ const projects = [
                 number: "02",
                 serviceIds: ["core"],
                 title: "인수인계 수락과 담당자 변경을 함께 저장",
+                highlights: { decision: "수락 시 담당자와 기간을 한 트랜잭션에서 바꾸고" },
                 constraint:
                     "수락과 담당자 변경을 따로 저장하면 수락 후에도 이전 담당자가 남을 수 있었습니다.",
                 decision:
@@ -683,6 +684,10 @@ const projects = [
                 number: "03",
                 serviceIds: ["go"],
                 title: "같은 링크 요청은 1건만 저장",
+                highlights: {
+                    validation:
+                        "같은 요청 8건을 동시에 보내도 링크와 링크 생성 처리 기록이 각각 1건만 생성",
+                },
                 constraint:
                     "저장 후 응답이 유실되거나 여러 서버가 같은 요청을 동시에 받으면 링크가 중복 생성될 수 있습니다.",
                 decision:
@@ -709,6 +714,7 @@ const projects = [
                 number: "05",
                 serviceIds: ["watch"],
                 title: "URL 점검의 트랜잭션 분리와 과거 결과 차단",
+                highlights: { decision: "만료된 시도와 과거 URL의 결과는 버립니다" },
                 constraint:
                     "느린 URL 점검이 DB 커넥션을 오래 점유하고 늦은 결과가 최신 상태를 덮을 수 있었습니다.",
                 decision:
@@ -722,6 +728,7 @@ const projects = [
                 number: "06",
                 serviceIds: ["watch"],
                 title: "미전송 URL 상태 이벤트 재처리",
+                highlights: { decision: "상태 변경과 이벤트를 한 트랜잭션에 저장" },
                 constraint:
                     "URL 상태는 저장됐지만 Core 전달 호출이 실패하면 두 시스템이 서로 다른 상태를 볼 수 있었습니다.",
                 decision:
@@ -734,6 +741,7 @@ const projects = [
                 number: "07",
                 serviceIds: ["relay"],
                 title: "응답 유실 시 중복 전송 방지",
+                highlights: { validation: "같은 시도 UUID와 외부 서비스 멱등 키를 유지" },
                 constraint:
                     "외부 전송 뒤 응답이 유실되면 성공 여부를 모른 채 중복 전송할 수 있었습니다.",
                 decision:
@@ -747,6 +755,7 @@ const projects = [
                 number: "08",
                 serviceIds: ["relay"],
                 title: "RabbitMQ 메시지 재전달 시 중복 처리 방지",
+                highlights: { validation: "같은 이벤트가 재전달돼도 수신 이력이 1건" },
                 constraint:
                     "PostgreSQL 저장이 끝났지만 RabbitMQ에 처리 완료 응답(ACK)을 보내기 전에 프로세스가 멈추면 같은 이벤트가 다시 전달됩니다.",
                 decision:
@@ -771,6 +780,7 @@ const projects = [
                 number: "10",
                 serviceIds: ["brief"],
                 title: "주간 보고서 버전 관리",
+                highlights: { validation: "동시 요청에도 보고서 1건만 저장" },
                 constraint:
                     "이벤트로 점검 목록을 재생성할 때 이미 발행한 보고서까지 바뀌면 이전 내용을 비교할 수 없습니다.",
                 decision:
@@ -784,6 +794,7 @@ const projects = [
                 number: "11",
                 serviceIds: ["cal"],
                 title: "일정 중복과 역순 반영 방지",
+                highlights: { validation: "중복 일정과 과거 일정 차단" },
                 constraint: "중복 이벤트나 늦게 도착한 과거 버전이 최신 일정을 덮을 수 있습니다.",
                 decision:
                     "이벤트 ID, 일정 ID, 버전, 해시로 중복 일정과 과거 일정을 걸러냅니다. 최대 100건을 한 트랜잭션으로 받고 변경된 시즌의 캘린더를 한 번씩 갱신합니다.",
@@ -809,6 +820,7 @@ const projects = [
                 number: "13",
                 serviceIds: ["round"],
                 title: "WebRTC 재연결 시 과거 메시지 차단",
+                highlights: { validation: "현재 연결의 메시지만 반영" },
                 constraint:
                     "피어 연결을 다시 만들거나 ICE를 재시작한 뒤 이전 연결의 SDP와 ICE 후보가 늦게 도착하면 새 연결 상태가 손상될 수 있습니다.",
                 decision:
@@ -1061,6 +1073,7 @@ const projects = [
             {
                 number: "02",
                 title: "결제 및 환불 재요청의 중복 처리 방지",
+                highlights: { validation: "같은 orderId와 환불 UUID의 결과 재사용" },
                 screenshotId: "cart",
                 constraint:
                     "결제사 응답이 유실되면 실패 이력이 사라지거나 같은 요청이 중복으로 승인되거나 환불될 수 있었습니다.",
@@ -1074,6 +1087,7 @@ const projects = [
             {
                 number: "03",
                 title: "서버 중단 후 미전송 알림 재처리",
+                highlights: { validation: "서버 중단 후 미전송 알림 재처리" },
                 constraint:
                     "주문이나 예약을 커밋한 직후 프로세스가 종료되면 알림 호출 자체가 사라질 수 있습니다.",
                 decision:
@@ -1086,6 +1100,7 @@ const projects = [
             {
                 number: "04",
                 title: "동시 예약 정원과 주문 재고 초과 방지",
+                highlights: { validation: "정원이나 재고를 넘는 요청이 거절" },
                 constraint:
                     "클래스마다 예약 정원이 다르고 한 번에 여러 명을 예약할 수 있어, 현재 예약 인원과 새 요청 인원의 합을 잠금 없이 확인하면 정원을 넘길 수 있습니다. 마지막 재고에도 같은 문제가 있었습니다.",
                 decision:
@@ -1412,6 +1427,7 @@ const projects = [
             {
                 number: "01",
                 title: "확인할 수 없는 신청 조건은 ‘추가 확인 필요’로 표시",
+                highlights: { decision: "가능, 불가, 추가 확인 필요로 집계" },
                 screenshotId: "questions",
                 constraint:
                     "조건이나 사용자 정보가 부족한데 가능 또는 불가로 단정하면 잘못된 안내가 됩니다.",
@@ -1446,6 +1462,9 @@ const projects = [
             {
                 number: "04",
                 title: "AI 호출 예산 초과와 중복 과금 방지",
+                highlights: {
+                    decision: "결과 미확인 요청은 예약을 유지하고 다시 호출하지 않습니다",
+                },
                 constraint:
                     "외부 AI 호출 전에 비용을 먼저 예약하지 않으면 동시 요청이 예산을 초과할 수 있고, 응답이 유실된 요청을 바로 다시 보내면 중복 과금될 수 있습니다.",
                 decision:
@@ -1642,6 +1661,7 @@ const projects = [
             {
                 number: "03",
                 title: "리뷰가 참조한 파일과 코드 줄 검증",
+                highlights: { decision: "파일과 줄이 수집한 diff 안에 있는지" },
                 screenshotId: "review-evidence",
                 constraint:
                     "분석 모델이 이전 대화나 추측을 섞으면 변경 코드에 근거가 없는 지적(환각)이 생길 수 있습니다.",
@@ -1654,6 +1674,7 @@ const projects = [
             {
                 number: "04",
                 title: "검증을 통과한 리뷰만 저장하고 중단 작업 재개",
+                highlights: { validation: "기존 HTML이 바뀌지 않는지" },
                 constraint:
                     "상태 저장 중 중단되면 빈 파일이 남거나 수집을 다시 해야 합니다. 동시 실행은 기존 결과를 덮어쓸 수 있습니다.",
                 decision:
@@ -1817,6 +1838,7 @@ const projects = [
             {
                 number: "02",
                 title: "변경 기록과 코드 버전 연결",
+                highlights: { decision: "작성자가 확인한 뒤 코드가 바뀌면 공개하지 않습니다" },
                 screenshotId: "evidence",
                 constraint:
                     "짧은 커밋 ID나 파일명만 남기면 이후 코드가 바뀌었을 때 어느 상태를 설명하는 기록인지 판단하기 어렵습니다.",
@@ -1878,6 +1900,7 @@ const projects = [
             {
                 number: "07",
                 title: "파일명과 줄이 바뀌어도 변경 근거 추적",
+                highlights: { validation: "이름 변경, 줄 이동, 중복 코드 조각과 페이지별 조회" },
                 constraint:
                     "파일 이름이나 줄 위치가 바뀌면 같은 코드에 남긴 변경 기록을 찾기 어렵습니다. 유사한 코드에 잘못 연결할 가능성도 있습니다.",
                 decision:
@@ -1946,8 +1969,8 @@ const projects = [
     {
         ...projectSummariesById.warrant,
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "해양경찰 KICS의 영장집행포털 연계 API, 배치와 통신사 연계 구현",
-        oneLine: "해양경찰 KICS 쪽에서 영장집행포털과 연계하는 기능과 배치를 구현했습니다.",
+        role: "해양경찰 KICS 연계 API와 배치, 3통신사 및 별정통신사 연계 구현",
+        oneLine: "해양경찰 KICS 연계 API와 배치, 통신사 요청 발송과 실패 건 재처리를 구현했습니다.",
         status: {
             label: "별정통신사 추가 연계",
             text: warrantTelecomStatus,
@@ -1955,10 +1978,28 @@ const projects = [
         systemTitle: "해양경찰 KICS와 기관 간 자료 연계 흐름",
         systemNavLabel: "업무 흐름",
         visualCaption: "KICS 요청과 기관 제출 자료가 분리된 망 사이를 오가는 흐름입니다.",
+        implementations: [
+            {
+                title: "3통신사 자료 송수신",
+                description: "EAI 연계 서버를 통한 SFTP 방식으로 요청과 회신 자료를 처리했습니다.",
+                highlight: "EAI 연계 서버를 통한 SFTP",
+                detail: warrantTelecom.implementation,
+            },
+            {
+                title: "별정통신사 요청 발송과 재처리",
+                description:
+                    "통화내역과 위치추적 시작, 중지 요청을 통신사별 파일/API 규격에 맞춰 발송하도록 구현했습니다.",
+                highlight: "통신사별 파일/API 규격",
+                detail: "요청 파일은 완성 후 송신 경로로 옮기고, 실패 건은 화면에서 요청서 전체 또는 대상별로 재처리합니다.",
+                detailHighlight: "요청서 전체 또는 대상별로 재처리",
+                note: "응답과 결과 파일 수집은 별도 배치 담당 범위입니다.",
+            },
+        ],
         problems: [
             {
                 number: "01",
                 title: "누적 전송 이력의 OFFSET 조회 비용 개선",
+                highlights: { decision: "마지막 전송 ID 다음부터 조회(No Offset)" },
                 constraint:
                     "전송 상태와 수신 자료가 계속 쌓이면 OFFSET이 커질수록 뒤쪽 페이지 조회 비용이 증가합니다. 기존 업무 화면은 번호 이동도 유지해야 했습니다.",
                 decision:
@@ -1982,6 +2023,7 @@ const projects = [
             {
                 number: "03",
                 title: "요청 저장 전에 도착한 PDF 완료 응답 재처리",
+                highlights: { validation: "재조회 후 결과가 반영" },
                 constraint:
                     "PDF 완료 응답이 요청 상태의 DB 저장보다 먼저 도착하면 대상 요청을 찾지 못해 결과가 누락될 수 있었습니다.",
                 decision:
@@ -1994,6 +2036,7 @@ const projects = [
             {
                 number: "04",
                 title: "이중화 서버의 작업 선점과 중단 작업 재처리",
+                highlights: { decision: "FOR UPDATE SKIP LOCKED" },
                 constraint:
                     "KICS 서버와 분리된 해양경찰 연계 서버가 이중화되면서, 한 프로세스 안에서만 동작하는 ReentrantLock으로는 서버 간 중복 실행을 막을 수 없었습니다. 외부 API 대기 중 DB 커넥션을 오래 점유하는 문제도 피해야 했습니다.",
                 decision:
@@ -2001,16 +2044,6 @@ const projects = [
                 validation: warrantPerformanceSummary,
                 boundary:
                     "서버가 중단되면 해당 작업은 설정한 경과 시간과 점검 주기가 지난 뒤에 재처리됩니다.",
-            },
-            {
-                number: "05",
-                title: "EAI/SFTP 기반 3통신사 자료 연계",
-                constraint: "업무 DB의 요청정보와 통신사의 XML, 회신 파일을 연계해야 했습니다.",
-                decision:
-                    "EAI 연계 서버를 거치는 SFTP 송수신 구조에 맞춰 XML과 파일 처리를 구현했습니다.",
-                validation: warrantTelecom.implementation,
-                boundary:
-                    "기존 3통신사 연계의 구현 범위입니다. 별정통신사 연계는 추가 개발분입니다.",
             },
         ],
         stack: [
@@ -2062,6 +2095,7 @@ const projects = [
             {
                 number: "03",
                 title: "Presigned URL로 대용량 파일 직접 업로드",
+                highlights: { validation: "업무 서버를 거치지 않고 저장" },
                 constraint:
                     "업무 서버가 대용량 파일 본문을 중계하면 동시 업로드 때 메모리, 디스크, 네트워크 부하가 커질 수 있었습니다. 기존 파일 저장 시스템은 유지해야 했습니다.",
                 decision:
@@ -2074,6 +2108,7 @@ const projects = [
             {
                 number: "04",
                 title: "Jenkins, JEUS와 Tibero로 배치 중단 단계 확인",
+                highlights: { validation: "재처리 후 정상 반영까지 확인" },
                 constraint:
                     "통합 모니터링이 없는 폐쇄망에서 화면 오류만으로는 장애 단계를 찾기 어려웠습니다.",
                 decision:
@@ -2122,6 +2157,7 @@ const projects = [
             {
                 number: "02",
                 title: hlsImpact,
+                highlights: { validation: hlsResult },
                 constraint:
                     "초기 설정에서는 RTP 영상이 React HLS 플레이어에서 재생되기까지 약 35초가 걸려, 방금 놓친 강의 구간을 바로 다시 볼 수 없었습니다.",
                 decision:

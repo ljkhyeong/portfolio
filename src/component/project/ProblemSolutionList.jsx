@@ -1,3 +1,4 @@
+import HighlightedText from "../HighlightedText"
 import "../../css/ProblemSolutionList.css"
 
 // 대표 사례(ProblemCases)와 같은 순서와 이름으로 네 칸을 쓴다.
@@ -28,7 +29,12 @@ const ProblemSolutionList = ({ problems, label }) => (
                         {problemFields.map(([term, field]) => (
                             <div key={field}>
                                 <dt>{term}</dt>
-                                <dd>{problem[field]}</dd>
+                                <dd>
+                                    <HighlightedText
+                                        text={problem[field]}
+                                        highlight={problem.highlights?.[field]}
+                                    />
+                                </dd>
                             </div>
                         ))}
                     </dl>

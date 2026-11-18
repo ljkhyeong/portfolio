@@ -29,7 +29,7 @@
     font-size: 15px;
 }
 
-.verification-rail strong {
+.verification-rail strong:not(.project-impact) {
     margin-right: 4px;
     color: var(--ink);
     font-weight: 650;

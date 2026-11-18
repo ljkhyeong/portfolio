@@ -34,3 +34,15 @@ export const caseResults = {
         "폐쇄망에서 수용자 자료 배치, CSRF 검증, Presigned URL 업로드를 확인했습니다. 운영 중단 배치는 이력, 로그, DB로 원인을 찾고 재처리 후 군교정 DB 반영까지 확인했습니다.",
     webrtc: `HLS 변환 서버와 재생 화면을 구현하고 실시간 시청과 지난 구간 재생을 확인했습니다. ${hlsResult}.`,
 }
+
+// 상세 요약에서 먼저 읽어야 할 구현 결과만 강조한다.
+export const caseResultHighlights = {
+    baton: "Core와 6개 서비스를 구현하고 통합 테스트",
+    happygallery: "GitHub Actions 검사와 k3s 롤링 배포가 성공",
+    "youth-policy-mate": "조건 질문, 관심 정책 일정과 알림을 구현",
+    "hope-commit": "Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스",
+    "intent-trace": "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개",
+    warrant: warrantOperationSummary,
+    defense: "재처리 후 군교정 DB 반영까지 확인",
+    webrtc: hlsResult,
+}
