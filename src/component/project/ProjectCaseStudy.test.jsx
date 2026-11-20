@@ -483,13 +483,14 @@ test("전자영장 상세는 BEINTECH 소속 LG CNS 컨소시엄의 연계 흐�
         within(implementations).getByRole("heading", { name: "3통신사 자료 송수신" }),
     ).toBeVisible()
     expect(
-        within(implementations).getByRole("heading", { name: "별정통신사 요청 발송과 재처리" }),
+        within(implementations).getByRole("heading", { name: "별정통신사 연계 설계와 개발" }),
     ).toBeVisible()
-    expect(implementations).toHaveTextContent("요청서 전체 또는 대상별로 재처리")
+    expect(implementations).toHaveTextContent("개발과 테스트까지 단독 수행")
+    expect(implementations).toHaveTextContent("Git 사용법과 코드 컨벤션을 교육")
     expect(implementations.querySelector("dl")).toBeNull()
     expect(document.getElementById("project-problems")).not.toHaveTextContent("3통신사 자료 송수신")
     expect(document.getElementById("project-problems")).not.toHaveTextContent(
-        "별정통신사 요청 발송과 재처리",
+        "별정통신사 연계 설계와 개발",
     )
 
     expect(screen.getByText(/법무부, 공수처, 검찰, 경찰, 해양경찰/)).toBeInTheDocument()

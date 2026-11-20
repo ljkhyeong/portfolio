@@ -91,9 +91,10 @@ export const projectSummaries = [
         navigationLabel: "전자영장",
         eyebrow: "BEINTECH / LG CNS 컨소시엄 / 해양경찰 KICS 전자영장 연계",
         timelineLabel: "전송형 전자영장",
-        homeSummary: "해양경찰 KICS 연계 API와 배치, 3통신사 및 별정통신사 연계를 구현했습니다.",
+        homeSummary:
+            "해양경찰 KICS 통신사실확인자료 개선과 전자영장 연계를 전담하고, 별정통신사 연계를 설계부터 테스트까지 단독 수행했습니다.",
         summary:
-            "5개 기관과 금융기관, 통신사를 연결하는 전송형 전자영장 시스템입니다. 해양경찰 KICS 연계 API와 배치, EAI/SFTP 기반 3통신사 연계를 구현했습니다. 추가 개발한 별정통신사 모듈은 통신사별 요청 발송과 실패 건 재처리를 담당합니다.",
+            "5개 기관과 금융기관, 통신사를 연결하는 전송형 전자영장 시스템입니다. 해양경찰 KICS 연계 API와 배치, EAI/SFTP 기반 3통신사 연계를 구현했습니다. 별정통신사 연계의 규약 분석, 설계, 개발과 테스트를 단독 수행하고 회신 배치 담당 개발자의 구현을 이끌었습니다.",
         homeStory:
             "이중화 연계 서버에서 SKIP LOCKED로 중복 실행을 막았습니다. 외부 API는 트랜잭션 밖에서 호출하고, 중단된 작업은 설정한 시간이 지나면 재처리합니다.",
         homeCheck: warrantTelecomStatus,

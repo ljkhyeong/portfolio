@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-cal.png",
-    "sourceSha256": "cef4f4ffbe507ec6d1fa68449ed800e3a0f69e7327af518fb24b96f2bc80b84c",
+    "sourceSha256": "3dc91af251feef446cd36868ff3124887717176a32872848670a9d270ecdad88",
     "artifactSha256": "71733a626d3a985baea88803117d1f3aae868bb622978aaac1280152fd66208a",
     "renderer": {
         "id": "chrome",

@@ -29,7 +29,7 @@ export const caseResults = {
     "intent-trace":
         "서버, 웹, IntelliJ, Zed 연동을 구현하고 main 4be09d2의 CI를 통과했습니다. v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개했습니다. 실제 PR Check Run 게시와 서버 운영 배포는 미검증입니다.",
     // 운영 사실을 먼저 쓰고, 성능 테스트는 작업 선점 설계의 검증 근거로 끝에 둔다.
-    warrant: `해양경찰 KICS의 연계 기능과 배치(Spring Batch)를 구현했습니다. ${warrantOperationSummary} 망 분리 구간 연계와 요청 저장 전에 PDF 완료 응답이 도착하는 경우를 검증했습니다. 성능 테스트 환경에서는 ${warrantPerformanceSummary}`,
+    warrant: `${warrantOperationSummary} ${warrantPerformanceSummary}`,
     defense:
         "폐쇄망에서 수용자 자료 배치, CSRF 검증, Presigned URL 업로드를 확인했습니다. 운영 중단 배치는 이력, 로그, DB로 원인을 찾고 재처리 후 군교정 DB 반영까지 확인했습니다.",
     webrtc: `HLS 변환 서버와 재생 화면을 구현하고 실시간 시청과 지난 구간 재생을 확인했습니다. ${hlsResult}.`,

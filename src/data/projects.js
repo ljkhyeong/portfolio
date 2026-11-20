@@ -1969,7 +1969,7 @@ const projects = [
     {
         ...projectSummariesById.warrant,
         category: "BEINTECH / LG CNS 컨소시엄 공공 SI",
-        role: "해양경찰 KICS 연계 API와 배치, 3통신사 및 별정통신사 연계 구현",
+        role: "해양경찰 KICS 통신사실확인자료 개선과 전자영장 연계 전담, 별정통신사 연계 설계 및 개발",
         oneLine: "해양경찰 KICS 연계 API와 배치, 통신사 요청 발송과 실패 건 재처리를 구현했습니다.",
         status: {
             label: "별정통신사 추가 연계",
@@ -1980,19 +1980,32 @@ const projects = [
         visualCaption: "KICS 요청과 기관 제출 자료가 분리된 망 사이를 오가는 흐름입니다.",
         implementations: [
             {
+                title: "해양경찰 통신사실확인자료 개선 전담",
+                description:
+                    "기존 시스템 분석과 설계 산출물 작성부터 통신사실확인자료 화면, 연계 API와 배치 개선까지 전담했습니다.",
+                highlight: "화면, 연계 API와 배치 개선까지 전담",
+                detail: "팩스와 이메일 중심 업무를 전자영장 시스템 연계로 확장하고, 제공요청 송신, 제출자료 수신, 수사 진행상태와 영장사본 송수신을 구현했습니다.",
+            },
+            {
                 title: "3통신사 자료 송수신",
                 description: "EAI 연계 서버를 통한 SFTP 방식으로 요청과 회신 자료를 처리했습니다.",
                 highlight: "EAI 연계 서버를 통한 SFTP",
                 detail: warrantTelecom.implementation,
             },
             {
-                title: "별정통신사 요청 발송과 재처리",
+                title: "별정통신사 연계 설계와 개발",
                 description:
-                    "통화내역과 위치추적 시작, 중지 요청을 통신사별 파일/API 규격에 맞춰 발송하도록 구현했습니다.",
-                highlight: "통신사별 파일/API 규격",
-                detail: "요청 파일은 완성 후 송신 경로로 옮기고, 실패 건은 화면에서 요청서 전체 또는 대상별로 재처리합니다.",
-                detailHighlight: "요청서 전체 또는 대상별로 재처리",
-                note: "응답과 결과 파일 수집은 별도 배치 담당 범위입니다.",
+                    "연계팀에서 전달받은 통신사 규약 분석부터 DB 및 코드 설계, 개발과 테스트까지 단독 수행했습니다.",
+                highlight: "규약 분석부터 DB 및 코드 설계, 개발과 테스트까지 단독 수행",
+                detail: "통신사별 파일/API 발송과 실패 건 재처리를 구현했습니다. 회신 배치는 SFTP 수신과 DB 갱신 규칙을 설계해 담당 개발자에게 전달하고 구현을 이끌었습니다.",
+                detailHighlight: "담당 개발자에게 전달하고 구현을 이끌었습니다",
+            },
+            {
+                title: "팀 개발환경 정리와 Git 교육",
+                description:
+                    "팀의 KICS 로컬 개발환경 구성을 주도하고 Git 사용법과 코드 컨벤션을 교육했습니다.",
+                highlight: "KICS 로컬 개발환경 구성을 주도",
+                detail: "Eclipse와 IntelliJ의 로컬 실행 및 빌드 환경, Nexus 의존성 설정과 암복호화 라이브러리의 개발용 래퍼를 준비했습니다. DevTools를 도입하고 WebSquare XML 수정은 서버 재시작 대상에서 제외했습니다.",
             },
         ],
         problems: [

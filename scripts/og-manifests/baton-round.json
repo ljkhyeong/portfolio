@@ -1,7 +1,7 @@
 {
     "schemaVersion": 1,
     "artifactPath": "public/og/baton-round.png",
-    "sourceSha256": "cef4f4ffbe507ec6d1fa68449ed800e3a0f69e7327af518fb24b96f2bc80b84c",
+    "sourceSha256": "3dc91af251feef446cd36868ff3124887717176a32872848670a9d270ecdad88",
     "artifactSha256": "1d4e625236bff35baef0fa5454dea951b7e52c9fad113ef95170a20143f5a8b4",
     "renderer": {
         "id": "chrome",
