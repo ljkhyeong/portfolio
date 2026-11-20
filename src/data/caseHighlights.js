@@ -43,6 +43,6 @@ export const caseResultHighlights = {
     "hope-commit": "Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스",
     "intent-trace": "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개",
     warrant: warrantOperationSummary,
-    defense: "재처리 후 군교정 DB 반영까지 확인",
+    defense: "CSRF 검증, Presigned URL 업로드",
     webrtc: hlsResult,
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:761bf4bf42d5",
+  "sourceRevision": "sha256:3957b30887f6",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -2011,7 +2011,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e731c0fa984f",
+      "sourceRevision": "sha256:d1a01f7277d9",
       "documentId": "knowledge_2a22962d9934e4c7beb6a52e",
       "projectId": "defense",
       "projectName": "차세대 군사법 정보 시스템",
@@ -2019,12 +2019,12 @@
       "documentType": "project_overview",
       "title": "차세대 군사법 정보 시스템 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영\n\n국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 운영 중 멈춘 배치는 Jenkins, JEUS, Tibero 기록을 대조해 실패 단계를 찾고 복구했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 운영 장애 대응\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 구현했습니다.\n\n확인한 범위: 폐쇄망에서 수용자 자료 배치, CSRF 검증, Presigned URL 업로드를 확인했습니다. 운영 중단 배치는 이력, 로그, DB로 원인을 찾고 재처리 후 군교정 DB 반영까지 확인했습니다.\n\n공개 범위: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당한 개발과 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
+      "content": "프로젝트: 차세대 군사법 정보 시스템\n\nBEINTECH / 국방부 산하 4개 기관 연계 / 백엔드 개발과 운영\n\n국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 운영 중 멈춘 배치는 Jenkins, JEUS, Tibero 기록을 대조해 실패 단계를 찾고 복구했습니다.\n\n기간: 2024.06.23 — 2026.01.30\n\n구분: BEINTECH / 국방부 SI\n\n공개 범위: 담당 범위만 공개\n\n담당: 군교정 업무 화면, 세 기관 수용자 정보 연계 배치와 운영 장애 대응\n\n주요 구현 및 해결: 군사법원, 군검찰과 군사경찰의 수용자 자료를 군교정 DB에 반영하고, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 구현했습니다.\n\n운영 경험: 레거시 환경의 장애 분석: 통합 모니터링이 없는 폐쇄망에서 실행 이력, 서버 로그와 DB 상태를 대조하며 장애 원인을 좁히는 방법을 익혔습니다.\n\nJenkins 배치 이력과 JEUS 로그, Tibero 데이터를 연결해 실패 단계를 찾고, 재처리 후 업무 데이터 반영까지 확인했습니다.\n\n확인한 범위: 폐쇄망에서 수용자 자료 배치, CSRF 검증, Presigned URL 업로드를 확인했습니다. 운영 중단 배치는 이력, 로그, DB로 원인을 찾고 재처리 후 군교정 DB 반영까지 확인했습니다.\n\n공개 범위: BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당한 개발과 운영 업무만 공개했습니다.\n\n사용 기술: Java 8, 전자정부 표준프레임워크 4.1, MyBatis, Tibero, Spring Security, JEUS, Jenkins, SVN",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-overview",
       "route": "/projects/defense",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "e731c0fa984ff367fd6af78b9c5675bc487dc7c95a61c02b691e61c2d4685598"
+      "sourceHash": "d1a01f7277d93c67d43320987eecd4cb51d81fd0d089994f1da91ed23d0c580a"
     },
     {
       "schemaVersion": "1.0",
@@ -2076,23 +2076,6 @@
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
       "sourceHash": "66364f0d0f27ba856a97d8511f48f482069029e873ea302f62f704d83e2b9958"
-    },
-    {
-      "schemaVersion": "1.0",
-      "sourceRevision": "sha256:8c8a6a5d03d1",
-      "documentId": "knowledge_5385261a60146dee3b5379fe",
-      "projectId": "defense",
-      "projectName": "차세대 군사법 정보 시스템",
-      "serviceId": null,
-      "documentType": "problem_solution",
-      "title": "Jenkins, JEUS와 Tibero로 배치 중단 단계 확인",
-      "heading": "문제와 해결 방법",
-      "content": "프로젝트: 차세대 군사법 정보 시스템\n\n문제: 통합 모니터링이 없는 폐쇄망에서 화면 오류만으로는 장애 단계를 찾기 어려웠습니다.\n\n해결 방법: Jenkins에서 실패 시각과 단계를 확인하고 같은 시각의 JEUS 로그와 Tibero 상태를 대조했습니다. 필요할 때는 기관 송수신 시각도 확인했습니다.\n\n확인: 실제 운영 장애에서 기관 데이터 수신, 배치 시작과 종료, DB 상태 변경, 화면 조회 순서로 확인해 누락되거나 중단된 단계를 찾았습니다. 재처리 후 정상 반영까지 확인했습니다.\n\n제약과 남은 작업: 통합 추적 도구가 없어 로그와 DB를 수동으로 대조해야 했고, 기관 간 전송 시각 확인과 재처리는 담당자 협업이 필요했습니다.",
-      "sourceUrl": "https://ljkportfolio.netlify.app/projects/defense#project-problems",
-      "route": "/projects/defense",
-      "visibility": "public",
-      "evidenceLevel": "portfolio_detail",
-      "sourceHash": "8c8a6a5d03d1649b180812ee19ca0d692e883ee788ba33894da1af68af05b677"
     },
     {
       "schemaVersion": "1.0",

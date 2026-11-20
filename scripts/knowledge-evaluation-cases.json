@@ -115,7 +115,7 @@
         "id": "defense",
         "question": "폐쇄망에서 배치 중단 원인을 어떻게 찾았나요?",
         "projectId": "defense",
-        "titleIncludes": "배치 중단 단계",
+        "titleIncludes": "차세대 군사법 정보 시스템 프로젝트 개요",
         "criteria": "Jenkins·JEUS·Tibero에서 확인한 단계를 설명한다."
     },
     {

@@ -299,7 +299,13 @@ const CaseDocuments = ({ documentGroups, documents }) => {
     )
 }
 
-const projectSections = ({ hasArchitecture, hasDocuments, hasImplementations, systemNavLabel }) => [
+const projectSections = ({
+    hasArchitecture,
+    hasDocuments,
+    hasImplementations,
+    implementationSectionTitle = "담당 구현",
+    systemNavLabel,
+}) => [
     { id: "project-overview", label: "개요", mobileLabel: "개요" },
     {
         id: "project-system",
@@ -307,7 +313,13 @@ const projectSections = ({ hasArchitecture, hasDocuments, hasImplementations, sy
         mobileLabel: (systemNavLabel ?? "대표 화면").includes("화면") ? "화면" : "구성",
     },
     ...(hasImplementations
-        ? [{ id: "project-implementations", label: "담당 구현", mobileLabel: "구현" }]
+        ? [
+              {
+                  id: "project-implementations",
+                  label: implementationSectionTitle,
+                  mobileLabel: implementationSectionTitle === "운영 경험" ? "경험" : "구현",
+              },
+          ]
         : []),
     { id: "project-problems", label: "문제 해결", mobileLabel: "문제" },
     ...(hasArchitecture
@@ -502,6 +514,7 @@ const ProjectCaseStudy = ({ projectId }) => {
                         hasArchitecture,
                         hasDocuments,
                         hasImplementations: Boolean(project.implementations?.length),
+                        implementationSectionTitle: project.implementationSectionTitle,
                         systemNavLabel: project.systemNavLabel,
                     })}
                 />
@@ -513,7 +526,9 @@ const ProjectCaseStudy = ({ projectId }) => {
                         aria-labelledby="implementations-title"
                     >
                         <div className="case-section-heading">
-                            <h2 id="implementations-title">담당 구현</h2>
+                            <h2 id="implementations-title">
+                                {project.implementationSectionTitle ?? "담당 구현"}
+                            </h2>
                         </div>
                         <div className="case-implementations__grid">
                             {project.implementations.map((item) => (

@@ -272,7 +272,7 @@ export const projectSummaries = [
     },
     {
         id: "defense",
-        homeHighlight: "DB 반영까지 복구를 맡았습니다",
+        homeHighlight: "장애 원인을 좁히는 방법을 익혔습니다",
         homeCategory: "career",
         agencyScope: "국방부 산하 4개 기관 연계 시스템",
         index: "02",
@@ -284,7 +284,7 @@ export const projectSummaries = [
         homeSummary:
             "군사법원, 군검찰, 군사경찰의 수용자 자료를 군교정 DB에 반영하는 배치를 개발했습니다. CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드도 구현했습니다.",
         homeStory:
-            "배치 중단으로 군교정 업무가 멈추면 Jenkins 이력, JEUS 로그, Tibero 데이터를 대조해 원인을 찾았습니다. 통합 모니터링이 없는 폐쇄망에서 DB 반영까지 복구를 맡았습니다.",
+            "통합 모니터링이 없는 폐쇄망에서 실행 이력, 서버 로그와 DB 상태를 대조하며 장애 원인을 좁히는 방법을 익혔습니다.",
         summary:
             "국방부 산하 4개 기관의 자료를 연계하는 폐쇄망 시스템입니다. 수용자 자료 반영 배치, CSRF 토큰 검증과 Presigned URL 기반 대용량 파일 업로드를 개발했습니다. 운영 중 멈춘 배치는 Jenkins, JEUS, Tibero 기록을 대조해 실패 단계를 찾고 복구했습니다.",
         period: "2024.06.23 — 2026.01.30",

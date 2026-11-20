@@ -112,7 +112,7 @@ const createProjectOverview = (project, caseResult) =>
             labeledContent("주요 구현 및 해결", project.oneLine),
             ...(project.implementations ?? []).map((item) =>
                 labeledContent(
-                    `담당 구현: ${item.title}`,
+                    `${project.implementationSectionTitle ?? "담당 구현"}: ${item.title}`,
                     joinContent([item.description, item.detail, item.note]),
                 ),
             ),

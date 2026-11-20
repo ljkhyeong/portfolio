@@ -594,9 +594,10 @@ test("군사법 상세는 군사법원, 군검찰 및 군사경찰의 데이터 
     expect(problems).toHaveTextContent("Presigned URL")
     expect(problems).toHaveTextContent("브라우저가 파일 저장 시스템으로 직접 전송")
     expect(problems).toHaveTextContent("Presigned URL로 대용량 파일 직접 업로드")
-    expect(problems).toHaveTextContent("Jenkins에서 실패 시각과 단계")
-    expect(problems).toHaveTextContent("JEUS 로그")
-    expect(problems).toHaveTextContent("Tibero 상태")
+    expect(problems).not.toHaveTextContent("Jenkins")
+    const experience = screen.getByRole("region", { name: "운영 경험" })
+    expect(experience).toHaveTextContent("장애 원인을 좁히는 방법을 익혔습니다")
+    expect(experience).toHaveTextContent("Jenkins 배치 이력과 JEUS 로그, Tibero 데이터")
 
     expect(document.body).not.toHaveTextContent("기관 A")
     expect(document.body).not.toHaveTextContent("기관 B")

@@ -245,7 +245,7 @@ describe("project summary data", () => {
         const defense = projectsById.defense
         const securityProblem = defense.problems.find((problem) => problem.number === "02")
         const uploadProblem = defense.problems.find((problem) => problem.number === "03")
-        const incidentProblem = defense.problems.find((problem) => problem.number === "04")
+        const experience = defense.implementations[0]
         const publicCopy = JSON.stringify(defense)
 
         expect(defense.systemTitle).toBe("수용자 인적정보 및 영장정보 연계 배치 흐름")
@@ -255,15 +255,10 @@ describe("project summary data", () => {
         expect(uploadProblem.decision).toContain("업로드 권한과 파일 정보를 검증")
         expect(uploadProblem.decision).toContain("Presigned URL")
         expect(uploadProblem.decision).toContain("파일 저장 시스템으로 직접 전송")
-        expect(incidentProblem.title).toContain("Jenkins")
-        expect(incidentProblem.title).toContain("배치 중단 단계 확인")
-        expect(incidentProblem.constraint).toContain("통합 모니터링이 없는 폐쇄망")
-        expect(incidentProblem.constraint).toContain("장애 단계를 찾기 어려웠습니다")
-        expect(incidentProblem.constraint).not.toContain("APM")
-        expect(incidentProblem.constraint).not.toContain("분산 추적")
-        expect(incidentProblem.decision).toContain("Jenkins")
-        expect(incidentProblem.decision).toContain("JEUS 로그")
-        expect(incidentProblem.decision).toContain("Tibero 상태")
+        expect(defense.problems.some((problem) => problem.number === "04")).toBe(false)
+        expect(defense.implementationSectionTitle).toBe("운영 경험")
+        expect(experience.description).toContain("장애 원인을 좁히는 방법을 익혔습니다")
+        expect(experience.detail).toContain("Jenkins 배치 이력과 JEUS 로그, Tibero 데이터")
         expect(publicCopy).not.toContain("기관 A")
         expect(publicCopy).not.toContain("기관 B")
         expect(publicCopy).not.toContain("기관 C")

@@ -2108,6 +2108,15 @@ const projects = [
             label: "공개 범위",
             text: "BEINTECH에서 수행한 국방부 SI입니다. 운영 데이터와 세부 연계 규격은 제외하고 담당한 개발과 운영 업무만 공개했습니다.",
         },
+        implementationSectionTitle: "운영 경험",
+        implementations: [
+            {
+                title: "레거시 환경의 장애 분석",
+                description: projectSummariesById.defense.homeStory,
+                highlight: projectSummariesById.defense.homeHighlight,
+                detail: "Jenkins 배치 이력과 JEUS 로그, Tibero 데이터를 연결해 실패 단계를 찾고, 재처리 후 업무 데이터 반영까지 확인했습니다.",
+            },
+        ],
         problems: [
             {
                 number: "01",
@@ -2144,19 +2153,6 @@ const projects = [
                     "권한이 없는 요청에는 Presigned URL을 발급하지 않고, 허용된 파일은 업무 서버를 거치지 않고 저장되는 것을 확인했습니다.",
                 boundary:
                     "Presigned URL의 만료 시간과 업로드 조건을 정해야 하고, 업로드 완료 여부는 서버가 따로 확인해야 합니다. 브라우저와 파일 저장 시스템 사이에서 실패한 업로드를 다시 확인하는 절차도 필요합니다.",
-            },
-            {
-                number: "04",
-                title: "Jenkins, JEUS와 Tibero로 배치 중단 단계 확인",
-                highlights: { validation: "재처리 후 정상 반영까지 확인" },
-                constraint:
-                    "통합 모니터링이 없는 폐쇄망에서 화면 오류만으로는 장애 단계를 찾기 어려웠습니다.",
-                decision:
-                    "Jenkins에서 실패 시각과 단계를 확인하고 같은 시각의 JEUS 로그와 Tibero 상태를 대조했습니다. 필요할 때는 기관 송수신 시각도 확인했습니다.",
-                validation:
-                    "실제 운영 장애에서 기관 데이터 수신, 배치 시작과 종료, DB 상태 변경, 화면 조회 순서로 확인해 누락되거나 중단된 단계를 찾았습니다. 재처리 후 정상 반영까지 확인했습니다.",
-                boundary:
-                    "통합 추적 도구가 없어 로그와 DB를 수동으로 대조해야 했고, 기관 간 전송 시각 확인과 재처리는 담당자 협업이 필요했습니다.",
             },
         ],
         stack: [
