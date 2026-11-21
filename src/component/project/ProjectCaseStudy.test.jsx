@@ -295,7 +295,7 @@ test("happyGallery는 최신 결제 및 스마트스토어 화면과 공개 근�
         within(screen.getByRole("list", { name: "다른 문제와 해결 방법 목록" })).getAllByRole(
             "listitem",
         ),
-    ).toHaveLength(11)
+    ).toHaveLength(13)
     expect(screen.getByRole("heading", { name: "대표 화면" })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: "대표 화면" })).toHaveAttribute(
         "href",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "sha256:3957b30887f6",
+  "sourceRevision": "sha256:d16a885c32d2",
   "documentTypes": [
     "project_overview",
     "service_overview",
@@ -702,7 +702,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:72df1eb040f4",
+      "sourceRevision": "sha256:8cd245dda1c8",
       "documentId": "knowledge_e35aae37f4a24244d1c3cdc7",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -710,12 +710,12 @@
       "documentType": "project_overview",
       "title": "happyGallery 프로젝트 개요",
       "heading": "프로젝트 개요",
-      "content": "프로젝트: happyGallery\n\n공방 상품 판매와 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 서비스와 저장소 공개\n\n담당: 요구사항 정리, Java와 Spring Boot API, React 화면, 결제와 스마트스토어 연동, 자동화 테스트와 k3s 배포 자동화\n\n주요 구현 및 해결: 상품 주문, 간편결제, 클래스 예약, 스마트스토어 주문과 재고 연동을 하나의 서비스로 구현했습니다.\n\n확인한 범위: 주문, 예약, 스마트스토어 연동을 Testcontainers와 E2E로 확인했습니다. main 2bd7012f의 GitHub Actions 검사와 k3s 롤링 배포가 성공했습니다. 네이버, Toss, NHN 실제 계정 연동은 미검증입니다.\n\n그 밖의 구현: 카드는 Toss 통합 결제창으로, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
+      "content": "프로젝트: happyGallery\n\n공방 상품 판매와 예약 서비스\n\n공방 상품 주문과 클래스 예약을 처리합니다. 카드와 간편결제, 스마트스토어 주문과 재고 동기화, 공휴일과 주소 조회를 구현했습니다.\n\n기간: 2026.02.21 — 현재\n\n구분: 개인 프로젝트\n\n공개 범위: 서비스와 저장소 공개\n\n담당: 요구사항 정리, Java와 Spring Boot API, React 화면, 결제와 스마트스토어 연동, 자동화 테스트와 k3s 배포 자동화\n\n주요 구현 및 해결: 상품 주문, 간편결제, 클래스 예약, 스마트스토어 주문과 재고 연동을 하나의 서비스로 구현했습니다.\n\n확인한 범위: 주문, 예약, 스마트스토어 연동을 Testcontainers와 E2E로 확인했습니다. main 2bd7012f의 검사와 배포가 성공했습니다. 복구 한도와 목록 조회 개선은 로컬 ae438032 구현이며 DB 통합 테스트와 브라우저 E2E가 남아 있습니다. 실제 외부 계정 연동은 미검증입니다.\n\n그 밖의 구현: 카드는 Toss 통합 결제창으로, 네이버페이와 카카오페이는 Toss SDK로 각 간편결제 창을 열어 결제합니다. 공휴일은 매일 자동 갱신하고, 주소 검색은 별도 API 키 없이 브라우저에서 실행합니다.\n\n사용 기술: Java 25, Spring Boot 4.1, Gradle, Spring MVC, Spring Data JPA, MyBatis 4.1, MySQL 8.4, Redis 7.4, React 19, React Router 8, TypeScript, Testcontainers, Playwright, Spring REST Docs, Spring Security / OAuth2",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-overview",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_summary",
-      "sourceHash": "72df1eb040f451e85c9c807ed86a4919ee4654761bfebaaf2b8d07913cd74ad3"
+      "sourceHash": "8cd245dda1c8afa2f285f861bebab198fb7d60b7a20ae6607264a94aabd1f527"
     },
     {
       "schemaVersion": "1.0",
@@ -753,7 +753,7 @@
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:e4daece5b4d7",
+      "sourceRevision": "sha256:b1fe5ee94515",
       "documentId": "knowledge_77c42ea4f8a7f6de098ab816",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -761,16 +761,16 @@
       "documentType": "problem_solution",
       "title": "결제 및 환불 재요청의 중복 처리 방지",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 결제사 응답이 유실되면 실패 이력이 사라지거나 같은 요청이 중복으로 승인되거나 환불될 수 있었습니다.\n\n해결 방법: 결제사 호출을 DB 트랜잭션 밖으로 분리하고 전후 상태를 독립 트랜잭션으로 저장했습니다. 결과를 확인하지 못하면 결제는 orderId, 환불은 생성 때 저장한 멱등 키(UUID)로 결제사 처리 결과를 조회합니다.\n\n확인: 실패 이력 보존, 같은 orderId와 환불 UUID의 결과 재사용, 늦은 응답 차단과 결과 재조회를 통합 테스트로 확인했습니다.\n\n제약과 남은 작업: 결제와 환불의 처리 상태, 결과 조회 경로가 늘어 운영자 확인 화면이 복잡해졌습니다. 실제 Toss Payments의 응답 지연과 장애를 포함한 연동 테스트는 남아 있습니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 결제사 응답이 유실되면 실패 이력이 사라지거나 같은 요청이 중복으로 승인되거나 환불될 수 있었습니다.\n\n해결 방법: 결제사 호출 전후 상태를 독립 트랜잭션으로 저장하고, 결제는 orderId, 환불은 저장한 멱등 키로 결과를 조회합니다. 환불 처리가 10회 또는 24시간에 도달하면 자동 복구를 멈춥니다. 관리자 조회와 실행권 선점은 한 트랜잭션으로 묶고, 미환불로 조회돼도 한도에 도달한 건은 확인 필요 상태를 유지합니다.\n\n확인: 실패 이력 보존, 같은 orderId와 환불 UUID의 결과 재사용, 늦은 응답 차단과 결과 재조회를 통합 테스트로 확인했습니다.\n\n제약과 남은 작업: 복구 한도는 2026.11.21 로컬 ae438032 기준입니다. 관련 JUnit 통과 기록을 확인했으며 실제 MySQL 통합 테스트와 Toss 장애 연동 검증은 남아 있습니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "e4daece5b4d781a004064695fb6b03e0a46d6d6dc2ca4f901762ca2ef41c542e"
+      "sourceHash": "b1fe5ee945152d4038aa54aabc9ce68581ae96c79c0ffe2509fe588eac1d2b8f"
     },
     {
       "schemaVersion": "1.0",
-      "sourceRevision": "sha256:b0f09ff2ab71",
+      "sourceRevision": "sha256:86e29248aa63",
       "documentId": "knowledge_0f61b150fd8757d54e371119",
       "projectId": "happygallery",
       "projectName": "happyGallery",
@@ -778,12 +778,12 @@
       "documentType": "problem_solution",
       "title": "서버 중단 후 미전송 알림 재처리",
       "heading": "문제와 해결 방법",
-      "content": "프로젝트: happyGallery\n\n문제: 주문이나 예약을 커밋한 직후 프로세스가 종료되면 알림 호출 자체가 사라질 수 있습니다.\n\n해결 방법: 업무 상태와 알림 Outbox를 함께 저장하고 미전송 건은 스케줄러가 다시 처리합니다. NHN 접수 ID로 최종 수신 결과를 조회해 실제 전달 성공만 발송 완료(SENT)로 확정하고, 알림톡 최종 실패 뒤에만 SMS를 요청합니다.\n\n확인: 알림 중복 저장 차단, 서버 중단 후 미전송 알림 재처리, 최종 수신 결과 반영과 알림톡 최종 실패 뒤 SMS 전환을 통합 테스트했습니다.\n\n제약과 남은 작업: 운영 자격 증명을 사용한 장시간 지연과 알림 서비스 장애는 아직 검증하지 않았습니다.",
+      "content": "프로젝트: happyGallery\n\n문제: 주문이나 예약을 커밋한 직후 프로세스가 종료되면 알림 호출 자체가 사라질 수 있습니다.\n\n해결 방법: 업무 상태와 알림 Outbox를 함께 저장하고 미전송 건은 스케줄러가 다시 처리합니다. NHN 접수 ID로 최종 결과를 조회하고, 24시간 뒤에도 결과를 모르면 자동 조회를 중단합니다. 관리자 재처리는 기존 식별자로 결과만 조회하며, 안전하게 조회할 수 없는 건은 재발송을 차단합니다.\n\n확인: 알림 중복 저장 차단, 서버 중단 후 미전송 알림 재처리, 최종 수신 결과 반영과 알림톡 최종 실패 뒤 SMS 전환을 통합 테스트했습니다.\n\n제약과 남은 작업: 조회 종료와 재발송 차단은 로컬 ae438032의 관련 JUnit 기록 기준입니다. 결과 불명은 수신 실패 확정이 아니며 실제 NHN 연동은 미검증입니다.",
       "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
       "route": "/projects/happygallery",
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
-      "sourceHash": "b0f09ff2ab71d6eedf3b6fca0196623d6c327895a19d8d79ebc01b223b48beb9"
+      "sourceHash": "86e29248aa63e8cfeec11abbf31c29132293691df017c1853ae6f6a1d72273ee"
     },
     {
       "schemaVersion": "1.0",
@@ -1005,6 +1005,57 @@
       "visibility": "public",
       "evidenceLevel": "portfolio_detail",
       "sourceHash": "b10440fc72eceec2d6ff8f43dec06946055589b89d2152f0a2c9ad62f2a5bae8"
+    },
+    {
+      "schemaVersion": "1.0",
+      "sourceRevision": "sha256:1b29c16bea81",
+      "documentId": "knowledge_91854c87b5630297b768987b",
+      "projectId": "happygallery",
+      "projectName": "happyGallery",
+      "serviceId": null,
+      "documentType": "problem_solution",
+      "title": "상품과 후기의 조회 범위 제한",
+      "heading": "문제와 해결 방법",
+      "content": "프로젝트: happyGallery\n\n문제: 상품 목록은 전체 상품을 조회하고, 후기는 더 보기를 누를수록 화면에 누적됐습니다.\n\n해결 방법: 상품은 서버에서 24개씩 조회하고, 후기는 10개씩 교체합니다. 상품 SSR과 브라우저의 검색 조건을 맞추고, 후기 반응도 현재 페이지의 ID만 조회합니다.\n\n확인: 상품 조회 단위 테스트와 REST Docs 검사, SSR 빌드에서 첫 페이지 24개와 두 번째 페이지 1개를 확인한 기록이 있습니다.\n\n제약과 남은 작업: 2026.11.21 로컬 ae438032 기준입니다. 실제 MySQL 페이지 경계와 브라우저 E2E는 미완료이며 속도 개선율은 측정하지 않았습니다.",
+      "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
+      "route": "/projects/happygallery",
+      "visibility": "public",
+      "evidenceLevel": "portfolio_detail",
+      "sourceHash": "1b29c16bea81dae7dd832a90fa977baeaf839550c56a592dd0a2364691be8ca0"
+    },
+    {
+      "schemaVersion": "1.0",
+      "sourceRevision": "sha256:894c6fec42a3",
+      "documentId": "knowledge_c16e09e74114ff2feb030b63",
+      "projectId": "happygallery",
+      "projectName": "happyGallery",
+      "serviceId": null,
+      "documentType": "problem_solution",
+      "title": "장애 시 재시도 요청 집중 완화",
+      "heading": "문제와 해결 방법",
+      "content": "프로젝트: happyGallery\n\n문제: 외부 서비스가 지연되면 여러 작업의 재시도가 같은 시점에 몰릴 수 있습니다.\n\n해결 방법: 환불, 알림과 배송조회 재시도의 지수 백오프에 지터를 적용해 재시도 대기를 상한의 50~100%로 분산합니다. 브라우저는 일시적인 조회 오류만 한 번 재시도하고 Retry-After를 따릅니다.\n\n확인: 서버와 프론트의 관련 단위 테스트 통과 기록을 확인했습니다. 상태 변경 요청은 자동으로 재시도하지 않습니다.\n\n제약과 남은 작업: 로컬 ae438032 구현입니다. 실제 외부 장애에서 요청 분산 효과와 운영 부하는 측정하지 않았습니다.",
+      "sourceUrl": "https://ljkportfolio.netlify.app/projects/happygallery#project-problems",
+      "route": "/projects/happygallery",
+      "visibility": "public",
+      "evidenceLevel": "portfolio_detail",
+      "sourceHash": "894c6fec42a3cf5b31132aa4297102346ceb964f864ebe5e2563fe04468d8cec"
+    },
+    {
+      "schemaVersion": "1.0",
+      "sourceRevision": "sha256:52913ddffa0d",
+      "documentId": "knowledge_8a32aa7d2d22cdea66fbfbf3",
+      "projectId": "happygallery",
+      "projectName": "happyGallery",
+      "serviceId": null,
+      "documentType": "representative_document",
+      "title": "외부 연동 복구 정책과 목록 조회 개선",
+      "heading": "구현 기록",
+      "content": "# happyGallery 외부 연동 복구 정책과 목록 조회 개선\n\n2026년 11월 21일 로컬 작업 브랜치 `ae438032` 기준입니다. 사용자 제공 변경 기록을 요약했습니다. main 병합과 운영 배포는 수행하지 않은 상태이며, 이전 배포의 검증 결과와 구분합니다.\n\n## 환불 자동 복구와 관리자 확인\n\n환불 실행권 선점이 최초 실행을 포함해 10회에 도달하거나 생성 후 24시간이 지나면 자동 복구를 중단합니다. 횟수에는 결과 조회와 관리자 조회도 포함됩니다. PG 취소 금액이 없는 로컬 환불에는 적용하지 않습니다.\n\n한도에 도달한 환불은 관리자 조회 결과가 미완료여도 확인 필요 상태를 유지하고 다음 실행을 예약하지 않습니다. 완료 응답은 결제키, 금액과 환불 거래키를 검증한 뒤 성공으로 기록합니다.\n\n관리자 요청 상태 변경과 실행권 선점을 하나의 트랜잭션으로 묶었습니다. 외부 호출은 트랜잭션 밖에서 실행하고, 결과 저장 시 실행 토큰을 검사해 늦은 실패 응답이 성공 상태를 덮어쓰지 않게 했습니다.\n\n## 결과 불명 알림의 중복 발송 차단\n\n생성 후 24시간이 지나도 최종 결과를 확인할 수 없으면 자동 조회를 중단하고 직접 확인할 대상으로 남깁니다. 이는 수신 실패 확정이 아닙니다.\n\n관리자 재처리는 기존 제공자 식별자를 보존해 결과만 재조회합니다. 식별자가 없거나 SMS 대체 발송의 결과가 불명확한 경우에는 재발송을 차단하고 제공자 이력 확인을 안내합니다.\n\n## 서버와 브라우저 재시도\n\n환불, 알림 전송과 결과 조회, 배송조회 등록에 지수 백오프와 지터를 적용했습니다. 실제 대기 시간은 계산한 상한의 50~100%입니다. DB에 저장한 작업 상태, 멱등 키와 다음 실행 시각을 사용하는 기존 구조를 유지했습니다.\n\n브라우저는 네트워크 오류, 시간 초과, HTTP 408과 일부 5xx 조회 오류를 한 번만 재시도합니다. 429는 유효한 Retry-After가 3초 이내일 때만 재시도합니다. 인증 오류, 요청 취소와 상태 변경 요청은 자동 재시도하지 않습니다.\n\n## 상품 목록과 후기 페이지\n\n상품 목록은 전체 조회에서 서버 페이지 조회로 변경했습니다. 기본 24개이며 현재 페이지의 재고와 옵션만 조회합니다. SSR과 브라우저는 같은 검색 조건을 사용하고 페이지별 캐시를 분리합니다. 홈, 주문서와 sitemap에 쓰는 기존 전체 조회 API는 유지했습니다.\n\n공개 후기는 누적 표시에서 10개씩 이전·다음 페이지로 교체하는 방식으로 변경했습니다. 회원 반응도 현재 페이지의 후기 ID만 조회합니다. 이전 데이터는 캐시에 남을 수 있으며 DB에서 삭제하지 않습니다. 가상화는 도입하지 않았습니다.\n\n## 관측 데이터와 테스트 환경\n\n-   Sentry Browser Tracing을 추가하고 동일 출처 API에만 추적 헤더를 전파합니다. 오류 이벤트뿐 아니라 transaction과 span에서도 URL 쿼리, 인증 헤더와 요청 본문 등 지정한 민감정보를 제거합니다. 모든 임의 필드의 개인정보 제거를 보장하지는 않습니다.\n-   Prometheus의 기존 7일 보존에 4GB 용량 제한을 추가했습니다. manifest 수정 단계이며 운영 배포 전입니다.\n-   컨테이너 로그는 파일당 20Mi, 최대 3개 회전 설정 예시와 운영 절차를 작성했습니다. 호스트 설치는 하지 않았습니다.\n-   통합 테스트와 CI E2E의 MySQL 8.4.10, Redis 7.4.9-alpine 태그를 운영 manifest와 맞췄습니다. 운영 DB 업그레이드나 이미지 digest 고정은 아닙니다.\n\n## 확인한 범위와 남은 검증\n\n제공 기록에서 관련 JUnit, 프론트 단위 테스트와 빌드 통과를 확인했습니다. SSR 빌드와 fixture로 상품 첫 페이지 24개, 둘째 페이지 1개 및 기존 전체 API 미호출을 확인했습니다. 이 포트폴리오 작업에서 원본 프로젝트 테스트를 재실행하지 않았습니다.\n\n표준 Gradle 전체 검사, 실제 MySQL 통합 테스트, 브라우저 E2E, 모바일 렌더링과 LCP 실측, 운영 Sentry 추적 연결은 남아 있습니다. Java 직접 컴파일과 JUnit 대체 실행을 표준 전체 검사 통과로 표현하지 않습니다. 응답 시간 감소나 운영 장애 감소는 측정하지 않았습니다.",
+      "sourceUrl": "https://ljkportfolio.netlify.app/docs/happygallery-resilience.md",
+      "route": "/projects/happygallery",
+      "visibility": "public",
+      "evidenceLevel": "public_document",
+      "sourceHash": "52913ddffa0d050adeb35ac60852d7424d1ef1c4a829fb3fb91bf373bb019c87"
     },
     {
       "schemaVersion": "1.0",

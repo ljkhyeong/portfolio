@@ -21,7 +21,7 @@ export const caseIntroductions = {
 export const caseResults = {
     baton: "Core와 6개 서비스를 구현하고 통합 테스트했습니다. 보고서 비교, URL 점검 장애 구분과 통화 재연결은 공개 main에 반영했습니다. BRIEF, CAL, ROUND의 Core 연동은 로컬에서 확인했으며, 배포 환경의 전체 연동은 미검증입니다.",
     happygallery:
-        "주문, 예약, 스마트스토어 연동을 Testcontainers와 E2E로 확인했습니다. main 2bd7012f의 GitHub Actions 검사와 k3s 롤링 배포가 성공했습니다. 네이버, Toss, NHN 실제 계정 연동은 미검증입니다.",
+        "주문, 예약, 스마트스토어 연동을 Testcontainers와 E2E로 확인했습니다. main 2bd7012f의 검사와 배포가 성공했습니다. 복구 한도와 목록 조회 개선은 로컬 ae438032 구현이며 DB 통합 테스트와 브라우저 E2E가 남아 있습니다. 실제 외부 계정 연동은 미검증입니다.",
     "youth-policy-mate":
         "조건 질문, 관심 정책 일정과 알림을 구현하고 PostgreSQL 통합 테스트로 확인했습니다. 공개 main a7f4a69에서 웹과 서버 CI가 통과했습니다. OAuth, OpenAI, Resend 운영 연동은 아직 확인하지 않았습니다.",
     "hope-commit":
@@ -38,7 +38,7 @@ export const caseResults = {
 // 상세 요약에서 먼저 읽어야 할 구현 결과만 강조한다.
 export const caseResultHighlights = {
     baton: "Core와 6개 서비스를 구현하고 통합 테스트",
-    happygallery: "GitHub Actions 검사와 k3s 롤링 배포가 성공",
+    happygallery: "main 2bd7012f의 검사와 배포가 성공",
     "youth-policy-mate": "조건 질문, 관심 정책 일정과 알림을 구현",
     "hope-commit": "Hope Commit v5.0.2(main 9d8392d)로 공개 릴리스",
     "intent-trace": "v0.7.0 실행 JAR과 IntelliJ 플러그인을 공개",

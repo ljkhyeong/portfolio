@@ -366,7 +366,7 @@ test("대표 프로젝트 상세에서 최신 화면, 아키텍처와 복구 결
             name: "결제 및 환불 재요청의 중복 처리 방지",
         }),
     ).toBeInTheDocument()
-    expect(screen.getAllByText(/NHN 접수 ID로 최종 수신 결과/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/NHN 접수 ID로 최종 결과/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/미전송 알림/).length).toBeGreaterThan(0)
     expect(
         screen.getByRole("img", {
